@@ -1,0 +1,77 @@
+/* 12-design-system.md §1 + §1.1 — authoritative HSL triples.
+   Teal primary (172 72% 30% light / 170 70% 45% dark) is the one deliberate
+   divergence from OpenVoiceUI's indigo; all 240°-hue neutrals are verbatim. */
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 240 10% 8%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 8%;
+  --muted: 240 5% 96%;
+  --muted-foreground: 240 4% 44%;
+  --border: 240 6% 90%;
+  --input: 240 6% 88%;
+  --ring: 172 72% 30%;
+  --primary: 172 72% 30%;
+  --primary-foreground: 0 0% 100%;
+  --accent: 240 5% 96%;
+  --accent-foreground: 240 10% 8%;
+  --sidebar: 240 6% 98%;
+  --sidebar-foreground: 240 10% 8%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --success: 142 71% 40%;
+  --warning: 38 92% 50%;
+
+  /* BandReady extension tokens (§1.1) */
+  --band-low: 0 72% 45%; /* below 5.0 */
+  --band-mid: 38 92% 44%; /* 5.0–5.5 */
+  --band-good: 217 80% 46%; /* 6.0–6.5 */
+  --band-strong: 170 85% 30%; /* 7.0+ */
+  --recording: 0 72% 51%;
+
+  /* Heatmap ramp (§6.7): 5-step sequential single-hue ramp of the primary,
+     hsl(170 40% 94%) → hsl(172 72% 26%). */
+  --heat-0: 240 5% 96%;
+  --heat-1: 170 40% 94%;
+  --heat-2: 171 48% 78%;
+  --heat-3: 171 56% 60%;
+  --heat-4: 172 64% 43%;
+  --heat-5: 172 72% 26%;
+}
+
+.dark {
+  --background: 240 6% 7%;
+  --foreground: 0 0% 96%;
+  --card: 240 5% 10%;
+  --card-foreground: 0 0% 96%;
+  --muted: 240 4% 15%;
+  --muted-foreground: 240 5% 62%;
+  --border: 240 4% 18%;
+  --input: 240 4% 20%;
+  --ring: 170 70% 45%;
+  --primary: 170 70% 45%;
+  --primary-foreground: 240 10% 6%;
+  --accent: 240 4% 15%;
+  --accent-foreground: 0 0% 96%;
+  --sidebar: 240 6% 5%; /* sidebar darker than content — OpenVoiceUI signature */
+  --sidebar-foreground: 0 0% 96%;
+  --destructive: 0 63% 54%;
+  --destructive-foreground: 0 0% 100%;
+  --success: 142 60% 48%;
+  --warning: 38 92% 55%;
+
+  --band-low: 0 54% 49%;
+  --band-mid: 39 73% 43%;
+  --band-good: 220 82% 65%;
+  --band-strong: 168 63% 40%;
+  --recording: 0 63% 54%;
+
+  /* hsl(170 30% 14%) → hsl(170 70% 55%) */
+  --heat-0: 240 4% 13%;
+  --heat-1: 170 30% 14%;
+  --heat-2: 170 40% 24%;
+  --heat-3: 170 50% 35%;
+  --heat-4: 170 60% 45%;
+  --heat-5: 170 70% 55%;
+}

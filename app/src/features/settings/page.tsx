@@ -1,0 +1,114 @@
+import { useEffect, useState } from "react";
+import { Tabs, TabPanel } from "@/components/ui";
+import { PageShell } from "@/components/shell/PageShell";
+import { useSettingsStore } from "@/stores";
+import { AboutTab } from "./components/AboutTab";
+import { AppearanceTab } from "./components/AppearanceTab";
+import { DataTab } from "./components/DataTab";
+import { OfflineBanner } from "./components/OfflineBanner";
+import { ProvidersTab } from "./components/ProvidersTab";
+import { SaveBar } from "./components/SaveBar";
+import { VoiceTab } from "./components/VoiceTab";
+import { useSettingsFeatureStore } from "./store";
+
+type TabId = "providers" | "voice" | "appearance" | "data" | "about";
+
+const TABS: { value: TabId; label: string }[] = [
+  { value: "providers", label: "Providers" },
+  { value: "voice", label: "Voice" },
+  { value: "appearance", label: "Appearance" },
+  { value: "data", label: "Data" },
+  { value: "about", label: "About" },
+];
+
+export function SettingsPage() {
+  const [tab, setTab] = useState<TabId>("providers");
+
+  const doc = useSettingsStore((s) => s.doc);
+  const loading = useSettingsStore((s) => s.loading);
+  const offline = useSettingsStore((s) => s.offline);
+  const error = useSettingsStore((s) => s.error);
+  const load = useSettingsStore((s) => s.load);
+
+  const hydrate = useSettingsFeatureStore((s) => s.hydrate);
+  const hydratedFrom = useSettingsFeatureStore((s) => s.hydratedFrom);
+  const isDirty = useSettingsFeatureStore((s) => s.isDirty);
+  const loadPresets = useSettingsFeatureStore((s) => s.loadPresets);
+  const runDetect = useSettingsFeatureStore((s) => s.runDetect);
+  const loadRecommended = useSettingsFeatureStore((s) => s.loadRecommended);
+  const loadModels = useSettingsFeatureStore((s) => s.loadModels);
+
+  // The document: load once, then mirror it into the editing drafts. A reload
+  // while the user has unsaved edits must not stomp on them.
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  useEffect(() => {
+    if (!doc || doc === hydratedFrom) return;
+    if (isDirty()) return;
+    hydrate(doc);
+  }, [doc, hydratedFrom, hydrate, isDirty]);
+
+  // Provider metadata: presets first, then detection (which the preset filter and
+  // the recommendation tier both read), then the model manager.
+  useEffect(() => {
+    let active = true;
+    void (async () => {
+      await loadPresets();
+      if (!active) return;
+      await runDetect(false);
+      if (!active) return;
+      await Promise.all([loadRecommended(), loadModels()]);
+    })();
+    return () => {
+      active = false;
+    };
+  }, [loadPresets, runDetect, loadRecommended, loadModels]);
+
+  const banner = offline || (error && !doc);
+
+  return (
+    <PageShell
+      title="Settings"
+      description="One language model, one voice in, one voice out — plus how BandReady behaves."
+      toolbar={<Tabs value={tab} onChange={setTab} items={TABS} aria-label="Settings sections" />}
+    >
+      {banner && (
+        <div className="mb-4">
+          <OfflineBanner
+            offline={offline}
+            message={error}
+            retrying={loading}
+            onRetry={() => {
+              void load();
+              void loadPresets();
+            }}
+          />
+        </div>
+      )}
+
+      <TabPanel value="providers" active={tab === "providers"}>
+        <ProvidersTab />
+        <SaveBar disabled={offline} />
+      </TabPanel>
+
+      <TabPanel value="voice" active={tab === "voice"}>
+        <VoiceTab />
+        <SaveBar disabled={offline} />
+      </TabPanel>
+
+      <TabPanel value="appearance" active={tab === "appearance"}>
+        <AppearanceTab />
+      </TabPanel>
+
+      <TabPanel value="data" active={tab === "data"}>
+        <DataTab />
+      </TabPanel>
+
+      <TabPanel value="about" active={tab === "about"}>
+        <AboutTab />
+      </TabPanel>
+    </PageShell>
+  );
+}

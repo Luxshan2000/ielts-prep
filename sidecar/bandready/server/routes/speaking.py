@@ -1,0 +1,571 @@
+"""Speaking-session routes (18-api-contract.md §4.7, behaviour owned by 04 + 02).
+
+    POST   /api/v1/speaking/sessions                start (409 if one is live)
+    GET    /api/v1/speaking/sessions                history
+    GET    /api/v1/speaking/sessions/{id}           session record
+    POST   /api/v1/speaking/sessions/{id}/offer     SDP offer → answer
+    PATCH  /api/v1/speaking/sessions/{id}/offer     trickle ICE, SAME url (gotcha #4)
+    WS     /api/v1/speaking/sessions/{id}/events    ?ticket= (audience session-events)
+    POST   /api/v1/speaking/sessions/{id}/end       teardown (alias: /hangup)
+    POST   /api/v1/speaking/sessions/{id}/score     idempotent scoring
+    GET    /api/v1/speaking/sessions/{id}/report    the session's report
+    GET    /api/v1/speaking/reports/{id}            report by id
+    GET    /api/v1/speaking/cards                   drill topic picker
+"""
+
+from __future__ import annotations
+
+import asyncio
+import contextlib
+import json
+import logging
+from typing import Annotated, Any
+
+from fastapi import APIRouter, Depends, Query, Request, WebSocket, WebSocketDisconnect
+from pydantic import BaseModel, Field
+from sqlalchemy import select
+from ulid import ULID
+
+from bandready.db import models as m
+from bandready.db.engine import get_session, session_scope
+from bandready.server.deps import current_profile_id, require_auth
+from bandready.server.errors import ApiError
+from bandready.server.tickets import verify_ticket
+from bandready.voice import runtime
+from bandready.voice.state_machine import (
+    ACTIVITIES,
+    ACTIVITY_TO_WEIGHT,
+    SCOREABLE_ACTIVITIES,
+    CardBundle,
+    default_bundle,
+)
+
+_log = logging.getLogger("bandready.routes.speaking")
+
+# Annotated aliases keep the route signatures free of call-in-default patterns.
+Auth = Annotated[None, Depends(require_auth)]
+Db = Annotated[Any, Depends(get_session)]
+
+router = APIRouter(prefix="/api/v1/speaking", tags=["speaking"])
+
+WEIGHT_CLASSES = ("placement", "mock", "practice", "micro")
+#: The reverse of ACTIVITY_TO_WEIGHT, for clients that send the estimator weight class.
+WEIGHT_TO_ACTIVITY = {
+    "mock": "full_mock",
+    "practice": "single_part",
+    "micro": "quick_chat",
+    "placement": "full_mock",
+}
+
+
+class StartSessionBody(BaseModel):
+    """`mode` accepts the activity kind (04 §2) or the R2-7 estimator weight class."""
+
+    mode: str = Field(default="full_mock")
+    part: int | None = None
+    card_set_id: str | None = None
+    topic: str | None = None
+
+
+class EndSessionBody(BaseModel):
+    score: bool = False
+    status: str = "complete"
+
+
+# --------------------------------------------------------------------------- helpers
+
+
+def _resolve_mode(raw: str) -> tuple[str, str]:
+    """``(activity, weight_class)`` from whatever the client sent."""
+    value = (raw or "full_mock").strip().lower()
+    if value in ACTIVITIES:
+        return value, ACTIVITY_TO_WEIGHT[value]
+    if value in WEIGHT_CLASSES:
+        return WEIGHT_TO_ACTIVITY[value], value
+    raise ApiError(
+        422,
+        "validation_error",
+        f"mode must be one of {', '.join(ACTIVITIES)} "
+        f"(or a weight class: {', '.join(WEIGHT_CLASSES)})",
+    )
+
+
+def _pick_card_set(s: Any, card_set_id: str | None) -> tuple[CardBundle, str | None]:
+    """Least-recently-served card set (04 §2 / R2-21), or the built-in fallback."""
+    row = None
+    if card_set_id:
+        row = s.get(m.CardSet, card_set_id)
+        if row is None:
+            raise ApiError(404, "not_found", f"no card set {card_set_id!r}")
+    else:
+        row = s.execute(
+            select(m.CardSet)
+            .where(m.CardSet.retired == 0)
+            # NULL last_served_at (never served) sorts first.
+            .order_by(m.CardSet.last_served_at.is_(None).desc(), m.CardSet.last_served_at)
+            .limit(1)
+        ).scalars().first()
+    if row is None:
+        return default_bundle(), None
+
+    cards = s.execute(
+        select(m.SpeakingCard)
+        .where(m.SpeakingCard.card_set_id == row.id, m.SpeakingCard.retired == 0)
+        .order_by(m.SpeakingCard.part)
+    ).scalars().all()
+    bundle = CardBundle.from_payloads(
+        [_payload(c) for c in cards], set_id=row.id, set_title=row.title
+    )
+    if bundle.is_empty():
+        return default_bundle(), None
+    row.last_served_at = _now_iso()
+    for card in cards:
+        card.last_served_at = row.last_served_at
+    return bundle, row.id
+
+
+def _pick_cards_for_part(s: Any, part: int, topic: str | None) -> CardBundle:
+    """Least-recently-served standalone cards for a single-part or drill session."""
+    stmt = (
+        select(m.SpeakingCard)
+        .where(m.SpeakingCard.part == part, m.SpeakingCard.retired == 0)
+        .order_by(
+            m.SpeakingCard.last_served_at.is_(None).desc(), m.SpeakingCard.last_served_at
+        )
+        .limit(3 if part == 1 else 1)
+    )
+    if topic:
+        stmt = stmt.where(m.SpeakingCard.title.like(f"%{topic}%"))
+    cards = s.execute(stmt).scalars().all()
+    if not cards:
+        return default_bundle()
+    bundle = CardBundle.from_payloads([_payload(c) for c in cards])
+    if bundle.is_empty():
+        return default_bundle()
+    stamp = _now_iso()
+    for card in cards:
+        card.last_served_at = stamp
+    # A single-part 2 or 3 session still needs the other parts' text for its scripted
+    # lines; the built-in set fills the gaps rather than leaving them blank.
+    fallback = default_bundle()
+    bundle.part1 = bundle.part1 or fallback.part1
+    bundle.part2 = bundle.part2 or fallback.part2
+    bundle.part3 = bundle.part3 or fallback.part3
+    return bundle
+
+
+def _payload(card: Any) -> dict[str, Any]:
+    try:
+        payload = json.loads(card.payload_json or "{}")
+    except (TypeError, ValueError):
+        payload = {}
+    payload.setdefault("id", card.id)
+    payload.setdefault("part", card.part)
+    payload.setdefault("topic", card.title)
+    return payload
+
+
+def _now_iso() -> str:
+    from datetime import UTC, datetime
+
+    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+
+
+def _session_record(s: Any, session_id: str) -> dict[str, Any]:
+    row = s.get(m.SpeakingSession, session_id)
+    if row is None:
+        raise ApiError(404, "not_found", "no speaking session with that id")
+    envelope = s.get(m.PracticeSession, session_id)
+    report = s.execute(
+        select(m.LlmEvaluation.id)
+        .where(
+            m.LlmEvaluation.subject_kind == "speaking_session",
+            m.LlmEvaluation.subject_id == session_id,
+            m.LlmEvaluation.status == "ok",
+        )
+        .order_by(m.LlmEvaluation.created_at.desc())
+        .limit(1)
+    ).scalars().first()
+    live = runtime.get(session_id)
+    return {
+        "id": session_id,
+        "mode": row.mode,
+        "activity": envelope.activity if envelope else None,
+        "part": row.part,
+        "card_set_id": row.card_set_id,
+        "state": live.state.phase if live is not None else row.state,
+        "status": row.status,
+        "overall_band": row.overall_band,
+        "criteria": json.loads(row.criteria_json) if row.criteria_json else None,
+        "started_at": envelope.started_at if envelope else None,
+        "ended_at": envelope.ended_at if envelope else None,
+        "duration_s": envelope.duration_s if envelope else None,
+        "live": live is not None and not live.ended,
+        "report_id": report,
+        "offer_url": f"/api/v1/speaking/sessions/{session_id}/offer",
+        "events_url": f"/api/v1/speaking/sessions/{session_id}/events",
+    }
+
+
+# --------------------------------------------------------------------------- routes
+
+
+@router.post("/sessions", status_code=201, summary="Start a speaking session")
+async def start_session(
+    _: Auth = None,
+    body: StartSessionBody | None = None,
+) -> dict[str, Any]:
+    body = body or StartSessionBody()
+    activity, weight = _resolve_mode(body.mode)
+
+    live = runtime.active()
+    if live is not None:
+        raise ApiError(
+            409,
+            "conflict",
+            f"speaking session {live.session_id} is still live — end it first "
+            "(the sidecar runs one session at a time)",
+        )
+
+    part = body.part
+    if activity == "single_part":
+        if part not in (1, 2, 3):
+            raise ApiError(422, "validation_error", "single_part needs part 1, 2 or 3")
+    elif activity == "topic_drill":
+        part = part if part in (1, 2, 3) else 1
+    else:
+        part = None
+
+    session_id = f"ss_{ULID()}"
+    with session_scope() as s:
+        profile_id = current_profile_id(s)
+        if activity == "full_mock":
+            bundle, card_set_id = _pick_card_set(s, body.card_set_id)
+        elif activity == "quick_chat":
+            bundle, card_set_id = default_bundle(), None
+        else:
+            bundle = _pick_cards_for_part(s, part or 1, body.topic)
+            card_set_id = None
+
+        s.add(
+            m.PracticeSession(
+                id=session_id,
+                profile_id=profile_id,
+                module="speaking",
+                activity=(
+                    f"single_part:{part}" if activity == "single_part" else activity
+                ),
+            )
+        )
+        s.add(
+            m.SpeakingSession(
+                id=session_id,
+                mode=weight,
+                part=part,
+                card_set_id=card_set_id,
+                state="CONNECTING",
+                status="active",
+            )
+        )
+
+    session = runtime.register(
+        runtime.LiveSession(session_id, activity=activity, part=part, bundle=bundle)
+    )
+    await session.start()
+
+    return {
+        "session_id": session_id,
+        "mode": weight,
+        "activity": activity,
+        "part": part,
+        "card_set_id": session.bundle.set_id,
+        "card_set_title": session.bundle.set_title,
+        "state": session.state.phase,
+        "offer_url": f"/api/v1/speaking/sessions/{session_id}/offer",
+        "events_url": f"/api/v1/speaking/sessions/{session_id}/events",
+    }
+
+
+@router.get("/sessions", summary="Speaking session history")
+async def list_sessions(
+    limit: Annotated[int, Query(ge=1, le=200)] = 50,
+    cursor: str | None = None,
+    _: Auth = None,
+    s: Db = None,
+) -> dict[str, Any]:
+    profile_id = current_profile_id(s)
+    stmt = (
+        select(m.SpeakingSession, m.PracticeSession)
+        .join(m.PracticeSession, m.PracticeSession.id == m.SpeakingSession.id)
+        .where(m.PracticeSession.profile_id == profile_id)
+        .order_by(m.SpeakingSession.id.desc())
+        .limit(limit + 1)
+    )
+    if cursor:
+        stmt = stmt.where(m.SpeakingSession.id < cursor)
+    rows = list(s.execute(stmt).all())
+    has_more = len(rows) > limit
+    rows = rows[:limit]
+    items = [
+        {
+            "id": row.id,
+            "mode": row.mode,
+            "activity": envelope.activity,
+            "part": row.part,
+            "card_set_id": row.card_set_id,
+            "state": row.state,
+            "status": row.status,
+            "overall_band": row.overall_band,
+            "started_at": envelope.started_at,
+            "ended_at": envelope.ended_at,
+            "duration_s": envelope.duration_s,
+        }
+        for row, envelope in rows
+    ]
+    return {"items": items, "next_cursor": items[-1]["id"] if has_more and items else None}
+
+
+@router.get("/sessions/{session_id}", summary="One speaking session record")
+async def get_session_record(
+    session_id: str,
+    _: Auth = None,
+    s: Db = None,
+) -> dict[str, Any]:
+    return _session_record(s, session_id)
+
+
+@router.post("/sessions/{session_id}/offer", summary="WebRTC SDP offer → answer")
+async def post_offer(
+    session_id: str,
+    body: dict[str, Any],
+    _: Auth = None,
+) -> dict[str, Any]:
+    answer = await runtime.handle_offer(session_id, body)
+    if answer is None:
+        raise ApiError(502, "internal", "the voice engine did not return an SDP answer")
+    return answer
+
+
+@router.patch("/sessions/{session_id}/offer", summary="Trickle ICE (gotcha #4 — same URL)")
+async def patch_offer(
+    session_id: str,
+    body: dict[str, Any],
+    _: Auth = None,
+) -> dict[str, Any]:
+    # Gotcha #4: trickle ICE arrives as PATCH on the *same* /offer URL, and candidate keys
+    # come in snake_case or camelCase depending on the client build. runtime.handle_patch
+    # accepts both; getting this wrong strands the connection in `connecting`.
+    runtime.require(session_id)
+    await runtime.handle_patch(session_id, body)
+    return {"ok": True}
+
+
+@router.post("/sessions/{session_id}/end", summary="End a session (teardown + flatten)")
+async def end_session(
+    session_id: str,
+    body: EndSessionBody | None = None,
+    _: Auth = None,
+) -> dict[str, Any]:
+    body = body or EndSessionBody()
+    live = runtime.get(session_id)
+    activity = live.activity if live is not None else None
+    if live is not None:
+        with contextlib.suppress(Exception):
+            await live.state.hangup()
+
+    status = body.status if body.status in ("complete", "aborted", "failed") else "complete"
+    result = await runtime.finalize(session_id, status=status)
+
+    scoreable = activity in SCOREABLE_ACTIVITIES if activity else True
+    if body.score and scoreable and result.get("turns"):
+        from bandready.scoring.speaking import evaluate_session
+
+        async def _score() -> None:
+            with contextlib.suppress(Exception):
+                await evaluate_session(session_id)
+
+        asyncio.get_running_loop().create_task(_score())
+        result["scoring"] = True
+    return result
+
+
+@router.post("/sessions/{session_id}/hangup", summary="Alias of /end (18 §4.7)")
+async def hangup_session(
+    session_id: str,
+    body: EndSessionBody | None = None,
+    _: Auth = None,
+) -> dict[str, Any]:
+    return await end_session(session_id, body)
+
+
+@router.post("/sessions/{session_id}/score", summary="Score a finished session")
+async def score_session(
+    session_id: str,
+    force: bool = False,
+    _: Auth = None,
+) -> dict[str, Any]:
+    from bandready.scoring.speaking import evaluate_session
+
+    live = runtime.get(session_id)
+    if live is not None and not live.ended:
+        # Scoring reads the persisted transcript, so the session must be torn down first.
+        await runtime.finalize(session_id)
+    report = await evaluate_session(session_id, force=force)
+    return report
+
+
+@router.get("/sessions/{session_id}/report", summary="The session's report")
+async def session_report(
+    session_id: str,
+    _: Auth = None,
+    s: Db = None,
+) -> dict[str, Any]:
+    from bandready.scoring.speaking import get_report
+
+    report_id = s.execute(
+        select(m.LlmEvaluation.id)
+        .where(
+            m.LlmEvaluation.subject_kind == "speaking_session",
+            m.LlmEvaluation.subject_id == session_id,
+            m.LlmEvaluation.status == "ok",
+        )
+        .order_by(m.LlmEvaluation.created_at.desc())
+        .limit(1)
+    ).scalars().first()
+    if report_id is None:
+        raise ApiError(
+            404,
+            "not_found",
+            "this session has not been scored yet — POST …/score first",
+        )
+    return get_report(report_id)
+
+
+@router.get("/reports/{report_id}", summary="Speaking report by id")
+async def get_report_route(
+    report_id: str,
+    _: Auth = None,
+) -> dict[str, Any]:
+    from bandready.scoring.speaking import get_report
+
+    return get_report(report_id)
+
+
+@router.get("/cards", summary="Question cards (drill topic picker)")
+async def list_cards(
+    part: Annotated[int | None, Query(ge=1, le=3)] = None,
+    tag: str | None = None,
+    limit: Annotated[int, Query(ge=1, le=200)] = 50,
+    _: Auth = None,
+    s: Db = None,
+) -> dict[str, Any]:
+    stmt = select(m.SpeakingCard).where(m.SpeakingCard.retired == 0)
+    if part is not None:
+        stmt = stmt.where(m.SpeakingCard.part == part)
+    if tag:
+        stmt = stmt.where(m.SpeakingCard.tags_json.like(f'%"{tag}"%'))
+    rows = s.execute(stmt.order_by(m.SpeakingCard.part, m.SpeakingCard.title).limit(limit))
+    items = []
+    for card in rows.scalars().all():
+        try:
+            tags = json.loads(card.tags_json or "[]")
+        except (TypeError, ValueError):
+            tags = []
+        items.append(
+            {
+                "id": card.id,
+                "part": card.part,
+                "title": card.title,
+                "difficulty": card.difficulty,
+                "tags": tags,
+                "card_set_id": card.card_set_id,
+                "last_served_at": card.last_served_at,
+            }
+        )
+    if not items:
+        # A clean empty state: the built-in fallback set is what a session would use.
+        fallback = default_bundle()
+        items = [
+            {
+                "id": "builtin-p1-everyday",
+                "part": 1,
+                "title": fallback.part1[0].topic if fallback.part1 else "everyday life",
+                "difficulty": "core",
+                "tags": ["built-in"],
+                "card_set_id": None,
+                "last_served_at": None,
+                "builtin": True,
+            },
+            {
+                "id": "builtin-p2-place",
+                "part": 2,
+                "title": fallback.part2.topic if fallback.part2 else "",
+                "difficulty": "core",
+                "tags": ["built-in"],
+                "card_set_id": None,
+                "last_served_at": None,
+                "builtin": True,
+            },
+        ]
+    return {"items": items, "next_cursor": None}
+
+
+# --------------------------------------------------------------------------- websocket
+
+
+@router.websocket("/sessions/{session_id}/events")
+async def session_events(websocket: WebSocket, session_id: str) -> None:
+    """18 §5 event stream. Ticket auth (audience ``session-events``, resource = id).
+
+    Server→client only: the renderer mirrors state and never advances it.
+    """
+    ticket = websocket.query_params.get("ticket")
+    if not verify_ticket(ticket, "session-events", session_id):
+        # 1008 = policy violation; the client re-mints a ticket and reconnects.
+        await websocket.close(code=1008)
+        return
+
+    live = runtime.get(session_id)
+    if live is None:
+        await websocket.accept()
+        await websocket.send_json(
+            {
+                "type": "error",
+                "detail": "that speaking session is not live",
+                "code": "not_found",
+                "recoverable": False,
+            }
+        )
+        await websocket.close(code=1000)
+        return
+
+    await websocket.accept()
+    queue = live.attach()
+    try:
+        while True:
+            try:
+                event = await asyncio.wait_for(queue.get(), timeout=20.0)
+            except TimeoutError:
+                await websocket.send_json({"type": "ping"})
+                continue
+            await websocket.send_json(event)
+    except WebSocketDisconnect:
+        pass
+    except Exception:  # noqa: BLE001 — a dead socket is normal, not an error
+        _log.debug("session-events socket for %s ended", session_id, exc_info=True)
+    finally:
+        live.detach(queue)
+
+
+@router.get("/engine", summary="Voice-engine availability (pre-flight screen)")
+async def engine_info(request: Request, _: Auth = None) -> dict[str, Any]:
+    """Whether this build can run a live session at all, plus the effective VAD params."""
+    from bandready.voice.pipeline import pipecat_available, vad_params
+
+    live = runtime.active()
+    return {
+        "voice_available": pipecat_available(),
+        "vad": vad_params(),
+        "live_session_id": live.session_id if live else None,
+        "client": request.client.host if request.client else None,
+    }

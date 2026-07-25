@@ -1,0 +1,86 @@
+# BandReady packaging — docs/plan/13-packaging-distribution.md §4.
+#
+# Run from app/:  pnpm exec electron-builder --config electron-builder.yml
+# Prerequisites (built by other tooling, NOT by this file):
+#   app/dist/            renderer bundle   — `vite build`
+#   app/dist-electron/   main + preload    — `node scripts/build-electron.mjs`
+#   build/python/        python-build-standalone tree   (staged per-arch by CI)
+#   build/sidecar-venv/  uv-built venv with the sidecar wheel (13 §3.3)
+appId: dev.bandready.app
+productName: BandReady
+copyright: Copyright © 2026 BandReady contributors
+
+directories:
+  # Relative to app/ — i.e. <repo>/dist-electron holds the installers, which is a
+  # different directory from app/dist-electron (the main/preload bundle).
+  output: ../dist-electron
+  buildResources: build
+
+asar: true
+files:
+  # node_modules is left to electron-builder's default handling so production
+  # dependencies (notably electron-updater) are packed.
+  - dist/**
+  - dist-electron/**
+  - package.json
+  - '!**/*.map'
+
+# The Python runtime must be real files on disk (dlopen + mac deep-signing),
+# so it never goes inside the asar. CI stages the correct per-arch trees first.
+extraResources:
+  - from: ../build/python
+    to: python
+  - from: ../build/sidecar-venv
+    to: sidecar-venv
+  - from: ../content/core-en
+    to: content
+
+mac:
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+    - target: zip
+      arch: [arm64, x64]
+  category: public.app-category.education
+  darkModeSupport: true
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  notarize: true
+  extendInfo:
+    NSMicrophoneUsageDescription: >-
+      BandReady uses your microphone for speaking practice and pronunciation
+      feedback. Audio is processed on this device or by the AI provider you
+      configured, and is never sent to BandReady servers.
+    LSMinimumSystemVersion: '11.0'
+
+dmg:
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  # v1 ships unsigned — see 13 §8.2 (documented SmartScreen flow).
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  artifactName: ${productName}-Setup-${version}.${ext}
+
+linux:
+  target:
+    - target: AppImage
+      arch: [x64]
+  category: Education
+  synopsis: Local-first IELTS exam preparation
+  desktop:
+    StartupWMClass: BandReady
+
+publish:
+  provider: github
+  owner: Luxshan2000
+  repo: bandready
+  releaseType: release

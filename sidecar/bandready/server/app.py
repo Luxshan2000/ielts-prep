@@ -99,6 +99,39 @@ def _seed_content() -> None:
     _log.info("content pack seed: %s", result if result is not None else "already populated")
 
 
+def _adopt_local_models() -> None:
+    """Reuse weights already on this machine rather than downloading them again.
+
+    Kokoro and Whisper are the slowest part of first run, and the same files are
+    often already present from another Pipecat app or a previous install. Adoption
+    hard-links them when possible, so it costs no extra disk and leaves the original
+    where it was. Purely opportunistic — finding nothing is the normal case.
+
+    Set ``BANDREADY_ADOPT_LOCAL_MODELS=0`` to keep the sidecar out of the machine's
+    caches entirely; tests rely on this so their results do not depend on whatever
+    the developer happens to have downloaded.
+    """
+    import os
+
+    if (os.environ.get("BANDREADY_ADOPT_LOCAL_MODELS") or "1").strip().lower() in {
+        "0", "false", "no", "off",
+    }:
+        _log.info("local model adoption disabled by BANDREADY_ADOPT_LOCAL_MODELS")
+        return
+
+    from bandready.config import get_settings
+    from bandready.models_local import adopt_all
+    from bandready.server.routes.models import BUILTIN_MANIFEST
+
+    adopted = adopt_all(BUILTIN_MANIFEST.get("artifacts") or [], get_settings().models_dir)
+    if adopted:
+        saved = sum(int(a.get("size_mb") or 0) for a in adopted)
+        _log.info(
+            "adopted %d local model artifact(s) (%d MB not downloaded): %s",
+            len(adopted), saved, ", ".join(a["artifact_id"] for a in adopted),
+        )
+
+
 def _step(label: str, fn: Any, *, fatal: bool = False) -> None:
     try:
         fn()
@@ -124,6 +157,7 @@ def run_startup() -> None:
     _step("database", _init_database)
     _step("migrations", _run_migrations)
     _step("settings", _seed_settings)
+    _step("local models", _adopt_local_models)
     _step("content", _seed_content)
     job_manager.start()
 

@@ -335,6 +335,12 @@ async function launchOnce(): Promise<void> {
     BANDREADY_PARENT_PID: String(process.pid),
     BANDREADY_LOG_LEVEL: app.isPackaged ? 'info' : 'debug',
   };
+  // electron-builder stages the shipped content pack into Resources/content. Without
+  // this the sidecar only looks beside the source tree, so a packaged install boots
+  // with an empty bank — no reading tests, no prompts, no vocabulary.
+  if (app.isPackaged) {
+    env.BANDREADY_RESOURCES_DIR = process.resourcesPath;
+  }
   if (process.env.BANDREADY_ENABLE_MOCK) {
     env.BANDREADY_ENABLE_MOCK = process.env.BANDREADY_ENABLE_MOCK;
   }

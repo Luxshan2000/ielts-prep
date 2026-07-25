@@ -25,12 +25,15 @@ scored (both need a local LLM — Ollama/LM Studio — which is not bundled and 
 and hold a live spoken conversation with the examiner (not verified end-to-end; see
 [Not yet verified](#not-yet-verified)).
 
-What **nobody** can do yet: install BandReady as an app. **There is no packaging.** No
-electron-builder configuration exists anywhere in the repo, so no installer has ever been produced
-and the sidecar is not bundled. The project runs from a source checkout only.
+BandReady now **packages into a working macOS installer**: `scripts/stage-sidecar.mjs` stages a
+relocatable CPython plus the sidecar venv, and electron-builder produces a 156 MB arm64 DMG whose
+installed app boots, seeds content and serves its API. It is **unsigned** — there is no Developer ID
+here — so macOS shows a Gatekeeper warning on first open. Windows and Linux targets are configured
+but have never been built on those platforms.
 
 The honest one-line version: **a complete, working, well-tested local IELTS practice application
-that is not yet a distributable product.**
+that now builds a real installer, but is unsigned and still needs a live LLM for the two
+model-scored skills.**
 
 ---
 
@@ -47,7 +50,7 @@ that is not yet a distributable product.**
 | **Pronunciation** | **Partial** | 46 minimal-pair drill items (26 built-in + 20 from the pack), contrast list, scores, accent-neutral framing copy. faster-whisper transcription works. | `POST /pron/read-aloud` needs a multipart WAV upload and was never exercised end-to-end. No accent-drill or read-aloud E2E coverage. | `GET /pron/drills` → 200, 10 items / 22 contrasts; `/contrasts`, `/scores` → 200. STT proven separately (below). |
 | **Settings / Providers** | **Working** | Full settings screen, `GET`/`PATCH /settings`, 16 provider presets, detection, verification, TTS preview, model download/adopt. Local models auto-adopted from existing caches (942 MB linked, not re-downloaded). | `PUT /api/v1/settings` does not exist (it is `PATCH`) — worth pinning in the contract doc. `GET`/`PUT /api/v1/profile` from doc 18 §4.13 **do not exist** on the server. First-run users must pick a provider manually; `BANDREADY_ENABLE_MOCK=1` exposes mock presets but does not select them. | `PATCH /settings` → 200, presets switched to `mock_llm/mock_stt/mock_tts` and read back. `GET /providers/presets` → 16 presets. `GET /providers/detect` → 200. |
 | **Content pack** | **Working but thin** | `core-en` v1.0.0 validates **with checksums** and imports cleanly on a fresh DB with **zero** auto-created topics (the topic-id fork reported earlier is fixed). 472 rows across 10 files. | Below the v1.0 content gate. **1** listening test, **2** reading tests, **0** General Training reading passages, **0** media files, no map-labelling. The LLM-backed content validators (blind answer-key agreement, chart solvability) and human review from doc 15 §3.3/§3.5 are not implemented. | `validate_pack(verify_checksums=True)` → **OK**. Fresh import: `topics=20, card_sets=12, speaking_cards=48, writing_prompts=16, reading_passages=6, reading_tests=2, listening_scripts=4, listening_tests=1, vocab_pack_entries=343, reading_questions=80, listening_questions=40, media_files=0, created_topics=[]`. |
-| **Packaging / distribution** | **Stub** | `electron/main.ts` already implements the packaged layout it *expects*: `<resources>/sidecar-venv/bin/python`, falling back to a bundled standalone interpreter + `PYTHONPATH`. Renderer and main bundles both build. Auto-update wiring (`electron-updater`) exists and is correctly disabled in dev. | **Everything that makes an installer.** No `build` key in `app/package.json`, no `electron-builder.yml`/`.json` anywhere, so `pnpm build:electron` would run electron-builder with zero config: no appId, no `files`, no icons, **no sidecar bundled**, no Python relocation step. No code signing, no notarization, no release workflow. Also `build:electron` runs `vite build`, which does not produce `dist-electron/` (that is `scripts/build-electron.mjs`). | `grep -rn "electron-builder\|extraResources\|notarize\|codesign" .github/ scripts/ docs/` → **no matches**. `ls electron-builder*` → no such file. `cat app/package.json` → no `build` key. |
+| **Packaging / distribution** | **Working (unsigned)** | `app/electron-builder.yml` + `scripts/stage-sidecar.mjs` produce a real installer. **A 156 MB `BandReady-0.1.0-arm64.dmg` was built and the installed app was launched and verified**: it spawns the bundled Python, runs migrations, seeds the content pack and answers `/health`. Auto-update wiring present and disabled in dev. | No code signing or notarization (no Developer ID available here, so the DMG was built with `identity=null`; users get a Gatekeeper warning). No app icon. No release workflow. Windows and Linux targets are configured but were never built on their platforms. | `node scripts/stage-sidecar.mjs` → staged `build/python` (78 MB) + `build/sidecar-venv` (87 MB), bundled sidecar imports with 148 routes. `electron-builder --mac dmg --arm64` → `dist-electron/BandReady-0.1.0-arm64.dmg`. Launched the installed `.app`: sidecar child process spawned, `/health` → `{"status":"ok","db":"ok","migrations":"0001"}`, and the content routes returned 2 reading tests / 16 writing prompts / 48 speaking cards / 21 vocab decks. |
 
 ---
 

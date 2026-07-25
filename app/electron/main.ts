@@ -23,6 +23,11 @@ const isWindows = process.platform === 'win32';
 const devServerUrl = process.env.VITE_DEV_SERVER_URL ?? '';
 const isDev = !app.isPackaged;
 
+// `app.getPath('userData')` derives from the package name, which would put a user's
+// essays and recordings in a folder called "bandready-app". Name the app before any
+// path is read so the data directory matches the product — and the documented path.
+app.setName('BandReady');
+
 let mainWindow: BrowserWindow | null = null;
 let rendererReady = false;
 let shuttingDown = false;

@@ -14,16 +14,17 @@ from __future__ import annotations
 
 import json
 import logging
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
-from typing import Any, Callable
+from typing import Any
 
 from sqlalchemy import text
 from ulid import ULID
 
 from bandready.curriculum.estimate import (
-    Attempt,
     SKILLS,
+    Attempt,
     iso,
     load_attempts,
     parse_ts,
@@ -51,7 +52,7 @@ class Rule:
     id: str
     description: str
     cooldown_days: int
-    check: Callable[["RuleContext"], Firing | None]
+    check: Callable[[RuleContext], Firing | None]
     daily_rollover_only: bool = False
 
 

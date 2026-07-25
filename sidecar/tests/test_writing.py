@@ -208,7 +208,7 @@ def test_prechecks_warn_when_the_prompt_is_copied() -> None:
 
 
 def test_longest_common_run_and_jaccard() -> None:
-    assert w.longest_common_run("a b c d".split(), "x a b c y".split()) == 3
+    assert w.longest_common_run(["a", "b", "c", "d"], ["x", "a", "b", "c", "y"]) == 3
     assert w.longest_common_run([], ["a"]) == 0
     assert w.jaccard(set(), {"a"}) == 0.0
     assert w.jaccard({"a", "b"}, {"a", "b"}) == 1.0
@@ -545,9 +545,13 @@ def test_prompt_bank_listing_and_filters(client: TestClient, prompt_id: str) -> 
     assert item["time_limit_s"] == 2400
     assert item["topic_tags"] == ["environment", "transport"]
 
-    assert client.get(
+    # The task_type filter excludes the task2 fixture. The shipped core-en pack seeds real
+    # ac_task1 prompts, so assert on the filter's behaviour rather than on an empty bank.
+    ac_task1 = client.get(
         "/api/v1/writing/prompts", params={"task_type": "ac_task1"}
-    ).json()["items"] == []
+    ).json()["items"]
+    assert prompt_id not in [i["id"] for i in ac_task1]
+    assert all(i["task_type"] == "ac_task1" for i in ac_task1)
     assert prompt_id in [
         i["id"]
         for i in client.get(

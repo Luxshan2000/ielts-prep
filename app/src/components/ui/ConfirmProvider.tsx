@@ -30,10 +30,21 @@ export function useConfirm(): ConfirmFn {
 export function ConfirmProvider({ children }: { children: ReactNode }) {
   const [opts, setOpts] = useState<ConfirmOptions | null>(null);
   const resolver = useRef<((v: boolean) => void) | null>(null);
+  // `opts` goes null the instant the dialog is settled, but HeadlessUI keeps the panel
+  // mounted through its leave transition. Rendering `opts` directly made the dialog
+  // visibly swap to the generic fallback ("Are you sure?" / "Confirm") on the way out,
+  // so keep showing the copy the caller asked for until it is actually gone.
+  const lastOpts = useRef<ConfirmOptions>({});
+  if (opts !== null) lastOpts.current = opts;
+  const shown = opts ?? lastOpts.current;
 
   const confirm = useCallback<ConfirmFn>(
     (options = {}) =>
       new Promise<boolean>((resolve) => {
+        // A second confirm() while one is still open would otherwise overwrite the
+        // pending resolver, leaving the first caller awaiting a promise that can never
+        // settle. Decline it instead, so `if (!(await confirm(...))) return;` unwinds.
+        resolver.current?.(false);
         resolver.current = resolve;
         setOpts(options);
       }),
@@ -52,24 +63,24 @@ export function ConfirmProvider({ children }: { children: ReactNode }) {
       <Modal
         open={opts !== null}
         onClose={() => settle(false)}
-        title={opts?.title ?? "Are you sure?"}
+        title={shown.title ?? "Are you sure?"}
         size="sm"
         footer={
           <>
             <Button variant="ghost" onClick={() => settle(false)}>
-              {opts?.cancelLabel ?? "Cancel"}
+              {shown.cancelLabel ?? "Cancel"}
             </Button>
             <Button
-              variant={opts?.destructive ? "destructive" : "primary"}
+              variant={shown.destructive ? "destructive" : "primary"}
               onClick={() => settle(true)}
             >
-              {opts?.confirmLabel ?? (opts?.destructive ? "Delete" : "Confirm")}
+              {shown.confirmLabel ?? (shown.destructive ? "Delete" : "Confirm")}
             </Button>
           </>
         }
       >
         <div className="p-5 text-sm text-muted-foreground">
-          {opts?.message ?? "This action cannot be undone."}
+          {shown.message ?? "This action cannot be undone."}
         </div>
       </Modal>
     </ConfirmContext.Provider>

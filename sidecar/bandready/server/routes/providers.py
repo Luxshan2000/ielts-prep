@@ -315,15 +315,26 @@ async def tts_preview(
             )
         return Response(content=resp.content, media_type="audio/wav")
 
-    # In-process engines (Kokoro) are owned by the voice module; use it when it is there.
+    # In-process engines (Kokoro) and the hidden mock preset both go through the same
+    # renderer the listening module uses, so a preview sounds exactly like the real render.
+    import io
+
+    import soundfile as sf
+
+    from bandready.audio.tts_render import synthesize_line
+
+    voice = str(config.get("voice") or "af_heart")
     try:
-        from bandready.voice.tts import synthesize_wav  # type: ignore[import-not-found]
-    except Exception as exc:
+        pcm, rate = await synthesize_line(text, voice, config)
+    except ApiError:
+        raise
+    except Exception as exc:  # a missing model file is an ordinary outcome
         raise ApiError(
             503,
             "provider_error",
-            "voice preview needs the local TTS engine, which is not available in this "
-            "build — verify the engine instead, or use a cloud TTS preset",
+            f"voice preview could not run the local TTS engine: {exc}",
         ) from exc
-    wav = await synthesize_wav(text, config)
-    return Response(content=wav, media_type="audio/wav")
+
+    buffer = io.BytesIO()
+    sf.write(buffer, pcm, int(rate), subtype="PCM_16", format="WAV")
+    return Response(content=buffer.getvalue(), media_type="audio/wav")

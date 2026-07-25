@@ -24,7 +24,10 @@ a machine where the voice extra is not installed — the failure surfaces as a c
 
 from __future__ import annotations
 
+import importlib
 import logging
+import sys
+import types
 from dataclasses import dataclass
 from typing import Any
 
@@ -142,6 +145,46 @@ def build_llm_service(config: dict[str, Any] | None = None) -> Any:
     )
 
 
+def _import_whisper_stt() -> tuple[Any, Any]:
+    """``(Model, WhisperSTTService)`` from Pipecat's faster-whisper backend.
+
+    Pipecat 1.5.0's ``pipecat.services.whisper.stt`` raises at *import* time on Apple
+    Silicon when ``mlx_whisper`` is absent — even though the faster-whisper backend this
+    app actually uses does not need it. MLX is a multi-gigabyte optional extra, so
+    requiring it would make every Apple Silicon install pay for a model it never runs,
+    and without it the whole speaking pipeline is unreachable.
+
+    So: if the import fails only because of that guard, satisfy it with a placeholder
+    module, import once (Python then caches the real module), and withdraw the
+    placeholder. ``WhisperSTTServiceMLX`` imports ``mlx_whisper`` lazily in its own
+    constructor, so selecting the MLX preset without the extra installed still fails
+    loudly and correctly — this only unblocks the faster-whisper path.
+    """
+    try:
+        from pipecat.services.whisper.stt import Model, WhisperSTTService
+
+        return Model, WhisperSTTService
+    except ImportError:
+        # A real mlx_whisper (or any other already-imported one) means the guard is not
+        # what failed — some other dependency is genuinely missing, so do not mask it.
+        if "mlx_whisper" in sys.modules:
+            raise
+
+    placeholder = types.ModuleType("mlx_whisper")
+    placeholder.__bandready_placeholder__ = True  # type: ignore[attr-defined]
+    sys.modules["mlx_whisper"] = placeholder
+    try:
+        module = importlib.import_module("pipecat.services.whisper.stt")
+    finally:
+        if getattr(sys.modules.get("mlx_whisper"), "__bandready_placeholder__", False):
+            del sys.modules["mlx_whisper"]
+    _log.info(
+        "imported Pipecat's faster-whisper STT without the mlx_whisper extra "
+        "(the MLX backend stays unavailable until that extra is installed)"
+    )
+    return module.Model, module.WhisperSTTService
+
+
 def build_stt_service(config: dict[str, Any] | None = None) -> Any:
     """Local Whisper by default (03 §1); an OpenAI-compatible endpoint when configured."""
     cfg = config or _slot("stt")
@@ -154,7 +197,7 @@ def build_stt_service(config: dict[str, Any] | None = None) -> Any:
             base_url=str(cfg.get("base_url")),
             model=str(cfg.get("model") or "whisper-1"),
         )
-    from pipecat.services.whisper.stt import Model, WhisperSTTService
+    Model, WhisperSTTService = _import_whisper_stt()
 
     name = str(cfg.get("model") or "base").upper().replace("-", "_")
     model = getattr(Model, name, Model.BASE)

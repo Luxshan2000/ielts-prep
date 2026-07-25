@@ -1,0 +1,119 @@
+name: E2E
+
+# Playwright drives the real renderer in Chromium against the real sidecar
+# (FastAPI + SQLite + the shipped `content/core-en` pack) with
+# BANDREADY_ENABLE_MOCK=1, so only the LLM/STT/TTS adapters are canned —
+# 14-testing-strategy.md §7.3.
+#
+# This lives in its own workflow rather than in ci.yml because it is the slow
+# lane: it installs both halves of the repo plus a browser. ci.yml stays fast.
+#
+# NOTE ON THE VOICE EXTRA: the suite does NOT install `sidecar`'s optional
+# `voice` extra (pipecat + torch, hundreds of megabytes). Starting a speaking
+# session therefore fails on the server side, and `speaking.spec.ts` asserts the
+# UI's honest failure state instead of a live call. Real WebRTC audio is the
+# nightly voice-E2E harness's job (14 §4).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    name: playwright (chromium)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # ---------------------------------------------------------------- sidecar
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: sidecar/uv.lock
+
+      - name: Set up Python 3.11
+        run: uv python install 3.11
+
+      - name: Install the sidecar (dev extra only — see the note at the top)
+        working-directory: sidecar
+        run: uv sync --extra dev --frozen
+
+      # -------------------------------------------------------------------- app
+      - name: Enable corepack and pin pnpm
+        # The version must match `packageManager` in the root package.json.
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.12.0 --activate
+          pnpm --version
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install node dependencies
+        run: pnpm install --frozen-lockfile
+
+      # --------------------------------------------------------------- browsers
+      - name: Resolve the Playwright version
+        id: pw
+        # The browser cache key must be the exact Playwright version, otherwise an
+        # upgrade silently restores binaries the new runner cannot launch.
+        run: |
+          version=$(pnpm --filter bandready-app exec playwright --version | awk '{print $2}')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Playwright $version"
+
+      - name: Cache the Chromium build
+        id: browser-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
+
+      - name: Install Chromium (with OS deps)
+        if: steps.browser-cache.outputs.cache-hit != 'true'
+        run: pnpm --filter bandready-app exec playwright install --with-deps chromium
+
+      - name: Install Chromium OS deps (cache hit)
+        if: steps.browser-cache.outputs.cache-hit == 'true'
+        run: pnpm --filter bandready-app exec playwright install-deps chromium
+
+      # ------------------------------------------------------------------- run
+      - name: Run the E2E suite
+        # playwright.config.ts starts both web servers itself: the sidecar on
+        # 127.0.0.1:8711 with a wiped temp BANDREADY_DATA_DIR (so the content pack
+        # re-seeds on every run) and Vite on localhost:5273.
+        run: pnpm --filter bandready-app exec playwright test
+        env:
+          CI: "true"
+
+      - name: Upload the HTML report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Upload traces and screenshots from failures
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-failures
+          path: test-results/
+          retention-days: 14
+          if-no-files-found: ignore

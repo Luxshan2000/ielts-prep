@@ -153,7 +153,13 @@ function hardenSession(): void {
       "media-src 'self' blob: http://127.0.0.1:*",
       "img-src 'self' data: blob:",
       "style-src 'self' 'unsafe-inline'",
-      "script-src 'self'",
+      // `blob:` is same-origin, never network: the speaking room's audio worklet
+      // (Pipecat's WavMediaManager) is compiled into a blob URL at runtime, and
+      // without this the microphone pipeline cannot start. Kept in step with the
+      // meta CSP in app/index.html.
+      "script-src 'self' blob:",
+      "worker-src 'self' blob:",
+      "child-src 'self' blob:",
       "font-src 'self' data:",
     ].join('; ');
     ses.webRequest.onHeadersReceived((details, callback) => {

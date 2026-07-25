@@ -1,5 +1,7 @@
 import { Minus, Square, X } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { ProviderStatusBanner } from "./ProviderStatusBanner";
+import { SidecarStatusBanner } from "./SidecarStatusBanner";
 import type { WindowControlAction } from "@/vite-env";
 
 export interface TitleBarProps {
@@ -27,12 +29,17 @@ function control(action: WindowControlAction): void {
  * 12 §5. macOS uses `titleBarStyle: 'hiddenInset'` — no bar, just a 36px drag
  * strip whose left padding clears the traffic lights. Windows/Linux use
  * `frame: false` plus these custom buttons.
+ *
+ * This is the app's whole top chrome, so it also hosts the global sidecar status
+ * banner — it is rendered exactly once, above the sidebar and the routed content,
+ * which is where an app-wide connectivity notice belongs.
  */
 export function TitleBar({ title = "BandReady", onRequestClose, className }: TitleBarProps) {
   const os = platform();
   const mac = os === "darwin";
 
   return (
+    <>
     <div
       className={cn(
         "titlebar flex h-9 shrink-0 select-none items-center border-b border-border bg-sidebar",
@@ -72,5 +79,8 @@ export function TitleBar({ title = "BandReady", onRequestClose, className }: Tit
         </div>
       )}
     </div>
+    <SidecarStatusBanner />
+    <ProviderStatusBanner />
+    </>
   );
 }

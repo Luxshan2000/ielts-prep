@@ -28,6 +28,8 @@ import signal
 import sys
 import threading
 import time
+from logging.handlers import RotatingFileHandler
+from pathlib import Path
 
 WATCHDOG_INTERVAL_S = 5.0
 _SENTINEL = object()
@@ -101,14 +103,52 @@ def _pid_alive(pid: int) -> bool:
     return True
 
 
-def configure_logging(level: str) -> None:
+def configure_logging(level: str, logs_dir: Path | None = None) -> None:
+    """Log to stderr (Electron's pipe) and, when a directory is given, to a file.
+
+    The file is what a user can actually attach to a bug report, so it is the
+    point of `Settings → About → Reveal logs`. It rotates at 2 MB x 3 so a long
+    -running install can never fill a disk.
+    """
+    resolved = getattr(logging, level.upper(), logging.INFO)
     logging.basicConfig(
-        level=getattr(logging, level.upper(), logging.INFO),
+        level=resolved,
         format="%(asctime)s %(levelname)-7s %(name)s: %(message)s",
         stream=sys.stderr,
     )
+
+    if logs_dir is not None:
+        root = logging.getLogger()
+        already = any(
+            isinstance(h, RotatingFileHandler) for h in root.handlers
+        )
+        if not already:
+            try:
+                logs_dir.mkdir(parents=True, exist_ok=True)
+                handler = RotatingFileHandler(
+                    logs_dir / "sidecar.log",
+                    maxBytes=2_000_000,
+                    backupCount=3,
+                    encoding="utf-8",
+                )
+                handler.setFormatter(
+                    logging.Formatter("%(asctime)s %(levelname)-7s %(name)s: %(message)s")
+                )
+                handler.setLevel(resolved)
+                root.addHandler(handler)
+            except OSError as exc:
+                # A read-only or missing data dir must never stop the sidecar booting;
+                # stderr logging still works and Electron captures it.
+                logging.getLogger("bandready.cli").warning(
+                    "could not open the log file in %s (%s) — logging to stderr only",
+                    logs_dir,
+                    exc,
+                )
+
     from bandready.security.secrets import install_log_redaction
 
+    # Must run AFTER every handler is attached: the filter is applied per-handler,
+    # so a handler added later would write unredacted secrets.
     install_log_redaction()
 
 
@@ -136,8 +176,8 @@ def serve(args: argparse.Namespace) -> int:
 
     reset_settings_cache()
     settings = get_settings()
-    configure_logging(settings.log_level)
     settings.ensure_dirs()
+    configure_logging(settings.log_level, settings.logs_dir)
 
     if settings.parent_pid:
         parent_watchdog(settings.parent_pid)

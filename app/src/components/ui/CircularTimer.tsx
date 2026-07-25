@@ -1,5 +1,29 @@
+import { useMemo } from "react";
 import { cn } from "@/lib/cn";
 import { formatDuration } from "@/lib/format";
+
+/**
+ * Seconds-remaining thresholds that are worth interrupting a screen-reader user for.
+ * A per-second live region would make the whole test unusable with a screen reader,
+ * and silence would hide the one fact that changes how you answer, so the timer
+ * speaks only at the moments a sighted candidate would glance up (12 §11).
+ */
+const MILESTONES_S = [0, 10, 30, 60, 120, 300, 600, 900, 1800] as const;
+
+/**
+ * The most recently crossed milestone — the SMALLEST one still at or above
+ * `remaining` — or null while none has been crossed. Ascending order matters:
+ * at 14:40 of a 20-minute test the answer is 15:00, not 30:00.
+ */
+function milestoneFor(remaining: number, total: number): number | null {
+  for (const m of MILESTONES_S) {
+    // Never announce a milestone the timer never had: a 60-second Part 2 prep must
+    // not open by claiming "30 minutes remaining".
+    if (m > total) break;
+    if (remaining <= m) return m;
+  }
+  return null;
+}
 
 export interface CircularTimerProps {
   totalSec: number;
@@ -34,6 +58,16 @@ export function CircularTimer({
   const radius = size / 2 - stroke / 2;
   const circumference = 2 * Math.PI * radius;
   const warning = remaining <= warnAtSec && remaining > 0;
+
+  // Only recomputed when the crossed milestone changes, so the live region's text
+  // is stable between announcements and AT does not re-read it every tick.
+  const milestone = milestoneFor(remaining, clampedTotal);
+  const announcement = useMemo(() => {
+    if (milestone === null) return "";
+    const name = label ? `${label}: ` : "";
+    if (milestone === 0) return `${name}time is up`;
+    return `${name}${formatDuration(milestone)} remaining`;
+  }, [milestone, label]);
 
   return (
     <div
@@ -79,7 +113,15 @@ export function CircularTimer({
           {formatDuration(remaining)}
         </span>
       </div>
-      {/* Timers announce at milestones, not every second (12 §11). */}
+      {/*
+        Two regions, deliberately. The polite one holds only milestone text, so it
+        fires a handful of times across a whole test instead of once a second. The
+        off region carries the exact reading for a screen-reader user who navigates
+        to the timer on purpose.
+      */}
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
+        {announcement}
+      </span>
       <span className="sr-only" aria-live="off">
         {label ? `${label}: ` : ""}
         {formatDuration(remaining)} remaining

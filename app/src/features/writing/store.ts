@@ -12,7 +12,8 @@
  */
 
 import { create } from "zustand";
-import { api, ApiError } from "@/lib/api";
+import { api } from "@/lib/api";
+import { friendlyMessage } from "@/lib/errors";
 
 // ------------------------------------------------------------------- types ---
 
@@ -343,16 +344,22 @@ export function countEssayWords(text: string): number {
 }
 
 export function message(err: unknown, fallback: string): string {
-  if (err instanceof ApiError) {
-    return err.isOffline
-      ? "Couldn't reach the BandReady engine. It may still be starting — wait a few seconds and retry."
-      : err.detail || fallback;
-  }
-  return err instanceof Error ? err.message || fallback : fallback;
+  return friendlyMessage(
+    err,
+    fallback,
+    "Couldn't reach the BandReady engine. It may still be starting — wait a few seconds and retry.",
+  );
 }
 
 const ATTEMPTS = "/api/v1/writing/attempts";
 const enc = encodeURIComponent;
+
+/**
+ * The autosave PATCH currently in flight, so a caller that awaits `save()` can wait
+ * for the tick already running instead of racing it. Module-level rather than store
+ * state because a promise is not renderable state and must never trigger a re-render.
+ */
+let inFlightSave: Promise<void> = Promise.resolve();
 
 // ------------------------------------------------------------------- store ---
 
@@ -642,40 +649,55 @@ export const useWritingStore = create<WritingState>((set, get) => ({
     })),
 
   save: async () => {
-    const { attempt, dirty, saving, essay, outline, secondsElapsed, pasteEvents } = get();
-    if (!attempt || saving) return;
+    // A caller that awaits save() — the pre-check and submit both do — is asking for
+    // "the server now holds what I typed". Returning early while the ten-second
+    // autosave is still in flight breaks that promise: the pre-check GET then races
+    // the PATCH and can read a draft that is empty or a keystroke behind, which the
+    // learner sees as "you wrote 0 words" over a full essay. So wait for the tick in
+    // progress, then flush again if anything changed while it was running.
+    if (get().saving) {
+      await inFlightSave;
+      if (!get().dirty) return;
+    }
+    const { attempt, dirty, essay, outline, secondsElapsed, pasteEvents } = get();
+    if (!attempt) return;
     if (attempt.status !== "draft" && attempt.status !== "failed") return;
     if (!dirty) return;
     const pendingPasteWords = get().pendingPasteWords;
     set({ saving: true, dirty: false, saveError: null });
-    try {
-      const updated = await api.patch<AttemptSummary>(`${ATTEMPTS}/${enc(attempt.id)}`, {
-        essay_text: essay,
-        outline_text: outline,
-        seconds_elapsed: Math.round(secondsElapsed),
-        paste_events: pasteEvents,
-        ...(pendingPasteWords > 0 ? { last_paste_words: pendingPasteWords } : {}),
-      });
-      set((s) => ({
-        saving: false,
-        savedAt: Date.now(),
-        pendingPasteWords: 0,
-        attempt: s.attempt
-          ? {
-              ...s.attempt,
-              word_count: updated?.word_count ?? countEssayWords(essay),
-              overtime_seconds: updated?.overtime_seconds ?? s.attempt.overtime_seconds,
-              integrity_flag: updated?.integrity_flag ?? s.attempt.integrity_flag,
-              paste_events: updated?.paste_events ?? s.attempt.paste_events,
-              essay_text: essay,
-              outline_text: outline,
-            }
-          : s.attempt,
-      }));
-    } catch (err) {
-      // Keep the draft dirty so the next tick retries; the text is never lost.
-      set({ saving: false, dirty: true, saveError: message(err, "Autosave failed.") });
-    }
+
+    inFlightSave = (async () => {
+      try {
+        const updated = await api.patch<AttemptSummary>(`${ATTEMPTS}/${enc(attempt.id)}`, {
+          essay_text: essay,
+          outline_text: outline,
+          seconds_elapsed: Math.round(secondsElapsed),
+          paste_events: pasteEvents,
+          ...(pendingPasteWords > 0 ? { last_paste_words: pendingPasteWords } : {}),
+        });
+        set((s) => ({
+          saving: false,
+          savedAt: Date.now(),
+          pendingPasteWords: 0,
+          attempt: s.attempt
+            ? {
+                ...s.attempt,
+                word_count: updated?.word_count ?? countEssayWords(essay),
+                overtime_seconds: updated?.overtime_seconds ?? s.attempt.overtime_seconds,
+                integrity_flag: updated?.integrity_flag ?? s.attempt.integrity_flag,
+                paste_events: updated?.paste_events ?? s.attempt.paste_events,
+                essay_text: essay,
+                outline_text: outline,
+              }
+            : s.attempt,
+        }));
+      } catch (err) {
+        // Keep the draft dirty so the next tick retries; the text is never lost.
+        set({ saving: false, dirty: true, saveError: message(err, "Autosave failed.") });
+      }
+    })();
+
+    await inFlightSave;
   },
 
   resetDraft: () =>

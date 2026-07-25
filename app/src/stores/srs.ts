@@ -3,13 +3,14 @@ import { api, ApiError } from "@/lib/api";
 
 /** Global store #4 (01 §7.1): SRS due counts + the current review-queue chunk. */
 
+/** The six exercise types the sidecar emits (`bandready/srs/exercises.py::EXERCISE_TYPES`). */
 export type ExerciseType =
-  | "recall"
-  | "recognition"
+  | "flip"
   | "cloze"
+  | "use_in_sentence"
   | "collocation"
-  | "production"
-  | "listening";
+  | "audio_recall"
+  | "speaking_drill";
 
 export interface SrsQueueItem {
   card_id: string;
@@ -19,11 +20,32 @@ export interface SrsQueueItem {
   payload: Record<string, unknown>;
 }
 
+/**
+ * `GET /api/v1/vocab/stats` (08 §8). The badge-relevant numbers are `due_today` at
+ * the top level and the `counts` block — NOT flat `due`/`suggested` fields.
+ */
+export interface VocabStatsCounts {
+  new?: number;
+  learning?: number;
+  young?: number;
+  mature?: number;
+  suspended?: number;
+  known?: number;
+  suggested?: number;
+  active?: number;
+  entries?: number;
+  scheduled?: number;
+  [key: string]: unknown;
+}
+
 export interface VocabStats {
-  due: number;
-  suggested: number;
-  active: number;
-  known: number;
+  counts: VocabStatsCounts;
+  due_today: number;
+  due_now: number;
+  new_available: number;
+  reviews_today: number;
+  retention_30d: number | null;
+  streak: number;
   [key: string]: unknown;
 }
 
@@ -59,8 +81,8 @@ export const useSrsStore = create<SrsState>((set, get) => ({
       const stats = await api.get<VocabStats>("/api/v1/vocab/stats");
       set({
         stats,
-        dueCount: Number(stats.due ?? 0),
-        suggestedCount: Number(stats.suggested ?? 0),
+        dueCount: Number(stats.due_today ?? stats.due_now ?? 0),
+        suggestedCount: Number(stats.counts?.suggested ?? 0),
         offline: false,
         error: null,
       });

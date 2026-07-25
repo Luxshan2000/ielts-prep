@@ -1,0 +1,36 @@
+; BandReady editor defaults. https://editorconfig.org
+; Kept deliberately small: it encodes what the existing code already does, so it can never
+; fight ruff (sidecar) or the TypeScript/Tailwind conventions in app/.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.py]
+indent_size = 4
+max_line_length = 100
+
+[*.{ts,tsx,js,jsx,mjs,cjs,json,jsonc,css,html,yml,yaml}]
+indent_size = 2
+
+[*.md]
+# Two trailing spaces are a hard line break in Markdown.
+trim_trailing_whitespace = false
+
+[*.jsonl]
+# One content row per line — never reflow, never trim; the checksums in a pack manifest are
+# taken over the exact bytes.
+insert_final_newline = true
+trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab
+
+[*.{bat,cmd,ps1}]
+end_of_line = crlf

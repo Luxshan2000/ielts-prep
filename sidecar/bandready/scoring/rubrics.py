@@ -335,7 +335,7 @@ def descriptors_for(skill: str, criterion: str) -> dict[int, str]:
 def descriptor(skill: str, criterion: str, band: float) -> str:
     """One descriptor cell. Bands outside 4–9 clamp to the nearest paraphrased row."""
     rows = descriptors_for(skill, criterion)
-    whole = int(round(float(band)))
+    whole = round(float(band))
     whole = min(9, max(4, whole))
     return rows[whole]
 

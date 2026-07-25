@@ -33,6 +33,14 @@ export default {
         "band-strong": "hsl(var(--band-strong))",
         recording: "hsl(var(--recording))",
       },
+      // Tailwind's stock opacity scale jumps 5 → 10 → 20, so `bg-primary/8` and
+      // `bg-primary/12` silently generated NO css and every tinted Badge/callout
+      // rendered transparent. 12 §3's surface tints sit between 5 % and 15 %, so the
+      // two missing steps are declared here rather than rewritten at 16 call sites.
+      opacity: {
+        8: "0.08",
+        12: "0.12",
+      },
       fontFamily: {
         sans: ["Inter Variable", "Inter", "system-ui", "sans-serif"],
         mono: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],

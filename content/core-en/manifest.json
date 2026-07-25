@@ -1,0 +1,43 @@
+{
+  "manifest_version": 1,
+  "id": "org.bandready.core-en",
+  "version": "1.0.0",
+  "name": "BandReady Core (English)",
+  "description": "The first-party practice bank that ships with BandReady: linked speaking topic sets, writing prompts, academic and general-training reading tests, listening tests with scripts, and a graded vocabulary deck. All material is original, written in the IELTS exam format, and dedicated to the public domain.",
+  "publisher": "BandReady",
+  "homepage": "https://github.com/Luxshan2000/bandready",
+  "license": "CC0-1.0",
+  "disclaimer": "BandReady is an independent open-source project and is not affiliated with, endorsed by, or connected to the IELTS Partners (British Council, IDP: IELTS Australia, and Cambridge University Press & Assessment). IELTS is a registered trademark of its owners, used here only to describe the exam format this software helps you prepare for. All practice materials in BandReady are original and are not official IELTS test content. Band scores produced by this software are AI-generated estimates for practice purposes only and do not predict official IELTS results.",
+  "ai_disclosure": "ai_assisted",
+  "built_with": {
+    "tool": "tools.content.build",
+    "tool_version": "1.0.0",
+    "method": "Practice material was drafted with the assistance of a large language model from topic seeds, then edited and reviewed by a human against the review checklist in docs/plan/15-content-authoring-licensing.md §3.5. No official IELTS test material, past paper, or preparation book was used as a source, reference, or paraphrase target at any stage.",
+    "review": "human_reviewed"
+  },
+  "locale_hint": "en",
+  "counts": {
+    "topics": 20,
+    "card_sets": 12,
+    "speaking_cards": 48,
+    "writing_prompts": 16,
+    "reading_passages": 6,
+    "reading_tests": 2,
+    "listening_scripts": 4,
+    "listening_tests": 1,
+    "vocab": 343,
+    "pron_pairs": 20
+  },
+  "checksums": {
+    "data/card_sets.jsonl": "sha256:a6c0c77e25c87d76bf1b025251484fdeeb7aeed88d05bb13e8db26083496a0e3",
+    "data/listening_scripts.jsonl": "sha256:c8fe1baf958e967d2385b493e6a4d1c5d811b16c49c59c4f448705590e089ddc",
+    "data/listening_tests.jsonl": "sha256:35cb9a0dbded4ffe40a7b386c925abb7cacc4cee37f844153ebc5c6b963f5653",
+    "data/pron_pairs.jsonl": "sha256:2dd90ca56fa2ec67b7476fa7d51b6e18a2dea362e24dfae17d383567e6e4c06b",
+    "data/reading_passages.jsonl": "sha256:de5270fce15f8d4676fea7315c842b0d42e3735a2407e2960c63279274ac18b2",
+    "data/reading_tests.jsonl": "sha256:698024915d7334ef842efe52972427b20291acaa97144ca5c69966bb484403d8",
+    "data/speaking_cards.jsonl": "sha256:1a3f024ad9cd7518b71d55f29acc64ba006ab201c53a965deb9f87bf2eac5794",
+    "data/topics.jsonl": "sha256:1a460452b0dcf403c648ea805bb1f4d0c057959263873c1021ca967f35065f35",
+    "data/vocab.jsonl": "sha256:fefb7acf83a4547b2ceda6395d4fda0e46cadfaa234e0c3b8dd9ec9b80be558e",
+    "data/writing_prompts.jsonl": "sha256:e0369f817f1bfc76a876f5d05511fc337f14c5146d8ca5ea6ddf989acba65b6e"
+  }
+}

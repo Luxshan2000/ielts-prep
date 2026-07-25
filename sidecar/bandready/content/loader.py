@@ -40,7 +40,6 @@ from bandready.content.validate import (
     PackReport,
     iter_listening_questions,
     iter_reading_questions,
-    passage_document,
     validate_or_raise,
 )
 
@@ -486,6 +485,9 @@ def import_pack(
         media_count = install_media(
             session, root, pack_id, version, manifest.get("checksums") or {}
         )
+        # Files with no typed table (09 §5.3 minimal pairs) are copied alongside the media so
+        # `load_pack_jsonl` can find them after import.
+        untyped_data = install_untyped_data(root, pack_id, version)
 
         report_progress(55, "upserting content")
         created_topics = ensure_topics(session, rows_by_file)
@@ -545,6 +547,7 @@ def import_pack(
             "counts": counts,
             "retired": retired,
             "created_topics": created_topics,
+            "untyped_data": untyped_data,
             "warnings": report.warnings,
         }
         _log.info(
@@ -708,6 +711,6 @@ def load_pack_jsonl(name: str) -> list[dict[str, Any]]:
                 if isinstance(row, dict) and str(row.get("id")) not in seen:
                     seen.add(str(row.get("id")))
                     out.append(row)
-        except (OSError, ValueError) as exc:  # noqa: PERF203 — per-file tolerance
+        except (OSError, ValueError) as exc:
             _log.warning("could not read %s: %s", path, exc)
     return out

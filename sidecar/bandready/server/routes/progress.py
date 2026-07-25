@@ -8,6 +8,7 @@ because the copy rules there are non-negotiable.
 from __future__ import annotations
 
 import json
+import logging
 from datetime import date, timedelta
 from typing import Any
 
@@ -43,6 +44,8 @@ from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
 
 router = APIRouter(prefix="/api/v1", tags=["progress"])
+
+_log = logging.getLogger("bandready.routes.progress")
 
 ESTIMATE_DISCLAIMER = "Estimated band — not a guarantee"
 ESTIMATE_TOOLTIP = (
@@ -115,7 +118,11 @@ def _vocab_tile(session: Session, profile_id: str) -> dict[str, Any]:
                 "since": (now - timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z",
             },
         ).mappings().first()
-    except Exception:  # noqa: BLE001 — vocab tables exist, but stay resilient
+    except Exception as exc:  # noqa: BLE001 — vocab tables exist, but stay resilient
+        # Zeroes here look identical to "you have no vocabulary yet" on the dashboard,
+        # which is the wrong story if the real cause is a locked or migrating DB. The
+        # summary still degrades gracefully, but the reason goes in the log.
+        _log.warning("vocabulary counters could not be read: %s", exc)
         return {"cards": 0, "due_today": 0, "retention_7d": None, "reviews_7d": 0}
 
     total_reviews = int((reviews or {}).get("n") or 0)

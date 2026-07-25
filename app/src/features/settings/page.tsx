@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Tabs, TabPanel } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
+import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
 import { useSettingsStore } from "@/stores";
 import { AboutTab } from "./components/AboutTab";
 import { AppearanceTab } from "./components/AppearanceTab";
@@ -43,6 +44,10 @@ export function SettingsPage() {
   useEffect(() => {
     void load();
   }, [load]);
+
+  // A screen that failed while the sidecar was down must not stay stuck on its
+  // error card after it comes back (12 §9).
+  useSidecarRecovery(() => void load());
 
   useEffect(() => {
     if (!doc || doc === hydratedFrom) return;

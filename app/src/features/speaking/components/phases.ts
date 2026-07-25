@@ -285,6 +285,20 @@ export function describeError(err: unknown): string {
     }
     return api.detail || "The practice engine reported an error.";
   }
+  // Pipecat's `makeRequest` rejects with the raw `Response` when the SDP exchange
+  // fails, so a dead session or a voice-less build arrives here, not as an Error.
+  if (typeof Response !== "undefined" && err instanceof Response) {
+    if (err.status === 404) {
+      return "This session is no longer open on the practice engine. Start a new one from the Speaking room.";
+    }
+    if (err.status === 401 || err.status === 403) {
+      return "The practice engine refused the audio connection. Restart BandReady and try again.";
+    }
+    if (err.status === 501 || err.status === 502) {
+      return "The voice engine isn't available in this build, so live speaking sessions can't run.";
+    }
+    return `The practice engine refused the audio connection (HTTP ${err.status}).`;
+  }
   if (err instanceof Error) {
     if (err.name === "NotAllowedError" || /permission|denied/i.test(err.message)) {
       return "Microphone permission denied. Open System Settings → Privacy & Security → Microphone, allow BandReady, then try again.";

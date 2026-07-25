@@ -1,0 +1,41 @@
+# Ruff configuration for the BandReady sidecar.
+#
+# NOTE FOR MAINTAINERS: when a `ruff.toml` sits next to a `pyproject.toml`, ruff reads THIS
+# file and ignores the `[tool.ruff]` table in `pyproject.toml` entirely. The two settings
+# that table carries (`line-length`, `target-version`) are therefore mirrored below and must
+# be kept in sync. This file exists because the exemptions below cannot be expressed without
+# a lint table, and the packaging metadata is owned elsewhere.
+#
+# The rule *selection* is deliberately left at ruff's default for the pinned version. CI and
+# local runs both install ruff from `uv.lock`, so the enabled set is reproducible without
+# hand-maintaining a long `select` list.
+
+line-length = 100
+target-version = "py311"
+
+[lint.flake8-bugbear]
+# B008 (function-call-in-default-argument) is the whole point of FastAPI's dependency
+# injection: `session: Session = Depends(get_session)` is the framework's documented API,
+# and `Query(...)` / `Path(...)` / `Body(...)` markers are inert descriptor objects, not
+# mutable state. Treating them as immutable calls is the exemption ruff ships for exactly
+# this framework — it is not a blanket disable of B008, which still fires everywhere else.
+extend-immutable-calls = [
+  "fastapi.Body",
+  "fastapi.Cookie",
+  "fastapi.Depends",
+  "fastapi.File",
+  "fastapi.Form",
+  "fastapi.Header",
+  "fastapi.Path",
+  "fastapi.Query",
+  "fastapi.Security",
+  "fastapi.UploadFile",
+]
+
+[lint.per-file-ignores]
+# TRY004 wants `TypeError` for "invalid type" guards. Every raise it flags here validates
+# untrusted JSON coming back from an LLM or out of a content pack, and the module's
+# documented contract — relied on by `routes/writing.py` and `tests/test_writing.py`, which
+# both catch `ValueError` — is that unusable input raises `ValueError`. Swapping the class
+# would change the public behaviour of the parser, so the rule is off for this file only.
+"bandready/scoring/writing.py" = ["TRY004"]

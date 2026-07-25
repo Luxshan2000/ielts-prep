@@ -45,7 +45,11 @@ export function useMicCheck(deviceId: string | null): MicCheckState {
     streamRef.current = null;
     const ctx = ctxRef.current;
     ctxRef.current = null;
-    if (ctx && ctx.state !== "closed") void ctx.close().catch(() => {});
+    if (ctx && ctx.state !== "closed") {
+      void ctx.close().catch((err: unknown) =>
+        console.debug("[BandReady] mic check: audio context close failed", err),
+      );
+    }
     smoothed.current = 0;
     setLevel(0);
     setListening(false);
@@ -76,7 +80,11 @@ export function useMicCheck(deviceId: string | null): MicCheckState {
         }
         const ctx = new Ctor();
         ctxRef.current = ctx;
-        if (ctx.state === "suspended") await ctx.resume().catch(() => {});
+        if (ctx.state === "suspended") {
+          await ctx.resume().catch((err: unknown) =>
+            console.debug("[BandReady] mic check: audio context resume failed", err),
+          );
+        }
         const source = ctx.createMediaStreamSource(stream);
         const analyser = ctx.createAnalyser();
         analyser.fftSize = 1024;
@@ -123,7 +131,9 @@ export function useMicCheck(deviceId: string | null): MicCheckState {
         .then((list) => {
           if (active) setDevices(list.filter((d) => d.kind === "audioinput"));
         })
-        .catch(() => {});
+        .catch((err: unknown) =>
+          console.debug("[BandReady] mic check: device enumeration failed", err),
+        );
     };
     navigator.mediaDevices?.addEventListener?.("devicechange", onChange);
     return () => {

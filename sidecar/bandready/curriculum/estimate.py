@@ -119,7 +119,7 @@ def parse_ts(value: str | None) -> datetime | None:
         except ValueError:
             continue
     try:
-        parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        parsed = datetime.fromisoformat(raw)
     except ValueError:
         return None
     return parsed if parsed.tzinfo else parsed.replace(tzinfo=UTC)
@@ -479,22 +479,45 @@ def _profile_self_level(session: Any, profile_id: str) -> str | None:
 # --------------------------------------------------------------------------------------
 
 
+#: Raw-estimate movement below this is decay noise, not new evidence. Recency weights are
+#: continuous in ``now``, so recomputing seconds apart shifts ``estimate_raw`` by ~1e-6. When
+#: the raw value happens to sit on a rounding boundary (6.75 → 6.5 or 7.0) that noise alone
+#: flips the displayed band and appends a meaningless row to the log every time anything
+#: triggers a recompute. Treating sub-0.005 raw movement as "no change" keeps the append-only
+#: log honest: a stored band only moves when real evidence moves it (10 §6.4).
+RAW_NOISE_EPSILON = 0.005
+
+
 def _latest_row(session: Any, profile_id: str, skill: str) -> dict[str, Any] | None:
     row = session.execute(
         text(
-            "SELECT band, confidence, n_eff, criteria_json FROM current_band_estimates "
-            "WHERE profile_id = :pid AND skill = :skill"
+            "SELECT band, estimate_raw, confidence, n_eff, criteria_json "
+            "FROM current_band_estimates WHERE profile_id = :pid AND skill = :skill"
         ),
         {"pid": profile_id, "skill": skill},
     ).mappings().first()
     return dict(row) if row else None
 
 
+def _raw_is_noise(previous: dict[str, Any] | None, est: SkillEstimate) -> bool:
+    """True when the underlying raw estimate has not moved beyond decay noise."""
+    if previous is None:
+        return False
+    prev_raw = previous.get("estimate_raw")
+    if prev_raw is None or est.estimate_raw is None:
+        return prev_raw is None and est.estimate_raw is None
+    try:
+        return abs(float(prev_raw) - float(est.estimate_raw)) < RAW_NOISE_EPSILON
+    except (TypeError, ValueError):
+        return False
+
+
 def _unchanged(previous: dict[str, Any] | None, est: SkillEstimate) -> bool:
     if previous is None:
         return False
+    band_same = abs(float(previous["band"]) - est.band) < 1e-9
     return (
-        abs(float(previous["band"]) - est.band) < 1e-9
+        (band_same or _raw_is_noise(previous, est))
         and str(previous["confidence"]) == est.confidence
         and abs(float(previous["n_eff"] or 0.0) - est.n_eff) < 0.01
         and (_loads(previous.get("criteria_json")) or {}) == (est.criteria or {})

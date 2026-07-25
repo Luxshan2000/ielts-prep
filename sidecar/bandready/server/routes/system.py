@@ -59,12 +59,17 @@ async def system_info(_: None = Depends(require_auth)) -> dict[str, Any]:
 
     settings = get_settings()
     db, head = _db_status()
+    log_file = settings.logs_dir / "sidecar.log"
     return {
         "version": __version__,
         "python": sys.version.split()[0],
         "platform": platform_info(),
         "os_release": platform.platform(),
         "data_dir": str(settings.data_dir),
+        # Surfaced by Settings → About so a bug report can carry the real log file
+        # instead of a screenshot. `log_file` is None until the first line is written.
+        "logs_dir": str(settings.logs_dir),
+        "log_file": str(log_file) if log_file.exists() else None,
         "base_url": settings.base_url,
         "mock_enabled": settings.enable_mock,
         "db": db,

@@ -432,16 +432,23 @@ def _write_file(doc: dict[str, Any]) -> None:
         raise
     try:
         os.chmod(path, 0o600)  # 3. owner-only — it holds encrypted keys
-    except OSError:
-        pass
+    except OSError as exc:
+        # Not fatal (some filesystems, e.g. exFAT, have no POSIX modes), but it means
+        # the file holding encrypted keys kept its default permissions. Say so — a
+        # silent failure here is a security question nobody can answer later.
+        _log.warning("could not restrict permissions on %s: %s", path, exc)
     try:  # 4. fsync the parent dir so the rename survives power loss
         dfd = os.open(str(path.parent), os.O_RDONLY)
         try:
             os.fsync(dfd)
         finally:
             os.close(dfd)
-    except OSError:
-        pass
+    except OSError as exc:
+        # Windows and some network filesystems cannot fsync a directory handle. The
+        # settings are already written and renamed; only the "survives a power cut
+        # in the next few seconds" guarantee is lost, so this is a debug note, not a
+        # failure — but it must not be invisible.
+        _log.debug("could not fsync the settings directory %s: %s", path.parent, exc)
 
 
 # --------------------------------------------------------------------------- API

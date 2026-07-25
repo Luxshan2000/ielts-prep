@@ -21,6 +21,13 @@ export { Tabs, TabPanel, type TabItem, type TabsProps } from "./Tabs";
 export { Tooltip, type TooltipProps } from "./Tooltip";
 export { ConfirmProvider, useConfirm, type ConfirmOptions, type ConfirmFn } from "./ConfirmProvider";
 export { EmptyState, type EmptyStateProps } from "./EmptyState";
+export {
+  ErrorState,
+  classifyError,
+  errorDetail,
+  type ErrorStateProps,
+  type ErrorKind,
+} from "./ErrorState";
 export { Skeleton, SkeletonRow, SkeletonCard, SkeletonChart } from "./Skeleton";
 
 // BandReady-specific components (12-design-system.md §8)

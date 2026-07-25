@@ -198,21 +198,26 @@ def _probe() -> bool:
     return False
 
 
-def is_ready() -> bool:
-    """True when a lookup can be answered right now. Cheap after the first call."""
-    with _state.lock:
-        if _state.status == "ready":
-            return True
-        if _state.status == "installing":
-            return False
-        if _state.probe_failed and _state.status == "unavailable":
-            return False
-        return _probe()
+def _is_ready_locked() -> bool:
+    """:func:`is_ready` without taking the lock — the caller must already hold it."""
+    if _state.status == "ready":
+        return True
+    if _state.status == "installing":
+        return False
+    if _state.probe_failed and _state.status == "unavailable":
+        return False
+    return _probe()
 
 
-def status() -> dict[str, Any]:
-    """The shape ``GET /api/v1/dictionary`` returns (and every lookup embeds)."""
-    ready = is_ready()
+def _status_locked() -> dict[str, Any]:
+    """:func:`status` without taking the lock — the caller must already hold it.
+
+    ``_state.lock`` is a plain :class:`threading.Lock` and is therefore **not** reentrant:
+    calling :func:`status` from inside a ``with _state.lock`` block deadlocks the calling
+    thread permanently. :func:`start_install` does exactly that on its early-return paths,
+    which is why this split exists.
+    """
+    ready = _is_ready_locked()
     return {
         "available": ready,
         "status": _state.status,
@@ -221,6 +226,18 @@ def status() -> dict[str, Any]:
         "data_dir": str(_state.data_dir) if _state.data_dir else None,
         "source": "wordnet",
     }
+
+
+def is_ready() -> bool:
+    """True when a lookup can be answered right now. Cheap after the first call."""
+    with _state.lock:
+        return _is_ready_locked()
+
+
+def status() -> dict[str, Any]:
+    """The shape ``GET /api/v1/dictionary`` returns (and every lookup embeds)."""
+    with _state.lock:
+        return _status_locked()
 
 
 # --------------------------------------------------------------------------- install
@@ -293,11 +310,12 @@ def _sources_for(spec: str) -> list[str]:
 def start_install(spec: str | None = None) -> dict[str, Any]:
     """Kick the install off on a daemon thread and return immediately."""
     with _state.lock:
+        # `_status_locked`, never `status`: the lock is not reentrant (see its docstring).
         if _state.status == "ready":
-            return status()
+            return _status_locked()
         thread = _state.install_thread
         if thread is not None and thread.is_alive():
-            return status()
+            return _status_locked()
         _state.status = "installing"
         _state.detail = "downloading the English WordNet lexicon…"
         _state.install_started_at = time.time()

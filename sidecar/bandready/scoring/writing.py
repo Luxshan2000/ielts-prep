@@ -158,13 +158,16 @@ _WORD_CHARS = re.compile(r"[A-Za-z0-9']+")
 #: the words every essay contains.
 STOP_WORDS: frozenset[str] = frozenset(
     (
-        "a an and any are as at be been being both but by can could did do does each "
-        "for from had has have he her him his how i if in into is it its it's me more "
-        "most much many my no nor not of on one or other others our out she should so "
-        "some such than that the their them then there these they this those to too "
-        "two up us very was we were what when where which while who whom why will with "
-        "would you your also don't"
-    ).split()
+        "a", "an", "and", "any", "are", "as", "at", "be", "been", "being", "both", "but",
+        "by", "can", "could", "did", "do", "does", "each", "for", "from", "had", "has",
+        "have", "he", "her", "him", "his", "how", "i", "if", "in", "into", "is", "it",
+        "its", "it's", "me", "more", "most", "much", "many", "my", "no", "nor", "not",
+        "of", "on", "one", "or", "other", "others", "our", "out", "she", "should", "so",
+        "some", "such", "than", "that", "the", "their", "them", "then", "there", "these",
+        "they", "this", "those", "to", "too", "two", "up", "us", "very", "was", "we",
+        "were", "what", "when", "where", "which", "while", "who", "whom", "why", "will",
+        "with", "would", "you", "your", "also", "don't",
+    )
 )
 
 

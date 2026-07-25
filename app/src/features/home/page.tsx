@@ -1,186 +1,207 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { CalendarClock, Flame, ListChecks, PlugZap } from "lucide-react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { AlertCircle, PlugZap, RefreshCw, Sparkles, TrendingUp } from "lucide-react";
 import {
-  BandScore,
   Badge,
   Button,
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
   EmptyState,
   SkeletonCard,
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
-import { bandsOf, useProgressStore, useSessionStore } from "@/stores";
-import { daysUntil, formatBand, greeting, pluralize } from "@/lib/format";
+import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
+import { greeting } from "@/lib/format";
+import { needsOnboarding } from "./firstRun";
+import { todaysSession, useHomeStore } from "./store";
+import { EstimateTiles } from "./components/EstimateTiles";
+import { FocusCard } from "./components/FocusCard";
+import { ExamCountdownCard, StreakCard, VocabCard } from "./components/SideTiles";
+import { TodaySessionCard } from "./components/TodaySessionCard";
 
-const SKILLS = [
-  ["speaking", "Speaking"],
-  ["writing", "Writing"],
-  ["reading", "Reading"],
-  ["listening", "Listening"],
-] as const;
+function LoadingDashboard() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-3">
+      <SkeletonCard lines={4} className="lg:col-span-2" />
+      <SkeletonCard lines={5} />
+      <SkeletonCard lines={3} className="lg:col-span-2" />
+      <SkeletonCard lines={3} />
+    </div>
+  );
+}
 
 /**
- * Placeholder dashboard (12 §6.1). The curriculum agent replaces this with the
- * real plan-driven Home; until then it renders live data when the sidecar has
- * it and honest empty states when it doesn't.
+ * The dashboard (10 §5/§7 + 12 §6.1). Entry route of the app, so it also owns
+ * the first-run redirect into `/onboarding` — `App.tsx` is auto-discovery
+ * territory and never hand-edited.
  */
 export function HomePage() {
   const navigate = useNavigate();
-  const offlineSidecar = useSessionStore((s) => s.offline);
-  const { summary, plan, loading, offline, refresh, loadedAt } = useProgressStore();
+  const {
+    summary,
+    plan,
+    loading,
+    initialized,
+    error,
+    dismissing,
+    generating,
+    actionError,
+    busySession,
+    load,
+    generatePlan,
+    dismissCallout,
+    startSession,
+    completeSession,
+    skipSession,
+    clearActionError,
+  } = useHomeStore();
 
   useEffect(() => {
-    let active = true;
-    if (!loadedAt && active) void refresh();
-    return () => {
-      active = false;
-    };
-  }, [loadedAt, refresh]);
+    if (!initialized) void load();
+  }, [initialized, load]);
 
-  const bands = bandsOf(summary);
-  const streak = summary?.streak_days ?? 0;
-  const examDate = summary?.exam_date ?? null;
-  const targetBand = summary?.target_band ?? null;
-  const todaysPlan = plan?.today ?? [];
-  const isOffline = offline || offlineSidecar;
+  // A screen that failed while the sidecar was down must not stay stuck on its
+  // error card after it comes back (12 §9).
+  useSidecarRecovery(() => void load());
+
+  if (initialized && needsOnboarding(summary)) {
+    return <Navigate to="/onboarding" replace />;
+  }
+
+  const session = todaysSession(summary, plan);
+  const busy = busySession !== null;
 
   return (
     <PageShell
-      title={`${greeting()}`}
-      description="Your practice dashboard."
+      title={greeting()}
+      description="Your plan for today, and where your bands stand."
       actions={
-        streak > 0 ? (
-          <Badge tone="warning" className="gap-1.5 px-2.5 py-1 text-[13px]">
-            <Flame className="h-3.5 w-3.5" aria-hidden="true" />
-            {pluralize(streak, "day")} streak
-          </Badge>
-        ) : null
+        <>
+          <Button variant="ghost" size="sm" onClick={() => void load()} loading={loading}>
+            <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />
+            Refresh
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => navigate("/progress")}>
+            <TrendingUp className="h-3.5 w-3.5" aria-hidden="true" />
+            Progress
+          </Button>
+        </>
       }
     >
-      {isOffline && (
-        <Card className="mb-5 border-warning/40 bg-warning/5">
-          <CardContent className="flex items-center gap-3 p-4">
-            <PlugZap className="h-4 w-4 shrink-0 text-warning" aria-hidden="true" />
-            <div className="min-w-0 flex-1 text-[13px]">
-              <p className="font-medium text-foreground">The BandReady sidecar isn&apos;t responding.</p>
-              <p className="text-muted-foreground">
-                Your progress and plan can&apos;t load until it comes back.
-              </p>
-            </div>
-            <Button variant="outline" size="sm" onClick={() => void refresh()}>
-              Retry
+      {actionError && (
+        <Card className="mb-4 border-destructive/40 bg-destructive/[0.06]">
+          <CardContent className="flex items-start gap-3 p-4">
+            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" aria-hidden="true" />
+            <p className="min-w-0 flex-1 text-[13px] text-foreground">{actionError}</p>
+            <Button variant="ghost" size="sm" onClick={clearActionError}>
+              Dismiss
             </Button>
           </CardContent>
         </Card>
       )}
 
-      {loading && !summary ? (
-        <div className="grid gap-4 lg:grid-cols-2">
-          <SkeletonCard lines={3} className="lg:col-span-2" />
-          <SkeletonCard lines={2} />
-          <SkeletonCard lines={2} />
-        </div>
+      {!initialized || (loading && summary === null && error === null) ? (
+        <LoadingDashboard />
+      ) : error !== null ? (
+        <Card>
+          <CardContent className="p-0">
+            <EmptyState
+              icon={error.offline ? PlugZap : AlertCircle}
+              title={
+                error.offline
+                  ? "The BandReady sidecar isn't responding"
+                  : "Your dashboard could not be loaded"
+              }
+              description={
+                error.offline
+                  ? "Your plan and progress live in the local sidecar process. Nothing is lost — it just needs to come back."
+                  : error.detail
+              }
+              action={
+                <Button onClick={() => void load()} loading={loading}>
+                  <RefreshCw className="h-4 w-4" aria-hidden="true" />
+                  Try again
+                </Button>
+              }
+            />
+          </CardContent>
+        </Card>
+      ) : summary === null ? (
+        <Card>
+          <CardContent className="p-0">
+            <EmptyState
+              icon={Sparkles}
+              title="Let's set up your preparation"
+              description="Tell BandReady your target band, exam date and weekly time budget and it will build a day-by-day plan."
+              action={<Button onClick={() => navigate("/onboarding")}>Start setup</Button>}
+            />
+          </CardContent>
+        </Card>
       ) : (
-        <div className="grid gap-4 lg:grid-cols-2">
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle>Today&apos;s plan</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {todaysPlan.length === 0 ? (
-                <EmptyState
-                  icon={ListChecks}
-                  title="No study plan yet"
-                  description="Take the placement test and BandReady will build a plan around your target band and exam date."
-                  action={<Button onClick={() => navigate("/progress")}>Set up my plan</Button>}
-                />
-              ) : (
-                <ul className="divide-y divide-border">
-                  {todaysPlan.map((session) => (
-                    <li key={session.id} className="flex items-center gap-3 py-2.5 first:pt-0">
-                      <span className="min-w-0 flex-1 truncate text-sm">{session.title}</span>
-                      {session.minutes !== undefined && (
-                        <span className="text-[11px] text-muted-foreground">
-                          {session.minutes} min
-                        </span>
-                      )}
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        disabled={!session.route}
-                        onClick={() => session.route && navigate(session.route)}
-                      >
-                        Start
-                      </Button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Band estimate</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {bands.overall === null ? (
-                <p className="text-[13px] text-muted-foreground">
-                  Complete your first scored practice to see a band estimate.
-                </p>
-              ) : (
-                <div className="flex items-center gap-6">
-                  <BandScore band={bands.overall} size="md" label="Overall" />
-                  <div className="grid flex-1 grid-cols-2 gap-2">
-                    {SKILLS.map(([key, label]) =>
-                      bands[key] === null ? (
-                        <span key={key} className="text-[13px] text-muted-foreground">
-                          {label} —
-                        </span>
-                      ) : (
-                        <BandScore
-                          key={key}
-                          band={bands[key] as number}
-                          size="sm"
-                          label={label}
-                          className="justify-self-start"
-                        />
-                      ),
-                    )}
-                  </div>
+        <div className="space-y-4">
+          {summary.needs_placement && (
+            <Card className="border-primary/40 bg-primary/[0.05]">
+              <CardContent className="flex flex-wrap items-center gap-3 p-4">
+                <Sparkles className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                <div className="min-w-0 flex-1">
+                  <p className="text-[13px] font-medium text-foreground">
+                    Your band estimates are self-rated so far.
+                  </p>
+                  <p className="text-[13px] text-muted-foreground">
+                    A ~30-minute placement test — or three scored attempts per skill — firms
+                    them up and sharpens the plan.
+                  </p>
                 </div>
-              )}
-            </CardContent>
-          </Card>
+                <Button size="sm" onClick={() => navigate("/onboarding")}>
+                  Take the placement test
+                </Button>
+              </CardContent>
+            </Card>
+          )}
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Exam countdown</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {examDate ? (
-                <div className="flex items-center gap-3">
-                  <CalendarClock className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
-                  <div>
-                    <p className="text-sm font-semibold tabular">
-                      {pluralize(Math.max(daysUntil(examDate), 0), "day")} to your test
-                    </p>
-                    <p className="text-[13px] text-muted-foreground">
-                      Target band {formatBand(targetBand)}
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <p className="text-[13px] text-muted-foreground">
-                  No exam date set. Add one in Settings and BandReady will pace your plan to it.
-                </p>
-              )}
-            </CardContent>
-          </Card>
+          {summary.milestones_earned.length > 0 && (
+            <Card className="border-success/40 bg-success/[0.06]">
+              <CardContent className="flex flex-wrap items-center gap-2 p-4 text-[13px]">
+                <span className="font-medium text-foreground">Milestone reached:</span>
+                {summary.milestones_earned.map((id) => (
+                  <Badge key={id} tone="success">
+                    {id.replace(/-/g, " ")}
+                  </Badge>
+                ))}
+              </CardContent>
+            </Card>
+          )}
+
+          <div className="grid gap-4 lg:grid-cols-3">
+            <div className="space-y-4 lg:col-span-2">
+              <TodaySessionCard
+                session={session}
+                planId={summary.plan_id}
+                hint={plan?.hint}
+                busy={busy}
+                generating={generating}
+                onGenerate={() => void generatePlan()}
+                onStart={(id) => void startSession(id)}
+                onComplete={(id) => void completeSession(id)}
+                onSkip={(id) => void skipSession(id)}
+              />
+              <FocusCard
+                callouts={summary.callouts}
+                weakest={summary.weakest_criteria}
+                dismissed={dismissing}
+                onDismiss={(id) => void dismissCallout(id)}
+              />
+              <div className="grid gap-4 sm:grid-cols-2">
+                <VocabCard vocab={summary.vocab} />
+                <ExamCountdownCard profile={summary.profile} />
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <EstimateTiles summary={summary} />
+              <StreakCard streak={summary.streak} />
+            </div>
+          </div>
         </div>
       )}
     </PageShell>

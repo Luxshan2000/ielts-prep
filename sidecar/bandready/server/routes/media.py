@@ -22,8 +22,9 @@ from __future__ import annotations
 import logging
 import mimetypes
 import re
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any
 
 from fastapi import APIRouter, Depends, Request, Response
 from fastapi.responses import FileResponse, StreamingResponse
@@ -276,7 +277,7 @@ def evict_cache(session: Session, budget_mb: int | None = None) -> dict[str, Any
         try:
             if path.is_file():
                 path.unlink()
-        except OSError as exc:  # noqa: PERF203
+        except OSError as exc:
             _log.warning("could not evict %s: %s", path, exc)
             continue
         session.execute(
@@ -315,7 +316,7 @@ def pron_reference(
     phrase = (request.query_params.get("text") or text_ or "").strip()
     if not phrase:
         raise ApiError(422, "validation_error", "text= is required")
-    digest = sha1(phrase.encode("utf-8")).hexdigest()  # noqa: S324 — cache key, not a secret
+    digest = sha1(phrase.encode("utf-8")).hexdigest()
     path = _safe_join(media_dir(), "pron", "ref", voice, f"{digest}.wav")
     if not path.is_file():
         raise ApiError(
@@ -353,4 +354,4 @@ def get_media(
     return serve_file(resolved, request, filename=f"{kind}/{path}")
 
 
-__all__ = ["router", "evict_cache", "serve_file", "resolve_rel_path", "is_user_recording"]
+__all__ = ["evict_cache", "is_user_recording", "resolve_rel_path", "router", "serve_file"]

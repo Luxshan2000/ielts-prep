@@ -849,6 +849,36 @@ def test_teardown_flattens_turns_before_marking_complete(client: Any) -> None:
         assert envelope.ended_at is not None
 
 
+def test_transcript_seam_installs_turns_over_http(client: Any) -> None:
+    """The Playwright suite seeds a scored session through this mock-only route.
+
+    It is the out-of-process twin of ``runtime.inject_transcript``: a browser can
+    never reach the runtime object, so a speaking report has to be seedable over
+    HTTP. Registered only under ``BANDREADY_ENABLE_MOCK=1``.
+    """
+    session_id = client.post(
+        "/api/v1/speaking/sessions", json={"mode": "full_mock"}
+    ).json()["session_id"]
+
+    empty = client.post(f"/api/v1/speaking/sessions/{session_id}/transcript", json={"turns": []})
+    assert empty.status_code == 422, "an empty transcript is a client error, not a silent no-op"
+
+    installed = client.post(
+        f"/api/v1/speaking/sessions/{session_id}/transcript", json=TRANSCRIPT
+    )
+    assert installed.status_code == 200
+    assert installed.json()["turns"] == len(TRANSCRIPT["turns"])
+
+    ended = client.post(f"/api/v1/speaking/sessions/{session_id}/end", json={"score": False})
+    assert ended.json()["turns"] == len(TRANSCRIPT["turns"])
+
+    turns = client.get(f"/api/v1/speaking/sessions/{session_id}/transcript").json()["turns"]
+    assert [t["text"] for t in turns] == [t["text"] for t in TRANSCRIPT["turns"]]
+
+    gone = client.post("/api/v1/speaking/sessions/ss_not_a_session/transcript", json=TRANSCRIPT)
+    assert gone.status_code == 404
+
+
 def test_finalizing_twice_never_wipes_the_record(client: Any) -> None:
     """The runner's finally-block and `POST …/end` both call finalize — order-independent."""
     from sqlalchemy import func, select

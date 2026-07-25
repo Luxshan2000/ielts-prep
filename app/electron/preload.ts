@@ -15,10 +15,15 @@ export interface SidecarInfo {
 export type WindowOp = 'minimize' | 'maximize' | 'close';
 
 const bridge = {
+  /** Host OS, so the renderer can pick the right window chrome without sniffing the UA. */
+  platform: process.platform as 'darwin' | 'win32' | 'linux',
   /** Always reads live state from main — safe to re-call after a sidecar restart. */
   getSidecarInfo: (): Promise<SidecarInfo> => ipcRenderer.invoke('sidecar:info'),
   /** https: URLs only; resolves false when main refuses. */
   openExternal: (url: string): Promise<boolean> => ipcRenderer.invoke('shell:openExternal', url),
+  /** Reveals a file/folder in Finder/Explorer. Resolves false when main refuses. */
+  showItemInFolder: (path: string): Promise<boolean> =>
+    ipcRenderer.invoke('shell:showItemInFolder', path),
   /** Custom window chrome (frameless Windows/Linux). Returns isMaximized after 'maximize'. */
   windowControl: (op: WindowOp): Promise<boolean> => ipcRenderer.invoke('window:control', op),
   /** The app's semver, e.g. "0.1.0". */

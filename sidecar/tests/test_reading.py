@@ -321,7 +321,7 @@ def test_band_tables_cover_every_raw_score_exactly_once() -> None:
         covered: list[int] = []
         for low, high, _band in table:
             covered.extend(range(low, high + 1))
-        assert sorted(covered) == list(range(0, 41))
+        assert sorted(covered) == list(range(41))
 
 
 @pytest.mark.parametrize(

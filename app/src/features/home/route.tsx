@@ -6,7 +6,7 @@ export default defineFeatureRoute({
   path: "/",
   label: "Home",
   icon: Home,
-  order: 0,
+  order: 10,
   end: true,
   element: <HomePage />,
 });

@@ -31,8 +31,16 @@ EXEMPT_PATHS = frozenset({"/health"})
 LOOPBACK_HOSTS = frozenset({"127.0.0.1", "localhost", "[::1]", "::1", "0.0.0.0"})
 
 # Dev + packaged renderer origins. `file://` sends `Origin: null`.
+#
+# 5273 is the renderer's actual dev port (`app/vite.config.ts` pins it with
+# `strictPort: true`, and `scripts/dev.mjs` defaults to it); 5173/4173 are Vite's own
+# defaults, kept so `vite`/`vite preview` run by hand still reach the sidecar. These
+# feed the CORS middleware, which — unlike `origin_is_allowed` below — needs the exact
+# origin string, so a dev server on any *other* port must be added here.
 ALLOWED_ORIGIN_SCHEMES = ("app://", "file://")
 DEV_ORIGINS = (
+    "http://localhost:5273",
+    "http://127.0.0.1:5273",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:4173",

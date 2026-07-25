@@ -1,0 +1,112 @@
+name: CI
+
+# Two independent jobs, one per half of the repo. Neither needs the other, so a broken
+# frontend still tells you whether the sidecar is green.
+#
+# NOTE ON THE VOICE EXTRA: `sidecar/pyproject.toml` declares an optional `voice` extra
+# (pipecat-ai with the silero/webrtc/openai/whisper/kokoro extras, plus faster-whisper).
+# That pulls in torch and several hundred megabytes of wheels and model runtimes, and every
+# test that needs it is skipped when it is absent. CI therefore installs only `--extra dev`.
+# The voice pipeline is covered locally and by the packaging job in the release workflow.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # Keeps every test and the migration smoke test off the network and out of the
+  # developer-shaped default data dir.
+  BANDREADY_ENABLE_MOCK: "1"
+
+jobs:
+  sidecar:
+    name: sidecar (python 3.11)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: sidecar
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: sidecar/uv.lock
+
+      - name: Set up Python 3.11
+        run: uv python install 3.11
+
+      - name: Install dependencies (dev extra only — see the note at the top of this file)
+        run: uv sync --extra dev --frozen
+
+      - name: Migration smoke test
+        # A fresh database must reach head and stay there: `upgrade head` twice in a row
+        # catches a revision that is not idempotent, and the table count catches a migration
+        # that ran but created nothing.
+        run: |
+          uv run python - <<'PY'
+          import tempfile, os
+          os.environ["BANDREADY_DATA_DIR"] = tempfile.mkdtemp(prefix="bandready-ci-")
+          from sqlalchemy import inspect
+          from bandready.db.engine import get_engine, run_migrations
+          run_migrations()
+          run_migrations()  # idempotent: a second upgrade is a no-op
+          tables = sorted(inspect(get_engine()).get_table_names())
+          print(f"{len(tables)} tables: {', '.join(tables)}")
+          assert "alembic_version" in tables, "alembic never stamped a revision"
+          assert len(tables) >= 30, f"only {len(tables)} tables — a migration did not run"
+          PY
+
+      - name: pytest
+        run: uv run pytest -q
+
+      - name: ruff
+        run: uv run ruff check bandready tests
+
+  app:
+    name: app (node 20)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # @playwright/test is a devDependency, but this job never runs the E2E suite, so there
+      # is no reason to pull ~300 MB of browser binaries on every install.
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enable corepack and pin pnpm
+        # The version must match `packageManager` in the root package.json.
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.12.0 --activate
+          pnpm --version
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm --filter bandready-app exec tsc --noEmit -p tsconfig.json
+
+      - name: Unit tests
+        run: pnpm --filter bandready-app test
+
+      - name: Build the renderer bundle
+        run: pnpm --filter bandready-app build

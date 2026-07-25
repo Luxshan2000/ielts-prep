@@ -1,0 +1,20 @@
+{"id":"core_mp_bit_beat","a":"bit","b":"beat","contrast":"ɪ–iː","sentence_a":"I waited a bit longer.","sentence_b":"I beat my own record.","tags":["vowel","length","core-pack"]}
+{"id":"core_mp_sit_seat","a":"sit","b":"seat","contrast":"ɪ–iː","sentence_a":"Please sit near the window.","sentence_b":"Please take the seat near the window.","tags":["vowel","length","core-pack"]}
+{"id":"core_mp_cat_cut","a":"cat","b":"cut","contrast":"æ–ʌ","sentence_a":"The cat came back.","sentence_b":"The cut healed slowly.","tags":["vowel","core-pack"]}
+{"id":"core_mp_ran_run","a":"ran","b":"run","contrast":"æ–ʌ","sentence_a":"She ran the whole way.","sentence_b":"She will run the whole way.","tags":["vowel","core-pack"]}
+{"id":"core_mp_van_ban","a":"van","b":"ban","contrast":"v–b","sentence_a":"They loaded the van.","sentence_b":"They lifted the ban.","tags":["consonant","voicing","core-pack"]}
+{"id":"core_mp_vote_boat","a":"vote","b":"boat","contrast":"v–b","sentence_a":"Every vote was counted.","sentence_b":"Every boat was counted.","tags":["consonant","voicing","core-pack"]}
+{"id":"core_mp_rice_rise","a":"rice","b":"rise","contrast":"s–z","sentence_a":"The price of rice is stable.","sentence_b":"The prices continue to rise.","tags":["consonant","voicing","final","core-pack"]}
+{"id":"core_mp_cold_called","a":"cold","b":"called","contrast":"əʊ–ɔː","sentence_a":"The room felt cold.","sentence_b":"The office called twice.","tags":["vowel","core-pack"]}
+{"id":"core_mp_coat_caught","a":"coat","b":"caught","contrast":"əʊ–ɔː","sentence_a":"He left his coat behind.","sentence_b":"He caught the last train.","tags":["vowel","core-pack"]}
+{"id":"core_mp_full_fool","a":"full","b":"fool","contrast":"ʊ–uː","sentence_a":"The bus was completely full.","sentence_b":"Nobody likes to look a fool.","tags":["vowel","length","core-pack"]}
+{"id":"core_mp_pull_pool","a":"pull","b":"pool","contrast":"ʊ–uː","sentence_a":"Pull the door towards you.","sentence_b":"The pool opens at seven.","tags":["vowel","length","core-pack"]}
+{"id":"core_mp_fan_pan","a":"fan","b":"pan","contrast":"f–p","sentence_a":"Switch the fan on.","sentence_b":"Put the pan on.","tags":["consonant","core-pack"]}
+{"id":"core_mp_shop_chop","a":"shop","b":"chop","contrast":"ʃ–tʃ","sentence_a":"The shop closes at six.","sentence_b":"Chop the vegetables finely.","tags":["consonant","affricate","core-pack"]}
+{"id":"core_mp_wash_watch","a":"wash","b":"watch","contrast":"ʃ–tʃ","sentence_a":"I wash the dishes after dinner.","sentence_b":"I watch the news after dinner.","tags":["consonant","affricate","final","core-pack"]}
+{"id":"core_mp_they_day","a":"they","b":"day","contrast":"ð–d","sentence_a":"They arrived early.","sentence_b":"Day one was exhausting.","tags":["consonant","fricative","core-pack"]}
+{"id":"core_mp_breathe_breed","a":"breathe","b":"breed","contrast":"ð–d","sentence_a":"It is hard to breathe here.","sentence_b":"They breed horses here.","tags":["consonant","fricative","final","core-pack"]}
+{"id":"core_mp_not_note","a":"not","b":"note","contrast":"ɒ–əʊ","sentence_a":"That is not the problem.","sentence_b":"She left a note about the problem.","tags":["vowel","core-pack"]}
+{"id":"core_mp_pen_pain","a":"pen","b":"pain","contrast":"e–eɪ","sentence_a":"Sign it with a pen.","sentence_b":"He described the pain clearly.","tags":["vowel","diphthong","core-pack"]}
+{"id":"core_mp_heart_hurt","a":"heart","b":"hurt","contrast":"ɑː–ɜː","sentence_a":"Exercise is good for the heart.","sentence_b":"My shoulder still hurt afterwards.","tags":["vowel","core-pack"]}
+{"id":"core_mp_art_heart","a":"art","b":"heart","contrast":"h (initial)","sentence_a":"The art gallery is free.","sentence_b":"The heart rate returned to normal.","tags":["consonant","initial","core-pack"]}

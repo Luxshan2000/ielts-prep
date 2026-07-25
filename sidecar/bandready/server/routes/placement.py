@@ -1057,7 +1057,7 @@ def _objective_band(correct: int, of: int) -> float:
     """8-question sampler conversion, scaled when the bank had fewer questions."""
     if of <= 0:
         return 3.5
-    scaled = int(round(correct / of * SAMPLER_QUESTIONS))
+    scaled = round(correct / of * SAMPLER_QUESTIONS)
     return OBJECTIVE_BAND.get(max(0, min(SAMPLER_QUESTIONS, scaled)), 5.5)
 
 

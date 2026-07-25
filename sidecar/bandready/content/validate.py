@@ -12,9 +12,10 @@ import hashlib
 import json
 import logging
 import re
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 
@@ -427,7 +428,7 @@ def validate_rows(root: Path, report: PackReport) -> dict[str, list[dict[str, An
                     loc = ".".join(str(x) for x in first.get("loc", ()))
                     report.error(f"data/{name}:{lineno}: {loc or '<row>'}: {first.get('msg')}")
                     continue
-                row_id = str(getattr(row, "id"))
+                row_id = str(row.id)
                 if row_id in ids:
                     report.error(f"data/{name}:{lineno}: duplicate id {row_id!r}")
                     continue

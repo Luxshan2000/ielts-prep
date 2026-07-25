@@ -902,7 +902,12 @@ export const useSettingsFeatureStore = create<SettingsFeatureState>((set, get) =
     const applesilicon = get().detectReport?.platform?.apple_silicon;
     return get().presets.filter((preset) => {
       if (!preset.modalities?.includes(modality)) return false;
-      if (preset.hidden) return false;
+      // `hidden` presets are the mock adapters (03 §2.3 / 14 §7.1). The sidecar
+      // already gates them: `GET /providers/presets` only lists them when it was
+      // started with BANDREADY_ENABLE_MOCK=1. Filtering them a second time here
+      // made the documented test seam unselectable and, once one was configured,
+      // rendered it as "<id> (not in this build)" — which was simply untrue.
+      // A shipped build never receives them, so nothing leaks into the product.
       const macOnly =
         Array.isArray(preset.platforms) &&
         preset.platforms.length > 0 &&

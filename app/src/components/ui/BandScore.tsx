@@ -48,6 +48,30 @@ function useCountUp(target: number, enabled: boolean, durationMs = 900): number 
 }
 
 /**
+ * Announce a revealed band once, shortly after mount.
+ *
+ * `role="img"` + `aria-label` names the badge for anyone who navigates to it, but a
+ * score that *arrives* — the moment a report finishes scoring — is exactly the kind
+ * of change a screen reader should volunteer. A live region only fires for content
+ * that changes *after* it exists, so the region is rendered empty first and filled
+ * on the next tick. Returns "" when there is nothing to announce.
+ */
+function useRevealAnnouncement(text: string, enabled: boolean): string {
+  const [announced, setAnnounced] = useState("");
+
+  useEffect(() => {
+    if (!enabled) {
+      setAnnounced("");
+      return;
+    }
+    const id = setTimeout(() => setAnnounced(text), 60);
+    return () => clearTimeout(id);
+  }, [text, enabled]);
+
+  return announced;
+}
+
+/**
  * The band badge. Color encodes the 12 §8.2 bucket, but the numeral is ALWAYS
  * rendered — color is never the only encoding (the light amber bucket sits at
  * 2.7:1 and the numeral is its required relief).
@@ -60,10 +84,20 @@ export function BandScore({ band, size = "md", label, reveal = false, className 
   const text = formatBand(shown);
 
   const a11y = `Band ${formatBand(band)}${label ? ` — ${label}` : ""}`;
+  const announcement = useRevealAnnouncement(a11y, reveal);
+
+  /* Rendered alongside every variant; empty unless this badge is a reveal. */
+  const liveRegion = reveal ? (
+    <span className="sr-only" aria-live="polite" aria-atomic="true">
+      {announcement}
+    </span>
+  ) : null;
 
   if (size === "sm") {
     return (
+      <>
       <span
+        role="img"
         aria-label={a11y}
         data-band-bucket={bucket}
         className={cn(
@@ -76,12 +110,16 @@ export function BandScore({ band, size = "md", label, reveal = false, className 
         {label && <span className="font-medium opacity-80">{label}</span>}
         <span>{text}</span>
       </span>
+      {liveRegion}
+      </>
     );
   }
 
   if (size === "md") {
     return (
+      <>
       <span
+        role="img"
         aria-label={a11y}
         data-band-bucket={bucket}
         className={cn("inline-flex flex-col items-center gap-1", className)}
@@ -97,11 +135,15 @@ export function BandScore({ band, size = "md", label, reveal = false, className 
         </span>
         {label && <span className="text-[11px] text-muted-foreground">{label}</span>}
       </span>
+      {liveRegion}
+      </>
     );
   }
 
   return (
+    <>
     <span
+      role="img"
       aria-label={a11y}
       data-band-bucket={bucket}
       className={cn("inline-flex flex-col items-center gap-2", className)}
@@ -117,5 +159,7 @@ export function BandScore({ band, size = "md", label, reveal = false, className 
       </span>
       {label && <span className="text-[13px] text-muted-foreground">{label}</span>}
     </span>
+    {liveRegion}
+    </>
   );
 }

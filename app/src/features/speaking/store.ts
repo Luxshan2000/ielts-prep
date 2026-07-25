@@ -9,6 +9,7 @@
 
 import { create } from "zustand";
 import { api, ApiError } from "@/lib/api";
+import { friendlyMessage } from "@/lib/errors";
 import type { SpeakingPhase } from "@/stores";
 
 // ------------------------------------------------------------------- types ---
@@ -89,6 +90,8 @@ export interface ReportError {
   quote: string;
   issue: string;
   better: string;
+  /** Set server-side by the 04 §6.4 step-4 quote anchoring. */
+  anchored?: boolean;
 }
 
 export interface VocabToBank {
@@ -180,12 +183,11 @@ function rememberMic(id: string | null): void {
 }
 
 function message(err: unknown, fallback: string): string {
-  if (err instanceof ApiError) {
-    return err.isOffline
-      ? "Couldn't reach the practice engine. It may still be starting — wait a few seconds and retry."
-      : err.detail || fallback;
-  }
-  return err instanceof Error ? err.message || fallback : fallback;
+  return friendlyMessage(
+    err,
+    fallback,
+    "Couldn't reach the practice engine. It may still be starting — wait a few seconds and retry.",
+  );
 }
 
 /** Only Full Mock and Single Part produce band scores (04 §2). */
@@ -218,6 +220,8 @@ interface SpeakingState {
   // ---- topic cards -------------------------------------------------------
   cards: SpeakingCard[];
   cardsLoading: boolean;
+  /** Why the cue-card bank is empty, when it is empty because of a failure. */
+  cardsError: string | null;
   loadCards: (part?: number) => Promise<void>;
 
   // ---- session lifecycle -------------------------------------------------
@@ -227,12 +231,16 @@ interface SpeakingState {
   /** Set while `POST …/score` runs after hang-up. */
   scoring: boolean;
   scoreError: string | null;
+  /** What the teardown reported, so the wrap-up screen can explain itself. */
+  lastEnd: { turns: number; scoreable: boolean } | null;
 
   start: () => Promise<StartedSession | null>;
   /** Load (or reload) the descriptor for a session id — survives a page reload. */
   adopt: (sessionId: string) => Promise<StartedSession | null>;
   /** Hang up, then score when the mode is scoreable. Resolves with a report id. */
   end: (sessionId: string, opts?: { score?: boolean }) => Promise<string | null>;
+  /** `POST …/score` on its own — idempotent, so it doubles as the retry. */
+  score: (sessionId: string, opts?: { force?: boolean }) => Promise<string | null>;
   clearSession: () => void;
 
   // ---- history -----------------------------------------------------------
@@ -264,22 +272,33 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
   loadEngine: async () => {
     try {
       set({ engine: await api.get<EngineInfo>("/api/v1/speaking/engine") });
-    } catch {
-      // The pre-flight screen degrades to "unknown" rather than blocking a start.
+    } catch (err) {
+      // The pre-flight screen degrades to "unknown" rather than blocking a start,
+      // but the reason still belongs in the log — this is the first thing to check
+      // when a learner reports "the examiner never speaks".
+      console.warn("[BandReady] could not read the speaking engine info", err);
       set({ engine: null });
     }
   },
 
   cards: [],
   cardsLoading: false,
+  cardsError: null,
   loadCards: async (part) => {
-    set({ cardsLoading: true });
+    set({ cardsLoading: true, cardsError: null });
     try {
       const query = part ? `?part=${part}&limit=100` : "?limit=100";
       const res = await api.get<{ items: SpeakingCard[] }>(`/api/v1/speaking/cards${query}`);
-      set({ cards: res.items ?? [], cardsLoading: false });
-    } catch {
-      set({ cards: [], cardsLoading: false });
+      set({ cards: res.items ?? [], cardsLoading: false, cardsError: null });
+    } catch (err) {
+      // An empty bank and a bank that FAILED to load look identical on screen, and
+      // "no cue cards installed" is exactly the wrong advice when the real cause is
+      // a 500 or a restarting sidecar. Keep the reason so the picker can say it.
+      set({
+        cards: [],
+        cardsLoading: false,
+        cardsError: message(err, "The cue-card bank could not be loaded."),
+      });
     }
   },
 
@@ -288,10 +307,11 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
   session: null,
   scoring: false,
   scoreError: null,
+  lastEnd: null,
 
   start: async () => {
     const { activity, part, cardSetId, topic } = get();
-    set({ starting: true, startError: null, notes: "" });
+    set({ starting: true, startError: null, notes: "", lastEnd: null, scoreError: null });
     const payload: Record<string, unknown> = { mode: activity };
     if (activity === "single_part" || activity === "topic_drill") payload.part = part;
     if (activity === "full_mock" && cardSetId) payload.card_set_id = cardSetId;
@@ -354,16 +374,22 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
       set({ scoreError: message(err, "Couldn't end the session cleanly.") });
     }
 
+    set({ lastEnd: { turns, scoreable: wantsScore } });
+
     if (!wantsScore || turns === 0) {
       set({ scoring: false });
       void get().loadHistory();
       return null;
     }
+    return get().score(sessionId);
+  },
 
+  score: async (sessionId, opts = {}) => {
     set({ scoring: true, scoreError: null });
     try {
+      const query = opts.force ? "?force=true" : "";
       const report = await api.post<SpeakingReport>(
-        `/api/v1/speaking/sessions/${encodeURIComponent(sessionId)}/score`,
+        `/api/v1/speaking/sessions/${encodeURIComponent(sessionId)}/score${query}`,
       );
       set({ scoring: false });
       void get().loadHistory();
@@ -377,7 +403,8 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
     }
   },
 
-  clearSession: () => set({ session: null, scoring: false, scoreError: null, notes: "" }),
+  clearSession: () =>
+    set({ session: null, scoring: false, scoreError: null, notes: "", lastEnd: null }),
 
   history: [],
   historyLoading: false,
@@ -417,8 +444,9 @@ export async function fetchTranscript(sessionId: string): Promise<TranscriptTurn
     const record = await api.get<SessionRecord>(base);
     const inline = record.transcript?.turns ?? record.turns;
     if (inline && inline.length > 0) return inline;
-  } catch {
-    /* fall through to the sub-resource */
+  } catch (err) {
+    // Expected on builds where the session record does not inline turns.
+    console.debug("[BandReady] session record carried no transcript", err);
   }
   try {
     const res = await api.get<{ turns?: TranscriptTurn[] } | TranscriptTurn[]>(
@@ -426,7 +454,36 @@ export async function fetchTranscript(sessionId: string): Promise<TranscriptTurn
     );
     if (Array.isArray(res)) return res;
     return res?.turns ?? [];
-  } catch {
+  } catch (err) {
+    console.debug("[BandReady] no transcript sub-resource for this session", err);
+    return [];
+  }
+}
+
+/** One row of the recorder's `manifest.json` (`voice/recorder.py::write_turn`). */
+export interface TurnRecording {
+  /** 1-based, matching the `turn-NNN.wav` filename. */
+  turn_index: number;
+  file: string;
+  duration_ms?: number;
+  sample_rate?: number;
+  card_id?: string | null;
+}
+
+/**
+ * Audio-only fallback for the report's replay controls: the recorder writes
+ * `<media>/speaking/{session_id}/manifest.json` at teardown, and the media route
+ * accepts a bearer token for XHR reads. Returns `[]` when nothing was recorded.
+ */
+export async function fetchTurnRecordings(sessionId: string): Promise<TurnRecording[]> {
+  try {
+    const res = await api.get<{ turns?: TurnRecording[] }>(
+      `/api/v1/media/speaking/${encodeURIComponent(sessionId)}/manifest.json`,
+    );
+    return (res?.turns ?? []).filter((t) => Boolean(t?.file));
+  } catch (err) {
+    // No manifest means nothing was recorded (recording is opt-in) — not an error.
+    console.debug("[BandReady] no recording manifest for this session", err);
     return [];
   }
 }
@@ -446,7 +503,8 @@ export async function fetchSuggestions(
         entry.source?.session_id === sessionId ||
         wanted.has((entry.lemma ?? entry.headword ?? "").toLowerCase()),
     );
-  } catch {
+  } catch (err) {
+    console.warn("[BandReady] could not load this session's vocabulary suggestions", err);
     return [];
   }
 }

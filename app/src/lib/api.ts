@@ -15,6 +15,78 @@ export interface SidecarContract {
   token: string;
 }
 
+// -------------------------------------------------------------- transport ---
+
+/**
+ * Reachability observers. Every request reports whether the *transport* worked —
+ * a 4xx/5xx still means the sidecar answered, so only a thrown fetch (status 0)
+ * counts as "down". The shell subscribes to raise the offline banner the instant
+ * a real request fails, instead of waiting for the next health poll.
+ */
+type ReachabilityListener = (reachable: boolean) => void;
+
+const reachabilityListeners = new Set<ReachabilityListener>();
+let lastReachable: boolean | null = null;
+
+export function onSidecarReachability(cb: ReachabilityListener): () => void {
+  reachabilityListeners.add(cb);
+  return () => reachabilityListeners.delete(cb);
+}
+
+function reportReachability(reachable: boolean): void {
+  if (lastReachable === reachable) return;
+  lastReachable = reachable;
+  for (const cb of reachabilityListeners) {
+    try {
+      cb(reachable);
+    } catch (err) {
+      console.error("[BandReady] reachability listener threw", err);
+    }
+  }
+}
+
+/**
+ * Provider-failure observers.
+ *
+ * A fresh install ships with a provider preset selected but nothing running behind
+ * it, so the first LLM/TTS-backed action a learner tries fails with a 502/503. Every
+ * feature store flattens that into its own message, which meant the fix (pick a
+ * provider in Settings) was never one click away. Reporting it here lets the shell
+ * raise a single banner with that link, no matter which screen tripped it.
+ *
+ * The classification is duplicated from `lib/errors.ts` rather than imported: that
+ * module imports `ApiError` from here, and a cycle through the transport layer is
+ * not worth saving four lines.
+ */
+type ProviderFailureListener = (error: ApiError) => void;
+
+const providerFailureListeners = new Set<ProviderFailureListener>();
+
+const PROVIDER_ERROR_CODES = new Set([
+  "provider_error",
+  "provider_not_configured",
+  "model_unavailable",
+  "engine_unavailable",
+]);
+
+export function onProviderFailure(cb: ProviderFailureListener): () => void {
+  providerFailureListeners.add(cb);
+  return () => providerFailureListeners.delete(cb);
+}
+
+function reportProviderFailure(error: ApiError): void {
+  if (!PROVIDER_ERROR_CODES.has(error.code) && error.status !== 502 && error.status !== 503) {
+    return;
+  }
+  for (const cb of providerFailureListeners) {
+    try {
+      cb(error);
+    } catch (err) {
+      console.error("[BandReady] provider-failure listener threw", err);
+    }
+  }
+}
+
 export class ApiError extends Error {
   constructor(
     public readonly status: number,
@@ -58,11 +130,20 @@ export async function getSidecarContract(): Promise<SidecarContract> {
     if (bridge?.getSidecarInfo) {
       try {
         const info = await bridge.getSidecarInfo();
-        if (info?.base_url && info?.token) {
-          return { baseUrl: stripTrailingSlash(info.base_url), token: info.token };
+        // `electron/preload.ts` returns camelCase `{baseUrl, token, status}`.
+        // Accept snake_case too so a bridge change cannot silently drop us back
+        // to the dev defaults — in a packaged app the port and token are random,
+        // so falling through would make EVERY request fail with no diagnostic.
+        const baseUrl = info?.baseUrl ?? info?.base_url;
+        if (baseUrl && info?.token) {
+          return { baseUrl: stripTrailingSlash(baseUrl), token: info.token };
         }
-      } catch {
-        /* fall through to env defaults */
+        console.warn(
+          "[BandReady] the Electron bridge returned no sidecar base URL/token; " +
+            "falling back to the dev defaults, which will not reach a packaged sidecar",
+        );
+      } catch (err) {
+        console.warn("[BandReady] could not read the sidecar contract from Electron", err);
       }
     }
     return envContract();
@@ -110,14 +191,22 @@ async function req<T>(path: string, init: RequestInit = {}): Promise<T> {
   try {
     res = await fetch(`${baseUrl}${path}`, { ...init, headers });
   } catch (err) {
+    // A thrown fetch is the only signal that the process itself is unreachable.
+    reportReachability(false);
     throw new ApiError(
       0,
       "sidecar_unreachable",
       err instanceof Error ? err.message : "the BandReady sidecar is not responding",
     );
   }
+  // The sidecar answered — even a 500 proves the transport is healthy.
+  reportReachability(true);
 
-  if (!res.ok) throw await toApiError(res);
+  if (!res.ok) {
+    const error = await toApiError(res);
+    reportProviderFailure(error);
+    throw error;
+  }
   if (res.status === 204 || res.headers.get("Content-Length") === "0") {
     return undefined as T;
   }
@@ -241,7 +330,17 @@ async function pollJob<R = unknown>(
 
     if (job.state === "done") return job.result as R;
     if (job.state === "error") {
-      throw new ApiError(500, job.error?.code ?? "job_failed", job.error?.detail ?? "job failed");
+      const error = new ApiError(
+        500,
+        job.error?.code ?? "job_failed",
+        job.error?.detail ?? "job failed",
+      );
+      // Every heavyweight provider call — essay evaluation, prompt generation,
+      // listening audio render — is a 202 + poll, so the failure arrives inside a
+      // 200 OK job document. Without this, the two paths a first-run learner is
+      // most likely to hit would never raise the provider banner.
+      reportProviderFailure(error);
+      throw error;
     }
     if (job.state === "cancelled") {
       throw new ApiError(409, "cancelled", "the job was cancelled");
@@ -286,6 +385,8 @@ export const api = {
 
   contract: getSidecarContract,
   reset: resetSidecarContract,
+  onReachability: onSidecarReachability,
+  onProviderFailure,
 };
 
 export type Api = typeof api;

@@ -20,14 +20,19 @@
   --sidebar-foreground: 240 10% 8%;
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
-  --success: 142 71% 40%;
-  --warning: 38 92% 50%;
+  /* WCAG AA (12 §1): 142 71% 40% / 38 92% 50% render 2.9:1 and 2.1:1 against a
+     white card, and `text-success` / `text-warning` are used for real 13px prose in
+     47 + 42 places. Deepened to the accessible equivalents (the Primer-style
+     #1a7f37 / #a56a05 register), which also raises white-on-fill for the progress
+     bars and dots that use them solid. The dark theme already passed and is unchanged. */
+  --success: 142 72% 31%;
+  --warning: 38 96% 33%;
 
   /* BandReady extension tokens (§1.1) */
   --band-low: 0 72% 45%; /* below 5.0 */
-  --band-mid: 38 92% 44%; /* 5.0–5.5 */
+  --band-mid: 38 96% 33%; /* 5.0–5.5 — was 44%: white-on-amber measured 2.75:1 */
   --band-good: 217 80% 46%; /* 6.0–6.5 */
-  --band-strong: 170 85% 30%; /* 7.0+ */
+  --band-strong: 170 85% 28%; /* 7.0+ — 30% measured 4.1:1, short of AA at 13px */
   --recording: 0 72% 51%;
 
   /* Heatmap ramp (§6.7): 5-step sequential single-hue ramp of the primary,
@@ -56,12 +61,16 @@
   --accent-foreground: 0 0% 96%;
   --sidebar: 240 6% 5%; /* sidebar darker than content — OpenVoiceUI signature */
   --sidebar-foreground: 0 0% 96%;
-  --destructive: 0 63% 54%;
-  --destructive-foreground: 0 0% 100%;
+  /* 0 63% 54% measured 3.87:1 on the dark card, and `text-destructive` carries
+     every 13px error message. Lightened past AA; the foreground flips to near-black
+     so the solid destructive Button keeps 5:1 — which is how the dark theme already
+     treats `--primary-foreground`. */
+  --destructive: 0 68% 60%;
+  --destructive-foreground: 240 10% 6%;
   --success: 142 60% 48%;
   --warning: 38 92% 55%;
 
-  --band-low: 0 54% 49%;
+  --band-low: 0 60% 60%; /* 49% measured 3.29:1 on the dark card */
   --band-mid: 39 73% 43%;
   --band-good: 220 82% 65%;
   --band-strong: 168 63% 40%;

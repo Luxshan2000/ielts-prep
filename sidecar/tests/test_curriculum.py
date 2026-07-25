@@ -28,8 +28,8 @@ from bandready.content import loader
 from bandready.content.validate import PackError, validate_pack
 from bandready.curriculum import adaptive
 from bandready.curriculum.estimate import (
-    Attempt,
     SKILLS,
+    Attempt,
     compute_estimates,
     confidence_for,
     current_estimates,
@@ -239,7 +239,7 @@ def test_plan_is_deterministic_for_the_same_seed(db: Path) -> None:
     }
     first = build_plan(profile, estimates, today=today, seed=42)
     second = build_plan(profile, estimates, today=today, seed=42)
-    strip = lambda plan: [  # noqa: E731 — ids are ULIDs and intentionally differ
+    strip = lambda plan: [
         {k: v for k, v in s.items() if k != "session_id"} for s in plan["sessions"]
     ]
     assert strip(first) == strip(second)
@@ -439,7 +439,8 @@ def test_estimator_reads_the_view_and_appends_band_estimates(db: Path) -> None:
         assert skills == {*SKILLS, "overall"}
 
         view = s.execute(
-            text("SELECT skill, band FROM current_band_estimates WHERE profile_id = :pid")
+            text("SELECT skill, band FROM current_band_estimates WHERE profile_id = :pid"),
+            {"pid": PROFILE_ID},
         ).all()
         assert len(view) == 5
 
@@ -590,7 +591,7 @@ def test_gra_low_streak_fires_and_rewrites_the_micro_drill(db: Path) -> None:
             text("SELECT blocks_json FROM plan_sessions WHERE id = :id"),
             {"id": firing["sessions_changed"][0]},
         ).scalar()
-        drill = [b for b in json.loads(changed) if b["kind"] == "micro_drill"][0]
+        drill = next(b for b in json.loads(changed) if b["kind"] == "micro_drill")
         assert drill["activity"] == "gra_complex_sentences"
 
         # Cooldown: a second evaluation the same day does not re-fire the rule.

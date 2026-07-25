@@ -6,6 +6,7 @@
     POST   /api/v1/speaking/sessions/{id}/offer     SDP offer → answer
     PATCH  /api/v1/speaking/sessions/{id}/offer     trickle ICE, SAME url (gotcha #4)
     WS     /api/v1/speaking/sessions/{id}/events    ?ticket= (audience session-events)
+    POST   /api/v1/speaking/sessions/{id}/transcript  mock-only test seam (inject turns)
     POST   /api/v1/speaking/sessions/{id}/end       teardown (alias: /hangup)
     POST   /api/v1/speaking/sessions/{id}/score     idempotent scoring
     GET    /api/v1/speaking/sessions/{id}/report    the session's report
@@ -26,6 +27,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from ulid import ULID
 
+from bandready.config import get_settings
 from bandready.db import models as m
 from bandready.db.engine import get_session, session_scope
 from bandready.server.deps import current_profile_id, require_auth
@@ -70,6 +72,12 @@ class StartSessionBody(BaseModel):
 class EndSessionBody(BaseModel):
     score: bool = False
     status: str = "complete"
+
+
+class InjectTranscriptBody(BaseModel):
+    """Body of the mock-only transcript seam (see `inject_session_transcript`)."""
+
+    turns: list[dict[str, Any]] = Field(default_factory=list)
 
 
 # --------------------------------------------------------------------------- helpers
@@ -332,6 +340,82 @@ async def get_session_record(
     s: Db = None,
 ) -> dict[str, Any]:
     return _session_record(s, session_id)
+
+
+def _transcript_turns(s: Any, session_id: str) -> list[dict[str, Any]]:
+    """The session's timed transcript in `voice/transcript.py` record order.
+
+    ``transcript_json`` is preferred because it keeps the authoring context the
+    flattened rows drop (``phase``, ``card_id``, ``part``). ``speaking_turns`` is
+    the fallback for rows written before the blob existed, or trimmed by a repair.
+    """
+    row = s.get(m.SpeakingSession, session_id)
+    if row is None:
+        raise ApiError(404, "not_found", "no speaking session with that id")
+
+    if row.transcript_json:
+        record = json.loads(row.transcript_json)
+        turns = record.get("turns") if isinstance(record, dict) else record
+        if turns:
+            return list(turns)
+
+    rows = s.execute(
+        select(m.SpeakingTurn)
+        .where(m.SpeakingTurn.session_id == session_id)
+        .order_by(m.SpeakingTurn.turn_index)
+    ).scalars().all()
+    return [
+        {
+            "role": t.role,
+            "text": t.text,
+            "t_ms": t.t_ms,
+            "dur_ms": t.dur_ms,
+            "segments": json.loads(t.segments_json) if t.segments_json else [],
+            "audio_file": t.audio_path,
+            "metrics": json.loads(t.metrics_json) if t.metrics_json else None,
+        }
+        for t in rows
+    ]
+
+
+@router.get("/sessions/{session_id}/transcript", summary="The session's timed transcript")
+async def get_session_transcript(
+    session_id: str,
+    _: Auth = None,
+    s: Db = None,
+) -> dict[str, Any]:
+    """Feeds the feedback report's annotated transcript and per-turn replay (04 §7)."""
+    return {"session_id": session_id, "turns": _transcript_turns(s, session_id)}
+
+
+@router.post("/sessions/{session_id}/transcript", summary="Test seam: inject a transcript")
+async def inject_session_transcript(
+    session_id: str,
+    body: InjectTranscriptBody | None = None,
+    _: Auth = None,
+) -> dict[str, Any]:
+    """Install a transcript on a live session without running WebRTC.
+
+    The out-of-process twin of ``bandready.voice.runtime.inject_transcript`` (the
+    in-process seam 14-testing-strategy.md §7.1 documents): the Playwright suite
+    runs in a browser and cannot reach the runtime object, so a scored speaking
+    report has to be seeded over HTTP. Registered only under
+    ``BANDREADY_ENABLE_MOCK=1`` — the same test seam that exposes the mock
+    provider presets (03-providers-and-settings.md, R2-19) — so a shipped build
+    has no way to forge a transcript.
+    """
+    if not get_settings().enable_mock:
+        raise ApiError(
+            404,
+            "not_found",
+            "transcript injection is a test seam — start the sidecar with "
+            "BANDREADY_ENABLE_MOCK=1 to enable it",
+        )
+    body = body or InjectTranscriptBody()
+    if not body.turns:
+        raise ApiError(422, "validation_error", "turns must contain at least one turn")
+    runtime.inject_transcript(session_id, {"turns": body.turns})
+    return {"session_id": session_id, "turns": len(body.turns)}
 
 
 @router.post("/sessions/{session_id}/offer", summary="WebRTC SDP offer → answer")

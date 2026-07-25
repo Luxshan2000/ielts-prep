@@ -782,6 +782,23 @@ def load_activity(
     return {str(r["date"]): dict(r) for r in rows}
 
 
+def _previous_study_day_met(
+    activity: dict[str, dict[str, Any]], day: date, start: date, study_days: list[str]
+) -> bool:
+    """Did the study day immediately before ``day`` meet its goal?
+
+    A streak repair may only *bridge* one missed day between two studied days. Without this
+    guard the repair also fires on the day before the streak actually started and silently
+    inflates the count by one (10 §9 — "labelled honestly rather than hidden").
+    """
+    cursor = day - timedelta(days=1)
+    while cursor >= start:
+        if WEEKDAYS[cursor.weekday()] in study_days:
+            return bool((activity.get(cursor.isoformat()) or {}).get("goal_met"))
+        cursor -= timedelta(days=1)
+    return False
+
+
 def compute_streak(
     session: Any,
     profile_id: str,
@@ -815,7 +832,12 @@ def compute_streak(
             continue  # a configured rest day is neutral
         if row and row.get("goal_met"):
             current += 1
-        elif repairs_used == 0 and current > 0 and (today - cursor).days <= STREAK_REPAIR_WINDOW_DAYS:
+        elif (
+            repairs_used == 0
+            and current > 0
+            and (today - cursor).days <= STREAK_REPAIR_WINDOW_DAYS
+            and _previous_study_day_met(activity, cursor, start, study_days)
+        ):
             repairs_used += 1
             repaired_dates.append(key)
             current += 1

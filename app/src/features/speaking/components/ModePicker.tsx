@@ -4,9 +4,9 @@
  * card-set control defaults to "choose for me" rather than a random pick here.
  */
 
-import { useEffect, useMemo } from "react";
-import { Check } from "lucide-react";
-import { Badge, Field, Select } from "@/components/ui";
+import { useEffect, useMemo, useRef, type KeyboardEvent } from "react";
+import { AlertCircle, Check } from "lucide-react";
+import { Badge, Button, Field, Select } from "@/components/ui";
 import { cn } from "@/lib/cn";
 import { MODES } from "./phases";
 import { useSpeakingStore, type SpeakingActivity, type SpeakingCard } from "../store";
@@ -36,6 +36,8 @@ export function ModePicker() {
   const cardSetId = useSpeakingStore((s) => s.cardSetId);
   const topic = useSpeakingStore((s) => s.topic);
   const cards = useSpeakingStore((s) => s.cards);
+  const cardsLoading = useSpeakingStore((s) => s.cardsLoading);
+  const cardsError = useSpeakingStore((s) => s.cardsError);
   const setActivity = useSpeakingStore((s) => s.setActivity);
   const setPart = useSpeakingStore((s) => s.setPart);
   const setCardSetId = useSpeakingStore((s) => s.setCardSetId);
@@ -57,11 +59,29 @@ export function ModePicker() {
   const setOptions = useMemo(() => cardSetOptions(cards), [cards]);
   const needs = MODES.find((m) => m.id === activity)?.needs ?? "none";
 
+  /**
+   * `role="radiogroup"` promises arrow-key selection, so honour it: arrows move
+   * AND select (the WAI-ARIA radio-group pattern), and only the checked radio is
+   * tabbable, so the four modes are one tab stop rather than four.
+   */
+  const radios = useRef(new Map<string, HTMLButtonElement>());
+  const onRadioKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    const keys = ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"];
+    if (!keys.includes(e.key)) return;
+    e.preventDefault();
+    const index = MODES.findIndex((m) => m.id === activity);
+    const step = e.key === "ArrowRight" || e.key === "ArrowDown" ? 1 : -1;
+    const next = MODES[(index + step + MODES.length) % MODES.length];
+    setActivity(next.id as SpeakingActivity);
+    radios.current.get(next.id)?.focus();
+  };
+
   return (
     <div className="space-y-4">
       <div
         role="radiogroup"
         aria-label="Session mode"
+        onKeyDown={onRadioKeyDown}
         className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
       >
         {MODES.map((mode) => {
@@ -71,7 +91,12 @@ export function ModePicker() {
               key={mode.id}
               type="button"
               role="radio"
+              ref={(el) => {
+                if (el) radios.current.set(mode.id, el);
+                else radios.current.delete(mode.id);
+              }}
               aria-checked={selected}
+              tabIndex={selected ? 0 : -1}
               onClick={() => setActivity(mode.id as SpeakingActivity)}
               className={cn(
                 "flex h-full flex-col gap-2 rounded-xl border p-4 text-left transition-colors",
@@ -96,6 +121,27 @@ export function ModePicker() {
           );
         })}
       </div>
+
+      {cardsError !== null && (
+        <div
+          role="alert"
+          className="flex flex-wrap items-start gap-x-3 gap-y-2 rounded-xl border border-destructive/40 bg-destructive/8 p-3"
+        >
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-destructive" aria-hidden="true" />
+          <div className="min-w-0 flex-1">
+            <p className="text-[13px] font-medium text-foreground">
+              The cue-card bank could not be loaded
+            </p>
+            <p className="mt-0.5 break-words text-[13px] text-muted-foreground">
+              {cardsError} The topic and question-set pickers below are empty for that
+              reason, not because no content is installed.
+            </p>
+          </div>
+          <Button variant="outline" size="sm" loading={cardsLoading} onClick={() => void loadCards()}>
+            Try again
+          </Button>
+        </div>
+      )}
 
       {needs !== "none" && (
         <div className="grid gap-4 sm:grid-cols-2">

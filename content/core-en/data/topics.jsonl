@@ -1,0 +1,20 @@
+{"id": "topic_environment", "label": "Environment", "category": "environment"}
+{"id": "topic_education", "label": "Education", "category": "education"}
+{"id": "topic_technology", "label": "Technology", "category": "technology"}
+{"id": "topic_health", "label": "Health and wellbeing", "category": "health"}
+{"id": "topic_globalisation", "label": "Globalisation", "category": "society"}
+{"id": "topic_urbanisation", "label": "Urbanisation", "category": "society"}
+{"id": "topic_work", "label": "Work and careers", "category": "work"}
+{"id": "topic_media", "label": "Media and news", "category": "media"}
+{"id": "topic_culture", "label": "Culture and tradition", "category": "culture"}
+{"id": "topic_transport", "label": "Transport", "category": "travel"}
+{"id": "topic_crime", "label": "Crime and justice", "category": "society"}
+{"id": "topic_tourism", "label": "Tourism and travel", "category": "travel"}
+{"id": "topic_family", "label": "Family and relationships", "category": "family"}
+{"id": "topic_science", "label": "Science and research", "category": "science"}
+{"id": "topic_economy", "label": "Economy and development", "category": "economy"}
+{"id": "topic_food", "label": "Food and diet", "category": "food"}
+{"id": "topic_sport", "label": "Sport and exercise", "category": "sport"}
+{"id": "topic_housing", "label": "Housing and living space", "category": "society"}
+{"id": "topic_communication", "label": "Communication and language", "category": "media"}
+{"id": "topic_money", "label": "Money and consumption", "category": "economy"}

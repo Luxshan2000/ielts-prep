@@ -26,9 +26,11 @@ import asyncio
 import json
 import logging
 import re
+from collections.abc import Callable
 from dataclasses import dataclass, field
+from itertools import pairwise
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from sqlalchemy import text
 from ulid import ULID
@@ -216,8 +218,8 @@ def transcribe_words(wav_path: Path) -> tuple[list[dict[str, Any]], str]:
         words, transcript = provider_words(str(wav_path))
         if words:
             return list(words), str(transcript or "")
-    except Exception:  # noqa: BLE001
-        pass
+    except Exception as exc:  # noqa: BLE001 — any provider failure falls through to whisper
+        _log.debug("shared STT provider unavailable for word timings: %s", exc)
 
     model = _load_whisper()
     if model is None or not Path(wav_path).is_file():
@@ -298,7 +300,7 @@ def fluency_proxies(words: list[dict[str, Any]], duration_ms: int | None = None)
     span_ms = int(timed[-1]["t_end_ms"]) - int(timed[0]["t_start_ms"])
     speaking_ms = sum(max(0, int(w["t_end_ms"]) - int(w["t_start_ms"])) for w in timed)
     pauses: list[int] = []
-    for previous, current in zip(timed, timed[1:], strict=False):
+    for previous, current in pairwise(timed):
         gap = int(current["t_start_ms"]) - int(previous["t_end_ms"])
         if gap > 250:
             pauses.append(gap)
@@ -394,7 +396,7 @@ async def flag_words(
 def score_from_confidence(confidence: float | None) -> int | None:
     if confidence is None:
         return None
-    return max(0, min(100, int(round(float(confidence) * 100))))
+    return max(0, min(100, round(float(confidence) * 100)))
 
 
 def build_turn_result(

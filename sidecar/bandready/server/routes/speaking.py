@@ -594,6 +594,56 @@ async def list_cards(
     return {"items": items, "next_cursor": None}
 
 
+@router.get("/card-sets/{set_id}", summary="One topic set with all four of its cards")
+async def get_card_set(set_id: str, _: Auth = None, s: Db = None) -> dict[str, Any]:
+    """A whole Part 1 + Part 2 + Part 3 unit, payloads intact.
+
+    The Topic Coach studies a *set*, not a card: the prep plan lives on the Part 2 card,
+    the language bank and vocabulary on the set, and the escalation ladder on the Part 3
+    card. Returning them together is one round trip instead of four, and keeps the
+    teaching payloads verbatim so the client never has to know their internal shape.
+
+    Model answers are NOT gated here — this route hands back the stored payload as-is,
+    and the coach endpoint owns the gate. Callers that must respect it use
+    ``/coach/cards/{card_id}/teaching``.
+    """
+    card_set = s.get(m.CardSet, set_id)
+    if card_set is None or card_set.retired:
+        raise ApiError(404, "not_found", f"no card set {set_id!r}")
+
+    def _json(raw: Any, fallback: Any) -> Any:
+        try:
+            return json.loads(raw) if isinstance(raw, str) else (raw if raw is not None else fallback)
+        except (TypeError, ValueError):
+            return fallback
+
+    rows = s.execute(
+        select(m.SpeakingCard)
+        .where(m.SpeakingCard.card_set_id == set_id, m.SpeakingCard.retired == 0)
+        .order_by(m.SpeakingCard.part, m.SpeakingCard.id)
+    )
+    cards = [
+        {
+            "id": c.id,
+            "part": c.part,
+            "title": c.title,
+            "difficulty": c.difficulty,
+            "topic_id": c.topic_id,
+            "tags_json": _json(c.tags_json, []),
+            "payload_json": _json(c.payload_json, {}),
+        }
+        for c in rows.scalars().all()
+    ]
+    return {
+        "id": card_set.id,
+        "title": card_set.title,
+        "topic_id": card_set.topic_id,
+        "parts_json": _json(card_set.parts_json, [1, 2, 3]),
+        "payload_json": _json(card_set.payload_json, {}),
+        "cards": cards,
+    }
+
+
 # --------------------------------------------------------------------------- websocket
 
 

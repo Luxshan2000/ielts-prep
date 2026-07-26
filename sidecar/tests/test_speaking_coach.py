@@ -1226,3 +1226,50 @@ def test_the_authored_template_survives_the_teaching_shape(client: Any) -> None:
     plan = client.get(f"/api/v1/speaking/coach/part2/plan/{p2['id']}").json()
     assert len(plan["time_plan"]) == 5
     assert len(plan["prep"]["note_grid_example"]) == 4
+
+
+# ======================================================================================
+# GET /api/v1/speaking/card-sets/{set_id}
+#
+# The Topic Coach studies a whole set, so it needs all four cards and both payloads in
+# one call. The route was missing at first and the coach silently fell back to an
+# "unavailable" state — the teaching material was on disk and unreachable.
+# ======================================================================================
+
+
+def test_a_card_set_comes_back_with_all_of_its_cards(client: Any) -> None:
+    body = client.get(f"/api/v1/speaking/card-sets/{SET_ID}").json()
+
+    assert body["id"] == SET_ID
+    assert body["title"]
+    parts = sorted(card["part"] for card in body["cards"])
+    assert parts, "a set with no cards is useless to the coach"
+    assert set(parts) <= {1, 2, 3}
+
+
+def test_payloads_come_back_parsed_not_as_json_strings(client: Any) -> None:
+    """The client reads nested teaching fields directly; strings would break it."""
+    body = client.get(f"/api/v1/speaking/card-sets/{SET_ID}").json()
+
+    assert isinstance(body["payload_json"], dict)
+    for card in body["cards"]:
+        assert isinstance(card["payload_json"], dict)
+        assert isinstance(card["tags_json"], list)
+
+
+def test_an_unknown_set_is_a_404_not_a_500(client: Any) -> None:
+    resp = client.get("/api/v1/speaking/card-sets/set_does_not_exist")
+
+    assert resp.status_code == 404
+    assert resp.json()["code"] == "not_found"
+
+
+def test_the_set_route_does_not_require_the_coach_gate(client: Any) -> None:
+    """This route returns the stored payload as-is; the gate lives on /coach.
+
+    Keeping them separate means the coach can withhold model answers without this
+    route having to know anything about attempts.
+    """
+    resp = client.get(f"/api/v1/speaking/card-sets/{SET_ID}")
+
+    assert resp.status_code == 200

@@ -188,8 +188,31 @@ or your own gateway through the `Custom OpenAI-compatible…` preset.
 
 Keys are encrypted at rest with a per-install key stored in your data directory, are never
 written to a log (the logger redacts them), and come back to the UI masked as `•••• (stored)`.
-Setting a key to the literal `${MY_ENV_VAR}` reads it from the environment at request time
-instead of storing it at all.
+
+### Keeping a key out of your disk entirely
+
+Set the key field to the literal `${OPENROUTER_API_KEY}` (any `${VAR}` works) and BandReady
+reads it from the environment at request time instead of storing anything:
+
+```bash
+export OPENROUTER_API_KEY='sk-or-…'
+open -a BandReady          # or: node scripts/dev.mjs
+```
+
+Only variables whose names end in `_API_KEY` are forwarded to the sidecar — the rest of your
+environment is not inherited. If the variable is missing you get a precise error naming it
+(`OPENROUTER_API_KEY is not set in your environment`), never a silent auth failure.
+
+> **macOS caveat:** an app launched from Finder or Spotlight does not inherit your shell's
+> environment, so a `${VAR}` reference will not resolve there. Either launch it from a terminal
+> as above, or paste the key into Settings, where it is stored encrypted.
+
+> **If you use a `${VAR}` reference, start BandReady from a shell that has the variable.** The
+> app forwards only variables named `*_API_KEY` to the sidecar, and a macOS app launched from
+> Finder or Spotlight inherits nothing, so the reference cannot resolve there — you will get
+> `OPENROUTER_API_KEY is not set in your environment`. Either launch it as
+> `OPENROUTER_API_KEY=sk-or-… open -a BandReady`, or just paste the key into Settings and let it
+> be encrypted at rest.
 
 > Speaking sessions are latency-sensitive. A cloud LLM works, but a local one on the same
 > machine is what makes the examiner feel like a conversation rather than a form.

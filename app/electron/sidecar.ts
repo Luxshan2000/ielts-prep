@@ -210,7 +210,22 @@ export function resolveSidecarCommand(): SidecarCommand {
   };
 }
 
-/** PATH/HOME/TMP only — no inherited secrets leak into the sidecar (01 §4.1). */
+/**
+ * Provider keys the settings document may reference as `${VAR}` instead of storing.
+ *
+ * That option exists so a key never has to be written to disk, but it only works if
+ * the variable actually reaches the sidecar — and `minimalEnv` deliberately drops the
+ * inherited environment. Forwarding names that end in `_API_KEY` (the shape of every
+ * `key_env_hint` in the provider presets) keeps the feature usable without handing the
+ * child the whole environment.
+ *
+ * Note this only helps when the app inherits the variable in the first place: launched
+ * from Finder it will not, so a `${VAR}` reference is really for `npm run dev` and for
+ * launching the app from a shell.
+ */
+const API_KEY_ENV = /^[A-Z0-9_]+_API_KEY$/;
+
+/** PATH/HOME/TMP plus referenced provider keys — nothing else is inherited (01 §4.1). */
 function minimalEnv(): Record<string, string> {
   const keep = [
     'PATH',
@@ -233,6 +248,9 @@ function minimalEnv(): Record<string, string> {
   for (const key of keep) {
     const value = process.env[key];
     if (value !== undefined) out[key] = value;
+  }
+  for (const [key, value] of Object.entries(process.env)) {
+    if (value !== undefined && API_KEY_ENV.test(key)) out[key] = value;
   }
   return out;
 }

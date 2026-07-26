@@ -20,10 +20,9 @@ test and get a scored review; take a 40-question Listening test with **real gene
 scheduler; run pronunciation minimal-pair drills; browse the writing prompt bank; walk the
 onboarding/placement wizard; and see a progress dashboard, study plan and heatmap.
 
-What a user **cannot** do without extra setup: get a writing essay evaluated or a speaking session
-scored (both need a local LLM — Ollama/LM Studio — which is not bundled and was not running here),
-and hold a live spoken conversation with the examiner (not verified end-to-end; see
-[Not yet verified](#not-yet-verified)).
+Writing evaluation and the live speaking examiner need an LLM, which BandReady never bundles. Both
+were subsequently verified against a live OpenRouter key — see the [update](#update--2026-07-26-live-voice-and-real-model-scoring-confirmed)
+at the end of this document.
 
 BandReady now **packages into a working macOS installer**: `scripts/stage-sidecar.mjs` stages a
 relocatable CPython plus the sidecar venv, and electron-builder produces a 156 MB arm64 DMG whose
@@ -32,8 +31,8 @@ here — so macOS shows a Gatekeeper warning on first open. Windows and Linux ta
 but have never been built on those platforms.
 
 The honest one-line version: **a complete, working, well-tested local IELTS practice application
-that now builds a real installer, but is unsigned and still needs a live LLM for the two
-model-scored skills.**
+whose four skills, live voice examiner and installer have all been verified — still unsigned, and
+its band scores are not yet calibrated against expert-marked samples.**
 
 ---
 
@@ -43,8 +42,8 @@ model-scored skills.**
 |---|---|---|---|---|
 | **Reading** | **Working** | Library, player, timer, flags, highlights, autosave, submit, scored review with per-question keys. Full test = 40 questions numbered 1–40 across 3 passages. Drills by question type. | No `GET /api/v1/reading/attempts` list route (listening/writing/speaking all have one), so the progress screen footnotes a missing Reading column. Zero General Training passages. Drills can't resume after reload. `GET /reading/tests` reports one passage's `band_target` for a mixed-difficulty test. | `POST /reading/attempts {test_id:"rt_academic_1",mode:"full"}` → 201, 40 questions; `POST .../submit` → 200 `raw_score 2, band 2.0` (all-"true" answers); `GET .../review` → 200. Playwright `reading.spec.ts`. |
 | **Listening** | **Working** | Library, 4-part player, exam lockdown (no seek/replay), transfer-and-check, submit, scored review. **Audio is really generated**: Kokoro rendered all 3 tested scripts. | Only **one** listening test exists (the placement sampler wants two). No `map_labelling` question (needs an SVG asset; pack ships no media). No dictation mode (sidecar exposes no endpoints). Exam lockdown is client-side only. | `POST /listening/scripts/ls_t1_p1/render` → 202 → job succeeded → 15.4 MB WAV, 24 kHz, 321.6 s, 47 lines, with per-line timing JSON. Acoustic check: RMS 0.070, spectral centroid 2.8 kHz (real speech). Attempt create/submit/review → 200. Playwright `listening.spec.ts`. |
-| **Writing** | **Working (needs an LLM)** | Prompt bank with filters, Task 1 chart rendering as SVG, draft workspace, autosave, word count, pre-check, submit, scored report with all four IELTS criteria. | Evaluation quality unverified against a *real* model — only the mock. Evidence-quote highlight flash (05 §7) not implemented. | Draft → `PATCH /writing/attempts/{id} {essay_text}` → 200, `word_count 158` → `POST .../submit` → 202 job → job succeeded → `GET` → `status "scored"`, `overall_band 6.0`, criteria `[ta, cc, lr, gra]`. **With `mock_llm` only.** Playwright `writing.spec.ts`. |
-| **Speaking** | **Partial** | Hub, mode picker, mic pre-call check, session create/end lifecycle, state machine (`IDLE → CONNECTING → P1_INTRO → …`), scored report screen with bands/criteria/transcript, `GET /sessions/{id}/transcript` exists and returns `{turns:[…]}`. | **A live spoken call has never been completed and verified.** Needs a running LLM for the examiner turn; none available here. | Session create → 201 with `offer_url`; `GET`, `/transcript`, `/end` → 200. Playwright `speaking.spec.ts` (3 tests) asserts the UI never parks on a bare spinner. **I fixed the import blocker** — see [Fixes made](#fixes-made-during-this-verification). |
+| **Writing** | **Working** | Prompt bank with filters, Task 1 chart rendering as SVG, draft workspace, autosave, word count, pre-check, submit, scored report with all four IELTS criteria, character-anchored inline annotations and vocabulary suggestions. Needs an LLM (none is bundled). | Scoring is spot-checked against a real model, not calibrated against a golden set. Evidence-quote highlight flash (05 §7) not implemented. | Against real `qwen/qwen3-30b-a3b-instruct-2507`: a strong essay scored **8.0** in 14 s; a weak one scored **5.0** in 38 s with **10 offset-anchored annotations** and **13 vocabulary suggestions**. ~$0.0002 per essay. Playwright `writing.spec.ts` covers the mock path. |
+| **Speaking** | **Working** | Hub, mode picker, mic pre-call check, session lifecycle, state machine (`IDLE → CONNECTING → P1_INTRO → …`), live WebRTC call, scored report with bands/criteria/transcript. **The full live pipeline was confirmed working by the project owner at a real microphone** (2026-07-26). | Scoring quality against a real model is only spot-checked, not calibrated against a golden set. Live call not covered by an automated test — headless Chromium cannot establish the peer connection, so this remains a manual check. | Examiner turn driven by the real LLM: asked "What's your hometown like?", then followed up "What do you enjoy most about living there?", staying in examiner register. Card injection held at exactly 1 marked message across turns. All three services construct against real config (`WhisperSTTService`, `KokoroTTSService`, `OpenAILLMService`). **Live WebRTC call verified manually by the owner.** |
 | **Vocabulary / SRS** | **Working** | 21 decks / 343 entries seed from the pack. Deck opt-in, suggestion inbox (opt-in only), review queue, six exercise types, real FSRS scheduling, stats, entry browser. | No headword audio (`/api/v1/media/vocab/<id>.wav` 404s — no producer exists); falls back to platform speech synthesis. No endpoint exposing `srs_review_logs`, so "review history" shows schedule facts, not a timeline. Bulk actions loop one request per item. | Deck opt-in → queue went 0 → 10 items; `POST /srs/review` → 200 with a real FSRS card (`state "learning"`, `stability 2.3065`, `difficulty 2.118`, computed `due`). `GET /vocab/stats` → 200. Playwright `vocab.spec.ts`. |
 | **Curriculum / Progress** | **Working** | Study plan generation, daily sessions, progress summary, band estimates, trajectory, heatmap, readiness, streaks, activity log. Onboarding wizard and placement sitting. | `GET /placement/next` returns adaptive reading via a fallback: no two passages share a `topic_id` at different band targets, so the R2-22 pivot uses cross-topic extremes. Placement speaking is answered by typing, not voice. `app/src/stores/progress.ts` still models an obsolete summary shape (features bypass it and call the API directly). | `GET /progress/summary`, `/estimates`, `/trajectory`, `/heatmap`, `/criteria`, `/plan`, `/readiness` → all 200 on a fresh DB. `POST /placement/start` → 200, `GET /placement/next` → 200 with a real reading step. Playwright `onboarding.spec.ts`, `progress.spec.ts`. |
 | **Pronunciation** | **Partial** | 46 minimal-pair drill items (26 built-in + 20 from the pack), contrast list, scores, accent-neutral framing copy. faster-whisper transcription works. | `POST /pron/read-aloud` needs a multipart WAV upload and was never exercised end-to-end. No accent-drill or read-aloud E2E coverage. | `GET /pron/drills` → 200, 10 items / 22 contrasts; `/contrasts`, `/scores` → 200. STT proven separately (below). |
@@ -332,20 +331,17 @@ tsc clean (renderer + electron), 174 vitest, and 4 consecutive 14/14 Playwright 
 
 Everything in this section is **unproven**. Do not represent any of it as working.
 
-- **A live WebRTC speaking session, end to end.** Never completed. The STT and TTS services now
-  *construct* (fix 1) and `aiortc`/`av`/`pipecat.transports.smallwebrtc` all import, but no LLM
-  was running on this machine (`curl 127.0.0.1:11434/v1/models` → no response), so the examiner
-  turn could not be driven. Nobody has heard the examiner speak, seen a transcript populate from
-  live speech, or scored a real conversation. `speaking_turns` and `transcript_json` were never
-  written by a real call.
-- **The WebRTC media-manager swap** (`WavMediaManager` in place of `DailyMediaManager` in
-  `LiveSession.tsx`). It removes the external CDN/Sentry fetches, but no audio has ever been heard
-  flowing through it.
-- **Any packaged installer.** No `.dmg`, `.exe`, `.AppImage` or `.deb` has ever been produced.
-  `pnpm build:electron` has never been run successfully — and as configured it would not bundle
-  the sidecar even if it completed.
-- **Code signing and notarization.** Never attempted. No certificates, no `CSC_LINK`, no
-  `notarize` config.
+- **Scoring calibration.** Real-model scoring is spot-checked, not calibrated: a strong essay
+  scored 8.0 and a weak one 5.0, both plausible, but the golden-set framework in
+  `14-testing-strategy.md` has no samples and has never been run. Treat band numbers as
+  indicative until it is.
+- **Automated coverage of the live call.** The call itself works (verified manually), but headless
+  Chromium cannot establish the peer connection, so no test guards it against regression. A change
+  to the voice pipeline will not be caught by CI.
+- **Code signing and notarization.** Never attempted. No certificates, no `CSC_LINK`. The DMG that
+  exists was built with `identity=null`, so macOS shows a Gatekeeper warning.
+- **Windows and Linux builds.** Configured in `electron-builder.yml`, never built on those
+  platforms.
 - **Auto-update.** `electron-updater` is wired and correctly disabled in dev. The update path has
   never been exercised against a real feed.
 - **Both CI workflows.** `ci.yml` and `e2e.yml` have **never run on GitHub Actions** — only their
@@ -374,3 +370,34 @@ Everything in this section is **unproven**. Do not represent any of it as workin
   that fix (1) works around is Apple-Silicon-specific; the fix is a no-op elsewhere, but no other
   platform was exercised at all.
 - **Data export, pack import, model download, offline mode.** No E2E coverage.
+
+
+---
+
+## Update — 2026-07-26: live voice and real-model scoring confirmed
+
+Two of the three headline gaps in the original report are now closed.
+
+**Real-model scoring works.** With an OpenRouter key supplied via `.env` and
+`qwen/qwen3-30b-a3b-instruct-2507` configured, the writing pipeline ran end to end for the first
+time against a real model rather than the mock:
+
+| Essay | Overall | Criteria | Time | Cost |
+|---|---|---|---|---|
+| Strong, well-argued | 8.0 | 8 / 8 / 8 / 8 | 14 s | ~$0.0002 |
+| Weak, error-heavy | 5.0 | 5 / 5 / 5 / 5 | 38 s | ~$0.0002 |
+
+The weak essay produced **10 annotations anchored to exact character offsets** with fixes and
+explanations, plus **13 vocabulary suggestions**. An earlier draft of this document implied the
+annotation pipeline produced nothing; that was a probe reading the wrong field names — the API
+serialises `annotations` and `vocab_suggestions`, not `annotated_errors`/`vocab_upgrades`.
+
+**The live WebRTC speaking pipeline works.** Confirmed by the project owner at a real microphone.
+This was the single largest unknown in the project — every component had been proven individually,
+but audio flowing browser↔sidecar had never completed. It does.
+
+**Packaging works.** A 156 MB unsigned arm64 DMG was built and the installed app verified: it
+spawns the bundled Python, migrates, seeds content and serves its API.
+
+What that leaves: scoring calibration against a golden set, automated regression coverage for the
+live call, code signing, and non-macOS builds.

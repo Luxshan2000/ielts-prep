@@ -21,6 +21,71 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 APP_DIR_NAME = "BandReady"
 
 
+def _parse_env_file(path: Path) -> dict[str, str]:
+    """Minimal ``KEY=value`` reader — no dependency, no shell semantics.
+
+    Supports ``export KEY=value``, ``#`` comments, blank lines and surrounding quotes.
+    Anything more exotic belongs in a real shell, not in a config file we read.
+    """
+    out: dict[str, str] = {}
+    try:
+        text = path.read_text(encoding="utf-8")
+    except OSError:
+        return out
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        if line.startswith("export "):
+            line = line[len("export ") :].lstrip()
+        key, _, value = line.partition("=")
+        key = key.strip()
+        if not key:
+            continue
+        value = value.strip()
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+            value = value[1:-1]
+        out[key] = value
+    return out
+
+
+def load_env_files(data_dir: Path | None = None) -> list[Path]:
+    """Load ``.env`` into the process environment, returning the files applied.
+
+    Provider keys can be stored as a ``${VAR}`` reference rather than on disk, which is
+    the safer option — but a desktop app launched from Finder inherits no shell
+    environment, so the reference could never resolve there. Reading a ``.env`` gives
+    that user somewhere to put the value without embedding it in the settings database.
+
+    A variable already present in the real environment always wins, so an explicit
+    ``export`` beats the file. Search order (all optional):
+
+    1. ``$BANDREADY_ENV_FILE``
+    2. ``<data_dir>/.env`` — the packaged app's user-editable location
+    3. ``<repo>/.env`` — development convenience
+    """
+    candidates: list[Path] = []
+    explicit = os.environ.get("BANDREADY_ENV_FILE")
+    if explicit:
+        candidates.append(Path(explicit).expanduser())
+    if data_dir is not None:
+        candidates.append(Path(data_dir).expanduser() / ".env")
+    # sidecar/bandready/config.py -> <repo>
+    candidates.append(Path(__file__).resolve().parents[2] / ".env")
+
+    applied: list[Path] = []
+    for path in candidates:
+        if not path.is_file():
+            continue
+        values = _parse_env_file(path)
+        if not values:
+            continue
+        for key, value in values.items():
+            os.environ.setdefault(key, value)  # a real env var always wins
+        applied.append(path)
+    return applied
+
+
 def default_data_dir() -> Path:
     """Per-OS application data directory (01-architecture.md §8).
 

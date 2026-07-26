@@ -144,12 +144,16 @@ def _step(label: str, fn: Any, *, fatal: bool = False) -> None:
 
 
 def run_startup() -> None:
-    from bandready.config import get_settings
+    from bandready.config import get_settings, load_env_files
     from bandready.security.secrets import install_log_redaction
 
     settings = get_settings()
     settings.ensure_dirs()
     install_log_redaction()
+    # Before anything resolves a ${VAR} provider key. Redaction is installed first so a
+    # value loaded here can never reach the log.
+    for env_file in load_env_files(settings.data_dir):
+        _log.info("loaded environment from %s", env_file)
     _log.info(
         "BandReady sidecar %s starting on %s (data dir %s, mock=%s)",
         __version__, settings.base_url, settings.data_dir, settings.enable_mock,

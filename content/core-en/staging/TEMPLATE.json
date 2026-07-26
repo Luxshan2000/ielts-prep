@@ -1,0 +1,491 @@
+{
+  "staging_version": 1,
+  "cluster": "template",
+  "authored_by": "D1:design",
+  "notes": "REFERENCE ARTEFACT — not merged into the pack. This is one complete set, authored to the standard every cluster file must meet. Its id block (_000) is reserved and must never be used by an authoring agent. Its Part 2 subject ('a time you helped someone solve a problem') is RESERVED and must not be re-authored by any cluster. Copy the SHAPE, never the sentences.",
+  "sets": [
+    {
+      "set": {
+        "id": "set_helping_problem_000",
+        "title": "Helping and problem-solving",
+        "topic_id": "topic_communication",
+        "parts_json": [1, 2, 3],
+        "payload_json": {
+          "schema_version": 2,
+          "difficulty": "core",
+          "tags": ["communication", "problem-solving", "past-narrative", "community"],
+          "part1_card_ids": ["card_p1_your_studies_000", "card_p1_asking_for_help_000"],
+          "part2_card_id": "card_p2_helped_someone_000",
+          "part3_card_id": "card_p3_problem_solving_000",
+          "cluster": "template",
+          "family": "F5",
+          "cognitive_load": null,
+          "lineage": "Part 2 asks about one occasion when the candidate helped someone solve a problem; Part 3 lifts that to how people learn to handle problems themselves (M4, M3, M2) and to who a community expects to step in when they cannot (M1, M6, M8).",
+          "teaches": "Hold one past tense across two minutes, then concede a Part 3 counter-point in a clause without abandoning the position.",
+          "exam_note": "The examiner says nothing at all during the long turn and stops you at 2:00. Being stopped there is the intended outcome, not a failure.",
+          "language_bank": {
+            "warning": "These are frames with gaps, not sentences to recite. Fill the gap with your own meaning and it is language; deliver it whole and it is a recital.",
+            "functions": [
+              {
+                "function": "narrating",
+                "why_here": "Part 2 is a story, and the tense has to visibly hold.",
+                "grammar": "past simple with one past perfect backshift",
+                "frames": [
+                  { "frame": "This was back in ___, when ___", "slot_hint": "a season or year, then what was going on at the time" },
+                  { "frame": "By the time I ___, she'd already ___", "slot_hint": "two past events; the earlier one goes in past perfect" },
+                  { "frame": "What happened was ___", "slot_hint": "the single event that starts the story moving" }
+                ],
+                "avoid": "First of all, I would like to describe a memorable experience of my life which I will never forget."
+              },
+              {
+                "function": "evaluating",
+                "why_here": "The fourth bullet asks how you felt; that is the band-carrying part.",
+                "grammar": "cleft sentences, comparative judgement",
+                "frames": [
+                  { "frame": "What stayed with me wasn't ___, it was ___", "slot_hint": "the obvious thing first, then the thing that actually mattered" },
+                  { "frame": "Looking back, I'd say ___", "slot_hint": "a judgement, not another fact" },
+                  { "frame": "The part I'm least comfortable with is ___", "slot_hint": "one honest reservation about your own behaviour" }
+                ],
+                "avoid": "It was a very memorable experience which I will never forget in my whole life."
+              },
+              {
+                "function": "hedging",
+                "why_here": "Part 3 asks about people in general; unhedged claims sound unearned.",
+                "grammar": "adverbs of frequency, 'tend to', 'it depends on whether'",
+                "frames": [
+                  { "frame": "More often than not, ___", "slot_hint": "a tendency, never a rule" },
+                  { "frame": "___, at least where I'm from", "slot_hint": "attach to any generalisation you are not sure travels" },
+                  { "frame": "People tend to ___, though it depends on ___", "slot_hint": "the tendency, then the variable that changes it" }
+                ],
+                "avoid": "It goes without saying that everybody in the world needs help sometimes."
+              },
+              {
+                "function": "conceding",
+                "why_here": "The examiner pushes back once per theme; conceding then holding is the band-7 move.",
+                "grammar": "concessive clauses — although, even so, up to a point",
+                "frames": [
+                  { "frame": "That's fair up to a point — though ___", "slot_hint": "what you still think, in one clause" },
+                  { "frame": "I can see why people say that, but ___", "slot_hint": "your counter-reason, not a repeat of your first answer" },
+                  { "frame": "Granted, ___. Even so, ___", "slot_hint": "the concession, then the hold" }
+                ],
+                "avoid": "Every coin has two sides, so we should consider both advantages and disadvantages."
+              },
+              {
+                "function": "comparing",
+                "why_here": "Part 3 compares small towns with cities, and now with a generation ago.",
+                "grammar": "comparatives, as...as, whereas",
+                "frames": [
+                  { "frame": "___ is nothing like as ___ as ___", "slot_hint": "two things and the quality you are measuring" },
+                  { "frame": "Compared with ___, ___ is far more ___", "slot_hint": "the baseline first, then the thing you are judging" },
+                  { "frame": "___, whereas ___", "slot_hint": "two full clauses, not two nouns" }
+                ],
+                "avoid": "On the one hand it is good, and on the other hand it is bad."
+              },
+              {
+                "function": "speculating",
+                "why_here": "One Part 3 question asks what apps will do to people's problem-solving.",
+                "grammar": "second conditional, 'would', 'is likely to'",
+                "frames": [
+                  { "frame": "I'd imagine ___ would ___", "slot_hint": "the change, then its effect" },
+                  { "frame": "If that happened, we'd probably ___", "slot_hint": "the consequence you think most likely" },
+                  { "frame": "___ is likely to ___, though I wouldn't bet on it", "slot_hint": "a prediction plus your own uncertainty" }
+                ],
+                "avoid": "It is highly probable that in the future everything will be done by artificial intelligence."
+              }
+            ]
+          },
+          "vocabulary": [
+            { "item": "get nowhere with something", "type": "chunk", "cefr": "B2", "meaning": "keep trying and make no progress at all", "example": "She'd rung them twice and she was getting nowhere with it.", "used_in": "part2" },
+            { "item": "fob someone off", "type": "phrasal_verb", "cefr": "C1", "meaning": "put someone off with an excuse instead of helping", "example": "They kept fobbing her off with promises of a callback.", "used_in": "part2" },
+            { "item": "talk something through", "type": "phrasal_verb", "cefr": "B2", "meaning": "discuss a problem carefully with someone until it is clear", "example": "We sat down and talked the whole thing through before she rang again.", "used_in": "any" },
+            { "item": "a last resort", "type": "collocation", "cefr": "B2", "meaning": "the option you only take when nothing else has worked", "example": "Going to the council was a last resort, honestly.", "used_in": "part3" },
+            { "item": "turn to someone", "type": "collocation", "cefr": "B1", "meaning": "go to a particular person for help", "example": "Most people turn to family long before they turn to an official.", "used_in": "part1" },
+            { "item": "be at a loss", "type": "idiom", "cefr": "C1", "meaning": "have no idea what to do next", "example": "By the third day she was completely at a loss.", "used_in": "part2" },
+            { "item": "sort something out", "type": "phrasal_verb", "cefr": "B1", "meaning": "deal with a problem successfully", "example": "It took twenty minutes to sort out something she'd struggled with for days.", "used_in": "any" },
+            { "item": "put it in writing", "type": "collocation", "cefr": "B2", "meaning": "make a request formally, in a written form", "example": "Nothing moved at all until she put it in writing.", "used_in": "part2" },
+            { "item": "a safety net", "type": "collocation", "cefr": "C1", "meaning": "support that catches people when things go badly wrong", "example": "For a lot of older people, the neighbours are the only safety net there is.", "used_in": "part3" },
+            { "item": "stand on your own two feet", "type": "idiom", "cefr": "B2", "meaning": "manage without depending on other people", "example": "Children have to learn to stand on their own two feet at some point.", "used_in": "part3" },
+            { "item": "fall back on something", "type": "phrasal_verb", "cefr": "C1", "meaning": "use something in reserve when the main option fails", "example": "If the agency won't act, there isn't much left to fall back on.", "used_in": "part3" },
+            { "item": "well-meaning", "type": "word", "cefr": "B2", "meaning": "intending to help, whether or not it actually helps", "example": "He was well-meaning, but he made the whole thing worse.", "used_in": "any" }
+          ]
+        }
+      },
+      "cards": [
+        {
+          "id": "card_p1_your_studies_000",
+          "part": 1,
+          "card_set_id": "set_helping_problem_000",
+          "topic_id": "topic_work",
+          "title": "your work or studies",
+          "difficulty": "core",
+          "tags_json": ["work", "education", "present-tense", "frame-personal"],
+          "payload_json": {
+            "schema_version": 2,
+            "id": "card_p1_your_studies_000",
+            "part": 1,
+            "topic": "your work or studies",
+            "difficulty": "core",
+            "tags": ["work", "education", "present-tense", "frame-personal"],
+            "frame_tier": 1,
+            "frame_kind": "personal",
+            "questions": [
+              "Do you work, or are you a student?",
+              "What does a typical day look like for you?",
+              "How did you end up doing that?",
+              "What's the part of it you enjoy most?",
+              "Is it something you'd still like to be doing in ten years?"
+            ],
+            "teaching": {
+              "schema_version": 1,
+              "tense_focus": "present simple for routine, past simple for the decision, 'would' for the future",
+              "band_move": "Answer, then add one reason. Never stop at the direct answer and wait.",
+              "questions": [
+                {
+                  "q_index": 0,
+                  "angle": "A1",
+                  "answer_shape": "Say which one, name the subject or role, then add where.",
+                  "extend_move": "I'm a student — I'm in my second year of accountancy at a university here in the city.",
+                  "common_error": { "wrong": "I am study accountancy.", "right": "I'm studying accountancy.", "why": "After 'am', 'study' must take the -ing form." },
+                  "probe": "And how long have you been doing that?"
+                },
+                {
+                  "q_index": 1,
+                  "angle": "A3",
+                  "answer_shape": "One sentence of routine, then one detail that is specific to you.",
+                  "extend_move": "Most days I'm in from about nine, though on Wednesdays I work from home.",
+                  "common_error": { "wrong": "I go usually at nine.", "right": "I usually leave at nine.", "why": "Frequency adverbs sit before the main verb." },
+                  "probe": "Is it the same at weekends?"
+                },
+                {
+                  "q_index": 2,
+                  "angle": "A5",
+                  "answer_shape": "Past simple for the decision, then one reason in the present.",
+                  "extend_move": "I more or less fell into it — my brother did the same course and talked me into it.",
+                  "common_error": { "wrong": "I choose it because my brother is doing it.", "right": "I chose it because my brother was doing it.", "why": "A past decision needs past tense in both clauses." },
+                  "probe": "Would you make the same choice again?"
+                },
+                {
+                  "q_index": 3,
+                  "angle": "A2",
+                  "answer_shape": "Name the part, say why in one clause, then a small concrete example.",
+                  "extend_move": "What I like about it is the people — there's always somebody you can ask.",
+                  "common_error": { "wrong": "The most thing I like is the people.", "right": "The thing I like most is the people.", "why": "'Most' follows the verb; it does not sit before the noun." },
+                  "probe": "And is there a part you'd happily do without?"
+                },
+                {
+                  "q_index": 4,
+                  "angle": "A6",
+                  "answer_shape": "Say yes, no or probably, then attach one condition or plan.",
+                  "extend_move": "Probably not in the same role — I'd like to have moved into something more hands-on by then.",
+                  "common_error": { "wrong": "I think I will do maybe something else.", "right": "I'd probably be doing something else by then.", "why": "Speculating ten years ahead takes 'would', not 'will'." },
+                  "probe": "What would have to change for that to happen?"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "card_p1_asking_for_help_000",
+          "part": 1,
+          "card_set_id": "set_helping_problem_000",
+          "topic_id": "topic_communication",
+          "title": "asking people for help",
+          "difficulty": "core",
+          "tags_json": ["communication", "curveball", "quantifiers", "frame-topic"],
+          "payload_json": {
+            "schema_version": 2,
+            "id": "card_p1_asking_for_help_000",
+            "part": 1,
+            "topic": "asking people for help",
+            "difficulty": "core",
+            "tags": ["communication", "curveball", "quantifiers", "frame-topic"],
+            "frame_tier": 3,
+            "frame_kind": "topic",
+            "questions": [
+              "Do you find it easy to ask other people for help?",
+              "Who do you usually turn to when something goes wrong?",
+              "Were you the sort of child who asked a lot of questions?",
+              "Is it common where you live for neighbours to help each other out?",
+              "Do you think people find it harder to ask for help than to offer it?"
+            ],
+            "teaching": {
+              "schema_version": 1,
+              "tense_focus": "present simple for habits, past simple and 'used to' for childhood, 'would' for the opinion",
+              "band_move": "Generalise with a quantifier — 'most people I know', 'a fair few' — instead of the bare word 'people'.",
+              "questions": [
+                {
+                  "q_index": 0,
+                  "angle": "A4",
+                  "answer_shape": "Answer honestly, give one reason, then say who it depends on.",
+                  "extend_move": "Not really, no — I'd rather spend an hour on it than admit I'm stuck.",
+                  "common_error": { "wrong": "I am difficult to ask help.", "right": "I find it hard to ask for help.", "why": "'Ask' takes 'for' before the thing you want." },
+                  "probe": "Has that always been the case?"
+                },
+                {
+                  "q_index": 1,
+                  "angle": "A1",
+                  "answer_shape": "Name the person or type of person, then say why them and not somebody else.",
+                  "extend_move": "Usually my older sister, mainly because she never makes a fuss about it.",
+                  "common_error": { "wrong": "I turn my sister.", "right": "I turn to my sister.", "why": "'Turn to' keeps its preposition even in short answers." },
+                  "probe": "Does it depend on the kind of problem?"
+                },
+                {
+                  "q_index": 2,
+                  "angle": "A5",
+                  "answer_shape": "Past simple, one example from childhood, then contrast it with now.",
+                  "extend_move": "I was, apparently — my mother says I used to drive my teachers mad with it.",
+                  "common_error": { "wrong": "When I was child I am asking many questions.", "right": "When I was a child I used to ask a lot of questions.", "why": "Repeated past habits take 'used to', not the present." },
+                  "probe": "Do you still do that now?"
+                },
+                {
+                  "q_index": 3,
+                  "angle": "A7",
+                  "answer_shape": "Generalise with a quantifier, then give one concrete instance.",
+                  "extend_move": "It varies — on my street a fair few people would, but two roads over nobody knows anybody.",
+                  "common_error": { "wrong": "In my country the people are very helpful.", "right": "Most people where I live are pretty helpful.", "why": "Drop 'the' when you generalise about people." },
+                  "probe": "Was that different when you were younger?"
+                },
+                {
+                  "q_index": 4,
+                  "angle": "A8",
+                  "answer_shape": "Take a side, give one reason, then hedge it slightly.",
+                  "extend_move": "Far harder, I'd say — offering costs you nothing, whereas asking makes you admit something.",
+                  "common_error": { "wrong": "Is more hard to ask.", "right": "It's harder to ask.", "why": "One-syllable adjectives take -er, and English needs the subject 'it'." },
+                  "probe": "Why do you think that is?"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "card_p2_helped_someone_000",
+          "part": 2,
+          "card_set_id": "set_helping_problem_000",
+          "topic_id": "topic_communication",
+          "title": "A time you helped someone solve a problem",
+          "difficulty": "core",
+          "tags_json": ["communication", "problem-solving", "past-narrative", "third-conditional", "F5"],
+          "payload_json": {
+            "schema_version": 2,
+            "id": "card_p2_helped_someone_000",
+            "part": 2,
+            "topic": "A time you helped someone solve a problem",
+            "difficulty": "core",
+            "family": "F5",
+            "tags": ["communication", "problem-solving", "past-narrative", "third-conditional", "F5"],
+            "cue_card": {
+              "topic": "Describe a time when you helped someone solve a problem.",
+              "bullets": [
+                "what the problem was",
+                "who you were helping",
+                "what you did to help",
+                "and explain how you felt about the way it turned out."
+              ],
+              "rounding_off": [
+                "Does that person still come to you when something goes wrong?",
+                "Was it the kind of problem you'd dealt with before?"
+              ]
+            },
+            "teaching": {
+              "schema_version": 1,
+              "band_move": "Put one time phrase in your first sentence, then hold the past tense for the whole two minutes.",
+              "prep_plan": {
+                "idea_prompt": "Take the first person who comes to mind, not the most impressive story. You need detail you can actually retrieve under pressure.",
+                "note_grid": [
+                  { "bullet_index": 0, "cell": "no heating, 3 days, coldest week" },
+                  { "bullet_index": 1, "cell": "neighbour below, 74, lives alone" },
+                  { "bullet_index": 2, "cell": "went thru calls -> email w/ dates" },
+                  { "bullet_index": 3, "cell": "glad; annoyed I was late; words" }
+                ],
+                "trap": "Most candidates describe the problem for ninety seconds and never say how they felt about it."
+              },
+              "time_plan": [
+                { "from_s": 0, "to_s": 10, "segment": "opening", "goal": "Name the person and fix the time." },
+                { "from_s": 10, "to_s": 50, "segment": "bullets_1_2", "goal": "What the problem was and who it was." },
+                { "from_s": 50, "to_s": 80, "segment": "bullet_3", "goal": "What you actually did, step by step." },
+                { "from_s": 80, "to_s": 115, "segment": "bullet_4", "goal": "How you felt, and why it mattered." },
+                { "from_s": 115, "to_s": 120, "segment": "landing", "goal": "One general sentence about problems like that." }
+              ],
+              "recovery_moves": [
+                { "rung": 1, "prompt": "Zoom in: describe what you actually wrote or said — how long it was, what came first." },
+                { "rung": 2, "prompt": "Add time depth: say what they had already tried in the days before you got involved." },
+                { "rung": 3, "prompt": "Bring in the other side: say what the person on the phone or at the desk told them." },
+                { "rung": 5, "prompt": "Speculate: say what would probably have happened if nobody had stepped in." }
+              ],
+              "target_language": ["narrating", "evaluating", "conceding"],
+              "error_watchlist": [
+                { "pattern": "tense consistency in narrative", "wrong": "So I go round and she tells me the heating is not working.", "right": "So I went round and she told me the heating wasn't working.", "why": "One time phrase at the start, then stay in the past.", "criterion": "GRA" },
+                { "pattern": "third conditional for regret", "wrong": "If I knew before, I would go earlier.", "right": "If I'd known earlier, I'd have gone round sooner.", "why": "Regret about the past needs two perfect forms.", "criterion": "GRA" },
+                { "pattern": "articles with singular countable nouns", "wrong": "She is old lady who lives alone.", "right": "She's an old lady who lives on her own.", "why": "A singular countable noun always takes a determiner.", "criterion": "GRA" }
+              ],
+              "pronunciation_focus": {
+                "priority": "ed_endings",
+                "tier": 2,
+                "why_here": "Every verb in this story is past tense, and a dropped -ed reads as a tense error too.",
+                "target_words": [
+                  { "word": "helped", "stress": "HELPED", "note": "-ed is /t/ here, one syllable, not 'help-ed'." },
+                  { "word": "phoned", "stress": "PHONED", "note": "-ed is /d/, blended straight onto the /n/." },
+                  { "word": "sorted", "stress": "SOR-ted", "note": "-ed is /ɪd/ — this one really is an extra syllable." },
+                  { "word": "annoyed", "stress": "a-NOYED", "note": "Stress on the second syllable; -ed is /d/." },
+                  { "word": "realised", "stress": "REA-lised", "note": "Three syllables, stress first; -ed is /d/." }
+                ],
+                "chunking_drill": {
+                  "sentence": "She'd rung the letting agency twice, but nobody had called her back, and she was getting nowhere with it.",
+                  "chunks": ["She'd rung the letting agency twice,", "but nobody had called her back,", "and she was getting nowhere with it."]
+                },
+                "minimal_pairs": [
+                  { "a": "past", "b": "passed", "contrast": "final cluster /st/ retained in both — do not simplify to 'pas'" }
+                ]
+              },
+              "examiner_note": "The examiner is silent for the entire long turn and will cut in at 2:00, mid-sentence if necessary. If the talk runs the full two minutes the rounding-off questions may be skipped.",
+              "swap_slots": [
+                { "span": "last winter", "prompt": "Your own time reference — a season, a year, or 'a couple of years ago'. One is enough." },
+                { "span": "my neighbour — she's in her seventies and she lives on her own in the flat below mine", "prompt": "Your own person: one relationship plus one specific detail, never a general description." },
+                { "span": "her heating had stopped working", "prompt": "Your own problem — something concrete that had a deadline attached to it." },
+                { "span": "a short email with the dates on it", "prompt": "What you actually did. One action, described precisely enough to picture." }
+              ],
+              "transfer_drill": "Now tell the same three moves — the problem, what you did, what it taught you — about a time somebody helped YOU. Forty-five seconds.",
+              "model_answers": [
+                {
+                  "band_target": 6,
+                  "label": "Where most candidates land",
+                  "approx_seconds": 95,
+                  "transcript": "I want to talk about the time when I helped my neighbour. She is old lady, she lives under my flat, and she lives alone.\n\nSo the problem was that her heating is not working. And it was very cold at that time, so it was a big problem for her. She called the agency two times but nobody came, and she didn't know what to do, so she was very stressed.\n\nSo I helped her. First we talked about what she said on the phone. And then I wrote an email for her. In the email I put the dates, and I put that she is seventy-four years old and she has no heating. And after that, the next day, a man came and he fixed it. So it was good.\n\nI felt very happy because I helped her. And also I felt a little bit bad, because I didn't know before. If I know before, I go earlier. But anyway it was good in the end. It was a nice feeling to help somebody. And now we are more friendly, we say hello when we see each other. So yes, this is the time when I helped someone with a problem.",
+                  "what_caps_it": [
+                    { "criterion": "FC", "point": "Nine sentences start with 'so' or 'and'; the listener hears a list, not a story." },
+                    { "criterion": "GRA", "point": "The tense slips into the present three times and the conditional collapses entirely." },
+                    { "criterion": "LR", "point": "'Good', 'happy', 'nice', 'big problem' — the whole evaluation runs on four flat adjectives." }
+                  ],
+                  "what_lifts_it": [],
+                  "annotations": [
+                    { "span": "I want to talk about the time when I helped my neighbour.", "kind": "move", "criterion": "FC", "label": "Names the topic in the first sentence", "why": "Keep this — it puts the examiner on-task immediately and costs nothing.", "transferable": true },
+                    { "span": "She is old lady", "kind": "avoid", "criterion": "GRA", "label": "Missing article before a singular noun", "why": "Say 'an old lady'. A singular countable noun always needs a determiner.", "transferable": false },
+                    { "span": "So the problem was that her heating is not working.", "kind": "avoid", "criterion": "GRA", "label": "Story slips out of the past tense", "why": "Fix the tense in sentence one, then hold past simple all the way through.", "transferable": false },
+                    { "span": "If I know before, I go earlier.", "kind": "avoid", "criterion": "GRA", "label": "Regret collapses into the present", "why": "Regret about the past needs 'If I'd known earlier, I'd have gone sooner.'", "transferable": false },
+                    { "span": "So it was good.", "kind": "avoid", "criterion": "LR", "label": "Flat evaluation, and it is used twice", "why": "Swap for 'it made a real difference' or 'she was hugely relieved'.", "transferable": false },
+                    { "span": "So yes, this is the time when I helped someone with a problem.", "kind": "avoid", "criterion": "FC", "label": "Closes by repeating the card", "why": "Close on a thought about the event, not a restatement of the prompt.", "transferable": false }
+                  ]
+                },
+                {
+                  "band_target": 7,
+                  "label": "The target — same story, better language",
+                  "approx_seconds": 120,
+                  "transcript": "I'll talk about something that happened last winter, when I ended up helping my neighbour — she's in her seventies and she lives on her own in the flat below mine.\n\nThe problem was that her heating had stopped working, and it had been off for about three days before I found out about it. She'd rung the letting agency twice, but nobody had called her back, and she was getting nowhere with it. What made it worse was that it was one of the coldest weeks we'd had that year, so it really wasn't something that could wait.\n\nWhat I did, really, was two things. First I sat down with her and we went through what she'd already said on the phone, because I suspected she was being fobbed off rather than actually refused. Then I helped her put it in writing — a short email with the dates on it, and a line saying she was seventy-four and had no heating. That took about twenty minutes. Somebody came out the following morning.\n\nAs for how I felt about it — pleased, obviously, but also slightly annoyed with myself, because if I'd known earlier I'd have gone round on the first day. The bit that stayed with me wasn't fixing the boiler; it was realising how much difference it made just knowing which words to use. She'd been asking perfectly politely and getting nowhere, whereas the email took twenty minutes and worked straight away. I suppose that's the thing about problems like that — quite often people don't need an expert, they just need somebody next to them who isn't panicking.",
+                  "what_caps_it": [],
+                  "what_lifts_it": [
+                    { "criterion": "GRA", "point": "One past perfect and one third conditional replace the flat run of past simples." },
+                    { "criterion": "LR", "point": "'Getting nowhere', 'fobbed off', 'straight away' — chunks, not single adjectives." },
+                    { "criterion": "FC", "point": "Three explicit signposts give the turn a shape the listener can hear coming." }
+                  ],
+                  "annotations": [
+                    { "span": "I'll talk about something that happened last winter", "kind": "move", "criterion": "FC", "label": "Fixes the time frame immediately", "why": "One time phrase up front locks the whole answer into the past.", "transferable": true },
+                    { "span": "it had been off for about three days before I found out about it", "kind": "grammar", "criterion": "GRA", "label": "Past perfect sets the background", "why": "Use it once per story to show two layers of time.", "transferable": true },
+                    { "span": "she was getting nowhere with it", "kind": "lexis", "criterion": "LR", "label": "'Getting nowhere' is one chunk, not three words", "why": "Reuse it for any stalled process — a complaint, an application, a search.", "transferable": true },
+                    { "span": "What I did, really, was two things.", "kind": "move", "criterion": "FC", "label": "Announces the shape before filling it", "why": "Saying how many parts are coming buys thinking time and sounds organised.", "transferable": true },
+                    { "span": "being fobbed off rather than actually refused", "kind": "lexis", "criterion": "LR", "label": "A precise phrasal verb, not a big word", "why": "Mid-frequency precision scores higher than a rare formal word used loosely.", "transferable": true },
+                    { "span": "As for how I felt about it", "kind": "move", "criterion": "FC", "label": "Signposts the fourth bullet out loud", "why": "Naming the move stops you forgetting the 'explain' bullet entirely.", "transferable": true },
+                    { "span": "if I'd known earlier I'd have gone round on the first day", "kind": "grammar", "criterion": "GRA", "label": "Third conditional for regret", "why": "This is the natural structure on any 'how did you feel' bullet.", "transferable": true },
+                    { "span": "The bit that stayed with me wasn't fixing the boiler; it was realising", "kind": "prosody", "criterion": "PRON", "label": "Stress falls on 'realising'", "why": "Contrastive stress makes the point audible without adding a single word.", "transferable": true },
+                    { "span": "whereas the email took twenty minutes and worked straight away", "kind": "move", "criterion": "FC", "label": "Contrast joined with 'whereas', not 'but'", "why": "'Whereas' links two full clauses; 'but' would flatten the comparison.", "transferable": true },
+                    { "span": "pleased, obviously, but also slightly annoyed with myself", "kind": "repair", "criterion": "FC", "label": "Two feelings instead of one", "why": "Mixed feelings hand you a reason clause for free.", "transferable": true }
+                  ]
+                },
+                {
+                  "band_target": 8,
+                  "label": "The ceiling — one further step",
+                  "approx_seconds": 115,
+                  "transcript": "This is about my downstairs neighbour, who's in her mid-seventies and lives on her own, and something that happened during a cold snap last winter.\n\nHer heating had packed up, and by the time I got wind of it she'd been without it for the best part of three days. She'd phoned the letting agency twice and been given the usual vague reassurances, and she'd more or less resigned herself to nothing happening. What struck me was that she hadn't been helpless in the slightest — she'd done everything you're supposed to do. She simply hadn't done it in a form that anybody had to answer.\n\nSo we sat down and reconstructed the calls, and it was fairly obvious she was being managed rather than refused. Between us we put together an email — four lines, the dates set out plainly, her age, the temperature outside — and copied in the landlord. An engineer turned up before nine the next morning.\n\nLooking back, what stays with me isn't the boiler at all. It's how narrow the gap was between being ignored and being dealt with: twenty minutes and the right register. Had I gone round on the first day, she'd have had heating for two extra nights, and that's the part I'm still not entirely comfortable with. I suspect that's true of a lot of these situations — what people are short of isn't expertise, it's somebody standing next to them who isn't panicking.",
+                  "what_caps_it": [],
+                  "what_lifts_it": [
+                    { "criterion": "GRA", "point": "Inversion instead of 'if', plus a passive contrast, where band 7 used the standard conditional." },
+                    { "criterion": "LR", "point": "'Packed up', 'got wind of', 'a cold snap' — idiom sits naturally instead of being displayed." },
+                    { "criterion": "FC", "point": "The close abstracts away from the story rather than summarising it." }
+                  ],
+                  "annotations": [
+                    { "span": "Had I gone round on the first day", "kind": "grammar", "criterion": "GRA", "label": "Inversion instead of 'if'", "why": "Same meaning as the third conditional, higher register, still sounds spoken.", "transferable": true },
+                    { "span": "Her heating had packed up", "kind": "lexis", "criterion": "LR", "label": "Idiom used exactly where a native would", "why": "Two natural idioms in two minutes beat five decorative ones.", "transferable": true },
+                    { "span": "she was being managed rather than refused", "kind": "lexis", "criterion": "LR", "label": "One precise contrast carries the whole point", "why": "Choosing 'managed' over 'ignored' is the shade of meaning band 8 rewards.", "transferable": true },
+                    { "span": "It's how narrow the gap was between being ignored and being dealt with", "kind": "move", "criterion": "FC", "label": "Abstracts the story into a general idea", "why": "Ending on a generalisation lifts the whole turn out of anecdote.", "transferable": true },
+                    { "span": "four lines, the dates set out plainly, her age, the temperature outside", "kind": "prosody", "criterion": "PRON", "label": "A list delivered as one rhythmic run", "why": "Group into chunks at level pitch, then fall on the last item.", "transferable": true }
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": "card_p3_problem_solving_000",
+          "part": 3,
+          "card_set_id": "set_helping_problem_000",
+          "topic_id": "topic_education",
+          "title": "Solving problems and asking for help",
+          "difficulty": "stretch",
+          "tags_json": ["education", "communication", "society", "abstract"],
+          "payload_json": {
+            "schema_version": 2,
+            "id": "card_p3_problem_solving_000",
+            "part": 3,
+            "topic": "Solving problems and asking for help",
+            "difficulty": "stretch",
+            "tags": ["education", "communication", "society", "abstract"],
+            "part3_themes": [
+              {
+                "title": "how people learn to solve problems",
+                "questions": [
+                  "Why do some people give up on a problem much sooner than others?",
+                  "Do you think children today get enough chances to sort things out for themselves?",
+                  "As more everyday problems get handled by apps, will people get worse at working things out?"
+                ],
+                "counterpoint": "if a machine can solve it in seconds, there is no virtue in struggling with it yourself",
+                "counter_probe": "Some people would say that's just nostalgia. What would you say to them?",
+                "concession_frame": "There's something in that — though the part that worries me is ___",
+                "target_functions": ["speculating", "hedging"],
+                "abstraction_ladder": {
+                  "concrete": "Who helped you the last time you were properly stuck?",
+                  "local_general": "Do people your age generally try to fix things themselves first?",
+                  "societal_abstract": "Does a society lose something when problems get handled by systems rather than by people?"
+                },
+                "question_notes": [
+                  { "q_index": 0, "move": "M4", "archetype": "cause", "answer_shape": "Name one cause, add a second, then say which of the two matters more.", "probe": "Is that something that can be taught?", "watch_out": "Don't list five causes. Take two and rank them." },
+                  { "q_index": 1, "move": "M3", "archetype": "comparison", "answer_shape": "Compare with your own childhood, then name what changed and why.", "probe": "What would you change about that?", "watch_out": "Use 'used to' once — it is the natural form here and it is worth grammar credit." },
+                  { "q_index": 2, "move": "M2", "archetype": "speculation", "answer_shape": "Predict, hedge the prediction, then name the one skill you think survives.", "probe": "What makes you say that?", "watch_out": "'Will' on its own sounds certain — pair it with 'I'd imagine' or 'is likely to'." }
+                ]
+              },
+              {
+                "title": "who people turn to for help",
+                "questions": [
+                  "Where do people in your country usually go first when they need practical help?",
+                  "Should looking after older neighbours be a job for the community or for the state?",
+                  "Is it easier to ask for help in a small town than in a big city?"
+                ],
+                "counterpoint": "people say they want a close community, but most of them would rather ring a call centre than knock on a door",
+                "counter_probe": "But isn't that just what people say, rather than what they actually do?",
+                "concession_frame": "That's fair up to a point — though I'd still argue ___",
+                "target_functions": ["conceding", "comparing"],
+                "abstraction_ladder": {
+                  "concrete": "Would you knock on a neighbour's door if you needed something?",
+                  "local_general": "Do neighbours in your area still look out for each other?",
+                  "societal_abstract": "Where should the line fall between what a community handles and what the state handles?"
+                },
+                "question_notes": [
+                  { "q_index": 0, "move": "M1", "archetype": "generalisation", "answer_shape": "Name the usual first port of call, then give one exception to it.", "probe": "Has that changed at all in recent years?", "watch_out": "Use a quantifier — 'most people', not the bare word 'people'." },
+                  { "q_index": 1, "move": "M6", "archetype": "responsibility", "answer_shape": "Split the job in two, give one part to each side, then justify the split.", "probe": "Who pays for that, though?", "watch_out": "Don't open three answers with 'the government should' — vary the modal." },
+                  { "q_index": 2, "move": "M8", "archetype": "comparison", "answer_shape": "Say which, name the mechanism behind it, then concede the other side.", "probe": "Is that true everywhere, do you think?", "watch_out": "Use 'whereas' once instead of reaching for 'but' again." }
+                ]
+              }
+            ],
+            "teaching": {
+              "schema_version": 1,
+              "band_move": "Concede the counter-point in one clause, then hold your position. Don't switch sides to agree with the examiner.",
+              "bridge": "We've been talking about helping one particular person. I'd like to widen that out and look at the general picture.",
+              "error_watchlist": [
+                { "pattern": "subject-verb agreement across a long subject", "wrong": "The number of people who ask for help are falling.", "right": "The number of people who ask for help is falling.", "why": "The verb belongs to 'number', not to 'people'.", "criterion": "GRA" },
+                { "pattern": "articles with general plural nouns", "wrong": "The people today don't know the neighbours.", "right": "People today don't know their neighbours.", "why": "Plural generalisations take no article at all.", "criterion": "GRA" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

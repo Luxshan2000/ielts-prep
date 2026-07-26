@@ -18,8 +18,8 @@
   "locale_hint": "en",
   "counts": {
     "topics": 20,
-    "card_sets": 12,
-    "speaking_cards": 48,
+    "card_sets": 68,
+    "speaking_cards": 272,
     "writing_prompts": 16,
     "reading_passages": 6,
     "reading_tests": 2,
@@ -29,13 +29,13 @@
     "pron_pairs": 20
   },
   "checksums": {
-    "data/card_sets.jsonl": "sha256:a6c0c77e25c87d76bf1b025251484fdeeb7aeed88d05bb13e8db26083496a0e3",
+    "data/card_sets.jsonl": "sha256:22852519a94504840d1765e294462fda8742ae863e3fe071c2ff76942a5cdc69",
     "data/listening_scripts.jsonl": "sha256:c8fe1baf958e967d2385b493e6a4d1c5d811b16c49c59c4f448705590e089ddc",
     "data/listening_tests.jsonl": "sha256:35cb9a0dbded4ffe40a7b386c925abb7cacc4cee37f844153ebc5c6b963f5653",
     "data/pron_pairs.jsonl": "sha256:2dd90ca56fa2ec67b7476fa7d51b6e18a2dea362e24dfae17d383567e6e4c06b",
     "data/reading_passages.jsonl": "sha256:de5270fce15f8d4676fea7315c842b0d42e3735a2407e2960c63279274ac18b2",
     "data/reading_tests.jsonl": "sha256:698024915d7334ef842efe52972427b20291acaa97144ca5c69966bb484403d8",
-    "data/speaking_cards.jsonl": "sha256:1a3f024ad9cd7518b71d55f29acc64ba006ab201c53a965deb9f87bf2eac5794",
+    "data/speaking_cards.jsonl": "sha256:ff4735b16f7ed09e8719e9bea25991e41c07e3e5f31a1155534f98474d8257f1",
     "data/topics.jsonl": "sha256:1a460452b0dcf403c648ea805bb1f4d0c057959263873c1021ca967f35065f35",
     "data/vocab.jsonl": "sha256:fefb7acf83a4547b2ceda6395d4fda0e46cadfaa234e0c3b8dd9ec9b80be558e",
     "data/writing_prompts.jsonl": "sha256:e0369f817f1bfc76a876f5d05511fc337f14c5146d8ca5ea6ddf989acba65b6e"

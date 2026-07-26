@@ -26,7 +26,13 @@ describe("speaking route contract", () => {
 
   it("exposes the child paths the hub and history screens navigate to", () => {
     const paths = (route.children ?? []).map((c) => (c.index ? "<index>" : c.path));
-    expect(paths).toEqual(["<index>", "session/:sessionId", "report/:reportId"]);
+    expect(paths).toEqual([
+      "<index>",
+      "session/:sessionId",
+      "report/:reportId",
+      "coach",
+      "coach/:cardSetId",
+    ]);
     for (const child of route.children ?? []) expect(child.element).toBeTruthy();
   });
 });

@@ -5,7 +5,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { AlertTriangle, Mic, Radio } from "lucide-react";
+import { AlertTriangle, GraduationCap, Mic, Radio } from "lucide-react";
 import {
   Button,
   Card,
@@ -146,6 +146,28 @@ export function SpeakingHome() {
             </div>
           }
         />
+
+        {/* The teaching layer sits beside the exam, not inside it: the examiner
+            persona never teaches, so everything that does lives behind this door. */}
+        <Card>
+          <CardContent className="flex flex-wrap items-center justify-between gap-4 pt-5">
+            <div className="flex min-w-0 items-start gap-3">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/12">
+                <GraduationCap className="h-4 w-4 text-primary" aria-hidden="true" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold">Study a topic</p>
+                <p className="mt-0.5 text-[13px] text-muted-foreground">
+                  Work a cue card without the clock running: the guided prep minute, the same
+                  answer at bands 6, 7 and 8, the phrases this subject needs, and its vocabulary.
+                </p>
+              </div>
+            </div>
+            <Button variant="outline" onClick={() => navigate("/speaking/coach")}>
+              Open the topic coach
+            </Button>
+          </CardContent>
+        </Card>
 
         <section className="space-y-3">
           <h2 className="text-sm font-semibold">Recent sessions</h2>

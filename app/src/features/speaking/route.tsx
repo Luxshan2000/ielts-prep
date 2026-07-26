@@ -5,6 +5,7 @@ import { useSessionStore } from "@/stores";
 import { SpeakingHome, SpeakingLayout } from "./page";
 import { LiveSession } from "./LiveSession";
 import { FeedbackReport } from "./FeedbackReport";
+import { CoachPicker, TopicCoach } from "./components/teaching";
 
 /**
  * The Speaking room's three sequential screens live behind one sidebar entry
@@ -39,6 +40,25 @@ export default defineFeatureRoute({
       element: (
         <FeatureErrorBoundary feature="speaking report">
           <FeedbackReport />
+        </FeatureErrorBoundary>
+      ),
+    },
+    // The teaching layer: study a topic set outside a live call. Read-only against
+    // the content pack and the learner's own history, so a crash here costs nothing
+    // and the default boundary reset (a remount) is the correct recovery.
+    {
+      path: "coach",
+      element: (
+        <FeatureErrorBoundary feature="topic coach">
+          <CoachPicker />
+        </FeatureErrorBoundary>
+      ),
+    },
+    {
+      path: "coach/:cardSetId",
+      element: (
+        <FeatureErrorBoundary feature="topic coach">
+          <TopicCoach />
         </FeatureErrorBoundary>
       ),
     },

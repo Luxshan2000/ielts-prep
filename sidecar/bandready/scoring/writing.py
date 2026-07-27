@@ -355,9 +355,12 @@ def _check(checks: Iterable[Mapping[str, Any]], check_id: str) -> dict[str, Any]
 
 CHART_KINDS: tuple[str, ...] = (
     "bar", "grouped_bar", "stacked_bar", "line", "pie", "table", "process", "map",
+    "mixed",
 )
 MAX_SERIES = 5
 MAX_CATEGORIES = 12
+#: A pie may carry 2–3 rings (a pair or trio, staging-writing/DESIGN.md §6.5).
+MAX_PIE_SERIES = 3
 
 _KIND_LABEL = {
     "bar": "Bar chart",
@@ -368,22 +371,56 @@ _KIND_LABEL = {
     "table": "Table",
     "process": "Process diagram",
     "map": "Map pair",
+    "mixed": "Combined visual",
 }
 
 
-def validate_chart_spec(spec: Any) -> dict[str, Any]:
-    """Validate/normalise a generated chart spec. Raises ``ValueError`` when unusable."""
+def _kind_label(kind: str, spec: Mapping[str, Any] | None = None) -> str:
+    """Mirror of ``chart/spec.ts:kindLabel`` — a pie pair/trio says so."""
+    if kind == "pie" and spec is not None:
+        rings = len(spec.get("series") or [])
+        if rings > 1:
+            return "Pie charts (three)" if rings > 2 else "Pie charts (pair)"
+    return _KIND_LABEL.get(kind, "Visual")
+
+
+def validate_chart_spec(spec: Any, *, _nested: bool = False) -> dict[str, Any]:
+    """Validate/normalise a generated chart spec. Raises ``ValueError`` when unusable.
+
+    Rebuilds the spec from a fixed key list, so it also carries the v2 additions of
+    ``staging-writing/DESIGN.md`` §6.1 — ``spec_version``, ``notes``, and, for
+    ``kind: "mixed"``, the two child ``panels`` plus ``panel_link``. Without that, a
+    generated combined task would be silently flattened back to v1.
+    """
     if not isinstance(spec, Mapping):
         raise ValueError("chart_spec must be an object")
     kind = str(spec.get("kind") or "").strip()
     if kind not in CHART_KINDS:
         raise ValueError(f"chart_spec.kind must be one of {', '.join(CHART_KINDS)}")
+    if kind == "mixed" and _nested:
+        raise ValueError("a mixed panel may not itself be mixed")
     title = str(spec.get("title") or "").strip()
     if not title:
         raise ValueError("chart_spec.title is required")
     out: dict[str, Any] = {"kind": kind, "title": title}
     if spec.get("unit"):
         out["unit"] = str(spec["unit"])
+    if spec.get("notes"):
+        out["notes"] = str(spec["notes"])[:120]
+    if kind == "mixed":
+        panels = spec.get("panels")
+        if not isinstance(panels, list) or len(panels) != 2:
+            raise ValueError("a mixed chart_spec needs exactly two panels")
+        children = [validate_chart_spec(panel, _nested=True) for panel in panels]
+        if children[0]["kind"] == children[1]["kind"]:
+            raise ValueError("a mixed chart_spec needs two panels of different kinds")
+        out["spec_version"] = 2
+        out["panels"] = children
+        if spec.get("panel_link"):
+            out["panel_link"] = str(spec["panel_link"])
+        return out
+    if _is_number(spec.get("spec_version")):
+        out["spec_version"] = int(spec["spec_version"])
 
     if kind in ("bar", "grouped_bar", "stacked_bar", "line", "pie"):
         x_axis = spec.get("x_axis") if isinstance(spec.get("x_axis"), Mapping) else {}
@@ -404,8 +441,8 @@ def validate_chart_spec(spec: Any) -> dict[str, Any]:
             except (TypeError, ValueError) as exc:
                 raise ValueError("chart_spec.series values must be numbers") from exc
             series.append({"name": name, "values": numbers})
-        if kind == "pie" and len(series) != 1:
-            raise ValueError("a pie chart takes exactly one series")
+        if kind == "pie" and not 1 <= len(series) <= MAX_PIE_SERIES:
+            raise ValueError(f"a pie chart takes 1–{MAX_PIE_SERIES} series (one ring each)")
         if not categories:
             categories = [f"Item {i + 1}" for i in range(len(series[0]["values"]))]
         for item in series:
@@ -491,14 +528,41 @@ def chart_to_text(spec: Any) -> str:
             return ""
     if not isinstance(spec, Mapping):
         return ""
+    lines = [_chart_head(spec)]
+    notes = str(spec.get("notes") or "").strip()
+    if notes:
+        lines.append(f"Note: {notes}")
+
+    if str(spec.get("kind") or "") == "mixed":
+        panels = [
+            panel for panel in (spec.get("panels") or [])
+            if isinstance(panel, Mapping) and str(panel.get("kind") or "") != "mixed"
+        ]
+        for index, panel in enumerate(panels, start=1):
+            lines.append(f"Visual {index}: {_chart_head(panel)}")
+            panel_notes = str(panel.get("notes") or "").strip()
+            if panel_notes:
+                lines.append(f"Note: {panel_notes}")
+            _chart_body_lines(panel, lines)
+        return "\n".join(lines)
+
+    _chart_body_lines(spec, lines)
+    return "\n".join(lines)
+
+
+def _chart_head(spec: Mapping[str, Any]) -> str:
     kind = str(spec.get("kind") or "")
     title = str(spec.get("title") or "").strip()
     unit = str(spec.get("unit") or "").strip()
-    head = f"{_KIND_LABEL.get(kind, 'Visual')}: {title}"
+    head = f"{_kind_label(kind, spec)}: {title}"
     if unit:
         head += f" (units: {unit})"
-    lines = [head]
+    return head
 
+
+def _chart_body_lines(spec: Mapping[str, Any], lines: list[str]) -> None:
+    """The data half of one spec (or one `mixed` panel). Appends to ``lines``."""
+    kind = str(spec.get("kind") or "")
     if kind in ("bar", "grouped_bar", "stacked_bar", "line"):
         x_axis = spec.get("x_axis") or {}
         categories = [str(c) for c in (x_axis.get("categories") or [])]
@@ -517,13 +581,23 @@ def chart_to_text(spec: Any) -> str:
             )
             lines.append(f"{item.get('name', 'Series')}: {pairs}")
     elif kind == "pie":
-        series = (spec.get("series") or [{}])[0]
         categories = [str(c) for c in ((spec.get("x_axis") or {}).get("categories") or [])]
-        pairs = ", ".join(
-            f"{cat} {_fmt(val)}"
-            for cat, val in zip(categories, series.get("values") or [], strict=False)
-        )
-        lines.append(f"Segments: {pairs}")
+        rings = [
+            ring for ring in (spec.get("series") or [])
+            if isinstance(ring, Mapping) and ring.get("values")
+        ][:MAX_PIE_SERIES]
+        single = len(rings) <= 1
+        for index, ring in enumerate(rings):
+            pairs = ", ".join(
+                f"{cat} {_fmt(val)}"
+                for cat, val in zip(categories, ring.get("values") or [], strict=False)
+            )
+            name = str(ring.get("name") or "") or (
+                "Share of the total" if index == 0 else f"Chart {index + 1}"
+            )
+            lines.append(f"{'Segments' if single else f'Segments in {name}'}: {pairs}")
+        if not rings:
+            lines.append("Segments: " + ", ".join(categories))
     elif kind == "table":
         rows = spec.get("rows") or []
         if rows:
@@ -549,7 +623,6 @@ def chart_to_text(spec: Any) -> str:
                 if isinstance(f, Mapping)
             )
             lines.append(f"{snapshot.get('label', 'Snapshot')}: {features}")
-    return "\n".join(lines)
 
 
 # --------------------------------------------------------------------------------------

@@ -1,27 +1,17 @@
 /**
  * Client mirror of the sidecar's `bandready.scoring.writing.chart_to_text`
- * (05 §2.2). It is NOT sent to the model — the sidecar builds its own copy for
- * the evaluator — but it is what the SVG announces to a screen reader and what
- * "Copy the data as text" puts on the clipboard, so the two stay in the same
- * shape deliberately.
+ * (05 §2.2, extended for chart_spec v2 in staging-writing/DESIGN.md §6.6). It is
+ * NOT sent to the model — the sidecar builds its own copy for the evaluator —
+ * but it is what "Copy the data as text" puts on the clipboard, so the two stay
+ * in the same shape deliberately.
+ *
+ * The *accessible* reading of a chart is `describe.ts`, which is longer and
+ * written for a person; this one is the terse machine-parity form.
  */
 
-import type { ChartSpec } from "../../store";
+import { kindLabel, pieRings, type ChartSpecLike } from "./spec";
 
-const KIND_LABEL: Record<string, string> = {
-  bar: "Bar chart",
-  grouped_bar: "Grouped bar chart",
-  stacked_bar: "Stacked bar chart",
-  line: "Line graph",
-  pie: "Pie chart",
-  table: "Table",
-  process: "Process diagram",
-  map: "Map pair",
-};
-
-export function kindLabel(kind: string): string {
-  return KIND_LABEL[kind] ?? "Visual";
-}
+export { kindLabel };
 
 const fmt = (value: unknown): string => {
   if (typeof value === "number" && Number.isFinite(value)) {
@@ -30,16 +20,15 @@ const fmt = (value: unknown): string => {
   return String(value ?? "");
 };
 
-export function chartToSummary(spec: ChartSpec | null): string {
-  if (!spec) return "";
-  const unit = (spec.unit ?? "").trim();
-  const head = `${kindLabel(spec.kind)}: ${(spec.title ?? "").trim()}${
-    unit ? ` (units: ${unit})` : ""
-  }`;
-  const lines: string[] = [head];
+function bodyLines(spec: ChartSpecLike, lines: string[]): void {
   const categories = (spec.x_axis?.categories ?? []).map(String);
 
-  if (spec.kind === "bar" || spec.kind === "grouped_bar" || spec.kind === "stacked_bar" || spec.kind === "line") {
+  if (
+    spec.kind === "bar" ||
+    spec.kind === "grouped_bar" ||
+    spec.kind === "stacked_bar" ||
+    spec.kind === "line"
+  ) {
     if (spec.x_axis?.label) {
       lines.push(`Horizontal axis (${spec.x_axis.label}): ${categories.join(", ")}`);
     }
@@ -56,10 +45,17 @@ export function chartToSummary(spec: ChartSpec | null): string {
       lines.push(`${series.name || "Series"}: ${pairs}`);
     }
   } else if (spec.kind === "pie") {
-    const values = spec.series?.[0]?.values ?? [];
-    lines.push(
-      `Segments: ${values.map((value, i) => `${categories[i] ?? `#${i + 1}`} ${fmt(value)}`).join(", ")}`,
-    );
+    const rings = pieRings(spec);
+    const single = rings.length <= 1;
+    for (const ring of rings) {
+      const pairs = ring.values
+        .map((value, i) => `${categories[i] ?? `#${i + 1}`} ${fmt(value)}`)
+        .join(", ");
+      lines.push(`${single ? "Segments" : `Segments in ${ring.name}`}: ${pairs}`);
+    }
+    if (rings.length === 0) {
+      lines.push(`Segments: ${categories.join(", ")}`);
+    }
   } else if (spec.kind === "table") {
     const rows = spec.rows ?? [];
     if (rows.length > 0) {
@@ -82,5 +78,34 @@ export function chartToSummary(spec: ChartSpec | null): string {
       lines.push(`${snapshot.label || "Snapshot"}: ${features}`);
     }
   }
+}
+
+function head(spec: ChartSpecLike): string {
+  const unit = (spec.unit ?? "").trim();
+  return `${kindLabel(spec.kind, spec)}: ${(spec.title ?? "").trim()}${
+    unit ? ` (units: ${unit})` : ""
+  }`;
+}
+
+export function chartToSummary(spec: ChartSpecLike | null | undefined): string {
+  if (!spec || typeof spec !== "object" || typeof spec.kind !== "string") return "";
+  const lines: string[] = [head(spec)];
+  const notes = (spec.notes ?? "").trim();
+  if (notes) lines.push(`Note: ${notes}`);
+
+  if (spec.kind === "mixed") {
+    const panels = (spec.panels ?? []).filter(
+      (panel) => panel && typeof panel === "object" && panel.kind !== "mixed",
+    );
+    panels.forEach((panel, index) => {
+      lines.push(`Visual ${index + 1}: ${head(panel)}`);
+      const panelNotes = (panel.notes ?? "").trim();
+      if (panelNotes) lines.push(`Note: ${panelNotes}`);
+      bodyLines(panel, lines);
+    });
+    return lines.join("\n");
+  }
+
+  bodyLines(spec, lines);
   return lines.join("\n");
 }

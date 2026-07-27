@@ -14,6 +14,9 @@
 import { create } from "zustand";
 import { api } from "@/lib/api";
 import { friendlyMessage } from "@/lib/errors";
+// Type-only: the payload's shape is owned by the coach, which is its only reader.
+// `import type` is erased at build time, so this is a name, not a module cycle.
+import type { WritingTeaching } from "./components/coach/types";
 
 // ------------------------------------------------------------------- types ---
 
@@ -87,6 +90,16 @@ export interface WritingPrompt {
   license: string | null;
   retired: boolean;
   created_at: string | null;
+  /**
+   * The authored teaching payload (`writing_prompts.teaching_json`), served by
+   * `_prompt_payload` as `teaching`.
+   *
+   * **Absent by default and always optional.** The sixteen prompts that shipped
+   * before this payload existed carry none, and a sidecar predating the column
+   * omits the key entirely — so every consumer degrades to "this prompt has no
+   * teaching material" rather than assuming one is there.
+   */
+  teaching?: WritingTeaching | null;
 }
 
 export type AnnotationType =

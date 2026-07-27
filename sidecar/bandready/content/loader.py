@@ -152,7 +152,7 @@ TABLE_COLUMNS: dict[str, tuple[tuple[str, bool], ...]] = {
     "writing_prompts": (
         ("id", False), ("task_type", False), ("genre", False), ("topic_id", False),
         ("topic_tags", True), ("difficulty", False), ("prompt_text", False),
-        ("chart_spec", True), ("letter_bullets", True),
+        ("chart_spec", True), ("letter_bullets", True), ("teaching_json", True),
     ),
     "reading_passages": (
         ("id", False), ("format", False), ("title", False), ("topic_id", False),

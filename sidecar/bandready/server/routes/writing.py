@@ -40,6 +40,7 @@ from bandready.scoring.rubrics import rubric_payload
 from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
 from bandready.server.jobs import job_manager
+from bandready.writing import coach
 
 _log = logging.getLogger("bandready.routes.writing")
 
@@ -121,6 +122,13 @@ def _prompt_payload(prompt: m.WritingPrompt) -> dict[str, Any]:
         "prompt_text": prompt.prompt_text,
         "chart_spec": _loads(prompt.chart_spec),
         "letter_bullets": _loads(prompt.letter_bullets, []) or [],
+        # The authored teaching layer, minus everything the attempt gate withholds.
+        # Null on a prompt that carries none — the app must render "no teaching
+        # material" rather than assume it is there. The model answers, the ladder, the
+        # swap slots and the Academic overview's content are *not* here at any price:
+        # they leave only through GET /writing/coach/prompts/{id}/teaching, which asks
+        # the learner's attempt history first (writing/coach.py:redact_gated).
+        "teaching": coach.redact_gated(_loads(getattr(prompt, "teaching_json", None))),
         "min_words": meta.get("min_words"),
         "time_limit_s": (int(meta["minutes"]) * 60) if meta.get("minutes") else None,
         "source": prompt.source,

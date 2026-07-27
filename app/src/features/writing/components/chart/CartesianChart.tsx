@@ -10,7 +10,6 @@
 
 import { useMemo, useState } from "react";
 import { cn } from "@/lib/cn";
-import type { ChartSpec } from "../../store";
 import {
   AXIS_FONT,
   LABEL_FONT,
@@ -23,20 +22,33 @@ import {
   seriesInk,
   textWidth,
 } from "./palette";
+import type { ChartSpecLike } from "./spec";
 
 export interface CartesianChartProps {
-  spec: ChartSpec;
+  spec: ChartSpecLike;
   width: number;
-  /** Accessible description — the shared chart summary. */
+  /** Accessible name for the graphic — kind, title and unit. */
   ariaLabel: string;
+  /** id of the full text alternative, announced after the label. */
+  describedBy?: string;
 }
+
+/**
+ * Below this per-category width the marks and their labels stop being readable,
+ * so the chart keeps its size and scrolls inside its own container instead of
+ * shrinking (and instead of pushing the page into a horizontal scroll).
+ */
+const MIN_BAND = 46;
+
+/** Category labels tilt by this much when they will not fit horizontally. */
+const ROTATION = (35 * Math.PI) / 180;
 
 interface HoverState {
   index: number;
   x: number;
 }
 
-export function CartesianChart({ spec, width, ariaLabel }: CartesianChartProps) {
+export function CartesianChart({ spec, width, ariaLabel, describedBy }: CartesianChartProps) {
   const [hover, setHover] = useState<HoverState | null>(null);
 
   const categories = useMemo(
@@ -76,15 +88,44 @@ export function CartesianChart({ spec, width, ariaLabel }: CartesianChartProps) 
     18,
   );
 
+  /**
+   * The vertical axis must always name what is measured — the unit stands in
+   * when the spec gave no explicit axis label, because "22" with no unit is not
+   * describable in prose and the candidate has to write the unit down.
+   */
+  const yAxisTitle = (spec.y_axis?.label ?? "").trim() || (spec.unit ?? "").trim();
+
+  // Keep the marks legible on a narrow pane; the container scrolls instead.
+  const minBand = isLine ? MIN_BAND : Math.max(MIN_BAND, series.length * 12 + 20);
+
+  /**
+   * A −35° category label reaches down *and* to the left of its tick. That used
+   * to be absorbed by `overflow: visible`, which stops working the moment the
+   * chart scrolls inside a clipping container — so the reach is measured and
+   * reserved as margin instead of being allowed to spill.
+   */
+  const longestRotated = Math.max(
+    0,
+    ...categories.map((c) => textWidth(c.length > 22 ? `${c.slice(0, 21)}…` : c, AXIS_FONT)),
+  );
+  const rotatedLeft = rotateX ? Math.max(0, Math.ceil(Math.cos(ROTATION) * longestRotated - minBand / 2)) : 0;
+  const rotatedBottom = rotateX ? Math.ceil(Math.sin(ROTATION) * longestRotated) + 22 : 42;
+  const xTitleRoom = spec.x_axis?.label ? 20 : 0;
+
   const margin = {
     top: 22,
     right: isLine ? 16 + Math.min(96, Math.max(...series.map((s) => textWidth(s.name ?? "", LABEL_FONT)), 0)) : 18,
-    bottom: (rotateX ? 72 : 42) + (spec.x_axis?.label ? 20 : 0),
-    left: Math.ceil(tickLabelWidth) + 14 + (spec.y_axis?.label ? 18 : 0),
+    bottom: rotatedBottom + xTitleRoom,
+    left: Math.ceil(tickLabelWidth) + 14 + (yAxisTitle ? 18 : 0) + rotatedLeft,
   };
 
-  const height = Math.round(Math.min(400, Math.max(250, width * 0.58)));
-  const plotW = Math.max(60, width - margin.left - margin.right);
+  // The plot keeps its height; the rotated labels get their room on top of it.
+  const height =
+    Math.round(Math.min(400, Math.max(250, width * 0.58))) +
+    Math.max(0, margin.bottom - (42 + xTitleRoom));
+  const drawWidth = Math.max(width, margin.left + margin.right + categories.length * minBand);
+  const scrolls = drawWidth > width + 1;
+  const plotW = Math.max(60, drawWidth - margin.left - margin.right);
   const plotH = Math.max(80, height - margin.top - margin.bottom);
 
   const y = (value: number): number =>
@@ -134,13 +175,14 @@ export function CartesianChart({ spec, width, ariaLabel }: CartesianChartProps) 
   }
 
   return (
-    <div className="relative">
+    <div className={cn("relative", scrolls && "scrollbar-thin overflow-x-auto")}>
       <svg
-        width={width}
+        width={drawWidth}
         height={height}
         role="img"
         aria-label={ariaLabel}
-        className="block select-none overflow-visible"
+        aria-describedby={describedBy}
+        className={cn("block select-none", scrolls ? "" : "overflow-visible")}
         onMouseLeave={() => setHover(null)}
       >
         {/* gridlines + y ticks */}
@@ -386,7 +428,7 @@ export function CartesianChart({ spec, width, ariaLabel }: CartesianChartProps) 
             {spec.x_axis.label}
           </text>
         )}
-        {spec.y_axis?.label && (
+        {yAxisTitle && (
           <text
             x={12}
             y={margin.top + plotH / 2}
@@ -395,7 +437,7 @@ export function CartesianChart({ spec, width, ariaLabel }: CartesianChartProps) 
             transform={`rotate(-90 12 ${margin.top + plotH / 2})`}
             className="fill-foreground"
           >
-            {spec.y_axis.label}
+            {yAxisTitle}
           </text>
         )}
       </svg>
@@ -405,9 +447,9 @@ export function CartesianChart({ spec, width, ariaLabel }: CartesianChartProps) 
           role="presentation"
           className={cn(
             "pointer-events-none absolute z-20 min-w-[9rem] rounded-lg border border-border bg-card p-2.5 shadow-xl",
-            hover.x > width / 2 ? "-translate-x-full" : "",
+            hover.x > drawWidth / 2 ? "-translate-x-full" : "",
           )}
-          style={{ left: hover.x + (hover.x > width / 2 ? -12 : 12), top: margin.top }}
+          style={{ left: hover.x + (hover.x > drawWidth / 2 ? -12 : 12), top: margin.top }}
         >
           <p className="mb-1 text-[12px] font-semibold text-foreground">{categories[hover.index]}</p>
           <ul className="space-y-0.5">

@@ -9,13 +9,17 @@
  * would clip every label, and the plan's own example has six stages.
  */
 
-import type { ChartSpec, ChartStep } from "../../store";
+import { useId } from "react";
+import type { ChartStep } from "../../store";
 import { LABEL_FONT, wrapLines } from "./palette";
+import type { ChartSpecLike } from "./spec";
 
 export interface ProcessDiagramProps {
-  spec: ChartSpec;
+  spec: ChartSpecLike;
   width: number;
   ariaLabel: string;
+  /** id of the full text alternative, announced after the label. */
+  describedBy?: string;
 }
 
 interface Node {
@@ -59,7 +63,10 @@ function isLinearChain(steps: ChartStep[]): boolean {
   return steps.every((step) => (step.next ?? []).length <= 1);
 }
 
-export function ProcessDiagram({ spec, width, ariaLabel }: ProcessDiagramProps) {
+export function ProcessDiagram({ spec, width, ariaLabel, describedBy }: ProcessDiagramProps) {
+  // Marker ids must be unique per instance: two diagrams on one page would
+  // otherwise both resolve to whichever `<defs>` mounted first.
+  const arrowId = `br-arrow-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const steps = (spec.steps ?? []).filter((step) => step && step.id);
   if (steps.length === 0) {
     return (
@@ -163,11 +170,12 @@ export function ProcessDiagram({ spec, width, ariaLabel }: ProcessDiagramProps) 
         height={svgH}
         role="img"
         aria-label={ariaLabel}
+        aria-describedby={describedBy}
         className="block select-none"
       >
         <defs>
           <marker
-            id="br-process-arrow"
+            id={arrowId}
             viewBox="0 0 10 10"
             refX="9"
             refY="5"
@@ -202,7 +210,7 @@ export function ProcessDiagram({ spec, width, ariaLabel }: ProcessDiagramProps) 
               fill="none"
               className="stroke-muted-foreground"
               strokeWidth={1.5}
-              markerEnd="url(#br-process-arrow)"
+              markerEnd={`url(#${arrowId})`}
             />
           );
         })}

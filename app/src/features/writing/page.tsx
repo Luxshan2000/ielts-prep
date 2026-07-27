@@ -6,7 +6,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { Outlet, useNavigate, useOutlet } from "react-router-dom";
-import { AlertTriangle, PenLine } from "lucide-react";
+import { AlertTriangle, GraduationCap, PenLine, Timer } from "lucide-react";
 import { Badge, Button, Tabs, TabPanel } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
@@ -14,9 +14,10 @@ import { useSessionStore } from "@/stores";
 import { AttemptHistory } from "./components/AttemptHistory";
 import { PromptBrowser } from "./components/PromptBrowser";
 import { TemplatesPanel } from "./components/TemplatesPanel";
+import { CoachPicker } from "./components/coach";
 import { TASK_SHORT, useWritingStore } from "./store";
 
-type TabValue = "bank" | "attempts" | "templates";
+type TabValue = "bank" | "coach" | "attempts" | "templates";
 
 /**
  * Layout element for `/writing`. React Router renders child routes through the
@@ -56,9 +57,18 @@ export function WritingHome() {
       title="Writing"
       description="Unlimited Task 1 and Task 2 practice, marked against the four official criteria."
       actions={
-        lastBand !== null ? (
-          <Badge tone="primary">Last marked answer: band {lastBand.toFixed(1)}</Badge>
-        ) : undefined
+        <div className="flex flex-wrap items-center gap-2">
+          {lastBand !== null && (
+            <Badge tone="primary">Last marked answer: band {lastBand.toFixed(1)}</Badge>
+          )}
+          {/* The mock is the whole paper under one clock, so it gets a header action
+              rather than a tab: it is a thing you commit an hour to, not a thing you
+              browse. */}
+          <Button variant="outline" size="sm" onClick={() => navigate("/writing/mock")}>
+            <Timer className="h-4 w-4" aria-hidden="true" />
+            Sit the 60-minute paper
+          </Button>
+        </div>
       }
       toolbar={
         <Tabs
@@ -67,6 +77,7 @@ export function WritingHome() {
           onChange={(value) => setTab(value as TabValue)}
           items={[
             { value: "bank", label: "Prompt bank" },
+            { value: "coach", label: "Coach" },
             { value: "attempts", label: "Your attempts", badge: history.length || undefined },
             { value: "templates", label: "Frameworks" },
           ]}
@@ -102,6 +113,23 @@ export function WritingHome() {
 
         <TabPanel value="bank" active={tab === "bank"}>
           <PromptBrowser />
+        </TabPanel>
+
+        <TabPanel value="coach" active={tab === "coach"}>
+          <div className="space-y-4">
+            <div className="flex items-start gap-2.5 rounded-xl border border-border bg-muted/40 p-3">
+              <GraduationCap
+                className="mt-0.5 h-4 w-4 shrink-0 text-primary"
+                aria-hidden="true"
+              />
+              <p className="text-[13px] leading-6 text-muted-foreground">
+                The bank asks what to write; the coach asks what a prompt can teach. Each one
+                carries a plan, a language bank and the same answer at bands 6, 7 and 8 — the
+                models stay locked until you have written it yourself.
+              </p>
+            </div>
+            <CoachPicker />
+          </div>
         </TabPanel>
 
         <TabPanel value="attempts" active={tab === "attempts"}>

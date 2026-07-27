@@ -4,8 +4,8 @@
  * the light-mode contrast relief the palette validator requires).
  */
 
-import type { ChartSpec } from "../../store";
 import { formatValue } from "./palette";
+import { kindLabel, type ChartSpecLike } from "./spec";
 
 const cell = (value: string | number): string =>
   typeof value === "number" ? formatValue(value) : String(value ?? "");
@@ -53,9 +53,31 @@ function Grid({ head, rows, caption }: { head: string[]; rows: (string | number)
   );
 }
 
-export function DataTableView({ spec }: { spec: ChartSpec }) {
+export function DataTableView({ spec }: { spec: ChartSpecLike }) {
   const unit = (spec.unit ?? "").trim();
-  const caption = unit ? `Figures in ${unit}.` : undefined;
+  const notes = (spec.notes ?? "").trim();
+  const caption = [unit ? `Figures in ${unit}.` : "", notes].filter(Boolean).join(" ") || undefined;
+
+  // A combined task tabulates as two tables, one per visual, in panel order.
+  if (spec.kind === "mixed") {
+    const panels = (spec.panels ?? []).filter(
+      (panel) => panel && typeof panel === "object" && panel.kind !== "mixed",
+    );
+    if (panels.length === 0) return <NoData />;
+    return (
+      <div className="space-y-5">
+        {panels.map((panel, index) => (
+          <div key={index} className="min-w-0">
+            <p className="mb-1.5 text-[12px] font-semibold text-foreground">
+              Visual {index + 1} of {panels.length} — {kindLabel(panel.kind, panel)}
+              {panel.title ? `: ${panel.title}` : ""}
+            </p>
+            <DataTableView spec={panel} />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   if (spec.kind === "table") {
     const rows = spec.rows ?? [];

@@ -1,0 +1,1855 @@
+{
+  "staging_version": 1,
+  "cluster": "template",
+  "authored_by": "W-D1:design",
+  "notes": "REFERENCE ARTEFACT - not merged into the pack. Three complete prompts, one per task type, authored to the standard every cluster file must meet. The id block wp_tm_* is reserved and must never be used by an authoring agent, and the three subjects (the Marrowfield food-budget chart, the Brantwood community-centre apology, and daily caps at heavily visited sites) are RESERVED and must not be re-authored. Copy the SHAPE, never the sentences.",
+  "prompts": [
+    {
+      "id": "wp_tm_01_grouped_bar_food_budget",
+      "task_type": "ac_task1",
+      "genre": "grouped_bar",
+      "topic_id": "topic_food",
+      "topic_tags": [
+        "food",
+        "household spending",
+        "income"
+      ],
+      "difficulty": 2,
+      "prompt_text": "The chart below shows the proportion of their weekly food budget that households in three income groups in Marrowfield spent on five types of food in 2024.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\n\nWrite at least 150 words.",
+      "chart_spec": {
+        "spec_version": 2,
+        "kind": "grouped_bar",
+        "title": "Share of the weekly food budget by food type and household income group, Marrowfield, 2024",
+        "unit": "% of the weekly food budget",
+        "notes": "Each income group's five shares total 100%.",
+        "x_axis": {
+          "label": "Type of food",
+          "categories": [
+            "Bread, rice and pasta",
+            "Fresh fruit and vegetables",
+            "Meat and fish",
+            "Ready meals",
+            "Eating out"
+          ]
+        },
+        "y_axis": {
+          "label": "% of the weekly food budget",
+          "min": 0,
+          "max": 35
+        },
+        "series": [
+          {
+            "name": "Lower-income households",
+            "values": [
+              26,
+              21,
+              24,
+              19,
+              10
+            ]
+          },
+          {
+            "name": "Middle-income households",
+            "values": [
+              19,
+              22,
+              26,
+              16,
+              17
+            ]
+          },
+          {
+            "name": "Higher-income households",
+            "values": [
+              12,
+              23,
+              27,
+              9,
+              29
+            ]
+          }
+        ]
+      },
+      "letter_bullets": null,
+      "teaching_json": {
+        "schema_version": 1,
+        "cluster": "template",
+        "teaches": "Split five categories into two behaviours and say plainly which one household income does not touch.",
+        "band_move": "Write the overview before the body, and let it carry no figures at all.",
+        "exam_note": "A long Task 1 is a self-inflicted wound: there is no length credit, and the time comes out of the task worth double.",
+        "time_plan": [
+          {
+            "phase": "decode",
+            "minutes": 3,
+            "does": "Read the unit: these are shares of a budget, not amounts of money."
+          },
+          {
+            "phase": "plan",
+            "minutes": 2,
+            "does": "Commit to both overview sentences and both groupings before writing."
+          },
+          {
+            "phase": "write",
+            "minutes": 12,
+            "does": "Intro and overview in three minutes, then sixty words per group."
+          },
+          {
+            "phase": "check",
+            "minutes": 3,
+            "does": "Re-read every figure against the chart, then hunt time words."
+          }
+        ],
+        "plan": {
+          "lines": [
+            {
+              "label": "TENSE",
+              "note": "2024 = finished -> past simple all through"
+            },
+            {
+              "label": "OVERVIEW",
+              "note": "income: staples + ready meals DOWN, eating out UP / fruit+veg flat"
+            },
+            {
+              "label": "GROUP 1",
+              "note": "movers: bread 26>12, ready 19>9, out 10>29"
+            },
+            {
+              "label": "GROUP 2",
+              "note": "flat: fruit&veg 21-23, meat 24>27 (biggest in middle group)"
+            },
+            {
+              "label": "RISK",
+              "note": "share =/= money; no 'over the period' - there are no years"
+            }
+          ],
+          "test": "Could a stranger write both body paragraphs from these two group lines alone?",
+          "trap": "Most people report the middle group in full; it is the least interesting column on this chart."
+        },
+        "structure_plan": [
+          {
+            "para": 1,
+            "role": "introduction",
+            "words": 26,
+            "must_do": "Paraphrase the description line; name the unit and the year, and stop."
+          },
+          {
+            "para": 2,
+            "role": "overview",
+            "words": 38,
+            "must_do": "Two sentences, no digits: what income changes, and what it leaves alone."
+          },
+          {
+            "para": 3,
+            "role": "detail_group",
+            "words": 62,
+            "must_do": "The three shares that move with income, with one multiple and one from-to."
+          },
+          {
+            "para": 4,
+            "role": "detail_group",
+            "words": 56,
+            "must_do": "The two shares that barely move, plus the exception in middle-income budgets."
+          }
+        ],
+        "parts_checklist": [
+          {
+            "part": "A figure-free overview in its own paragraph",
+            "evidence_question": "Which sentence is true of all three groups and contains no number?"
+          },
+          {
+            "part": "Two body paragraphs grouped by behaviour",
+            "evidence_question": "Does each body paragraph open by naming the group it is about to cover?"
+          },
+          {
+            "part": "Figures read correctly and used comparatively",
+            "evidence_question": "Is every number also in the chart, and is each one attached to a comparison?"
+          }
+        ],
+        "language_bank": {
+          "warning": "These are frames with gaps. Fill the gap with what this chart actually shows and it is language; deliver it whole and it is a recital.",
+          "moves": [
+            {
+              "move": "grouping",
+              "why_here": "The five categories split cleanly into movers and non-movers.",
+              "grammar": "grouping sentences, quantified subjects",
+              "frames": [
+                {
+                  "frame": "___ of the five categories ___ with income.",
+                  "slot_hint": "how many, then the behaviour they share"
+                },
+                {
+                  "frame": "The remaining ___ ___.",
+                  "slot_hint": "the count, then what those categories did instead"
+                }
+              ],
+              "avoid": "Firstly, I will describe the first category, and secondly I will describe the second category."
+            },
+            {
+              "move": "comparing",
+              "why_here": "Three income groups means every figure has two others to be measured against.",
+              "grammar": "multiples, as ... as, comparative gaps",
+              "frames": [
+                {
+                  "frame": "___ accounted for ___ times as large a share in ___ as in ___.",
+                  "slot_hint": "the category, the multiple, then the two groups"
+                },
+                {
+                  "frame": "___, whereas ___.",
+                  "slot_hint": "two full clauses about different categories, not two nouns"
+                }
+              ],
+              "avoid": "On the one hand the poor group is different, and on the other hand the rich group is different."
+            },
+            {
+              "move": "hedging",
+              "why_here": "Bar heights are read off a scale, so approximation is accuracy.",
+              "grammar": "approximators, fractions rather than decimals",
+              "frames": [
+                {
+                  "frame": "___ held at roughly ___ in every group.",
+                  "slot_hint": "the category, then a fraction rather than a decimal"
+                },
+                {
+                  "frame": "___ varied by only ___ across the three groups.",
+                  "slot_hint": "the category, then the gap in percentage points"
+                }
+              ],
+              "avoid": "It is approximately around 21 per cent, more or less."
+            },
+            {
+              "move": "referencing",
+              "why_here": "Three long group names will otherwise appear in every single sentence.",
+              "grammar": "substitution, demonstratives, summary nouns",
+              "frames": [
+                {
+                  "frame": "___ followed the same ___.",
+                  "slot_hint": "the second category, then 'path', 'pattern' or 'direction'"
+                },
+                {
+                  "frame": "What ___ surrendered went to ___.",
+                  "slot_hint": "the falling categories, then the rising one"
+                }
+              ],
+              "avoid": "Bread, rice and pasta decreased. Ready meals decreased. Eating out increased."
+            }
+          ]
+        },
+        "collocations": [
+          {
+            "chunk": "account for X per cent of the total",
+            "cefr": "B2",
+            "example": "Eating out accounted for 29 per cent of the total food budget in the highest income group."
+          },
+          {
+            "chunk": "take a larger share of",
+            "cefr": "B2",
+            "example": "Meals eaten out took a far larger share of higher-income budgets than of lower-income ones."
+          },
+          {
+            "chunk": "be outstripped by",
+            "cefr": "C1",
+            "example": "Bread, rice and pasta was outstripped by eating out in the highest-income budgets."
+          },
+          {
+            "chunk": "hold steady at around",
+            "cefr": "B2",
+            "example": "Fresh fruit and vegetables held steady at around a fifth of the budget in all three groups."
+          },
+          {
+            "chunk": "the gap between A and B widened",
+            "cefr": "C1",
+            "example": "The gap between spending on staples and spending on eating out widened sharply with income."
+          },
+          {
+            "chunk": "lead something by a margin of",
+            "cefr": "C1",
+            "example": "Meat and fish led middle-income budgets by a margin of four percentage points."
+          },
+          {
+            "chunk": "devote a share of something to",
+            "cefr": "C1",
+            "example": "Lower-income households devoted more than a quarter of their food budget to bread, rice and pasta."
+          },
+          {
+            "chunk": "with the exception of",
+            "cefr": "B2",
+            "example": "With the exception of fresh produce, no category kept the same share across all three groups."
+          }
+        ],
+        "upgrade_pairs": [
+          {
+            "vague": "went up a lot",
+            "precise": "took a substantially larger share",
+            "why": "The chart shows shares, so the verb must be about share, not money."
+          },
+          {
+            "vague": "was very small",
+            "precise": "was marginal, at a tenth of the budget",
+            "why": "Grade the figure with an adjective instead of an intensifier."
+          },
+          {
+            "vague": "Rich people always eat out more.",
+            "precise": "Higher-income households here devoted far more of the budget to eating out.",
+            "why": "Task 1 reports the data; it never generalises beyond it."
+          },
+          {
+            "vague": "the same in every group",
+            "precise": "within two percentage points of each other",
+            "why": "'The same' is false here and 'similar' is vague; the margin is the precision."
+          }
+        ],
+        "target_structures": [
+          {
+            "name": "Correlative comparative",
+            "model": "The higher a household's income, the smaller the share it devoted to cheap staples.",
+            "trap": "Both halves need 'the': not 'the higher the income, smaller the share'."
+          },
+          {
+            "name": "Reduced relative clause",
+            "model": "Households earning the least devoted the largest share of all to bread, rice and pasta.",
+            "trap": "The noun must be the subject of the reduced verb, or the sentence loses its main verb."
+          }
+        ],
+        "error_watchlist": [
+          {
+            "pattern": "share versus amount",
+            "wrong": "Higher-income households spent less money on bread, rice and pasta.",
+            "right": "Bread, rice and pasta took a smaller share of higher-income households' budgets.",
+            "why": "A smaller share of a bigger budget can still be more money.",
+            "criterion": "ta"
+          },
+          {
+            "pattern": "time language, no time axis",
+            "wrong": "Spending on ready meals fell over the period.",
+            "right": "Ready meals took a smaller share as household income rose.",
+            "why": "This chart compares income groups, not years, so there is no period.",
+            "criterion": "ta"
+          },
+          {
+            "pattern": "percentage points versus per cent",
+            "wrong": "The share of eating out rose by 19 per cent between the groups.",
+            "right": "The share of eating out was 19 percentage points higher in the top group.",
+            "why": "Per cent measures a change in a value; points measure a gap between two percentages.",
+            "criterion": "lr"
+          }
+        ],
+        "checklist": [
+          "Is my overview free of every single number?",
+          "Do both body paragraphs open by naming a group?",
+          "Have I checked each figure against the chart itself?",
+          "Any 'increased' or 'over the period'? There are no years here.",
+          "Percentage points for gaps, per cent for shares?"
+        ],
+        "rewrite_focus": {
+          "focus": "Delete every figure from your second paragraph and make it a claim about all three groups.",
+          "why": "That single edit turns a mechanical overview into the clear one Task Achievement asks for at band 7.",
+          "drill": "Four minutes: write two overview sentences with no digits, one for what income changes and one for what it does not."
+        },
+        "sentence_ladder": {
+          "idea": "Eating out takes a far bigger share of richer households' food budgets.",
+          "rungs": [
+            {
+              "band": 5,
+              "text": "Eating out is more high in rich group. It is 29% and poor group is only 10%."
+            },
+            {
+              "band": 6,
+              "text": "eating out was only 10% for lower-income households, but it was 17% for middle-income households and 29% for higher-income households"
+            },
+            {
+              "band": 7,
+              "text": "Eating out ran the other way, accounting for almost three times as large a share in the top group as in the bottom one, at 29% against 10%."
+            },
+            {
+              "band": 8,
+              "text": "eating out, which climbed from a marginal 10% to 29% — the largest single item in the wealthiest budgets"
+            }
+          ]
+        },
+        "overview_brief": {
+          "must_capture": [
+            "As income rises the budget shifts away from cheap staples and ready meals and towards eating out.",
+            "Fresh produce, and to a lesser degree meat and fish, take almost the same share of every budget."
+          ],
+          "model_overview": "Overall, the higher a household's income, the smaller the share going on cheap staples and ready meals and the larger the share going on eating out. Fresh produce, by contrast, took a similar slice of every budget.",
+          "weak_overview": {
+            "text": "Overall, lower-income households spent 26% on bread, rice and pasta, while higher-income households spent 29% on eating out.",
+            "failure": "W2"
+          },
+          "group_as": {
+            "body1": "The three shares that move with income: staples, ready meals and eating out.",
+            "body2": "The two shares income barely touches: fresh produce, and meat and fish.",
+            "why": "Grouping by behaviour rather than by income band lets one sentence carry three categories at once."
+          },
+          "must_report": [
+            "Eating out nearly tripled its share across the three groups, from 10% to 29%",
+            "Bread, rice and pasta more than halved as a share, from 26% to 12%",
+            "Ready meals fell from about a fifth of the budget to under a tenth",
+            "Fresh fruit and vegetables held between 21% and 23% in every group",
+            "Eating out was the largest single item in the highest-income budgets"
+          ],
+          "omit": [
+            "The middle group's figures wherever they sit neatly between the other two",
+            "The two-point rise in meat and fish between the lower and middle groups",
+            "Any figure that only confirms a rank you have already stated"
+          ],
+          "figure_budget": {
+            "min": 8,
+            "max": 12
+          },
+          "tense": "Past simple throughout: the data is for 2024, a year that has finished."
+        },
+        "model_answers": [
+          {
+            "band_target": 6,
+            "label": "The chart, walked left to right",
+            "word_count": 158,
+            "text": "The bar chart gives information about how households of three different income levels in Marrowfield divided their weekly food budget between five types of food in 2024.\n\nOverall, it is clear that lower-income households spent the biggest share on bread, rice and pasta, and higher-income households spent the biggest share on eating out.\n\nFirstly, bread, rice and pasta was 26% for lower-income households. Moreover, it was 19% for middle-income households and only 12% for higher-income households. Ready meals also decreased, from 19% to 16% and then to 9%. This is a big difference between the groups. Furthermore, eating out was only 10% for lower-income households, but it was 17% for middle-income households and 29% for higher-income households.\n\nSecondly, fresh fruit and vegetables was 21%, 22% and 23%. Meat and fish was 24% for lower-income households, 26% for middle-income households and 27% for higher-income households. In conclusion, the chart shows there are many differences between the three income groups.",
+            "what_caps_it": [
+              {
+                "criterion": "ta",
+                "point": "The overview names two ranks; it never says what income actually changes."
+              },
+              {
+                "criterion": "cc",
+                "point": "Sentence order follows the chart's own label order, so nothing is grouped."
+              },
+              {
+                "criterion": "lr",
+                "point": "Every share is reported with 'was' plus a number; no share language anywhere."
+              }
+            ],
+            "what_lifts_it": [],
+            "annotations": [
+              {
+                "span": "Overall, it is clear that lower-income households spent the biggest share on bread, rice and pasta",
+                "kind": "avoid",
+                "criterion": "ta",
+                "label": "An overview made of two ranks",
+                "why": "State what income changes across the whole chart, not who tops two columns.",
+                "transferable": false
+              },
+              {
+                "span": "Firstly, bread, rice and pasta was 26% for lower-income households. Moreover, it was 19%",
+                "kind": "avoid",
+                "criterion": "cc",
+                "label": "Linkers stacked on a list",
+                "why": "One connective per paragraph, placed where the logic actually turns.",
+                "transferable": true
+              },
+              {
+                "span": "Ready meals also decreased",
+                "kind": "avoid",
+                "criterion": "ta",
+                "label": "Time language on an income axis",
+                "why": "Say 'took a smaller share as income rose'; this chart has no period.",
+                "transferable": true
+              },
+              {
+                "span": "fresh fruit and vegetables was 21%, 22% and 23%",
+                "kind": "avoid",
+                "criterion": "lr",
+                "label": "Three figures, no claim",
+                "why": "Group them: 'held at roughly a fifth in every group'.",
+                "transferable": true
+              },
+              {
+                "span": "In conclusion, the chart shows there are many differences",
+                "kind": "avoid",
+                "criterion": "ta",
+                "label": "An essay conclusion on a report",
+                "why": "Task 1 has no argument to conclude; spend those words on a comparison.",
+                "transferable": true
+              },
+              {
+                "span": "divided their weekly food budget between five types of food",
+                "kind": "lexis",
+                "criterion": "lr",
+                "label": "A real paraphrase of the task line",
+                "why": "Keep this: 'divided between' does work that 'spent on' would not.",
+                "transferable": true
+              }
+            ]
+          },
+          {
+            "band_target": 7,
+            "label": "The target: same figures, better language",
+            "word_count": 178,
+            "text": "The bar chart compares how households at three income levels in Marrowfield divided their weekly food budget between five types of food in 2024.\n\nOverall, the higher a household's income, the smaller the share going on cheap staples and ready meals and the larger the share going on eating out. Fresh produce, by contrast, took a similar slice of every budget.\n\nThree of the five categories moved clearly with income. Bread, rice and pasta more than halved as a share, from 26% in the lowest group to 12% in the highest, and ready meals followed the same path, falling from 19% to 9%. Eating out ran the other way, accounting for almost three times as large a share in the top group as in the bottom one, at 29% against 10%.\n\nThe remaining two barely responded. Fresh fruit and vegetables held at roughly a fifth to a quarter in every group, at 21%, 22% and 23%, while meat and fish edged up only slightly, from 24% to 27%, though it remained the largest single item in middle-income budgets.",
+            "what_caps_it": [],
+            "what_lifts_it": [
+              {
+                "criterion": "ta",
+                "point": "A figure-free overview naming what income changes and what it does not."
+              },
+              {
+                "criterion": "cc",
+                "point": "Two grouping sentences replace the label order, and the linkers disappear."
+              },
+              {
+                "criterion": "lr",
+                "point": "Share language carries the figures: accounting for, held at, edged up."
+              }
+            ],
+            "annotations": [
+              {
+                "span": "the higher a household's income, the smaller the share going on cheap staples",
+                "kind": "overview",
+                "criterion": "ta",
+                "label": "One sentence for the whole pattern",
+                "why": "A correlative comparative lets an overview cover every group at once.",
+                "transferable": true
+              },
+              {
+                "span": "Fresh produce, by contrast, took a similar slice of every budget.",
+                "kind": "overview",
+                "criterion": "ta",
+                "label": "The half most learners drop",
+                "why": "What does not change is always overview material, on any chart.",
+                "transferable": true
+              },
+              {
+                "span": "Three of the five categories moved clearly with income.",
+                "kind": "cohesion",
+                "criterion": "cc",
+                "label": "A grouping sentence, not a label",
+                "why": "Open a detail paragraph by naming the group it is about to cover.",
+                "transferable": true
+              },
+              {
+                "span": "ready meals followed the same path",
+                "kind": "cohesion",
+                "criterion": "cc",
+                "label": "Substitution instead of repetition",
+                "why": "Four words replace a whole clause and read as control.",
+                "transferable": true
+              },
+              {
+                "span": "accounting for almost three times as large a share in the top group as in the bottom one",
+                "kind": "grammar",
+                "criterion": "gra",
+                "label": "A multiple, not two figures",
+                "why": "'Three times as large as' turns two numbers into one comparison.",
+                "transferable": true
+              },
+              {
+                "span": "held at roughly a fifth to a quarter in every group",
+                "kind": "lexis",
+                "criterion": "lr",
+                "label": "Approximation is precision here",
+                "why": "Reading a bar is estimating; saying so is a lexical move, not a weakness.",
+                "transferable": true
+              },
+              {
+                "span": "edged up only slightly",
+                "kind": "lexis",
+                "criterion": "lr",
+                "label": "The adverb matches the verb",
+                "why": "A three-point change is 'edged up', never 'rocketed'.",
+                "transferable": true
+              },
+              {
+                "span": "though it remained the largest single item in middle-income budgets",
+                "kind": "data",
+                "criterion": "ta",
+                "label": "The exception, named",
+                "why": "One clause rescues a category the grouping would otherwise bury.",
+                "transferable": true
+              }
+            ]
+          },
+          {
+            "band_target": 8,
+            "label": "One step up, not another world",
+            "word_count": 188,
+            "text": "The bar chart sets out the proportion of the weekly food budget that Marrowfield households at three income levels devoted to five kinds of food in 2024.\n\nOverall, income moved the budget from one end of the list to the other: what fell away towards the top of the scale was cheap staples and convenience food, and what replaced them was meals eaten out. Fresh produce was the constant, taking much the same slice of every budget.\n\nThe shift was sharpest at the two ends of the scale. Bread, rice and pasta more than halved, from 26% of the lowest budgets to 12% of the highest, and ready meals fell almost as steeply, from 19% to 9%. What those two surrendered went almost entirely to eating out, which climbed from a marginal 10% to 29% — the largest single item in the wealthiest budgets.\n\nThe other two categories were remarkably stable. Fresh fruit and vegetables varied by only two percentage points across the three groups, at 21%, 22% and 23%, while meat and fish rose modestly from 24% to 27% and was the largest single item in middle-income budgets.",
+            "what_caps_it": [],
+            "what_lifts_it": [
+              {
+                "criterion": "ta",
+                "point": "The overview says what replaced what, not merely what rose and fell."
+              },
+              {
+                "criterion": "gra",
+                "point": "Two clefts put the pattern rather than the category in subject position."
+              },
+              {
+                "criterion": "lr",
+                "point": "'Surrendered', 'marginal', 'the constant' choose shades, not size."
+              }
+            ],
+            "annotations": [
+              {
+                "span": "what fell away towards the top of the scale was cheap staples and convenience food, and what replaced them was meals eaten out",
+                "kind": "grammar",
+                "criterion": "gra",
+                "label": "Two clefts do the summarising",
+                "why": "'What ... was' puts the pattern, not the category, in subject position.",
+                "transferable": true
+              },
+              {
+                "span": "Fresh produce was the constant",
+                "kind": "lexis",
+                "criterion": "lr",
+                "label": "A noun, not a sentence",
+                "why": "Naming the role a category plays is shorter and sharper than describing it.",
+                "transferable": true
+              },
+              {
+                "span": "What those two surrendered went almost entirely to eating out",
+                "kind": "cohesion",
+                "criterion": "cc",
+                "label": "The link sits inside the sentence",
+                "why": "Band 8 cohesion lives in the syntax, not on the front of the clause.",
+                "transferable": true
+              },
+              {
+                "span": "climbed from a marginal 10% to 29%",
+                "kind": "data",
+                "criterion": "ta",
+                "label": "One adjective grades the figure",
+                "why": "'Marginal' tells the reader how to read 10% without a second sentence.",
+                "transferable": true
+              },
+              {
+                "span": "varied by only two percentage points",
+                "kind": "grammar",
+                "criterion": "gra",
+                "label": "Percentage points, correctly",
+                "why": "The gap between two percentages is measured in points, never in per cent.",
+                "transferable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "wp_tm_02_formal_apology_hall",
+      "task_type": "gt_task1",
+      "genre": "formal",
+      "topic_id": "topic_culture",
+      "topic_tags": [
+        "community",
+        "apology",
+        "hall hire"
+      ],
+      "difficulty": 2,
+      "prompt_text": "You run a weekly evening class that rents a room at the Brantwood Community Centre. After last week's class the room was left untidy and a folding table was damaged.\n\nWrite a letter to the manager of the centre. In your letter, cover the three points below.\n\nWrite at least 150 words.\n\nYou do NOT need to write any addresses.\n\nBegin your letter as follows:\n\nDear Ms Okonjo,",
+      "chart_spec": null,
+      "letter_bullets": [
+        "apologise, and say exactly what was left behind and what was damaged",
+        "explain how it happened",
+        "say how you will put it right and stop it happening again"
+      ],
+      "teaching_json": {
+        "schema_version": 1,
+        "cluster": "template",
+        "teaches": "Apologise in one sentence, explain in one, and spend the rest of the letter on a repair the reader can accept.",
+        "band_move": "Make the remedy paragraph the longest one in the letter, and put a date in it.",
+        "exam_note": "The greeting is given to you. Use it exactly as printed; rewriting it is a needless risk with nothing to gain.",
+        "time_plan": [
+          {
+            "phase": "decode",
+            "minutes": 2,
+            "does": "Named recipient in an official role, so formal, and the sign-off is 'Yours sincerely'."
+          },
+          {
+            "phase": "plan",
+            "minutes": 3,
+            "does": "One line per bullet, each carrying a specific: a date, a part, an offer."
+          },
+          {
+            "phase": "write",
+            "minutes": 13,
+            "does": "Apology first, cause shortest, remedy longest."
+          },
+          {
+            "phase": "check",
+            "minutes": 2,
+            "does": "Sign-off pairing, then the last sentence of every paragraph for drift."
+          }
+        ],
+        "plan": {
+          "lines": [
+            {
+              "label": "GREETING",
+              "note": "Dear Ms Okonjo -> Yours sincerely (named = sincerely)"
+            },
+            {
+              "label": "BULLET 1",
+              "note": "Cedar Rm, Thu 12 Jun: chairs out, cups/paper, table hinge snapped"
+            },
+            {
+              "label": "BULLET 2",
+              "note": "volunteer left early (child ill) -> no final check. ONE sentence."
+            },
+            {
+              "label": "BULLET 3",
+              "note": "pay OR replace, her choice + before 2 Jul cttee + 5-min clear-up now"
+            },
+            {
+              "label": "RISK",
+              "note": "closing line: no 'thanks a lot!', no contractions anywhere"
+            }
+          ],
+          "test": "Could Ms Okonjo act on this letter without writing back to ask a single question?",
+          "trap": "Almost everyone spends more words explaining how it happened than putting it right."
+        },
+        "structure_plan": [
+          {
+            "para": 1,
+            "role": "opening",
+            "words": 22,
+            "must_do": "Apologise in the first clause and name the room, the class and the date."
+          },
+          {
+            "para": 2,
+            "role": "bullet",
+            "words": 52,
+            "must_do": "What was left and what was damaged, the damage last because it matters more."
+          },
+          {
+            "para": 3,
+            "role": "bullet",
+            "words": 40,
+            "must_do": "One cause, one sentence of it, plus the check that was not done."
+          },
+          {
+            "para": 4,
+            "role": "bullet",
+            "words": 60,
+            "must_do": "The offer with a choice and a date, then the change to your own routine."
+          },
+          {
+            "para": 5,
+            "role": "closing",
+            "words": 13,
+            "must_do": "Ask her to confirm which option she prefers, and nothing else."
+          }
+        ],
+        "parts_checklist": [
+          {
+            "part": "All three bullets covered and extended",
+            "evidence_question": "For each bullet, can you point at the sentence that does it and a second that adds to it?"
+          },
+          {
+            "part": "Formal register held from greeting to sign-off",
+            "evidence_question": "Is there a contraction, an exclamation mark or a phrasal verb anywhere in the letter?"
+          },
+          {
+            "part": "A remedy the reader can act on",
+            "evidence_question": "Does the letter name a date, an amount or a choice she can simply accept?"
+          }
+        ],
+        "language_bank": {
+          "warning": "Every frame here has a gap, and the gap is where your own situation goes. A frame delivered whole is the memorised English the descriptors refuse to credit.",
+          "moves": [
+            {
+              "move": "apologising",
+              "why_here": "The purpose is the apology; everything else in the letter supports it.",
+              "grammar": "formal apology frames, no contractions",
+              "frames": [
+                {
+                  "frame": "I am writing to apologise for ___.",
+                  "slot_hint": "the situation, named precisely: room, date, what happened"
+                },
+                {
+                  "frame": "I should have ___, and I did not.",
+                  "slot_hint": "the thing you were actually responsible for"
+                }
+              ],
+              "avoid": "I am writing this letter to bring to your kind attention a matter of great importance."
+            },
+            {
+              "move": "hedging",
+              "why_here": "The cause has to explain without turning into a defence.",
+              "grammar": "modal distance, 'would ordinarily have'",
+              "frames": [
+                {
+                  "frame": "___ would ordinarily have ___, but ___.",
+                  "slot_hint": "the routine, then the one thing that broke it"
+                },
+                {
+                  "frame": "The cause was ___, though it is not an excuse.",
+                  "slot_hint": "one cause, in five words or fewer"
+                }
+              ],
+              "avoid": "It was totally not our fault and this kind of thing can happen to anybody."
+            },
+            {
+              "move": "proposing",
+              "why_here": "Bullet three must give her something she can accept without replying.",
+              "grammar": "either ... or, conditional offers",
+              "frames": [
+                {
+                  "frame": "I am happy either to ___ or to ___, whichever ___.",
+                  "slot_hint": "two real options, then who gets to choose"
+                },
+                {
+                  "frame": "I can arrange it before ___.",
+                  "slot_hint": "a date tied to something in the situation you were given"
+                }
+              ],
+              "avoid": "Please do the needful and let me know at your earliest convenience."
+            },
+            {
+              "move": "requesting",
+              "why_here": "The letter closes by asking her to choose, and that is a request.",
+              "grammar": "indirect requests, embedded questions",
+              "frames": [
+                {
+                  "frame": "I would be grateful if you could ___.",
+                  "slot_hint": "one action, small enough to do in a minute"
+                },
+                {
+                  "frame": "Could you confirm ___?",
+                  "slot_hint": "the exact thing you need confirmed, never 'the details'"
+                }
+              ],
+              "avoid": "Kindly revert back to me on this matter as soon as possible."
+            }
+          ]
+        },
+        "collocations": [
+          {
+            "chunk": "apologise for the state in which",
+            "cefr": "C1",
+            "example": "I am writing to apologise for the state in which the room was left on Thursday evening."
+          },
+          {
+            "chunk": "put something right",
+            "cefr": "B2",
+            "example": "I should like to put this right before the centre incurs any cost of its own."
+          },
+          {
+            "chunk": "at no further cost to",
+            "cefr": "C1",
+            "example": "The repair can be arranged at no further cost to the centre."
+          },
+          {
+            "chunk": "reimburse someone for",
+            "cefr": "C1",
+            "example": "I am willing to reimburse the centre for the full cost of the repair."
+          },
+          {
+            "chunk": "be responsible for doing something",
+            "cefr": "B2",
+            "example": "The volunteer who is responsible for locking up had to leave before the class ended."
+          },
+          {
+            "chunk": "I would be grateful if you could",
+            "cefr": "B2",
+            "example": "I would be grateful if you could confirm which of the two options you prefer."
+          },
+          {
+            "chunk": "with immediate effect",
+            "cefr": "C1",
+            "example": "A five-minute clear-up has been added to the end of every class with immediate effect."
+          },
+          {
+            "chunk": "on the understanding that",
+            "cefr": "C1",
+            "example": "I took the booking on the understanding that the room would be checked before we left."
+          }
+        ],
+        "upgrade_pairs": [
+          {
+            "vague": "I am very very sorry.",
+            "precise": "I am sorry, and I should have checked the room myself.",
+            "why": "Repair is the apology; intensifiers are not."
+          },
+          {
+            "vague": "pay you back",
+            "precise": "reimburse the centre",
+            "why": "Phrasal verbs sit outside formal register; Latinate verbs sit inside it."
+          },
+          {
+            "vague": "It will never happen again to anybody.",
+            "precise": "I have added a clear-up to the end of every class from this term.",
+            "why": "A promise about the future is unverifiable; a change to a routine is not."
+          },
+          {
+            "vague": "as soon as possible",
+            "precise": "before your committee meets on 2 July",
+            "why": "A named date is content; 'soon' is only a word."
+          }
+        ],
+        "target_structures": [
+          {
+            "name": "Non-defining relative clause",
+            "model": "Our volunteer, who normally locks up and checks the room, had to leave early.",
+            "trap": "Commas on both sides, and the main clause must still work if you delete it."
+          },
+          {
+            "name": "Participle clause for detail",
+            "model": "One folding table was damaged, the hinge on one leg having snapped as it was folded away.",
+            "trap": "The participle must belong to the noun beside it, or it dangles."
+          }
+        ],
+        "error_watchlist": [
+          {
+            "pattern": "register drift at the close",
+            "wrong": "Thanks a lot for your understanding! Yours sincerely,",
+            "right": "I would be grateful if you could confirm which option suits the centre. Yours sincerely,",
+            "why": "Register is set at the greeting and has to reach the sign-off.",
+            "criterion": "ta"
+          },
+          {
+            "pattern": "present perfect for a running state",
+            "wrong": "The class uses the room since two years.",
+            "right": "The class has been using the room for two years.",
+            "why": "A period reaching the present takes the present perfect and 'for'.",
+            "criterion": "gra"
+          },
+          {
+            "pattern": "greeting and sign-off mismatch",
+            "wrong": "Dear Ms Okonjo, ... Yours faithfully,",
+            "right": "Dear Ms Okonjo, ... Yours sincerely,",
+            "why": "You named her, so you can be sincere; faithful is for strangers.",
+            "criterion": "ta"
+          }
+        ],
+        "checklist": [
+          "Does 'Dear Ms Okonjo' end in 'Yours sincerely'?",
+          "Any contraction, exclamation mark or phrasal verb anywhere?",
+          "For each bullet: one sentence doing it, one adding to it?",
+          "Is the cause paragraph shorter than the remedy paragraph?",
+          "Is there a date and a choice inside the offer?",
+          "Is my name on its own line under the sign-off?"
+        ],
+        "rewrite_focus": {
+          "focus": "Rewrite the third bullet so Ms Okonjo could act on it without replying to you.",
+          "why": "Coverage without extension is the band-6 ceiling on letters, and here extension means a choice and a date.",
+          "drill": "Five minutes: write that paragraph twice, once offering two options and once naming a date, then keep both moves."
+        },
+        "sentence_ladder": {
+          "idea": "Offering to put the damaged table right.",
+          "rungs": [
+            {
+              "band": 5,
+              "text": "I want to pay the table. I am very sorry for this problem and it will not happen again."
+            },
+            {
+              "band": 6,
+              "text": "I would like to pay for the repair of the table."
+            },
+            {
+              "band": 7,
+              "text": "I am happy either to pay for the repair or to replace the table outright, whichever the centre would prefer, and I can arrange it before your committee meets on 2 July."
+            },
+            {
+              "band": 8,
+              "text": "I should like to put this right without any further cost to the centre. I am happy either to pay for the repair or to replace the table outright, whichever is more convenient."
+            }
+          ]
+        },
+        "swap_slots": [
+          {
+            "span": "Thursday 12 June",
+            "prompt": "Your own date. One specific date, never 'last week' — the date is what makes the letter actionable."
+          },
+          {
+            "span": "her child was unwell",
+            "prompt": "Your own cause. One sentence, and something that genuinely explains without excusing."
+          },
+          {
+            "span": "before your committee meets on 2 July",
+            "prompt": "Your own deadline, tied to something real in the situation you were given."
+          },
+          {
+            "span": "Daniel Reyes",
+            "prompt": "Your own name, on its own line under the sign-off. A letter without a name is unsigned."
+          }
+        ],
+        "letter_brief": {
+          "purpose": "P4",
+          "purpose_label": "apology",
+          "register": "formal",
+          "recipient": "The centre manager: someone in an official role whose name you know, so formal with a named sign-off.",
+          "greeting": "Dear Ms Okonjo,",
+          "signoff": "Yours sincerely,",
+          "moves": [
+            "Apologise unreservedly in the first sentence",
+            "Identify the booking precisely: class, room, date",
+            "State what was left and what was damaged, factually",
+            "Explain how it happened, once, without excusing it",
+            "Offer concrete repair: a choice, and a date",
+            "Say what has changed in your own routine",
+            "Close by asking her to confirm"
+          ],
+          "bullet_notes": [
+            {
+              "bullet_index": 0,
+              "function": "Apologise and state the facts",
+              "must_include": "The class, the room, the date, and the mess and the damaged table named separately.",
+              "extension_move": "Say what condition the room was actually left in, so she does not have to ask.",
+              "tone_note": "Plain and cold. An apology gains nothing from adjectives and everything from precision."
+            },
+            {
+              "bullet_index": 1,
+              "function": "Explain, not excuse",
+              "must_include": "One cause: who was responsible for locking up, and why they were not there.",
+              "extension_move": "Name the check that was missed, which shows you know the standard you fell short of.",
+              "tone_note": "The shortest paragraph of the three. Length here reads as self-defence."
+            },
+            {
+              "bullet_index": 2,
+              "function": "Offer repair and prevention",
+              "must_include": "A specific offer with a date attached, plus one change to your own routine.",
+              "extension_move": "Give her a choice, so she can act on the letter without writing back.",
+              "tone_note": "Heaviest politeness in the letter: this is where you ask her to accept something."
+            }
+          ],
+          "register_signals": [
+            {
+              "signal": "contractions",
+              "do": "I am writing to apologise",
+              "dont": "I'm writing to say sorry"
+            },
+            {
+              "signal": "verb_stock",
+              "do": "I should like to reimburse the centre",
+              "dont": "I want to pay you back"
+            },
+            {
+              "signal": "modality",
+              "do": "I would be grateful if you could confirm",
+              "dont": "Can you tell me"
+            },
+            {
+              "signal": "closing_move",
+              "do": "I look forward to hearing from you.",
+              "dont": "Thanks a lot!"
+            }
+          ],
+          "drift_watch": "The last two sentences. Formality is expensive to hold, and 'Thanks a lot!' before 'Yours sincerely' undoes the letter."
+        },
+        "model_answers": [
+          {
+            "band_target": 6,
+            "label": "Covered, but never extended",
+            "word_count": 162,
+            "text": "I am writing to apologise about the state of the Cedar Room after my class on Thursday 12 June. I'm very sorry about this. My Thursday conversation class uses the room every week.\n\nWhen my group left, the chairs were not put back and there were cups and papers on the tables. Also, one of the folding tables was damaged, because the hinge on one leg was broken.\n\nThe reason is that the volunteer who normally locks up had to go home early because her child was ill, so we packed up very fast and nobody checked the room properly. It was a very unusual situation and normally we are very careful, and I feel really bad that this happened after so many years of using the centre without any problem.\n\nI would like to pay for the repair of the table. Also, I will check the room myself in the future. Thanks a lot for your understanding!\n\nYours faithfully,\n\nDaniel Reyes",
+            "what_caps_it": [
+              {
+                "criterion": "ta",
+                "point": "The explanation is the longest paragraph, so the letter reads as self-defence."
+              },
+              {
+                "criterion": "lr",
+                "point": "'Thanks a lot!' and 'I'm' break a register the rest of the letter holds."
+              },
+              {
+                "criterion": "cc",
+                "point": "The remedy and the prevention share a paragraph and neither gets developed."
+              }
+            ],
+            "what_lifts_it": [],
+            "annotations": [
+              {
+                "span": "I'm very sorry about this.",
+                "kind": "avoid",
+                "criterion": "lr",
+                "label": "A contraction in a formal letter",
+                "why": "Write 'I am' throughout; the register is set by the greeting, not by feeling.",
+                "transferable": true
+              },
+              {
+                "span": "It was a very unusual situation and normally we are very careful",
+                "kind": "avoid",
+                "criterion": "ta",
+                "label": "Explaining has become excusing",
+                "why": "One sentence of cause, two of repair. This letter has it the other way round.",
+                "transferable": true
+              },
+              {
+                "span": "I would like to pay for the repair of the table.",
+                "kind": "avoid",
+                "criterion": "ta",
+                "label": "A remedy with nothing to act on",
+                "why": "Add a date or a choice, or she has to write back before anything happens.",
+                "transferable": true
+              },
+              {
+                "span": "Thanks a lot for your understanding!",
+                "kind": "avoid",
+                "criterion": "lr",
+                "label": "The register collapses in the last line",
+                "why": "Fatigue lands on the closing sentence, so check that one first, not last.",
+                "transferable": true
+              },
+              {
+                "span": "Also, I will check the room myself in the future.",
+                "kind": "avoid",
+                "criterion": "cc",
+                "label": "'Also' carrying a new function",
+                "why": "A new function needs a new paragraph, not another 'also'.",
+                "transferable": true
+              },
+              {
+                "span": "Yours faithfully,",
+                "kind": "avoid",
+                "criterion": "ta",
+                "label": "Sign-off does not answer the greeting",
+                "why": "You named her, so it is 'Yours sincerely'; faithful is for strangers.",
+                "transferable": true
+              },
+              {
+                "span": "the hinge on one leg was broken",
+                "kind": "grammar",
+                "criterion": "gra",
+                "label": "The damage named precisely",
+                "why": "Keep this: naming the part is what makes the offer credible.",
+                "transferable": true
+              }
+            ]
+          },
+          {
+            "band_target": 7,
+            "label": "The target: same facts, better letter",
+            "word_count": 183,
+            "text": "I am writing to apologise for the state in which my group left the Cedar Room after our session on Thursday 12 June.\n\nThe room was not cleared: chairs were left out across the floor, and cups and handouts were still on the tables. More seriously, one of the folding tables was damaged, as the hinge on one of its legs was snapped when the table was folded.\n\nThe class had been packing up in a hurry. Our volunteer, who normally locks up and checks the room, had to leave early because her child was unwell, and nobody took over the check she would have done.\n\nI should like to put this right. I am happy either to pay for the repair or to replace the table outright, whichever the centre would prefer, and I can arrange it before your committee meets on 2 July. From this term I have also built a five-minute clear-up into the end of every class, which I will supervise myself.\n\nI would be grateful if you could confirm which option suits the centre.\n\nYours sincerely,\n\nDaniel Reyes",
+            "what_caps_it": [],
+            "what_lifts_it": [
+              {
+                "criterion": "ta",
+                "point": "Bullet three now carries a choice, a date and a change of routine."
+              },
+              {
+                "criterion": "cc",
+                "point": "One paragraph per function, and the explanation is the shortest of them."
+              },
+              {
+                "criterion": "lr",
+                "point": "Formal verb stock throughout: 'I should like', 'outright', 'confirm'."
+              }
+            ],
+            "annotations": [
+              {
+                "span": "I am writing to apologise for",
+                "kind": "register",
+                "criterion": "ta",
+                "label": "Purpose in the first clause",
+                "why": "A formal letter says why it exists before it says anything else.",
+                "transferable": true
+              },
+              {
+                "span": "the state in which my group left",
+                "kind": "grammar",
+                "criterion": "gra",
+                "label": "Preposition fronted, not stranded",
+                "why": "'The state in which' is a register marker; 'the state we left it in' is not.",
+                "transferable": true
+              },
+              {
+                "span": "The class had been packing up in a hurry.",
+                "kind": "grammar",
+                "criterion": "gra",
+                "label": "Past perfect sets the background",
+                "why": "One backshift shows the reader which event came first.",
+                "transferable": true
+              },
+              {
+                "span": "Our volunteer, who normally locks up and checks the room, had to leave early",
+                "kind": "cohesion",
+                "criterion": "cc",
+                "label": "A non-defining clause carries the role",
+                "why": "Two facts in one clause, with no extra sentence spent.",
+                "transferable": true
+              },
+              {
+                "span": "nobody took over the check she would have done",
+                "kind": "lexis",
+                "criterion": "lr",
+                "label": "Naming the standard you missed",
+                "why": "This is what separates an explanation from an excuse.",
+                "transferable": true
+              },
+              {
+                "span": "I should like to put this right.",
+                "kind": "register",
+                "criterion": "lr",
+                "label": "Formal, and short",
+                "why": "Open the remedy paragraph with the offer, not with more apology.",
+                "transferable": true
+              },
+              {
+                "span": "whichever the centre would prefer",
+                "kind": "move",
+                "criterion": "ta",
+                "label": "A choice she can simply accept",
+                "why": "Two options is a Task Achievement move, not a politeness.",
+                "transferable": true
+              },
+              {
+                "span": "I would be grateful if you could confirm which option suits the centre.",
+                "kind": "register",
+                "criterion": "ta",
+                "label": "The closing ask, correctly modalised",
+                "why": "Formal English becomes more polite as it becomes more specific.",
+                "transferable": true
+              }
+            ]
+          },
+          {
+            "band_target": 8,
+            "label": "Density, not decoration",
+            "word_count": 190,
+            "text": "I am writing to apologise for the condition in which my Thursday conversation class left the Cedar Room after our session on 12 June.\n\nThe room was not cleared: chairs were left out across the floor and cups and handouts remained on the tables. More seriously, one of the folding tables was damaged, the hinge on one leg having snapped as the table was folded away.\n\nThe cause was straightforward, though it is not an excuse. Our volunteer, who normally locks up and checks the room, was called away when her child fell ill, and the final check she would ordinarily have carried out was simply not reassigned.\n\nI should like to put this right without any further cost to the centre. I am happy either to pay for the repair or to replace the table outright, whichever is more convenient, and either can be settled before your committee meets on 2 July. I have also built a five-minute clear-up into the close of every class, which I now supervise myself rather than delegate.\n\nA line confirming which option you would prefer is all I need.\n\nYours sincerely,\n\nDaniel Reyes",
+            "what_caps_it": [],
+            "what_lifts_it": [
+              {
+                "criterion": "gra",
+                "point": "A participle clause and an agentless passive each carry two facts."
+              },
+              {
+                "criterion": "ta",
+                "point": "'Without any further cost to the centre' answers her question before she asks it."
+              },
+              {
+                "criterion": "lr",
+                "point": "'Ordinarily', 'reassigned', 'delegate' choose shades rather than size."
+              }
+            ],
+            "annotations": [
+              {
+                "span": "the hinge on one leg having snapped as the table was folded away",
+                "kind": "grammar",
+                "criterion": "gra",
+                "label": "Participle clause compresses the detail",
+                "why": "Two facts ride on the main sentence instead of starting a new one.",
+                "transferable": true
+              },
+              {
+                "span": "though it is not an excuse",
+                "kind": "register",
+                "criterion": "ta",
+                "label": "Naming the move you are not making",
+                "why": "Six words stop an explanation being read as self-defence.",
+                "transferable": true
+              },
+              {
+                "span": "the final check she would ordinarily have carried out was simply not reassigned",
+                "kind": "grammar",
+                "criterion": "gra",
+                "label": "Agentless passive takes the heat out",
+                "why": "The passive lets you state the failure without naming a person.",
+                "transferable": true
+              },
+              {
+                "span": "without any further cost to the centre",
+                "kind": "move",
+                "criterion": "ta",
+                "label": "Reader consideration, made explicit",
+                "why": "The 7-to-8 step in a letter is content: answer the question she would ask next.",
+                "transferable": true
+              },
+              {
+                "span": "which I now supervise myself rather than delegate",
+                "kind": "lexis",
+                "criterion": "lr",
+                "label": "One verb states the change",
+                "why": "'Rather than delegate' names the old habit and the new one at once.",
+                "transferable": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "wp_tm_03_advantages_disadvantages_visitor_caps",
+      "task_type": "task2",
+      "genre": "advantages_disadvantages",
+      "topic_id": "topic_tourism",
+      "topic_tags": [
+        "tourism",
+        "heritage",
+        "access"
+      ],
+      "difficulty": 2,
+      "prompt_text": "Write about the following topic:\n\nA growing number of popular natural sites and historic city centres now limit how many visitors may enter each day, and charge for access to areas that were previously free.\n\nDo the advantages of restricting visitor numbers in this way outweigh the disadvantages?\n\nGive reasons for your answer and include any relevant examples from your own knowledge or experience.\n\nWrite at least 250 words.",
+      "chart_spec": null,
+      "letter_bullets": null,
+      "teaching_json": {
+        "schema_version": 1,
+        "cluster": "template",
+        "teaches": "Concede the losing side properly, then write the one sentence that says why it weighs less.",
+        "band_move": "Put a weighing sentence in body two: name the difference that decides the verdict.",
+        "exam_note": "Task 2 counts twice Task 1, so a rushed conclusion here costs more than a perfect chart description gains.",
+        "time_plan": [
+          {
+            "phase": "decode",
+            "minutes": 2,
+            "does": "'Outweigh' means a verdict is required; this is not a neutral pros-and-cons task."
+          },
+          {
+            "phase": "plan",
+            "minutes": 5,
+            "does": "Write the verdict you will still be making in the conclusion, then one case per side."
+          },
+          {
+            "phase": "write",
+            "minutes": 28,
+            "does": "Losing side first, and save the weighing sentence for the second body paragraph."
+          },
+          {
+            "phase": "check",
+            "minutes": 5,
+            "does": "Read the introduction and the conclusion together: same verdict, same condition?"
+          }
+        ],
+        "plan": {
+          "lines": [
+            {
+              "label": "POSITION",
+              "note": "advantages win, BUT only if money stays with site + host town"
+            },
+            {
+              "label": "BODY 1",
+              "note": "against: price rations entry -> family books months ahead vs coach pays on day"
+            },
+            {
+              "label": "BODY 2",
+              "note": "for: wear cumulative + irreversible. WEIGH: access fixable, erosion not"
+            },
+            {
+              "label": "RISK",
+              "note": "no invented figures; hedge 'everyone / always / all countries'"
+            }
+          ],
+          "test": "Could someone else write body two from this line, weighing sentence included?",
+          "trap": "Most answers set out both sides fairly and never say which one weighs more."
+        },
+        "structure_plan": [
+          {
+            "para": 1,
+            "role": "introduction",
+            "words": 44,
+            "must_do": "Paraphrase the situation, give the verdict, and attach the condition in the same sentence."
+          },
+          {
+            "para": 2,
+            "role": "body",
+            "words": 95,
+            "must_do": "The losing side, argued properly: why price rations entry, and who that excludes."
+          },
+          {
+            "para": 3,
+            "role": "body",
+            "words": 100,
+            "must_do": "The winning side plus the weighing sentence: reversible loss against irreversible loss."
+          },
+          {
+            "para": 4,
+            "role": "conclusion",
+            "words": 40,
+            "must_do": "Restate the verdict in the question's own words, keep the condition, add nothing."
+          }
+        ],
+        "parts_checklist": [
+          {
+            "part": "The advantages, developed",
+            "evidence_question": "Which paragraph argues the benefit, and does it give a mechanism as well as a claim?"
+          },
+          {
+            "part": "The disadvantages, taken seriously",
+            "evidence_question": "Would somebody who opposes caps recognise their own argument in your body paragraph?"
+          },
+          {
+            "part": "An explicit verdict, stated twice",
+            "evidence_question": "Can a reader state your answer after reading only the introduction?"
+          }
+        ],
+        "language_bank": {
+          "warning": "Each frame has a gap, and the gap decides whether this is your English or somebody else's. A frame delivered whole reads as assembled, and examiners read the seam.",
+          "moves": [
+            {
+              "move": "evaluating",
+              "why_here": "The question asks for a verdict, so weighing language is the task itself.",
+              "grammar": "comparatives of importance, 'turns on'",
+              "frames": [
+                {
+                  "frame": "The weighing turns on ___.",
+                  "slot_hint": "the one difference that decides it, as a noun phrase"
+                },
+                {
+                  "frame": "___ can be ___, whereas ___ cannot.",
+                  "slot_hint": "the reversible loss, then the irreversible one"
+                }
+              ],
+              "avoid": "Every coin has two sides, so we must consider both the advantages and the disadvantages."
+            },
+            {
+              "move": "conceding",
+              "why_here": "The verdict is only earned if the losing side is put fairly first.",
+              "grammar": "concessive fronting, 'deserves to be'",
+              "frames": [
+                {
+                  "frame": "The objection to ___ is real and deserves ___.",
+                  "slot_hint": "the policy, then what you are going to give it"
+                },
+                {
+                  "frame": "That is a genuine ___ rather than a ___ one.",
+                  "slot_hint": "the loss, then the dismissive word you are refusing"
+                }
+              ],
+              "avoid": "Although there are some disadvantages, the advantages are more than the disadvantages."
+            },
+            {
+              "move": "exemplifying",
+              "why_here": "Both sides need an instance, and neither of them may be a statistic.",
+              "grammar": "typical-case noun phrases, reduced relatives",
+              "frames": [
+                {
+                  "frame": "A ___ ___ing ___ must ___, while ___ can ___.",
+                  "slot_hint": "two parties affected differently by the same rule"
+                },
+                {
+                  "frame": "___, for instance, ___.",
+                  "slot_hint": "a typical person or place, then what happens to them"
+                }
+              ],
+              "avoid": "According to a recent study, 78% of tourists agree that this is a very serious problem."
+            },
+            {
+              "move": "hedging",
+              "why_here": "Claims about heritage and fairness overreach without a scope marker.",
+              "grammar": "'provided', 'in practice', 'usually'",
+              "frames": [
+                {
+                  "frame": "___, provided ___.",
+                  "slot_hint": "the claim, then the condition that makes it hold"
+                },
+                {
+                  "frame": "What was ___ becomes, in practice, ___.",
+                  "slot_hint": "the stated intention, then the actual outcome"
+                }
+              ],
+              "avoid": "It goes without saying that everybody in the world has the right to visit these places."
+            },
+            {
+              "move": "referencing",
+              "why_here": "'Restricting visitor numbers' will otherwise appear in every sentence.",
+              "grammar": "summary nouns, 'that asymmetry', 'such measures'",
+              "frames": [
+                {
+                  "frame": "The ___ turns on that ___.",
+                  "slot_hint": "a summary noun naming the idea you have just made"
+                },
+                {
+                  "frame": "Such ___ ___.",
+                  "slot_hint": "a category noun that covers the whole previous sentence"
+                }
+              ],
+              "avoid": "Restricting visitor numbers is good. Restricting visitor numbers protects the site."
+            }
+          ]
+        },
+        "collocations": [
+          {
+            "chunk": "at the expense of",
+            "cefr": "C1",
+            "example": "Unlimited access preserves fairness at the expense of the surface everyone came to walk on."
+          },
+          {
+            "chunk": "on balance",
+            "cefr": "B2",
+            "example": "On balance, a cap that funds maintenance does more good than harm."
+          },
+          {
+            "chunk": "bear the cost of",
+            "cefr": "B2",
+            "example": "Residents bear the cost of crowding long before they see any of its income."
+          },
+          {
+            "chunk": "have an impact on",
+            "cefr": "B2",
+            "example": "Daily limits have a direct impact on businesses built around a short peak season."
+          },
+          {
+            "chunk": "be priced out of",
+            "cefr": "C1",
+            "example": "Households on modest incomes are quietly priced out of places described as common heritage."
+          },
+          {
+            "chunk": "a trade-off between",
+            "cefr": "C1",
+            "example": "The policy is a trade-off between access today and the survival of the site itself."
+          },
+          {
+            "chunk": "to a limited extent",
+            "cefr": "C1",
+            "example": "Charging solves the funding problem, though only to a limited extent."
+          },
+          {
+            "chunk": "put something beyond repair",
+            "cefr": "C1",
+            "example": "Decades of unrestricted footfall can put a fragile path beyond repair."
+          }
+        ],
+        "upgrade_pairs": [
+          {
+            "vague": "the advantages are more",
+            "precise": "the advantages outweigh the disadvantages",
+            "why": "Use the question's own verb; 'more' answers a different question."
+          },
+          {
+            "vague": "it is bad for poor people",
+            "precise": "it prices out households on modest incomes",
+            "why": "Name the group and the mechanism, not the moral."
+          },
+          {
+            "vague": "Everyone has the right to see these places.",
+            "precise": "Places described as common heritage are hard to defend as anything else.",
+            "why": "An unhedged right is a claim the reader has to simply grant."
+          },
+          {
+            "vague": "the place gets damaged",
+            "precise": "wear on stone and footpaths accumulates and is largely irreversible",
+            "why": "Mechanism and permanence are what make the argument weigh."
+          }
+        ],
+        "target_structures": [
+          {
+            "name": "Fronted concessive with inversion",
+            "model": "Set against it, though, is a loss of a different order.",
+            "trap": "The verb comes before the subject: 'is a loss', not 'a loss is'."
+          },
+          {
+            "name": "Cleft for emphasis",
+            "model": "What makes the objection weigh less is that allocation can be redesigned.",
+            "trap": "'What ... is that + clause', never 'What ... is because'."
+          }
+        ],
+        "error_watchlist": [
+          {
+            "pattern": "verdict missing or counted",
+            "wrong": "There are three advantages and two disadvantages, so the advantages are more.",
+            "right": "The advantages outweigh the disadvantages because the losses they prevent are permanent.",
+            "why": "'Outweigh' is about weight; counting answers a different question.",
+            "criterion": "ta"
+          },
+          {
+            "pattern": "unhedged absolutes",
+            "wrong": "Everyone always wants to visit these places for free.",
+            "right": "Most visitors would prefer free entry, at least where the site is publicly owned.",
+            "why": "Scope markers are precision, not politeness; band 7 is lost to overreach.",
+            "criterion": "lr"
+          },
+          {
+            "pattern": "fabricated evidence",
+            "wrong": "A recent study found that 78 per cent of tourists support daily limits.",
+            "right": "A household saving for one trip is committed months in advance.",
+            "why": "Invented figures cannot be checked and read as false; typical cases do not.",
+            "criterion": "ta"
+          }
+        ],
+        "checklist": [
+          "Introduction and conclusion together: same verdict, same condition?",
+          "Cover all but the first sentence of each paragraph: still readable?",
+          "Is there one sentence saying why one side weighs more?",
+          "Any 'everyone', 'always' or 'all countries' left unqualified?",
+          "Any invented statistic or study? Delete it."
+        ],
+        "rewrite_focus": {
+          "focus": "Add one sentence to body two saying why the loss you conceded weighs less than the one you are preventing.",
+          "why": "'Outweigh' questions are decided by that sentence, and most candidates never write it, so it lifts Task Response directly.",
+          "drill": "Four minutes: write three versions of the weighing sentence, each naming a different difference between the two losses. Keep one."
+        },
+        "sentence_ladder": {
+          "idea": "Unfair access can be fixed later; a worn surface cannot.",
+          "rungs": [
+            {
+              "band": 5,
+              "text": "The access is not fair but we can change it. The damage of the place we cannot change it."
+            },
+            {
+              "band": 6,
+              "text": "The problem of fairness can be solved later, but the damage to the place cannot be repaired."
+            },
+            {
+              "band": 7,
+              "text": "Unfair access can be redesigned, with free local slots, off-peak entry or a lottery, whereas a worn surface cannot be un-worn."
+            },
+            {
+              "band": 8,
+              "text": "An unfair allocation can be redesigned, because allocation is a decision. An eroded surface is not a decision, and no policy reverses it."
+            }
+          ]
+        },
+        "essay_brief": {
+          "question_type": "Do the advantages outweigh the disadvantages?",
+          "obligatory_shape": "Three parts: the advantages, the disadvantages taken seriously, and an explicit verdict given in the introduction and again at the end.",
+          "axis": 9,
+          "axis_label": "Who pays and who benefits",
+          "position": "The advantages outweigh the disadvantages, but only where the money raised is spent on the site and the community that hosts it.",
+          "position_touchpoints": [
+            "Introduction: the verdict plus the condition attached to it",
+            "Body two: a weighing sentence saying why the conceded loss counts for less",
+            "Conclusion: the verdict restated with the condition, and no new ground"
+          ],
+          "idea_bank": [
+            {
+              "side": "Against restriction",
+              "claim": "Rationing by price decides who sees a place by what they can pay.",
+              "mechanism": "A cap forces a choice of allocation, and price is the cheapest one to administer, so entry drifts towards money and flexible time.",
+              "evidence": "A family saving for one trip books months ahead; a coach party pays a premium on the day.",
+              "consequence": "Places held to be common heritage become the property of whoever can afford the slot."
+            },
+            {
+              "side": "Against restriction",
+              "claim": "Businesses built on volume lose the trade they were encouraged to build.",
+              "mechanism": "Cafes, guides and small hotels sized for a peak season cannot shrink by a third without shedding staff who live locally.",
+              "evidence": "The guide who works twelve weeks of the year and needs every one of them.",
+              "consequence": "A policy meant to protect a community can remove the income that keeps people in it."
+            },
+            {
+              "side": "For restriction",
+              "claim": "A cap protects the very thing the visitors came to see.",
+              "mechanism": "Wear on stone, paths and shallow water is cumulative and largely irreversible, and it is visible only long after it began.",
+              "evidence": "A cliff path closed for a season that does not recover within that season.",
+              "consequence": "Without a limit the asset that generates the income degrades, and visitors lose it too."
+            },
+            {
+              "side": "For restriction",
+              "claim": "A charge turns a cost residents were absorbing into money that maintains the place.",
+              "mechanism": "Free access spreads the costs of crowding, refuse, wear, policing and transport across people who never share in the trade.",
+              "evidence": "A coastal town whose summer refuse and water bills are carried by a fraction of the crowd.",
+              "consequence": "The people who bear the pressure become the ones the revenue can compensate."
+            }
+          ],
+          "development_drill": {
+            "claim": "A charge turns a cost residents were absorbing into money that maintains the place.",
+            "ask": "In six minutes write the mechanism, one typical case and the consequence. Four sentences, one idea, no statistics."
+          },
+          "memorisation_test": "A memorised essay on 'tourism' says nothing about daily admission caps or about charging for ground that used to be free."
+        },
+        "model_answers": [
+          {
+            "band_target": 6,
+            "label": "Both sides listed, neither weighed",
+            "word_count": 256,
+            "text": "Nowadays, many famous places are limiting the number of visitors every day and also asking people to pay for areas which were free before. In my opinion, the advantages of this policy are more than the disadvantages.\n\nOn the one hand, there are some disadvantages. Firstly, if a place has a limit and a price, only people who have money can visit it. Poor families cannot pay and also they cannot book many months before, because they do not know their holidays. Moreover, this is not fair, because these places belong to everybody and not only to rich people. In addition, some local businesses like cafes and hotels will lose their customers, which is also a disadvantage for the local people.\n\nOn the other hand, there are important advantages. Firstly, too many visitors damage the place. For example, the paths are broken and the old buildings become dirty and damaged. Furthermore, this damage cannot be repaired easily. For instance, when a path is destroyed by too many people, it is not possible to make it new again. Secondly, the money from the tickets can be used to repair the site. Therefore, the site will still be there in the future for the next generations. This is very important for our children and also for the local community.\n\nIn conclusion, although restricting visitors has some disadvantages for poor people and for local business, I think the advantages are more important, because if we do not protect these places, nobody will be able to visit them at all.",
+            "what_caps_it": [
+              {
+                "criterion": "ta",
+                "point": "The verdict is asserted twice but never weighed; nothing says why one side counts more."
+              },
+              {
+                "criterion": "cc",
+                "point": "Six connectives sit at the head of sentences and none marks a real turn."
+              },
+              {
+                "criterion": "lr",
+                "point": "'Rich people', 'poor families', 'not fair': the subject's own vocabulary never appears."
+              }
+            ],
+            "what_lifts_it": [],
+            "annotations": [
+              {
+                "span": "the advantages of this policy are more than the disadvantages",
+                "kind": "avoid",
+                "criterion": "ta",
+                "label": "A verdict about count, not weight",
+                "why": "'Outweigh' asks which side matters more, not which side is longer.",
+                "transferable": true
+              },
+              {
+                "span": "Firstly, if a place has a limit and a price, only people who have money can visit it",
+                "kind": "avoid",
+                "criterion": "ta",
+                "label": "Three ideas, none explained",
+                "why": "Drop two of them and spend the words on the mechanism behind the first.",
+                "transferable": true
+              },
+              {
+                "span": "Moreover, this is not fair",
+                "kind": "avoid",
+                "criterion": "cc",
+                "label": "'Moreover' where nothing is added",
+                "why": "A misused connective misdirects the reader and is worse than none at all.",
+                "transferable": true
+              },
+              {
+                "span": "these places belong to everybody and not only to rich people",
+                "kind": "avoid",
+                "criterion": "lr",
+                "label": "An unhedged absolute",
+                "why": "'Belong to everybody' is a claim no reader will grant; qualify the scope.",
+                "transferable": true
+              },
+              {
+                "span": "the paths are broken and the old buildings become dirty and damaged",
+                "kind": "avoid",
+                "criterion": "lr",
+                "label": "General words where precise ones exist",
+                "why": "'Worn', 'eroded' and 'cumulative wear' are the words this argument needs.",
+                "transferable": true
+              },
+              {
+                "span": "if we do not protect these places, nobody will be able to visit them at all",
+                "kind": "move",
+                "criterion": "ta",
+                "label": "The one weighing move it makes",
+                "why": "Keep this: it is the start of a real reason, and it belongs in body two.",
+                "transferable": true
+              }
+            ]
+          },
+          {
+            "band_target": 7,
+            "label": "The target: same ideas, argued",
+            "word_count": 277,
+            "text": "A growing number of celebrated landscapes and old city centres now cap daily admissions and charge for areas that were once open to anyone. In my view the case for doing so is the stronger one, provided the revenue stays with the site and the town that hosts it.\n\nThe objection to caps is real and deserves stating properly. Once a place admits fewer people than want to come, some method has to decide who gets in, and price is the easiest method to administer. Entry therefore drifts towards visitors with money and flexible time: a family saving for a single trip must book months ahead, while a coach party can absorb a premium on the day. Places described as common heritage quietly become the property of whoever can afford the slot, which is not a small thing to accept.\n\nThe difficulty with leaving access unlimited, however, is that it destroys the object of the visit. Wear on stone, on paths and on shallow water is cumulative, and by the time it is visible it is largely irreversible: a cliff path closed for a season does not recover in a season. Charging has a second effect that is easy to miss: it moves the cost of crowding onto the visitors who create it, rather than onto the residents who currently absorb it. This is where the weighing has to happen. Unfair access can be redesigned, with free local slots, off-peak entry or a lottery, whereas a worn surface cannot be un-worn.\n\nThe advantages therefore outweigh the disadvantages, but conditionally: a cap that funds the place it protects is defensible, and one that simply raises money is not.",
+            "what_caps_it": [],
+            "what_lifts_it": [
+              {
+                "criterion": "ta",
+                "point": "A weighing sentence names why one loss counts for less than the other."
+              },
+              {
+                "criterion": "cc",
+                "point": "Each paragraph opens on a claim, and the connectives have almost disappeared."
+              },
+              {
+                "criterion": "lr",
+                "point": "'Cumulative', 'irreversible', 'off-peak', 'absorb a premium': the subject's language."
+              }
+            ],
+            "annotations": [
+              {
+                "span": "provided the revenue stays with the site and the town that hosts it",
+                "kind": "move",
+                "criterion": "ta",
+                "label": "The verdict carries its condition",
+                "why": "A qualified verdict is a stronger answer than a flat one and is easier to defend.",
+                "transferable": true
+              },
+              {
+                "span": "The objection to caps is real and deserves stating properly.",
+                "kind": "move",
+                "criterion": "cc",
+                "label": "A topic sentence that makes a claim",
+                "why": "Cover every sentence but the first of each paragraph: can you still tell the argument?",
+                "transferable": true
+              },
+              {
+                "span": "price is the easiest method to administer",
+                "kind": "lexis",
+                "criterion": "lr",
+                "label": "The mechanism, in one clause",
+                "why": "Say why the thing happens, not merely that it happens.",
+                "transferable": true
+              },
+              {
+                "span": "a family saving for a single trip must book months ahead, while a coach party can absorb a premium on the day",
+                "kind": "move",
+                "criterion": "ta",
+                "label": "A typical case, not a statistic",
+                "why": "Two contrasting instances prove the point and cannot be caught sounding false.",
+                "transferable": true
+              },
+              {
+                "span": "which is not a small thing to accept",
+                "kind": "cohesion",
+                "criterion": "cc",
+                "label": "'Which' comments on the whole clause",
+                "why": "Non-defining 'which' adds a judgement without spending a new sentence.",
+                "transferable": true
+              },
+              {
+                "span": "This is where the weighing has to happen.",
+                "kind": "move",
+                "criterion": "ta",
+                "label": "The sentence this type is built on",
+                "why": "'Outweigh' questions are won and lost in this one sentence.",
+                "transferable": true
+              },
+              {
+                "span": "Unfair access can be redesigned, with free local slots, off-peak entry or a lottery, whereas a worn surface cannot be un-worn.",
+                "kind": "grammar",
+                "criterion": "gra",
+                "label": "'Whereas' balances two full clauses",
+                "why": "The comparison is the argument: reversible against irreversible.",
+                "transferable": true
+              },
+              {
+                "span": "The advantages therefore outweigh the disadvantages, but conditionally",
+                "kind": "move",
+                "criterion": "ta",
+                "label": "The verdict in the task's own words",
+                "why": "Use the question's verb in the conclusion so the reader cannot miss your answer.",
+                "transferable": true
+              }
+            ]
+          },
+          {
+            "band_target": 8,
+            "label": "The same argument, tighter",
+            "word_count": 285,
+            "text": "A growing number of celebrated landscapes and historic centres now cap daily admissions and charge for ground that was once open to anyone. The case for doing so is, in my view, the stronger one, though it holds only where the revenue stays with the site and with the town that carries the cost of hosting it.\n\nThe objection deserves to be put at its strongest. Once a place admits fewer people than wish to come, something has to ration entry, and price is simply the cheapest instrument to administer. Access then drifts towards those with money and a flexible diary: a household saving for one trip is committed months in advance, while a tour operator absorbs a surcharge without noticing it. What was described as common heritage becomes, in practice, the property of whoever can afford the slot, and that is a genuine loss rather than a rhetorical one.\n\nSet against it, though, is a loss of a different order. Wear on stone, on footpaths and on shallow water accumulates quietly, and by the time it is visible it is usually past repair; a cliff path closed for a season does not come back in a season. There is a second effect, too, and it is easily overlooked: a charge shifts the cost of crowding from the residents who absorb it onto the visitors who generate it. The weighing turns on that asymmetry. An unfair allocation can be redesigned, because allocation is a decision. An eroded surface is not a decision, and no policy reverses it.\n\nThe advantages therefore outweigh the disadvantages, but conditionally. A charge that maintains the place it restricts is defensible; one that merely converts a queue into revenue is not.",
+            "what_caps_it": [],
+            "what_lifts_it": [
+              {
+                "criterion": "gra",
+                "point": "An inversion and a parallel pair put the argument's structure into the syntax."
+              },
+              {
+                "criterion": "lr",
+                "point": "'Ration', 'instrument', 'asymmetry' are chosen for shade rather than for size."
+              },
+              {
+                "criterion": "ta",
+                "point": "The condition is argued rather than attached: it names who carries the cost."
+              }
+            ],
+            "annotations": [
+              {
+                "span": "The objection deserves to be put at its strongest.",
+                "kind": "move",
+                "criterion": "ta",
+                "label": "Taking the losing side seriously",
+                "why": "On an 'outweigh' question this is what earns the verdict.",
+                "transferable": true
+              },
+              {
+                "span": "Set against it, though, is a loss of a different order.",
+                "kind": "grammar",
+                "criterion": "gra",
+                "label": "Inversion carries the turn",
+                "why": "Fronting the contrast means no connective is needed at all.",
+                "transferable": true
+              },
+              {
+                "span": "The weighing turns on that asymmetry.",
+                "kind": "lexis",
+                "criterion": "lr",
+                "label": "One noun names the whole argument",
+                "why": "A summary noun lets the next two sentences work without repeating anything.",
+                "transferable": true
+              },
+              {
+                "span": "because allocation is a decision. An eroded surface is not a decision, and no policy reverses it",
+                "kind": "cohesion",
+                "criterion": "cc",
+                "label": "Parallelism does the comparison",
+                "why": "Repeat the structure, not the noun, and the contrast becomes audible.",
+                "transferable": true
+              },
+              {
+                "span": "one that merely converts a queue into revenue is not",
+                "kind": "lexis",
+                "criterion": "lr",
+                "label": "'Merely' does the evaluating",
+                "why": "One adverb tells the reader which version of the policy you reject.",
+                "transferable": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

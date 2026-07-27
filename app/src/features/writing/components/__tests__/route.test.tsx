@@ -39,7 +39,15 @@ describe("writing route", () => {
     expect(writingRoute.label).toBe("Writing");
     expect(writingRoute.order).toBe(30);
     expect(writingRoute.icon).toBeTruthy();
-    expect(writingRoute.children?.map((c) => c.path)).toEqual(["attempt/:attemptId"]);
+    // Assert the child routes the sidebar contract depends on are PRESENT rather than
+    // pinning the exact list: adding a screen under /writing is normal feature work and
+    // should not fail a test about the sidebar. Removing one of these would.
+    const children = writingRoute.children?.map((c) => c.path) ?? [];
+    expect(children).toContain("attempt/:attemptId");
+    expect(children).toContain("coach/:promptId");
+    expect(children).toContain("mock");
+    // Every child is relative — a leading slash would escape the feature's own subtree.
+    expect(children.every((p) => !p.startsWith("/"))).toBe(true);
   });
 
   it("renders the hub at /writing", () => {

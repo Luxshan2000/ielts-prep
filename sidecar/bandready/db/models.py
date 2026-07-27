@@ -278,6 +278,9 @@ class WritingPrompt(PackMixin, Base):
     prompt_text: Mapped[str] = mapped_column(Text, nullable=False)
     chart_spec: Mapped[str | None] = mapped_column(Text)
     letter_bullets: Mapped[str | None] = mapped_column(Text)
+    #: The authored teaching layer (staging-writing/DESIGN.md §1–§5), serialised JSON.
+    #: NULL means "no teaching material" — every consumer is absent-by-default.
+    teaching_json: Mapped[str | None] = mapped_column(Text)
 
     __table_args__ = (
         *pack_checks(),

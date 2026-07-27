@@ -11,13 +11,16 @@
  */
 
 import { cn } from "@/lib/cn";
-import type { ChartFeature, ChartSnapshot, ChartSpec } from "../../store";
+import type { ChartFeature, ChartSnapshot } from "../../store";
 import { LABEL_FONT, wrapLines } from "./palette";
+import type { ChartSpecLike } from "./spec";
 
 export interface MapPairProps {
-  spec: ChartSpec;
+  spec: ChartSpecLike;
   width: number;
   ariaLabel: string;
+  /** id of the full text alternative, announced after the label. */
+  describedBy?: string;
 }
 
 const PAD = 10;
@@ -161,10 +164,12 @@ function Snapshot({
   snapshot,
   size,
   ariaLabel,
+  describedBy,
 }: {
   snapshot: ChartSnapshot;
   size: number;
   ariaLabel: string;
+  describedBy?: string;
 }) {
   const inner = size - PAD * 2;
   const clamp = (v: number) => Math.max(0, Math.min(100, Number.isFinite(v) ? v : 0));
@@ -181,6 +186,7 @@ function Snapshot({
         height={size}
         role="img"
         aria-label={`${snapshot.label}. ${ariaLabel}`}
+        aria-describedby={describedBy}
         className="block max-w-full rounded-lg border border-border bg-card"
       >
         <g aria-hidden="true">
@@ -239,7 +245,7 @@ function Snapshot({
 }
 
 /** Both plans side by side; stacked when the panel is too narrow for two. */
-export function MapPair({ spec, width, ariaLabel }: MapPairProps) {
+export function MapPair({ spec, width, ariaLabel, describedBy }: MapPairProps) {
   const snapshots = (spec.snapshots ?? []).slice(0, 2);
   if (snapshots.length === 0) {
     return (
@@ -256,8 +262,16 @@ export function MapPair({ spec, width, ariaLabel }: MapPairProps) {
 
   return (
     <div className={cn("flex gap-4", stacked ? "flex-col items-start" : "flex-row items-start")}>
+      {/* The description covers both plans, so it is attached to the first
+          graphic only — pointing both at it would read the whole thing twice. */}
       {snapshots.map((snapshot, i) => (
-        <Snapshot key={i} snapshot={snapshot} size={size} ariaLabel={ariaLabel} />
+        <Snapshot
+          key={i}
+          snapshot={snapshot}
+          size={size}
+          ariaLabel={ariaLabel}
+          describedBy={i === 0 ? describedBy : undefined}
+        />
       ))}
     </div>
   );

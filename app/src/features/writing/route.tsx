@@ -3,6 +3,8 @@ import { defineFeatureRoute } from "@/lib/featureRoute";
 import { FeatureErrorBoundary } from "@/components/FeatureErrorBoundary";
 import { WritingLayout } from "./page";
 import { AttemptWorkspace } from "./components/AttemptWorkspace";
+import { WritingCoach } from "./components/coach";
+import { MockPreflight, MockReport, MockSitting } from "./components/mock";
 
 export default defineFeatureRoute({
   path: "/writing",
@@ -24,6 +26,47 @@ export default defineFeatureRoute({
           hint="Your draft is autosaved to the local sidecar as you type, so reloading this screen picks it up again."
         >
           <AttemptWorkspace />
+        </FeatureErrorBoundary>
+      ),
+    },
+    // The teaching layer: study one prompt outside an attempt. Read-only against the
+    // content pack and the learner's own history, so a crash costs nothing and the
+    // default boundary reset (a remount) is the right recovery.
+    {
+      path: "coach/:promptId",
+      element: (
+        <FeatureErrorBoundary feature="writing coach">
+          <WritingCoach />
+        </FeatureErrorBoundary>
+      ),
+    },
+    // The mock paper. It reuses the attempt endpoints but is its own room: a
+    // commitment screen, an hour with no teaching surface anywhere in it, and a
+    // report that leads with the time split.
+    {
+      path: "mock",
+      element: (
+        <FeatureErrorBoundary feature="mock writing paper">
+          <MockPreflight />
+        </FeatureErrorBoundary>
+      ),
+    },
+    {
+      path: "mock/sitting/:mockId",
+      element: (
+        <FeatureErrorBoundary
+          feature="mock sitting"
+          hint="The clock kept running. Both drafts are autosaved on the local sidecar — reload to pick the sitting up where it is."
+        >
+          <MockSitting />
+        </FeatureErrorBoundary>
+      ),
+    },
+    {
+      path: "mock/report/:mockId",
+      element: (
+        <FeatureErrorBoundary feature="mock writing report">
+          <MockReport />
         </FeatureErrorBoundary>
       ),
     },

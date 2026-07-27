@@ -26,3 +26,5 @@ build/
 # tools/content/merge_speaking.py. The research briefings under staging/research/
 # and DESIGN.md/TEMPLATE.json ARE tracked — they are the authoring contract.
 content/core-en/staging/sets/
+
+content/core-en/staging-writing/prompts/

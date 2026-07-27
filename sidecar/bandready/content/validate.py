@@ -158,6 +158,9 @@ class WritingPromptRow(_Row):
     prompt_text: str
     chart_spec: dict[str, Any] | str | None = None
     letter_bullets: list[str] | str | None = None
+    #: The authored teaching layer (staging-writing/DESIGN.md §1–§5). Typed here so a
+    #: malformed payload fails the pack rather than the UI.
+    teaching_json: dict[str, Any] | str | None = None
 
     @field_validator("task_type")
     @classmethod

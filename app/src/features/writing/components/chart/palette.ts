@@ -41,6 +41,34 @@ export function seriesInk(index: number): string {
   return SERIES_INK[Math.min(Math.max(index, 0), SERIES_INK.length - 1)];
 }
 
+/** How many pie segments can be told apart: five hues × plain/hatched. */
+export const SEGMENT_MAX = SERIES_MAX * 2;
+
+export interface SegmentStyle {
+  /** Tailwind text-color pair driving `currentColor`. */
+  ink: string;
+  /** Second encoding for slots 6–10, so no two segments share an appearance. */
+  hatched: boolean;
+}
+
+/**
+ * Pie segments, unlike series, routinely run to seven — more than the five
+ * validated hues. The rule "assign categorical hues in fixed order, never
+ * cycled" is kept by *not* inventing a sixth hue: slots 6–10 reuse the fixed
+ * order with a 45° hatch laid over the fill, which is the same composite
+ * encoding the palette's colour-vision-deficiency and print cases rely on. A
+ * pie pair therefore stays readable when the same segment must be matched
+ * across two rings.
+ */
+export function segmentStyle(index: number): SegmentStyle {
+  const safe = Math.max(0, index);
+  return { ink: seriesInk(safe % SERIES_MAX), hatched: safe >= SERIES_MAX };
+}
+
+/** CSS for a legend swatch that matches a hatched segment. */
+export const HATCH_CSS =
+  "repeating-linear-gradient(45deg, transparent 0 2px, hsl(var(--card)) 2px 3.5px)";
+
 // ------------------------------------------------------------------ numbers ---
 
 /** Locale thousands separators, at most one decimal, no trailing ".0". */

@@ -202,7 +202,51 @@ describe("model answers", () => {
 
     await userEvent.click(screen.getByRole("tab", { name: "Band 6" }));
     expect(screen.getByText("Where most candidates land")).toBeInTheDocument();
-    expect(screen.getByText("What holds it at band 6")).toBeInTheDocument();
+    // The heading names the rung directly above on *this* card's ladder, not a fixed 6.
+    expect(screen.getByText("What holds it below band 7")).toBeInTheDocument();
+  });
+
+  it("renders a five-rung ladder and the rung note without assuming 6 is the floor", async () => {
+    const five: Part2Teaching = {
+      ...TEACHING,
+      model_answers: [
+        {
+          band_target: 5,
+          label: "Below the line",
+          transcript: TRANSCRIPT,
+          what_caps_it: [{ criterion: "FC", point: "It stops after seventy seconds." }],
+          what_lifts_it: [],
+          annotations: [],
+        },
+        ...(TEACHING.model_answers ?? []),
+        {
+          band_target: 9,
+          label: "The ceiling",
+          transcript: TRANSCRIPT,
+          what_caps_it: [],
+          what_lifts_it: [{ criterion: "LR", point: "Nothing is being reached for." }],
+          annotations: [],
+        },
+      ],
+      ladder_note: {
+        from_5_to_6: "Do not stop at seventy seconds — add three details.",
+        from_8_to_9: "Deliver the observation and move straight on.",
+      },
+    };
+    render(<ModelAnswerViewer teaching={five} cardTitle="a friend" />);
+
+    // Five tabs, and only the true ceiling is plain "Band 9" — no "+" above 8 any more.
+    expect(screen.getByRole("tab", { name: "Band 5" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Band 9" })).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("tab", { name: "Band 5" }));
+    expect(screen.getByText("What holds it below band 6")).toBeInTheDocument();
+    expect(
+      screen.getByText("Do not stop at seventy seconds — add three details."),
+    ).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("tab", { name: "Band 9" }));
+    expect(screen.getByText("What lifts it above band 8")).toBeInTheDocument();
   });
 
   it("shows an annotation's reasoning when its span is activated", async () => {

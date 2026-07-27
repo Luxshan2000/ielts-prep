@@ -19,6 +19,10 @@ from typing import Any
 _log = logging.getLogger("bandready.voice.injector")
 
 MARKER = "[[br-question-card]]"
+#: Examiner conduct rules (:mod:`bandready.voice.examiner`). Pinned with the persona
+#: rather than with the card, because these must survive history trimming: they matter
+#: most late in a long session, which is exactly when the oldest messages are dropped.
+RULES_MARKER = "[[br-examiner-rules]]"
 #: History kept in front of the injected card (02 §9 "context trimming" knob). Examiner
 #: turns need no deep memory — the card carries the script.
 DEFAULT_MAX_HISTORY = 12
@@ -26,6 +30,7 @@ DEFAULT_MAX_HISTORY = 12
 __all__ = [
     "DEFAULT_MAX_HISTORY",
     "MARKER",
+    "RULES_MARKER",
     "QuestionCardProcessor",
     "build_messages",
     "make_question_card_processor",
@@ -37,7 +42,7 @@ def _is_injection(message: dict[str, Any]) -> bool:
     return (
         message.get("role") == "system"
         and isinstance(content, str)
-        and content.startswith(MARKER)
+        and content.startswith((MARKER, RULES_MARKER))
     )
 
 
@@ -45,29 +50,36 @@ def build_messages(
     messages: list[dict[str, Any]],
     card_block: str | None,
     max_history: int | None = DEFAULT_MAX_HISTORY,
+    rules_block: str | None = None,
 ) -> list[dict[str, Any]]:
     """Rebuild the LLM context with exactly one fresh card injection.
 
-    1. Drop any previous ``[[br-question-card]]`` system message (never accumulate).
+    1. Drop any previous ``[[br-question-card]]`` / ``[[br-examiner-rules]]`` system
+       message (never accumulate).
     2. Trim the conversation to the last ``max_history`` non-leading-system messages.
-    3. Insert the new card immediately **before the last user message**, so the model
+    3. Pin the examiner conduct rules straight after the persona, ahead of the trimmed
+       conversation, so they can never be trimmed away.
+    4. Insert the new card immediately **before the last user message**, so the model
        reads it as current-turn instructions rather than stale history.
 
     Pure: the input list is never mutated.
     """
     cleaned = [dict(m) for m in messages if not _is_injection(m)]
 
-    if max_history is not None and max_history > 0:
-        # The leading persona system message(s) are pinned; only the conversation is
-        # trimmed, oldest first.
-        head: list[dict[str, Any]] = []
-        rest = cleaned
-        while rest and rest[0].get("role") == "system":
-            head.append(rest[0])
-            rest = rest[1:]
-        if len(rest) > max_history:
-            rest = rest[-max_history:]
-        cleaned = head + rest
+    head: list[dict[str, Any]] = []
+    rest = cleaned
+    while rest and rest[0].get("role") == "system":
+        head.append(rest[0])
+        rest = rest[1:]
+
+    # The leading persona system message(s) are pinned; only the conversation is trimmed,
+    # oldest first.
+    if max_history is not None and max_history > 0 and len(rest) > max_history:
+        rest = rest[-max_history:]
+
+    if rules_block:
+        head.append({"role": "system", "content": f"{RULES_MARKER}\n{rules_block.strip()}"})
+    cleaned = head + rest
 
     if not card_block:
         return cleaned
@@ -139,14 +151,19 @@ def _processor_class() -> Any:
             await self.push_frame(frame, direction)
 
         def _apply(self) -> None:
-            card_block = None
-            getter = getattr(self._cards, "current_card_block", None)
-            if callable(getter):
-                card_block = getter()
+            card_block = self._read("current_card_block")
+            # Examiner conduct is re-stated every turn because it is part-dependent
+            # (research 01 §8) and because an LLM's helpfulness reasserts itself the
+            # moment the instruction falls out of the recent context.
+            rules_block = self._read("current_rules_block")
             messages = list(self._context.get_messages())
             self._context.set_messages(
-                build_messages(messages, card_block, self._max_history)
+                build_messages(messages, card_block, self._max_history, rules_block)
             )
+
+        def _read(self, name: str) -> str | None:
+            getter = getattr(self._cards, name, None)
+            return getter() if callable(getter) else None
 
     _CLASS = _QuestionCardProcessor
     return _CLASS

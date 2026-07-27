@@ -32,6 +32,10 @@ describe("speaking route contract", () => {
       "report/:reportId",
       "coach",
       "coach/:cardSetId",
+      "mock",
+      "mock/sitting/:sessionId",
+      "mock/report/:reportId",
+      "mock/history",
     ]);
     for (const child of route.children ?? []) expect(child.element).toBeTruthy();
   });

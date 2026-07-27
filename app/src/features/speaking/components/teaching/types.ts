@@ -186,6 +186,12 @@ export interface Part2Teaching {
   swap_slots?: SwapSlot[];
   transfer_drill?: string;
   model_answers?: ModelAnswer[];
+  /**
+   * Round 2's rung notes, keyed `from_5_to_6` … `from_8_to_9`. Each value names the ONE
+   * change a learner standing on that rung should make next. Present only on the twenty
+   * cards whose ladder was extended to 5–9; absent-by-default everywhere else.
+   */
+  ladder_note?: Record<string, string>;
 }
 
 // ------------------------------------------------------- part 1 / part 3 cards ---
@@ -415,6 +421,16 @@ function modelAnswers(raw: unknown): ModelAnswer[] {
     .sort((a, b) => a.band_target - b.band_target);
 }
 
+function ladderNote(raw: unknown): Record<string, string> | undefined {
+  if (!isDict(raw)) return undefined;
+  const note: Record<string, string> = {};
+  for (const [key, value] of Object.entries(raw)) {
+    const text = str(value);
+    if (/^from_\d_to_\d$/.test(key) && text) note[key] = text;
+  }
+  return Object.keys(note).length > 0 ? note : undefined;
+}
+
 function prepPlan(raw: unknown): PrepPlan | undefined {
   if (!isDict(raw)) return undefined;
   const grid = dictArray(raw.note_grid)
@@ -507,6 +523,7 @@ function readPart2Teaching(raw: unknown): Part2Teaching | undefined {
       .filter((s): s is SwapSlot => s !== null),
     transfer_drill: str(raw.transfer_drill),
     model_answers: modelAnswers(raw.model_answers),
+    ladder_note: ladderNote(raw.ladder_note),
   };
   return teaching;
 }

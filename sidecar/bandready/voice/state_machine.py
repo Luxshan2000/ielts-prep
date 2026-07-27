@@ -26,6 +26,35 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
 from typing import Any
 
+# Examiner realism (research 01-exam-reality §3.3, §7, §8) lives in one place: the
+# scripted wording, the part-dependent repeat/rephrase rule, the long-turn policy and the
+# airtime guards. The state machine only *calls* it, so the conduct rules stay pure and
+# testable without a session.
+from bandready.voice.examiner import (
+    ACT_SILENCE,
+    LINE_GREETING,
+    LINE_P1_START,
+    LINE_P2_BEGIN,
+    LINE_P2_INTRO,
+    LINE_P2_STOP,
+    LINE_P3_INTRO,
+    LINE_SILENCE_PROMPT,
+    LINE_WRAP_UP,
+    LONG_TURN_MAX_PROMPTS,
+    LT_PROMPT,
+    airtime_check,
+    clarification_instruction,
+    clarification_policy,
+    detect_clarification_request,
+    estimate_speech_seconds,
+    examiner_rules_fragment,
+    examiner_turn_length,
+    examiner_turn_violations,
+    long_turn_decision,
+    long_turn_prompt_line,
+    uncovered_bullet,
+)
+
 _log = logging.getLogger("bandready.voice.state")
 
 # --------------------------------------------------------------------------- phases
@@ -285,9 +314,10 @@ professional, neutral, and warm but brief. This is a TEST, not a lesson.
 ABSOLUTE RULES:
 - Never correct, teach, evaluate, praise, or comment on the candidate's
   English during the test. No "good answer", no "well done", no feedback.
-- Never explain vocabulary. If asked what a word means, say: "I'm sorry,
-  I can't explain the question, but I can repeat it."
-- If the candidate asks you to repeat, repeat the question once, verbatim.
+- Repeating a question verbatim is always allowed. Rewording it or explaining
+  what a word means is allowed in Part 3 ONLY — never in Parts 1 and 2, whose
+  questions are a fixed script. The per-turn EXAMINER CONDUCT block states the
+  rule for the part you are in; follow it exactly.
 - Keep your own speech short. Questions only. Never speak for more than
   two sentences at a time.
 - Do not fill silence with chatter. If the candidate is silent for a long
@@ -328,32 +358,10 @@ asks. Keep them talking — your job is airtime for them, not you.
 """
 
 # Scripted lines (04 §4, 02 §3.2). These are queued as TTSSpeakFrame and never generated
-# by the model, so every transition is instant and identical in every session.
-LINE_GREETING = (
-    "Good day. My name is your examiner today. "
-    "Can you tell me your full name, please?"
-)
-LINE_P1_START = (
-    "Thank you. Now, in this first part, I'd like to ask you some questions "
-    "about yourself."
-)
-LINE_P2_INTRO = (
-    "Now, I'm going to give you a topic, and I'd like you to talk about it for "
-    "one to two minutes. Before you talk, you'll have one minute to think about "
-    "what you're going to say. You can make some notes if you wish. Here is your "
-    "topic. I'd like you to {topic_line}"
-)
-LINE_P2_BEGIN = (
-    "All right? Remember, you have one to two minutes for this, so don't worry if "
-    "I stop you. I'll tell you when the time is up. Can you start speaking now, please?"
-)
-LINE_P2_STOP = "Thank you."
-LINE_P3_INTRO = (
-    "We've been talking about {topic_short}, and I'd like to discuss with you one "
-    "or two more general questions related to this."
-)
-LINE_WRAP_UP = "Thank you. That is the end of the Speaking test."
-LINE_SILENCE_PROMPT = "Take your time — would you like me to repeat the question?"
+# by the model, so every transition is instant and identical in every session. The
+# examiner's own lines (LINE_GREETING … LINE_SILENCE_PROMPT) are defined once in
+# :mod:`bandready.voice.examiner` as part of its scripted-move registry and imported above
+# — a part transition whose wording drifts is a different test.
 LINE_COACH_OPENING = (
     "Hi! Let's do some speaking practice together. I'll ask a question, you answer, "
     "and then I'll give you one quick tip. Ready?"
@@ -484,6 +492,22 @@ class SpeakingStateMachine:
         self._long_turn_speech_s = 0.0
         self.history: list[str] = []
 
+        # --- examiner realism (research 01 §3.3, §7, §8) ---------------------------
+        #: Clarification requests the candidate has made, for the report.
+        self.clarification_requests = 0
+        #: Set when Part 3 asks for a rewording the LLM must produce (never in Parts 1-2).
+        self._pending_clarification: Any = None
+        #: The long turn's own transcript, used to aim the single permitted prompt.
+        self._long_turn_text: list[str] = []
+        self.long_turn_prompts = 0
+        #: Airtime ledger: the candidate should hold ~80% of it (research 01 §7).
+        self._candidate_speech_s = 0.0
+        self._examiner_speech_s = 0.0
+        #: Generated examiner turns that broke the two-sentence budget.
+        self.long_examiner_turns = 0
+        #: Codes of examiner turns that praised, taught, steered or gave feedback.
+        self.conduct_violations: list[str] = []
+
     # ---------------------------------------------------------------- properties
 
     @property
@@ -591,6 +615,33 @@ class SpeakingStateMachine:
     async def on_assistant_turn(self, text: str = "", t_ms: int = 0) -> None:
         """02 §3.3 — the current card counts as asked once the examiner finished it."""
         self._asked = True
+        # Research 01 §7: examiner turns are short by design, because the examiner's job is
+        # to maximise the candidate's talking time. A model that starts editorialising
+        # steals exactly the airtime the test is meant to measure, and does it invisibly —
+        # so measure it every turn.
+        self._examiner_speech_s += estimate_speech_seconds(text)
+        length = examiner_turn_length(text)
+        if not length.ok:
+            self.long_examiner_turns += 1
+            _log.warning(
+                "session %s: examiner turn drifting long in %s — %s",
+                self.session_id,
+                self.phase,
+                length.reason,
+            )
+        # Research 01 §6/§8: praising, correcting or steering are the model's instincts and
+        # the examiner's forbidden moves. We cannot unsay a spoken turn, but an unflagged
+        # drift is one nobody ever fixes — so count it.
+        for violation in examiner_turn_violations(text):
+            self.conduct_violations.append(violation.code)
+            _log.warning(
+                "session %s: examiner conduct (%s) in %s — %r: %s",
+                self.session_id,
+                violation.code,
+                self.phase,
+                violation.matched,
+                violation.detail,
+            )
         if self.phase == COACH_FEEDBACK:
             await self.transition(COACH_QA)
 
@@ -598,6 +649,8 @@ class SpeakingStateMachine:
         """A finalized candidate turn landed. Advances cards and honours soft budgets."""
         self.turn_count += 1
         self.repeats = 0
+        self._candidate_speech_s += speech_s or estimate_speech_seconds(text)
+        self._pending_clarification = None
 
         if self.phase == P1_INTRO:
             await self.transition(P1_QA)
@@ -605,13 +658,26 @@ class SpeakingStateMachine:
 
         if self.phase == P2_LONG_TURN:
             self._long_turn_speech_s += speech_s
+            self._long_turn_text.append(text or "")
             if self._long_turn_speech_s >= self.timings.p2_long_turn_min_s:
                 # 02 §7 step 4(b): a long-enough monologue that has clearly ended.
                 await self.end_long_turn()
+            else:
+                # Research 01 §3.3 — a turn that dries up early gets ONE prompt and then
+                # the examiner moves on. Armed on the end-of-monologue silence so a
+                # candidate who is merely drawing breath is never interrupted.
+                self._arm(
+                    "p2_early_stop",
+                    self.timings.monologue_end_silence_s,
+                    self._on_timer_expired,
+                )
             return
 
         if self.phase == P2_PREP:
             return  # muttering while preparing is captured but never scored or answered
+
+        if await self._handle_clarification(text):
+            return  # the question still stands: never consumed by a request for help
 
         if self._asked:
             self._asked = False
@@ -619,6 +685,70 @@ class SpeakingStateMachine:
 
         if self._advance_after_turn or self._questions_exhausted():
             await self._advance_stage()
+
+    # ------------------------------------------------------- clarification (01 §8)
+
+    async def _handle_clarification(self, text: str) -> bool:
+        """Answer a "sorry?" / "what does X mean?" the way the current part allows.
+
+        Research 01 §8 is asymmetric and counter-intuitive: in Part 1 the examiner may
+        repeat verbatim but may **not** reword the question or gloss a word, because the
+        frame is a script; in Part 3 they may do all three. Returns True when the turn was
+        handled here, which always means the current question is *not* advanced — asking
+        for help never costs the candidate the question.
+
+        The response itself rides on the next question card
+        (:meth:`current_card_block`) rather than being queued as a separate scripted line,
+        because the request and the answer to it belong to the same turn: two voices
+        answering one "sorry?" would talk over each other.
+        """
+        if not self.is_live or self.phase in GATED_PHASES:
+            return False
+        request = detect_clarification_request(text)
+        if request is None:
+            return False
+        policy = clarification_policy(self.current_part, request.kind)
+        self.clarification_requests += 1
+        _log.info(
+            "session %s: clarification (%s) in part %s -> %s",
+            self.session_id,
+            request.kind,
+            self.current_part,
+            policy.action,
+        )
+        if policy.action != ACT_SILENCE:
+            self._pending_clarification = policy
+        return True
+
+    def current_question_text(self) -> str | None:
+        """The exact question now on the floor, for a verbatim repeat."""
+        if self.phase == P1_QA:
+            frames = self.bundle.part1
+            if self.frame_index < len(frames):
+                frame = frames[self.frame_index]
+                if self.question_index < len(frame.questions):
+                    return frame.questions[self.question_index]
+        elif self.phase == P2_ROUNDING:
+            cue = self.bundle.part2
+            if cue is not None and self.rounding_index < len(cue.rounding_off):
+                return cue.rounding_off[self.rounding_index]
+        elif self.phase == P3_DISCUSS:
+            themes = self.bundle.part3
+            if self.theme_index < len(themes):
+                theme = themes[self.theme_index]
+                if self.question_index < len(theme.questions):
+                    return theme.questions[self.question_index]
+        elif self.phase == COACH_QA:
+            frames = self.bundle.part1
+            if self.frame_index < len(frames):
+                frame = frames[self.frame_index]
+                if self.question_index < len(frame.questions):
+                    return frame.questions[self.question_index]
+        return None
+
+    def airtime(self) -> Any:
+        """Running airtime split (research 01 §7 — the candidate should hold ~80%)."""
+        return airtime_check(self._candidate_speech_s, self._examiner_speech_s)
 
     async def on_silence(self) -> None:
         """Soft silence timeout: prompt once, then let the card advance."""
@@ -632,11 +762,47 @@ class SpeakingStateMachine:
             self.repeats = 0
 
     async def end_long_turn(self) -> None:
-        """Stop the Part 2 monologue: scripted "Thank you." then the rounding-off part."""
+        """Stop the Part 2 monologue: scripted "Thank you." then the rounding-off part.
+
+        Research 01 §3.3: being stopped at two minutes is the *intended* outcome and
+        carries no penalty, so the cut-off is a bare acknowledgement — nothing that could
+        be read as approval or disappointment.
+        """
         if self.phase != P2_LONG_TURN:
             return
         await self._say(LINE_P2_STOP)
         await self.transition(P2_ROUNDING)
+
+    async def prompt_or_end_long_turn(self) -> None:
+        """The candidate has gone quiet mid-long-turn: prompt once, or move on.
+
+        Research 01 §3.3 — the examiner never backchannels and never encourages, but a
+        turn that dies before roughly a minute gets one nudge, typically aimed at a bullet
+        the candidate has not touched. After that single prompt the examiner moves on; a
+        short turn is self-penalising through fluency, not through anything said aloud.
+        """
+        if self.phase != P2_LONG_TURN:
+            return
+        decision = long_turn_decision(
+            speech_s=self._long_turn_speech_s,
+            elapsed_s=0.0,
+            candidate_speaking=False,
+            prompts_used=self.long_turn_prompts,
+            min_s=self.timings.p2_long_turn_min_s,
+            max_s=self.timings.p2_long_turn_max_s,
+            max_prompts=LONG_TURN_MAX_PROMPTS,
+        )
+        if decision != LT_PROMPT:
+            await self.end_long_turn()
+            return
+        cue = self.bundle.part2
+        bullet = (
+            uncovered_bullet(cue.bullets, " ".join(self._long_turn_text)) if cue else None
+        )
+        self.long_turn_prompts += 1
+        await self._say(long_turn_prompt_line(bullet))
+        # The gate stays shut: the prompt is scripted, and the examiner is otherwise
+        # silent for the rest of the turn.
 
     # ---------------------------------------------------------------- progression
 
@@ -698,11 +864,35 @@ class SpeakingStateMachine:
 
     # ---------------------------------------------------------------- card block
 
+    def current_rules_block(self) -> str | None:
+        """The ``[[br-examiner-rules]]`` conduct block for this turn, or ``None``.
+
+        Pinned ahead of the conversation by the injector so context trimming can never
+        drop it. Part-dependent, because the repeat/rephrase rule is (research 01 §8) —
+        the coach personas take no examiner rules at all.
+        """
+        if self.activity in ("topic_drill", "quick_chat"):
+            return None
+        return examiner_rules_fragment(self.current_part, gated=self.phase in GATED_PHASES)
+
     def current_card_block(self) -> str | None:
         """The ``[[br-question-card]]`` body for this turn (02 §3.2), or ``None``.
 
-        A pure read — advancing is :meth:`on_user_turn`'s job.
+        A pure read — advancing is :meth:`on_user_turn`'s job. A pending clarification
+        request rides along with the card, so the reply lands on the very next turn and
+        the question itself stays exactly where it was (research 01 §8).
         """
+        block = self._task_card_block()
+        pending = self._pending_clarification
+        if pending is None:
+            return block
+        instruction = clarification_instruction(pending, self.current_question_text())
+        if not instruction:
+            return block
+        instruction = f"CLARIFICATION REQUEST — {instruction}"
+        return f"{block}\n{instruction}" if block else instruction
+
+    def _task_card_block(self) -> str | None:
         if self.phase == P1_QA:
             frames = self.bundle.part1
             if self.frame_index >= len(frames):
@@ -715,8 +905,9 @@ class SpeakingStateMachine:
                 f"CURRENT TASK (Part 1 — Interview, topic: {frame.topic}, "
                 f"question {self.question_index + 1} of {len(frame.questions)}):\n"
                 f'Ask exactly this question, naturally: "{question}"\n'
-                "If the candidate has clearly finished answering, respond with a brief "
-                "neutral acknowledgement and then ask the question above. Ask nothing else."
+                "If the candidate has clearly finished answering, you may say at most a "
+                "flat, unevaluative 'Thank you' first — never an assessment of the answer "
+                "— and then ask the question above. Ask nothing else."
             )
         if self.phase == P2_ROUNDING:
             cue = self.bundle.part2
@@ -726,9 +917,10 @@ class SpeakingStateMachine:
             return (
                 "CURRENT TASK (Part 2 — Long turn, cue card delivered, monologue "
                 "finished):\n"
-                'The candidate has just finished their long turn. Say exactly:\n'
-                f'"Thank you." and then ask this one rounding-off question:\n'
-                f'"{question}"'
+                'The long turn has already been closed with a scripted "Thank you." — do '
+                "not thank them again and do not comment on the talk. Ask only this one "
+                "rounding-off question, which is meant to be answered in a sentence or "
+                f'two:\n"{question}"'
             )
         if self.phase == P3_DISCUSS:
             themes = self.bundle.part3
@@ -796,6 +988,8 @@ class SpeakingStateMachine:
         self._arm(timer_id, seconds, self._on_timer_expired)
         if phase == P2_LONG_TURN:
             self._long_turn_speech_s = 0.0
+            self._long_turn_text = []
+            self.long_turn_prompts = 0
             self._arm("p2_long_turn_min", self.timings.p2_long_turn_min_s, None)
         return (datetime.now(UTC) + timedelta(seconds=seconds)).strftime(
             "%Y-%m-%dT%H:%M:%SZ"
@@ -845,6 +1039,8 @@ class SpeakingStateMachine:
             await self.transition(P2_LONG_TURN)          # hard
         elif timer_id == "p2_long_turn_max":
             await self.end_long_turn()                   # hard — "Thank you."
+        elif timer_id == "p2_early_stop":
+            await self.prompt_or_end_long_turn()         # soft — one prompt, then move on
         elif timer_id in ("p1_budget", "p3_budget"):
             self._advance_after_turn = True              # soft
         elif timer_id == "reconnect_grace":

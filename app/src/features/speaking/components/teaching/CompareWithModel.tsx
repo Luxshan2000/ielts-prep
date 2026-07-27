@@ -19,7 +19,15 @@ import { Badge, Button, EmptyState, Tabs, type TabItem } from "@/components/ui";
 import { cn } from "@/lib/cn";
 import { AnnotatedModel, type MarkSelection } from "./AnnotatedModel";
 import { Callout } from "./primitives";
-import { clock, criterionLabel, criterionStyle, KIND_LABEL } from "./labels";
+import {
+  bandPointHeading,
+  bandTabLabel,
+  clock,
+  criterionLabel,
+  criterionStyle,
+  KIND_LABEL,
+  ladderStepKey,
+} from "./labels";
 import { wordCount } from "./spans";
 import type { Part2Teaching } from "./types";
 
@@ -162,23 +170,36 @@ export function CompareWithModel({
     (answer.what_lifts_it ?? []).length > 0
       ? (answer.what_lifts_it ?? [])
       : (answer.what_caps_it ?? []);
-  const pointsHeading =
-    (answer.what_lifts_it ?? []).length > 0
-      ? `What lifts it to band ${answer.band_target}`
-      : "What holds it at band 6";
+  const ladder = answers.map((a) => a.band_target);
+  const pointsHeading = bandPointHeading(
+    answer.band_target,
+    ladder,
+    (answer.what_lifts_it ?? []).length > 0,
+  );
   const note =
     selected?.layer === "annotation" ? (answer.annotations ?? [])[selected.index] : null;
 
   const tabs: TabItem[] = answers.map((a) => ({
     value: String(a.band_target),
-    label: a.band_target >= 8 ? `Band ${a.band_target}+` : `Band ${a.band_target}`,
+    label: bandTabLabel(a.band_target, ladder),
   }));
+  // F1's rankable payload: the single next change for whoever is standing on this rung.
+  const step = teaching.ladder_note?.[ladderStepKey(answer.band_target)];
 
   return (
     <div className={cn("space-y-5", className)}>
       {teaching.band_move && (
         <Callout tone="teach" title="The one thing to change on this card">
           {teaching.band_move}
+        </Callout>
+      )}
+
+      {step && (
+        <Callout
+          tone="teach"
+          title={`From band ${answer.band_target} to ${answer.band_target + 1}`}
+        >
+          {step}
         </Callout>
       )}
 

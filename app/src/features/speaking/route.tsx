@@ -6,6 +6,12 @@ import { SpeakingHome, SpeakingLayout } from "./page";
 import { LiveSession } from "./LiveSession";
 import { FeedbackReport } from "./FeedbackReport";
 import { CoachPicker, TopicCoach } from "./components/teaching";
+import {
+  MockHistoryPage,
+  MockPreflight,
+  MockReport,
+  MockSitting,
+} from "./components/mock";
 
 /**
  * The Speaking room's three sequential screens live behind one sidebar entry
@@ -59,6 +65,48 @@ export default defineFeatureRoute({
       element: (
         <FeatureErrorBoundary feature="topic coach">
           <TopicCoach />
+        </FeatureErrorBoundary>
+      ),
+    },
+    // The mock exam. It reuses the speaking session machinery but is its own room:
+    // a commitment screen, a sitting with no teaching surface anywhere in it, a
+    // whole-test report, and the history that makes the trend readable.
+    {
+      path: "mock",
+      element: (
+        <FeatureErrorBoundary feature="mock test">
+          <MockPreflight />
+        </FeatureErrorBoundary>
+      ),
+    },
+    {
+      path: "mock/sitting/:sessionId",
+      element: (
+        // Same rule as the practice call: the sitting owns a peer connection and an
+        // events socket, so a crash must drop them explicitly rather than leave a
+        // second examiner talking over the remount.
+        <FeatureErrorBoundary
+          feature="mock sitting"
+          hint="The test was stopped. Everything you said up to that point is saved on disk — reload to return to the mock room."
+          onReset={() => useSessionStore.getState().detach()}
+        >
+          <MockSitting />
+        </FeatureErrorBoundary>
+      ),
+    },
+    {
+      path: "mock/report/:reportId",
+      element: (
+        <FeatureErrorBoundary feature="mock test report">
+          <MockReport />
+        </FeatureErrorBoundary>
+      ),
+    },
+    {
+      path: "mock/history",
+      element: (
+        <FeatureErrorBoundary feature="mock test history">
+          <MockHistoryPage />
         </FeatureErrorBoundary>
       ),
     },

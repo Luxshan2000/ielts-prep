@@ -1,9 +1,13 @@
 /**
- * The band ladder: the same two-minute answer at 6, 7 and 8, annotated.
+ * The band ladder: the same two-minute answer at every rung the card carries, annotated.
+ *
+ * Round 1 authored 6/7/8; round 2 extended twenty cards down to 5 and up to 9. Nothing
+ * here assumes a rung count — the tabs, the headings and the rung note are all derived
+ * from the answers the card actually ships.
  *
  * All three transcripts tell the same story with the same facts — that is the whole
  * design (DESIGN.md §3.8). It isolates language from content, so a learner can see
- * that the gap between 6 and 7 is not a better memory or a more interesting life.
+ * that the gap between two rungs is not a better memory or a more interesting life.
  * The band selector therefore swaps only the text; nothing else on the screen moves.
  *
  * Default position is 7, not 6 and not 8: 7 is the target most candidates are
@@ -16,22 +20,25 @@ import { Badge, Button, EmptyState, Tabs, type TabItem } from "@/components/ui";
 import { cn } from "@/lib/cn";
 import { AnnotatedModel, sameSelection, type MarkSelection } from "./AnnotatedModel";
 import { AddToBank } from "./primitives";
-import { bankableType, criterionLabel, criterionStyle, KIND_LABEL } from "./labels";
+import {
+  bandPointHeading,
+  bandTabLabel,
+  bankableType,
+  criterionLabel,
+  criterionStyle,
+  KIND_LABEL,
+  ladderStepKey,
+} from "./labels";
 import { wordCount } from "./spans";
 import type { ModelAnswer, Part2Teaching } from "./types";
 
 // ------------------------------------------------------------------ the ladder ---
 
-function BandPointStrip({ answer }: { answer: ModelAnswer }) {
+function BandPointStrip({ answer, ladder }: { answer: ModelAnswer; ladder: number[] }) {
   const lifts = answer.what_lifts_it ?? [];
   const caps = answer.what_caps_it ?? [];
   const showing = lifts.length > 0 ? lifts : caps;
-  const heading =
-    lifts.length > 0
-      ? answer.band_target >= 8
-        ? "What lifts it above band 7"
-        : "What lifts it above band 6"
-      : "What holds it at band 6";
+  const heading = bandPointHeading(answer.band_target, ladder, lifts.length > 0);
 
   if (showing.length === 0) return null;
 
@@ -183,7 +190,7 @@ export function ModelAnswerViewer({
       <EmptyState
         icon={Sparkles}
         title="No model answers on this card"
-        description="This topic set was authored before the band ladder existed. Any set with a teaching payload will show three versions here."
+        description="This topic set was authored before the band ladder existed. Any set with a teaching payload shows the same answer at every band it was written for."
         className={className}
       />
     );
@@ -194,10 +201,13 @@ export function ModelAnswerViewer({
   const note =
     selected?.layer === "annotation" ? (answer.annotations ?? [])[selected.index] : null;
 
+  const ladder = answers.map((a) => a.band_target);
   const tabs: TabItem[] = answers.map((a) => ({
     value: String(a.band_target),
-    label: a.band_target >= 8 ? `Band ${a.band_target}+` : `Band ${a.band_target}`,
+    label: bandTabLabel(a.band_target, ladder),
   }));
+  // The rung note for the band the learner is *looking at* — the single next change.
+  const step = teaching.ladder_note?.[ladderStepKey(answer.band_target)];
 
   return (
     <div className={cn("space-y-4", className)}>
@@ -219,7 +229,16 @@ export function ModelAnswerViewer({
         </span>
       </div>
 
-      <BandPointStrip answer={answer} />
+      {step && (
+        <p className="rounded-xl border border-border bg-muted/40 p-3 text-[13px] leading-6 text-foreground">
+          <span className="font-semibold">
+            From band {answer.band_target} to {answer.band_target + 1}:{" "}
+          </span>
+          {step}
+        </p>
+      )}
+
+      <BandPointStrip answer={answer} ladder={ladder} />
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(0,1.4fr)]">
         <div className="space-y-3">

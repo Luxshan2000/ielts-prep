@@ -169,3 +169,35 @@ export function clock(totalSeconds: number): string {
   const s = Math.max(0, Math.round(totalSeconds));
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 }
+
+// ------------------------------------------------------------------- the ladder ---
+//
+// Round 2 extended the ladder from 6/7/8 to 5/6/7/8/9, so nothing on these screens may
+// assume 6 is the floor or 8 the ceiling. Both helpers read the card's own rungs.
+
+/** Tab label for one rung. Only the top rung of a ladder that stops short gets a `+`. */
+export function bandTabLabel(band: number, ladder: number[]): string {
+  const top = ladder.length > 0 ? Math.max(...ladder) : band;
+  return band === top && band < 9 ? `Band ${band}+` : `Band ${band}`;
+}
+
+/** Heading over `what_lifts_it` / `what_caps_it`, named against the neighbouring rung. */
+export function bandPointHeading(
+  band: number,
+  ladder: number[],
+  lifts: boolean,
+): string {
+  const sorted = [...ladder].sort((a, b) => a - b);
+  const index = sorted.indexOf(band);
+  if (lifts) {
+    const below = index > 0 ? sorted[index - 1] : band - 1;
+    return `What lifts it above band ${below}`;
+  }
+  const above = index >= 0 && index < sorted.length - 1 ? sorted[index + 1] : band + 1;
+  return `What holds it below band ${above}`;
+}
+
+/** The one change a learner standing on `band` should make next, from `ladder_note`. */
+export function ladderStepKey(band: number): string {
+  return `from_${band}_to_${band + 1}`;
+}

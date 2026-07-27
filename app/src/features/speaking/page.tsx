@@ -5,7 +5,14 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { AlertTriangle, GraduationCap, Mic, Radio } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowRight,
+  ClipboardCheck,
+  GraduationCap,
+  Mic,
+  Radio,
+} from "lucide-react";
 import {
   Button,
   Card,
@@ -20,6 +27,7 @@ import { ModePicker } from "./components/ModePicker";
 import { PreCallCheck } from "./components/PreCallCheck";
 import { SessionHistory } from "./components/SessionHistory";
 import { modeMeta } from "./components/phases";
+import { useMockStore } from "./components/mock";
 import { useSpeakingStore } from "./store";
 
 /** Layout element for `/speaking` — child routes render through the outlet. */
@@ -39,6 +47,8 @@ export function SpeakingHome() {
   const start = useSpeakingStore((s) => s.start);
   const engine = useSpeakingStore((s) => s.engine);
   const loadEngine = useSpeakingStore((s) => s.loadEngine);
+  const cardSetId = useSpeakingStore((s) => s.cardSetId);
+  const setMockCardSet = useMockStore((s) => s.setCardSetId);
 
   const [micReady, setMicReady] = useState(false);
 
@@ -51,8 +61,18 @@ export function SpeakingHome() {
   const mode = modeMeta(activity);
   const liveElsewhere = engine?.live_session_id ?? null;
   const voiceMissing = engine?.voice_available === false;
+  const isMock = activity === "full_mock";
 
   const onStart = async () => {
+    // A full mock is not started from here. It has its own room, and the reason is
+    // the pre-flight screen: a sitting nobody was told the rules of is a sitting
+    // nobody takes seriously, and the band it produces is worth nothing. The chosen
+    // topic set travels with the learner so the choice isn't made twice.
+    if (isMock) {
+      setMockCardSet(cardSetId);
+      navigate("/speaking/mock");
+      return;
+    }
     const session = await start();
     if (session) navigate(`/speaking/session/${session.session_id}`);
   };
@@ -106,6 +126,31 @@ export function SpeakingHome() {
           </div>
         )}
 
+        {/* The headline act sits above the mode picker, not inside it: a full mock is
+            a different kind of commitment from a drill and should not look like a
+            fourth radio button. */}
+        <Card>
+          <CardContent className="flex flex-wrap items-center justify-between gap-4 pt-5">
+            <div className="flex min-w-0 items-start gap-3">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/12">
+                <ClipboardCheck className="h-4 w-4 text-primary" aria-hidden="true" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold">Sit a full mock test</p>
+                <p className="mt-0.5 text-[13px] leading-6 text-muted-foreground">
+                  All three parts back to back, 11–14 minutes, authentic timing, no coaching and
+                  no pausing. One band for the whole test at the end, with a part-by-part account
+                  of where it came from.
+                </p>
+              </div>
+            </div>
+            <Button onClick={() => navigate("/speaking/mock")}>
+              Go to the mock room
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </CardContent>
+        </Card>
+
         <Card>
           <CardHeader>
             <CardTitle>Choose a session</CardTitle>
@@ -133,14 +178,29 @@ export function SpeakingHome() {
                   disabled={starting || offline || voiceMissing || Boolean(liveElsewhere)}
                   onClick={() => void onStart()}
                 >
-                  <Mic className="h-4 w-4" />
-                  Start {mode.label.toLowerCase()}
+                  {isMock ? (
+                    <>
+                      <ClipboardCheck className="h-4 w-4" />
+                      Set up the mock test
+                    </>
+                  ) : (
+                    <>
+                      <Mic className="h-4 w-4" />
+                      Start {mode.label.toLowerCase()}
+                    </>
+                  )}
                 </Button>
-                {!micReady && (
+                {isMock ? (
                   <p className="text-[12px] text-muted-foreground">
-                    You can start without testing, but the examiner hears nothing if the mic is
-                    blocked.
+                    A mock runs under exam conditions, so it opens in its own room first.
                   </p>
+                ) : (
+                  !micReady && (
+                    <p className="text-[12px] text-muted-foreground">
+                      You can start without testing, but the examiner hears nothing if the mic is
+                      blocked.
+                    </p>
+                  )
                 )}
               </div>
             </div>

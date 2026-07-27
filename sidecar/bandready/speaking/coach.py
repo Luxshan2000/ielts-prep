@@ -51,7 +51,11 @@ FUNCTIONS: tuple[str, ...] = (
     "evaluating",
 )
 CRITERIA: tuple[str, ...] = ("FC", "LR", "GRA", "PRON")
-BANDS: tuple[int, ...] = (6, 7, 8)
+#: Bands a learner may compare their attempt against. Round 1 authored 6/7/8 on every
+#: Part 2 card; round 2 (staging/sets/r2-ladder.json) extended twenty of them down to 5
+#: — so a candidate sitting below 6 has a rung to stand on — and up to 9. Comparing
+#: against a band the *card* does not carry is refused per-card in `compare`, not here.
+BANDS: tuple[int, ...] = (5, 6, 7, 8, 9)
 DEFAULT_BAND = 7
 
 #: Fields withheld until the learner has attempted the card. Every one of them carries
@@ -154,9 +158,30 @@ def teaching_of(card: Any) -> dict[str, Any]:
 
 
 def model_answers(card: Any) -> list[dict[str, Any]]:
-    """The three band renderings, ordered 6 → 7 → 8. **Gated** — see module docstring."""
+    """Every band rendering the card carries, ordered low → high. **Gated**.
+
+    Round 1 authored three rungs (6/7/8); round 2 extended twenty cards to five
+    (5/6/7/8/9). Nothing downstream may assume a count — the UI builds its band selector
+    from ``model_answer_bands``, which is exactly the bands present here.
+    """
     answers = _dicts(teaching_of(card).get("model_answers"))
     return sorted(answers, key=lambda a: _band_of(a) or 0)
+
+
+#: ``ladder_note`` keys, one per step of the 5→9 ladder (staging/sets/r2-ladder.json).
+LADDER_STEPS = ("from_5_to_6", "from_6_to_7", "from_7_to_8", "from_8_to_9")
+
+
+def _ladder_note(teaching: dict[str, Any]) -> dict[str, str]:
+    """The one next change per rung. Absent on every card the ladder pass did not touch."""
+    raw = teaching.get("ladder_note")
+    if not isinstance(raw, dict):
+        return {}
+    return {
+        key: _text(raw.get(key), 300) or ""
+        for key in LADDER_STEPS
+        if isinstance(raw.get(key), str) and raw.get(key, "").strip()
+    }
 
 
 def _band_of(answer: dict[str, Any]) -> int | None:
@@ -672,6 +697,10 @@ def teaching_payload(session: Session, card: m.SpeakingCard, *, unlocked: bool) 
         "themes": part3_themes(payload, teaching) if card.part == 3 else None,
         "common_errors": common_errors(card, teaching),
         "pronunciation_focus": pronunciation_focus(teaching, unlocked=unlocked),
+        # Round 2's rung notes (``from_5_to_6`` … ``from_8_to_9``), one sentence each.
+        # Deliberately NOT gated: a note saying "add three details, you stopped at 70
+        # seconds" is advice about the learner's own answer, not a script to memorise.
+        "ladder_note": _ladder_note(teaching),
         # ---- gated ----------------------------------------------------------------
         "model_answer_bands": [b for b in (_band_of(a) for a in answers) if b is not None],
         "model_answers": answers if unlocked else [],

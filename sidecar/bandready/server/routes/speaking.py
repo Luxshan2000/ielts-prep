@@ -535,6 +535,41 @@ async def get_report_route(
     return get_report(report_id)
 
 
+#: The three tiers the picker offers. `challenging` is round 2's, and cannot live in
+#: `speaking_cards.difficulty` — the row schema pins that to core|stretch.
+_TIERS = ("core", "stretch", "challenging")
+
+
+def _set_tiers(s: Any, set_ids: set[str]) -> dict[str, str]:
+    """`card_set_id` → `core|stretch|challenging`, read from the set payload.
+
+    Round-2 authors wrote the tier under two different keys and the merge step mirrors
+    them, so either answers; a set that declares neither falls back to its own
+    `difficulty`, which is what every round-1 set does.
+    """
+    if not set_ids:
+        return {}
+    out: dict[str, str] = {}
+    rows = s.execute(select(m.CardSet).where(m.CardSet.id.in_(set_ids))).scalars().all()
+    for row in rows:
+        try:
+            payload = json.loads(row.payload_json or "{}")
+        except (TypeError, ValueError):
+            payload = {}
+        if not isinstance(payload, dict):
+            payload = {}
+        tier = next(
+            (
+                str(payload.get(key)).strip().lower()
+                for key in ("difficulty_tier", "challenge_tier")
+                if str(payload.get(key) or "").strip().lower() in _TIERS
+            ),
+            str(payload.get("difficulty") or "core"),
+        )
+        out[row.id] = tier
+    return out
+
+
 @router.get("/cards", summary="Question cards (drill topic picker)")
 async def list_cards(
     part: Annotated[int | None, Query(ge=1, le=3)] = None,
@@ -549,8 +584,15 @@ async def list_cards(
     if tag:
         stmt = stmt.where(m.SpeakingCard.tags_json.like(f'%"{tag}"%'))
     rows = s.execute(stmt.order_by(m.SpeakingCard.part, m.SpeakingCard.title).limit(limit))
+    cards = rows.scalars().all()
+
+    # The third difficulty tier cannot live on the card row (`difficulty` is pinned to
+    # core|stretch by the schema), so `challenging` rides in the parent set's payload.
+    # The picker needs it here or sixteen challenging sets read as ordinary stretch ones.
+    tiers = _set_tiers(s, {c.card_set_id for c in cards if c.card_set_id})
+
     items = []
-    for card in rows.scalars().all():
+    for card in cards:
         try:
             tags = json.loads(card.tags_json or "[]")
         except (TypeError, ValueError):
@@ -561,6 +603,7 @@ async def list_cards(
                 "part": card.part,
                 "title": card.title,
                 "difficulty": card.difficulty,
+                "difficulty_tier": tiers.get(card.card_set_id, card.difficulty),
                 "tags": tags,
                 "card_set_id": card.card_set_id,
                 "last_served_at": card.last_served_at,
@@ -575,6 +618,7 @@ async def list_cards(
                 "part": 1,
                 "title": fallback.part1[0].topic if fallback.part1 else "everyday life",
                 "difficulty": "core",
+                "difficulty_tier": "core",
                 "tags": ["built-in"],
                 "card_set_id": None,
                 "last_served_at": None,
@@ -585,6 +629,7 @@ async def list_cards(
                 "part": 2,
                 "title": fallback.part2.topic if fallback.part2 else "",
                 "difficulty": "core",
+                "difficulty_tier": "core",
                 "tags": ["built-in"],
                 "card_set_id": None,
                 "last_served_at": None,

@@ -154,7 +154,20 @@ export function CoachPicker() {
                     )}
                   >
                     <span className="flex flex-wrap items-center gap-2">
-                      {card.difficulty && <Badge tone="outline">{card.difficulty}</Badge>}
+                      {/* The tier, not the row difficulty: `challenging` is a real third
+                          rung and showing it as `stretch` hides sixteen sets' worth of
+                          difficulty from the person choosing what to practise. */}
+                      {(card.difficulty_tier ?? card.difficulty) && (
+                        <Badge
+                          tone={
+                            (card.difficulty_tier ?? card.difficulty) === "challenging"
+                              ? "warning"
+                              : "outline"
+                          }
+                        >
+                          {card.difficulty_tier ?? card.difficulty}
+                        </Badge>
+                      )}
                       {attempted && <Badge tone="success">Attempted</Badge>}
                     </span>
                     <span className="text-[14px] font-semibold leading-6 text-foreground">

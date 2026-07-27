@@ -59,6 +59,12 @@ export interface SpeakingCard {
   part: number;
   title: string;
   difficulty: string | null;
+  /**
+   * `core` | `stretch` | `challenging`. The third tier cannot live in the card row —
+   * the pack schema pins `difficulty` to core|stretch — so the server reads it off the
+   * parent set's payload and reports it here. Absent on an older sidecar.
+   */
+  difficulty_tier?: string | null;
   tags: string[];
   card_set_id: string | null;
   last_served_at: string | null;
@@ -287,7 +293,10 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
   loadCards: async (part) => {
     set({ cardsLoading: true, cardsError: null });
     try {
-      const query = part ? `?part=${part}&limit=100` : "?limit=100";
+      // 108 Part 2 cards ship today and the route caps at 200. A limit below the bank
+      // size silently hides sets from the Topic Coach picker, which reads as content
+      // that was never authored rather than as a paging bug.
+      const query = part ? `?part=${part}&limit=200` : "?limit=200";
       const res = await api.get<{ items: SpeakingCard[] }>(`/api/v1/speaking/cards${query}`);
       set({ cards: res.items ?? [], cardsLoading: false, cardsError: null });
     } catch (err) {

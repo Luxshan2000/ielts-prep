@@ -537,6 +537,60 @@ def _seed_fixture_pack() -> None:
             s.add(m.SpeakingCard(**row, source="pack"))
 
 
+#: A card with no ``teaching`` key at all — the shape a v1 or third-party pack ships.
+V1_CARD_ID = "card_p2_bare_v1"
+V1_SET_ID = "set_bare_v1"
+
+
+def _seed_bare_v1_card() -> None:
+    """One Part 2 card carrying only the exam layer, for the degradation tests.
+
+    Its set is bare too: ``teaching_available`` is true if *either* the card carries a
+    teaching block or its set carries a language bank, so borrowing the fixture set would
+    light it up.
+    """
+    from bandready.db import models as m
+    from bandready.db.engine import session_scope
+
+    with session_scope() as s:
+        s.add(
+            m.CardSet(
+                id=V1_SET_ID,
+                title="Waiting",
+                topic_id="topic_communication",
+                parts_json=json.dumps([1, 2, 3]),
+                payload_json=json.dumps({"schema_version": 1, "difficulty": "core"}),
+                source="pack",
+            )
+        )
+        s.flush()
+        s.add(
+            m.SpeakingCard(
+                id=V1_CARD_ID,
+                part=2,
+                card_set_id=V1_SET_ID,
+                topic_id="topic_communication",
+                title="A time you had to wait",
+                difficulty="core",
+                tags_json=json.dumps(["waiting"]),
+                payload_json=json.dumps(
+                    {
+                        "schema_version": 1,
+                        "id": V1_CARD_ID,
+                        "part": 2,
+                        "topic": "A time you had to wait",
+                        "cue_card": {
+                            "topic": "Describe a time you had to wait for something.",
+                            "bullets": ["when it was", "where you were", "how long", "and explain how you felt"],
+                            "rounding_off": ["Do you mind waiting?", "Was it worth it?"],
+                        },
+                    }
+                ),
+                source="pack",
+            )
+        )
+
+
 def _complete_session(
     session_id: str,
     *,
@@ -727,11 +781,15 @@ def test_unknown_card_is_a_404(client: Any) -> None:
 
 
 def test_a_schema_v1_card_degrades_instead_of_failing(client: Any) -> None:
-    """The twelve shipped sets carry no teaching payload; they must still render."""
-    listed = client.get("/api/v1/speaking/cards?part=2").json()["items"]
-    legacy = next(c for c in listed if c["id"].endswith("_001"))
+    """A card with no teaching payload must still render, not 500.
 
-    doc = client.get(f"/api/v1/speaking/coach/cards/{legacy['id']}/teaching").json()
+    Round 2 backfilled the twelve shipped ``_001`` sets, so the pack no longer contains a
+    v1 card to point at — but the degradation path is a permanent contract for any pack a
+    third party ships, so the test seeds its own bare card instead of hunting for one.
+    """
+    _seed_bare_v1_card()
+
+    doc = client.get(f"/api/v1/speaking/coach/cards/{V1_CARD_ID}/teaching").json()
     assert doc["teaching_available"] is False
     assert doc["model_answers"] == []
     assert doc["model_answer_bands"] == []
@@ -818,9 +876,8 @@ def test_part2_plan_refuses_a_card_that_is_not_part_2(client: Any) -> None:
 
 
 def test_part2_plan_is_404_when_the_card_predates_the_payload(client: Any) -> None:
-    listed = client.get("/api/v1/speaking/cards?part=2").json()["items"]
-    legacy = next(c for c in listed if c["id"].endswith("_001"))
-    assert client.get(f"/api/v1/speaking/coach/part2/plan/{legacy['id']}").status_code == 404
+    _seed_bare_v1_card()
+    assert client.get(f"/api/v1/speaking/coach/part2/plan/{V1_CARD_ID}").status_code == 404
 
 
 # ======================================================================================
@@ -1083,12 +1140,22 @@ def test_compare_refuses_a_transcript_with_nothing_in_it(client: Any) -> None:
 
 
 def test_compare_refuses_a_band_the_card_does_not_model(client: Any) -> None:
+    """9 is a legal band since round 2, but only twenty cards carry a band-9 model."""
     bad = client.post(
         "/api/v1/speaking/coach/compare",
         json={"card_id": P2, "transcript": LEARNER_ANSWER, "band_target": 9},
     )
     assert bad.status_code == 422
-    assert "band_target must be one of 6, 7, 8" in bad.json()["detail"]
+    assert "no band-9 model answer (available: 6, 7, 8)" in bad.json()["detail"]
+
+
+def test_compare_refuses_a_band_outside_the_ladder_entirely(client: Any) -> None:
+    bad = client.post(
+        "/api/v1/speaking/coach/compare",
+        json={"card_id": P2, "transcript": LEARNER_ANSWER, "band_target": 4},
+    )
+    assert bad.status_code == 422
+    assert "band_target must be one of 5, 6, 7, 8, 9" in bad.json()["detail"]
 
 
 def test_compare_refuses_a_card_without_a_band_ladder(client: Any) -> None:

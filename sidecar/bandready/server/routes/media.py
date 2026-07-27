@@ -121,6 +121,35 @@ def _by_hash(session: Session, name: str) -> Path | None:
     return candidate if candidate.is_file() else None
 
 
+def _pack_asset(session: Session, path: str) -> Path | None:
+    """Resolve a pack-relative asset (``media/reading/diagrams/x.svg``) to a real file.
+
+    Content authored inside a pack refers to its own assets pack-relatively, because a
+    passage cannot know which pack id or version it will be installed as — and it must
+    keep working when the pack is updated to 1.1.0. Installation records the true
+    location in ``media_files.rel_path`` as ``packs/<id>/<version>/media/...``, so the
+    lookup is a suffix match on that column.
+
+    Restricted to pinned pack media, so this can never be used to reach a user's
+    recordings or the generated-audio cache by guessing a path.
+    """
+    rel = path.strip("/")
+    if not rel:
+        return None
+    row = session.execute(
+        text(
+            "SELECT rel_path FROM media_files "
+            "WHERE kind = 'pack_media' AND pinned = 1 AND rel_path LIKE :suffix "
+            "ORDER BY rel_path DESC LIMIT 1"
+        ),
+        {"suffix": f"%/{rel}"},
+    ).first()
+    if row is None:
+        return None
+    candidate = resolve_rel_path(str(row[0]))
+    return candidate if candidate.is_file() else None
+
+
 def _touch(session: Session, path: Path) -> None:
     """LRU bookkeeping for cache files; recordings are deliberately not tracked."""
     try:
@@ -346,10 +375,14 @@ def get_media(
     base = data_dir() if kind == "packs" else media_dir()
     resolved = _safe_join(base, subdir if kind != "packs" else "packs", path)
     if not resolved.is_file():
-        hashed = _by_hash(session, Path(path).name)
-        if hashed is None:
+        fallback = _by_hash(session, Path(path).name)
+        if fallback is None and kind == "packs":
+            # The client asked pack-relatively because it cannot know the installed
+            # pack id and version; media_files knows both.
+            fallback = _pack_asset(session, path)
+        if fallback is None:
             raise ApiError(404, "not_found", f"no media file {kind}/{path}")
-        resolved = hashed
+        resolved = fallback
     _touch(session, resolved)
     return serve_file(resolved, request, filename=f"{kind}/{path}")
 

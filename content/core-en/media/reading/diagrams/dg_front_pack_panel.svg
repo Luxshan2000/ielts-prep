@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300"
+     role="img" aria-label="A front-of-pack nutrition panel: a narrow strip across the top, four cells in a row, a band beneath them, and a small badge in the lower right.">
+  <title>The front-of-pack panel</title>
+
+  <!--
+    Drawn to match "What the Label Cannot Say" and the label coordinates on its
+    diagram-labelling group. The four callouts sit at (50,12) (30,45) (50,72) (86,90)
+    in 0-100 space, so each feature is centred on that point in this 400x300 viewBox.
+
+    Deliberately WORDLESS where the answers are: the strip, the ring, the band and the
+    badge are drawn but never named, because naming them here would hand the learner
+    all four answers. Only neutral scaffolding text appears.
+
+    Greys are mid-tone so the panel reads on both the light and dark theme without
+    needing two assets; the ring colours are meaningful (the passage calls them green,
+    amber and red) and are kept.
+  -->
+
+  <rect x="14" y="10" width="372" height="280" rx="10" fill="none" stroke="#8b8b94" stroke-width="2"/>
+
+  <!-- (50,12) the narrow strip across the top -->
+  <rect x="30" y="26" width="340" height="24" rx="5" fill="#8b8b94" fill-opacity="0.18"
+        stroke="#8b8b94" stroke-width="1.5"/>
+  <text x="200" y="43" text-anchor="middle" font-family="system-ui, sans-serif"
+        font-size="12" fill="#8b8b94">per 100 g</text>
+
+  <!-- (30,45) four cells; every cell after the first carries a coloured ring -->
+  <g font-family="system-ui, sans-serif" font-size="11" fill="#8b8b94" text-anchor="middle">
+    <rect x="30"  y="86" width="80" height="88" rx="6" fill="none" stroke="#8b8b94" stroke-width="1.5"/>
+    <text x="70"  y="104">Energy</text>
+    <text x="70"  y="140" font-size="15" fill="#5f5f68">210</text>
+
+    <rect x="118" y="86" width="80" height="88" rx="6" fill="none" stroke="#8b8b94" stroke-width="1.5"/>
+    <text x="158" y="104">Fat</text>
+    <circle cx="158" cy="135" r="22" fill="none" stroke="#3f9e5a" stroke-width="4"/>
+    <text x="158" y="140" font-size="15" fill="#5f5f68">3.1</text>
+
+    <rect x="206" y="86" width="80" height="88" rx="6" fill="none" stroke="#8b8b94" stroke-width="1.5"/>
+    <text x="246" y="104">Sugars</text>
+    <circle cx="246" cy="135" r="22" fill="none" stroke="#c9922b" stroke-width="4"/>
+    <text x="246" y="140" font-size="15" fill="#5f5f68">9.4</text>
+
+    <rect x="294" y="86" width="80" height="88" rx="6" fill="none" stroke="#8b8b94" stroke-width="1.5"/>
+    <text x="334" y="104">Salt</text>
+    <circle cx="334" cy="135" r="22" fill="none" stroke="#c2453d" stroke-width="4"/>
+    <text x="334" y="140" font-size="15" fill="#5f5f68">1.8</text>
+  </g>
+
+  <!-- (50,72) the band running under the four cells -->
+  <rect x="30" y="200" width="340" height="26" rx="5" fill="#8b8b94" fill-opacity="0.12"
+        stroke="#8b8b94" stroke-width="1.5"/>
+  <g font-family="system-ui, sans-serif" font-size="11" fill="#8b8b94" text-anchor="middle">
+    <text x="70"  y="217">11%</text>
+    <text x="158" y="217">4%</text>
+    <text x="246" y="217">10%</text>
+    <text x="334" y="217">30%</text>
+  </g>
+
+  <!-- (86,90) the small badge in the lower right -->
+  <rect x="316" y="252" width="52" height="30" rx="6" fill="none" stroke="#8b8b94" stroke-width="1.5"/>
+  <circle cx="330" cy="267" r="5" fill="#8b8b94" fill-opacity="0.5"/>
+  <line x1="342" y1="262" x2="360" y2="262" stroke="#8b8b94" stroke-width="1.5"/>
+  <line x1="342" y1="268" x2="356" y2="268" stroke="#8b8b94" stroke-width="1.5"/>
+  <line x1="342" y1="274" x2="360" y2="274" stroke="#8b8b94" stroke-width="1.5"/>
+</svg>

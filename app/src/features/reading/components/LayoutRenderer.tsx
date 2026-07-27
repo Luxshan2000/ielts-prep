@@ -166,7 +166,12 @@ export function LayoutRenderer({
             {labels.map((label) => (
               <span
                 key={label.number}
-                style={{ left: `${label.x * 100}%`, top: `${label.y * 100}%` }}
+                // Authored coordinates are already 0-100 (DESIGN §diagram: "0-100
+                // viewBox coordinates"), so they map straight to percentages. An
+                // earlier version multiplied by 100 on the assumption they were
+                // fractions, which put every callout at 5000% — invisible until the
+                // bank actually contained a diagram to render.
+                style={{ left: `${label.x}%`, top: `${label.y}%` }}
                 className={cn(
                   "absolute -translate-x-1/2 -translate-y-1/2 rounded-md border border-primary",
                   "bg-background/95 px-1.5 py-0.5 text-[11px] font-semibold tabular text-primary",

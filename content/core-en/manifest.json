@@ -38,6 +38,7 @@
     "data/speaking_cards.jsonl": "sha256:287f23dacdce3a60bfe6a6d4ba20f4951928f1f0339e7856c400922e5d160de3",
     "data/topics.jsonl": "sha256:1a460452b0dcf403c648ea805bb1f4d0c057959263873c1021ca967f35065f35",
     "data/vocab.jsonl": "sha256:fefb7acf83a4547b2ceda6395d4fda0e46cadfaa234e0c3b8dd9ec9b80be558e",
-    "data/writing_prompts.jsonl": "sha256:dd3eb208fc1a5a67c14c64877163b5873ba7632313a1e1f474d9083f451538b1"
+    "data/writing_prompts.jsonl": "sha256:dd3eb208fc1a5a67c14c64877163b5873ba7632313a1e1f474d9083f451538b1",
+    "media/reading/diagrams/dg_front_pack_panel.svg": "sha256:0294dd388dc8abef67279731ee580f5211a9228a968d2275e67f1500b2c2ff95"
   }
 }

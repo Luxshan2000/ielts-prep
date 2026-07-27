@@ -5,6 +5,7 @@
  * returns. Everything the sidecar marks optional is optional here too — the
  * player must render a pack that omits, say, `difficulty` without crashing.
  */
+import type { Reveal } from "./components/drills/types";
 
 export type ReadingFormat = "academic" | "general_training";
 
@@ -324,6 +325,16 @@ export interface ReviewQuestion extends MarkedQuestion {
   locate: LocateHint;
   why_wrong: WhyWrongResult | null;
   can_ask_why: boolean;
+  /**
+   * The authored Solution Card (staging-reading/DESIGN.md §1, §10 F1) — paraphrase link,
+   * decision rule, distractor autopsy, trap slugs, rule to reuse. Built server-side by the
+   * same `reveal_for` the drill reveal uses, so both surfaces show one card in one order.
+   *
+   * `null` on a `schema_version: 1` row that carries no teaching payload, and on a drill
+   * attempt whose passage document could not be resolved. The card degrades to the
+   * explanation alone rather than rendering an empty frame.
+   */
+  solution: Reveal | null;
 }
 
 export interface ReviewRecord extends Omit<ScoreRecord, "per_question"> {

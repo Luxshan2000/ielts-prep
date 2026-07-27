@@ -1,2 +1,12 @@
 {"id": "rt_academic_1", "format": "academic", "title": "Academic Reading Test 1", "p1_id": "rp_a1", "p2_id": "rp_a2", "p3_id": "rp_a3"}
 {"id": "rt_academic_2", "format": "academic", "title": "Academic Reading Test 2", "p1_id": "rp_b1", "p2_id": "rp_b2", "p3_id": "rp_b3"}
+{"id": "rt_ac_bh_01", "format": "academic", "title": "Academic Reading Test: Business and Health 1", "p1_id": "rp_ac_bh_01_p1", "p2_id": "rp_ac_bh_01_p2", "p3_id": "rp_ac_bh_01_p3"}
+{"id": "rt_ac_bh_02", "format": "academic", "title": "Academic Reading Test: Business and Health 2", "p1_id": "rp_ac_bh_02_p1", "p2_id": "rp_ac_bh_02_p2", "p3_id": "rp_ac_bh_02_p3"}
+{"id": "rt_ac_08", "format": "academic", "title": "Academic Reading Test 8", "p1_id": "rp_ac_08_p1", "p2_id": "rp_ac_08_p2", "p3_id": "rp_ac_08_p3"}
+{"id": "rt_ac_09", "format": "academic", "title": "Academic Reading Test 9", "p1_id": "rp_ac_09_p1", "p2_id": "rp_ac_09_p2", "p3_id": "rp_ac_09_p3"}
+{"id": "rt_ac_sh_01", "format": "academic", "title": "Academic Reading Test: Society and History 1", "p1_id": "rp_ac_sh_01_p1", "p2_id": "rp_ac_sh_01_p2", "p3_id": "rp_ac_sh_01_p3"}
+{"id": "rt_ac_sh_02", "format": "academic", "title": "Academic Reading Test: Society and History 2", "p1_id": "rp_ac_sh_02_p1", "p2_id": "rp_ac_sh_02_p2", "p3_id": "rp_ac_sh_02_p3"}
+{"id": "rt_gt_01", "format": "general_training", "title": "General Training Test 1", "p1_id": "rp_gt_01_s1", "p2_id": "rp_gt_01_s2", "p3_id": "rp_gt_01_s3"}
+{"id": "rt_gt_02", "format": "general_training", "title": "General Training Test 2", "p1_id": "rp_gt_02_s1", "p2_id": "rp_gt_02_s2", "p3_id": "rp_gt_02_s3"}
+{"id": "rt_gt_03", "format": "general_training", "title": "General Training Test 3", "p1_id": "rp_gt_03_s1", "p2_id": "rp_gt_03_s2", "p3_id": "rp_gt_03_s3"}
+{"id": "rt_gt_04", "format": "general_training", "title": "General Training Test 4", "p1_id": "rp_gt_04_s1", "p2_id": "rp_gt_04_s2", "p3_id": "rp_gt_04_s3"}

@@ -217,17 +217,53 @@ def _iter_questions(doc: dict[str, Any]):
             yield group_index, group, question
 
 
-_SECRET_FIELDS = ("answers", "explanation", "trap_note", "evidence_quote")
+#: Question-level fields that hand over the key.
+#:
+#: ``teaching`` is on this list because the authored payload (staging-reading/DESIGN.md §1)
+#: carries ``decision_rule``, ``distractors[]`` and ``paraphrase_link.text_phrase`` — between
+#: them they name the answer outright, so shipping it during a sitting defeats the test.
+_SECRET_FIELDS = ("answers", "explanation", "trap_note", "evidence_quote", "teaching")
+
+#: Group- and passage-level teaching (DESIGN §2, §3): the strategy card, the skim plan, the
+#: paraphrase families, the hinge words. None of it names an answer — it is preparation
+#: material, and the coach reads it off this document to teach a passage *before* it is sat.
+#: So it survives an ordinary exam-mode fetch and is dropped only under exam conditions,
+#: where 06 §5 has the learner sit the paper unaided.
+_SECRET_CONTAINER_FIELDS = ("teaching",)
 
 
-def _strip_key(doc: dict[str, Any]) -> dict[str, Any]:
+def _coaching_is_shut(session: Session | None) -> bool:
+    """True while a reading mock is in progress for this profile (DESIGN §10 F9)."""
+    if session is None:
+        return False
+    try:
+        from bandready.reading import mock as reading_mock
+
+        return reading_mock.exam_conditions(session) is not None
+    except Exception:  # noqa: BLE001 — the guard must never break a document fetch
+        _log.debug("reading exam-conditions lookup failed", exc_info=True)
+        return False
+
+
+def _strip_key(doc: dict[str, Any], *, strip_coaching: bool = False) -> dict[str, Any]:
     """Remove everything that would give the answer away, keeping the exam payload intact.
 
     ``anchor_paragraphs`` deliberately survives: the question palette scrolls the passage to
     the group's first anchor during the test (06 §5) and knowing which paragraph a question
     is about is part of the real exam layout, not part of the key.
+
+    ``strip_coaching`` additionally removes the passage- and group-level teaching. That is
+    not a key either, but it is help, and a mock you can take help during measures something
+    the exam does not measure.
     """
     out = copy.deepcopy(doc)
+    if strip_coaching:
+        for field in _SECRET_CONTAINER_FIELDS:
+            out.pop(field, None)
+        for group in out.get("question_groups") or []:
+            if isinstance(group, dict):
+                for field in _SECRET_CONTAINER_FIELDS:
+                    group.pop(field, None)
     for _index, _group, question in _iter_questions(out):
         for field in _SECRET_FIELDS:
             question.pop(field, None)
@@ -411,6 +447,60 @@ def list_passages(
     return {"items": page, "next_cursor": next_cursor["id"] if next_cursor else None}
 
 
+def _has_submitted_attempt(
+    session: Session, *, test_id: str | None = None, passage_id: str | None = None
+) -> bool:
+    """Has this profile finished this test/passage at least once?
+
+    ``?mode=review`` hands over the whole key and the whole teaching payload, so it has to
+    cost an attempt — otherwise the Solution Card is one URL away and the module stops
+    teaching anything (06 §6, DESIGN §10 F10). A submitted attempt on *any* of the three
+    passages of a test also opens that test, because that is how the review screen walks a
+    finished paper.
+    """
+    profile_id = current_profile_id(session)
+    stmt = select(m.ReadingAttempt.id).join(
+        m.PracticeSession, m.PracticeSession.id == m.ReadingAttempt.id
+    )
+    stmt = stmt.where(
+        m.PracticeSession.profile_id == profile_id,
+        m.ReadingAttempt.status == "submitted",
+    )
+    if test_id is not None:
+        passage_ids = [
+            pid
+            for pid in session.execute(
+                select(m.ReadingTest.p1_id, m.ReadingTest.p2_id, m.ReadingTest.p3_id).where(
+                    m.ReadingTest.id == test_id
+                )
+            ).first()
+            or ()
+            if pid
+        ]
+        clause = m.ReadingAttempt.test_id == test_id
+        if passage_ids:
+            clause = clause | m.ReadingAttempt.passage_id.in_(passage_ids)
+        stmt = stmt.where(clause)
+    else:
+        # A submitted *test* attempt covers every passage in that test — reviewing passage 2
+        # of a paper you have just sat is the normal path off the results screen.
+        parent_tests = select(m.ReadingTest.id).where(
+            (m.ReadingTest.p1_id == passage_id)
+            | (m.ReadingTest.p2_id == passage_id)
+            | (m.ReadingTest.p3_id == passage_id)
+        )
+        stmt = stmt.where(
+            (m.ReadingAttempt.passage_id == passage_id)
+            | m.ReadingAttempt.test_id.in_(parent_tests)
+        )
+    return session.scalars(stmt.limit(1)).first() is not None
+
+
+_REVIEW_LOCKED = (
+    "review mode is available only after you have submitted an attempt on this material"
+)
+
+
 @router.get("/tests/{test_id}", summary="Full test document (answers stripped)")
 def get_test(
     test_id: str,
@@ -418,8 +508,13 @@ def get_test(
     session: Session = Depends(get_session),
     mode: str = Query(default="exam", pattern="^(exam|review)$"),
 ) -> dict[str, Any]:
-    payload = _test_payload(session, _test_row(session, test_id))
-    return payload if mode == "review" else _payload_without_key(payload)
+    row = _test_row(session, test_id)
+    if mode == "review" and not _has_submitted_attempt(session, test_id=row.id):
+        raise ApiError(403, "forbidden", _REVIEW_LOCKED)
+    payload = _test_payload(session, row)
+    if mode == "review":
+        return payload
+    return _payload_without_key(payload, strip_coaching=_coaching_is_shut(session))
 
 
 @router.get("/passages/{passage_id}", summary="Single passage document (answers stripped)")
@@ -429,14 +524,24 @@ def get_passage(
     session: Session = Depends(get_session),
     mode: str = Query(default="exam", pattern="^(exam|review)$"),
 ) -> dict[str, Any]:
-    payload = _passage_payload(_passage_row(session, passage_id))
-    return payload if mode == "review" else _payload_without_key(payload)
+    row = _passage_row(session, passage_id)
+    if mode == "review" and not _has_submitted_attempt(session, passage_id=row.id):
+        raise ApiError(403, "forbidden", _REVIEW_LOCKED)
+    payload = _passage_payload(row)
+    if mode == "review":
+        return payload
+    return _payload_without_key(payload, strip_coaching=_coaching_is_shut(session))
 
 
-def _payload_without_key(payload: dict[str, Any]) -> dict[str, Any]:
+def _payload_without_key(
+    payload: dict[str, Any], *, strip_coaching: bool = False
+) -> dict[str, Any]:
     out = dict(payload)
-    out["passages"] = [_strip_key(p) for p in payload.get("passages") or []]
+    out["passages"] = [
+        _strip_key(p, strip_coaching=strip_coaching) for p in payload.get("passages") or []
+    ]
     out["answers_included"] = False
+    out["coaching_included"] = not strip_coaching
     return out
 
 
@@ -469,6 +574,19 @@ def _drill_items(session: Session, qtype: str, size: int) -> list[m.ReadingQuest
     return rows
 
 
+def _options_of(group: dict[str, Any] | None, question: dict[str, Any] | None) -> Any:
+    """Where a question's option list actually lives.
+
+    Every matching type shares one list on the group, but ``multiple_choice`` gives each stem
+    its own A–D and authors it on the question. Reading only the group drops the options for
+    most of the MCQs in the bank, which leaves the review screen saying "you answered B, the
+    answer was C" without printing either.
+    """
+    if question and question.get("options"):
+        return question["options"]
+    return (group or {}).get("options")
+
+
 def _anchor_texts(doc: dict[str, Any], anchors: list[str]) -> list[dict[str, str]]:
     wanted = {str(a) for a in anchors}
     out: list[dict[str, str]] = []
@@ -486,17 +604,13 @@ def _drill_payload(session: Session, rows: list[m.ReadingQuestion]) -> list[dict
         if row.passage_id not in docs:
             docs[row.passage_id] = _passage_doc(_passage_row(session, row.passage_id))
         doc = docs[row.passage_id]
-        group = None
-        for _gi, candidate, question in _iter_questions(doc):
-            if int(question.get("number") or 0) == row.number:
-                group = candidate
+        group = question = None
+        for _gi, candidate_group, candidate in _iter_questions(doc):
+            if int(candidate.get("number") or 0) == row.number:
+                group, question = candidate_group, candidate
                 break
         anchors = _loads(row.anchor_paragraphs_json, [])
-        prompt = ""
-        for _gi, _g, question in _iter_questions(doc):
-            if int(question.get("number") or 0) == row.number:
-                prompt = str(question.get("prompt") or "")
-                break
+        prompt = str((question or {}).get("prompt") or "")
         word_limit = (
             {"max_words": row.word_limit, "numbers_allowed": True} if row.word_limit else None
         )
@@ -509,11 +623,15 @@ def _drill_payload(session: Session, rows: list[m.ReadingQuestion]) -> list[dict
                 "number": row.number,
                 "qtype": row.qtype,
                 "prompt": prompt,
-                "options": (group or {}).get("options"),
+                "options": _options_of(group, question),
                 "word_limit": word_limit,
                 "instructions": instruction_for(word_limit),
                 "anchor_paragraphs": anchors,
                 "anchor_texts": _anchor_texts(doc, list(anchors)),
+                # DESIGN §10 F3/F4: a drill is practice, not a sitting, so the strategy card
+                # and the per-question payload travel with the item.
+                "group_teaching": (group or {}).get("teaching"),
+                "teaching": (question or {}).get("teaching"),
             }
         )
     return items
@@ -714,9 +832,10 @@ class _Scorable:
     """One markable question, flattened out of the content documents."""
 
     __slots__ = (
-        "anchor_paragraphs", "answers", "evidence_quote", "explanation", "group_id",
-        "key", "number", "options", "passage_id", "passage_title", "prompt", "qtype",
-        "question_id", "trap_note", "word_limit",
+        "anchor_paragraphs", "answers", "doc", "evidence_quote", "explanation", "group",
+        "group_id", "group_teaching", "key", "number", "options", "passage_id",
+        "passage_title", "prompt", "qtype", "question", "question_id", "teaching",
+        "trap_note", "word_limit",
     )
 
     def __init__(self, **kw: Any) -> None:
@@ -767,11 +886,16 @@ def _scorables(session: Session, row: m.ReadingAttempt, state: dict[str, Any]) -
                     answers=_loads(qrow.answers_json, []),
                     word_limit=word_limit_of(limit),
                     prompt=str((question or {}).get("prompt") or ""),
-                    options=(group or {}).get("options"),
+                    options=_options_of(group, question),
                     anchor_paragraphs=_loads(qrow.anchor_paragraphs_json, []),
                     evidence_quote=qrow.evidence_quote,
                     explanation=qrow.explanation,
                     trap_note=qrow.trap_note,
+                    teaching=(question or {}).get("teaching"),
+                    group_teaching=(group or {}).get("teaching"),
+                    doc=doc,
+                    group=group,
+                    question=question,
                 )
             )
         return out
@@ -803,11 +927,16 @@ def _scorables(session: Session, row: m.ReadingAttempt, state: dict[str, Any]) -
                     answers=question.get("answers") or [],
                     word_limit=word_limit_of(group.get("word_limit")),
                     prompt=str(question.get("prompt") or ""),
-                    options=group.get("options"),
+                    options=_options_of(group, question),
                     anchor_paragraphs=question.get("anchor_paragraphs") or [],
                     evidence_quote=question.get("evidence_quote"),
                     explanation=question.get("explanation"),
                     trap_note=question.get("trap_note"),
+                    teaching=question.get("teaching"),
+                    group_teaching=group.get("teaching"),
+                    doc=doc,
+                    group=group,
+                    question=question,
                 )
             )
     return out
@@ -1017,6 +1146,27 @@ def submit_attempt(
     return record
 
 
+def _solution_for(item: _Scorable, given: str, correct: bool) -> dict[str, Any] | None:
+    """The Solution Card for one reviewed question (staging-reading/DESIGN.md §10 F1).
+
+    Built by ``bandready.reading.drills.reveal_for`` rather than assembled here, so the
+    review screen and the drill reveal are the same card in the same order — location,
+    paraphrase link, decision rule, distractor autopsy, rule to reuse — and a change to
+    that order cannot land in one place and not the other.
+    """
+    if not (item.doc and item.group and item.question):
+        return None
+    try:
+        from bandready.reading import drills
+
+        return drills.reveal_for(
+            item.doc, item.group, item.question, given=given, correct=correct
+        )
+    except Exception:  # noqa: BLE001 — a malformed payload must not break the review
+        _log.warning("could not build a solution card for q%s", item.number, exc_info=True)
+        return None
+
+
 @router.get("/attempts/{attempt_id}/review", summary="Score plus the key and explanations")
 def review_attempt(
     attempt_id: str,
@@ -1064,6 +1214,13 @@ def review_attempt(
                 },
                 "why_wrong": stored_analysis.get(item.question_id),
                 "can_ask_why": bool(not marked["correct"] and item.question_id),
+                # DESIGN §10 F1 — the Solution Card. The attempt is submitted, so the whole
+                # authored payload is released here and nowhere earlier.
+                "teaching": item.teaching,
+                "group_teaching": item.group_teaching,
+                "solution": _solution_for(
+                    item, str(marked.get("given") or ""), bool(marked.get("correct"))
+                ),
             }
         )
 

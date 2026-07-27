@@ -67,6 +67,15 @@ QUESTION_GROUPS: list[dict[str, Any]] = [
         "allow_reuse": True,
         "options": None,
         "layout": None,
+        "teaching": {
+            "schema_version": 1,
+            "answer_order": "sequential",
+            "section_scope": None,
+            "strategy": "Match the statement against one sentence, never against the gist.",
+            "order_note": "In passage order.",
+            "time_budget_s": 240,
+            "watch_out": None,
+        },
         "questions": [
             {
                 "number": 1,
@@ -78,6 +87,23 @@ QUESTION_GROUPS: list[dict[str, Any]] = [
                 "trap_note": None,
                 "difficulty": "easy",
                 "band_target": 5.0,
+                # The authored teaching payload (staging-reading/DESIGN.md §1). It is a
+                # key by another name — `text_phrase` quotes the deciding words — so the
+                # exam payload must strip it and only the review may release it.
+                "teaching": {
+                    "schema_version": 1,
+                    "paraphrase_link": {
+                        "stem_phrase": "before Europeans came",
+                        "text_phrase": "long before European ships",
+                        "devices": ["synonym"],
+                        "note": None,
+                    },
+                    "decision_rule": "The passage dates the corridors earlier than the arrival.",
+                    "distractors": [],
+                    "reusable_rule": "A date claim is decided by the earlier of the two dates.",
+                    "traps": ["absence_read_as_contradiction"],
+                    "gear": "scan",
+                },
             },
             {
                 "number": 2,
@@ -197,6 +223,11 @@ def build_passage(passage_id: str, title: str) -> dict[str, Any]:
         "difficulty": "medium",
         "gt_section": None,
         "texts": [{"id": "t1", "heading": None, "paragraphs": PARAGRAPHS}],
+        "teaching": {
+            "schema_version": 1,
+            "time_budget_min": 20,
+            "skim_plan": {"kind": "paragraph_map", "budget_s": 120, "map": []},
+        },
         "question_groups": json.loads(json.dumps(QUESTION_GROUPS)),
     }
 
@@ -393,10 +424,120 @@ def test_passage_list_and_exam_payload_hide_the_key(
     )
 
 
+def start_passage_attempt(client: TestClient, passage_id: str, **kw: Any) -> dict[str, Any]:
+    response = client.post(
+        "/api/v1/reading/attempts",
+        json={"passage_id": passage_id, "mode": "passage", **kw},
+    )
+    assert response.status_code == 201, response.text
+    return response.json()
+
+
+def test_review_mode_is_refused_until_an_attempt_is_submitted(
+    app_client: TestClient, passage_id: str
+) -> None:
+    """``?mode=review`` costs an attempt (06 §6, staging-reading/DESIGN.md §10 F10).
+
+    It hands over the key *and* the whole authored teaching payload, so a learner who can
+    reach it without sitting the passage has simply been given the answers, and a passage
+    can only be sat once.
+    """
+    response = app_client.get(f"/api/v1/reading/passages/{passage_id}?mode=review")
+    assert response.status_code == 403
+    assert response.json()["code"] == "forbidden"
+
+
 def test_review_mode_payload_includes_the_key(app_client: TestClient, passage_id: str) -> None:
+    attempt_id = start_passage_attempt(app_client, passage_id)["attempt_id"]
+    app_client.post(f"/api/v1/reading/attempts/{attempt_id}/submit")
+
     doc = app_client.get(f"/api/v1/reading/passages/{passage_id}?mode=review").json()
     first = doc["passages"][0]["question_groups"][0]["questions"][0]
     assert first["answers"] == [{"value": "true"}]
+
+
+def test_exam_payload_strips_the_per_question_teaching(
+    app_client: TestClient, passage_id: str
+) -> None:
+    """DESIGN §0.4 D2 — the per-question payload is a key by another name.
+
+    ``paraphrase_link.text_phrase`` quotes the deciding words and ``decision_rule`` states
+    the answer outright, so neither may travel with the paper. The passage skim plan and
+    the group strategy card are *preparation* material, name no answer, and deliberately
+    survive — the coach reads them off this document to teach a passage before it is sat.
+    They are dropped only under exam conditions, which
+    ``test_the_sitting_strips_the_strategy_card`` covers.
+    """
+    exam = app_client.get(f"/api/v1/reading/passages/{passage_id}").json()
+    document = exam["passages"][0]
+    for group in document["question_groups"]:
+        for question in group["questions"]:
+            assert "teaching" not in question
+    assert "decision_rule" not in json.dumps(exam)
+    assert exam["coaching_included"] is True
+    assert document["teaching"]["skim_plan"] if document.get("teaching") else True
+    assert document["question_groups"][0]["teaching"]["strategy"]
+
+
+def test_review_releases_the_solution_card(app_client: TestClient, passage_id: str) -> None:
+    """DESIGN §10 F1 — the whole authored payload, once the attempt is spent."""
+    attempt_id = start_passage_attempt(app_client, passage_id)["attempt_id"]
+    app_client.post(f"/api/v1/reading/attempts/{attempt_id}/submit")
+
+    review = app_client.get(f"/api/v1/reading/attempts/{attempt_id}/review").json()
+    first = next(q for q in review["per_question"] if q["number"] == 1)
+    assert first["teaching"]["decision_rule"]
+    solution = first["solution"]
+    assert solution["paraphrase_link"]["text_phrase"] == "long before European ships"
+    assert solution["reusable_rule"]
+    assert solution["location"]["evidence_quote"]
+    # Trap slugs arrive resolved against the closed taxonomy, not as bare strings.
+    assert solution["traps"][0]["slug"] == "absence_read_as_contradiction"
+    assert solution["traps"][0]["family"] == "judgement"
+    assert first["group_teaching"]["strategy"]
+
+
+def test_multiple_choice_options_survive_when_authored_on_the_question(
+    app_client: TestClient, passage_id: str
+) -> None:
+    """Most MCQs in the shipped bank author their A–D on the question, not the group.
+
+    Reading only the group leaves the review saying "you answered B, the answer was C"
+    without printing either, which teaches nothing.
+    """
+    with session_scope() as session:
+        row = session.get(m.ReadingPassage, passage_id)
+        doc = json.loads(row.passage_json)
+        doc["question_groups"].append(
+            {
+                "id": "g9",
+                "type": "multiple_choice",
+                "word_limit": None,
+                "options": None,
+                "questions": [
+                    {
+                        "number": 9,
+                        "prompt": "What does paragraph A establish?",
+                        "options": [
+                            {"key": "A", "text": "That the corridors are recent."},
+                            {"key": "B", "text": "That the corridors long predate Europeans."},
+                            {"key": "C", "text": "That no cargo moved along them."},
+                        ],
+                        "answers": [{"value": "B"}],
+                        "anchor_paragraphs": ["A"],
+                        "evidence_quote": "ships carried cargo along the monsoon corridors",
+                        "explanation": "Paragraph A dates the corridors before the arrival.",
+                    }
+                ],
+            }
+        )
+        row.passage_json = json.dumps(doc)
+
+    attempt_id = start_passage_attempt(app_client, passage_id)["attempt_id"]
+    app_client.post(f"/api/v1/reading/attempts/{attempt_id}/submit")
+    review = app_client.get(f"/api/v1/reading/attempts/{attempt_id}/review").json()
+    mcq = next(q for q in review["per_question"] if q["number"] == 9)
+    assert [option["key"] for option in mcq["options"]] == ["A", "B", "C"]
 
 
 def test_unknown_passage_is_a_404_envelope(app_client: TestClient) -> None:
@@ -408,15 +549,6 @@ def test_unknown_passage_is_a_404_envelope(app_client: TestClient) -> None:
 # --------------------------------------------------------------------------------------
 # The attempt lifecycle: start → autosave → submit → review → why-wrong
 # --------------------------------------------------------------------------------------
-
-def start_passage_attempt(client: TestClient, passage_id: str, **kw: Any) -> dict[str, Any]:
-    response = client.post(
-        "/api/v1/reading/attempts",
-        json={"passage_id": passage_id, "mode": "passage", **kw},
-    )
-    assert response.status_code == 201, response.text
-    return response.json()
-
 
 def test_start_attempt_returns_an_exam_payload_and_resume_state(
     app_client: TestClient, passage_id: str

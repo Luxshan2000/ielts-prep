@@ -11,6 +11,7 @@
 import { create } from "zustand";
 import { api, ApiError } from "@/lib/api";
 import { friendlyMessage } from "@/lib/errors";
+import { recordSubmission } from "./components/coach/attempted";
 import { flattenDrill, flattenQuestions, type FlatQuestion } from "./model";
 import type {
   AttemptMode,
@@ -150,6 +151,8 @@ interface ReadingState {
   setCurrent: (number: number) => void;
   setActivePassage: (index: number) => void;
   setPaused: (paused: boolean) => void;
+  /** Force the countdown to a wall-clock truth (the mock reconciles on every open). */
+  syncTimer: (remaining: number) => void;
   tick: () => void;
   flushSave: () => Promise<void>;
   submitAttempt: (options?: { auto?: boolean }) => Promise<boolean>;
@@ -585,6 +588,18 @@ export const useReadingStore = create<ReadingState>((set, get) => {
       }
     },
 
+    syncTimer(remaining) {
+      const { attempt, timerRemaining, timerTotal } = get();
+      if (!attempt || attempt.status !== "in_progress") return;
+      const next = Math.max(0, Math.round(remaining));
+      // Only ever takes time away. A clock that could be pushed forward by a client
+      // is not a clock, and clock skew must never hand a candidate extra minutes.
+      if (next >= timerRemaining) return;
+      const total = Math.max(timerTotal, next);
+      set({ timerRemaining: next, timerTotal: total, elapsed: Math.max(0, total - next) });
+      queue({ timer_s: next }, true);
+    },
+
     tick() {
       const { attempt, paused, timerRemaining, timerTotal } = get();
       if (!attempt || attempt.status !== "in_progress" || paused) return;
@@ -669,6 +684,33 @@ export const useReadingStore = create<ReadingState>((set, get) => {
           submitting: false,
           attempt: { ...attempt, status: "submitted" },
         });
+        /**
+         * The coach gates its worked solutions on "has this learner actually sat
+         * this passage?", and there is no list-attempts endpoint to ask. So the
+         * answer is written here, once, from the marked record — one row per
+         * passage the attempt touched, carrying which questions went wrong and what
+         * was written on them, which is what the solution cards lead with.
+         *
+         * Drills are excluded on purpose: a drill shows anchor paragraphs only, so
+         * answering six of a passage's questions is not sitting it.
+         */
+        if (attempt.mode !== "drill") {
+          try {
+            recordSubmission({
+              attemptId: attempt.id,
+              examConditions: attempt.examConditions,
+              perQuestion: (record.per_question ?? []).map((question) => ({
+                number: question.number,
+                passage_id: question.passage_id,
+                correct: question.correct,
+                given: question.given,
+              })),
+            });
+          } catch (err) {
+            // Never let bookkeeping fail a submission — the score is already in.
+            console.warn("[BandReady] reading attempt not recorded locally", errorText(err));
+          }
+        }
         if (attempt.mode === "drill" && attempt.drill) {
           try {
             await api.post(`${RD}/drills/results`, {
@@ -719,6 +761,28 @@ export const useReadingStore = create<ReadingState>((set, get) => {
             : `${RD}/passages/${encodeURIComponent(String(attemptRecord.passage_id))}`;
           const doc = await api.get<TestDocument>(`${path}?mode=review`);
           passages = doc.passages ?? [];
+        }
+        // Reviewing an attempt is also proof it was sat — the ledger the coach
+        // gates on is rebuilt here as well, so an attempt submitted before this
+        // build (or in another window) still opens its solutions.
+        if (mode !== "drill") {
+          try {
+            recordSubmission({
+              attemptId: attemptRecord.attempt_id,
+              examConditions: Boolean(attemptRecord.exam_conditions),
+              submittedAt: attemptRecord.submitted_at
+                ? Date.parse(attemptRecord.submitted_at) || Date.now()
+                : Date.now(),
+              perQuestion: (record.per_question ?? []).map((question) => ({
+                number: question.number,
+                passage_id: question.passage_id,
+                correct: question.correct,
+                given: question.given,
+              })),
+            });
+          } catch (err) {
+            console.warn("[BandReady] reading review not recorded locally", errorText(err));
+          }
         }
         const notes = (attemptRecord.resume_state?.notes ?? {}) as Record<string, unknown>;
         const seeded: Record<number, WhyWrongState> = {};

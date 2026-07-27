@@ -1,0 +1,622 @@
+{
+  "staging_version": 1,
+  "cluster": "template",
+  "authored_by": "R-D1",
+  "note": "One fully worked Academic passage authored to DESIGN.md. It ships as a standalone_passages entry (position 1, referenced by no test row), so the position gradient of DESIGN.md 8.1 does not apply to its band_target. Everything else in it is exactly what an authoring agent must produce. The subject - the shipping pallet - is RESERVED for this file and must not be re-authored.",
+  "tests": [],
+  "standalone_passages": [
+    {
+      "id": "rp_tm_00_p1",
+      "format": "academic",
+      "title": "The Pallet Problem",
+      "topic_id": "topic_economy",
+      "word_count": 879,
+      "band_target": 7.0,
+      "passage_json": {
+        "schema_version": 2,
+        "id": "p1",
+        "position": 1,
+        "title": "The Pallet Problem",
+        "topic": "Economy and development",
+        "difficulty": "medium",
+        "gt_section": null,
+        "word_count": 879,
+        "texts": [
+          {
+            "id": "t1",
+            "heading": null,
+            "paragraphs": [
+              {
+                "id": "A",
+                "text": "Somewhere beneath almost everything that arrives in a shop there is a flat wooden platform about a metre square. The pallet is the least examined object in modern trade. Estimates of the number in circulation worldwide run into the billions, and a single large retailer may handle several million of them in a year. Yet the pallet appears in no advertisement and carries no consumer brand. Its invisibility is partly a matter of design, since a successful pallet is one that nobody notices. The goods stacked on it have arrived intact and on time, and the platform beneath them is beside the point. It is also a matter of accounting. In most companies the pallet is classified not as equipment but as packaging, and packaging is a cost to be minimised rather than an asset to be managed."
+              },
+              {
+                "id": "B",
+                "text": "The object is younger than it looks. Until the middle of the twentieth century, loading a ship or a railway wagon remained a matter of individual sacks, crates and barrels handled by teams of dockers. What changed was not the platform itself, which had existed in crude forms for decades, but the machine that lifted it. The powered forklift truck spread quickly through American warehouses in the 1930s, and it made it worth building a platform with openings that a fork could enter from either side. Military logistics accelerated the change. Wartime supply depots found that a unit of cargo which could be moved in a single lift was worth far more than the same cargo loose. By the late 1940s the pallet had become the standard unit of handling in nearly every large depot."
+              },
+              {
+                "id": "C",
+                "text": "What did not follow was a single size. Regional standards hardened around whatever the local vehicles and doorways happened to accommodate, and by the time international bodies turned to the question the positions were entrenched. A compromise was reached in the 1960s. It recognised several sizes at once rather than choosing between them, and the standard in force today lists six. The two that dominate are 1,200 by 1,000 millimetres, common across much of Europe and Asia, and 1,200 by 800, the size used by the largest European pool. North America works mostly to 48 by 40 inches, which is close to but not the same as either. Containers, lorries and racking systems were then built around these dimensions, which is why they are now almost impossible to change."
+              },
+              {
+                "id": "D",
+                "text": "Two business models compete for the flow. In the one-way, or white, model a shipper buys cheap pallets, sends them out under the goods and writes them off. Whoever receives them is free to reuse, sell or burn them. In the pooling model a specialist company owns a large fleet, hires the platforms out by the trip, and collects them from the receiver for inspection and repair. Pooling costs more per movement and less per year, because a pooled pallet is built to survive perhaps eighty journeys where a white one may not survive five. The calculation turns on how far the goods travel and how reliably the empties come back. That is why pooling took hold first in dense national markets rather than across borders."
+              },
+              {
+                "id": "E",
+                "text": "Neither model solves the problem of leakage. Pallets go missing at a rate that would be intolerable in any other class of asset. They are stacked behind buildings, cut up for firewood, used as fencing, or simply absorbed into a customer's own operation and never returned. One pooling operator reported writing off close to four per cent of its fleet in a single year, and surveys of white-pallet users routinely find that fewer than half of the platforms sent out are ever seen again. The response has been a mixture of deposits, contractual penalties and, more effectively, audits. But the losses have not been eliminated, and in most sectors they are still treated as an unavoidable cost of doing business."
+              },
+              {
+                "id": "F",
+                "text": "The argument about materials is noisier than the evidence supports. Plastic pallets are lighter, easier to clean and longer-lived, and they are required in a handful of pharmaceutical and food applications where splinters and moisture are unacceptable. Wooden pallets, which still account for the overwhelming majority of the world's fleet, are cheaper, repairable with a hammer, and made largely from low-grade timber that has few other uses. Comparisons of the two across a full life cycle depend so heavily on assumptions about how many trips each survives, and on what happens to the wood at the end, that published studies reach opposite conclusions from similar data. The honest position is that the answer varies by route."
+              },
+              {
+                "id": "G",
+                "text": "Tracking may change the picture, though it has been promised for longer than it has delivered. Radio tags and low-cost sensors have been fitted to pooled pallets since the 2000s, and the technology now works well enough to tell an operator where a platform is and whether it has been dropped. What has proved harder is persuading the many firms that touch a pallet on a single journey to share the information they hold. The pallet is one of the few objects that passes through an entire supply chain without belonging to any of the companies that handle it. That, rather than the price of a chip, is why it remains so easy to lose."
+              }
+            ]
+          }
+        ],
+        "teaching": {
+          "schema_version": 1,
+          "time_budget_min": 16,
+          "difficulty_rationale": {
+            "levers": ["density", "implicit_cohesion"],
+            "note": "Ordinary vocabulary carrying several qualified claims per paragraph, with the connections between them left unstated. Paragraphs E and F both state a fact, then a counter-fact, then a verdict, without a single 'however'.",
+            "hardest_paragraph": "F",
+            "why_hardest": "It sets up a two-sided comparison and then refuses to settle it, so a reader looking for a winner takes the first side as the answer."
+          },
+          "skim_plan": {
+            "kind": "paragraph_map",
+            "read_first": "The title, then all of paragraph A. It tells you the passage is about an object nobody manages.",
+            "skip": "Every list of dimensions in C and every list of uses in E. They are detail, and the questions that need them will send you back.",
+            "budget_s": 120,
+            "map": [
+              { "paragraph": "A", "label": "invisible, unmanaged" },
+              { "paragraph": "B", "label": "forklift made it" },
+              { "paragraph": "C", "label": "sizes never unified" },
+              { "paragraph": "D", "label": "buy vs rent" },
+              { "paragraph": "E", "label": "losses, unsolved" },
+              { "paragraph": "F", "label": "wood vs plastic, undecided" },
+              { "paragraph": "G", "label": "tracking, real obstacle" }
+            ]
+          },
+          "paraphrase_families": [
+            {
+              "concept": "goes missing",
+              "passage_form": "go missing",
+              "paragraph": "E",
+              "rewordings": ["are lost", "fail to return", "vanish from circulation", "leak out of the system", "never come back"],
+              "cefr": "B2"
+            },
+            {
+              "concept": "cannot be changed",
+              "passage_form": "almost impossible to change",
+              "paragraph": "C",
+              "rewordings": ["locked in", "cannot realistically be altered", "effectively permanent", "fixed for the foreseeable future"],
+              "cefr": "B2"
+            },
+            {
+              "concept": "not noticed",
+              "passage_form": "nobody notices",
+              "paragraph": "A",
+              "rewordings": ["goes unremarked", "attracts no attention", "is taken for granted", "passes without comment"],
+              "cefr": "B2"
+            },
+            {
+              "concept": "lasts many trips",
+              "passage_form": "built to survive perhaps eighty journeys",
+              "paragraph": "D",
+              "rewordings": ["has a long service life", "withstands repeated reuse", "is durable enough for many cycles", "keeps going far longer"],
+              "cefr": "C1"
+            },
+            {
+              "concept": "made it worthwhile",
+              "passage_form": "made it worth building",
+              "paragraph": "B",
+              "rewordings": ["justified the expense of", "made it economic to", "gave manufacturers a reason to", "turned it into a sensible investment"],
+              "cefr": "C1"
+            }
+          ],
+          "hinge_words": [
+            { "word": "rather than", "kind": "connective", "why_here": "It carries the contradiction that decides question 8." },
+            { "word": "largely", "kind": "quantifier", "why_here": "It licenses 'mainly' in question 11 and nothing stronger." },
+            { "word": "may", "kind": "modal", "why_here": "'may not survive five' is a hedge, not a figure; question 9 turns on the comparison, not the number." },
+            { "word": "most", "kind": "quantifier", "why_here": "'in most sectors' is the scope of the verdict that makes question 10 FALSE." }
+          ],
+          "mineable": [
+            { "item": "the positions were entrenched", "paragraph": "C", "cefr": "C1", "meaning": "views had hardened and would not move", "blocks_q": 3 },
+            { "item": "happened to accommodate", "paragraph": "C", "cefr": "B2", "meaning": "had room for, by chance rather than design", "blocks_q": 3 },
+            { "item": "writes them off", "paragraph": "D", "cefr": "B2", "meaning": "treats as a total loss in the accounts", "blocks_q": 9 },
+            { "item": "the problem of leakage", "paragraph": "E", "cefr": "C1", "meaning": "steady, unrecorded loss of stock", "blocks_q": 10 },
+            { "item": "absorbed into", "paragraph": "E", "cefr": "B2", "meaning": "taken into and kept inside something larger", "blocks_q": 10 },
+            { "item": "contractual penalties", "paragraph": "E", "cefr": "C1", "meaning": "fines written into an agreement", "blocks_q": 10 },
+            { "item": "low-grade timber", "paragraph": "F", "cefr": "B2", "meaning": "cheap wood of poor quality", "blocks_q": 11 }
+          ],
+          "metrics": {
+            "awl_pct": 8.4,
+            "mean_sentence_length": 20,
+            "longest_sentence": 39,
+            "unknown_token_pct": 1.1,
+            "attributed_opinions": 1,
+            "quantified_comparisons": 4,
+            "abstraction": "process"
+          }
+        },
+        "question_groups": [
+          {
+            "id": "g1",
+            "type": "matching_headings",
+            "instructions_extra": "There are more headings than paragraphs, so you will not use them all. Paragraph G is not included.",
+            "word_limit": null,
+            "allow_reuse": false,
+            "options": [
+              { "key": "i", "text": "A wartime shortage and its consequences" },
+              { "key": "ii", "text": "Everywhere, and hardly ever examined" },
+              { "key": "iii", "text": "Rules that differ from country to country" },
+              { "key": "iv", "text": "The machine that made it worth building" },
+              { "key": "v", "text": "An asset that keeps disappearing" },
+              { "key": "vi", "text": "The cost of moving goods by sea" },
+              { "key": "vii", "text": "Two ways of paying for the same object" },
+              { "key": "viii", "text": "Why the dimensions were never unified" },
+              { "key": "ix", "text": "What tracking still cannot fix" },
+              { "key": "x", "text": "A comparison that resists a single answer" }
+            ],
+            "layout": null,
+            "teaching": {
+              "schema_version": 1,
+              "answer_order": "scattered",
+              "section_scope": null,
+              "strategy": "Say each paragraph's job in six words before you look at the list. Place C and D first: both open with a sentence that states their whole point, so they are the two you will be certain of, and each one you place removes a heading from play.",
+              "order_note": "Not in order, so nothing bounds the search. Every paragraph has to be read.",
+              "time_budget_s": 420,
+              "watch_out": "Four headings name something a paragraph genuinely mentions. Mentioning is not the point of a paragraph."
+            },
+            "questions": [
+              {
+                "number": 1,
+                "prompt": "Paragraph A",
+                "answers": [{ "value": "ii" }],
+                "anchor_paragraphs": ["A"],
+                "evidence_quote": "The pallet is the least examined object in modern trade.",
+                "explanation": "Paragraph A makes one claim and then gives two reasons for it: the pallet is everywhere and nobody looks at it, because good design makes it unnoticeable and because accounting treats it as packaging. Heading ii states exactly that pairing.",
+                "trap_note": "Heading v is about physical loss, which is paragraph E; heading vi names a subject the passage never takes up.",
+                "difficulty": "medium",
+                "band_target": 6.5,
+                "teaching": {
+                  "schema_version": 1,
+                  "paraphrase_link": {
+                    "stem_phrase": "hardly ever examined",
+                    "text_phrase": "the least examined object in modern trade",
+                    "devices": ["synonym", "negated_antonym"],
+                    "note": "A superlative in the text becomes a negated frequency phrase in the heading."
+                  },
+                  "decision_rule": "The paragraph's two halves are ubiquity and inattention. A heading for it has to carry both; every other candidate carries one at most.",
+                  "distractors": [
+                    { "key": "v", "why_tempting": "The paragraph is about a pallet that is not noticed, and 'disappearing' feels like the same idea in another word.", "why_wrong": "Paragraph A's pallets are present and ignored; the ones that disappear are in paragraph E.", "diagnosis": "right_words_wrong_paragraph" },
+                    { "key": "vi", "why_tempting": "Shipping is the obvious frame for a paragraph about goods arriving in shops.", "why_wrong": "The passage never discusses freight costs at all, here or anywhere.", "diagnosis": "too_broad" },
+                    { "key": "ix", "why_tempting": "'Cannot fix' matches the paragraph's tone of an unmanaged object.", "why_wrong": "Tracking appears only in paragraph G, which this group does not ask about.", "diagnosis": "right_words_wrong_paragraph" }
+                  ],
+                  "reusable_rule": "When a paragraph makes one claim and gives two reasons for it, the heading names the claim, never a reason.",
+                  "traps": ["detail_for_main_idea"],
+                  "gear": "skim"
+                }
+              },
+              {
+                "number": 2,
+                "prompt": "Paragraph B",
+                "answers": [{ "value": "iv" }],
+                "anchor_paragraphs": ["B"],
+                "evidence_quote": "What changed was not the platform itself, which had existed in crude forms for decades, but the machine that lifted it.",
+                "explanation": "Paragraph B answers one question: why did an old object suddenly matter? Its answer is the forklift, which made a platform with fork openings worth building. Everything else in the paragraph dates that change.",
+                "trap_note": "The war is in this paragraph, but as an accelerator of something already under way, not as a shortage.",
+                "difficulty": "medium",
+                "band_target": 7.0,
+                "teaching": {
+                  "schema_version": 1,
+                  "paraphrase_link": {
+                    "stem_phrase": "The machine that made it worth building",
+                    "text_phrase": "it made it worth building a platform with openings that a fork could enter",
+                    "devices": ["clause_restructure", "compression"],
+                    "note": "The heading compresses a two-clause sentence into a noun phrase with a relative clause."
+                  },
+                  "decision_rule": "The paragraph's controlling sentence is an explicit not-X-but-Y: not the platform, but the machine. A heading naming the machine is the only one that matches the structure.",
+                  "distractors": [
+                    { "key": "i", "why_tempting": "Wartime depots are named here, and a reader who has decided the war is the subject will accept any wartime heading.", "why_wrong": "The paragraph says the war accelerated a change; it never mentions a shortage of anything.", "diagnosis": "unstated" },
+                    { "key": "vi", "why_tempting": "Ships and railway wagons appear in the second sentence.", "why_wrong": "They are there to describe the loading method the pallet replaced, not as a subject.", "diagnosis": "too_narrow" }
+                  ],
+                  "reusable_rule": "A 'not X but Y' sentence is a paragraph telling you its own heading. Take Y.",
+                  "traps": ["detail_for_main_idea"],
+                  "gear": "skim"
+                }
+              },
+              {
+                "number": 3,
+                "prompt": "Paragraph C",
+                "answers": [{ "value": "viii" }],
+                "anchor_paragraphs": ["C"],
+                "evidence_quote": "What did not follow was a single size.",
+                "explanation": "The paragraph opens by naming the absence it is going to explain, gives two causes for it - entrenched regional standards and a compromise that recognised six sizes - and closes on why the sizes cannot now be changed. Heading viii names that explanation.",
+                "trap_note": "Heading iii is true of the paragraph and is not what the paragraph is doing: it reports the variation instead of explaining it.",
+                "difficulty": "medium",
+                "band_target": 7.0,
+                "teaching": {
+                  "schema_version": 1,
+                  "paraphrase_link": {
+                    "stem_phrase": "the dimensions were never unified",
+                    "text_phrase": "What did not follow was a single size",
+                    "devices": ["nominalisation", "negated_antonym"],
+                    "note": "'did not follow ... a single size' becomes 'were never unified' - one negation carried into a passive."
+                  },
+                  "decision_rule": "The paragraph is causal, not descriptive: every sentence after the first supplies a reason. Only a heading beginning 'Why' matches that shape.",
+                  "distractors": [
+                    { "key": "iii", "why_tempting": "The paragraph does list different national sizes, so the heading is factually accurate about its contents.", "why_wrong": "Accuracy is not the test. The paragraph explains why the variation was never resolved; this heading only reports that it exists.", "diagnosis": "too_broad" },
+                    { "key": "vi", "why_tempting": "Containers and lorries in the final sentence suggest freight.", "why_wrong": "They appear as things built around the dimensions, not as a cost.", "diagnosis": "too_narrow" }
+                  ],
+                  "reusable_rule": "Ask whether the paragraph reports a situation or explains one. A 'why' heading needs an explanation, not a description.",
+                  "traps": ["detail_for_main_idea"],
+                  "gear": "skim"
+                }
+              },
+              {
+                "number": 4,
+                "prompt": "Paragraph D",
+                "answers": [{ "value": "vii" }],
+                "anchor_paragraphs": ["D"],
+                "evidence_quote": "Two business models compete for the flow.",
+                "explanation": "The paragraph sets out two ways of financing the same object - buying cheap and writing off, or hiring by the trip - and then gives the calculation that decides between them. Heading vii names the pair.",
+                "trap_note": "Heading x also promises a comparison, but the comparison this paragraph makes reaches a clear answer; the undecided one is in paragraph F.",
+                "difficulty": "easy",
+                "band_target": 6.0,
+                "teaching": {
+                  "schema_version": 1,
+                  "paraphrase_link": {
+                    "stem_phrase": "Two ways of paying",
+                    "text_phrase": "Two business models compete for the flow",
+                    "devices": ["synonym", "gloss_swap"],
+                    "note": "'business models' is glossed by what the models actually differ about - who pays, and when."
+                  },
+                  "decision_rule": "The paragraph is organised as one-then-the-other-then-the-choice. A heading naming a pair fits; a heading naming an unresolved comparison does not, because the paragraph resolves it.",
+                  "distractors": [
+                    { "key": "x", "why_tempting": "The paragraph does compare two things at length, which is exactly what the heading promises.", "why_wrong": "This comparison ends in an answer - pooling wins where journeys are short and returns reliable. The comparison with no answer is paragraph F.", "diagnosis": "right_words_wrong_paragraph" },
+                    { "key": "v", "why_tempting": "'Writes them off' and 'burn them' read like disappearance.", "why_wrong": "Here the pallets are disposed of deliberately as part of the model; the losses that are not intended are paragraph E.", "diagnosis": "right_words_wrong_paragraph" }
+                  ],
+                  "reusable_rule": "Two paragraphs can both compare two things. The heading belongs to the one whose comparison ends the way the heading says.",
+                  "traps": ["neighbour_answer"],
+                  "gear": "skim"
+                }
+              },
+              {
+                "number": 5,
+                "prompt": "Paragraph E",
+                "answers": [{ "value": "v" }],
+                "anchor_paragraphs": ["E"],
+                "evidence_quote": "Pallets go missing at a rate that would be intolerable in any other class of asset.",
+                "explanation": "The whole paragraph is about pallets that are never returned: how they go, at what rate, what has been tried, and why the losses persist. Heading v names it, and the word 'asset' is the passage's own.",
+                "trap_note": null,
+                "difficulty": "easy",
+                "band_target": 6.0,
+                "teaching": {
+                  "schema_version": 1,
+                  "paraphrase_link": {
+                    "stem_phrase": "keeps disappearing",
+                    "text_phrase": "Pallets go missing at a rate that would be intolerable in any other class of asset",
+                    "devices": ["synonym", "verbalisation"],
+                    "note": "'go missing at a rate' becomes the continuous 'keeps disappearing' - the repetition is carried by the tense, not by a word."
+                  },
+                  "decision_rule": "Every sentence in the paragraph is about loss or about a failed response to loss. No other heading survives that test.",
+                  "distractors": [
+                    { "key": "ix", "why_tempting": "The paragraph ends on a problem that has not been solved, and tracking is the obvious unsolved-problem heading.", "why_wrong": "Tracking is never mentioned here. It arrives two paragraphs later, and this paragraph's failed responses are deposits, penalties and audits.", "diagnosis": "unstated" },
+                    { "key": "vii", "why_tempting": "The opening words are 'Neither model', which points straight back to the two models just described.", "why_wrong": "That clause is a bridge from the previous paragraph, not the subject of this one.", "diagnosis": "right_words_wrong_paragraph" }
+                  ],
+                  "reusable_rule": "A paragraph's first clause often belongs to the paragraph before it. Read the second sentence before deciding.",
+                  "traps": ["heading_cascade"],
+                  "gear": "skim"
+                }
+              },
+              {
+                "number": 6,
+                "prompt": "Paragraph F",
+                "answers": [{ "value": "x" }],
+                "anchor_paragraphs": ["F"],
+                "evidence_quote": "published studies reach opposite conclusions from similar data",
+                "explanation": "The paragraph gives the case for plastic, the case for wood, and then the reason no verdict is available: the life-cycle answer depends on assumptions, so studies disagree. Heading x names a comparison that cannot be settled.",
+                "trap_note": "Heading iii is tempting because a rule about pharmaceutical and food use appears in the second sentence, but that is one clause of six.",
+                "difficulty": "hard",
+                "band_target": 7.5,
+                "teaching": {
+                  "schema_version": 1,
+                  "paraphrase_link": {
+                    "stem_phrase": "resists a single answer",
+                    "text_phrase": "published studies reach opposite conclusions from similar data",
+                    "devices": ["nominalisation", "negated_antonym"],
+                    "note": "'opposite conclusions from similar data' becomes 'resists a single answer' - the heading states the consequence, not the finding."
+                  },
+                  "decision_rule": "The paragraph's last two sentences withdraw the verdict its first four seemed to be building towards. A heading that awards the comparison to either material contradicts the paragraph.",
+                  "distractors": [
+                    { "key": "iii", "why_tempting": "'Required in a handful of pharmaceutical and food applications' is a rule, and rules that vary is a plausible reading of it.", "why_wrong": "It is one qualifying clause inside the case for plastic, and it says nothing about countries.", "diagnosis": "too_narrow" },
+                    { "key": "ix", "why_tempting": "A reader who has run out of headings and knows one paragraph is unasked will put this here.", "why_wrong": "Nothing in the paragraph is about tracking; heading ix belongs to paragraph G, which this group does not cover.", "diagnosis": "right_words_wrong_paragraph" }
+                  ],
+                  "reusable_rule": "When the last sentences of a paragraph take back the verdict, the heading is about the absence of a verdict.",
+                  "traps": ["detail_for_main_idea", "heading_cascade"],
+                  "gear": "skim"
+                }
+              }
+            ]
+          },
+          {
+            "id": "g2",
+            "type": "true_false_not_given",
+            "instructions_extra": "Do the following statements agree with the information given in the passage?",
+            "word_limit": null,
+            "allow_reuse": false,
+            "options": null,
+            "layout": null,
+            "teaching": {
+              "schema_version": 1,
+              "answer_order": "sequential",
+              "section_scope": null,
+              "strategy": "Mark the quantifier, the modal and the time reference in each statement before you go near the passage. Four of these five turn on one such word, and the fifth turns on who did something the passage never names.",
+              "order_note": "In passage order: question 10's answer lies below question 9's. Search that band, not the whole text.",
+              "time_budget_s": 350,
+              "watch_out": "Two statements are contradicted by a clause that arrives after a full stop or a semicolon. Read the sentence after the one you located."
+            },
+            "questions": [
+              {
+                "number": 7,
+                "prompt": "Shipping companies were the main force behind the compromise reached in the 1960s.",
+                "answers": [{ "value": "NOT GIVEN" }],
+                "anchor_paragraphs": ["C"],
+                "evidence_quote": "A compromise was reached in the 1960s.",
+                "explanation": "The passage says a compromise was reached and what it decided, but the sentence is a passive with no 'by' phrase. No party is named anywhere in the paragraph - only 'international bodies', and even they are said to have turned to the question, not to have reached the compromise.",
+                "trap_note": "Phantom contradiction: the passage is silent about who reached the compromise, and silence about a plausible agent feels like a denial.",
+                "difficulty": "hard",
+                "band_target": 7.5,
+                "teaching": {
+                  "schema_version": 1,
+                  "decision_rule": "The topic is addressed and the specific claim - who drove the compromise - is neither stated nor contradicted. That is the NOT GIVEN condition exactly: no support, and nothing to point at as a denial.",
+                  "distractors": [
+                    { "key": "TRUE", "why_tempting": "Everything checkable checks out: there was a compromise, it was in the 1960s, and shipping is the obvious industry to have driven it.", "why_wrong": "'Obvious' is outside knowledge. The passage names no agent, so the statement cannot be confirmed from it.", "diagnosis": "unstated" },
+                    { "key": "FALSE", "why_tempting": "The paragraph mentions 'international bodies', so a reader who has decided the compromise had an author will treat any other author as a contradiction.", "why_wrong": "They are said to have turned to the question, not to have settled it. No sentence here denies the statement.", "diagnosis": "no_contradiction" }
+                  ],
+                  "reusable_rule": "A passive with no 'by' phrase names no agent. Any statement that names one is unverifiable, and unverifiable means NOT GIVEN.",
+                  "traps": ["absence_read_as_contradiction", "attribution_shift"],
+                  "nearest_text": "A compromise was reached in the 1960s.",
+                  "gear": "close"
+                }
+              },
+              {
+                "number": 8,
+                "prompt": "The standard now in force replaced the regional sizes with a single agreed dimension.",
+                "answers": [{ "value": "FALSE" }],
+                "anchor_paragraphs": ["C"],
+                "evidence_quote": "It recognised several sizes at once rather than choosing between them, and the standard in force today lists six.",
+                "explanation": "The passage states the opposite twice in one sentence: the compromise recognised several sizes rather than choosing between them, and the current standard lists six. A standard that lists six sizes cannot have replaced the regional sizes with one.",
+                "trap_note": "Three of the statement's four elements match the passage; the fourth - 'a single agreed dimension' - is the one that decides it.",
+                "difficulty": "medium",
+                "band_target": 6.5,
+                "teaching": {
+                  "schema_version": 1,
+                  "paraphrase_link": {
+                    "stem_phrase": "a single agreed dimension",
+                    "text_phrase": "several sizes at once rather than choosing between them",
+                    "devices": ["scope_change"],
+                    "note": "'several ... rather than choosing' against 'a single' - the statement makes a stronger claim than the text, and the text rules it out."
+                  },
+                  "decision_rule": "The topic is addressed and the passage states something the statement cannot be true alongside. One clause - 'rather than choosing between them' - carries the whole contradiction.",
+                  "distractors": [
+                    { "key": "TRUE", "why_tempting": "A compromise, the 1960s and an international standard all appear, so three of the statement's four elements are confirmed on sight.", "why_wrong": "A statement is TRUE only if all of it is supported. The fourth element is contradicted, which makes the whole statement FALSE.", "diagnosis": "partially_true" },
+                    { "key": "NOT GIVEN", "why_tempting": "The word 'replaced' never appears, so a reader searching for it finds nothing and concludes the passage is silent.", "why_wrong": "The contradiction is in the same sentence as the compromise, worded as 'rather than choosing between them'.", "diagnosis": "contradiction_present" }
+                  ],
+                  "reusable_rule": "Confirming three parts of a statement is not confirming it. Check the part that would be expensive to be wrong about.",
+                  "traps": ["partial_condition", "scope_shift"],
+                  "gear": "close"
+                }
+              },
+              {
+                "number": 9,
+                "prompt": "A pooled pallet is built to make many more journeys than a one-way pallet.",
+                "answers": [{ "value": "TRUE" }],
+                "anchor_paragraphs": ["D"],
+                "evidence_quote": "a pooled pallet is built to survive perhaps eighty journeys where a white one may not survive five",
+                "explanation": "The passage gives the two figures side by side - about eighty journeys against fewer than five - and makes the comparison itself, using the same verb, 'built to survive'. 'Many more journeys' is a restatement of eighty against five.",
+                "trap_note": null,
+                "difficulty": "easy",
+                "band_target": 6.0,
+                "teaching": {
+                  "schema_version": 1,
+                  "paraphrase_link": {
+                    "stem_phrase": "built to make many more journeys",
+                    "text_phrase": "built to survive perhaps eighty journeys where a white one may not survive five",
+                    "devices": ["figure_restatement"],
+                    "note": "Two figures in the text become one comparative in the statement. The comparison is the passage's own, not the reader's."
+                  },
+                  "decision_rule": "The passage states the comparison, not merely the two numbers, so no arithmetic of the reader's own is required. Everything in the statement is supported, including the hedged 'built to'.",
+                  "distractors": [
+                    { "key": "FALSE", "why_tempting": "'May not survive five' is a hedge, and a reader who treats the hedge as uncertainty may decide the passage refuses the comparison.", "why_wrong": "The hedge is inside a comparison the passage draws itself; it softens the number, not the ranking.", "diagnosis": "no_contradiction" },
+                    { "key": "NOT GIVEN", "why_tempting": "The words 'many more' do not appear, and a reader hunting for them finds only figures.", "why_wrong": "The clause 'where a white one may not survive five' is the comparison, written out.", "diagnosis": "support_present" }
+                  ],
+                  "reusable_rule": "If the passage puts two figures in one clause joined by 'where' or 'against', it has made the comparison for you.",
+                  "traps": [],
+                  "gear": "close"
+                }
+              },
+              {
+                "number": 10,
+                "prompt": "Deposits and penalties have brought pallet losses under control in most industries.",
+                "answers": [{ "value": "FALSE" }],
+                "anchor_paragraphs": ["E"],
+                "evidence_quote": "But the losses have not been eliminated, and in most sectors they are still treated as an unavoidable cost of doing business.",
+                "explanation": "The passage lists deposits, penalties and audits as the response, and then, in the next sentence, says the losses have not been eliminated and are still treated in most sectors as unavoidable. 'Most sectors' and 'most industries' are the same scope, and the verdicts are incompatible.",
+                "trap_note": "Missed contradiction: the response is listed in one sentence and refused in the next, and the refusal starts after a full stop.",
+                "difficulty": "medium",
+                "band_target": 7.0,
+                "teaching": {
+                  "schema_version": 1,
+                  "paraphrase_link": {
+                    "stem_phrase": "brought pallet losses under control in most industries",
+                    "text_phrase": "the losses have not been eliminated, and in most sectors they are still treated as an unavoidable cost",
+                    "devices": ["synonym", "negated_antonym"],
+                    "note": "'industries' for 'sectors' is the easy half; 'have not been eliminated' against 'under control' is the half that decides it."
+                  },
+                  "decision_rule": "The passage addresses the response and states its outcome, and the stated outcome cannot be true at the same time as the statement. That is a contradiction, so FALSE rather than NOT GIVEN.",
+                  "distractors": [
+                    { "key": "TRUE", "why_tempting": "The previous sentence says audits worked 'more effectively', which reads like a solution being found.", "why_wrong": "'More effectively' compares audits with deposits and penalties. It does not say the problem was solved, and the following sentence says it was not.", "diagnosis": "partially_true" },
+                    { "key": "NOT GIVEN", "why_tempting": "The statement's key phrase, 'under control', appears nowhere, and a reader who stops at the end of the audits sentence sees no verdict at all.", "why_wrong": "The verdict is the next sentence, and it is explicit: the losses have not been eliminated.", "diagnosis": "contradiction_present" }
+                  ],
+                  "reusable_rule": "When a passage lists what was tried, the sentence that follows usually says whether it worked. Read it before deciding.",
+                  "traps": ["contradiction_read_as_absence", "partial_condition"],
+                  "gear": "close"
+                }
+              },
+              {
+                "number": 11,
+                "prompt": "Wooden pallets are made mainly from timber for which there is little other demand.",
+                "answers": [{ "value": "TRUE" }],
+                "anchor_paragraphs": ["F"],
+                "evidence_quote": "made largely from low-grade timber that has few other uses",
+                "explanation": "The passage says wooden pallets are made largely from low-grade timber that has few other uses. 'Largely' licenses 'mainly', and 'few other uses' is the same claim as 'little other demand' expressed through the negated opposite.",
+                "trap_note": "Nothing in the statement is stronger than the passage: 'mainly' matches 'largely', and neither says 'only'.",
+                "difficulty": "medium",
+                "band_target": 6.5,
+                "teaching": {
+                  "schema_version": 1,
+                  "paraphrase_link": {
+                    "stem_phrase": "timber for which there is little other demand",
+                    "text_phrase": "low-grade timber that has few other uses",
+                    "devices": ["negated_antonym", "synonym"],
+                    "note": "'few other uses' becomes 'little other demand' - the same proposition seen from the buyer's side instead of the wood's."
+                  },
+                  "decision_rule": "Every part of the statement is supported, including its quantifier. 'Mainly' is no stronger than 'largely', so there is nothing left over for the passage to contradict.",
+                  "distractors": [
+                    { "key": "NOT GIVEN", "why_tempting": "The statement shares almost no vocabulary with the passage - not 'demand', not 'mainly' - so a keyword search returns nothing.", "why_wrong": "The proposition is stated in full, in different words, in one clause of the third sentence.", "diagnosis": "support_present" },
+                    { "key": "FALSE", "why_tempting": "The paragraph opens by praising plastic, so a reader skimming for a verdict on wood finds the wrong side first.", "why_wrong": "The clause about low-grade timber is part of the case for wood, and nothing in the paragraph denies it.", "diagnosis": "no_contradiction" }
+                  ],
+                  "reusable_rule": "A statement sharing no words with the text is not evidence of silence. Check the meaning before answering NOT GIVEN.",
+                  "traps": ["paraphrase_missed"],
+                  "gear": "close"
+                }
+              }
+            ]
+          },
+          {
+            "id": "g3",
+            "type": "note_completion",
+            "instructions_extra": "Complete the notes below with words taken from the passage.",
+            "word_limit": { "max_words": 1, "numbers_allowed": true },
+            "allow_reuse": false,
+            "options": null,
+            "layout": {
+              "kind": "note",
+              "title": "Tracking pallets",
+              "lines": [
+                "Tags and sensors have been fitted to pooled pallets since the {{12}}.",
+                "The harder problem is persuading firms to {{13}} the information they hold.",
+                "A pallet passes through a supply chain without {{14}} to any of the firms that handle it."
+              ]
+            },
+            "teaching": {
+              "schema_version": 1,
+              "answer_order": "section_local",
+              "section_scope": ["G"],
+              "strategy": "Every answer is in paragraph G, so locate that paragraph once and never leave it. Decide the word class of each gap from the word in front of it before you read the passage: one wants a plural noun, one a bare infinitive, one an -ing form.",
+              "order_note": "All three come from one paragraph. Locate the section once, then work inside it.",
+              "time_budget_s": 90,
+              "watch_out": "The limit is one word or one number. Copy the passage's exact form - a decade written as a year, or an infinitive where the frame wants an -ing form, scores zero."
+            },
+            "questions": [
+              {
+                "number": 12,
+                "prompt": "Tags and sensors have been fitted to pooled pallets since the {{gap}}.",
+                "answers": [{ "value": "2000s" }],
+                "anchor_paragraphs": ["G"],
+                "evidence_quote": "Radio tags and low-cost sensors have been fitted to pooled pallets since the 2000s",
+                "explanation": "Paragraph G dates the fitting of radio tags and sensors to pooled pallets from the 2000s. The note keeps the passage's own frame, 'since the ___', so the answer is the decade exactly as written.",
+                "trap_note": "The passage carries three other date expressions - the 1930s, the late 1940s and the 1960s - and all three belong to other paragraphs.",
+                "difficulty": "easy",
+                "band_target": 5.5,
+                "teaching": {
+                  "schema_version": 1,
+                  "paraphrase_link": {
+                    "stem_phrase": "Tags and sensors have been fitted",
+                    "text_phrase": "Radio tags and low-cost sensors have been fitted",
+                    "devices": ["compression"],
+                    "note": "The note drops two modifiers and keeps the verb phrase, which is what makes this gap findable by form."
+                  },
+                  "decision_rule": "The note reproduces the passage's own prepositional frame, so the answer is the noun phrase that already follows 'since the' in the text.",
+                  "distractors": [
+                    { "key": "1930s", "why_tempting": "It is the passage's most prominent decade and sits beside a piece of technology spreading through warehouses.", "why_wrong": "That is the forklift in paragraph B, not tags in paragraph G.", "diagnosis": "wrong_period" },
+                    { "key": "2000", "why_tempting": "A learner writing quickly drops the plural marker because a year looks more like a date than a decade does.", "why_wrong": "The passage writes '2000s'. A completion answer is copied exactly; changing the form loses the mark.", "diagnosis": "wrong_form" }
+                  ],
+                  "reusable_rule": "Copy the passage's form character for character. A dropped plural is a dropped mark, not a near miss.",
+                  "traps": ["form_error"],
+                  "grammar_cue": "'since the' before the gap wants a decade, not a bare year.",
+                  "gear": "scan"
+                }
+              },
+              {
+                "number": 13,
+                "prompt": "The harder problem is persuading firms to {{gap}} the information they hold.",
+                "answers": [{ "value": "share" }],
+                "anchor_paragraphs": ["G"],
+                "evidence_quote": "What has proved harder is persuading the many firms that touch a pallet on a single journey to share the information they hold",
+                "explanation": "Paragraph G says the difficulty is persuading firms to share the information they hold. The note compresses the same sentence and leaves the verb in the gap.",
+                "trap_note": null,
+                "difficulty": "easy",
+                "band_target": 6.0,
+                "teaching": {
+                  "schema_version": 1,
+                  "paraphrase_link": {
+                    "stem_phrase": "The harder problem",
+                    "text_phrase": "What has proved harder",
+                    "devices": ["nominalisation"],
+                    "note": "A cleft clause in the text becomes a noun phrase in the note, which is why scanning for 'problem' finds nothing."
+                  },
+                  "decision_rule": "The gap sits between 'to' and a direct object, so it takes a transitive verb in its bare form, and only one verb in the paragraph occupies that slot.",
+                  "distractors": [
+                    { "key": "persuading", "why_tempting": "It is the nearest verb to the note's own wording and it appears in both sentences.", "why_wrong": "It is what the operator does to the firms; the gap wants what the firms do. It is also the wrong form.", "diagnosis": "wrong_form" },
+                    { "key": "sharing", "why_tempting": "The paragraph's other verbs are participles, so a reader copies the pattern.", "why_wrong": "'to' before the gap forces the bare infinitive, and the passage writes 'to share'.", "diagnosis": "wrong_form" }
+                  ],
+                  "reusable_rule": "Fix the word class from the words either side of the gap before you search. It rules out most of what you will find.",
+                  "traps": ["form_error"],
+                  "grammar_cue": "The gap follows 'to', so a bare infinitive, and it takes an object.",
+                  "gear": "search"
+                }
+              },
+              {
+                "number": 14,
+                "prompt": "A pallet passes through a supply chain without {{gap}} to any of the firms that handle it.",
+                "answers": [{ "value": "belonging" }],
+                "anchor_paragraphs": ["G"],
+                "evidence_quote": "passes through an entire supply chain without belonging to any of the companies that handle it",
+                "explanation": "Paragraph G explains that the pallet passes through a whole supply chain without belonging to any of the companies that handle it. The note substitutes 'firms' for 'companies' and leaves the -ing form in the gap.",
+                "trap_note": "The note's 'firms' is the passage's 'companies', so the sentence will not be found by matching that noun.",
+                "difficulty": "medium",
+                "band_target": 6.5,
+                "teaching": {
+                  "schema_version": 1,
+                  "paraphrase_link": {
+                    "stem_phrase": "any of the firms that handle it",
+                    "text_phrase": "any of the companies that handle it",
+                    "devices": ["synonym"],
+                    "note": "One noun is swapped and everything else is identical - the cheapest device there is, and it still defeats a keyword search."
+                  },
+                  "decision_rule": "'Without' takes an -ing form, and the only clause in the paragraph that fits the frame is the one about the pallet not belonging to anyone.",
+                  "distractors": [
+                    { "key": "belong", "why_tempting": "It is the obvious dictionary form and the meaning is right.", "why_wrong": "'Without' forces the -ing form. The content is right and the answer is still wrong, which is the commonest way to lose a completion mark.", "diagnosis": "wrong_form" },
+                    { "key": "handle", "why_tempting": "It is the nearest verb to the gap in the note's own sentence.", "why_wrong": "It is already in the note after the gap, and the passage uses it of the companies, not of the pallet.", "diagnosis": "wrong_form" }
+                  ],
+                  "reusable_rule": "After a preposition a verb takes -ing. Right word plus wrong form scores the same as no answer.",
+                  "traps": ["form_error"],
+                  "grammar_cue": "The gap follows 'without', so the verb takes the -ing form.",
+                  "gear": "search"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "updates": []
+}

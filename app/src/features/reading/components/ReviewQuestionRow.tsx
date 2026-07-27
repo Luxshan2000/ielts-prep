@@ -6,6 +6,7 @@ import { qtypeLabel } from "../qtypes";
 import { questionDomId } from "../model";
 import type { WhyWrongState } from "../store";
 import type { ReviewQuestion } from "../types";
+import { SolutionCard } from "./drills";
 
 export interface ReviewQuestionRowProps {
   question: ReviewQuestion;
@@ -21,8 +22,14 @@ export interface ReviewQuestionRowProps {
 
 /**
  * One reviewable question: the learner's answer against every accepted variant,
- * the authored explanation and trap note, locate-in-passage, and the on-demand
- * LLM trap analysis (06 §6.1).
+ * the authored Solution Card, locate-in-passage, and the on-demand LLM trap
+ * analysis (06 §6.1).
+ *
+ * When the row carries a `solution` — every row in the shipped bank does — the card
+ * replaces the bare explanation/trap-note pair, because it *contains* both and adds the
+ * four things that actually decide a reading mark: where the answer is, the paraphrase
+ * that links stem to text, why each wrong option was tempting, and the rule to carry to
+ * the next paper. Rows without one fall back to the old pair rather than showing nothing.
  */
 export function ReviewQuestionRow({
   question,
@@ -150,26 +157,34 @@ export function ReviewQuestionRow({
             </div>
           </div>
 
-          {question.explanation && (
-            <p className="text-[13px] leading-relaxed text-foreground">{question.explanation}</p>
-          )}
-
-          {question.trap_note && (
-            <p className="rounded-lg border-l-2 border-warning bg-warning/10 px-2.5 py-2 text-[13px]">
-              <span className="font-medium">Trap: </span>
-              {question.trap_note}
-            </p>
-          )}
-
-          {question.locate?.evidence_quote && (
-            <blockquote className="border-l-2 border-primary bg-primary/[0.06] px-2.5 py-2 text-[13px] italic">
-              “{question.locate.evidence_quote}”
-              {question.locate.paragraph_id && (
-                <span className="ml-1.5 not-italic text-[11px] text-muted-foreground">
-                  paragraph {question.locate.paragraph_id}
-                </span>
+          {question.solution ? (
+            <SolutionCard reveal={question.solution} given={given ?? ""} />
+          ) : (
+            <>
+              {question.explanation && (
+                <p className="text-[13px] leading-relaxed text-foreground">
+                  {question.explanation}
+                </p>
               )}
-            </blockquote>
+
+              {question.trap_note && (
+                <p className="rounded-lg border-l-2 border-warning bg-warning/10 px-2.5 py-2 text-[13px]">
+                  <span className="font-medium">Trap: </span>
+                  {question.trap_note}
+                </p>
+              )}
+
+              {question.locate?.evidence_quote && (
+                <blockquote className="border-l-2 border-primary bg-primary/[0.06] px-2.5 py-2 text-[13px] italic">
+                  “{question.locate.evidence_quote}”
+                  {question.locate.paragraph_id && (
+                    <span className="ml-1.5 not-italic text-[11px] text-muted-foreground">
+                      paragraph {question.locate.paragraph_id}
+                    </span>
+                  )}
+                </blockquote>
+              )}
+            </>
           )}
 
           <div className="flex flex-wrap items-center gap-2">

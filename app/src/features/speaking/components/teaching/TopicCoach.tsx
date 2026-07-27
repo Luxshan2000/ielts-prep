@@ -14,7 +14,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, BookMarked, GraduationCap, Lock } from "lucide-react";
+import { ArrowLeft, BookMarked, Dumbbell, GraduationCap, Lock } from "lucide-react";
 import {
   Badge,
   Button,
@@ -36,6 +36,7 @@ import {
   type SpeakingReport,
   type TranscriptTurn,
 } from "../../store";
+import { DrillRunner } from "../drills";
 import { CardBrief } from "./CardBrief";
 import { CompareWithModel, type CriterionGap } from "./CompareWithModel";
 import { LanguageBankPanel } from "./LanguageBank";
@@ -44,7 +45,7 @@ import { PrepCoach } from "./PrepCoach";
 import { Callout } from "./primitives";
 import { attemptedSetIds, useTeachingStore } from "./store";
 
-type CoachTab = "card" | "prep" | "model" | "compare" | "language";
+type CoachTab = "card" | "prep" | "model" | "compare" | "language" | "drills";
 
 const GATE_REASON =
   "The model answers unlock once you have spoken this card. Seeing them first turns preparation into memorising, and memorised language is the one thing the descriptors will not credit.";
@@ -228,6 +229,7 @@ export function TopicCoach() {
       badge: attempted ? undefined : <Lock className="h-3 w-3" aria-label="Locked" />,
     },
     { value: "language", label: "Language bank" },
+    { value: "drills", label: "Drills" },
   ];
 
   const audioTurn = attempt.turns.find(
@@ -363,6 +365,22 @@ export function TopicCoach() {
           topicTags={tags}
           setTitle={pack.title}
         />
+      </TabPanel>
+
+      <TabPanel value="Drills" active={tab === "drills"}>
+        {part2 ? (
+          <DrillRunner
+            cardId={part2.id}
+            attempted={attempted}
+            onPractise={() => setTab("prep")}
+          />
+        ) : (
+          <EmptyState
+            icon={Dumbbell}
+            title="This set has no Part 2 card"
+            description="Drills are built from a card's pronunciation focus and error watchlist."
+          />
+        )}
       </TabPanel>
     </PageShell>
   );

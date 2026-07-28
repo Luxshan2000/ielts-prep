@@ -27,7 +27,7 @@ import { formatDuration, formatTimestamp } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import { playAudio } from "../media";
 import { useListeningStore } from "../store";
-import { typeLabel } from "../qtypes";
+import { promptLineFor, typeLabel } from "../qtypes";
 import type { ReviewPart, ReviewQuestion } from "../types";
 import { TranscriptPanel } from "./TranscriptPanel";
 
@@ -431,7 +431,7 @@ function QuestionRow({
             onClick={onFocusQuestion}
             className="w-full rounded text-left text-[13px] leading-relaxed hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            {question.prompt || typeLabel(question.type)}
+            {promptLineFor(question.prompt, question.number) || typeLabel(question.type)}
           </button>
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px]">

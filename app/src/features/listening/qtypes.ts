@@ -89,6 +89,48 @@ export function hasGap(text: string | null | undefined): boolean {
   return Boolean(text && GAP_RE.test(text));
 }
 
+/**
+ * Matches an authored question marker: `**7**` inside a shared block.
+ *
+ * Form, note and table prompts are authored ONCE for the whole group and repeated on
+ * every question in it, with `**n**` marking which gap belongs to which number. The
+ * player wants the whole block (the learner fills it in as one form). Review does not:
+ * printing the entire form beside each of six answers buries the one line that matters.
+ */
+const MARKER_RE = /\*\*(\d+)\*\*/;
+
+/** Strip markdown emphasis so a prompt reads as text rather than showing `**1**`. */
+export function stripEmphasis(text: string): string {
+  return text.replace(/\*\*(.+?)\*\*/g, "$1").replace(/(^|\s)\*(\S(?:.*?\S)?)\*/g, "$1$2");
+}
+
+/**
+ * The single line of a shared block that belongs to `number`, for review.
+ *
+ * Returns the whole prompt (emphasis stripped) when the block carries no markers, when
+ * this number is not marked, or when the prompt is a table — a table row shorn of its
+ * header is meaningless, so those keep their full context.
+ */
+export function promptLineFor(
+  prompt: string | null | undefined,
+  number: number | null | undefined,
+): string {
+  const text = (prompt ?? "").trim();
+  if (!text) return "";
+  if (number == null || isMarkdownTable(text) || !MARKER_RE.test(text)) {
+    return stripEmphasis(text);
+  }
+  const line = text
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .find((l) => {
+      const m = l.match(MARKER_RE);
+      return m != null && Number(m[1]) === number;
+    });
+  return stripEmphasis(line ?? text);
+}
+
 /** A prompt is a markdown pipe table when two or more of its lines contain `|`. */
 export function isMarkdownTable(text: string | null | undefined): boolean {
   if (!text) return false;

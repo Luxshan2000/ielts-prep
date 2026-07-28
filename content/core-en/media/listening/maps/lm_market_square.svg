@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300"
+     role="img" aria-label="Plan of a market square: one archway in at the bottom left, stall rows down the west, north and east sides, a clock tower in the middle, an old pump in the south east corner, and five numbered stalls to be labelled.">
+  <title>Plan of the market square</title>
+
+  <!--
+    Format B map for a Part 2 map-labelling group at QUESTIONS 11-15.
+    Recommended slot: lt_04 part 2. The numerals below are the real question
+    numbers; moving the group means editing the five <text> nodes.
+
+    Coordinates: viewBox 400x300, 0-100 label space maps x_px = x*4, y_px = y*3.
+      11 (24,76)  12 (24,42)  13 (46,22)  14 (76,42)  15 (76,76)
+
+    The route is a single anticlockwise circuit: in at the archway, north up the
+    west row, east along the north row under the town hall, then south down the
+    east row and out past the old pump. Positions 12 and 14 are a mirror pair on
+    the same line across the square, so "directly opposite" discriminates.
+
+    Printed and never an answer: the archway, the town hall, the clock tower and
+    the old pump. Those are what the speaker gives directions from.
+  -->
+
+  <!-- compass, outside the square -->
+  <g stroke="#8b8b94" fill="#8b8b94">
+    <line x1="12" y1="18" x2="12" y2="5" stroke-width="1.6"/>
+    <polygon points="12,2 9,9 15,9"/>
+    <text x="12" y="30" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11"
+          stroke="none">N</text>
+  </g>
+
+  <!-- the square -->
+  <rect x="24" y="20" width="352" height="260" rx="6" fill="none" stroke="#8b8b94" stroke-width="2"/>
+
+  <!-- town hall along the north side (printed landmark) -->
+  <rect x="24" y="20" width="352" height="24" fill="#8b8b94" fill-opacity="0.16"
+        stroke="#8b8b94" stroke-width="1.5"/>
+  <text x="200" y="37" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12"
+        fill="#8b8b94">Town Hall</text>
+
+  <!-- the three stall rows -->
+  <g fill="none" stroke="#8b8b94" stroke-width="1.2" stroke-dasharray="3 3">
+    <rect x="60"  y="50"  width="280" height="36"/>
+    <rect x="64"  y="100" width="64"  height="150"/>
+    <rect x="272" y="100" width="64"  height="150"/>
+  </g>
+  <!-- archway: the only way in, and the orientation anchor -->
+  <rect x="76" y="272" width="48" height="16" rx="3" fill="#8b8b94" fill-opacity="0.30"
+        stroke="#8b8b94" stroke-width="2"/>
+  <text x="76" y="266" font-family="system-ui, sans-serif" font-size="12" font-weight="600"
+        fill="#8b8b94">ARCHWAY — you come in here</text>
+
+  <!-- clock tower, in the middle of the square (printed landmark) -->
+  <circle cx="200" cy="150" r="18" fill="#8b8b94" fill-opacity="0.18" stroke="#8b8b94"
+          stroke-width="1.8"/>
+  <line x1="200" y1="150" x2="200" y2="140" stroke="#8b8b94" stroke-width="1.5"/>
+  <line x1="200" y1="150" x2="207" y2="153" stroke="#8b8b94" stroke-width="1.5"/>
+  <text x="200" y="184" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11"
+        fill="#8b8b94">Clock tower</text>
+
+  <!-- old pump, south east corner (printed landmark) -->
+  <circle cx="304" cy="264" r="9" fill="#6f9bb5" fill-opacity="0.25" stroke="#6f9bb5"
+          stroke-width="1.6"/>
+  <text x="318" y="268" font-family="system-ui, sans-serif" font-size="11" fill="#6f9bb5">Old pump</text>
+
+  <!-- the five numbered stalls, in the order the speaker walks them -->
+  <g font-family="system-ui, sans-serif" font-size="15" font-weight="600" text-anchor="middle"
+     fill="#5b87c7">
+    <rect x="74"  y="215" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="96"  y="233">11</text>
+
+    <rect x="74"  y="113" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="96"  y="131">12</text>
+
+    <rect x="162" y="55"  width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="184" y="73">13</text>
+
+    <rect x="282" y="113" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="304" y="131">14</text>
+
+    <rect x="282" y="215" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="304" y="233">15</text>
+  </g>
+</svg>

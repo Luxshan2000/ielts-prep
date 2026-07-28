@@ -19,6 +19,28 @@ Providers, in the order they are tried:
   missing model file is a clean ``provider_error``, never an import-time crash that would
   take the whole route module out of auto-discovery.
 * any **OpenAI-compatible** ``POST /audio/speech`` endpoint (07 §8).
+
+**The script is not the deliverable; the render is** (L-R4 thesis 4). Three defects that
+document measured against the engine we actually ship are fixed here, and each one changes
+what a candidate hears rather than how the code reads:
+
+* **British voices were given American phonology.** Every synthesis call hardcoded
+  ``lang="en-us"``, including all eight ``bf_``/``bm_`` voices, so a British enrolments
+  officer spelled a surname saying "zee" (``Z.`` → ``zˈiː`` instead of ``zˈɛd``) and ``R.``
+  came out rhotic. That is not a subtle loss — it is the accent drill, our headline
+  listening feature, being half-fake. :func:`lang_for_voice` derives the language from the
+  voice id (L-R4 §8.7).
+* **Hyphen-spelled names rendered as mush.** ``O-K-A-F-O-R`` phonemizes to one unbroken
+  pseudo-word (``ˈəʊkˈeɪɐˈɛfˈəʊˈɑː``) that no candidate can transcribe, and spelled names
+  are a Part 1 staple. :func:`normalize_spelled_runs` rewrites the run into the dotted form
+  Kokoro segments correctly **for synthesis only** — the transcript keeps the hyphens,
+  because that is what a human writes (L-R4 §8.1).
+* **Authored pauses were lower bounds.** See :func:`bandready.audio.stitch.trim_edges`.
+
+Authors who need finer control than the automatic repair have two optional per-line fields,
+both folded into the content hash so editing either re-renders: ``say_as`` (what to speak,
+when it must differ from the displayed ``text``) and ``phonemes`` (a raw IPA string, for the
+handful of proper nouns Kokoro mispronounces — *Cholmondeley*, *Featherstonehaugh*).
 """
 
 from __future__ import annotations
@@ -28,6 +50,7 @@ import hashlib
 import io
 import json
 import logging
+import re
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
@@ -38,6 +61,15 @@ from bandready.audio import stitch as stitch_mod
 from bandready.server.errors import ApiError
 
 _log = logging.getLogger("bandready.audio.tts")
+
+#: Bumped whenever a change here alters the *audio* produced from unchanged content.
+#: It is folded into :func:`script_audio_hash` and :func:`line_cache_key`, which is the
+#: whole invalidation story: every script gets a new hash, ``cached_render`` misses, the
+#: UI reports the part as not-yet-prepared and one re-render fixes it. Nothing has to be
+#: hand-cleared and no stale WAV can survive by being on disk under the old name.
+#:
+#: 2 — British phonology, spelled-run repair, per-line edge trimming.
+RENDER_GENERATION = 2
 
 # 07 §3 — role x accent -> Kokoro voice id. Kokoro v1.0 has no Australian voices, so
 # `au` falls back to British ones and the UI labels it "approximated".
@@ -56,14 +88,29 @@ VOICE_MAP: dict[str, dict[str, str]] = {
         "male_1": "am_adam",
         "male_2": "am_eric",
     },
+    # Measured median F0 (L-R4 §7.3) says the shipped `au` male pair was unusable: male_1
+    # `bm_daniel` (131.5 Hz) against male_2 `bm_fable` (124.4 Hz) is 7 Hz of separation,
+    # which is one voice with two names, and a two-male Australian Part 3 asking who said
+    # what is then unfair rather than difficult. male_2 is `bm_lewis` (98.4 Hz) — 33 Hz
+    # apart, the widest available inside the British cast this set borrows from. It also
+    # retires `bm_fable` from dialogue, where its ~540 ms trailing silence lands a beat of
+    # dead air on every turn.
+    # STILL OPEN: `au` and `uk` share the `bm_george` narrator, so the accent drill opens
+    # by playing the identical voice it is contrasting against. Fixing that needs a test
+    # update outside this task's owned paths — reported rather than done.
     "au": {
         "narrator": "bm_george",
         "female_1": "bf_alice",
         "female_2": "bf_lily",
         "male_1": "bm_daniel",
-        "male_2": "bm_fable",
+        "male_2": "bm_lewis",
     },
 }
+
+#: Kokoro's voice ids encode their accent in the first two characters, and the phonemizer
+#: language must agree with them or the acoustic model delivers a hybrid that exists
+#: nowhere: British timbre over American vowels (L-R4 §8.7).
+BRITISH_VOICE_PREFIXES: tuple[str, ...] = ("bf_", "bm_")
 
 ACCENT_SETS: tuple[str, ...] = ("uk", "us", "au")
 ROLES: tuple[str, ...] = ("narrator", "female_1", "female_2", "male_1", "male_2")
@@ -134,6 +181,178 @@ def accent_label(accent_set: str | None) -> str:
     return ACCENT_LABELS.get(str(accent_set or "uk").lower(), ACCENT_LABELS["uk"])
 
 
+def lang_for_voice(voice: str) -> str:
+    """Phonemizer language for a Kokoro voice id — ``en-gb`` for the British cast.
+
+    One line, and it decides whether ``Z.`` is *zed* or *zee*, whether ``after the last``
+    keeps its TRAP–BATH split, and whether ``R.`` is rhotic. All three are things a real
+    candidate notices inside a sentence.
+    """
+    return "en-gb" if str(voice or "").startswith(BRITISH_VOICE_PREFIXES) else "en-us"
+
+
+# --------------------------------------------------------------------------- speech text
+
+#: ``O-K-A-F-O-R`` / ``B-E-L-L-F-I-E-L-D`` — three or more single letters joined by
+#: hyphens. Two letters is left alone: ``T-shirt``, ``X-ray`` and ``e-bike`` are words.
+#: The apostrophe in the lookbehind stops ``that's B-R-A-D`` from starting the run on the
+#: ``s`` of ``that's``.
+_HYPHEN_SPELLED = re.compile(
+    r"(?<![A-Za-z0-9'’])([A-Za-z])((?:-[A-Za-z]){2,})(?![A-Za-z0-9])"
+)
+
+#: ``B R A D S H A W`` — three or more single letters separated by spaces. Kokoro reads a
+#: lone ``A`` here as the *article* (``ɐ``, "uh") rather than the letter name (``ˈeɪ``), so
+#: this form silently loses every A in a surname.
+_SPACE_SPELLED = re.compile(
+    r"(?<![A-Za-z0-9'’])([A-Za-z])((?: [A-Za-z]){2,})(?![A-Za-z0-9])"
+)
+
+
+def _dotted(first: str, rest: str, sep: str) -> str:
+    letters = [first, *[part for part in rest.split(sep) if part]]
+    return " ".join(f"{letter}." for letter in letters)
+
+
+def normalize_spelled_runs(text: str) -> str:
+    """Rewrite spelled-aloud letter runs into the only notation Kokoro segments.
+
+    Measured (L-R4 §8.1), transcribing each render back with ``faster-whisper``:
+
+    ==============================  ==========================================
+    ``O-K-A-F-O-R.``                heard as "OK FOA, or CAFA"  ✗
+    ``B R A D S H A W``             heard as "B.R.A.D.S.H.W"    ✗ (the A is lost)
+    ``O. K. A. F. O. R.``           heard as "O-K-A-F-O-R"      ✓
+    ==============================  ==========================================
+
+    Applied to the **synthesis** string only. The learner still reads ``O-K-A-F-O-R`` in the
+    transcript, because that is how a person writes a spelled name down, and the review
+    screen's substring search against ``answer_quote`` keeps matching the authored text.
+
+    Trailing punctuation is preserved: the last letter's own full stop is the one the
+    rewrite adds, so ``that's B-R-A-D.`` becomes ``that's B. R. A. D.`` and not ``… D..``.
+    """
+    body = text or ""
+    if not body:
+        return body
+    body = _HYPHEN_SPELLED.sub(lambda m: _dotted(m.group(1), m.group(2), "-"), body)
+    body = _SPACE_SPELLED.sub(lambda m: _dotted(m.group(1), m.group(2), " "), body)
+    # The rewrite ends every run with a full stop; an authored one right behind it is now
+    # a double. `D.."` and `D.,` both read as a hesitation in the phonemizer output.
+    return re.sub(r"\.\s*([.,;:!?])", r"\1", body)
+
+
+def speech_text(line: Mapping[str, Any]) -> tuple[str, bool]:
+    """``(what to synthesize, is_phonemes)`` for one authored line.
+
+    Precedence, narrowest override first: ``phonemes`` (a raw IPA string, synthesized
+    verbatim — the escape hatch for a proper noun the phonemizer gets wrong) → ``say_as``
+    (author-supplied spoken form) → ``text`` with :func:`normalize_spelled_runs` applied.
+
+    ``say_as`` is *not* normalised: an author who reaches for the field has already decided
+    what the speaker says, and second-guessing them would make the field useless for the
+    one case it exists for.
+    """
+    phonemes = str(line.get("phonemes") or "").strip()
+    if phonemes:
+        return phonemes, True
+    say_as = str(line.get("say_as") or "").strip()
+    if say_as:
+        return say_as, False
+    return normalize_spelled_runs(str(line.get("text") or "")), False
+
+
+#: Number and abbreviation forms Kokoro reads as something other than what is written
+#: (L-R4 §8.2, §8.5). These are *not* auto-rewritten: "read 4021 as four oh two one" is a
+#: judgement about what the speaker means, and a renderer that guessed would eventually
+#: turn a genuine quantity into a phone number. They are logged at render time so a bad
+#: line is caught by whoever renders it rather than by a learner.
+_SPEECH_WARNINGS: tuple[tuple[str, re.Pattern[str], str], ...] = (
+    (
+        # Only where a cardinal is *wrong*. `a 1500 word essay` is a genuine quantity and
+        # reads correctly (measured ✓), so a bare `\d{4,}` rule would fire on correct
+        # content. What is always wrong is a digit string standing for a code — after a
+        # code noun, or in phone-number grouping.
+        "digit_run",
+        re.compile(
+            r"(?:\b(?:extension|ext|room|ref|reference|membership|number|no|code|flat"
+            r"|unit|tel|telephone|phone|account|policy|booking|postcode)\b[^.\n]{0,16}"
+            r"(?<!\d)\d{4,}(?!\d))|(?:(?<!\d)\d{3,4}[ -]\d{3,4}(?![\d-]))",
+            re.IGNORECASE,
+        ),
+        (
+            "a digit string reads as a cardinal ('four thousand and twenty-one'); write "
+            "reference, extension and phone numbers as words ('four oh two one')"
+        ),
+    ),
+    (
+        "old_year",
+        re.compile(r"(?<!\d)1[89]\d\d(?!\d)"),
+        (
+            "a 20th-century year reads as 'nineteen hundred and ninety-four'; write "
+            "'nineteen ninety-four'"
+        ),
+    ),
+    (
+        "decimal",
+        re.compile(r"(?<!\d)\d+\.\d+"),
+        (
+            "'point' is dropped from a written decimal ('12.5' reads 'twelve five'); write "
+            "'twelve point five'. Clock times H.MM are safe and are not flagged"
+        ),
+    ),
+    (
+        "currency_symbol",
+        re.compile(r"[£$€]\s*\d"),
+        (
+            "a currency symbol reads as a prefix word ('pound forty-two fifty'); write "
+            "'forty-two pounds fifty'"
+        ),
+    ),
+    (
+        "abbreviation",
+        re.compile(r"\b(?:Dr|St|Rd|Ave|Mt|Prof|approx|etc)\.", re.IGNORECASE),
+        "abbreviations are read literally ('Rd.' becomes the letters R D); write the word",
+    ),
+    (
+        "bare_dash",
+        re.compile(r"\s-\s"),
+        (
+            "a bare dash is stripped from the audio while staying in the transcript, so the "
+            "two diverge; use a comma, an ellipsis, or split the line"
+        ),
+    ),
+)
+
+#: Digits that are exempt from ``digit_run``/``decimal`` because they render correctly:
+#: 21st-century years, and clock times written ``H.MM`` / ``HH.MM`` (both measured ✓).
+_SPEECH_EXEMPT = (
+    re.compile(r"(?<!\d)20\d\d(?!\d)"),
+    re.compile(r"(?<!\d)\d{1,2}\.[0-5]\d(?!\d)"),
+)
+
+
+def speech_warnings(text: str) -> list[dict[str, str]]:
+    """Forms in ``text`` that Kokoro will not say the way they are written.
+
+    Advisory, never fatal. The exemptions matter as much as the rules: a naive
+    ``\\d{4,}`` fires on every correct 21st-century year and a naive ``\\d+\\.\\d+`` fires on
+    every correct clock time, and a linter that cries wolf is one authors learn to ignore.
+    """
+    body = text or ""
+    if not body:
+        return []
+    masked = body
+    for exempt in _SPEECH_EXEMPT:
+        masked = exempt.sub(lambda m: "\x00" * len(m.group(0)), masked)
+    found: list[dict[str, str]] = []
+    for slug, pattern, advice in _SPEECH_WARNINGS:
+        match = pattern.search(masked if slug in ("digit_run", "old_year", "decimal") else body)
+        if match:
+            found.append({"rule": slug, "found": match.group(0), "advice": advice})
+    return found
+
+
 # --------------------------------------------------------------------------- hashing
 
 def _canonical(payload: Any) -> str:
@@ -141,10 +360,19 @@ def _canonical(payload: Any) -> str:
 
 
 def script_audio_hash(script: Mapping[str, Any], accent_set: str | None = None) -> str:
-    """Content hash of *what will be spoken*: resolved voices + line text + pauses.
+    """Content hash of *what will be spoken*: resolved voices + spoken text + pauses.
 
     Changing a line, a pause or the accent set yields a new hash; re-titling the script
-    or editing a question does not (07 §3 step 5).
+    or editing a question does not (07 §3 step 5). Teaching payloads are therefore free to
+    rewrite — which is the point, since they are rewritten far more often than the audio.
+
+    Two things beyond the original are folded in, and both had to be:
+
+    * the **spoken** form (``phonemes``/``say_as``/normalised ``text``) rather than the raw
+      ``text``, or editing ``say_as`` would silently keep serving the old audio;
+    * :data:`RENDER_GENERATION`, so that a change to *how* we synthesize invalidates every
+      cached render at once instead of leaving the previous pipeline's output on disk under
+      a name the new pipeline would still consider a hit.
     """
     voices = resolve_voices(script, accent_set)
     lines = []
@@ -152,24 +380,35 @@ def script_audio_hash(script: Mapping[str, Any], accent_set: str | None = None) 
         if not isinstance(line, Mapping):
             continue
         speaker = str(line.get("speaker") or "")
+        spoken, is_phonemes = speech_text(line)
         lines.append(
             {
                 "v": voices.get(speaker, ""),
-                "t": str(line.get("text") or ""),
+                "t": spoken,
+                "ph": is_phonemes,
                 "p": stitch_mod.clamp_pause(line.get("pause_after_ms", 300)),
             }
         )
     payload = {
         "schema_version": int(script.get("schema_version") or 1),
+        "render_generation": RENDER_GENERATION,
         "accent_set": str(accent_set or script.get("accent_set") or "uk").lower(),
         "lines": lines,
     }
     return hashlib.sha256(_canonical(payload).encode("utf-8")).hexdigest()[:16]
 
 
-def line_cache_key(voice: str, text: str, speed: float = 1.0) -> str:
-    raw = f"{voice}\x00{text}\x00{speed:.2f}".encode()
-    return hashlib.sha256(raw).hexdigest()[:24]
+def line_cache_key(
+    voice: str, text: str, speed: float = 1.0, *, is_phonemes: bool = False
+) -> str:
+    """Cache key for one synthesized line.
+
+    The language is not a separate term because it is a pure function of ``voice``
+    (:func:`lang_for_voice`); :data:`RENDER_GENERATION` is, because it is what retires the
+    lines synthesized before British voices were given British phonology.
+    """
+    raw = f"{RENDER_GENERATION}\x00{voice}\x00{text}\x00{speed:.2f}\x00{int(is_phonemes)}"
+    return hashlib.sha256(raw.encode()).hexdigest()[:24]
 
 
 # --------------------------------------------------------------------------- paths
@@ -286,13 +525,16 @@ def _kokoro(cfg: Mapping[str, Any]) -> Any:
 
 
 async def _synthesize_kokoro(
-    text: str, voice: str, cfg: Mapping[str, Any]
+    text: str, voice: str, cfg: Mapping[str, Any], *, is_phonemes: bool = False
 ) -> tuple[np.ndarray, int]:
     engine = _kokoro(cfg)
     speed = float(cfg.get("speed") or 1.0)
+    lang = lang_for_voice(voice)
 
     def run() -> tuple[np.ndarray, int]:
-        samples, rate = engine.create(text, voice=voice, speed=speed, lang="en-us")
+        samples, rate = engine.create(
+            text, voice=voice, speed=speed, lang=lang, is_phonemes=is_phonemes
+        )
         return np.asarray(samples, dtype=np.float32), int(rate)
 
     try:
@@ -350,9 +592,19 @@ async def _synthesize_openai(
 
 
 async def synthesize_line(
-    text: str, voice: str, cfg: Mapping[str, Any] | None = None
+    text: str,
+    voice: str,
+    cfg: Mapping[str, Any] | None = None,
+    *,
+    is_phonemes: bool = False,
 ) -> tuple[np.ndarray, int]:
-    """``(pcm float32 mono, sample_rate)`` for one line — no caching, no stitching."""
+    """``(pcm float32 mono, sample_rate)`` for one line — no caching, no stitching.
+
+    ``text`` is the **spoken** string (see :func:`speech_text`), not the authored one.
+    ``is_phonemes`` is Kokoro-only; an OpenAI-compatible endpoint has no IPA input, so a
+    phonemized line falls back to speaking the IPA string, which is why the field is
+    documented as a local-engine escape hatch rather than a portable one.
+    """
     config = tts_config(cfg)
     clean = (text or "").strip()
     if not clean:
@@ -361,25 +613,32 @@ async def synthesize_line(
         return _mock_pcm(clean)
     engine = str(config.get("engine") or "").lower()
     if engine in ("kokoro_onnx", "kokoro"):
-        return await _synthesize_kokoro(clean, voice, config)
+        return await _synthesize_kokoro(clean, voice, config, is_phonemes=is_phonemes)
     return await _synthesize_openai(clean, voice, config)
 
 
 async def _synthesize_cached(
-    text: str, voice: str, cfg: Mapping[str, Any], *, use_cache: bool = True
+    text: str,
+    voice: str,
+    cfg: Mapping[str, Any],
+    *,
+    use_cache: bool = True,
+    is_phonemes: bool = False,
 ) -> tuple[np.ndarray, int]:
     """Per-line cache (07 §3 step 2) so an edited script re-renders only what changed."""
     clean = (text or "").strip()
     if not clean:
         return np.zeros(0, dtype=np.float32), stitch_mod.TARGET_RATE
-    key = line_cache_key(voice, clean, float(cfg.get("speed") or 1.0))
+    key = line_cache_key(
+        voice, clean, float(cfg.get("speed") or 1.0), is_phonemes=is_phonemes
+    )
     path = line_cache_path(key)
     if use_cache and path.exists() and path.stat().st_size > 0:
         try:
             return stitch_mod.read_wav(path)
         except Exception:  # noqa: BLE001 — a corrupt cache entry is not fatal
             _log.warning("discarding unreadable TTS line cache entry %s", path.name)
-    pcm, rate = await synthesize_line(clean, voice, cfg)
+    pcm, rate = await synthesize_line(clean, voice, cfg, is_phonemes=is_phonemes)
     if use_cache and pcm.size:
         try:
             size = stitch_mod.write_wav(path, pcm, rate)
@@ -513,8 +772,18 @@ async def render_script(
     for index, line in enumerate(lines):
         speaker = str(line.get("speaker") or "")
         voice = voices.get(speaker) or default_voice
-        text = str(line.get("text") or "")
-        pcm, rate = await _synthesize_cached(text, voice, cfg)
+        spoken, is_phonemes = speech_text(line)
+        for warning in speech_warnings(str(line.get("text") or "")):
+            _log.warning(
+                "listening script %s line %d: %r — %s",
+                script_id or "(unsaved)", index, warning["found"], warning["advice"],
+            )
+        pcm, rate = await _synthesize_cached(
+            spoken, voice, cfg, is_phonemes=is_phonemes
+        )
+        # Trim *after* the cache read, so the stored line stays whatever the engine
+        # produced and the trim policy can change without re-synthesizing anything.
+        pcm = stitch_mod.trim_edges(pcm, rate)
         pieces.append((pcm, rate, stitch_mod.clamp_pause(line.get("pause_after_ms", 300))))
         _progress(
             job_id,

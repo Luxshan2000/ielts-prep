@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300"
+     role="img" aria-label="Plan of a wetland reserve: a car park and hut at the bottom left, a boardwalk running north then east then north then east, a reedbed to the north west, a willow, a sluice at a corner, open water to the south east, and five numbered positions to be labelled.">
+  <title>Plan of the wetland reserve boardwalk</title>
+
+  <!--
+    Format B map for a Part 2 map-labelling group at QUESTIONS 11-15.
+    Recommended slot: lt_05 part 2. The numerals are the real question numbers.
+
+    Coordinates: viewBox 400x300, 0-100 label space maps x_px = x*4, y_px = y*3.
+      11 (10,74)  12 (28,74)  13 (42,70)  14 (50,44)  15 (87,49)
+
+    One continuous walk, no teleporting: out of the hut, north up the first leg
+    (11 and 12 face each other across it), right along the second leg (13 is set
+    back on the south side), left up the third leg past the sluice (14 faces the
+    willow across it), then right to the far end (15).
+
+    Two mirror pairs so "opposite" and "across from" genuinely discriminate:
+    11/12 across the first leg, and 14/willow across the third.
+
+    Printed and never an answer: the car park and hut, the reedbed, the willow,
+    the sluice, the open water.
+  -->
+
+  <defs>
+    <pattern id="wh-reeds" width="10" height="10" patternUnits="userSpaceOnUse">
+      <path d="M5 10 L5 2 M2 10 L2 5 M8 10 L8 4" stroke="#6f9a72" stroke-width="1"
+            stroke-opacity="0.7" fill="none"/>
+    </pattern>
+  </defs>
+
+  <!-- compass -->
+  <g stroke="#8b8b94" fill="#8b8b94">
+    <line x1="24" y1="34" x2="24" y2="20" stroke-width="1.6"/>
+    <polygon points="24,16 21,24 27,24"/>
+    <text x="24" y="47" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11"
+          stroke="none">N</text>
+  </g>
+
+  <!-- reserve boundary -->
+  <rect x="12" y="12" width="376" height="276" rx="10" fill="none" stroke="#8b8b94"
+        stroke-width="1.5" stroke-dasharray="6 4"/>
+
+  <!-- open water (printed landmark) -->
+  <rect x="286" y="176" width="98" height="76" rx="26" fill="#6f9bb5" fill-opacity="0.22"
+        stroke="#6f9bb5" stroke-width="1.8"/>
+  <text x="335" y="218" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12"
+        fill="#6f9bb5">Open water</text>
+
+  <!-- reedbed (printed landmark) -->
+  <rect x="24" y="96" width="152" height="56" rx="8" fill="url(#wh-reeds)" stroke="#6f9a72"
+        stroke-width="1.5"/>
+  <text x="100" y="90" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12"
+        fill="#6f9a72">Reedbed</text>
+
+  <!-- the boardwalk: one continuous walk -->
+  <polyline points="68,254 68,168 250,168 250,88 338,88 338,120"
+            fill="none" stroke="#b09a72" stroke-width="10" stroke-linejoin="round"
+            stroke-linecap="round"/>
+  <polyline points="68,254 68,168 250,168 250,88 338,88 338,120"
+            fill="none" stroke="#8b8b94" stroke-width="1" stroke-dasharray="2 6"/>
+  <text x="200" y="158" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11"
+        fill="#8b8b94">boardwalk</text>
+
+  <!-- gate at the start of the boardwalk -->
+  <line x1="56" y1="240" x2="80" y2="240" stroke="#8b8b94" stroke-width="3"/>
+  <text x="86" y="244" font-family="system-ui, sans-serif" font-size="11" fill="#8b8b94">gate</text>
+
+  <!-- car park and hut: the orientation anchor -->
+  <rect x="20" y="258" width="84" height="28" rx="4" fill="#8b8b94" fill-opacity="0.20"
+        stroke="#8b8b94" stroke-width="2"/>
+  <text x="112" y="277" font-family="system-ui, sans-serif" font-size="12" font-weight="600"
+        fill="#8b8b94">CAR PARK &amp; HUT — you start here</text>
+
+  <!-- sluice, on the corner where the boardwalk turns north -->
+  <line x1="238" y1="180" x2="262" y2="156" stroke="#6f9bb5" stroke-width="3"/>
+  <text x="266" y="182" font-family="system-ui, sans-serif" font-size="11" fill="#6f9bb5">Sluice</text>
+
+  <!-- willow (printed landmark) -->
+  <circle cx="304" cy="126" r="13" fill="#6f9a72" fill-opacity="0.28" stroke="#6f9a72"
+          stroke-width="1.8"/>
+  <line x1="304" y1="139" x2="304" y2="147" stroke="#6f9a72" stroke-width="2"/>
+  <text x="304" y="104" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11"
+        fill="#6f9a72">Willow</text>
+
+  <!-- the five numbered positions, in the order the speaker walks them -->
+  <g font-family="system-ui, sans-serif" font-size="15" font-weight="600" text-anchor="middle"
+     fill="#5b87c7">
+    <rect x="18"  y="203" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="40"  y="221">11</text>
+
+    <rect x="90"  y="203" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="112" y="221">12</text>
+
+    <rect x="146" y="191" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="168" y="209">13</text>
+
+    <rect x="178" y="113" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="200" y="131">14</text>
+
+    <rect x="326" y="128" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="348" y="146">15</text>
+  </g>
+</svg>

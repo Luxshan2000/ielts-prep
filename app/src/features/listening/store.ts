@@ -125,6 +125,14 @@ interface ListeningState {
     scriptId?: string;
     mode: AttemptMode;
   }) => Promise<string | null>;
+  /**
+   * Re-attach to an attempt that already exists on the server without creating a
+   * new one — the mock's reload path. The caller supplies what it has kept
+   * (answers, elapsed seconds, which parts have already played); the sidecar
+   * remains the authority for marking, and a PATCH merges rather than replaces,
+   * so a stale mirror can never delete an answer the server already holds.
+   */
+  adoptAttempt: (state: Omit<AttemptState, "revealed" | "submitted">) => void;
   setAnswer: (number: number, value: string) => void;
   setCurrentPart: (part: number) => void;
   tick: () => void;
@@ -382,6 +390,20 @@ export const useListeningStore = create<ListeningState>((set, get) => ({
       set({ starting: false, startError: message(err, "the attempt could not be started") });
       return null;
     }
+  },
+
+  adoptAttempt: (state) => {
+    const open = get().attempt;
+    if (open?.id === state.id) return;
+    clearAutosave();
+    pendingAnswers = {};
+    secondsSinceSync = 0;
+    set({
+      attempt: { ...state, revealed: [], submitted: false },
+      result: null,
+      submitError: null,
+      saveError: null,
+    });
   },
 
   setAnswer: (number, value) => {

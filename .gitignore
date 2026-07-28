@@ -36,3 +36,7 @@ content/core-en/staging-writing/prompts/
 # Reading staging: merged into content/core-en/data by tools/content/merge_reading.py.
 # research/, DESIGN.md and TEMPLATE.json ARE tracked — they are the authoring contract.
 content/core-en/staging-reading/tests/
+
+# Listening staging: merged into content/core-en/data by tools/content/merge_listening.py.
+# research/, DESIGN.md and TEMPLATE.json ARE tracked — they are the authoring contract.
+content/core-en/staging-listening/tests/

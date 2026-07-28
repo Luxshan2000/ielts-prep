@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 460" width="640" height="460" role="img" aria-label="Plan of a restored watermill site">
+  <g fill="none" stroke="#8a8a8a" stroke-width="2" stroke-linejoin="round">
+    <rect x="40" y="30" width="560" height="390" rx="6"/>
+    <rect x="70" y="120" width="120" height="180" rx="3"/>
+    <rect x="55" y="345" width="90" height="60" rx="3"/>
+    <path d="M300 420 V 60"/>
+    <path d="M470 40 V 410" stroke-dasharray="0"/>
+    <path d="M505 40 V 410"/>
+    <rect x="452" y="150" width="71" height="26" rx="3" fill="none"/>
+    <rect x="130" y="300" width="80" height="45" rx="3"/>
+    <rect x="350" y="300" width="80" height="45" rx="3"/>
+    <rect x="398" y="200" width="70" height="45" rx="3"/>
+    <rect x="522" y="90" width="74" height="45" rx="3"/>
+    <rect x="150" y="55" width="130" height="45" rx="3"/>
+    <path d="M270 420 h 60" stroke-width="4" stroke="#8a8a8a"/>
+    <path d="M300 448 v -22 m -8 10 l 8 -10 l 8 10" stroke-width="2"/>
+  </g>
+  <g fill="#8a8a8a" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="15" font-weight="600" text-anchor="middle">
+    <text x="170" y="216">MILL</text>
+    <text x="170" y="234">BUILDING</text>
+    <text x="100" y="381">CAR PARK</text>
+    <text x="487" y="392" transform="rotate(-90 487 392)">MILL STREAM</text>
+    <text x="487" y="140">FOOTBRIDGE</text>
+    <text x="300" y="443" font-size="16">ENTRANCE</text>
+    <g font-size="22" font-weight="700">
+      <text x="170" y="330">11</text>
+      <text x="390" y="330">12</text>
+      <text x="433" y="230">13</text>
+      <text x="559" y="120">14</text>
+      <text x="215" y="85">15</text>
+    </g>
+  </g>
+</svg>

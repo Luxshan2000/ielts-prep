@@ -1,0 +1,601 @@
+{
+  "staging_version": 1,
+  "cluster": "template",
+  "authored_by": "L-D1:design",
+  "tests": [],
+  "standalone_scripts": [
+    {
+      "id": "ls_tm_00_p2",
+      "part": 2,
+      "title": "Joining the Fairhaven allotment site",
+      "topic_id": "topic_food",
+      "accent_set": "uk",
+      "target_band": 6.0,
+      "script_json": {
+        "schema_version": 2,
+        "part": 2,
+        "title": "Joining the Fairhaven allotment site",
+        "scenario": "The coordinator of a community allotment site walks a group of new plot holders round the site plan, then runs through the practical arrangements.",
+        "accent_set": "uk",
+        "target_band": 6.0,
+        "speakers": [
+          { "id": "narrator", "name": "Narrator", "role": "narrator", "accent": "uk", "voice": "bm_george" },
+          { "id": "s1", "name": "Nadia (site coordinator)", "role": "female_1", "accent": "uk", "voice": "bf_emma" }
+        ],
+        "lines": [
+          { "speaker": "narrator", "text": "Part two. You will hear the coordinator of a community allotment site talking to a group of new plot holders on their first morning. First, you have some time to look at questions eleven to fifteen.", "pause_after_ms": 30000 },
+          { "speaker": "narrator", "text": "Now listen carefully and answer questions eleven to fifteen.", "pause_after_ms": 900 },
+          { "speaker": "s1", "text": "Right, morning everyone, and welcome to Fairhaven. I'm Nadia, I coordinate the site. Before I hand the keys out, let me walk you round the plan on your sheet, because the place is a good deal bigger than it looks from the road.", "pause_after_ms": 500 },
+          { "speaker": "s1", "text": "So. You've all come in through the gate at the bottom of the plan, past the car park. That gate is the only way in and out, and it's the point everything else gets described from. Face up the plan, with the gate behind you, and the main path runs straight ahead of you to the far end.", "pause_after_ms": 1400 },
+          { "speaker": "s1", "text": "The first thing on your left, immediately as you come through the gate, is the tool store. It's the low green building with the sloping roof, and every plot holder can borrow from it. Spades, forks, a couple of wheelbarrows.", "pause_after_ms": 900 },
+          { "speaker": "s1", "text": "Keep going up that same side and you'll come to the water trough. Now, the trough isn't on your sheet. I only mention it because it's the easiest thing on the site to find. What is on your sheet is what sits directly beyond it: the compost bays. Three of them, side by side.", "pause_after_ms": 900 },
+          { "speaker": "s1", "text": "Now cross over to the other side of the main path. Opposite the tool store there's nothing much, just the ends of the first four plots. But a bit further up, on the right, just before you get to the oak, is the notice board. Rotas, frost warnings, lost cats. It all goes up there.", "pause_after_ms": 900 },
+          { "speaker": "s1", "text": "Past the oak, still on the right-hand side, is the polytunnel. That one's shared. You book a bench in it through me, and I'll come back to how you do that.", "pause_after_ms": 800 },
+          { "speaker": "s1", "text": "And then right at the far end, backing onto the stream, is the wildlife pond. That corner used to be the bonfire area, and one or two of the older plans still show it that way, so do ignore those. It's the wildlife pond now, and it's fenced.", "pause_after_ms": 1000 },
+          { "speaker": "s1", "text": "That's the geography. Any questions about where things are? No? Good.", "pause_after_ms": 500 },
+          { "speaker": "narrator", "text": "Before you hear the rest of the talk, you have some time to look at questions sixteen to twenty.", "pause_after_ms": 30000 },
+          { "speaker": "narrator", "text": "Now listen and answer questions sixteen to twenty.", "pause_after_ms": 900 },
+          { "speaker": "s1", "text": "Right, the practical side. Keys first. You can pick a key up any weekday, but not from me, because I'm only here at weekends. You want the site secretary, and her surname is Merryfield.", "pause_after_ms": 450 },
+          { "speaker": "s1", "text": "I'll spell that, because people get it wrong. M. E. R. Y. No, sorry, it has a double R in it. Let me start again. Merryfield. M. E. double R. Y. F. I. E. L. D.", "pause_after_ms": 900 },
+          { "speaker": "s1", "text": "Now, waste. The garden-waste lorry comes round once a week. It used to be Tuesdays. Um, actually, no, sorry, from the start of this month they've moved it to Thursdays. Thursdays. So bags out by the main gate on Wednesday evening at the earliest.", "pause_after_ms": 800 },
+          { "speaker": "s1", "text": "Right, that's the waste sorted. Rent next. Everybody on this site pays an annual plot rent, and it falls due at the end of October.", "pause_after_ms": 400 },
+          { "speaker": "s1", "text": "It's twenty-four pounds a year. That's still the lowest in the borough, for what it's worth, and it covers your water and your share of the insurance.", "pause_after_ms": 800 },
+          { "speaker": "s1", "text": "Water. Now, a new tap did go on the trough a couple of years back, and that is genuinely the only work anyone has done to it. And I'll be honest with you here, the mains supply to this site is old, and in a dry August it can drop to a trickle.", "pause_after_ms": 400 },
+          { "speaker": "s1", "text": "There's talk of the council replacing the pipe. There was talk of it last year as well, so I wouldn't hold my breath. What I'd do is get a water butt on your shed. That's what actually works.", "pause_after_ms": 800 },
+          { "speaker": "s1", "text": "Last thing, and then I'll let you get on. There is a training morning, pruning, soil testing, that sort of thing, but you don't have to come to it. It's there if you want it.", "pause_after_ms": 450 },
+          { "speaker": "s1", "text": "What we do ask, and this is the one thing I'll chase you about, is that in your first month you put a marker at the end of your bed with your plot number on it. It saves an enormous amount of confusion when somebody's watering the wrong plot.", "pause_after_ms": 800 },
+          { "speaker": "s1", "text": "And that's everything from me. Grab a cup of tea, have a wander round, and if you can't find something, the notice board usually knows.", "pause_after_ms": 700 },
+          { "speaker": "narrator", "text": "That is the end of Part two. You now have half a minute to check your answers.", "pause_after_ms": 30000 }
+        ],
+        "groups": [
+          {
+            "id": "g1",
+            "type": "map_labelling",
+            "instruction": "Label the plan below. Write NO MORE THAN TWO WORDS for each answer.",
+            "questions": [11, 12, 13, 14, 15],
+            "teaching": {
+              "schema_version": 1,
+              "answer_order": "sequential",
+              "order_note": "You are not searching the plan. You are walking it with her, and each answer narrows the next.",
+              "strategy": "The gate is the only fixed point on this plan. Put your finger on it before the audio starts and keep it there: every left, right and beyond in this talk is measured from someone standing at the gate looking up the page.",
+              "preview_focus": "Find the gate and the three printed landmarks (car park, oak, stream). Decide which numbered positions are left of the path and which are right. Expect two-word place names.",
+              "watch_out": "She names landmarks to give directions from. The trough and the oak are signposts, not answers.",
+              "spatial_cues": [
+                "as you come through the gate",
+                "on your left",
+                "Keep going up that same side",
+                "directly beyond it",
+                "cross over to the other side",
+                "Opposite",
+                "on the right",
+                "just before you get to the oak",
+                "Past the oak",
+                "on the right-hand side",
+                "right at the far end",
+                "backing onto"
+              ],
+              "bank_note": null
+            }
+          },
+          {
+            "id": "g2",
+            "type": "table_completion",
+            "instruction": "Complete the table below. Write ONE WORD AND/OR A NUMBER for each answer.",
+            "questions": [16, 17, 18],
+            "teaching": {
+              "schema_version": 1,
+              "answer_order": "sequential",
+              "order_note": "Read across each row, then down. Reading column by column puts you in the wrong cell for every one of these.",
+              "strategy": "Three rows, one gap each, and the filled cells tell you what kind of thing each gap wants: a surname, a day, a figure. Fix those three slot types in the pause and you only have to catch three short bursts.",
+              "preview_focus": "Read the filled cells, not the gaps. 'any weekday' and 'end of October' are already there, so 17 is the only date-shaped gap and 18 is the only figure.",
+              "watch_out": "The unit and the label are already printed. Repeating them puts you over a one-word limit and scores zero.",
+              "spatial_cues": [],
+              "bank_note": null
+            }
+          },
+          {
+            "id": "g3",
+            "type": "multiple_choice",
+            "instruction": "Choose the correct letter, A, B or C.",
+            "questions": [19, 20],
+            "teaching": {
+              "schema_version": 1,
+              "answer_order": "sequential",
+              "order_note": "Q20's answer comes after Q19's. If you hear the training morning, the water question has already gone.",
+              "strategy": "All three options in each of these is raised out loud. Do not listen for the option's words. Listen for which one she endorses, and for the small words that quietly cancel the other two.",
+              "preview_focus": "Underline the question word in each stem: 'say about' in 19, 'must' in 20. Then read all six options, because you need them in your head before she starts, not while she is talking.",
+              "watch_out": "A proposal is not a fact and an option is not an obligation. 'There's talk of' and 'you don't have to' each kill an option in four words.",
+              "spatial_cues": [],
+              "bank_note": null
+            }
+          }
+        ],
+        "questions": [
+          {
+            "n": 11,
+            "type": "map_labelling",
+            "instruction": "Label the plan below. Write NO MORE THAN TWO WORDS for each answer.",
+            "word_limit": { "words": 2, "numbers": 0 },
+            "prompt": "______",
+            "asset": {
+              "src": "media/listening/maps/lm_allotment_site.svg",
+              "alt": "Allotment site plan: gate at the bottom, main path up the middle, an oak on the right, a stream along the top, five numbered positions."
+            },
+            "answers": [["tool store"]],
+            "cue_line_index": 4,
+            "explanation": "Predict a two-word place name, left of the path. 'The first thing on your left' announces it, and she says the tool store is immediately inside the gate. No trap here: this is the item that confirms your orientation was right. Write the two words exactly as spoken.",
+            "teaching": {
+              "schema_version": 1,
+              "prediction": {
+                "slot": "noun_phrase",
+                "cue": null,
+                "range": null,
+                "note": "First position after the gate, on the left. Expect a two-word name for a building."
+              },
+              "signpost": {
+                "phrase": "The first thing on your left",
+                "line_index": 4,
+                "kind": "imminent"
+              },
+              "answer_quote": "immediately as you come through the gate, is the tool store",
+              "paraphrase_link": null,
+              "distraction": null,
+              "form": {
+                "risk": "over_limit",
+                "note": "Two words. 'The tool store' is three, because the article counts, and it scores zero."
+              },
+              "recovery": null,
+              "option_diagnosis": null
+            }
+          },
+          {
+            "n": 12,
+            "type": "map_labelling",
+            "instruction": "Label the plan below. Write NO MORE THAN TWO WORDS for each answer.",
+            "word_limit": { "words": 2, "numbers": 0 },
+            "prompt": "______",
+            "asset": {
+              "src": "media/listening/maps/lm_allotment_site.svg",
+              "alt": "Allotment site plan: gate at the bottom, main path up the middle, an oak on the right, a stream along the top, five numbered positions."
+            },
+            "answers": [["compost bays"]],
+            "cue_line_index": 5,
+            "explanation": "The plan draws three shapes here, so predict a plural. She names the water trough first and then says outright that it is not on your sheet. The answer is what sits beyond it. A landmark given to steer you is never the label.",
+            "teaching": {
+              "schema_version": 1,
+              "prediction": {
+                "slot": "noun_plural",
+                "cue": null,
+                "range": null,
+                "note": "Three shapes are drawn at 12, so expect a plural. Same side as the tool store, further up."
+              },
+              "signpost": {
+                "phrase": "What is on your sheet is what sits directly beyond it",
+                "line_index": 5,
+                "kind": "emphasis"
+              },
+              "answer_quote": "What is on your sheet is what sits directly beyond it: the compost bays",
+              "paraphrase_link": null,
+              "distraction": {
+                "trap": "decoy_first",
+                "decoy": "water trough",
+                "decoy_line_index": 5,
+                "signal": "the trough isn't on your sheet",
+                "note": "The first place named is the reference point, not the label. Hold your pen until she says what is beyond it."
+              },
+              "form": {
+                "risk": "plural_form",
+                "note": "'Three of them' is spoken and drawn. Dropping the -s costs the mark even though you heard it."
+              },
+              "recovery": null,
+              "option_diagnosis": null
+            }
+          },
+          {
+            "n": 13,
+            "type": "map_labelling",
+            "instruction": "Label the plan below. Write NO MORE THAN TWO WORDS for each answer.",
+            "word_limit": { "words": 2, "numbers": 0 },
+            "prompt": "______",
+            "asset": {
+              "src": "media/listening/maps/lm_allotment_site.svg",
+              "alt": "Allotment site plan: gate at the bottom, main path up the middle, an oak on the right, a stream along the top, five numbered positions."
+            },
+            "answers": [["notice board", "noticeboard"]],
+            "cue_line_index": 6,
+            "explanation": "Predict a two-word place name, and this time on the right of the path. 'Just before you get to the oak' places it: the oak is printed on your plan, so it fixes 13 without you needing to know the word. Then the three examples confirm it.",
+            "teaching": {
+              "schema_version": 1,
+              "prediction": {
+                "slot": "noun_phrase",
+                "cue": null,
+                "range": null,
+                "note": "She has crossed the path, so 13 is on the right. The printed oak is the next anchor."
+              },
+              "signpost": {
+                "phrase": "just before you get to the oak",
+                "line_index": 6,
+                "kind": "imminent"
+              },
+              "answer_quote": "just before you get to the oak, is the notice board",
+              "paraphrase_link": null,
+              "distraction": null,
+              "form": {
+                "risk": "spelling",
+                "note": "Two words or one, both accepted. 'Notis' is not; the word is in your own reading vocabulary."
+              },
+              "recovery": "If 12 went past, jump here. The oak is printed on the plan and she says it aloud, so 13 re-anchors you for free.",
+              "option_diagnosis": null
+            }
+          },
+          {
+            "n": 14,
+            "type": "map_labelling",
+            "instruction": "Label the plan below. Write NO MORE THAN TWO WORDS for each answer.",
+            "word_limit": { "words": 2, "numbers": 0 },
+            "prompt": "______",
+            "asset": {
+              "src": "media/listening/maps/lm_allotment_site.svg",
+              "alt": "Allotment site plan: gate at the bottom, main path up the middle, an oak on the right, a stream along the top, five numbered positions."
+            },
+            "answers": [["polytunnel", "poly tunnel"]],
+            "cue_line_index": 7,
+            "explanation": "The route has passed the oak, so 14 is the next position on the right. 'Past the oak, still on the right-hand side' is the whole cue. Clean item, one word, and the only risk is turning what you hear into two words in the wrong place.",
+            "teaching": {
+              "schema_version": 1,
+              "prediction": {
+                "slot": "noun_singular",
+                "cue": null,
+                "range": null,
+                "note": "One shape drawn, so one thing. Right-hand side, beyond the oak."
+              },
+              "signpost": {
+                "phrase": "Past the oak, still on the right-hand side",
+                "line_index": 7,
+                "kind": "imminent"
+              },
+              "answer_quote": "Past the oak, still on the right-hand side, is the polytunnel",
+              "paraphrase_link": null,
+              "distraction": null,
+              "form": {
+                "risk": "spelling",
+                "note": "One word or two, both score, and so does a hyphen. Write it the way it sounds and move on."
+              },
+              "recovery": null,
+              "option_diagnosis": null
+            }
+          },
+          {
+            "n": 15,
+            "type": "map_labelling",
+            "instruction": "Label the plan below. Write NO MORE THAN TWO WORDS for each answer.",
+            "word_limit": { "words": 2, "numbers": 0 },
+            "prompt": "______",
+            "asset": {
+              "src": "media/listening/maps/lm_allotment_site.svg",
+              "alt": "Allotment site plan: gate at the bottom, main path up the middle, an oak on the right, a stream along the top, five numbered positions."
+            },
+            "answers": [["wildlife pond"]],
+            "cue_line_index": 8,
+            "explanation": "Last position, so predict the far end, and the stream is printed there. She names the answer, then names what the corner used to be. 'Used to be' is past tense and past tense is never the answer to a present-tense plan. Two words only.",
+            "teaching": {
+              "schema_version": 1,
+              "prediction": {
+                "slot": "noun_phrase",
+                "cue": null,
+                "range": null,
+                "note": "Only the far end is left, and the stream is printed along it. Expect two words."
+              },
+              "signpost": {
+                "phrase": "right at the far end, backing onto the stream",
+                "line_index": 8,
+                "kind": "imminent"
+              },
+              "answer_quote": "backing onto the stream, is the wildlife pond",
+              "paraphrase_link": null,
+              "distraction": {
+                "trap": "past_state",
+                "decoy": "bonfire area",
+                "decoy_line_index": 8,
+                "signal": "used to be",
+                "note": "Two names for one corner. Tense decides it: write the one attached to a present-tense verb."
+              },
+              "form": {
+                "risk": "over_limit",
+                "note": "Two words. 'The wildlife pond' is three and scores zero. Trim from the left before you write."
+              },
+              "recovery": null,
+              "option_diagnosis": null
+            }
+          },
+          {
+            "n": 16,
+            "type": "table_completion",
+            "instruction": "Complete the table below. Write ONE WORD AND/OR A NUMBER for each answer.",
+            "word_limit": { "words": 1, "numbers": 1 },
+            "prompt": "| Activity | When | Details |\n|---|---|---|\n| Key collection | any weekday | ask for **16** ______ (surname) |\n| Green waste collection | **17** ______ | leave bags by the main gate |\n| Plot rent | end of October | **18** ______ pounds a year |",
+            "answers": [["merryfield"]],
+            "cue_line_index": 13,
+            "explanation": "'(surname)' told you before the audio that this is transcription, not comprehension. 'I'll spell that' is the cue to stop listening for meaning and start writing letters. She gives it wrong once, corrects it, and spells the double R as 'double R'. Write two Rs.",
+            "teaching": {
+              "schema_version": 1,
+              "prediction": {
+                "slot": "proper_name",
+                "cue": "(surname)",
+                "range": null,
+                "note": "A name you cannot guess. Put your pen down and get ready to write single letters."
+              },
+              "signpost": {
+                "phrase": "I'll spell that",
+                "line_index": 13,
+                "kind": "dictation"
+              },
+              "answer_quote": "Merryfield. M. E. double R. Y. F. I. E. L. D.",
+              "paraphrase_link": null,
+              "distraction": {
+                "trap": "spelling_correction",
+                "decoy": "Meryfield",
+                "decoy_line_index": 13,
+                "signal": "No, sorry, it has a double R in it",
+                "note": "She restarts the spelling. Cross out what you have and take the second run; never patch the first."
+              },
+              "form": {
+                "risk": "spelling",
+                "note": "'Double R' means write two of them. Two Rs, one Y, and no capital is needed: case is not marked."
+              },
+              "recovery": "If you lost 15, the pause between the two halves is where you guess it and let it go. Do not carry it into this one.",
+              "option_diagnosis": null
+            }
+          },
+          {
+            "n": 17,
+            "type": "table_completion",
+            "instruction": "Complete the table below. Write ONE WORD AND/OR A NUMBER for each answer.",
+            "word_limit": { "words": 1, "numbers": 1 },
+            "prompt": "| Activity | When | Details |\n|---|---|---|\n| Key collection | any weekday | ask for **16** ______ (surname) |\n| Green waste collection | **17** ______ | leave bags by the main gate |\n| Plot rent | end of October | **18** ______ pounds a year |",
+            "answers": [["thursday", "thursdays"]],
+            "cue_line_index": 14,
+            "explanation": "The 'When' column told you to expect a day. The printed 'Green waste' is never spoken: she says 'the garden-waste lorry', so a learner waiting for the printed words hears nothing. Then she gives Tuesdays and takes it back. The last day named for that slot is the answer.",
+            "teaching": {
+              "schema_version": 1,
+              "prediction": {
+                "slot": "date",
+                "cue": "When",
+                "range": "a day of the week",
+                "note": "The other two rows already print their timings, so this gap is the only date-shaped one."
+              },
+              "signpost": {
+                "phrase": "Um, actually, no, sorry",
+                "line_index": 14,
+                "kind": "correction"
+              },
+              "answer_quote": "from the start of this month they've moved it to Thursdays",
+              "paraphrase_link": {
+                "printed": "Green waste collection",
+                "audio": "The garden-waste lorry"
+              },
+              "distraction": {
+                "trap": "self_correction",
+                "trap_2": "synonym_only",
+                "decoy": "Tuesday",
+                "decoy_line_index": 14,
+                "signal": "Um, actually, no, sorry",
+                "note": "Write Tuesday if you must, but keep listening until she changes topic. The last value stated wins."
+              },
+              "form": {
+                "risk": "spelling",
+                "note": "Thursday has an r after the u. Singular and plural both score here, so pick one and do not write both."
+              },
+              "recovery": "If you missed the day, do not hunt. The next row is the rent, and she says the word 'Rent' out loud to open it.",
+              "option_diagnosis": null
+            }
+          },
+          {
+            "n": 18,
+            "type": "table_completion",
+            "instruction": "Complete the table below. Write ONE WORD AND/OR A NUMBER for each answer.",
+            "word_limit": { "words": 1, "numbers": 1 },
+            "prompt": "| Activity | When | Details |\n|---|---|---|\n| Key collection | any weekday | ask for **16** ______ (surname) |\n| Green waste collection | **17** ______ | leave bags by the main gate |\n| Plot rent | end of October | **18** ______ pounds a year |",
+            "answers": [["24"]],
+            "cue_line_index": 16,
+            "explanation": "'pounds a year' is already printed, so predict a bare figure in the tens. 'Rent next' opens the section and the figure arrives in the first clause of the following line. Clean item: no second number is offered. Write 24 and nothing else.",
+            "teaching": {
+              "schema_version": 1,
+              "prediction": {
+                "slot": "quantity",
+                "cue": "pounds a year",
+                "range": "10 to 60",
+                "note": "The unit is printed, so only the number is wanted. An annual allotment rent is tens, not hundreds."
+              },
+              "signpost": {
+                "phrase": "Rent next",
+                "line_index": 15,
+                "kind": "structure"
+              },
+              "answer_quote": "It's twenty-four pounds a year",
+              "paraphrase_link": null,
+              "distraction": null,
+              "form": {
+                "risk": "over_limit",
+                "note": "24 and twenty-four both score. '24 pounds' does not, because the frame already prints the unit."
+              },
+              "recovery": "If the figure went past, she opens the next section with the single word 'Water'. Move your eyes to 19 and wait for it.",
+              "option_diagnosis": null
+            }
+          },
+          {
+            "n": 19,
+            "type": "multiple_choice",
+            "instruction": "Choose the correct letter, A, B or C.",
+            "word_limit": null,
+            "prompt": "What does the coordinator say about the site's water supply?",
+            "options": {
+              "A": "It has recently been improved.",
+              "B": "It is unreliable in dry weather.",
+              "C": "The council will replace the pipe this year."
+            },
+            "answers": [["B"]],
+            "cue_line_index": 17,
+            "explanation": "Predict a letter and expect all three to be spoken. 'I'll be honest with you here' marks the endorsed one, and the endorsement is 'old' plus 'can drop to a trickle in a dry August'. The pipe is only talked about, and it was talked about last year too.",
+            "teaching": {
+              "schema_version": 1,
+              "prediction": {
+                "slot": "letter",
+                "cue": null,
+                "range": null,
+                "note": "All three will be raised. Listen for the one she stands behind, not the ones she mentions."
+              },
+              "signpost": {
+                "phrase": "I'll be honest with you here",
+                "line_index": 17,
+                "kind": "emphasis"
+              },
+              "answer_quote": "in a dry August it can drop to a trickle",
+              "paraphrase_link": {
+                "printed": "unreliable in dry weather",
+                "audio": "in a dry August it can drop to a trickle"
+              },
+              "distraction": {
+                "trap": "hypothetical_only",
+                "trap_2": "all_options_named",
+                "decoy": "C",
+                "decoy_line_index": 18,
+                "signal": "There's talk of",
+                "note": "A plan is not a fact. When you hear 'there's talk of', mark that option dead and keep the one already stated."
+              },
+              "form": null,
+              "recovery": "If you are still weighing this one, stop. Her next word is 'Last thing', which opens question 20.",
+              "option_diagnosis": [
+                {
+                  "key": "A",
+                  "why_tempting": "A new tap genuinely did go on, 'a couple of years back', and a learner scanning for any sign of work done hears an upgrade and stops there.",
+                  "why_wrong": "One tap is not the supply. She calls the mains itself old in the next clause, and names the tap as the only work anyone has done to it.",
+                  "heard_at": 17
+                },
+                {
+                  "key": "C",
+                  "why_tempting": "The council and the pipe are both named, in the option's own words, seconds after the real answer.",
+                  "why_wrong": "'There's talk of it' is a proposal, and she adds that the same talk happened last year.",
+                  "heard_at": 18
+                }
+              ]
+            }
+          },
+          {
+            "n": 20,
+            "type": "multiple_choice",
+            "instruction": "Choose the correct letter, A, B or C.",
+            "word_limit": null,
+            "prompt": "What must new plot holders do in their first month?",
+            "options": {
+              "A": "attend a training morning",
+              "B": "display their plot number",
+              "C": "book a bench in the polytunnel"
+            },
+            "answers": [["B"]],
+            "cue_line_index": 20,
+            "explanation": "The stem's word is 'must', so predict an obligation and expect optional things to be offered too. 'What we do ask' is the endorsement marker. The training morning is cancelled by four unstressed words: 'you don't have to come to it'.",
+            "teaching": {
+              "schema_version": 1,
+              "prediction": {
+                "slot": "letter",
+                "cue": null,
+                "range": null,
+                "note": "The stem says 'must'. Two of these three will be offered as things you may do, not things you have to."
+              },
+              "signpost": {
+                "phrase": "What we do ask",
+                "line_index": 20,
+                "kind": "emphasis"
+              },
+              "answer_quote": "you put a marker at the end of your bed with your plot number on it",
+              "paraphrase_link": {
+                "printed": "display their plot number",
+                "audio": "put a marker at the end of your bed with your plot number on it"
+              },
+              "distraction": {
+                "trap": "negated_fact",
+                "decoy": "A",
+                "decoy_line_index": 19,
+                "signal": "you don't have to come to it",
+                "note": "One unstressed 'don't' decides this item. Mark negatives in the preview so your ear is already looking for them."
+              },
+              "form": null,
+              "recovery": "Nothing follows this one, so if 19 went past, guess it in the check step from the slot type. Never leave a box empty.",
+              "option_diagnosis": [
+                {
+                  "key": "A",
+                  "why_tempting": "The training morning is named in the sentence immediately before the answer, and induction training sounds compulsory.",
+                  "why_wrong": "'You don't have to come to it. It's there if you want it.' It is offered, not required.",
+                  "heard_at": 19
+                },
+                {
+                  "key": "C",
+                  "why_tempting": "She promised in the first half to come back to how you book a bench and never did, so it feels like unfinished business.",
+                  "why_wrong": "Booking a bench is how you use the polytunnel. It is not attached to the first month or to any obligation.",
+                  "heard_at": 7
+                }
+              ]
+            }
+          }
+        ],
+        "teaching": {
+          "schema_version": 1,
+          "what_makes_this_hard": {
+            "levers": ["cue_answer_distance", "distraction_density", "paraphrase_distance"],
+            "note": "A single voice with no interlocutor to ask for repeats. Four of the ten answers arrive after a landmark that is not itself an answer, so the gap between the cue and the answer is a clause or more.",
+            "hardest_question": 12,
+            "why_hardest": "The trough is named, described and dismissed before the answer arrives. A learner who writes on the first place name loses it."
+          },
+          "pre_teach": [
+            { "item": "plot holder", "gloss": "someone who rents a piece of the allotment site", "line_index": 4, "blocks_q": 20 },
+            { "item": "compost bays", "gloss": "open bins where garden waste is left to rot down", "line_index": 5, "blocks_q": 12 },
+            { "item": "just before you get to", "gloss": "you reach this first, and the landmark second", "line_index": 6, "blocks_q": 13 },
+            { "item": "polytunnel", "gloss": "a long plastic-covered tunnel for growing plants", "line_index": 7, "blocks_q": 14 },
+            { "item": "backing onto", "gloss": "with its back against; right up beside", "line_index": 8, "blocks_q": 15 },
+            { "item": "site secretary", "gloss": "the person who handles the paperwork and the keys", "line_index": 12, "blocks_q": 16 },
+            { "item": "water butt", "gloss": "a barrel that collects rainwater off a roof", "line_index": 18, "blocks_q": 19 },
+            { "item": "chase you about", "gloss": "keep reminding you until you do it", "line_index": 20, "blocks_q": 20 }
+          ],
+          "pause_plan": {
+            "blocks": [
+              { "questions": [11, 15], "orient_line_index": 0, "preview_line_index": 0, "preview_ms": 30000, "cue_line_index": 1 },
+              { "questions": [16, 20], "orient_line_index": null, "preview_line_index": 10, "preview_ms": 30000, "cue_line_index": 11 }
+            ],
+            "close_line_index": 22,
+            "check_ms": 30000,
+            "whole_test_intro": false
+          },
+          "signpost_map": [
+            { "line_index": 4, "phrase": "The first thing on your left", "kind": "imminent" },
+            { "line_index": 5, "phrase": "What is on your sheet is what sits directly beyond it", "kind": "emphasis" },
+            { "line_index": 6, "phrase": "just before you get to the oak", "kind": "imminent" },
+            { "line_index": 7, "phrase": "Past the oak, still on the right-hand side", "kind": "imminent" },
+            { "line_index": 8, "phrase": "right at the far end, backing onto the stream", "kind": "imminent" },
+            { "line_index": 9, "phrase": "That's the geography", "kind": "structure" },
+            { "line_index": 12, "phrase": "Right, the practical side", "kind": "structure" },
+            { "line_index": 13, "phrase": "I'll spell that", "kind": "dictation" },
+            { "line_index": 14, "phrase": "Um, actually, no, sorry", "kind": "correction" },
+            { "line_index": 15, "phrase": "Rent next", "kind": "structure" },
+            { "line_index": 17, "phrase": "I'll be honest with you here", "kind": "emphasis" },
+            { "line_index": 19, "phrase": "Last thing, and then I'll let you get on", "kind": "structure" },
+            { "line_index": 20, "phrase": "What we do ask", "kind": "emphasis" }
+          ],
+          "accent_note": null,
+          "metrics": {
+            "spoken_words": 706,
+            "words_per_answer": 71,
+            "trapped_items": 6,
+            "clean_items": 4,
+            "spelled_out_answers": 1,
+            "speakers": 1,
+            "longest_line_chars": 284
+          }
+        }
+      },
+      "audio_hash": null
+    }
+  ],
+  "updates": [],
+  "assets": ["media/listening/maps/lm_allotment_site.svg"]
+}

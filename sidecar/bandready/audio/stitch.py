@@ -12,12 +12,24 @@ Invariants the rest of the module relies on:
 * line offsets are computed from **sample counts**, never by summing float durations,
   so ``timing.json`` never drifts from the audio the browser plays;
 * pauses are clamped to ``[0, MAX_PAUSE_MS]`` (07 §2) before any maths happens.
+
+One thing that looks like an invariant and is not: **an authored pause is a lower bound
+unless the caller trims.** L-R4 §7.4 measured Kokoro's own residual silence per voice at
+97–538 ms of trailing and 35–103 ms of leading dead air *after* its internal ``trim=True``,
+so ``pause_after_ms: 300`` rendered as anything from 434 ms to 941 ms depending on which
+voice happened to be speaking, and ``pause_after_ms: 0`` — the latched interruption — was
+never latched at all. Worse for the coach: that residual sits inside the line's
+``start_ms``/``end_ms``, so a click-to-replay computed from ``timing.json`` opened on up to
+half a second of nothing. :func:`trim_edges` is the fix, and the render path applies it per
+line before stitching; offsets stay sample-accurate because they are measured after the
+trim, not adjusted afterwards.
 """
 
 from __future__ import annotations
 
 import json
 import math
+import re
 from collections.abc import Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -28,6 +40,20 @@ import soundfile as sf
 
 TARGET_RATE = 24_000
 MAX_PAUSE_MS = 60_000
+
+#: Silence left at each end of a line by :func:`trim_edges`. Not zero: a hard cut on the
+#: first sample above threshold clips the attack of a plosive and sounds like a dropout,
+#: and 40 ms is below the ~50 ms at which a gap becomes audible as a gap.
+EDGE_SILENCE_MS = 40
+
+#: A sample counts as voiced when it exceeds this fraction of the line's own peak. Relative
+#: rather than absolute because line loudness is not normalised until after concatenation;
+#: −40 dB below peak keeps breath and fricative tails and drops the engine's noise floor.
+EDGE_THRESHOLD_RATIO = 0.01
+
+#: …but never trim against a threshold below this, so a line that is *entirely* near-silent
+#: (mock mode renders pure zeros) is left exactly as it is rather than collapsed to nothing.
+EDGE_THRESHOLD_FLOOR = 1e-4
 
 #: Target integrated level and true-peak ceiling, mirroring the intent of the doc's
 #: ``loudnorm=I=-16:TP=-1.5`` without needing ffmpeg. Single-pass RMS gain + peak clamp.
@@ -126,6 +152,47 @@ def silence(ms: float, rate: int = TARGET_RATE) -> np.ndarray:
 
 def duration_ms(pcm: np.ndarray, rate: int = TARGET_RATE) -> int:
     return samples_to_ms(int(np.asarray(pcm).reshape(-1).shape[0]), rate)
+
+
+def trim_edges(
+    pcm: np.ndarray,
+    rate: int = TARGET_RATE,
+    *,
+    edge_ms: int = EDGE_SILENCE_MS,
+    ratio: float = EDGE_THRESHOLD_RATIO,
+) -> np.ndarray:
+    """Cut a line's leading and trailing silence back to a fixed ``edge_ms`` floor.
+
+    This is what makes ``pause_after_ms`` mean what it says (L-R4 §7.4, C-7). Kokoro's
+    residual silence is voice-dependent by up to ~800 ms, so without this the same
+    authored pause renders as a different gap depending on the cast — and the per-line
+    ``start_ms``/``end_ms`` the coach replays from are padded by that residual, which is
+    how a "replay the answer" button lands on dead air.
+
+    Two deliberate refusals:
+
+    * a buffer whose peak is at or below :data:`EDGE_THRESHOLD_FLOOR` is returned
+      **untouched**. That is the mock provider's pure-silence line, and collapsing it to
+      nothing would turn a mock render into "the TTS provider returned no audio";
+    * nothing is ever *added*. A line that is already tighter than ``edge_ms`` keeps its
+      own onset, because padding it back out would undo the point.
+    """
+    audio = to_mono(pcm)
+    if audio.size == 0:
+        return audio
+    peak = float(np.max(np.abs(audio)))
+    if peak <= EDGE_THRESHOLD_FLOOR:
+        return audio
+    threshold = max(EDGE_THRESHOLD_FLOOR, peak * float(ratio))
+    voiced = np.flatnonzero(np.abs(audio) > threshold)
+    if voiced.size == 0:  # pragma: no cover — implied by the peak guard above
+        return audio
+    pad = ms_to_samples(max(0, edge_ms), rate)
+    start = max(0, int(voiced[0]) - pad)
+    end = min(audio.size, int(voiced[-1]) + 1 + pad)
+    if start == 0 and end == audio.size:
+        return audio
+    return np.ascontiguousarray(audio[start:end], dtype=np.float32)
 
 
 def normalize_loudness(
@@ -259,9 +326,41 @@ def write_timing(path: Path | str, document: dict[str, Any]) -> int:
     return target.stat().st_size
 
 
-def estimate_speech_ms(text: str, chars_per_second: float = 15.0) -> int:
-    """The doc's chars/15 heuristic — used for mock synthesis and lint bounds (07 §10)."""
-    chars = len((text or "").strip())
-    if not chars:
+#: Measured chars/second for ordinary prose (L-R4 §7.5: 15.3 cps at 113 characters rising to
+#: 18.3 at 900+; the doc's flat 15 is the short-line figure and over-estimates long lines).
+PROSE_CPS = 17.0
+
+#: How many characters of prose one *spoken-out* character is worth. A digit and a dotted
+#: letter are each a whole stressed syllable — ``0384`` is "zero three eight four" — so they
+#: take far longer than their width on the page suggests.
+#:
+#: Fitted to two measurements: ``"Call 0117 496 0384."`` took 4.87 s for 19 characters
+#: (3.9 cps) and ``"at 6.30 pm"`` took 1.82 s for 10 (5.5 cps), against ~19 cps for a long
+#: prose clause. A weight of six reproduces both to within about half a second, and the flat
+#: rate it replaces was out by up to four times on exactly the lines Part 1 is built from.
+SLOW_CHAR_WEIGHT = 6.0
+
+_SPOKEN_SLOWLY = re.compile(r"[0-9]|(?<![A-Za-z])[A-Za-z]\.")
+
+
+def estimate_speech_ms(text: str, chars_per_second: float | None = None) -> int:
+    """Predicted spoken duration — mock synthesis, and any lint bound that needs one.
+
+    Digits and dotted spelled-aloud letters are counted at :data:`SLOW_CHAR_WEIGHT` times
+    their width; everything else at :data:`PROSE_CPS`. The distinction exists because the
+    07 §10 flat rate made a phone number look like the shortest line in the script when it
+    is one of the longest, and any timing gate built on it would have passed parts that run
+    minutes over.
+
+    Passing ``chars_per_second`` restores the old flat behaviour for a caller that wants a
+    single rate. Nothing in the app does.
+    """
+    body = (text or "").strip()
+    if not body:
         return 0
-    return math.ceil(chars / max(1.0, chars_per_second) * 1000.0)
+    if chars_per_second is not None:
+        return math.ceil(len(body) / max(1.0, chars_per_second) * 1000.0)
+    slow = len(_SPOKEN_SLOWLY.findall(body))
+    fast = max(0, len(body) - slow)
+    effective = fast + slow * SLOW_CHAR_WEIGHT
+    return math.ceil(effective / PROSE_CPS * 1000.0)

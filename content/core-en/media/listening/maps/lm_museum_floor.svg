@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 460" width="640" height="460" role="img" aria-label="Ground-floor plan of a small museum">
+  <g fill="none" stroke="#8a8a8a" stroke-width="2" stroke-linejoin="round">
+    <rect x="40" y="30" width="560" height="390" rx="6"/>
+    <rect x="250" y="350" width="100" height="50" rx="3"/>
+    <rect x="120" y="300" width="110" height="50" rx="3"/>
+    <rect x="370" y="300" width="110" height="50" rx="3"/>
+    <rect x="200" y="60" width="130" height="70" rx="3"/>
+    <rect x="450" y="60" width="140" height="70" rx="3"/>
+    <rect x="470" y="320" width="120" height="70" rx="3"/>
+    <rect x="500" y="160" width="70" height="55" rx="3"/>
+    <rect x="500" y="235" width="70" height="55" rx="3"/>
+    <rect x="200" y="150" width="230" height="140" rx="3" stroke-dasharray="7 6"/>
+    <path d="M300 420 V 300"/>
+    <path d="M270 420 h 60" stroke-width="4"/>
+    <path d="M300 448 v -22 m -8 10 l 8 -10 l 8 10" stroke-width="2"/>
+  </g>
+  <g fill="#8a8a8a" font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="15" font-weight="600" text-anchor="middle">
+    <text x="300" y="380">RECEPTION</text>
+    <text x="315" y="215">COURTYARD</text>
+    <text x="535" y="193">STAIRS</text>
+    <text x="535" y="268">LIFT</text>
+    <text x="300" y="443" font-size="16">ENTRANCE</text>
+    <g font-size="22" font-weight="700">
+      <text x="175" y="332">11</text>
+      <text x="425" y="332">12</text>
+      <text x="265" y="102">13</text>
+      <text x="520" y="102">14</text>
+      <text x="530" y="362">15</text>
+    </g>
+  </g>
+</svg>

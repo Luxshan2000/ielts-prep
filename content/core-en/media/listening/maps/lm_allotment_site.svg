@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300"
+     role="img" aria-label="Plan of a community allotment site: the gate and car park at the bottom, a main path running straight up the middle to a stream along the top, a water trough on the left and an oak on the right, and five numbered positions to be labelled.">
+  <title>Plan of the allotment site</title>
+
+  <!--
+    Drawn for TEMPLATE.json (ls_tm_00_p2, questions 11-15) and for nothing else.
+    Format B: numbered gaps carry the real question numbers, so the numerals here
+    are load-bearing. If the group ever moves, edit the five <text> nodes.
+
+    Coordinates: viewBox is 400x300 and the 0-100 label space used by the reading
+    diagrams maps as x_px = x * 4, y_px = y * 3. The five gaps sit at
+      11 (28,80)  12 (28,45)  13 (72,58)  14 (72,28)  15 (34,16)
+    which is the order the coordinator walks them in the script.
+
+    DELIBERATELY UNNAMED: every numbered position. The four printed landmarks
+    (gate, car park, water trough, oak) and the stream are reference points the
+    speaker gives directions FROM, and none of them is ever an answer.
+
+    Greys are mid-tone so the plan reads on the light and the dark theme from one
+    asset. No external references, no raster.
+  -->
+
+  <defs>
+    <pattern id="al-plots" width="14" height="14" patternUnits="userSpaceOnUse">
+      <path d="M0 14 L14 0" stroke="#8b8b94" stroke-width="1" stroke-opacity="0.45"/>
+    </pattern>
+  </defs>
+
+  <!-- site boundary -->
+  <rect x="20" y="18" width="360" height="264" rx="8" fill="none" stroke="#8b8b94" stroke-width="2"/>
+
+  <!-- the stream along the top (printed landmark, never an answer) -->
+  <path d="M24 32 q22 -8 44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0 t44 0"
+        fill="none" stroke="#6f9bb5" stroke-width="4"/>
+  <text x="358" y="26" text-anchor="end" font-family="system-ui, sans-serif" font-size="12"
+        fill="#6f9bb5">Stream</text>
+
+  <!-- the main path: the spine every direction is measured along -->
+  <rect x="180" y="44" width="40" height="226" fill="#8b8b94" fill-opacity="0.13"
+        stroke="#8b8b94" stroke-width="1" stroke-dasharray="1 3"/>
+  <text x="200" y="160" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11"
+        fill="#8b8b94" transform="rotate(-90 200 160)">main path</text>
+
+  <!-- the gate: the orientation anchor, and the only way in -->
+  <rect x="176" y="268" width="48" height="16" rx="3" fill="#8b8b94" fill-opacity="0.30"
+        stroke="#8b8b94" stroke-width="2"/>
+  <text x="234" y="280" font-family="system-ui, sans-serif" font-size="12" font-weight="600"
+        fill="#8b8b94">GATE — you are here</text>
+
+  <!-- car park, outside the gate -->
+  <rect x="150" y="286" width="100" height="10" rx="2" fill="none" stroke="#8b8b94"
+        stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="146" y="295" text-anchor="end" font-family="system-ui, sans-serif" font-size="11"
+        fill="#8b8b94">Car park</text>
+
+  <!-- the ends of the first four plots, opposite position 11 -->
+  <rect x="232" y="226" width="68" height="36" fill="url(#al-plots)" stroke="#8b8b94"
+        stroke-width="1.2"/>
+  <text x="306" y="248" font-family="system-ui, sans-serif" font-size="11" fill="#8b8b94">plots</text>
+
+  <!-- water trough (printed landmark, never an answer) -->
+  <rect x="106" y="178" width="28" height="14" rx="3" fill="#6f9bb5" fill-opacity="0.25"
+        stroke="#6f9bb5" stroke-width="1.5"/>
+  <text x="100" y="189" text-anchor="end" font-family="system-ui, sans-serif" font-size="11"
+        fill="#6f9bb5">Water trough</text>
+
+  <!-- the oak (printed landmark, never an answer) -->
+  <circle cx="288" cy="132" r="13" fill="#6f9a72" fill-opacity="0.28" stroke="#6f9a72"
+          stroke-width="1.8"/>
+  <line x1="288" y1="145" x2="288" y2="152" stroke="#6f9a72" stroke-width="2"/>
+  <text x="308" y="136" font-family="system-ui, sans-serif" font-size="11" fill="#6f9a72">Oak</text>
+
+  <!-- the five numbered gaps, in the order the speaker walks them -->
+  <g font-family="system-ui, sans-serif" font-size="15" font-weight="600" text-anchor="middle"
+     fill="#5b87c7">
+    <rect x="90"  y="227" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="112" y="245">11</text>
+
+    <rect x="90"  y="122" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="112" y="140">12</text>
+
+    <rect x="266" y="161" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="288" y="179">13</text>
+
+    <rect x="266" y="71"  width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="288" y="89">14</text>
+
+    <rect x="114" y="35"  width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="136" y="53">15</text>
+  </g>
+</svg>

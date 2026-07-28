@@ -9,10 +9,12 @@ import { Outlet, useNavigate } from "react-router-dom";
 import {
   AlertTriangle,
   Globe2,
+  GraduationCap,
   Headphones,
   Library,
   ListChecks,
   RefreshCw,
+  Timer,
 } from "lucide-react";
 import {
   Badge,
@@ -103,6 +105,52 @@ export function ListeningHome() {
         </div>
 
         <SpellingNotice />
+
+        {/*
+          The two rooms either side of practice: the coach, where a part is studied
+          and its transcript replayed line by line, and the mock, where nothing
+          explains anything until it is over. Both sit above the library because a
+          learner who only ever presses "start test" never gets past their plateau.
+        */}
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="flex flex-col justify-between gap-3 rounded-xl border border-border bg-card p-4">
+            <div className="space-y-1">
+              <h2 className="flex items-center gap-2 text-sm font-semibold">
+                <GraduationCap className="h-4 w-4 text-primary" aria-hidden="true" />
+                Listening coach
+              </h2>
+              <p className="text-[13px] leading-6 text-muted-foreground">
+                Study one part: what it is built to cost you, what to predict in each gap before a
+                word is spoken, and — once you have answered it — every line of the script, each one
+                playable on a click.
+              </p>
+            </div>
+            <div>
+              <Button variant="outline" onClick={() => navigate("/listening/coach")}>
+                Open the coach
+              </Button>
+            </div>
+          </div>
+
+          <div className="flex flex-col justify-between gap-3 rounded-xl border border-border bg-card p-4">
+            <div className="space-y-1">
+              <h2 className="flex items-center gap-2 text-sm font-semibold">
+                <Timer className="h-4 w-4 text-warning" aria-hidden="true" />
+                Mock paper
+              </h2>
+              <p className="text-[13px] leading-6 text-muted-foreground">
+                Four parts, forty questions, played once, one clock. The audio is generated before
+                the clock starts, no coaching is reachable while it runs, and the report ends by
+                sending you back into the coach for the parts you just sat.
+              </p>
+            </div>
+            <div>
+              <Button variant="outline" onClick={() => navigate("/listening/mock")}>
+                Sit a mock paper
+              </Button>
+            </div>
+          </div>
+        </div>
 
         {(testsError || scriptsError) && (
           <div
@@ -218,14 +266,24 @@ export function ListeningHome() {
                         {script.questions} questions · {script.audio.accent_label}
                       </p>
                     </div>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      disabled={!script.audio.ready}
-                      onClick={() => navigate(`/listening/part/${script.id}?mode=practice`)}
-                    >
-                      Practise
-                    </Button>
+                    <span className="flex shrink-0 items-center gap-2">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => navigate(`/listening/coach/${script.id}`)}
+                      >
+                        <GraduationCap className="h-3.5 w-3.5" aria-hidden="true" />
+                        Study
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={!script.audio.ready}
+                        onClick={() => navigate(`/listening/part/${script.id}?mode=practice`)}
+                      >
+                        Practise
+                      </Button>
+                    </span>
                   </div>
                   <PrepareAudioPanel
                     targetId={script.id}

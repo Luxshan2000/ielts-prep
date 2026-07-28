@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300"
+     role="img" aria-label="Cross-section of a stacked worm composter: a lid on top, three trays, a tapered base standing on legs with an outlet on the right, and five numbered parts to be labelled.">
+  <title>Cross-section of a worm composter</title>
+
+  <!--
+    Format B diagram for a Part 4 diagram-labelling group at QUESTIONS 36-40.
+    Recommended slot: lt_04 part 4. The numerals are the real question numbers.
+
+    Coordinates: viewBox 400x300, 0-100 label space maps x_px = x*4, y_px = y*3.
+      36 (50,27)  37 (14,40)  38 (85,55)  39 (50,79)  40 (87,79)
+
+    Read top to bottom, which is the order a lecturer describes it in and
+    therefore the order of the recording: the covering inside the top tray, the
+    openings in the side wall, the layer the worms pass through, the space where
+    liquid gathers, and the fitting it is drawn off by.
+
+    Printed and never an answer: the lid, the lower tray, the legs.
+  -->
+
+  <g stroke="#8b8b94" fill="none" stroke-width="1.8">
+    <!-- lid (printed) -->
+    <rect x="104" y="30" width="192" height="18" rx="4" fill="#8b8b94" fill-opacity="0.18"/>
+    <!-- three trays -->
+    <rect x="110" y="52"  width="180" height="56"/>
+    <rect x="110" y="110" width="180" height="54"/>
+    <rect x="110" y="166" width="180" height="48"/>
+    <!-- tapered base -->
+    <path d="M110 216 L290 216 L272 262 L128 262 Z"/>
+    <!-- legs (printed) -->
+    <line x1="142" y1="262" x2="134" y2="286" stroke-width="3"/>
+    <line x1="258" y1="262" x2="266" y2="286" stroke-width="3"/>
+    <!-- the outlet fitting on the right of the base -->
+    <rect x="290" y="232" width="20" height="12" rx="2" fill="#8b8b94" fill-opacity="0.20"/>
+    <line x1="310" y1="238" x2="318" y2="250"/>
+  </g>
+
+  <!-- the covering across the top of the bedding in the upper tray -->
+  <path d="M118 66 q15 -6 30 0 t30 0 t30 0 t30 0 t30 0 t30 0"
+        fill="none" stroke="#6f9a72" stroke-width="3"/>
+
+  <!-- openings in the side wall of the working tray -->
+  <g fill="#8b8b94" fill-opacity="0.85">
+    <circle cx="110" cy="120" r="3"/>
+    <circle cx="110" cy="132" r="3"/>
+    <circle cx="110" cy="144" r="3"/>
+  </g>
+
+  <!-- the layer between the working tray and the tray beneath it -->
+  <line x1="110" y1="165" x2="290" y2="165" stroke="#8b8b94" stroke-width="2.4"
+        stroke-dasharray="3 3"/>
+
+  <!-- liquid gathering in the base -->
+  <path d="M124 250 L276 250" stroke="#6f9bb5" stroke-width="3"/>
+
+  <!-- printed labels -->
+  <g font-family="system-ui, sans-serif" font-size="11" fill="#8b8b94">
+    <line x1="300" y1="39" x2="318" y2="39" stroke="#8b8b94" stroke-width="1"/>
+    <text x="322" y="43">Lid</text>
+    <line x1="100" y1="190" x2="110" y2="190" stroke="#8b8b94" stroke-width="1"/>
+    <text x="96" y="194" text-anchor="end">Lower tray</text>
+    <text x="130" y="296" text-anchor="middle">Legs</text>
+  </g>
+
+  <!-- the five numbered parts, top to bottom -->
+  <g font-family="system-ui, sans-serif" font-size="15" font-weight="600" text-anchor="middle"
+     fill="#5b87c7">
+    <line x1="200" y1="74" x2="200" y2="68" stroke="#5b87c7" stroke-width="1.2"/>
+    <rect x="178" y="74" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="200" y="92">36</text>
+
+    <line x1="78" y1="120" x2="106" y2="130" stroke="#5b87c7" stroke-width="1.2"/>
+    <rect x="34" y="107" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="56" y="125">37</text>
+
+    <line x1="294" y1="165" x2="318" y2="165" stroke="#5b87c7" stroke-width="1.2"/>
+    <rect x="318" y="152" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="340" y="170">38</text>
+
+    <rect x="178" y="225" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="200" y="243">39</text>
+
+    <line x1="312" y1="238" x2="326" y2="238" stroke="#5b87c7" stroke-width="1.2"/>
+    <rect x="326" y="225" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="348" y="243">40</text>
+  </g>
+</svg>

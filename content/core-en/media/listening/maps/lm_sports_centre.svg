@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300"
+     role="img" aria-label="Two floor plans side by side for a sports centre: the ground floor on the left with the main entrance, reception and the swimming pool, the first floor on the right with a cafe, one staircase joining them, and five numbered rooms to be labelled.">
+  <title>Plans of the sports centre, two floors</title>
+
+  <!--
+    Format B map for a map-labelling group at QUESTIONS 21-25.
+    Recommended slot: lt_05 part 3 (two students deciding where things go).
+    The numerals are the real question numbers.
+
+    Coordinates: viewBox 400x300, 0-100 label space maps x_px = x*4, y_px = y*3.
+      21 (12,76)  22 (12,58)  23 (38,32)  24 (62,58)  25 (62,79)
+
+    The walk: in at the main entrance, past reception, north up the ground-floor
+    corridor (21 then 22, both on the left; 22 faces the pool across the
+    corridor), on to 23 at the far end, then up the stairs and south down the
+    first-floor corridor (24 faces the cafe, then 25 further along).
+
+    THE LEXICAL TRAP THIS PLAN EXISTS FOR: the entrance level is drawn and
+    labelled GROUND FLOOR and the level above it FIRST FLOOR, which is British
+    and Australian usage. In American usage the entrance level is the first
+    floor. The plan states it; the item punishes the learner who assumes.
+
+    Printed and never an answer: the main entrance, reception, the swimming
+    pool, the cafe, the stairs.
+  -->
+
+  <!-- the staircase link, drawn first so everything sits over it -->
+  <line x1="120" y1="76" x2="282" y2="76" stroke="#8b8b94" stroke-width="1.4"
+        stroke-dasharray="4 5" stroke-opacity="0.7"/>
+
+  <!-- ground floor -->
+  <rect x="16" y="44" width="170" height="240" rx="6" fill="none" stroke="#8b8b94" stroke-width="2"/>
+  <text x="101" y="34" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13"
+        font-weight="600" fill="#8b8b94">GROUND FLOOR</text>
+
+  <rect x="92" y="60" width="24" height="224" fill="#8b8b94" fill-opacity="0.13"
+        stroke="#8b8b94" stroke-width="1" stroke-dasharray="1 3"/>
+
+  <rect x="88" y="60" width="32" height="32" rx="3" fill="#8b8b94" fill-opacity="0.24"
+        stroke="#8b8b94" stroke-width="1.6"/>
+  <text x="104" y="80" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10"
+        fill="#8b8b94">Stairs</text>
+
+  <rect x="24" y="252" width="60" height="30" rx="4" fill="none" stroke="#8b8b94" stroke-width="1.5"/>
+  <text x="54" y="271" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11"
+        fill="#8b8b94">Reception</text>
+
+  <rect x="124" y="130" width="58" height="90" rx="6" fill="#6f9bb5" fill-opacity="0.22"
+        stroke="#6f9bb5" stroke-width="1.8"/>
+  <text x="153" y="171" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11"
+        fill="#6f9bb5">Swimming</text>
+  <text x="153" y="184" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11"
+        fill="#6f9bb5">pool</text>
+
+  <rect x="88" y="278" width="32" height="12" rx="2" fill="#8b8b94" fill-opacity="0.35"
+        stroke="#8b8b94" stroke-width="2"/>
+  <text x="104" y="299" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11"
+        font-weight="600" fill="#8b8b94">MAIN ENTRANCE — you come in here</text>
+
+  <!-- first floor -->
+  <rect x="214" y="44" width="170" height="240" rx="6" fill="none" stroke="#8b8b94" stroke-width="2"/>
+  <text x="299" y="34" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13"
+        font-weight="600" fill="#8b8b94">FIRST FLOOR</text>
+
+  <rect x="286" y="60" width="24" height="224" fill="#8b8b94" fill-opacity="0.13"
+        stroke="#8b8b94" stroke-width="1" stroke-dasharray="1 3"/>
+
+  <rect x="282" y="60" width="32" height="32" rx="3" fill="#8b8b94" fill-opacity="0.24"
+        stroke="#8b8b94" stroke-width="1.6"/>
+  <text x="298" y="80" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10"
+        fill="#8b8b94">Stairs</text>
+
+  <rect x="320" y="145" width="58" height="60" rx="6" fill="none" stroke="#8b8b94" stroke-width="1.5"/>
+  <text x="349" y="179" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11"
+        fill="#8b8b94">Caf&#233;</text>
+
+  <!-- the five numbered rooms, in the order the speakers walk them -->
+  <g font-family="system-ui, sans-serif" font-size="15" font-weight="600" text-anchor="middle"
+     fill="#5b87c7">
+    <rect x="26"  y="215" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="48"  y="233">21</text>
+
+    <rect x="26"  y="162" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="48"  y="180">22</text>
+
+    <rect x="130" y="83"  width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="152" y="101">23</text>
+
+    <rect x="228" y="162" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="250" y="180">24</text>
+
+    <rect x="228" y="225" width="44" height="26" rx="6" fill="#5b87c7" fill-opacity="0.14"
+          stroke="#5b87c7" stroke-width="1.6" stroke-dasharray="5 3"/>
+    <text x="250" y="243">25</text>
+  </g>
+</svg>

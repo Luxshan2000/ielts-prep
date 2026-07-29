@@ -24,7 +24,7 @@ import httpx
 import pytest
 
 from bandready.server.jobs import job_manager
-from bandready.server.tickets import verify_ticket
+from bandready.server.tickets import ttl_for, verify_ticket
 
 TOKEN = "test-token-0123456789"
 BASE = "http://127.0.0.1"
@@ -435,7 +435,15 @@ async def test_ticket_issue_and_verify(client: httpx.AsyncClient) -> None:
     )
     assert resp.status_code == 201
     body = resp.json()
-    assert body["expires_in"] == 60
+    # `media-read` is deliberately long-lived (12 h, `tickets.AUDIENCE_TTL`): a listening
+    # part is a ~6-minute WAV that the <audio> element re-requests with Range headers for
+    # as long as the learner is on the page, and a 60-second ticket expires mid-playback —
+    # the range request 401s, the browser reports an opaque response, and the part dies
+    # with MEDIA_ERR_NETWORK. Assert against the source of truth rather than a literal, so
+    # this test tracks the policy instead of pinning a number that moved without it.
+    assert body["expires_in"] == ttl_for("media-read") == 12 * 60 * 60
+    # The short default still applies to every other audience.
+    assert ttl_for("session-events") == 60
     ticket = body["ticket"]
 
     assert verify_ticket(ticket, "media-read", resource) is True

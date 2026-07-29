@@ -320,6 +320,29 @@ export function ListeningHome() {
         </section>
 
         <section className="space-y-3">
+          <h2 className="flex items-center gap-2 text-sm font-semibold">
+            <ListChecks className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+            Targeted drills
+          </h2>
+          {hasScripts ? (
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-card p-3">
+              <p className="min-w-0 flex-1 text-[13px] text-muted-foreground">
+                Short reps on the four things that actually lose marks: taking dictation, catching
+                numbers, hearing the signpost that announces an answer, and predicting what kind of
+                word a gap needs before it plays.
+              </p>
+              <Button variant="outline" onClick={() => navigate("/listening/drills")}>
+                Open drills
+              </Button>
+            </div>
+          ) : (
+            <p className="rounded-xl border border-dashed border-border bg-muted/40 p-3 text-[13px] text-muted-foreground">
+              Drills are built from the scripts in your content pack — install one to practise.
+            </p>
+          )}
+        </section>
+
+        <section className="space-y-3">
           <h2 className="text-sm font-semibold">Recent attempts</h2>
           <RecentAttempts />
         </section>

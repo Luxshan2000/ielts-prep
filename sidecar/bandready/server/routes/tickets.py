@@ -17,7 +17,7 @@ from fastapi import APIRouter, Body, Depends
 
 from bandready.server.deps import require_auth
 from bandready.server.errors import ApiError
-from bandready.server.tickets import AUDIENCES, DEFAULT_TTL, issue_ticket
+from bandready.server.tickets import AUDIENCES, issue_ticket, ttl_for
 
 router = APIRouter(prefix="/api/v1/tickets", tags=["tickets"])
 
@@ -49,5 +49,6 @@ async def create_ticket(
             "a media-read resource is the exact request path of one media file",
         )
 
-    ticket = issue_ticket(audience, resource)
-    return {"ticket": ticket, "expires_in": DEFAULT_TTL, "audience": audience}
+    ttl = ttl_for(audience)
+    ticket = issue_ticket(audience, resource, ttl)
+    return {"ticket": ticket, "expires_in": ttl, "audience": audience}

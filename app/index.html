@@ -3,9 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      `img-src` must list the sidecar origins for the same reason `media-src` does: pack
+      artwork (listening map/plan SVGs, reading diagrams) is served by the sidecar behind a
+      signed media ticket, exactly like the audio. While it was missing, every map_labelling
+      question fell back to its "artwork missing from the pack" placeholder even though the
+      SVG was present and returned 200 with `content-type: image/svg+xml` — 20 marks across
+      the listening bank that cannot be answered without the plan they label. Keep this line
+      in step with the packaged CSP in app/electron/main.ts.
+    -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' blob:; worker-src 'self' blob:; child-src 'self' blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; media-src 'self' blob: http://127.0.0.1:* http://localhost:*; connect-src 'self' http://127.0.0.1:* ws://127.0.0.1:* http://localhost:* ws://localhost:*"
+      content="default-src 'self'; script-src 'self' blob:; worker-src 'self' blob:; child-src 'self' blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: http://127.0.0.1:* http://localhost:*; media-src 'self' blob: http://127.0.0.1:* http://localhost:*; connect-src 'self' http://127.0.0.1:* ws://127.0.0.1:* http://localhost:* ws://localhost:*"
     />
     <title>BandReady</title>
   </head>

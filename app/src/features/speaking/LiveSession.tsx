@@ -62,6 +62,7 @@ import {
   TERMINAL_PHASES,
   activityLabel,
   describeError,
+  isProviderError,
   isMicPermissionError,
   modeMeta,
 } from "./components/phases";
@@ -299,7 +300,11 @@ function CallStage({ activity, onEnded }: CallStageProps) {
   const showCue = cueCard !== null && phase.startsWith("P2_");
   const prepping = phase === "P2_INTRO" || phase === "P2_PREP";
   const serverError = live?.error ?? null;
+  const navigate = useNavigate();
   const permissionProblem = isMicPermissionError(callError);
+  // Retrying the audio connection cannot reach an unreachable model, so this case
+  // gets Settings instead of a retry that is guaranteed to fail again.
+  const providerProblem = isProviderError(callError);
   const callErrorText = callError === null ? null : describeError(callError);
 
   return (
@@ -335,9 +340,17 @@ function CallStage({ activity, onEnded }: CallStageProps) {
         >
           <p className="text-[13px] text-destructive">{callErrorText}</p>
           <div className="flex flex-wrap gap-2">
-            <Button size="sm" onClick={() => void connect()}>
-              Try connecting again
-            </Button>
+            {!providerProblem && (
+              <Button size="sm" onClick={() => void connect()}>
+                Try connecting again
+              </Button>
+            )}
+            {providerProblem && (
+              <Button size="sm" onClick={() => navigate("/settings")}>
+                <Settings className="h-4 w-4" />
+                Open provider settings
+              </Button>
+            )}
             {permissionProblem && (
               <Button
                 size="sm"

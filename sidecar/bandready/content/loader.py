@@ -195,6 +195,14 @@ PACKED_TABLES: tuple[str, ...] = tuple(
 )
 
 
+#: ``(table, column)`` pairs the import must not blank out. These columns are owned by the
+#: app at runtime, not by the pack, so an import only writes them when the pack actually
+#: carries a value. See the COALESCE in :func:`upsert_rows`.
+PRESERVE_LOCAL_WHEN_PACK_NULL: frozenset[tuple[str, str]] = frozenset(
+    {("listening_scripts", "audio_hash")}
+)
+
+
 def _jsonify(value: Any) -> Any:
     if value is None or isinstance(value, (str, int, float)):
         return value
@@ -218,7 +226,21 @@ def upsert_rows(
         names = names + list(PACK_COLUMNS) + ["retired"]
 
     placeholders = ", ".join(f":{n}" for n in names)
-    updates = ", ".join(f"{n} = excluded.{n}" for n in names if n != "id")
+    updates = ", ".join(
+        # A column the pack leaves empty must not erase what the app computed locally.
+        # `listening_scripts.audio_hash` is the case that bites: it is set by
+        # `tts_render._link_script_audio` after a render, and the pack always ships it
+        # null, so a plain `audio_hash = excluded.audio_hash` un-links every rendered
+        # WAV on the next pack import (an upgrade, or any re-seed). The bytes survive —
+        # the render is content-addressed and `cached_render` still hits — but every
+        # part reverts to "not prepared" in the UI and the learner has to ask for audio
+        # again. COALESCE keeps a pack-supplied hash authoritative when there is one.
+        f"{n} = COALESCE(excluded.{n}, {table}.{n})"
+        if (table, n) in PRESERVE_LOCAL_WHEN_PACK_NULL
+        else f"{n} = excluded.{n}"
+        for n in names
+        if n != "id"
+    )
     sql = text(
         f"INSERT INTO {table} ({', '.join(names)}) VALUES ({placeholders}) "
         f"ON CONFLICT(id) DO UPDATE SET {updates}"

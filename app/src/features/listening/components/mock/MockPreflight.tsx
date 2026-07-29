@@ -191,8 +191,19 @@ export function MockPreflight() {
               <div className="flex flex-wrap items-center gap-2">
                 <Badge tone="outline">{plan.question_count} questions</Badge>
                 <Badge tone="outline">{plan.parts.length} parts</Badge>
+                {/*
+                  `total_s` sums the *rendered* parts only — an unprepared part reports
+                  `duration_ms: 0`. Before preparation that made a 24-minute paper announce
+                  itself as "about 8:17", which is exactly the number a candidate would plan
+                  their sitting around. The server already distinguishes the two cases with
+                  `derived_from_audio` (true only when all four parts are ready), so show the
+                  measured length when it is real and say plainly that it is not yet known
+                  when it is not, rather than presenting a partial sum as the total.
+                */}
                 <Badge tone="outline">
-                  about {formatDuration(Math.round(plan.timing.total_s))}
+                  {plan.timing.derived_from_audio
+                    ? `about ${formatDuration(Math.round(plan.timing.total_s))}`
+                    : "length known once the audio is prepared"}
                 </Badge>
                 <Badge tone="primary">{plan.timing.window_label} at the end</Badge>
               </div>

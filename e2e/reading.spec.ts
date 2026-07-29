@@ -24,7 +24,17 @@ test("a full reading test is answered, flagged, submitted and reviewed", async (
   await expect(page.getByRole("heading", { name: "Reading", exact: true })).toBeVisible();
 
   // --- start ---------------------------------------------------------------
-  await page.getByRole("button", { name: "Start test" }).first().click();
+  // Pin to ONE known paper. Every assertion below names a specific question type,
+  // question number and passage title, so it only means anything against the test
+  // it was written for. The bank has grown to a dozen papers and the browser is
+  // sorted by id, so `.first()` silently began opening a different paper whose
+  // question 1 is matching-headings rather than True/False/Not Given.
+  const card = page
+    .locator("article, section, div")
+    .filter({ hasText: "Academic Reading Test 1" })
+    .filter({ has: page.getByRole("button", { name: "Start test" }) })
+    .last();
+  await card.getByRole("button", { name: "Start test" }).click();
   const dialog = page.getByRole("dialog");
   const start = dialog.getByRole("button", { name: "Start", exact: true });
   await expect(start).toBeVisible();

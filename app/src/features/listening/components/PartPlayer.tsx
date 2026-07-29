@@ -328,7 +328,19 @@ export function PartPlayer({
             Continue playing
           </Button>
         )}
-        {exam && interrupted && !playing && !playedOnce && (
+        {/*
+          `playedOnce` means "this part has *started*" — `onPlayStarted` fires on the first
+          `play` event, not on `ended` — so gating this button on `!playedOnce` made it dead
+          code in the only mode that renders it. An exam part that was interrupted (a media
+          key, a device change, an OS ducking event) then had no way back and the candidate
+          silently lost the rest of a part, up to 10 marks, with the audio unplayable again.
+          `interrupted` is already the precise signal: `onPause` sets it only when the audio
+          stopped before `ended`, `start()` and `onEnded` clear it. Resuming is safe because
+          `start()` never rewinds — it calls `play()` on the paused element — and the
+          `onSeeking`/`onTimeUpdate` guard still pins `currentTime` to the high-water mark,
+          so this cannot become a way to re-hear anything.
+        */}
+        {exam && interrupted && !playing && (
           <Button variant="secondary" onClick={() => void start()}>
             Playback stopped — continue
           </Button>

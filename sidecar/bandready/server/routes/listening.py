@@ -32,13 +32,13 @@ from ulid import ULID
 from bandready.audio import tts_render
 from bandready.content.generate_listening import (
     answers_match,
-    count_words,
     flatten_questions,
     is_near_miss,
     normalize_answer,
 )
 from bandready.db import models as m
 from bandready.db.engine import get_session
+from bandready.scoring.answers import within_word_limit
 from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
 from bandready.server.jobs import job_manager
@@ -180,6 +180,27 @@ def _slots(row: m.ListeningQuestion) -> list[list[str]]:
 def _question_meta(script: Mapping[str, Any]) -> dict[int, dict[str, Any]]:
     """Presentation fields (prompt, options, instruction) keyed by question number."""
     return {int(q["number"]): q for q in flatten_questions(script)}
+
+
+def _authored_questions(script: Mapping[str, Any]) -> dict[int, Mapping[str, Any]]:
+    """The **authored** question objects, keyed by number — teaching payload included.
+
+    :func:`flatten_questions` deliberately rebuilds each question from a fixed allowlist,
+    which is what keeps `_public_script` honest but also means the teaching payload never
+    survives it. Review is the one place entitled to the whole authored object (L-D1), so
+    it reads `script_json` directly rather than widening the allowlist everything else
+    shares.
+    """
+    out: dict[int, Mapping[str, Any]] = {}
+    for index, question in enumerate(script.get("questions") or []):
+        if not isinstance(question, Mapping):
+            continue
+        try:
+            number = int(question.get("n", question.get("number", index + 1)))
+        except (TypeError, ValueError):
+            number = index + 1
+        out[number] = question
+    return out
 
 
 def _audio_status(row: m.ListeningScript, script: Mapping[str, Any]) -> dict[str, Any]:
@@ -363,6 +384,24 @@ def list_scripts(
     return {"items": items, "next_cursor": rows[-1].id if has_more and rows else None}
 
 
+def _answers_allowed(session: Session, with_answers: int | bool) -> bool:
+    """``with_answers=1``, but never while a mock sitting is open (DESIGN §0.5, L-D2).
+
+    The practice routes hand out the key and the transcript on request, which is right for
+    practice and fatal during a sitting: the mock and the practice player draw the same
+    four scripts, so a candidate mid-paper could fetch the answers to the paper in front of
+    them. The mock's own routes withhold the key; this closes the side door.
+
+    Deliberately silent rather than a 409 — a client asking for answers outside a sitting
+    is normal, and one asking during a sitting simply gets the learner-facing projection.
+    """
+    if not with_answers:
+        return False
+    from bandready.listening import mock as listening_mock
+
+    return listening_mock.exam_conditions(session) is None
+
+
 @router.get("/api/v1/listening/scripts/{script_id}", summary="One listening part-script")
 def get_script(
     script_id: str,
@@ -371,7 +410,9 @@ def get_script(
     with_answers: int = Query(default=0),
 ) -> dict[str, Any]:
     row = _script_row(session, script_id)
-    return _public_script(row, session, with_answers=bool(with_answers))
+    return _public_script(
+        row, session, with_answers=_answers_allowed(session, with_answers)
+    )
 
 
 @router.get("/api/v1/listening/tests/{test_id}", summary="One listening test")
@@ -382,6 +423,7 @@ def get_test(
     with_answers: int = Query(default=0),
 ) -> dict[str, Any]:
     row = _test_row(session, test_id)
+    with_answers = int(_answers_allowed(session, with_answers))
     scripts: list[tuple[m.ListeningScript, list[m.ListeningQuestion]]] = []
     for sid in _test_script_ids(row):
         script = _script_row(session, sid)
@@ -652,8 +694,12 @@ def _score_question(
             "over_limit": False,
         }
 
-    limit = word_limit
-    over_limit = bool(limit) and count_words(answer) > int(limit)
+    # Use the SHARED limit rule (06 §2.1), not a bare token count. "ONE WORD AND/OR A
+    # NUMBER" allows one number *in addition to* the word allowance, and a run of adjacent
+    # number tokens is one number -- so "01472 330915" and "86 pounds" are both legal at a
+    # limit of 1. Counting tokens instead rejected 8 of this pack's own accepted answers,
+    # including the Part 1 telephone number in six different tests.
+    over_limit = word_limit is not None and not within_word_limit(answer, word_limit)
     if over_limit:
         return {
             "points": 0,
@@ -725,6 +771,18 @@ def create_attempt(
         )
     if body.mode not in MODES:
         raise ApiError(422, "validation_error", f"mode must be one of {', '.join(MODES)}")
+
+    # A practice attempt opened mid-sitting defeats the sitting outright: it draws the same
+    # four scripts, and the practice player mounts a full transport, so the "each recording
+    # plays once" condition the mock enforces server-side (`/mock/sessions/{id}/play`
+    # returns 409 on a second request) is bought back for free in another tab. The mock
+    # screen already promises "while a mock is open you cannot start another attempt";
+    # this is where that promise is kept. Drills already refuse the same way.
+    from bandready.listening import mock as listening_mock
+
+    conditions = listening_mock.exam_conditions(session)
+    if conditions is not None:
+        raise listening_mock.refusal(conditions)
 
     if body.test_id:
         _test_row(session, body.test_id)
@@ -1022,6 +1080,17 @@ def review_attempt(
     session: Session = Depends(get_session),
 ) -> dict[str, Any]:
     attempt = _attempt_row(session, attempt_id)
+    # The review body carries the full transcript, the key and now the teaching payload,
+    # and in listening the transcript *is* the key. Serving it for an attempt still in
+    # progress hands the learner the answers to the audio they are about to hear — the
+    # one thing this module cannot take back, because the audio plays once (DESIGN §0.5).
+    if attempt.status != "submitted":
+        raise ApiError(
+            409,
+            "conflict",
+            "this attempt has not been submitted yet — the transcript and the answers "
+            "unlock after you submit",
+        )
     envelope = _envelope(session, attempt_id)
     draft = _draft(envelope)
     stored = {
@@ -1037,6 +1106,7 @@ def review_attempt(
     for script, question, number in _attempt_questions(session, attempt):
         document = _parse_script_json(script)
         meta = _question_meta(document).get(question.number, {})
+        authored = _authored_questions(document).get(question.number, {})
         lines = document.get("lines") or []
         if script.id not in timings:
             timings[script.id] = (
@@ -1070,6 +1140,13 @@ def review_attempt(
                         if isinstance(line, Mapping)
                     ],
                 },
+                # L-D1 (staging-listening/DESIGN.md §0.5). Every teaching field the
+                # authors wrote lives under one key named `teaching` at each of the three
+                # levels, so the projection is one `get()` per level — and it happens
+                # *only* here, after submission, which is exactly the gate we want. The
+                # practice player's own endpoints never see any of it.
+                "teaching": document.get("teaching"),
+                "groups": document.get("groups"),
                 "questions": [],
             }
             parts[script.id] = part_entry
@@ -1094,6 +1171,9 @@ def review_attempt(
                 "correct": bool(row.correct) if row is not None else None,
                 "accepted": [list(slot) for slot in slots],
                 "explanation": question.explanation,
+                # The prediction / signpost / distraction / form / recovery timeline,
+                # served only here and only after submission (DESIGN §0.5, L-D1).
+                "teaching": authored.get("teaching"),
                 "cue_line_index": cue_index,
                 "cue_text": cue_text,
                 "audio_ms": _line_start_ms(timing, cue_index),

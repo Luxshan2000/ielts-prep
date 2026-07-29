@@ -156,7 +156,14 @@ function hardenSession(): void {
       "default-src 'self'",
       "connect-src 'self' http://127.0.0.1:* ws://127.0.0.1:*",
       "media-src 'self' blob: http://127.0.0.1:*",
-      "img-src 'self' data: blob:",
+      // The sidecar origin belongs here for the same reason it belongs in `media-src`:
+      // pack artwork (listening map/plan SVGs, reading diagrams) is served by the sidecar
+      // under a signed media ticket, exactly like the audio. Without it every
+      // `map_labelling` question renders its "artwork missing from the pack" placeholder
+      // even though the SVG is present and returns 200 — the file is fine, the page is
+      // just not allowed to show it. That silently cost 20 marks across the listening
+      // bank, which are unanswerable without the plan they label.
+      "img-src 'self' data: blob: http://127.0.0.1:*",
       "style-src 'self' 'unsafe-inline'",
       // `blob:` is same-origin, never network: the speaking room's audio worklet
       // (Pipecat's WavMediaManager) is compiled into a blob URL at runtime, and

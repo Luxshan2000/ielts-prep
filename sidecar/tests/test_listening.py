@@ -369,6 +369,31 @@ def test_media_serves_full_body_and_ranges(
     assert client.get(path).status_code == 200
 
 
+def test_a_media_ticket_outlives_a_listening_part(client: TestClient) -> None:
+    """L-V1 regression: a 60-second media ticket cannot serve a 30-minute paper.
+
+    An ``<audio>`` element holds ONE url for the life of the element and re-presents
+    it on every Range request, so the ticket has to outlive the whole sitting and the
+    review that follows. At the old 60-second TTL, "Replay from 1:28" in review died
+    with MEDIA_ERR_NETWORK — the 401 reached a no-cors media request, so the browser
+    surfaced it only as ERR_BLOCKED_BY_ORB.
+    """
+    from bandready.server.tickets import DEFAULT_TTL, ttl_for
+
+    path = "/api/v1/media/listening/deadbeef.wav"
+    res = client.post(
+        "/api/v1/tickets", json={"audience": "media-read", "resource": path}
+    )
+    assert res.status_code == 201
+    expires_in = res.json()["expires_in"]
+
+    # Longer than a full four-part paper plus its check step, with room for review.
+    assert expires_in >= 40 * 60, f"media ticket lives only {expires_in}s"
+    assert expires_in == ttl_for("media-read")
+    # A socket presents its ticket once, at connect, and keeps the short default.
+    assert ttl_for("session-events") == DEFAULT_TTL
+
+
 def test_timing_sidecar_route(client: TestClient, rendered: dict[str, Any]) -> None:
     path = f"/api/v1/media/listening/{rendered['audio_hash']}.timing.json"
     response = client.get(path)
@@ -421,6 +446,43 @@ def test_render_route_returns_the_cached_hash(
     assert body["audio_hash"] == rendered["audio_hash"]
     assert body["cached"] is True
     assert body["media_path"] == f"/api/v1/media/listening/{rendered['audio_hash']}.wav"
+
+
+def test_a_warm_wav_with_no_media_row_still_renders(
+    client: TestClient, seeded: dict[str, Any], rendered: dict[str, Any]
+) -> None:
+    """L-V1 regression: the WAV can outlive its ``media_files`` row.
+
+    LRU eviction, a restored media directory or a reset database all leave a warm
+    cache with no row behind it. ``listening_scripts.audio_hash`` is a foreign key
+    onto that row, so the render route used to observe the cache hit, link the
+    script and blow up on the FK at flush — a 500 that retrying could never clear,
+    because the retry hit the same cache. ``cached_render`` now re-registers.
+    """
+    from sqlalchemy import text as sql
+
+    from bandready.db.engine import session_scope
+
+    audio_hash = rendered["audio_hash"]
+    with session_scope() as session:
+        session.execute(
+            sql("UPDATE listening_scripts SET audio_hash = NULL WHERE audio_hash = :h"),
+            {"h": audio_hash},
+        )
+        session.execute(sql("DELETE FROM media_files WHERE hash = :h"), {"h": audio_hash})
+    assert tts_render.cached_render(audio_hash) is not None  # the file is still there
+
+    response = client.post(
+        f"/api/v1/listening/scripts/{seeded['script_ids'][0]}/render", json={}
+    )
+    assert response.status_code == 200, response.text
+    assert response.json()["audio_hash"] == audio_hash
+
+    with session_scope() as session:
+        row = session.execute(
+            sql("SELECT hash FROM media_files WHERE hash = :h"), {"h": audio_hash}
+        ).first()
+    assert row is not None, "the media_files row was not re-registered"
 
 
 def test_render_route_queues_a_job_on_a_cache_miss(
@@ -630,6 +692,28 @@ def test_scoring_rules() -> None:
     assert routes._score_question("B, E", [["b"], ["d"]], None)["points"] == 1
     # A blank answer is simply wrong.
     assert routes._score_question("", [["centre"]], one_word)["points"] == 0
+
+
+def test_a_spaced_number_is_one_number_not_two_words() -> None:
+    """L-V1 regression: "ONE WORD AND/OR A NUMBER" allows a spaced number.
+
+    `_score_question` used to count bare tokens, so the Part 1 telephone number --
+    the single most common Part 1 answer there is -- was rejected as over-limit
+    against its own answer key. Eight accepted answers in the shipped pack, across
+    eight scripts, were unearnable.
+    """
+    one_word = 1
+    for spaced in ("01472 330915", "214 555 0983", "0412 663 941", "49 22 16"):
+        got = routes._score_question(spaced, [[spaced]], one_word)
+        assert got["over_limit"] is False, f"{spaced} wrongly over-limit"
+        assert got["correct"] is True, f"{spaced} did not match itself"
+
+    # a number PLUS one word is still inside "one word and/or a number"
+    assert routes._score_question("86 pounds", [["86 pounds"]], one_word)["correct"]
+    # a number spelled in words is one number, not two words
+    assert routes._score_question("six hundred", [["six hundred"]], one_word)["correct"]
+    # and the limit still bites on actual extra words
+    assert routes._score_question("the city centre", [["centre"]], one_word)["over_limit"]
 
 
 def test_word_limit_glue() -> None:

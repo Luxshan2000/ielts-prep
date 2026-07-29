@@ -25,6 +25,30 @@ Audience = Literal["media-read", "session-events"]
 AUDIENCES: tuple[str, ...] = ("media-read", "session-events")
 DEFAULT_TTL = 60
 
+#: Per-audience lifetime. ``session-events`` keeps the 60-second default: a socket
+#: presents its ticket once, at connect.
+#:
+#: ``media-read`` cannot. An ``<audio>`` element holds one URL for the whole life of the
+#: element and re-presents it on every HTTP ``Range`` request — every seek, and every
+#: progressive-buffer top-up. A listening part runs 5-7 minutes and the review screen is
+#: read for far longer, so a 60-second ticket is dead long before the learner clicks
+#: "replay from 1:28". The failure is also invisible: the 401 goes to a no-cors media
+#: request, so the browser reports the opaque response as ``ERR_BLOCKED_BY_ORB`` and the
+#: element just stops with ``MEDIA_ERR_NETWORK``.
+#:
+#: Lengthening it costs nothing here. The ticket is HMAC'd with the bearer token and
+#: scoped to one exact media path, the sidecar is loopback-only, and anyone able to
+#: present a ticket can mint a fresh one from the same token anyway.
+AUDIENCE_TTL: dict[str, int] = {
+    "media-read": 12 * 60 * 60,
+    "session-events": DEFAULT_TTL,
+}
+
+
+def ttl_for(audience: str) -> int:
+    """Lifetime in seconds for one audience."""
+    return AUDIENCE_TTL.get(audience, DEFAULT_TTL)
+
 
 def _b64e(raw: bytes) -> str:
     return base64.urlsafe_b64encode(raw).decode("ascii").rstrip("=")

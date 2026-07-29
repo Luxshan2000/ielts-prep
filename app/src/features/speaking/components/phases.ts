@@ -309,9 +309,38 @@ export function describeError(err: unknown): string {
     if (err.name === "NotReadableError") {
       return "Your microphone is in use by another app. Close it and try again.";
     }
+    if (isProviderError(err)) {
+      // The examiner's turn is an LLM call. When the configured model is unreachable —
+      // a local engine that isn't running, a wrong base URL, a missing key — the voice
+      // pipeline surfaces it as a bare "Connection error", which tells a learner
+      // nothing and sends them retrying a connection that cannot succeed. Name the
+      // actual cause and point at the screen that fixes it.
+      return "The examiner's language model could not be reached, so it cannot reply. Check Settings → Providers: a local engine has to be running, and a cloud model needs a valid key.";
+    }
     return err.message || "Something went wrong starting the speaking session.";
   }
   return "Something went wrong starting the speaking session.";
+}
+
+/**
+ * True when the failure is the configured LLM being unreachable rather than anything
+ * about the audio path. Retrying the WebRTC connection cannot fix it, so the UI offers
+ * Settings instead.
+ */
+export function isProviderError(err: unknown): boolean {
+  const text =
+    err instanceof Error
+      ? `${err.name} ${err.message}`
+      : typeof err === "string"
+        ? err
+        : "";
+  if (!text) return false;
+  return (
+    /during completion/i.test(text) ||
+    /connection error/i.test(text) ||
+    /\b(llm|model|provider|openai|completion)\b/i.test(text) &&
+      /\b(unreachable|refused|timed? out|not running|failed)\b/i.test(text)
+  );
 }
 
 /** True when the failure is an OS-level microphone denial (drives the deep link). */

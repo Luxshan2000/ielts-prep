@@ -6,6 +6,7 @@ import { TestRunner } from "./components/TestRunner";
 import { ReviewScreen } from "./components/ReviewScreen";
 import { AccentDrill } from "./components/AccentDrill";
 import { CoachPicker, ListeningCoach } from "./components/coach";
+import { ListeningDrills } from "./components/drills";
 import { MockPreflight, MockReport, MockSitting } from "./components/mock";
 
 export default defineFeatureRoute({
@@ -49,6 +50,16 @@ export default defineFeatureRoute({
       ),
     },
     { path: "accents", element: <AccentDrill /> },
+    // Item practice on one recording: dictation, numbers, signposts, prediction.
+    // Distinct from `accents` above, which re-voices a whole script for ear training.
+    {
+      path: "drills",
+      element: (
+        <FeatureErrorBoundary feature="listening drills">
+          <ListeningDrills />
+        </FeatureErrorBoundary>
+      ),
+    },
     // The teaching layer: study one part outside an attempt. Read-only against the
     // content pack and the learner's own attempt ledger, so a crash costs nothing
     // and remounting is the right recovery.

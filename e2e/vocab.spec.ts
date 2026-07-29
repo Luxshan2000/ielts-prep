@@ -54,17 +54,20 @@ test("accepting a suggestion schedules it, and a review session clears the queue
     })
     .toBeGreaterThan(dueBaseline);
 
-  // Accept the rest so the session has something to work with. "Accept all" opens a
-  // confirmation whose own button carries the SAME accessible name, so wait for the
-  // second one to exist before resolving `.last()` — reading it too early resolves back
-  // to the inbox button and clicks it a second time, leaving an unanswered dialog whose
-  // overlay then swallows every later click.
-  const acceptAll = page.getByRole("button", { name: "Accept all" });
-  await acceptAll.first().click();
-  await expect(acceptAll).toHaveCount(2);
-  await acceptAll.last().click();
-  // Inbox emptied and the dialog closed: neither button is left on the page.
-  await expect(acceptAll).toHaveCount(0);
+  // Accept the rest so the session has something to work with.
+  //
+  // The confirmation's own button carries the SAME accessible name as the trigger, so a
+  // page-wide `.last()` is a race: between the count assertion and the click the list can
+  // re-resolve to the inbox button, which reopens the dialog instead of answering it and
+  // leaves an overlay that swallows every later click. Scope each click to the element
+  // that owns it — the panel for the trigger, the dialog for the confirmation.
+  const inbox = page.getByRole("tabpanel", { name: /inbox/i });
+  const dialog = page.getByRole("dialog");
+  await inbox.getByRole("button", { name: "Accept all" }).click();
+  await dialog.getByRole("button", { name: "Accept all" }).click();
+  // Inbox emptied and the dialog closed.
+  await expect(dialog).toHaveCount(0);
+  await expect(inbox.getByRole("button", { name: "Accept all" })).toHaveCount(0);
   await expect
     .poll(async () => (await stats(seed.api)).due_today, { timeout: 20_000 })
     .toBeGreaterThanOrEqual(dueBaseline + terms.length);

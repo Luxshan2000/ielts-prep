@@ -23,16 +23,27 @@ test("audio renders through a job, exam mode locks playback, and the attempt rev
   // dir finds it cached, which is also a state worth asserting.
   const listTests = async () =>
     (await (await seed.api.get("/api/v1/listening/tests")).json()) as {
-      items: { id: string; audio_ready: boolean; audio_ready_parts: number }[];
+      items: { id: string; title: string; audio_ready: boolean; audio_ready_parts: number }[];
     };
   const before = await listTests();
-  const startTest = page.getByRole("button", { name: "Start under exam conditions" });
+
+  // Scope every control to ONE test card. The bank now ships several listening
+  // papers, so an unscoped `getByRole("button", { name: "Start under exam
+  // conditions" })` matches one per card and Playwright refuses it in strict mode
+  // — and worse, waiting on the unscoped locator would wait on a card whose audio
+  // this test never rendered. Rendering and starting must provably be the same paper.
+  const card = page
+    .locator("article, section, div")
+    .filter({ hasText: before.items[0].title })
+    .filter({ has: page.getByRole("button", { name: "Start under exam conditions" }) })
+    .last();
+  const startTest = card.getByRole("button", { name: "Start under exam conditions" });
 
   if (!before.items[0].audio_ready) {
     const renderPosted = page.waitForResponse(
       (res) => res.url().includes("/render") && res.request().method() === "POST",
     );
-    await page.getByRole("button", { name: "Prepare audio" }).first().click();
+    await card.getByRole("button", { name: "Prepare audio" }).click();
     const renderResponse = await renderPosted;
     expect([200, 202]).toContain(renderResponse.status());
     // The job really runs: the sidecar synthesises four parts before the test

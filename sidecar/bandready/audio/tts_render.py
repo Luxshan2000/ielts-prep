@@ -430,10 +430,24 @@ def line_cache_path(key: str) -> Path:
 
 
 def cached_render(audio_hash: str) -> dict[str, Any] | None:
-    """Return the cached render descriptor, or ``None`` when the WAV is gone."""
+    """Return the cached render descriptor, or ``None`` when the WAV is gone.
+
+    Re-registers the ``media_files`` row on the way out. The WAV can legitimately outlive
+    its row — LRU eviction that unlinked the row but not the file, a media directory
+    restored from backup, a reset database over a warm cache — and
+    ``listening_scripts.audio_hash`` is a foreign key onto that row. Without this, every
+    caller that merely *observes* a cache hit and then links the script (both the
+    per-script and whole-test render routes do) fails the FK at flush and returns a 500
+    that no amount of retrying clears, because the retry hits the same cache.
+    ``register_media`` is an upsert and never raises, so this is free when the row exists.
+    """
     wav_path, timing_path = listening_audio_paths(audio_hash)
     if not wav_path.exists() or wav_path.stat().st_size == 0:
         return None
+    register_media(
+        audio_hash, "listening_render", f"listening/{audio_hash}.wav",
+        wav_path.stat().st_size,
+    )
     timing: dict[str, Any] = {}
     if timing_path.exists():
         try:

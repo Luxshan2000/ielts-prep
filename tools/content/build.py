@@ -61,6 +61,7 @@ COUNT_KEYS: tuple[tuple[str, str], ...] = tuple(
         "listening_tests.jsonl",
         "vocab.jsonl",
         "pron_pairs.jsonl",
+        "grammar.jsonl",
     )
 )
 

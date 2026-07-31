@@ -1,0 +1,949 @@
+{
+  "staging_version": 1,
+  "block": "tm-template",
+  "authored_by": "G-D1:template",
+  "_readme": [
+    "This is a valid staging file and the quality ceiling. It lives OUTSIDE staging-grammar/content/, so the merge glob never picks it up.",
+    "It contains: one complete grammar point with a full 17-item bank (a CHOICE point, because that is the hard case); one complete v2 vocabulary entry; one worked retrofit of an existing entry.",
+    "The point id gr_tm_00 and the item ids gi_tm_00_NN are RESERVED. G-A3 authors the real gr_pp_vs_past_simple and must not reuse a single sentence from this file — write your own, on your own examples. Copy the SHAPE, never the prose.",
+    "Read DESIGN.md sections 2 (schema), 3 (vocabulary), 5.3 (the 50 lints) alongside this file."
+  ],
+
+  "points": [
+    {
+      "id": "gr_tm_00",
+      "unit_id": "u06",
+      "sequence_index": 61,
+      "title": "Saying whether the stretch of time you mean is finished or still running",
+      "cefr_level": "A2",
+      "role": "choice",
+      "topic_id": "topic_work",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "Present perfect vs past simple",
+        "prerequisites": ["gr_present_perfect", "gr_past_time_markers", "gr_past_simple_regular"],
+        "unlocks_hint": "gr_pp_simple_vs_cont",
+        "priority": 1,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "local",
+        "confusion_set": "cs_past_time_reference",
+        "structure_slug": "present_perfect",
+        "signal_blocklist": [
+          "already", "yet", "just", "ever", "never", "so far", "recently",
+          "since", "ago", "yesterday", "last week", "last month", "last year"
+        ],
+        "fixes_errors": [
+          "tense_finished_time_with_perfect",
+          "tense_open_time_with_past",
+          "tense_drift_in_paragraph"
+        ],
+        "estimated_minutes": 26,
+        "tool_surface": null,
+
+        "teach": {
+          "can_do": "I can tell someone whether a period of time has closed or is still running.",
+          "why_it_matters": "You can already build both forms. What costs marks is picking the wrong one, and it happens in almost every answer that mentions the past.",
+          "meaning": "English does not just report when something happened. It reports how the speaker is framing the time it happened in. The past simple puts the event inside a box that is shut: the year ended, the shift ended, you left the building. The present perfect leaves the box open and holds the event against now: the years are still running, the result is still in front of you, the period has no named end. Same events, two different claims about the time you are standing in.",
+          "form": {
+            "pattern": "have / has + past participle",
+            "notes": [
+              "has with he, she, it and any singular noun; have with everything else",
+              "'ve and 's in speech and in a friendly letter; the full forms in an essay"
+            ],
+            "negative": "have not / haven't + past participle",
+            "question": "Have you + past participle ...?"
+          },
+          "visual": {
+            "kind": "timeline",
+            "spec": {
+              "now_label": "now",
+              "marks": [
+                { "at": -7, "label": "closed period", "span_to": -3, "style": "bar" },
+                { "at": -5, "label": "past simple sits here", "style": "x" },
+                { "at": -4, "label": "open period", "span_to": 0, "style": "arrow" },
+                { "at": 0, "label": "present perfect reaches to here", "style": "point" }
+              ],
+              "caption": "The two forms do not point at different events. They point at different edges."
+            }
+          },
+          "worked_example": {
+            "sentence": "The Ashfield line has carried freight every winter since the depot reopened.",
+            "why_this_form": "The reopening started a stretch of time that nobody has closed, and the winters keep arriving, so the sentence stays attached to now.",
+            "what_the_other_would_mean": "Carried would shut the stretch: it would say the arrangement is over and the line does something else these days."
+          },
+          "notice_set": [
+            {
+              "sentence": "They've closed the coast road at Sandmouth.",
+              "question": "Can you drive along it today?",
+              "options": ["Yes", "No", "The sentence doesn't say"],
+              "key": 1,
+              "why": "The form holds the closing against now, so the road is still shut."
+            },
+            {
+              "sentence": "They closed the coast road at Sandmouth.",
+              "question": "Can you drive along it today?",
+              "options": ["Yes", "No", "The sentence doesn't say"],
+              "key": 2,
+              "why": "This one only reports the closing. Whether it has since reopened is outside what the sentence claims."
+            },
+            {
+              "sentence": "Delia has lived in Marlow since the mill shut.",
+              "question": "Is Marlow her home now?",
+              "options": ["Yes", "No", "The sentence doesn't say"],
+              "key": 0,
+              "why": "The stretch that started when the mill shut is still running, and she is inside it."
+            },
+            {
+              "sentence": "Delia lived in Marlow for eleven years.",
+              "question": "Is Marlow her home now?",
+              "options": ["Yes", "No", "The sentence doesn't say"],
+              "key": 1,
+              "why": "Eleven years, boxed and shut. If she were still there the speaker could not have closed it."
+            },
+            {
+              "sentence": "Our team has surveyed two of the four inlets.",
+              "question": "Is the survey work finished?",
+              "options": ["Yes", "No", "The sentence doesn't say"],
+              "key": 1,
+              "why": "Counting what is done so far only makes sense while the job is still open."
+            },
+            {
+              "sentence": "Rainfall in the Verdon catchment fell every year between 2011 and 2016.",
+              "question": "Does the sentence tell you what rainfall is doing now?",
+              "options": ["Yes", "No", "The sentence doesn't say"],
+              "key": 1,
+              "why": "Both edges of the period are named, so the sentence stops at the far edge."
+            }
+          ],
+          "discovery": {
+            "prompt": "The sentences on the left and the right describe the same kinds of events. What is different about the situations?",
+            "pairs": [
+              ["They've closed the coast road at Sandmouth.", "They closed the coast road at Sandmouth."],
+              ["Delia has lived in Marlow since the mill shut.", "Delia lived in Marlow for eleven years."],
+              ["Our team has surveyed two of the four inlets.", "Our team surveyed all four inlets."]
+            ],
+            "candidate_rules": [
+              {
+                "text": "On the left, the stretch of time the speaker has in mind has not closed yet.",
+                "verdict": "right"
+              },
+              {
+                "text": "On the left, the events happened very recently.",
+                "verdict": "too_narrow"
+              },
+              {
+                "text": "On the left, the sentence contains a word like since, yet or already.",
+                "verdict": "keyword_trap"
+              }
+            ]
+          },
+          "rule_line": "Ask: has the stretch of time I mean already closed?",
+          "false_rule": "That since, for, already, yet and just are switches that turn the present perfect on. They are hints, not switches. For six years sits perfectly happily in the past simple."
+        },
+
+        "contrast": {
+          "with": ["gr_past_simple_regular"],
+          "board_id": "gb_pp_vs_past",
+          "question": "Has the stretch of time I am talking about closed?",
+          "fork": [
+            {
+              "answer": "Closed, and usually named: that winter, in 2019, on my last shift, when I was training",
+              "selects": "past simple",
+              "point_id": "gr_past_simple_regular"
+            },
+            {
+              "answer": "Still open, or never named at all: this year, so far, in my life, since the depot reopened",
+              "selects": "present perfect",
+              "point_id": "gr_present_perfect"
+            }
+          ],
+          "minimal_pair": {
+            "a": {
+              "text": "I worked at the Marlow depot for six years.",
+              "means": "The six years are shut. I work somewhere else now."
+            },
+            "b": {
+              "text": "I have worked at the Marlow depot for six years.",
+              "means": "The six years are still running. I am there today."
+            },
+            "only_difference": "worked / have worked"
+          },
+          "wrong_choice_note": "Choosing worked while you are still in the job does not sound broken to a reader. It sounds like you have left. That is what makes this pair expensive: the wrong choice produces a perfectly clear sentence saying something you did not mean.",
+          "edge_case": {
+            "text": "American English will often take the past simple where British English reaches for the present perfect. Our content is British-standard. Know that the difference exists, then stop thinking about it.",
+            "ignore_the_rest": true
+          },
+          "stronger_test": "Try hanging at four o'clock last Tuesday on the end. If the sentence survives it, you are in the past simple. The present perfect refuses a named, finished time and the sentence breaks.",
+          "worked_pairs": [
+            {
+              "a": "The council has repaired the harbour wall, so the path is open again.",
+              "b": "The council repaired the harbour wall in 2019.",
+              "deciding_span_a": "so the path is open again",
+              "deciding_span_b": "in 2019",
+              "gloss": "The first sentence is about the harbour today. The second is about a year that ended."
+            },
+            {
+              "a": "Freight tonnage on the Ashfield line has climbed since the depot reopened.",
+              "b": "Freight tonnage on the Ashfield line climbed sharply between March and June.",
+              "deciding_span_a": "since the depot reopened",
+              "deciding_span_b": "between March and June",
+              "gloss": "Since opens a period at one point and leaves it running. Between and closes it at both ends."
+            },
+            {
+              "a": "This is my first month on the route. I have learned three of the stops.",
+              "b": "That was a hard month. I learned three of the stops in a fortnight.",
+              "deciding_span_a": "This is my first month on the route.",
+              "deciding_span_b": "That was a hard month.",
+              "gloss": "The clue is not in the sentence with the verb in it. It is in the sentence before, which tells you whether the speaker is standing inside the period or looking back at it."
+            }
+          ]
+        },
+
+        "errors": [
+          {
+            "code": "tense_finished_time_with_perfect",
+            "wrong": "I have visited the Norland reserve in 2019.",
+            "right": "I visited the Norland reserve in 2019.",
+            "why_it_happens": "The learner has stored the present perfect as the experience tense and reaches for it whenever the sentence is about experience. The named year is not part of that stored rule, so nothing fires to stop them.",
+            "smallest_fix": "Delete one word: have.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "tense_open_time_with_past",
+            "wrong": "Since the charge came in, traffic in the centre dropped by a fifth.",
+            "right": "Since the charge came in, traffic in the centre has dropped by a fifth.",
+            "why_it_happens": "The drop feels like a finished event, so the past simple arrives first. The learner is looking at the event and not at the period the sentence opened two words earlier.",
+            "smallest_fix": "Swap one form: dropped becomes has dropped.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "tense_drift_in_paragraph",
+            "wrong": "The line opened in 2014. Since then it has carried freight, and passenger numbers grew every year.",
+            "right": "The line opened in 2014. Since then it has carried freight, and passenger numbers have grown every year.",
+            "why_it_happens": "Each verb was chosen on its own and nobody read the paragraph as one unit. It gets worse in the second half of a timed task, when there is no monitoring capacity left.",
+            "smallest_fix": "Swap one form: grew becomes have grown.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          }
+        ],
+
+        "pays_in": [
+          {
+            "surface": "speaking_p1",
+            "mode": "productive",
+            "note": "Almost every Part 1 answer about your job, your home or your habits needs this choice.",
+            "model": "I've worked in logistics for about five years, mostly around Marlow."
+          },
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "Any essay comparing how things are now with how they were runs on it.",
+            "model": "Attitudes to commuting have shifted sharply since flexible working became ordinary."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "A True or False stem that closes a period the passage left open is false on the tense alone.",
+            "model": "Rainfall in the catchment has fallen every year since the diversion was built."
+          }
+        ],
+        "criteria": ["gra", "cohesion"],
+        "used_in": [
+          {
+            "module": "writing",
+            "ref_id": "wp_core_t2_two_part_changing_careers",
+            "quote": "Body paragraphs on this prompt compare a working life now with a working life a generation ago, which is this choice made eight or nine times."
+          },
+          {
+            "module": "speaking",
+            "ref_id": "card_p1_work_or_study_801",
+            "quote": "How long have you been doing that? is the question, and the answer is this point."
+          }
+        ],
+
+        "items": [
+          {
+            "id": "gi_tm_00_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_transport",
+            "skill_hook": "speaking_p1",
+            "error_codes": ["tense_finished_time_with_perfect"],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "They've shut the ferry slip at Sandmouth.",
+              "question": "Can you catch a ferry from there today?",
+              "options": ["Yes", "No", "The sentence doesn't say"],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The form holds the shutting against now, so the slip is still shut. That is what this form is for.",
+              "feed_forward": "Read the form for what it claims about today."
+            }
+          },
+          {
+            "id": "gi_tm_00_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "reading",
+            "error_codes": ["tense_open_time_with_past"],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Rainfall in the Verdon catchment fell every year between 2011 and 2016.",
+              "question": "Where does this stretch of time sit?",
+              "mode": "timeline",
+              "slots": ["a closed period in the past", "a period running up to now", "a period still ahead"],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Both edges are named, so the sentence stops at the far edge and says nothing about now.",
+              "feed_forward": "Look for the edges of the period before you look at the verb."
+            }
+          },
+          {
+            "id": "gi_tm_00_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p1",
+            "error_codes": ["tense_finished_time_with_perfect"],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "on Saturday morning",
+            "payload": {
+              "context": "Priya is telling a colleague how her weekend went.",
+              "sentence": "I have finished the depot report on Saturday morning.",
+              "acceptable": false,
+              "reasons": [
+                "the time named is finished",
+                "the report is not finished",
+                "the verb form itself is wrong",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Saturday morning is over and named. The present perfect will not sit next to a closed, named time.",
+              "feed_forward": "When a time is named and over, use the past simple."
+            }
+          },
+          {
+            "id": "gi_tm_00_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": ["tense_open_time_with_past"],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a note on the Ashfield freight line.",
+              "stem": "Tonnage ___ (climb) steadily since the depot reopened in March.",
+              "blanks": 1,
+              "lemma_hints": ["climb"]
+            },
+            "expected": ["has climbed"],
+            "feedback": {
+              "why_key": "Since March opened a period that nobody has closed, so the climb runs up to now.",
+              "feed_forward": "Check whether the period has an end before you pick the form."
+            }
+          },
+          {
+            "id": "gi_tm_00_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p2",
+            "error_codes": ["tense_finished_time_with_perfect"],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "Two drivers on a break.",
+              "stem": "I ___ (drive) that stretch twice last winter and I never want to see it again.",
+              "blanks": 1,
+              "lemma_hints": ["drive"]
+            },
+            "expected": ["drove"],
+            "feedback": {
+              "why_key": "Last winter is shut, so the sentence stays inside it.",
+              "feed_forward": "Name the time first, then choose the form."
+            }
+          },
+          {
+            "id": "gi_tm_00_06",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_housing",
+            "skill_hook": "writing_t2",
+            "error_codes": ["tense_open_time_with_past"],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "The council repaired the harbour wall. The coast path is open again because of it.",
+              "instruction": "Write one sentence that keeps the repair attached to the situation now.",
+              "starter": "The council ___"
+            },
+            "expected": [
+              "has repaired the harbour wall so the coast path is open again",
+              "has repaired the harbour wall and the coast path is open again"
+            ],
+            "feedback": {
+              "why_key": "The point of the sentence is the state of the path today, and that is exactly the job this form does.",
+              "feed_forward": "When the result is the point, keep the period open."
+            }
+          },
+          {
+            "id": "gi_tm_00_07",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "listening",
+            "error_codes": ["tense_open_time_with_past"],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "We've been on that contract since the spring.",
+              "scored_tokens": ["We've", "been"],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "we've been on that contract since the spring",
+              "we have been on that contract since the spring",
+              "weve been on that contract since the spring"
+            ],
+            "feedback": {
+              "why_key": "The whole difference between we were and we've been is one unstressed syllable. If you cannot hear it you will not write it.",
+              "feed_forward": "Listen for the 've before the main verb, not for the main verb."
+            }
+          },
+          {
+            "id": "gi_tm_00_08",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p1",
+            "error_codes": ["tense_open_time_with_past"],
+            "confusion_set": "cs_past_time_reference",
+            "twin_id": "gi_tm_00_09",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "where she still works",
+            "payload": {
+              "context": "Nadia is showing a visitor round the depot where she still works.",
+              "stem": "I ___ here for six years.",
+              "options": [
+                { "text": "worked", "why_this_means": "That the six years are shut and she has moved on somewhere else." },
+                { "text": "have worked", "why_this_means": "That the six years are still running and she is standing in the seventh." }
+              ],
+              "key": 1
+            },
+            "expected": ["have worked"],
+            "feedback": {
+              "why_key": "She is in the job today, so the six years have not closed and English keeps the sentence open too.",
+              "feed_forward": "Before you choose, ask whether the stretch of time has closed."
+            }
+          },
+          {
+            "id": "gi_tm_00_09",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p1",
+            "error_codes": ["tense_finished_time_with_perfect"],
+            "confusion_set": "cs_past_time_reference",
+            "twin_id": "gi_tm_00_08",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "on her last day",
+            "payload": {
+              "context": "Nadia is clearing her desk on her last day at the depot.",
+              "stem": "I ___ here for six years.",
+              "options": [
+                { "text": "worked", "why_this_means": "That the six years are shut and she has moved on somewhere else." },
+                { "text": "have worked", "why_this_means": "That the six years are still running and she is standing in the seventh." }
+              ],
+              "key": 0
+            },
+            "expected": ["worked"],
+            "feedback": {
+              "why_key": "Today closes the six years, so the sentence closes with them. Same words, opposite claim.",
+              "feed_forward": "Ask what the situation does to the period, not what the words look like."
+            }
+          },
+          {
+            "id": "gi_tm_00_10",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": ["tense_open_time_with_past"],
+            "confusion_set": "cs_past_time_reference",
+            "twin_id": "gi_tm_00_11",
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "while the team is still out in the field",
+            "payload": {
+              "context": "A progress note written while the team is still out in the field.",
+              "stem": "We ___ eleven of the fifteen inlets.",
+              "options": [
+                { "text": "surveyed", "why_this_means": "That the survey is over and eleven is the final total." },
+                { "text": "have surveyed", "why_this_means": "That eleven is the count so far and four are still to come." }
+              ],
+              "key": 1
+            },
+            "expected": ["have surveyed"],
+            "feedback": {
+              "why_key": "Counting what is done so far only makes sense inside a job that is still running.",
+              "feed_forward": "If four are still to come, keep the period open."
+            }
+          },
+          {
+            "id": "gi_tm_00_11",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": ["tense_finished_time_with_perfect"],
+            "confusion_set": "cs_past_time_reference",
+            "twin_id": "gi_tm_00_10",
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "closing paragraph of the final report",
+            "payload": {
+              "context": "The closing paragraph of the final report, written after the fieldwork ended.",
+              "stem": "We ___ eleven of the fifteen inlets.",
+              "options": [
+                { "text": "surveyed", "why_this_means": "That the survey is over and eleven is the final total." },
+                { "text": "have surveyed", "why_this_means": "That eleven is the count so far and four are still to come." }
+              ],
+              "key": 0
+            },
+            "expected": ["surveyed"],
+            "feedback": {
+              "why_key": "The fieldwork is over, so eleven is not a running total any more. It is the answer.",
+              "feed_forward": "A finished job takes a finished tense, even when the number is disappointing."
+            }
+          },
+          {
+            "id": "gi_tm_00_12",
+            "kind": "contrast_pair",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "reading",
+            "error_codes": ["tense_finished_time_with_perfect"],
+            "confusion_set": "cs_past_time_reference",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "have fallen",
+            "payload": {
+              "context": "Two sentences taken from different reports on the same river.",
+              "sentences": [
+                "Water levels in the Verdon have fallen.",
+                "Water levels in the Verdon fell."
+              ],
+              "meanings": [
+                "The river is low right now.",
+                "The levels went down at some point, and the sentence stops there."
+              ],
+              "key": [0, 1]
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Only one of these tells you anything about the river today, and it is not the shorter one.",
+              "feed_forward": "Ask what each version claims about now, not what happened."
+            }
+          },
+          {
+            "id": "gi_tm_00_13",
+            "kind": "both_ok",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_housing",
+            "skill_hook": "speaking_p3",
+            "error_codes": ["tense_open_time_with_past"],
+            "confusion_set": "cs_past_time_reference",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": "took the flat downstairs at the start of the last decade",
+            "payload": {
+              "context": "Two neighbours talking about the woman who took the flat downstairs at the start of the last decade.",
+              "stem": "She ___ in Ashfield for ten years.",
+              "options": [
+                { "text": "lived", "why_this_means": "That the ten years are a closed chapter and she has gone." },
+                { "text": "has lived", "why_this_means": "That she is still downstairs and the tenth year has just gone by." }
+              ],
+              "key": "both",
+              "follow_up": {
+                "question": "Which version tells you she is still downstairs?",
+                "key": 1
+              }
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Both are correct English. They are not the same claim, and that is the entire point of this pair.",
+              "feed_forward": "Decide what you want to say about now, then pick."
+            }
+          },
+          {
+            "id": "gi_tm_00_14",
+            "kind": "judge",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t2",
+            "error_codes": ["tense_open_time_with_past"],
+            "confusion_set": "cs_past_time_reference",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "Since the charge came in",
+            "payload": {
+              "context": "From a draft essay paragraph.",
+              "sentence": "Since the charge came in, traffic in the centre dropped by a fifth.",
+              "acceptable": false,
+              "reasons": [
+                "the period opened by since is still running",
+                "the traffic has not dropped yet",
+                "the verb form itself is wrong",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The sentence opens a period and then shuts it three words later. The reader has to pick one.",
+              "feed_forward": "When you write since, finish the sentence with a form that reaches now."
+            }
+          },
+          {
+            "id": "gi_tm_00_15",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_housing",
+            "skill_hook": "writing_t2",
+            "error_codes": ["tense_finished_time_with_perfect"],
+            "confusion_set": "cs_past_time_reference",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "in 1998",
+            "payload": {
+              "sentence": "The Brackenfield mill has closed in 1998, and the site has stood empty ever since.",
+              "error_span": "has closed in 1998",
+              "accept_overlap_tokens": 1
+            },
+            "expected": ["closed in 1998"],
+            "feedback": {
+              "why_key": "The second half of the sentence is right: the standing empty reaches now. The closing does not, because 1998 shut it.",
+              "feed_forward": "Delete the auxiliary when a year is named."
+            }
+          },
+          {
+            "id": "gi_tm_00_16",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t2",
+            "error_codes": ["tense_open_time_with_past"],
+            "confusion_set": "cs_past_time_reference",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "Your team took over the Marlow depot at the start of this year and you are still running it. Write one sentence about something that is different there now.",
+              "required_structure": "present_perfect",
+              "seed_from_vocab_queue": true,
+              "min_words": 8,
+              "max_words": 30,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "You are still in the year and still in the job, so the change belongs in an open period.",
+              "feed_forward": "Say what is different now, not what happened in March."
+            }
+          },
+          {
+            "id": "gi_tm_00_17",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t2",
+            "error_codes": ["tense_drift_in_paragraph"],
+            "confusion_set": "cs_past_time_reference",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Here is a body paragraph from your last Task 2 answer. Rewrite one sentence of it so that it compares how things are now with how they used to be, over a period that has not closed. Two minutes.",
+              "required_structure": "present_perfect",
+              "seed_from_vocab_queue": false,
+              "min_words": 12,
+              "max_words": 40,
+              "task_ref": "wp_core_t2_two_part_changing_careers"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "This is the sentence the essay was missing: a comparison across time that the reader can still stand inside.",
+              "feed_forward": "In the last read-through, check the verbs on their own, in order."
+            }
+          }
+        ]
+      }
+    }
+  ],
+
+  "vocab_new": [
+    {
+      "id": "vt_tm_stem_from",
+      "lemma": "stem from",
+      "pos": "phrase",
+      "deck": "topic-work",
+      "entry_json": {
+        "schema_version": 2,
+        "headword": "stem from",
+        "ipa": "stem frɒm",
+        "pos": "phrase",
+        "definition": "to be caused by something, or to have started from it",
+        "own_context_sentence": "Most of the delays on the Ashfield line stem from a shortage of qualified drivers.",
+        "example_sentences": [
+          "The complaints stem largely from how the shift rota was redrawn.",
+          "Much of the disagreement stems from two departments measuring the same thing differently."
+        ],
+        "collocations": [
+          "stem from a shortage of",
+          "stem largely from",
+          "many of these problems stem from",
+          "stem directly from"
+        ],
+        "topic_tags": ["work-careers"],
+        "topic_id": "topic_work",
+        "cefr_level": "B2",
+        "unit_type": "chunk",
+        "register": "written",
+        "frequency_band": 3,
+        "syllables": 2,
+        "word_family": [],
+        "chunk": {
+          "shape": "stem from + NOUN PHRASE",
+          "fixed_part": "stem from",
+          "open_slots": [
+            {
+              "slot": "NOUN PHRASE",
+              "fills": [
+                "a shortage of drivers",
+                "poor planning",
+                "the way the scheme is funded",
+                "a decision taken years earlier"
+              ]
+            }
+          ],
+          "dependent_preposition": "from",
+          "is_frame": false
+        },
+        "contexts": [
+          {
+            "id": "c1",
+            "text": "Most of the delays on the Ashfield line stem from a shortage of qualified drivers.",
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t2",
+            "gap_span": "stem from",
+            "unique_answer": true,
+            "note": null
+          },
+          {
+            "id": "c2",
+            "text": "A lot of that stems from how the shifts were rewritten last spring, if I'm honest.",
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p3",
+            "gap_span": "stems from",
+            "unique_answer": true,
+            "note": "Third-person -s on a singular subject; the spoken register keeps the contraction."
+          },
+          {
+            "id": "c3",
+            "text": "Much of the rise in household debt stems from the cost of renting rather than from wages.",
+            "register": "academic",
+            "topic_id": "topic_money",
+            "skill_hook": "writing_t2",
+            "gap_span": "stems from",
+            "unique_answer": true,
+            "note": null
+          },
+          {
+            "id": "c4",
+            "text": "Her interest in coastal engineering stemmed from a summer she spent surveying the Sandmouth estuary.",
+            "register": "written",
+            "topic_id": "topic_science",
+            "skill_hook": "speaking_p2",
+            "gap_span": "stemmed from",
+            "unique_answer": true,
+            "note": "Past simple, because the summer is closed. Useful alongside gr_tm_00."
+          }
+        ],
+        "confusables": [
+          {
+            "term": "result in",
+            "difference": "Stem from looks backwards to the cause. Result in looks forwards to the effect. They point in opposite directions and learners swap them because both feel like cause-and-effect vocabulary.",
+            "minimal_pair": [
+              "The delays stem from underfunding.",
+              "Underfunding results in delays."
+            ]
+          },
+          {
+            "term": "arise from",
+            "difference": "Close, but arise from suits a problem that appeared, while stem from suits a cause that was already there. A dispute arises from a meeting; it stems from a decision.",
+            "minimal_pair": [
+              "The dispute arose from Tuesday's meeting.",
+              "The dispute stems from a decision taken in 2019."
+            ]
+          }
+        ],
+        "grammar_links": ["gr_sub_reason_result", "gr_nominalisation", "gr_prepositions_dependent"],
+        "avoid": "Not stem of, and not stemming for. The preposition is always from, and it never disappears.",
+        "audio_hint": null
+      }
+    }
+  ],
+
+  "vocab_updates": [
+    {
+      "id": "hea_sedentary",
+      "op": "replace_entry_json",
+      "entry_json": {
+        "schema_version": 2,
+        "headword": "sedentary",
+        "ipa": "ˈsedntri",
+        "pos": "adj",
+        "definition": "involving a lot of sitting and very little physical activity",
+        "own_context_sentence": "Office workers with a sedentary lifestyle face a higher risk of heart disease.",
+        "example_sentences": [
+          "A sedentary job can be offset by walking part of the commute.",
+          "Increasingly sedentary habits explain much of the rise in obesity."
+        ],
+        "collocations": [
+          "a sedentary lifestyle",
+          "sedentary work",
+          "increasingly sedentary",
+          "largely sedentary"
+        ],
+        "topic_tags": ["health"],
+        "topic_id": "topic_health",
+        "cefr_level": "C1",
+        "unit_type": "word",
+        "register": "academic",
+        "frequency_band": 4,
+        "syllables": 3,
+        "word_family": [
+          { "form": "sedentary", "pos": "adj", "note": "the only common form; there is no verb" },
+          { "form": "sedentariness", "pos": "noun", "note": "rare and clumsy — write a sedentary lifestyle instead" }
+        ],
+        "chunk": null,
+        "contexts": [
+          {
+            "id": "c1",
+            "text": "Office workers with a sedentary lifestyle face a higher risk of heart disease.",
+            "register": "academic",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "gap_span": "sedentary",
+            "unique_answer": true,
+            "note": null
+          },
+          {
+            "id": "c2",
+            "text": "My job's pretty sedentary, so I cycle the last mile in to make up for it.",
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p1",
+            "gap_span": "sedentary",
+            "unique_answer": true,
+            "note": "The spoken register wants the contraction and a short clause after it."
+          },
+          {
+            "id": "c3",
+            "text": "As work has become more sedentary, the share of adults meeting activity guidelines has fallen.",
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t1_academic",
+            "gap_span": "sedentary",
+            "unique_answer": true,
+            "note": "Doubles as a present-perfect context — see grammar_links."
+          }
+        ],
+        "confusables": [
+          {
+            "term": "inactive",
+            "difference": "Inactive says a person is not doing anything at all. Sedentary says what they are doing involves sitting. A busy office worker is sedentary and not inactive.",
+            "minimal_pair": [
+              "The clinic tracks patients who are largely inactive.",
+              "The clinic tracks patients whose work is largely sedentary."
+            ]
+          }
+        ],
+        "grammar_links": ["gr_pp_vs_past_simple", "gr_nominalisation"],
+        "avoid": "Not a sedentary person as a first choice — English prefers a sedentary lifestyle, a sedentary job, sedentary work.",
+        "audio_hint": null
+      }
+    }
+  ]
+}

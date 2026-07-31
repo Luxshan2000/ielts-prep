@@ -38,6 +38,7 @@ from bandready.content.validate import (
     DATA_FILES,
     PackError,
     PackReport,
+    iter_grammar_items,
     iter_listening_questions,
     iter_reading_questions,
     read_manifest,
@@ -176,6 +177,12 @@ TABLE_COLUMNS: dict[str, tuple[tuple[str, bool], ...]] = {
     "vocab_pack_entries": (
         ("id", False), ("lemma", False), ("pos", False), ("deck", False), ("entry_json", True),
     ),
+    # Grammar: eight columns, and the whole teaching payload inside point_json. Adding a
+    # ninth top-level key to the authored row without adding it here drops it silently.
+    "grammar_points": (
+        ("id", False), ("unit_id", False), ("sequence_index", False), ("title", False),
+        ("cefr_level", False), ("role", False), ("topic_id", False), ("point_json", True),
+    ),
 }
 
 # Import order respects the FKs (topics ← everything; passages ← tests; scripts ← tests).
@@ -189,6 +196,8 @@ IMPORT_ORDER: tuple[str, ...] = (
     "listening_scripts.jsonl",
     "listening_tests.jsonl",
     "vocab.jsonl",
+    # After topics.jsonl because grammar_points.topic_id is an FK; position otherwise free.
+    "grammar.jsonl",
 )
 
 PACKED_TABLES: tuple[str, ...] = tuple(
@@ -273,7 +282,7 @@ def ensure_topics(session: Any, rows_by_file: dict[str, list[dict[str, Any]]]) -
     declared = {r["id"] for r in rows_by_file.get("topics.jsonl", [])}
     referenced: set[str] = set()
     for name in ("card_sets.jsonl", "speaking_cards.jsonl", "writing_prompts.jsonl",
-                 "reading_passages.jsonl", "listening_scripts.jsonl"):
+                 "reading_passages.jsonl", "listening_scripts.jsonl", "grammar.jsonl"):
         for row in rows_by_file.get(name, []):
             if row.get("topic_id"):
                 referenced.add(str(row["topic_id"]))
@@ -414,6 +423,74 @@ def derive_listening_questions(session: Any, rows: list[dict[str, Any]]) -> int:
                     "answers_json = excluded.answers_json, "
                     "cue_line_index = excluded.cue_line_index, "
                     "explanation = excluded.explanation"
+                ),
+                payload,
+            )
+            total += len(payload)
+    return total
+
+
+def derive_grammar_items(session: Any, rows: list[dict[str, Any]]) -> int:
+    """Flatten ``point_json.items[]`` into ``grammar_items``.
+
+    Modelled on :func:`derive_reading_questions`, including its hard-won rule: **never
+    delete a row an attempt references.** Here the rule is satisfied by the schema rather
+    than by a subquery — ``grammar_review_logs.item_id`` is deliberately loose text and not
+    a foreign key, so the history survives an item that a later pack version drops, and the
+    delete cannot abort an upgrade on an install where the learner has actually practised.
+
+    The delete is still scoped to one point at a time, so an import that touches one point
+    never disturbs another's bank.
+    """
+    total = 0
+    for row in rows:
+        point_id = str(row["id"])
+        items = list(iter_grammar_items(row))
+        keep = [str(item["id"]) for item in items]
+        if keep:
+            stmt = text(
+                "DELETE FROM grammar_items WHERE point_id = :pid AND id NOT IN :ids"
+            ).bindparams(bindparam("ids", expanding=True))
+            session.execute(stmt, {"pid": point_id, "ids": keep})
+        else:
+            session.execute(
+                text("DELETE FROM grammar_items WHERE point_id = :pid"), {"pid": point_id}
+            )
+        payload: list[dict[str, Any]] = []
+        for item in items:
+            codes = item.get("error_codes") or []
+            payload.append(
+                {
+                    "id": str(item["id"]),
+                    "point_id": point_id,
+                    "kind": str(item.get("kind") or "interpret"),
+                    "stage": int(item.get("stage") or 0),
+                    "register": str(item.get("register") or "both"),
+                    "confusion_set": item.get("confusion_set"),
+                    "twin_id": item.get("twin_id"),
+                    "error_codes_json": json.dumps(
+                        [str(c) for c in codes] if isinstance(codes, list) else [],
+                        ensure_ascii=False,
+                    ),
+                    "topic_id": item.get("topic_id") or row.get("topic_id"),
+                    "item_json": json.dumps(
+                        {k: v for k, v in item.items() if k != "_point_id"}, ensure_ascii=False
+                    ),
+                }
+            )
+        if payload:
+            session.execute(
+                text(
+                    "INSERT INTO grammar_items (id, point_id, kind, stage, register, "
+                    "confusion_set, twin_id, error_codes_json, topic_id, item_json) VALUES "
+                    "(:id, :point_id, :kind, :stage, :register, :confusion_set, :twin_id, "
+                    ":error_codes_json, :topic_id, :item_json) "
+                    "ON CONFLICT(id) DO UPDATE SET point_id = excluded.point_id, "
+                    "kind = excluded.kind, stage = excluded.stage, "
+                    "register = excluded.register, confusion_set = excluded.confusion_set, "
+                    "twin_id = excluded.twin_id, "
+                    "error_codes_json = excluded.error_codes_json, "
+                    "topic_id = excluded.topic_id, item_json = excluded.item_json"
                 ),
                 payload,
             )
@@ -599,6 +676,9 @@ def import_pack(
         )
         counts["listening_questions"] = derive_listening_questions(
             session, rows_by_file.get("listening_scripts.jsonl") or []
+        )
+        counts["grammar_items"] = derive_grammar_items(
+            session, rows_by_file.get("grammar.jsonl") or []
         )
         counts["media_files"] = media_count
 

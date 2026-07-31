@@ -42,7 +42,37 @@ DATA_FILES: dict[str, str] = {
     "vocab.jsonl": "vocab_pack_entries",
     # Not in 11 §11.1's list; accepted so a pack can ship 09 §5.3 minimal pairs.
     "pron_pairs.jsonl": "pron_pairs",
+    # Grammar & Usage (staging-grammar/DESIGN.md §2.10). Without this entry the file
+    # validates as "not a recognised pack file", imports nothing, and the pack still
+    # reports OK — which is the silent failure the module design calls out by name.
+    "grammar.jsonl": "grammar_points",
 }
+
+#: The closed structure-detector slug set (grammar DESIGN §2.8, D4). A point naming a slug
+#: with no detector is a lint failure rather than a runtime surprise: S4/S5 grading would
+#: otherwise fall back to asking the model whether the structure is present, which is
+#: exactly the question the mechanical check exists to keep away from the model.
+GRAMMAR_STRUCTURE_SLUGS: frozenset[str] = frozenset(
+    {
+        "present_simple", "present_continuous", "present_perfect", "present_perfect_continuous",
+        "past_simple", "past_continuous", "past_perfect", "past_perfect_continuous",
+        "future_will", "future_going_to", "future_continuous", "future_perfect", "used_to",
+        "passive_any", "passive_agentless", "causative_have_get", "modal_simple",
+        "modal_perfect", "conditional_real", "conditional_unreal_present",
+        "conditional_unreal_past", "wish_unreal", "relative_defining", "relative_non_defining",
+        "participle_clause", "noun_clause_that", "embedded_question", "reported_speech",
+        "gerund_after_preposition", "comparative", "cleft",
+    }
+)
+
+#: The 14 item kinds (grammar DESIGN §2.8).
+GRAMMAR_ITEM_KINDS: frozenset[str] = frozenset(
+    {
+        "interpret", "discover", "gap_fill", "order", "transform", "choose_form",
+        "contrast_pair", "judge", "both_ok", "error_fix", "dictation", "combine",
+        "produce", "speaking_drill",
+    }
+)
 
 
 # --------------------------------------------------------------------------------------
@@ -245,6 +275,38 @@ class VocabRow(_Row):
     entry_json: dict[str, Any] | str
 
 
+class GrammarPointRow(_Row):
+    """One grammar point (grammar DESIGN §2.1).
+
+    Exactly eight columns; **every** teaching field lives inside ``point_json``, because
+    ``loader.TABLE_COLUMNS`` copies only the columns it names and silently drops any extra
+    top-level row key.
+    """
+
+    id: str
+    unit_id: str
+    sequence_index: int
+    title: str
+    cefr_level: str = "B1"
+    role: str = "form"
+    topic_id: str | None = None
+    point_json: dict[str, Any] | str
+
+    @field_validator("role")
+    @classmethod
+    def _role(cls, v: str) -> str:
+        if v not in ("form", "choice", "accuracy"):
+            raise ValueError("role must be form | choice | accuracy")
+        return v
+
+    @field_validator("cefr_level")
+    @classmethod
+    def _cefr(cls, v: str) -> str:
+        if v not in ("A1", "A2", "B1", "B2", "C1", "C2"):
+            raise ValueError("cefr_level must be A1..C2")
+        return v
+
+
 class PronPairRow(_Row):
     id: str
     a: str
@@ -266,6 +328,7 @@ ROW_SCHEMAS: dict[str, type[_Row]] = {
     "listening_tests.jsonl": ListeningTestRow,
     "vocab.jsonl": VocabRow,
     "pron_pairs.jsonl": PronPairRow,
+    "grammar.jsonl": GrammarPointRow,
 }
 
 
@@ -491,6 +554,154 @@ def validate_relations(parsed: dict[str, list[dict[str, Any]]], report: PackRepo
         if len(numbers) != len(set(numbers)):
             report.error(f"listening_scripts {row['id']}: duplicate question numbers")
 
+    validate_grammar_graph(parsed.get("grammar.jsonl", []), report)
+
+
+def validate_grammar_graph(rows: list[dict[str, Any]], report: PackReport) -> None:
+    """The zero-knowledge guarantee (grammar DESIGN §2.10 step 4, §5.3 lints 7–9, 22, 26).
+
+    A learner starting from nothing must be able to walk the sequence without ever meeting
+    a point that depends on something not yet taught. Three of these checks are the whole
+    of that promise and they are **errors, not warnings**:
+
+    * no cycle in the prerequisite graph — a cycle is a wall with no way in;
+    * ``sequence_index`` unique, and every prerequisite ordered strictly before its
+      dependant, so following the sequence is enough;
+    * every item id unique across the file, since the ladder tracks what it has shown by id
+      and a repeat would silently hide one of the two.
+
+    A prerequisite naming a point that is **not in this pack** is a *warning*, matching how
+    ``reading_tests`` treats a passage it cannot see: a partial syllabus (fewer than the
+    designed 154 points) is a real shipping state, and ``syllabus.unmet_prerequisites``
+    already treats an absent prerequisite as satisfied so the learner is never locked out
+    by a point that does not exist. It is reported loudly because it means the sequence is
+    incomplete, not because the pack is corrupt.
+    """
+    if not rows:
+        return
+
+    ids = {str(r["id"]) for r in rows}
+    seq_seen: dict[int, str] = {}
+    prereqs: dict[str, list[str]] = {}
+    dangling: list[str] = []
+    item_ids: set[str] = set()
+
+    for row in rows:
+        point_id = str(row["id"])
+        doc = as_document(row.get("point_json"))
+
+        seq = row.get("sequence_index")
+        if isinstance(seq, int):
+            clash = seq_seen.get(seq)
+            if clash is not None:
+                report.error(
+                    f"grammar {point_id}: sequence_index {seq} is already used by {clash}"
+                )
+            else:
+                seq_seen[seq] = point_id
+
+        wanted = [str(p) for p in (doc.get("prerequisites") or [])]
+        prereqs[point_id] = [p for p in wanted if p in ids]
+        dangling.extend(f"{point_id} → {p}" for p in wanted if p not in ids)
+
+        slug = doc.get("structure_slug")
+        if slug and str(slug) not in GRAMMAR_STRUCTURE_SLUGS:
+            report.error(f"grammar {point_id}: structure_slug {slug!r} has no detector")
+
+        role = str(row.get("role") or "form")
+        has_contrast = bool(doc.get("contrast"))
+        if role == "choice" and not has_contrast:
+            report.error(f"grammar {point_id}: role is 'choice' but there is no contrast block")
+        if role != "choice" and has_contrast:
+            report.error(f"grammar {point_id}: a contrast block is only allowed on a choice point")
+
+        items = doc.get("items") or []
+        by_id: dict[str, dict[str, Any]] = {}
+        for item in items:
+            if not isinstance(item, dict):
+                report.error(f"grammar {point_id}: an items[] entry is not an object")
+                continue
+            item_id = str(item.get("id") or "")
+            if not item_id:
+                report.error(f"grammar {point_id}: an item has no id")
+                continue
+            if item_id in item_ids:
+                report.error(f"grammar {point_id}: duplicate item id {item_id!r}")
+            item_ids.add(item_id)
+            by_id[item_id] = item
+            kind = str(item.get("kind") or "")
+            if kind not in GRAMMAR_ITEM_KINDS:
+                report.error(f"grammar {point_id}/{item_id}: unknown item kind {kind!r}")
+            stage = item.get("stage")
+            if not isinstance(stage, int) or not 0 <= stage <= 5:
+                report.error(f"grammar {point_id}/{item_id}: stage must be 0..5")
+
+        # A twin pair is the same stem with the opposite key: it is what stops a learner
+        # answering the contrast from the shape of the sentence rather than its meaning.
+        for item_id, item in by_id.items():
+            twin = item.get("twin_id")
+            if not twin:
+                continue
+            other = by_id.get(str(twin))
+            if other is None:
+                report.error(
+                    f"grammar {point_id}/{item_id}: twin_id {twin!r} is not an item in this point"
+                )
+                continue
+            if _option_texts(item) != _option_texts(other):
+                report.error(f"grammar {point_id}/{item_id}: its twin has different options")
+            elif (item.get("payload") or {}).get("key") == (other.get("payload") or {}).get("key"):
+                report.error(f"grammar {point_id}/{item_id}: its twin has the same key")
+
+    # (b) prerequisites are taught first.
+    seq_of = {str(r["id"]): r.get("sequence_index") for r in rows}
+    for point_id, deps in prereqs.items():
+        here = seq_of.get(point_id)
+        for dep in deps:
+            there = seq_of.get(dep)
+            if isinstance(here, int) and isinstance(there, int) and there >= here:
+                report.error(
+                    f"grammar {point_id} (sequence_index {here}) needs {dep} "
+                    f"(sequence_index {there}), which is taught later or at the same time"
+                )
+
+    # (c) Kahn's algorithm: whatever it cannot consume is inside a cycle.
+    indegree = {pid: len(set(deps)) for pid, deps in prereqs.items()}
+    dependants: dict[str, list[str]] = {pid: [] for pid in prereqs}
+    for pid, deps in prereqs.items():
+        for dep in set(deps):
+            dependants.setdefault(dep, []).append(pid)
+    queue = [pid for pid, n in indegree.items() if n == 0]
+    consumed = 0
+    while queue:
+        node = queue.pop()
+        consumed += 1
+        for child in dependants.get(node, []):
+            indegree[child] -= 1
+            if indegree[child] == 0:
+                queue.append(child)
+    if consumed != len(prereqs):
+        stuck = sorted(pid for pid, n in indegree.items() if n > 0)
+        report.error(
+            "grammar: the prerequisite graph has a cycle — these points can never be "
+            f"reached: {', '.join(stuck[:12])}"
+        )
+
+    if dangling:
+        report.warn(
+            f"grammar: {len(dangling)} prerequisite reference(s) name a point this pack does "
+            "not carry — the syllabus is incomplete and those edges are treated as already "
+            f"met (e.g. {'; '.join(sorted(dangling)[:5])})"
+        )
+
+
+def _option_texts(item: dict[str, Any]) -> list[str]:
+    options = (item.get("payload") or {}).get("options") or []
+    out: list[str] = []
+    for option in options:
+        out.append(str(option.get("text")) if isinstance(option, dict) else str(option))
+    return out
+
 
 # --------------------------------------------------------------------------------------
 # Question extraction (shared with the loader)
@@ -528,6 +739,20 @@ def iter_reading_questions(row: dict[str, Any]) -> Iterator[dict[str, Any]]:
         for question in group.get("questions") or []:
             if isinstance(question, dict):
                 yield {**question, "_group_index": group_index, "_group": group}
+
+
+def iter_grammar_items(row: dict[str, Any]) -> Iterator[dict[str, Any]]:
+    """Every practice item inside one grammar point, tagged with its point id.
+
+    The shared extractor, mirroring :func:`iter_reading_questions`: the loader derives
+    ``grammar_items`` from exactly this, so the validator and the importer can never
+    disagree about what an item is.
+    """
+    doc = as_document(row.get("point_json"))
+    point_id = str(row.get("id") or "")
+    for item in doc.get("items") or []:
+        if isinstance(item, dict) and item.get("id"):
+            yield {**item, "_point_id": point_id}
 
 
 def iter_listening_questions(row: dict[str, Any]) -> Iterator[dict[str, Any]]:

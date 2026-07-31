@@ -1,0 +1,1382 @@
+{
+  "staging_version": 1,
+  "block": "verb-patterns",
+  "authored_by": "G-A9:verb-patterns",
+  "_readme": [
+    "Unit u12 - what follows a verb: the core to-infinitive vs -ing lists, the -ing rule after a preposition, verb + object + infinitive, the infinitive of purpose, -ing as subject, that-clauses, the meaning-changing verbs, adjective + preposition + -ing, and the causative set.",
+    "This block key is not one of the six in DESIGN.md section 4.1; the orchestrator re-split the work. All nine point ids are taken from the closed set in DESIGN.md section 4.2 and none is invented. gr_gerund_after_prep and gr_noun_clause_that are carried here under unit_id u12 because this block owns verb complementation and no block owns u09; DESIGN.md override 6 lists them under u09 and the verify agent may relabel unit_id without touching anything else.",
+    "Much of this unit is lexical rather than rule-governed. DESIGN.md and research/01-syllabus.md section 8.5 both say so, and the teaching says so out loud: gr_verb_patterns_core, gr_adj_prep_patterns and gr_causative_verbs are taught as closed lists to be retrieved, not as rules to be reasoned from. The two choice points are the places where a real meaning contrast exists.",
+    "sequence_index values 115-123 sit in the gap the sibling staging files left between u11 (106-114) and u16 (128-136). Only one prerequisite edge leaves the block: gr_verb_patterns_core requires gr_present_simple (u02). Everything else is internal, so the unit is walkable the moment u02 lands.",
+    "vocab_new and vocab_updates are deliberately empty: a sibling staging file (vocabulary-expansion.json) owns the vocabulary push and authoring entries here would risk id collisions.",
+    "Open dependencies reported rather than invented: cs_purpose_marker gains its second member when gr_sub_purpose (u09) is authored, and cs_verb_pattern gains gr_reporting_verbs (u13). Both sets already have two or more members inside this block, so neither is broken today."
+  ],
+  "points": [
+    {
+      "id": "gr_verb_patterns_core",
+      "unit_id": "u12",
+      "sequence_index": 66,
+      "title": "Choosing between to work and working after the verb in front",
+      "cefr_level": "B1",
+      "role": "accuracy",
+      "topic_id": "topic_work",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "Verb + to-infinitive vs verb + -ing",
+        "prerequisites": [
+          "gr_present_simple"
+        ],
+        "unlocks_hint": "gr_verb_obj_infinitive",
+        "priority": 1,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 1,
+        "gravity": "local",
+        "confusion_set": "cs_verb_pattern",
+        "structure_slug": null,
+        "signal_blocklist": [
+          "longer action",
+          "finished action",
+          "in the future",
+          "still going on"
+        ],
+        "fixes_errors": [
+          "verb_pattern_wrong",
+          "word_form_wrong"
+        ],
+        "estimated_minutes": 22,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can pick the right shape, to do or doing, for the verbs I use most often.",
+          "why_it_matters": "The sentence still makes sense when this is wrong, so nobody stops you. It just leaks a small error through every paragraph you write.",
+          "meaning": "Most of the time this carries no meaning at all. The verb standing in front reaches for one shape or the other, and which one it reaches for is a fact about that verb rather than a fact about the world. Enjoy takes doing. Decide takes to do. Nothing about enjoying is longer or less finished than deciding. So the verb and its shape are learned together, as one piece, the way the word itself was learned.",
+          "form": {
+            "pattern": "verb + to + base verb   |   verb + verb-ing",
+            "notes": [
+              "Reaches for to: decide, want, hope, plan, agree, offer, refuse, learn, manage, afford, promise, seem, tend, fail, expect",
+              "Reaches for -ing: enjoy, avoid, finish, suggest, mind, keep, practise, consider, risk, deny, admit, involve, imagine, delay",
+              "Takes either, with no change of meaning: begin, start, continue, prefer, like, hate, love",
+              "There is no third list to work out. A verb that is not in one of the first two has to be looked up once and then stored"
+            ],
+            "negative": "The word not goes in front of the shape, never inside it: we decided not to renew the contract; she admitted not checking the figures.",
+            "question": "Ask the verb, not the sentence: what does this verb take?"
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "verbs that reach for to",
+                "text": "decided to move, agreed to pay, managed to finish, refused to sign"
+              },
+              "right": {
+                "role": "verbs that reach for -ing",
+                "text": "avoided moving, suggested paying, finished writing, denied signing"
+              },
+              "arrow": "left_to_right",
+              "caption": "Two piles, and no rule running between them. The verb on the left of the gap tells you which pile you are standing in."
+            }
+          },
+          "worked_example": {
+            "sentence": "The Marlow depot managed to cut its fuel bill without losing a single route.",
+            "why_this_form": "Manage is one of the verbs that arrives with to already attached, the way depend arrives with on. The choice was made by the word manage, not by the situation.",
+            "what_the_other_would_mean": "Managed cutting means nothing at all. That is the useful half of this point: the wrong shape here is not a different meaning, it is no meaning."
+          },
+          "notice_set": [
+            {
+              "sentence": "The council avoided closing the Marlow library.",
+              "question": "Did the library close?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Avoid says the thing was kept from happening, and the verb after avoid always turns up in the -ing shape."
+            },
+            {
+              "sentence": "The crew managed to repair the pump before the tide turned.",
+              "question": "Was the pump repaired?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Manage says the hard thing was actually done. Manage always takes to, whatever the sentence is about."
+            },
+            {
+              "sentence": "Our neighbours have offered to drive us to the station.",
+              "question": "Have they driven you to the station yet?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "An offer points forward, so nothing has happened yet. Offer is one of the to verbs."
+            },
+            {
+              "sentence": "She kept apologising for the delay.",
+              "question": "How many times did she apologise?",
+              "options": [
+                "once",
+                "more than once",
+                "the sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Keep says the action came round again and again, and keep is one of the -ing verbs."
+            },
+            {
+              "sentence": "The firm denied causing any lasting damage to the river.",
+              "question": "Does the firm say it damaged the river?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Deny pushes the thing away from the speaker, and deny takes the -ing shape every time."
+            },
+            {
+              "sentence": "We cannot afford to lose another driver this winter.",
+              "question": "Has a driver left this winter?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 2,
+              "why": "The sentence is about what would be too costly, not about what has happened. Afford is a to verb."
+            }
+          ],
+          "discovery": {
+            "prompt": "Every sentence below is correct English. Try to find the rule that puts a sentence in the left column rather than the right one.",
+            "pairs": [
+              [
+                "They enjoy walking to work.",
+                "They want to walk to work."
+              ],
+              [
+                "We finished repairing the roof.",
+                "We agreed to repair the roof."
+              ],
+              [
+                "He avoided answering the question.",
+                "He refused to answer the question."
+              ]
+            ],
+            "candidate_rules": [
+              {
+                "text": "There is no rule to find. The verb on the left of the gap belongs to a list, and the list is learned rather than worked out.",
+                "verdict": "right"
+              },
+              {
+                "text": "Verbs about liking or disliking something take the -ing shape.",
+                "verdict": "too_narrow"
+              },
+              {
+                "text": "The -ing shape is used when the action goes on for longer.",
+                "verdict": "keyword_trap"
+              }
+            ]
+          },
+          "rule_line": "Ask the verb in front, not the sentence. Store each verb with its shape attached.",
+          "false_rule": "That -ing here means a longer or unfinished action. It does not. Finish takes -ing, and finishing is exactly what is over."
+        },
+        "errors": [
+          {
+            "code": "verb_pattern_wrong",
+            "wrong": "The council suggested to build a second footbridge.",
+            "right": "The council suggested building a second footbridge.",
+            "why_it_happens": "Suggest means roughly what advise and recommend mean, and those feel like to verbs, so to is supplied by analogy. Meaning is doing the choosing here, and meaning has no vote.",
+            "smallest_fix": "Change one word: to build becomes building.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "verb_pattern_wrong",
+            "wrong": "We are considering to move the depot to Verdon.",
+            "right": "We are considering moving the depot to Verdon.",
+            "why_it_happens": "Consider points at something not yet done, and a not-yet action feels as though it should take the forward-looking to shape. Consider simply refuses it.",
+            "smallest_fix": "Change one word: to move becomes moving.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "verb_pattern_wrong",
+            "wrong": "She enjoys to cycle along the towpath at the weekend.",
+            "right": "She enjoys cycling along the towpath at the weekend.",
+            "why_it_happens": "To do is the shape a learner meets first, so it becomes the default filling for every gap. Enjoy is one of the commonest verbs that will not take it.",
+            "smallest_fix": "Change one word: to cycle becomes cycling.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "word_form_wrong",
+            "wrong": "They decided to moving the market to Tuesdays.",
+            "right": "They decided to move the market to Tuesdays.",
+            "why_it_happens": "Both shapes have been half-learned and both arrive at once. It is the signature of a chunk that was never stored whole, only as two loose pieces.",
+            "smallest_fix": "Delete three letters: moving becomes move.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "Every policy sentence has one verb sitting on top of another.",
+            "model": "Councils that plan to cut bus subsidies rarely consider replacing them with anything."
+          },
+          {
+            "surface": "speaking_p2",
+            "mode": "productive",
+            "note": "A two-minute answer is a chain of verbs following verbs.",
+            "model": "I kept going back because I enjoyed working with people who had done the job for years."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "Whether the second action happened is carried by the first verb.",
+            "model": "The company denied withholding the survey results for eight months."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "lexis"
+        ],
+        "used_in": [
+          {
+            "module": "writing",
+            "ref_id": "wp_t2od_13_discussion_four_day_working_week",
+            "quote": "Both sides of this essay are built from verbs like plan, expect, avoid and involve, each dragging its own shape behind it."
+          },
+          {
+            "module": "speaking",
+            "ref_id": "card_p1_work_or_study_801",
+            "quote": "Saying what you enjoy, what you have decided and what you keep doing uses three different shapes in one answer."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_verb_patterns_core_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "My manager has offered to swap my Friday shift.",
+              "question": "Has the shift been swapped?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "An offer is something put on the table and not yet taken up. Offer is one of the verbs that arrives with to attached.",
+              "feed_forward": "Read the first verb for what happened, and take its shape as given."
+            }
+          },
+          {
+            "id": "gi_verb_patterns_core_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "reading",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The report avoided naming the firm responsible for the spill.",
+              "question": "Does the report name the firm?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Avoid says the naming was kept from happening. The -ing shape after it is not adding anything; avoid always takes it.",
+              "feed_forward": "Let the first verb tell you what happened, not the shape of the second."
+            }
+          },
+          {
+            "id": "gi_verb_patterns_core_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "suggested to reduce",
+            "payload": {
+              "context": "From a paragraph about a college trying to save money.",
+              "sentence": "The college suggested to reduce the number of evening classes.",
+              "acceptable": false,
+              "reasons": [
+                "suggest takes the -ing shape, not to",
+                "the sentence needs a person after suggested",
+                "reduce is the wrong verb here",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Suggest sits in the -ing pile. Nothing about the meaning of this sentence is wrong, which is exactly why the error survives so long.",
+              "feed_forward": "Check suggest against the list before you write the second verb."
+            }
+          },
+          {
+            "id": "gi_verb_patterns_core_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a letter about the last bus out of Verdon.",
+              "stem": "Passengers who miss it cannot afford ___ (wait) an hour for a taxi.",
+              "blanks": 1,
+              "lemma_hints": [
+                "wait"
+              ]
+            },
+            "expected": [
+              "to wait"
+            ],
+            "feedback": {
+              "why_key": "Afford is a to verb, and it stays a to verb after cannot. The negative changes nothing about the shape.",
+              "feed_forward": "Look past the negative to the verb that owns the shape."
+            }
+          },
+          {
+            "id": "gi_verb_patterns_core_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_food",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "A cook talking about a busy Saturday.",
+              "stem": "I have finally finished ___ (plan) the menu for the weekend.",
+              "blanks": 1,
+              "lemma_hints": [
+                "plan"
+              ]
+            },
+            "expected": [
+              "planning"
+            ],
+            "feedback": {
+              "why_key": "Finish sits in the -ing pile. The planning is over, so if -ing meant an unfinished action this sentence could not exist.",
+              "feed_forward": "Store finish and its -ing shape as one chunk."
+            }
+          },
+          {
+            "id": "gi_verb_patterns_core_06",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_technology",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a maintenance note on the Verdon sensor trial.",
+              "stem": "The team keeps ___ (find) the same fault, and has agreed ___ (replace) the whole batch.",
+              "blanks": 2,
+              "lemma_hints": [
+                "find",
+                "replace"
+              ]
+            },
+            "expected": [
+              "finding, to replace",
+              "finding to replace"
+            ],
+            "feedback": {
+              "why_key": "One sentence, two verbs, two different piles. Keep takes -ing and agree takes to, and neither choice is about the meaning.",
+              "feed_forward": "Handle each verb separately; the sentence has no single setting."
+            }
+          },
+          {
+            "id": "gi_verb_patterns_core_07",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_housing",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "The landlord will not repair the boiler. He has said so twice.",
+              "instruction": "Write it as one sentence that starts with the landlord and uses refuse.",
+              "starter": "The landlord has refused ___"
+            },
+            "expected": [
+              "to repair the boiler",
+              "to repair the boiler twice",
+              "twice to repair the boiler"
+            ],
+            "feedback": {
+              "why_key": "Refuse belongs to the to pile, and it stays there whatever tense is wrapped round it.",
+              "feed_forward": "Fix the shape from the verb, then worry about the tense."
+            }
+          },
+          {
+            "id": "gi_verb_patterns_core_08",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "the",
+                "council",
+                "has",
+                "postponed",
+                "replacing",
+                "the",
+                "recycling",
+                "bins"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              ],
+              "context": "Build one sentence about a delay to the Ashfield recycling scheme."
+            },
+            "expected": [
+              "the council has postponed replacing the recycling bins"
+            ],
+            "feedback": {
+              "why_key": "Postpone takes the -ing shape, and that shape sits directly against the verb with nothing between them.",
+              "feed_forward": "Put the second verb straight after the first, in the shape the first one wants."
+            }
+          },
+          {
+            "id": "gi_verb_patterns_core_09",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "listening",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "They've agreed to look at it, but they keep putting the meeting off.",
+              "scored_tokens": [
+                "agreed",
+                "to",
+                "look",
+                "keep",
+                "putting"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "they've agreed to look at it, but they keep putting the meeting off",
+              "they have agreed to look at it, but they keep putting the meeting off",
+              "theyve agreed to look at it but they keep putting the meeting off"
+            ],
+            "feedback": {
+              "why_key": "In speech the to after agreed is almost swallowed. If you never hear it you will never write it, and the sentence will come out as agreed look.",
+              "feed_forward": "Listen for the small unstressed to riding between the two verbs."
+            }
+          },
+          {
+            "id": "gi_verb_patterns_core_10",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": "cs_verb_pattern",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "avoid to ask",
+            "payload": {
+              "sentence": "Most students avoid to ask questions in a full lecture theatre.",
+              "error_span": "avoid to ask",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "avoid asking"
+            ],
+            "feedback": {
+              "why_key": "Avoid is in the -ing pile. Nothing in the sentence signals it, which is why this one has to be retrieved rather than reasoned out.",
+              "feed_forward": "When the fix is a list fact, retrieve it; do not argue from meaning."
+            }
+          },
+          {
+            "id": "gi_verb_patterns_core_11",
+            "kind": "judge",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_health",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": "cs_verb_pattern",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "decided cutting down",
+            "payload": {
+              "context": "Someone talking about their shifts at the hospital.",
+              "sentence": "I've decided cutting down on nights, but I don't mind to work weekends.",
+              "acceptable": false,
+              "reasons": [
+                "both verbs have taken the wrong shape",
+                "only the first verb has taken the wrong shape",
+                "only the second verb has taken the wrong shape",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Decide belongs with to and mind belongs with -ing, so the sentence has them the wrong way round twice over.",
+              "feed_forward": "Check each verb against its own pile before you move on."
+            }
+          },
+          {
+            "id": "gi_verb_patterns_core_12",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "A town is about to start collecting food waste from every street. Write one sentence saying what households will have to stop doing and what the council has agreed to provide.",
+              "required_structure": null,
+              "seed_from_vocab_queue": true,
+              "min_words": 12,
+              "max_words": 32,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The prompt forces one verb from each pile into the same sentence, which is where the error normally appears.",
+              "feed_forward": "Write the first verb, then ask it what shape it wants."
+            }
+          },
+          {
+            "id": "gi_verb_patterns_core_13",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong",
+              "word_form_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Take the body paragraph you wrote on the four-day week. Rewrite two sentences so that each one has a verb sitting on top of another verb, and check both shapes before you stop. Three minutes.",
+              "required_structure": null,
+              "seed_from_vocab_queue": false,
+              "min_words": 25,
+              "max_words": 60,
+              "task_ref": "wp_t2od_13_discussion_four_day_working_week"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Under time pressure the default shape wins, and the default shape is to. Two sentences is enough to catch that habit in the act.",
+              "feed_forward": "On the reread, look only at pairs of verbs standing next to each other."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_gerund_after_prep",
+      "unit_id": "u12",
+      "sequence_index": 67,
+      "title": "Putting the -ing shape after every preposition, with no exceptions",
+      "cefr_level": "B1",
+      "role": "accuracy",
+      "topic_id": "topic_environment",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "The -ing form after a preposition",
+        "prerequisites": [
+          "gr_verb_patterns_core"
+        ],
+        "unlocks_hint": "gr_adj_prep_patterns",
+        "priority": 1,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 1,
+        "gravity": "local",
+        "confusion_set": "cs_verb_pattern",
+        "structure_slug": "gerund_after_preposition",
+        "signal_blocklist": [
+          "in this way",
+          "the method used",
+          "as a way of"
+        ],
+        "fixes_errors": [
+          "verb_pattern_wrong",
+          "subordinator_vs_preposition",
+          "preposition_dependent"
+        ],
+        "estimated_minutes": 18,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can put a verb after by, without, after, instead of or good at without stopping to think.",
+          "why_it_matters": "This is the one place in the whole area where a real rule exists, it never has exceptions, and it repairs a very common written error at the same time.",
+          "meaning": "A preposition is a word that expects a thing after it: after lunch, without a ticket, good at maths. When what follows is an action rather than a thing, English turns the action into a thing by adding -ing. That is all -ing is doing here. It is not saying the action is long, or repeated, or still running. It is the shape a verb wears when it has to stand where a noun would stand.",
+          "form": {
+            "pattern": "preposition + verb-ing",
+            "notes": [
+              "Common ones: by, without, after, before, instead of, on, in, for, about, of, at, with, since, apart from",
+              "Despite and in spite of are prepositions, so they take -ing or a noun and never a full clause",
+              "A few phrases end in the word to and that to is a preposition: look forward to, object to, be used to, be committed to, in addition to. The verb after them is -ing",
+              "A preposition can never be followed by to plus the base verb. There is no sentence in English where it can"
+            ],
+            "negative": "The word not goes between the preposition and the -ing: she apologised for not telling us sooner.",
+            "question": "Is the word in front of the gap a preposition? Then the question is already answered."
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "the word before the gap is a preposition",
+                "text": "by / without / after / instead of / good at / look forward to"
+              },
+              "right": {
+                "role": "so the verb can only wear -ing",
+                "text": "closing, saying, finishing, replacing, fixing, hearing"
+              },
+              "arrow": "left_to_right",
+              "caption": "One arrow, no branches. This is the only part of the unit where knowing the rule is enough."
+            }
+          },
+          "worked_example": {
+            "sentence": "The depot cut its emissions by replacing the two oldest vans.",
+            "why_this_form": "By is a preposition, so whatever follows it has to stand where a noun stands. Replacing is the verb replace wearing the shape that lets it do that.",
+            "what_the_other_would_mean": "By to replace has no meaning available to it. The preposition has asked for a thing and been handed something that cannot be one."
+          },
+          "notice_set": [
+            {
+              "sentence": "They cut costs by closing the two smallest depots.",
+              "question": "How were the costs cut?",
+              "options": [
+                "by closing depots",
+                "by opening depots",
+                "the sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "By names the method, and the action that is the method turns up in the -ing shape because by needs a thing after it."
+            },
+            {
+              "sentence": "She left the meeting without saying anything.",
+              "question": "Did she say anything?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Without is a preposition, so the action it rules out arrives as saying rather than as to say."
+            },
+            {
+              "sentence": "After finishing the river survey, the team drove back to Verdon.",
+              "question": "Which happened first?",
+              "options": [
+                "the survey",
+                "the drive back",
+                "they happened together"
+              ],
+              "key": 0,
+              "why": "After puts one thing before the other, and the thing it puts first is an action in the -ing shape."
+            },
+            {
+              "sentence": "The scheme went ahead in spite of costing twice the estimate.",
+              "question": "Did the scheme cost more than expected?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "In spite of is a preposition, so the cost comes in as a thing. This is why despite cannot be followed by a full clause."
+            },
+            {
+              "sentence": "I am looking forward to hearing from the housing office.",
+              "question": "Has the housing office written back yet?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "The to in look forward to is a preposition, not the to of to do. That is why hearing and not hear follows it."
+            },
+            {
+              "sentence": "He apologised for arriving forty minutes late.",
+              "question": "Did he arrive late?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "For is a preposition, so the thing being apologised for is an action wearing the -ing shape."
+            }
+          ],
+          "discovery": {
+            "prompt": "One of these columns is impossible English. Work out what the left-hand words have in common.",
+            "pairs": [
+              [
+                "We saved money by cycling.",
+                "We saved money to cycle."
+              ],
+              [
+                "She went out without locking up.",
+                "She went out without to lock up."
+              ],
+              [
+                "I object to paying twice.",
+                "I object to pay twice."
+              ]
+            ],
+            "candidate_rules": [
+              {
+                "text": "By, without and object to all end in a preposition, and a preposition can only be followed by -ing.",
+                "verdict": "right"
+              },
+              {
+                "text": "Short linking words like by and without take -ing.",
+                "verdict": "too_narrow"
+              },
+              {
+                "text": "When the sentence contains the word to, the verb goes in its base form.",
+                "verdict": "keyword_trap"
+              }
+            ]
+          },
+          "rule_line": "If the word before the gap is a preposition, the verb after it must be -ing.",
+          "false_rule": "That the word to is always followed by the base verb. In look forward to, object to and be used to, to is a preposition."
+        },
+        "errors": [
+          {
+            "code": "subordinator_vs_preposition",
+            "wrong": "Despite the survey was finished on time, the report arrived in June.",
+            "right": "Despite finishing the survey on time, the report arrived in June.",
+            "why_it_happens": "Despite means what although means, so it inherits although's grammar. Nobody mentions that one is a preposition and the other joins clauses, and the meaning gives no clue.",
+            "smallest_fix": "Change one word: was finished becomes finishing, and the subject goes.",
+            "gravity": "global",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "verb_pattern_wrong",
+            "wrong": "I look forward to hear from you about the tenancy.",
+            "right": "I look forward to hearing from you about the tenancy.",
+            "why_it_happens": "The learner sees to and applies the only rule they have for it. The to in look forward to is a preposition and looks identical to the other one.",
+            "smallest_fix": "Add three letters: hear becomes hearing.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "verb_pattern_wrong",
+            "wrong": "The council reduced waste by to collect food scraps separately.",
+            "right": "The council reduced waste by collecting food scraps separately.",
+            "why_it_happens": "To do is the default shape for a second verb, and it goes in even after a preposition that has no room for it. The result is a shape English cannot read at all.",
+            "smallest_fix": "Delete one word and add three letters: by to collect becomes by collecting.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "preposition_dependent",
+            "wrong": "She is used to work nights, so the shift does not bother her.",
+            "right": "She is used to working nights, so the shift does not bother her.",
+            "why_it_happens": "Be used to and used to look the same and are learned at the same time. One is a preposition phrase about being accustomed; the other is a past habit and takes the base verb.",
+            "smallest_fix": "Add three letters: work becomes working.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "Every sentence about method, cause or concession runs through a preposition.",
+            "model": "Cities have cut congestion by charging for road space rather than by widening it."
+          },
+          {
+            "surface": "writing_t1_gt",
+            "mode": "productive",
+            "note": "The standard closing line of a formal letter turns on this rule.",
+            "model": "I look forward to receiving confirmation that the repairs have been booked."
+          },
+          {
+            "surface": "speaking_p3",
+            "mode": "productive",
+            "note": "Explaining how something could be done needs by plus -ing.",
+            "model": "You could cut most of that waste just by planning the week's meals in advance."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "A concession clause built on despite compresses a whole claim.",
+            "model": "Despite falling steadily since 2016, the figure remains above the national average."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
+        "used_in": [
+          {
+            "module": "writing",
+            "ref_id": "wp_t2pa01_problem_solution_household_food_waste",
+            "quote": "Every solution sentence in this task is built on by plus an action, and the action has to be a thing before by will take it."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_gerund_after_prep_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_environment",
+            "skill_hook": "speaking_p3",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "We got the bill down by turning the heating off at night.",
+              "question": "What brought the bill down?",
+              "options": [
+                "turning the heating off",
+                "a cheaper supplier",
+                "the sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "By points at the method, and the method is an action that has been turned into a thing so that by can hold it.",
+              "feed_forward": "Read by as how, then expect an -ing straight after it."
+            }
+          },
+          {
+            "id": "gi_gerund_after_prep_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "reading",
+            "error_codes": [
+              "subordinator_vs_preposition"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Despite cutting its staff by a third, the depot met every delivery slot.",
+              "question": "Did the depot lose staff?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Despite is a preposition, so the staff cut arrives as a thing. The sentence still asserts it happened.",
+              "feed_forward": "Treat despite plus -ing as a fact the writer accepts."
+            }
+          },
+          {
+            "id": "gi_gerund_after_prep_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_housing",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "to hear",
+            "payload": {
+              "context": "The last line of a letter to a letting agency.",
+              "sentence": "I look forward to hear from you before the end of the month.",
+              "acceptable": false,
+              "reasons": [
+                "the to in look forward to is a preposition, so it needs -ing",
+                "look forward is the wrong verb for a letter",
+                "the sentence needs a subject after hear",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Two identical-looking words are doing different jobs. This to is the kind that ends a phrase, not the kind that starts a verb.",
+              "feed_forward": "Ask whether the to belongs to the phrase in front of it."
+            }
+          },
+          {
+            "id": "gi_gerund_after_prep_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a paragraph about a town-wide recycling trial.",
+              "stem": "Ashfield halved its landfill waste by ___ (sort) glass at the kerbside.",
+              "blanks": 1,
+              "lemma_hints": [
+                "sort"
+              ]
+            },
+            "expected": [
+              "sorting"
+            ],
+            "feedback": {
+              "why_key": "By is a preposition and there is no second option. This is the one gap in the unit you can fill without knowing the verb.",
+              "feed_forward": "Spot the preposition first; the shape follows automatically."
+            }
+          },
+          {
+            "id": "gi_gerund_after_prep_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_transport",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "preposition_dependent"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "Someone describing their commute since the tram opened.",
+              "stem": "I am used to ___ (stand) now, and I leave without ___ (check) the timetable.",
+              "blanks": 2,
+              "lemma_hints": [
+                "stand",
+                "check"
+              ]
+            },
+            "expected": [
+              "standing, checking",
+              "standing checking"
+            ],
+            "feedback": {
+              "why_key": "Both gaps sit behind a preposition, and the to in am used to is one of them. Neither gap has a choice to make.",
+              "feed_forward": "Check whether to belongs to a phrase before you treat it as an infinitive."
+            }
+          },
+          {
+            "id": "gi_gerund_after_prep_06",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "subordinator_vs_preposition"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "Although the college raised its fees, applications went up.",
+              "instruction": "Rewrite it starting with despite, keeping the same meaning.",
+              "starter": "Despite ___"
+            },
+            "expected": [
+              "raising its fees, applications went up",
+              "raising its fees, the college's applications went up",
+              "raising its fees applications went up"
+            ],
+            "feedback": {
+              "why_key": "Despite cannot hold a clause, so the clause has to be squeezed into an -ing shape before it will fit.",
+              "feed_forward": "Swap although for despite and the verb loses its subject and gains -ing."
+            }
+          },
+          {
+            "id": "gi_gerund_after_prep_07",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_money",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "the",
+                "fund",
+                "grew",
+                "without",
+                "taking",
+                "on",
+                "any",
+                "new",
+                "risk"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ]
+              ],
+              "context": "Build one sentence for a report on a small savings scheme."
+            },
+            "expected": [
+              "the fund grew without taking on any new risk"
+            ],
+            "feedback": {
+              "why_key": "Without has to sit directly in front of the -ing shape. Nothing can come between a preposition and the thing it holds.",
+              "feed_forward": "Keep the preposition and the -ing word next to each other."
+            }
+          },
+          {
+            "id": "gi_gerund_after_prep_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_food",
+            "skill_hook": "listening",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "We cut the waste right down by planning the week's meals before shopping.",
+              "scored_tokens": [
+                "by",
+                "planning",
+                "before",
+                "shopping"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "we cut the waste right down by planning the week's meals before shopping",
+              "we cut the waste right down by planning the weeks meals before shopping"
+            ],
+            "feedback": {
+              "why_key": "Two prepositions and two -ing shapes in one short sentence. In speech the endings are light, and light is exactly what learners stop writing.",
+              "feed_forward": "Write the -ing ending even when you barely hear it."
+            }
+          },
+          {
+            "id": "gi_gerund_after_prep_09",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_technology",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": "cs_verb_pattern",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "instead of to buy",
+            "payload": {
+              "sentence": "Many households now rent tools instead of to buy them outright.",
+              "error_span": "instead of to buy",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "instead of buying"
+            ],
+            "feedback": {
+              "why_key": "Instead of ends in the preposition of, and of will not hold an infinitive. The fix is the ending, not the word.",
+              "feed_forward": "Look at the last word before the gap, not the first."
+            }
+          },
+          {
+            "id": "gi_gerund_after_prep_10",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_urbanisation",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "subordinator_vs_preposition"
+            ],
+            "confusion_set": "cs_verb_pattern",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "Despite the rent was rising",
+            "payload": {
+              "sentence": "Despite the rent was rising every year, most tenants stayed in the district.",
+              "error_span": "Despite the rent was rising",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "despite rising rents",
+              "although the rent was rising",
+              "despite the rising rent",
+              "despite the rent rising"
+            ],
+            "feedback": {
+              "why_key": "Despite is holding a full clause, which it cannot do. Either the clause shrinks to a thing or the word changes to one that takes clauses.",
+              "feed_forward": "Decide which side to move: shrink the clause or swap the connector."
+            }
+          },
+          {
+            "id": "gi_gerund_after_prep_11",
+            "kind": "judge",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_health",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "preposition_dependent"
+            ],
+            "confusion_set": "cs_verb_pattern",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "used to running",
+            "payload": {
+              "context": "Someone talking about training for a half marathon.",
+              "sentence": "I used to running before work, but now I go at lunchtime.",
+              "acceptable": false,
+              "reasons": [
+                "this used to is the past habit one, so it takes the base verb",
+                "used to always takes -ing",
+                "the sentence needs but replaced with and",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Used to on its own is a past habit and takes run. It is only be used to, with a form of be in front, that ends in a preposition.",
+              "feed_forward": "Look for a form of be before used to before you reach for -ing."
+            }
+          },
+          {
+            "id": "gi_gerund_after_prep_12",
+            "kind": "produce",
+            "stage": 4,
+            "register": "spoken",
+            "topic_id": "topic_environment",
+            "skill_hook": "speaking_p3",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "Someone asks how an ordinary household could cut its water use. Answer in one sentence that begins with a method, using by.",
+              "required_structure": "gerund_after_preposition",
+              "seed_from_vocab_queue": true,
+              "min_words": 8,
+              "max_words": 28,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "By plus -ing is the fastest way to answer a how question, and it is available before you have decided how the sentence ends.",
+              "feed_forward": "Open with by, then let the -ing word carry the idea."
+            }
+          },
+          {
+            "id": "gi_gerund_after_prep_13",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_food",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "subordinator_vs_preposition",
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Go back to your food-waste answer. Rewrite one solution sentence so it names the method with by plus -ing, and one concession sentence so it opens with despite plus -ing. Three minutes.",
+              "required_structure": "gerund_after_preposition",
+              "seed_from_vocab_queue": false,
+              "min_words": 25,
+              "max_words": 60,
+              "task_ref": "wp_t2pa01_problem_solution_household_food_waste"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Despite plus a full clause is the error that survives longest, because it only appears when the sentence is long enough to forget how it started.",
+              "feed_forward": "After writing despite, check that no subject follows it."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "vocab_new": [],
+  "vocab_updates": []
+}

@@ -24,6 +24,7 @@ import unicodedata
 from typing import Any
 
 __all__ = [
+    "CONTEXT_EXERCISE_TYPES",
     "EXERCISE_TYPES",
     "build_exercise",
     "check_sentence",
@@ -37,6 +38,16 @@ __all__ = [
     "word_variants",
 ]
 
+#: The four context-driven kinds. They are built and graded in :mod:`bandready.srs.context`
+#: because every one of them needs a *chosen sentence* to exist at all; this module stays
+#: the six-kind core and the import between the two runs one way only.
+CONTEXT_EXERCISE_TYPES: tuple[str, ...] = (
+    "forced_choice",
+    "transform",
+    "error_fix",
+    "produce",
+)
+
 EXERCISE_TYPES: tuple[str, ...] = (
     "flip",
     "cloze",
@@ -44,7 +55,15 @@ EXERCISE_TYPES: tuple[str, ...] = (
     "collocation",
     "audio_recall",
     "speaking_drill",
+    *CONTEXT_EXERCISE_TYPES,
 )
+
+
+def _context() -> Any:
+    """Late import — `context` imports this module, so the dependency cannot be circular."""
+    from bandready.srs import context
+
+    return context
 
 #: §5.2 maturity table.
 YOUNG_STABILITY_DAYS = 7.0
@@ -264,8 +283,14 @@ def eligible_types(
     *,
     allow_llm: bool = True,
     disabled: tuple[str, ...] = (),
+    include_context: bool = False,
 ) -> list[str]:
-    """Exercise types this card can actually be rendered as, right now."""
+    """Exercise types this card can actually be rendered as, right now.
+
+    ``include_context`` opts into :data:`CONTEXT_EXERCISE_TYPES`. It is off by default so
+    the existing vocabulary session keeps emitting only kinds its UI can already draw; the
+    sentence-based queue turns it on.
+    """
     state = int((card or {}).get("state_code", 0) or 0)
     stability = float((card or {}).get("stability") or 0.0)
 
@@ -300,6 +325,28 @@ def eligible_types(
         if kind == "use_in_sentence" and (not allow_llm or not has_definition):
             continue
         out.append(kind)
+
+    if include_context:
+        # The same maturity gate as above, one rung higher for each kind. Choice items need
+        # the form to be recognisable; production needs it to be *stable*, because sentence
+        # writing competes with form learning while form is still being built (GV-R3 §2.4).
+        if state in (0, 1):  # new / learning — nothing productive yet
+            wanted: tuple[str, ...] = ()
+        elif state == 3:  # relearning — back off to recognition-with-a-choice
+            wanted = ("forced_choice",)
+        elif stability < YOUNG_STABILITY_DAYS:
+            wanted = ("forced_choice", "error_fix")
+        else:
+            wanted = ("forced_choice", "transform", "error_fix", "produce")
+        context = _context()
+        out.extend(
+            kind
+            for kind in wanted
+            if kind not in disabled
+            and kind not in out
+            and context.can_build(kind, entry, card, allow_llm=allow_llm)
+        )
+
     return out or ["flip"]
 
 
@@ -310,8 +357,11 @@ def choose_exercise(
     rng: random.Random | None = None,
     allow_llm: bool = True,
     disabled: tuple[str, ...] = (),
+    include_context: bool = False,
 ) -> str:
-    options = eligible_types(entry, card, allow_llm=allow_llm, disabled=disabled)
+    options = eligible_types(
+        entry, card, allow_llm=allow_llm, disabled=disabled, include_context=include_context
+    )
     return (rng or random).choice(options)
 
 
@@ -348,10 +398,14 @@ def build_exercise(
     *,
     distractors: list[str] | None = None,
     rng: random.Random | None = None,
+    **kwargs: Any,
 ) -> dict[str, Any]:
     """Render one exercise. Falls back to `flip` when the chosen type is impossible."""
     rng = rng or random
     headword = entry.get("headword") or entry.get("lemma") or ""
+
+    if kind in CONTEXT_EXERCISE_TYPES:
+        return _context().build(kind, entry, card, distractors=distractors, rng=rng, **kwargs)
 
     if kind == "cloze":
         cloze = cloze_from_sentence(
@@ -484,11 +538,19 @@ def grade_answer(
     entry: dict[str, Any] | None = None,
     attempts: int = 1,
     revealed: bool = False,
+    **kwargs: Any,
 ) -> dict[str, Any]:
     """Auto-check a typed/selected answer and pre-select a rating (§5.2 mapping).
 
     The rating is only a *default* — FSRS ratings stay learner-final.
     """
+    if str(exercise.get("type") or "") in CONTEXT_EXERCISE_TYPES:
+        # Those kinds are form-focused, so they use grammar's stricter near-miss policy
+        # (a wrong inflection is wrong, not "almost") — see `context.same_inflection_class`.
+        return _context().grade(
+            exercise, answer, entry=entry, attempts=attempts, revealed=revealed, **kwargs
+        )
+
     expected: list[str] = list(exercise.get("expected") or [])
     given = normalize_answer_text(answer)
     if not expected:

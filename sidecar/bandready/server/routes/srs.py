@@ -24,6 +24,7 @@ from bandready.db.engine import get_session
 from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
 from bandready.server.routes.vocab import serialize_entry
+from bandready.srs import context as ctx
 from bandready.srs import exercises as ex
 from bandready.srs import scheduler as sched
 
@@ -83,6 +84,13 @@ def _queue_items(
     items: list[dict[str, Any]] = []
     for card, entry in pairs:
         doc = serialize_entry(entry, card)
+        # The authored v2 payload — the extra context sentences, the chunk shape, the
+        # confusables — lives on `vocab_pack_entries` and is dropped at deck opt-in, which
+        # copies ten named fields into `vocab_entries` and nothing else. Fold it back in
+        # here, one indexed lookup, read-only: the learner's own row still wins for
+        # everything a learner can change, and a word they typed in themselves returns
+        # nothing and behaves exactly as it did before.
+        doc = ctx.merge_pack_payload(doc, ctx.pack_payload(session, entry.id))
         kind = ex.choose_exercise(doc, doc["srs"], rng=rng, allow_llm=allow_llm)
         distractors: list[str] = []
         if kind == "collocation":

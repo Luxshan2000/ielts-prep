@@ -40,6 +40,10 @@ __all__ = [
     "ContentPack",
     "DailyActivity",
     "DrillResult",
+    "GrammarCard",
+    "GrammarItem",
+    "GrammarPoint",
+    "GrammarReviewLog",
     "ListeningAnswer",
     "ListeningAttempt",
     "ListeningQuestion",
@@ -1166,4 +1170,154 @@ class MediaFile(Base):
         ),
         bool_check("pinned"),
         Index("ix_media_evict", "pinned", "kind", "last_access_at"),
+    )
+
+
+# --------------------------------------------------------------------------------------
+# 10. Grammar & Usage (grammar DESIGN.md §0.4 D1)
+# --------------------------------------------------------------------------------------
+#
+# Grammar could not borrow the vocabulary SRS tables:
+#
+# * ``srs_cards.entry_id`` is a **unique FK to ``vocab_entries``**, so a grammar card can
+#   never be an ``srs_cards`` row;
+# * ``srs_review_logs.review_type`` is CheckConstraint-ed to the six vocabulary exercise
+#   kinds, so logging a ``choose_form`` there raises IntegrityError on the first review.
+#
+# So grammar gets its own parallel pair, with the **FSRS columns named exactly as
+# ``srs_cards`` names them** — that is what lets ``bandready.srs.scheduler`` run unmodified
+# over a ``grammar_cards`` row instead of forking the FSRS maths.
+
+
+class GrammarPoint(PackMixin, Base):
+    """One teachable point = one unit = one lesson = one card.
+
+    Every field the learner ever sees lives inside ``point_json``:
+    ``loader.TABLE_COLUMNS`` copies only the columns it lists, so an extra top-level row
+    key is silently dropped at import.
+    """
+
+    __tablename__ = "grammar_points"
+
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
+    unit_id: Mapped[str] = mapped_column(Text, nullable=False)
+    sequence_index: Mapped[int] = mapped_column(Integer, nullable=False)
+    title: Mapped[str] = mapped_column(Text, nullable=False)
+    cefr_level: Mapped[str] = mapped_column(Text, nullable=False, server_default=text("'B1'"))
+    role: Mapped[str] = mapped_column(Text, nullable=False, server_default=text("'form'"))
+    topic_id: Mapped[str | None] = mapped_column(Text, ForeignKey("topics.id"))
+    point_json: Mapped[str] = mapped_column(Text, nullable=False)
+
+    __table_args__ = (
+        *pack_checks(),
+        CheckConstraint("role IN ('form','choice','accuracy')", name="role"),
+        CheckConstraint("cefr_level IN ('A1','A2','B1','B2','C1','C2')", name="cefr_level"),
+        Index("ix_grammar_points_seq", "sequence_index", "retired"),
+    )
+
+
+class GrammarItem(Base):
+    """Flattened projection of ``grammar_points.point_json.items[]``.
+
+    Deliberately **not** an FK target from ``grammar_review_logs``: the loader rebuilds
+    this table on every import, and an item dropped by a later pack version must leave the
+    learner's history readable rather than abort the import.
+    """
+
+    __tablename__ = "grammar_items"
+
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
+    point_id: Mapped[str] = mapped_column(
+        Text, ForeignKey("grammar_points.id", ondelete="CASCADE"), nullable=False
+    )
+    kind: Mapped[str] = mapped_column(Text, nullable=False)
+    stage: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text("0"))
+    register: Mapped[str] = mapped_column(Text, nullable=False, server_default=text("'both'"))
+    confusion_set: Mapped[str | None] = mapped_column(Text)
+    twin_id: Mapped[str | None] = mapped_column(Text)
+    error_codes_json: Mapped[str] = mapped_column(Text, nullable=False, server_default=text("'[]'"))
+    topic_id: Mapped[str | None] = mapped_column(Text)
+    item_json: Mapped[str] = mapped_column(Text, nullable=False)
+
+    __table_args__ = (
+        Index("ix_grammar_items_pick", "point_id", "stage", "kind"),
+        Index("ix_grammar_items_codes", "kind", "confusion_set"),
+    )
+
+
+class GrammarCard(Base):
+    """Ladder state + FSRS state for one point, for one profile.
+
+    The two blocks below are the module's authority boundary made physical: everything in
+    the ladder block is written by ``bandready.grammar.practice`` and never by FSRS;
+    everything in the FSRS block is written by ``bandready.srs.scheduler`` and never by the
+    Ladder.
+    """
+
+    __tablename__ = "grammar_cards"
+
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
+    profile_id: Mapped[str] = mapped_column(
+        Text, ForeignKey("profiles.id", ondelete="CASCADE"), nullable=False
+    )
+    point_id: Mapped[str] = mapped_column(Text, ForeignKey("grammar_points.id"), nullable=False)
+
+    # --- ladder state (this module owns these) -----------------------------------------
+    stage: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text("0"))
+    stage_successes: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text("0"))
+    stage_days_json: Mapped[str] = mapped_column(Text, nullable=False, server_default=text("'[]'"))
+    seen_items_json: Mapped[str] = mapped_column(Text, nullable=False, server_default=text("'[]'"))
+    last_wild_failure_at: Mapped[str | None] = mapped_column(Text)
+    leech: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text("0"))
+
+    # --- FSRS state (identical column names to srs_cards) ------------------------------
+    state: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text("0"))
+    step: Mapped[int | None] = mapped_column(Integer)
+    stability: Mapped[float | None] = mapped_column(REAL)
+    difficulty: Mapped[float | None] = mapped_column(REAL)
+    due_at: Mapped[str] = mapped_column(Text, nullable=False)
+    last_review_at: Mapped[str | None] = mapped_column(Text)
+    reps: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text("0"))
+    lapses: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text("0"))
+    fsrs_json: Mapped[str] = mapped_column(Text, nullable=False)
+
+    __table_args__ = (
+        UniqueConstraint("profile_id", "point_id", name="uq_grammar_cards_profile_point"),
+        CheckConstraint("state IN (0,1,2,3)", name="state"),
+        CheckConstraint("stage BETWEEN 0 AND 5", name="stage"),
+        Index("ix_grammar_cards_due", "profile_id", "due_at"),
+    )
+
+
+class GrammarReviewLog(Base):
+    """Every retrieval, and every real-world confirmation or contradiction of one.
+
+    ``item_id`` is **loose text, not an FK**. Three things are written into it and the
+    prefix says which: ``gi_…`` an authored item id; ``real:<module>:<id>`` a correct use
+    detected in a real submission; ``wild:<module>:<id>`` the same error code coming back
+    in a real submission.
+    """
+
+    __tablename__ = "grammar_review_logs"
+
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
+    card_id: Mapped[str] = mapped_column(
+        Text, ForeignKey("grammar_cards.id", ondelete="CASCADE"), nullable=False
+    )
+    item_id: Mapped[str | None] = mapped_column(Text)
+    rating: Mapped[int] = mapped_column(Integer, nullable=False)
+    review_type: Mapped[str] = mapped_column(Text, nullable=False)
+    outcome: Mapped[str] = mapped_column(Text, nullable=False)
+    stage_before: Mapped[int] = mapped_column(Integer, nullable=False)
+    error_codes_json: Mapped[str] = mapped_column(Text, nullable=False, server_default=text("'[]'"))
+    reviewed_at: Mapped[str] = mapped_column(Text, nullable=False, server_default=now_default())
+    elapsed_ms: Mapped[int | None] = mapped_column(Integer)
+    state_before: Mapped[int] = mapped_column(Integer, nullable=False, server_default=text("0"))
+    stability_before: Mapped[float | None] = mapped_column(REAL)
+    difficulty_before: Mapped[float | None] = mapped_column(REAL)
+
+    __table_args__ = (
+        CheckConstraint("rating BETWEEN 1 AND 4", name="rating"),
+        Index("ix_grammar_review_logs_card", "card_id", "reviewed_at"),
+        Index("ix_grammar_review_logs_time", "reviewed_at"),
     )

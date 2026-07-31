@@ -362,8 +362,17 @@ def check_integrity(
     points: list[dict[str, Any]],
     vocab: list[dict[str, Any]],
     topic_ids: set[str],
+    defer_order: bool = False,
 ) -> tuple[list[str], list[str], dict[str, Any]]:
-    """Returns (blocking problems, warnings, stats)."""
+    """Returns (blocking problems, warnings, stats).
+
+    ``defer_order`` demotes the prerequisite-ordering inversions to warnings, for the one
+    workflow where they are expected rather than wrong: authors number inside disjoint high
+    bands (u01 1000-1099, u02 1100-1199, …) so that parallel blocks cannot collide, which
+    makes every edge from an already-seated point into a freshly authored one look backwards
+    until ``tools.content.reseq_grammar`` re-seats the pack. Only the *ordering* is deferred —
+    a cycle stays fatal, because no seating can fix one.
+    """
     problems: list[str] = []
     warnings: list[str] = []
 
@@ -470,9 +479,12 @@ def check_integrity(
         for dep in deps:
             there = seq_of.get(dep)
             if here is not None and there is not None and there >= here:
-                problems.append(
+                note = (
                     f"{point_id} (#{here}) needs {dep} (#{there}) — a beginner following the "
                     "sequence meets it before it is taught"
+                )
+                (warnings if defer_order else problems).append(
+                    note + " (deferred to reseq_grammar)" if defer_order else note
                 )
     stuck = _cycle_nodes(prereqs)
     if stuck:
@@ -787,6 +799,11 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--check", action="store_true", help="report without writing")
     parser.add_argument("--lint-only", action="store_true", help="lint the staging files and stop")
     parser.add_argument("--allow-lint-failures", action="store_true")
+    parser.add_argument(
+        "--defer-order",
+        action="store_true",
+        help="demote prerequisite-ordering inversions to warnings; run reseq_grammar next",
+    )
     parser.add_argument("--quiet", action="store_true")
     return parser
 
@@ -833,7 +850,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 
-    integrity, warnings, summary = check_integrity(points, vocab, topic_ids)
+    integrity, warnings, summary = check_integrity(
+        points, vocab, topic_ids, defer_order=args.defer_order
+    )
     if integrity:
         _print(integrity, "integrity")
     elif not args.quiet:

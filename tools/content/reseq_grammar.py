@@ -15,14 +15,23 @@ So authors number inside a private band (u01 gets 1000-1099, u02 1100-1199, …)
 collision is impossible by construction, and this pass computes the real order afterwards.
 The constraint is then *enforced* rather than *hoped for*.
 
-The order is a topological sort of the prerequisite graph, and the tie-break is what makes
-the output stable and teachable rather than merely valid:
+The order is a topological sort, but *which* topological sort matters. Layering by longest
+prerequisite chain is correct and produces a bad curriculum: it seats every dependency-free
+point at the very front, so ``gr_embedded_question`` (C1, but whose prerequisites are not
+authored yet) landed third, ahead of ``gr_be_present``. Dependency-safe, pedagogically absurd.
 
-1. **depth** — the longest prerequisite chain ending at this point. Every genuine dependency
-   is respected because depth(A) < depth(B) whenever A is a prerequisite of B.
-2. **unit order**, then the author's own index within its band. Two points at the same depth
-   with no dependency between them keep the sequence their unit intended, and units stay
-   contiguous wherever the graph allows it.
+So this is Kahn's algorithm driven by a priority queue. At each step every point whose
+prerequisites are already placed is *eligible*, and among those we take the one a learner
+should meet first:
+
+1. **CEFR level** — A1 before A2 before B1 …. The dominant signal, and the one that keeps a
+   beginner in beginner material.
+2. **unit order**, so a unit stays contiguous wherever the graph allows it.
+3. **the author's own index** within their band, honouring the sequence the unit intended.
+
+Correctness does not rest on the tie-break: a point becomes eligible only once every
+prerequisite is seated, so *any* choice among eligible points is dependency-safe. The
+tie-break only decides which of several safe options is the kindest.
 
 Edges naming a point the pack does not carry are ignored with a warning: the syllabus is
 incomplete while it is being authored, and an unresolvable edge must not stop the pack from
@@ -38,6 +47,7 @@ exists and silently picking one would hide an authoring mistake.
 from __future__ import annotations
 
 import argparse
+import heapq
 import json
 import sys
 from collections import defaultdict
@@ -46,6 +56,10 @@ from pathlib import Path
 from typing import Any
 
 DEFAULT_PACK = "content/core-en"
+
+#: A learner meets easier material first, so CEFR is the dominant tie-break among the points
+#: that are eligible at any moment. An unrecognised level sorts last rather than crashing.
+CEFR_ORDER = {"A1": 0, "A2": 1, "B1": 2, "B2": 3, "C1": 4, "C2": 5}
 
 #: Written order of the eight authored columns, so a re-seated row diffs cleanly against the
 #: one the merge produced (`merge_grammar` writes this same order for the same reason).
@@ -89,32 +103,43 @@ def compute_order(rows: list[dict[str, Any]]) -> tuple[list[str], list[str]]:
                 warnings.append(f"{row['id']}: prerequisite {need} is not in the pack — edge ignored")
         edges[row["id"]] = resolved
 
-    # Longest-chain depth, memoised, with an explicit cycle report.
-    depth: dict[str, int] = {}
-    walking: set[str] = set()
+    # Kahn's algorithm over a priority queue. `blocking` counts the prerequisites a point is
+    # still waiting on; `unlocks` is the reverse edge, so seating a point can free others.
+    blocking = {pid: len(needs) for pid, needs in edges.items()}
+    unlocks: dict[str, list[str]] = defaultdict(list)
+    for pid, needs in edges.items():
+        for need in needs:
+            unlocks[need].append(pid)
 
-    def depth_of(node: str, trail: list[str]) -> int:
-        if node in depth:
-            return depth[node]
-        if node in walking:
-            cycle = trail[trail.index(node):] + [node]
-            raise SystemExit("cycle in the prerequisite graph: " + " -> ".join(cycle))
-        walking.add(node)
-        best = 0
-        for need in edges[node]:
-            best = max(best, depth_of(need, trail + [node]) + 1)
-        walking.discard(node)
-        depth[node] = best
-        return best
+    def rank(pid: str) -> tuple[int, str, int, str]:
+        row = by_id[pid]
+        level = str(row.get("cefr_level") or "")
+        return (
+            CEFR_ORDER.get(level, len(CEFR_ORDER)),
+            str(row.get("unit_id") or ""),
+            int(row["sequence_index"]),
+            pid,
+        )
 
-    for row in rows:
-        depth_of(row["id"], [])
+    ready = [rank(pid) for pid, n in blocking.items() if n == 0]
+    heapq.heapify(ready)
 
-    ordered = sorted(
-        rows,
-        key=lambda r: (depth[r["id"]], r.get("unit_id") or "", int(r["sequence_index"]), r["id"]),
-    )
-    return [r["id"] for r in ordered], warnings
+    order: list[str] = []
+    while ready:
+        pid = heapq.heappop(ready)[3]
+        order.append(pid)
+        for freed in unlocks[pid]:
+            blocking[freed] -= 1
+            if blocking[freed] == 0:
+                heapq.heappush(ready, rank(freed))
+
+    if len(order) != len(rows):
+        stuck = sorted(pid for pid, n in blocking.items() if n > 0)
+        raise SystemExit(
+            "cycle in the prerequisite graph, nothing can be seated among: "
+            + ", ".join(stuck[:12])
+        )
+    return order, warnings
 
 
 def reseat(rows: list[dict[str, Any]], order: Sequence[str]) -> list[dict[str, Any]]:

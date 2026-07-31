@@ -216,13 +216,30 @@ def _items_at(point: syllabus.Point, stage: int) -> list[dict[str, Any]]:
     return [i for i in point.items if int(i.get("stage") or 0) == stage]
 
 
+def _startable_point_id(client: TestClient) -> str:
+    """The first point the syllabus actually lets a learner open.
+
+    Naming one here rots as content lands. These tests used ``gr_countability``, which was
+    startable only because ``gr_noun_plural`` had not been authored yet: the prerequisite
+    edge dangled, and a dangling edge is treated as met at runtime. Authoring u01 closed the
+    edge, the gate began refusing with a 409 — correctly, and for the first time — and it
+    read as five broken tests rather than as the feature finally working. Ask the syllabus
+    instead of assuming.
+    """
+    rows = client.get("/api/v1/grammar/path").json()["points"]
+    for row in rows:
+        if row.get("state") != "locked":
+            return str(row["id"])
+    raise AssertionError("no startable point in the syllabus — a beginner cannot begin")
+
+
 # --------------------------------------------------------------------------------------
 # 1. The entry gate — nothing is scheduled until it is understood (§1.3)
 # --------------------------------------------------------------------------------------
 
 
 def test_a_failed_gate_creates_no_card(client: TestClient) -> None:
-    point_id = "gr_countability"
+    point_id = _startable_point_id(client)
     start = client.post(f"/api/v1/grammar/points/{point_id}/start")
     assert start.status_code == 200, start.text
     gate = start.json()["gate_item"]
@@ -242,7 +259,7 @@ def test_a_failed_gate_creates_no_card(client: TestClient) -> None:
 
 
 def test_a_passed_gate_creates_the_card_at_notice(client: TestClient) -> None:
-    point_id = "gr_countability"
+    point_id = _startable_point_id(client)
     gate_id = client.post(f"/api/v1/grammar/points/{point_id}/start").json()["gate_item"]["item_id"]
 
     with session_scope() as s:
@@ -1127,7 +1144,7 @@ def test_a_locked_point_cannot_be_started(client: TestClient) -> None:
 
 def test_answering_wrong_signals_before_it_reveals(client: TestClient) -> None:
     """Roughly seven in ten recasts go unnoticed; the answer is never the first thing."""
-    point_id = "gr_countability"
+    point_id = _startable_point_id(client)
     gate_id = client.post(f"/api/v1/grammar/points/{point_id}/start").json()["gate_item"]["item_id"]
     with session_scope() as s:
         item = _point(s, point_id).item(gate_id)
@@ -1161,7 +1178,7 @@ def test_answering_wrong_signals_before_it_reveals(client: TestClient) -> None:
 
 
 def test_the_session_route_composes_and_carries_its_own_start_time(client: TestClient) -> None:
-    point_id = "gr_countability"
+    point_id = _startable_point_id(client)
     gate_id = client.post(f"/api/v1/grammar/points/{point_id}/start").json()["gate_item"]["item_id"]
     with session_scope() as s:
         good = _correct_answer(_point(s, point_id).item(gate_id))

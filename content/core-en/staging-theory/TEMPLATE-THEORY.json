@@ -1,0 +1,1155 @@
+{
+  "staging_version": 1,
+  "block": "th-template",
+  "authored_by": "TH-D1:template",
+
+  "_readme": [
+    "This is the quality ceiling for the Theory reference, and it is a valid staging file. It lives OUTSIDE staging-theory/content/, so the merge glob never picks it up and the coverage test (DESIGN-THEORY.md C1) never counts its area_ids.",
+    "It contains three COMPLETE articles, one per hard case: a foundation article that assumes no grammar vocabulary at all; a heavy paradigm article; and a heavy contrast article.",
+    "The ids th_tm_01, th_tm_02 and th_tm_03 are RESERVED. The chapter authors write th_what_a_sentence_is, th_passive_forms and th_pp_vs_past_simple themselves and must not reuse a single sentence from this file. Copy the SHAPE, never the prose.",
+    "sequence_index and area_ids below are the REAL values of the articles being modelled, so you can see how they are derived. They are not claims on those slots.",
+    "Read DESIGN-THEORY.md sections 2 (schema), 5 (the writing standard) and 6 (the quantity targets) alongside this file."
+  ],
+
+  "_exemplars": [
+    {
+      "template_id": "th_tm_01",
+      "models": "th_what_a_sentence_is — thc_01 article 2, sequence_index 2",
+      "why_this_one": "The hardest article in the reference. It is the true zero-knowledge stretch: it may not use one grammar word that it has not itself defined two lines earlier. It carries three of the 87 term_intro blocks, and it is article 2 on the Start-here path.",
+      "demonstrates": [
+        "kind: foundation, and the foundation block order 1 -> term_intro -> 3 -> 4 -> 6 -> 9 -> 10 -> 11 -> 12",
+        "the four-move term_intro, three times, with glosses byte-identical to the DESIGN-THEORY.md 4.3 ledger",
+        "two false_rule blocks in one article, where two different wrong rules are both in circulation",
+        "l1_note written about the reader's own language accurately, and never as a deficit",
+        "a rule block that states its own exception rather than hiding it in a hedge",
+        "myth_refs claiming TH-R4 8.3 row 16"
+      ]
+    },
+    {
+      "template_id": "th_tm_02",
+      "models": "th_passive_forms — thc_04 article 18, sequence_index 81",
+      "why_this_one": "The heavy paradigm. This is the article the owner asked for when they said 'include ALL so they can view all structural things'. Nine rows, six columns, three sub-tables, and a row that is deliberately empty.",
+      "demonstrates": [
+        "kind: paradigm, and the paradigm block order: parts 2, 3 and 11 only",
+        "PAR-1 both model verbs, PAR-2 a labelled spoken column, PAR-3 negative and question columns, PAR-4 weight markers",
+        "gaps: an empty row that is explained rather than left looking like an authoring mistake",
+        "a term_intro inside a kind: paradigm article, because the 4.3 ledger names this article as the introducer of 'agent' (DESIGN-THEORY.md 6.2)",
+        "false_rule_absent_reason, used honestly: the myths about the passive attach to the choice article, not to the form table"
+      ]
+    },
+    {
+      "template_id": "th_tm_03",
+      "models": "th_pp_vs_past_simple — thc_03 article 18, sequence_index 58",
+      "why_this_one": "The heavy contrast, and the article DESIGN-THEORY.md 2.4 uses for most of its illustrations. The owner asked for 'when to use which' twice; this is what the answer looks like at full size.",
+      "demonstrates": [
+        "kind: comparison, and the promoted order 1 -> 5 -> 2 -> 3 -> 4 -> 6 -> 8 -> 9 -> 11 -> 12",
+        "four minimal pairs, two of which carry no time expression at all, so the reader cannot learn a keyword instead of the decision",
+        "a decision_tree that terminates: every goto resolves forward, every path ends in a verdict",
+        "a variation block that names both varieties and labels the house default as a house choice",
+        "a false_rule that names the keyword rule in the wording the learner actually heard"
+      ]
+    }
+  ],
+
+  "_authoring_notes": [
+    "THREE PLACES WHERE READING DESIGN-THEORY.md 2.4 ALONE WOULD MISLEAD YOU. All three are resolved in this file the way the contract as a whole requires.",
+    "1. The exceptions block illustrated in 2.4.13 is present-perfect content, but 2.5 does not give kind: comparison a part 7. Exceptions belong in th_present_perfect, not in the comparison article. th_tm_03 therefore ships no exceptions block.",
+    "2. The article_json example in 2.2 shows terms_introduced containing 'past participle'. The 4.3 ledger introduces the third form in th_five_verb_forms, earlier in the same chapter. A comparison article this late introduces no terms at all. th_tm_03 ships terms_introduced: [].",
+    "3. 2.5 gives kind: paradigm parts 2, 3 and 11 only, with no term_intro. The 4.3 ledger nonetheless names th_passive_forms as the sole introducer of 'agent'. The ledger wins: 6.2 permits a term_intro in an article of any kind whose ledger position demands one.",
+    "ONE GRAMMAR JUDGEMENT WORTH COPYING. th_tm_01 teaches that every English sentence needs a subject and a verb. That is the right default and it is what a learner should write. Instructions are the one systematic exception, and the article states it inside the rule rather than hiding it behind 'generally'. A rule with a named exception is still a rule; a rule with a hedge is not."
+  ],
+
+  "articles": [
+    {
+      "id": "th_tm_01",
+      "chapter_id": "thc_01",
+      "sequence_index": 2,
+      "title": "What every English sentence needs",
+      "kind": "foundation",
+      "cefr_level": "A1",
+      "article_json": {
+        "schema_version": 1,
+
+        "also_called": "The subject, the verb, and the simple sentence",
+        "one_line": "This lets you tell whether a group of words is a finished English sentence or only a piece of one.",
+        "short_answer": "Every English sentence needs two things: who or what it is about, and a word that says what happens. *The bridge closed.*",
+        "question_in_learner_words": "When is a group of words a real sentence, and when is it only half of one?",
+
+        "area_ids": ["A1", "A2", "A3"],
+        "prerequisites": [],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 1,
+
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What every English sentence has to have",
+            "anchor": "what-a-sentence-needs"
+          },
+          {
+            "type": "prose",
+            "text": "You can put ten words together and still not have a sentence. English asks for two things, and it asks for them every time. This article shows you what they are and how to check."
+          },
+          {
+            "type": "term_intro",
+            "term": "sentence",
+            "also_called": null,
+            "gloss": "a group of words that says something complete",
+            "show_first": [
+              { "text": "The lift is out of order.", "mark": "The lift is out of order." },
+              { "text": "Two trains left late.", "mark": "Two trains left late." },
+              { "text": "The Norland depot closed in March.", "mark": "The Norland depot closed in March." }
+            ],
+            "name_line": "Each of those is a **sentence**.",
+            "anchor_line": "Each one stands on its own. You could say it to somebody who had heard nothing else, and they would understand it.",
+            "l1_hook": null,
+            "ledger_position": 2
+          },
+          {
+            "type": "term_intro",
+            "term": "verb",
+            "also_called": null,
+            "gloss": "the word that says what happens or what is",
+            "show_first": [
+              { "text": "The Ashfield clinic opens at eight.", "mark": "opens" },
+              { "text": "Heavy rain closed the coast road.", "mark": "closed" },
+              { "text": "My neighbour repairs bicycles.", "mark": "repairs" }
+            ],
+            "name_line": "That word is called the **verb**.",
+            "anchor_line": "Take it out and nothing is left but a list of things. Every sentence you have ever read in English has one.",
+            "l1_hook": null,
+            "ledger_position": 3
+          },
+          {
+            "type": "term_intro",
+            "term": "subject",
+            "also_called": null,
+            "gloss": "who or what the sentence is about — it comes before the verb",
+            "show_first": [
+              { "text": "The Sandmouth library opens at nine.", "mark": "The Sandmouth library" },
+              { "text": "Three volunteers cleared the towpath.", "mark": "Three volunteers" },
+              { "text": "Snow delayed the morning buses.", "mark": "Snow" }
+            ],
+            "name_line": "That part is called the **subject**.",
+            "anchor_line": "Some languages let you leave it out, because the ending of the verb already says who. English does not.",
+            "l1_hook": ["ta", "es", "ar", "zh"],
+            "ledger_position": 4
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Seeing the two parts",
+            "anchor": "seeing-the-two-parts"
+          },
+          {
+            "type": "examples",
+            "lead_in": "In each one, the first marked part says who or what, and the second says what happens.",
+            "dimension": "the two parts",
+            "items": [
+              {
+                "text": "The Marlow road flooded again on Tuesday.",
+                "gloss": "A road went under water. That is the whole event.",
+                "register": "neutral",
+                "marks": [
+                  { "span": "The Marlow road", "role": "target" },
+                  { "span": "flooded", "role": "target" }
+                ]
+              },
+              {
+                "text": "Two lorries blocked the Sandmouth junction.",
+                "gloss": "Two lorries stopped the traffic getting through.",
+                "register": "neutral",
+                "marks": [
+                  { "span": "Two lorries", "role": "target" },
+                  { "span": "blocked", "role": "target" }
+                ]
+              },
+              {
+                "text": "My sister studies engineering at Brackenfield.",
+                "gloss": "She is a student there at the moment.",
+                "register": "spoken",
+                "marks": [
+                  { "span": "My sister", "role": "target" },
+                  { "span": "studies", "role": "target" }
+                ]
+              },
+              {
+                "text": "The application deadline has passed.",
+                "gloss": "It is too late to apply now.",
+                "register": "written_formal",
+                "marks": [
+                  { "span": "The application deadline", "role": "target" },
+                  { "span": "has passed", "role": "target" }
+                ]
+              }
+            ],
+            "so_what": "Every one of them has a part that says who or what, and a part that says what happens."
+          },
+          {
+            "type": "visual",
+            "kind": "slot_frame",
+            "caption": "Two boxes. Fill both, and you have a sentence.",
+            "spec": {
+              "slots": [
+                { "label": "who or what", "filler": "The Marlow road" },
+                { "label": "what happens", "filler": "flooded" }
+              ],
+              "caption": "One sentence, two boxes."
+            }
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The rule, and how short a sentence can be",
+            "anchor": "the-rule"
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule-line",
+            "text": "Every English sentence needs a subject and a verb. In an instruction the subject is *you*, and English leaves it out."
+          },
+          {
+            "type": "examples",
+            "lead_in": "These are as short as an English sentence gets. Nothing is missing from any of them.",
+            "dimension": "sentence length",
+            "items": [
+              {
+                "text": "It rained.",
+                "gloss": "Rain fell. That is everything the sentence says.",
+                "register": "neutral"
+              },
+              {
+                "text": "The lift works.",
+                "gloss": "The lift is running today.",
+                "register": "spoken"
+              },
+              {
+                "text": "The Norland site closed.",
+                "gloss": "The site is not open any more.",
+                "register": "written_formal"
+              }
+            ],
+            "so_what": "Two parts are enough. A much longer group of words with only one of them is still not a sentence."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "no-verb-in-it",
+            "code": "fragment_no_main_verb",
+            "wrong": "The new footbridge over the canal at Verdon.",
+            "right": "The new footbridge over the canal at Verdon opened in March.",
+            "why_it_happens": "The group of words is long and it names something clearly, so it feels finished. Nothing in it says what happened, so it is not a sentence yet.",
+            "smallest_fix": "Add a word that says what happens: *opened*, *closed*, *is*."
+          },
+          {
+            "type": "warning",
+            "anchor": "two-sentences-run-together",
+            "code": "run_on_fused",
+            "wrong": "The depot moved to Norland the journey now takes forty minutes.",
+            "right": "The depot moved to Norland. The journey now takes forty minutes.",
+            "why_it_happens": "The two parts are about one thing, so they feel like one sentence. Each part has its own subject and its own verb, so each one needs its own full stop.",
+            "smallest_fix": "Count the words that say what happens. Two of those means two sentences."
+          },
+          {
+            "type": "false_rule",
+            "heard": "A sentence is a group of words that expresses a complete thought.",
+            "also_known_as": ["a sentence is one complete idea"],
+            "truth": "That describes a sentence. It does not let you check one. *The long queue outside the clinic* feels like a complete thought, and it is not a sentence, because nothing in it says what happened.",
+            "what_to_do": "Do not ask whether it feels finished. Look for the two parts: who or what, and what happens."
+          },
+          {
+            "type": "false_rule",
+            "heard": "Every English sentence must have a subject written in it.",
+            "also_known_as": ["a sentence with no subject is always wrong"],
+            "truth": "It is the right default, and it is what you should write. Instructions are the one place English leaves the subject out. *Close the gate.* means *you close the gate*, and the *you* is understood.",
+            "what_to_do": "Check that every sentence you write has a subject. The only ones that do not need a written subject are instructions."
+          },
+          {
+            "type": "l1_note",
+            "collapsed": true,
+            "lang": "es",
+            "mechanism": "Spanish marks who is doing something on the end of the verb, so no separate subject word is needed.",
+            "wrong": "Is raining again in Sandmouth.",
+            "right": "It is raining again in Sandmouth.",
+            "fix": "Put a subject word in, even when the verb already tells you who.",
+            "shared_with": ["ar", "ta", "zh"]
+          },
+          {
+            "type": "l1_note",
+            "collapsed": true,
+            "lang": "ta",
+            "mechanism": "Tamil links a subject to a description with no separate word for *is*. The description itself carries the marking.",
+            "wrong": "The Sandmouth library very old.",
+            "right": "The Sandmouth library is very old.",
+            "fix": "Put *is*, *am* or *are* in, even when the sentence feels finished without it.",
+            "shared_with": ["ru", "ar", "zh"]
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Two parts. Who or what, and what happens.",
+            "table": null,
+            "points": [
+              "Every English sentence needs a subject and a verb.",
+              "A long group of words with no verb in it is not a sentence.",
+              "Two words each saying what happens means two sentences, not one.",
+              "*It rained.* is a complete English sentence."
+            ]
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Is this a sentence? *The two new benches by the Verdon canal.*",
+                "answer": "No.",
+                "why": "Nothing in it says what happens. Add a verb: *…were installed last month.*"
+              },
+              {
+                "prompt": "Is this a sentence? *Snow fell.*",
+                "answer": "Yes.",
+                "why": "*Snow* says who or what. *Fell* says what happens. Two parts is enough."
+              }
+            ]
+          }
+        ],
+
+        "terms_introduced": [
+          {
+            "term": "sentence",
+            "gloss": "a group of words that says something complete",
+            "also_called": null,
+            "ledger_position": 2
+          },
+          {
+            "term": "verb",
+            "gloss": "the word that says what happens or what is",
+            "also_called": null,
+            "ledger_position": 3
+          },
+          {
+            "term": "subject",
+            "gloss": "who or what the sentence is about — it comes before the verb",
+            "also_called": null,
+            "ledger_position": 4
+          }
+        ],
+        "term_refs": ["sentence", "verb", "subject"],
+
+        "related_points": ["gr_clause_svo", "gr_capital_fullstop"],
+        "no_practice_reason": null,
+        "related_articles": [
+          { "id": "th_who_does_what_to_what", "reason": "what the action lands on, once you have the two parts" },
+          { "id": "th_clause_vs_phrase", "reason": "the test that tells a word group with a verb from one without" },
+          { "id": "th_what_sentences_do", "reason": "instructions, and why they look as though they have no subject" }
+        ],
+        "fixes_errors": ["fragment_no_main_verb", "run_on_fused"],
+        "confusion_set": null,
+
+        "aliases": [
+          "what is a sentence",
+          "subject and verb",
+          "sentence fragment",
+          "complete sentence",
+          "incomplete sentence"
+        ],
+        "intents": ["write a sentence that is not missing anything"],
+        "on_start_here_path": true,
+        "variation_refs": [],
+        "myth_refs": [16],
+        "estimated_read_minutes": 4,
+        "false_rule_absent_reason": null
+      }
+    },
+
+    {
+      "id": "th_tm_02",
+      "chapter_id": "thc_04",
+      "sequence_index": 81,
+      "title": "Building the passive in every tense",
+      "kind": "paradigm",
+      "cefr_level": "B1",
+      "article_json": {
+        "schema_version": 1,
+
+        "also_called": "Passive formation: *be* + past participle, and the *by*-agent",
+        "one_line": "This lets you build a passive in any tense, so a sentence can start with the thing that was done to.",
+        "short_answer": "Put the right form of *be* in front of the third form. *is painted*, *was painted*, *has been painted*, *will be painted*.",
+        "question_in_learner_words": "How do I build a passive sentence at each different time?",
+
+        "area_ids": ["L2", "L3"],
+        "prerequisites": ["th_the_passive_idea", "th_five_verb_forms", "th_be_have_do"],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "How the passive is built, whatever the time",
+            "anchor": "how-the-passive-is-built"
+          },
+          {
+            "type": "prose",
+            "text": "A passive always has two parts. A form of *be* carries the time and matches the subject. The third form of the main verb sits behind it and never changes."
+          },
+          {
+            "type": "prose",
+            "text": "So the only thing you choose is which form of *be* to use. The table below has all of them in one place, and you can come back to it."
+          },
+          {
+            "type": "paradigm",
+            "anchor": "passive-forms",
+            "caption": "Only *be* changes. The third form stays the same in every row.",
+            "form_line": "a form of *be* + the third form of the main verb",
+            "model_verbs": ["paint", "write"],
+            "headers": [
+              "Time",
+              "Positive",
+              "Short form (spoken)",
+              "Negative",
+              "Short form (spoken)",
+              "Question"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "now, generally",
+                  "it is painted",
+                  "it's painted",
+                  "it is not painted",
+                  "it isn't painted",
+                  "Is it painted?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "now, in progress",
+                  "it is being painted",
+                  "it's being painted",
+                  "it is not being painted",
+                  "it isn't being painted",
+                  "Is it being painted?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "before now",
+                  "it has been painted",
+                  "it's been painted",
+                  "it has not been painted",
+                  "it hasn't been painted",
+                  "Has it been painted?"
+                ],
+                "weight": "high",
+                "note": "*it's been* is *it has been* here. *been* is the clue."
+              },
+              {
+                "cells": [
+                  "finished past",
+                  "it was painted",
+                  "—",
+                  "it was not painted",
+                  "it wasn't painted",
+                  "Was it painted?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "past, in progress",
+                  "it was being painted",
+                  "—",
+                  "it was not being painted",
+                  "it wasn't being painted",
+                  "Was it being painted?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "the past before the past",
+                  "it had been painted",
+                  "it'd been painted",
+                  "it had not been painted",
+                  "it hadn't been painted",
+                  "Had it been painted?"
+                ],
+                "weight": "medium",
+                "note": "*it'd been* is *it had been*, not *it would been*."
+              },
+              {
+                "cells": [
+                  "later",
+                  "it will be painted",
+                  "it'll be painted",
+                  "it will not be painted",
+                  "it won't be painted",
+                  "Will it be painted?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "finished by a later point",
+                  "it will have been painted",
+                  "it'll have been painted",
+                  "it will not have been painted",
+                  "it won't have been painted",
+                  "Will it have been painted?"
+                ],
+                "weight": "low"
+              },
+              {
+                "cells": ["duration up to now", "—", "—", "—", "—", "—"],
+                "weight": "low",
+                "note": "English does not use this one. The note under the table says why."
+              }
+            ],
+            "sub_tables": [
+              {
+                "caption": "The second word is the third form, not the past form.",
+                "headers": ["Time", "*paint* (regular)", "*write* (irregular)"],
+                "rows": [
+                  ["now, generally", "it is painted", "it is written"],
+                  ["finished past", "it was painted", "it was written"],
+                  ["before now", "it has been painted", "it has been written"],
+                  ["later", "it will be painted", "it will be written"]
+                ]
+              },
+              {
+                "caption": "A modal never changes shape. Put *be* or *have been* after it.",
+                "headers": ["Modal", "Passive now or later", "Passive earlier"],
+                "rows": [
+                  ["*must*", "it must be painted", "it must have been painted"],
+                  ["*can* / *could*", "it can be painted", "it could have been painted"],
+                  ["*should*", "it should be painted", "it should have been painted"],
+                  ["*may* / *might*", "it may be painted", "it might have been painted"]
+                ]
+              },
+              {
+                "caption": "Keep the *by* part only when the doer is news.",
+                "headers": ["Sentence", "Is the doer news?", "The *by* part"],
+                "rows": [
+                  ["The hall was painted last week.", "no", "leave it out"],
+                  ["The hall was painted by the tenants.", "yes", "keep it"],
+                  ["The route was chosen by a panel of teachers.", "yes", "keep it"]
+                ]
+              }
+            ],
+            "gaps": [
+              {
+                "cell": "finished past, short form",
+                "note": "*was* and *were* have no short form. Only *not* contracts here: *wasn't*, *weren't*."
+              },
+              {
+                "cell": "past, in progress, short form",
+                "note": "Same reason. *was* does not run together with what comes before it."
+              },
+              {
+                "cell": "duration up to now, every column",
+                "note": "This one would need *been being*. English does not use it. Say *it has been painted*, or put the sentence back in the active."
+              }
+            ],
+            "examples": [
+              {
+                "text": "The Verdon community hall is painted every spring.",
+                "gloss": "It happens every year. Who does it is not the point.",
+                "register": "neutral"
+              },
+              {
+                "text": "The hall is being painted this week.",
+                "gloss": "The work is going on now and it is not finished.",
+                "register": "neutral"
+              },
+              {
+                "text": "The report has been written by two of the tenants.",
+                "gloss": "The report exists now, and it says who wrote it.",
+                "register": "written_formal"
+              },
+              {
+                "text": "The fence had been painted before the inspection.",
+                "gloss": "The painting finished first. The inspection came after it.",
+                "register": "written_formal"
+              },
+              {
+                "text": "It'll be painted before the school reopens.",
+                "gloss": "The painting will happen at some point before then.",
+                "register": "spoken"
+              },
+              {
+                "text": "The Marlow gates must be painted before winter.",
+                "gloss": "Somebody has to do it. The rule does not say who.",
+                "register": "neutral"
+              }
+            ],
+            "notes": [
+              "*it's been painted* is *it has been painted*. The word after it tells you which one you are hearing.",
+              "Only two of the in-progress passives are in use: *is being painted* and *was being painted*.",
+              "The second word is always the third form. Never *it was wrote*."
+            ]
+          },
+          {
+            "type": "visual",
+            "kind": "two_box",
+            "caption": "The passive moves the thing done to into the first slot.",
+            "spec": {
+              "left": { "role": "active", "text": "The contractors painted the hall." },
+              "right": { "role": "passive", "text": "The hall was painted." },
+              "arrow": "left_to_right"
+            }
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Naming the doer with *by*",
+            "anchor": "the-by-part"
+          },
+          {
+            "type": "term_intro",
+            "term": "agent",
+            "also_called": "the *by*-phrase",
+            "gloss": "the doer, when a passive sentence names it after *by*",
+            "show_first": [
+              { "text": "The canal path was cleared by three volunteers.", "mark": "by three volunteers" },
+              { "text": "The design was chosen by a panel of teachers.", "mark": "by a panel of teachers" },
+              { "text": "The bridge was rebuilt by the county council.", "mark": "by the county council" }
+            ],
+            "name_line": "That part is called the **agent**.",
+            "anchor_line": "Most passive sentences have no agent at all, because most of the time nobody needs to know who did it.",
+            "l1_hook": null,
+            "ledger_position": 58
+          },
+          {
+            "type": "prose",
+            "text": "Leave the agent out unless it is news. *The hall was painted last week* is a complete sentence and nobody is missing from it. Put *by* in when who did it is the point you are making."
+          },
+          {
+            "type": "examples",
+            "lead_in": "The same event, with and without the doer. Watch what the *by* part adds.",
+            "dimension": "naming the doer",
+            "items": [
+              {
+                "text": "The old signal box was repainted last weekend.",
+                "gloss": "The signal box looks new now. Who did the work is not the point.",
+                "register": "neutral"
+              },
+              {
+                "text": "The old signal box was repainted by the rail volunteers.",
+                "gloss": "It looks new, and the point is that volunteers did it.",
+                "register": "neutral",
+                "marks": [{ "span": "by the rail volunteers", "role": "target" }]
+              },
+              {
+                "text": "Two hundred trees were planted along the ring road.",
+                "gloss": "The trees are there now. Nobody needs to know who dug the holes.",
+                "register": "written_formal"
+              },
+              {
+                "text": "The whole scheme was funded by a single donation.",
+                "gloss": "The money came from one gift, and that is the surprising part.",
+                "register": "written_formal",
+                "marks": [{ "span": "by a single donation", "role": "target" }]
+              },
+              {
+                "text": "The whole thing was organised by two of the neighbours.",
+                "gloss": "Two neighbours did all the organising, and that is worth saying.",
+                "register": "spoken",
+                "marks": [{ "span": "by two of the neighbours", "role": "target" }]
+              }
+            ],
+            "so_what": "Adding *by* changes what the sentence is about. Leave it out and the sentence is about the thing, not the doer."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Where the passive has no form at all",
+            "anchor": "the-missing-forms"
+          },
+          {
+            "type": "prose",
+            "text": "English avoids two forms of *be* side by side. That is why *been being* and *be being* do not appear, and why four combinations have no passive in normal use. When you need one of them, put the sentence back in the active."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Pick the form of *be*. The third form never moves.",
+            "table": {
+              "caption": "One row per time. Only *be* changes.",
+              "headers": ["When", "The *be* part", "Example"],
+              "rows": [
+                ["now, generally", "*is* / *are*", "the hall is painted every spring"],
+                ["now, in progress", "*is being*", "the hall is being painted"],
+                ["before now", "*has been*", "the hall has been painted"],
+                ["finished past", "*was* / *were*", "the hall was painted"],
+                ["later", "*will be*", "the hall will be painted"]
+              ]
+            },
+            "points": null
+          }
+        ],
+
+        "terms_introduced": [
+          {
+            "term": "agent",
+            "gloss": "the doer, when a passive sentence names it after *by*",
+            "also_called": "the *by*-phrase",
+            "ledger_position": 58
+          }
+        ],
+        "term_refs": [
+          "verb",
+          "subject",
+          "tense",
+          "continuous (progressive)",
+          "third form (past participle)",
+          "modal verb",
+          "voice (active / passive)",
+          "agent"
+        ],
+
+        "related_points": ["gr_passive_forms", "gr_passive_by_agent"],
+        "no_practice_reason": null,
+        "related_articles": [
+          { "id": "th_the_passive_idea", "reason": "what the passive is for, before you build one" },
+          { "id": "th_when_to_choose_the_passive", "reason": "the five reasons to choose it, and the three not to" },
+          { "id": "th_passive_special_cases", "reason": "the verbs that cannot go passive, and the ones that keep a preposition" },
+          { "id": "th_five_verb_forms", "reason": "where the third form comes from, for regular and irregular verbs" }
+        ],
+        "fixes_errors": ["passive_be_missing", "passive_participle_wrong"],
+        "confusion_set": null,
+
+        "aliases": [
+          "passive forms",
+          "be plus past participle",
+          "passive in all tenses",
+          "how to make the passive",
+          "passive with modals"
+        ],
+        "intents": ["say what was done to something without saying who did it"],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 4,
+        "false_rule_absent_reason": "The false rules about the passive are all about when to use it, not how to build it. They are named and killed in th_when_to_choose_the_passive, which owns that decision."
+      }
+    },
+
+    {
+      "id": "th_tm_03",
+      "chapter_id": "thc_03",
+      "sequence_index": 58,
+      "title": "Is the time you mean finished, or still open?",
+      "kind": "comparison",
+      "cefr_level": "A2",
+      "article_json": {
+        "schema_version": 1,
+
+        "also_called": "Present perfect or past simple?",
+        "one_line": "This lets you choose between two past forms that are both correct English, so the sentence says what you actually mean.",
+        "short_answer": "Ask whether the stretch of time is finished. Finished: past simple, *closed in 2019*. Still open: present perfect, *has closed since 2019*.",
+        "question_in_learner_words": "How do I choose between *I did* and *I have done*?",
+
+        "area_ids": ["I29"],
+        "prerequisites": ["th_present_perfect", "th_past_simple"],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What you are actually choosing between",
+            "anchor": "what-you-are-choosing"
+          },
+          {
+            "type": "prose",
+            "text": "Both of these are correct English: *the panel met on Tuesday*, and *the panel has met twice this month*. Neither one is more polite or more advanced than the other. They say different things about time, and a reader hears the difference."
+          },
+          {
+            "type": "prose",
+            "text": "So what you are choosing is not a form. It is whether the stretch of time you have in mind is closed or still running. Get that wrong and the sentence is correct English, and says something you did not mean."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Is the time period finished, or still running?",
+            "anchor": "is-the-period-finished"
+          },
+          {
+            "type": "contrast",
+            "anchor": "which-past-form",
+            "question": "Is the stretch of time I am talking about finished?",
+            "options": [
+              {
+                "label": "past simple",
+                "use_it_when": "The stretch is finished, and it is usually named: *last month*, *in 2019*, *when I was a student*.",
+                "example": "Applications closed at the end of March.",
+                "point_id": "gr_past_simple_regular"
+              },
+              {
+                "label": "present perfect",
+                "use_it_when": "The stretch runs up to now — *since*, *so far*, *this year* — or you name no time at all.",
+                "example": "Applications have closed twice since the scheme began.",
+                "point_id": "gr_present_perfect"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "She taught at the Ashfield school for eleven years.",
+                  "means": "She does not teach there now. Those eleven years are over.",
+                  "span": "taught"
+                },
+                "b": {
+                  "text": "She has taught at the Ashfield school for eleven years.",
+                  "means": "She still teaches there. The eleven years are still running.",
+                  "span": "has taught"
+                },
+                "only_difference": "taught / has taught"
+              },
+              {
+                "a": {
+                  "text": "The council closed two libraries.",
+                  "means": "It happened, at some point that is now over. You are telling the story.",
+                  "span": "closed"
+                },
+                "b": {
+                  "text": "The council has closed two libraries.",
+                  "means": "Two libraries are shut. That is where things stand today.",
+                  "span": "has closed"
+                },
+                "only_difference": "closed / has closed"
+              },
+              {
+                "a": {
+                  "text": "Did you speak to the site manager?",
+                  "means": "You are asking about one occasion you both have in mind.",
+                  "span": "Did you speak"
+                },
+                "b": {
+                  "text": "Have you spoken to the site manager?",
+                  "means": "You are asking whether it has happened at all yet.",
+                  "span": "Have you spoken"
+                },
+                "only_difference": "Did you speak / Have you spoken"
+              },
+              {
+                "a": {
+                  "text": "The footbridge was never repaired.",
+                  "means": "In the time it stood, nobody repaired it. That time is over.",
+                  "span": "was never repaired"
+                },
+                "b": {
+                  "text": "The footbridge has never been repaired.",
+                  "means": "It is still there, and nobody has repaired it yet.",
+                  "span": "has never been repaired"
+                },
+                "only_difference": "was / has been"
+              }
+            ],
+            "deciding_factor": "Find the time expression. If you can put a full stop after it and it still means a closed time, the verb is past simple.",
+            "trap": "You were taught that the present perfect is the experience tense, so you reach for it whenever the sentence is about experience — which is most of the time.",
+            "register_note": "Both belong everywhere. The choice pays in Speaking Part 1, in Task 1 where the end date is open, and in Task 2 background sentences."
+          },
+          {
+            "type": "decision_tree",
+            "anchor": "three-question-test",
+            "intro": "Three questions, in this order. Stop at the first one that answers.",
+            "steps": [
+              {
+                "id": "s1",
+                "ask": "Is there a time expression in the sentence?",
+                "branches": [
+                  { "answer": "Yes", "goto": "s2" },
+                  { "answer": "No", "goto": "s3" }
+                ]
+              },
+              {
+                "id": "s2",
+                "ask": "Can you put a full stop after it and still mean a closed time?",
+                "branches": [
+                  {
+                    "answer": "Yes — *in 2019.* *last week.*",
+                    "verdict": {
+                      "use": "past simple",
+                      "example": "The line closed in 2018.",
+                      "why": "A closed time and the present perfect cannot share a clause."
+                    }
+                  },
+                  {
+                    "answer": "No — *since 2015*, *so far*, *this year*",
+                    "verdict": {
+                      "use": "present perfect",
+                      "example": "The line has closed twice since 2015.",
+                      "why": "The stretch is still running, so the verb stays open too."
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "s3",
+                "ask": "Are you and your reader thinking of one particular occasion?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "past simple",
+                      "example": "The surveyors found damp in both walls.",
+                      "why": "You are reporting one occasion that is over, so the verb is past simple."
+                    }
+                  },
+                  {
+                    "answer": "No — you mean where things stand",
+                    "verdict": {
+                      "use": "present perfect",
+                      "example": "The surveyors have found damp in both walls.",
+                      "why": "You are reporting the situation now, so the verb links back to now."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "The three questions work in the order given. Most sentences stop at the second one, because most sentences that need this decision have a time expression somewhere in them."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The two forms, side by side",
+            "anchor": "the-two-forms"
+          },
+          {
+            "type": "table",
+            "anchor": "how-you-build-them",
+            "caption": "*Have* plus the third form, against the plain past form.",
+            "headers": ["What you say", "How you build it", "Name for it"],
+            "rows": [
+              ["*the panel met*", "the past form on its own", "past simple"],
+              ["*the panel has met*", "*have* or *has* + the third form", "present perfect"]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "The third form is *painted*, *written*, *met*. All five shapes of a verb are in [th_five_verb_forms]."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "The same event, with the time expression changed. Nothing else moves.",
+            "dimension": "the time expression",
+            "items": [
+              {
+                "text": "The depot closed in 2018.",
+                "gloss": "It shut that year. The year is over.",
+                "register": "neutral",
+                "marks": [
+                  { "span": "closed", "role": "target" },
+                  { "span": "in 2018", "role": "deciding" }
+                ]
+              },
+              {
+                "text": "The depot has closed twice since 2015.",
+                "gloss": "It shut twice, and the stretch from 2015 runs up to today.",
+                "register": "neutral",
+                "marks": [
+                  { "span": "has closed", "role": "target" },
+                  { "span": "since 2015", "role": "deciding" }
+                ]
+              },
+              {
+                "text": "The depot closed last week.",
+                "gloss": "Last week is finished, so the verb is finished too.",
+                "register": "spoken",
+                "marks": [{ "span": "last week", "role": "deciding" }]
+              },
+              {
+                "text": "The depot has closed this week.",
+                "gloss": "This week is still running, and the closure counts inside it.",
+                "register": "written_formal",
+                "marks": [{ "span": "this week", "role": "deciding" }]
+              }
+            ],
+            "so_what": "Only the time expression changed, and it dragged the verb with it every time."
+          },
+          {
+            "type": "visual",
+            "kind": "timeline",
+            "caption": "*Since 2015* opens a stretch that is still running now.",
+            "spec": {
+              "now_label": "now",
+              "marks": [
+                { "at": -8, "label": "2015", "span_to": 0, "style": "bar" },
+                { "at": -6, "label": "in 2018", "style": "point" }
+              ],
+              "caption": "2015 to now, still open"
+            }
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Use the present perfect when the period of time you are talking about is still open, or when you name no time at all."
+          },
+          {
+            "type": "examples",
+            "lead_in": "No time expression in any of these. The verb is doing the work on its own.",
+            "dimension": "no time named",
+            "items": [
+              {
+                "text": "The lift has broken down again.",
+                "gloss": "It is broken now, and that is the problem.",
+                "register": "spoken"
+              },
+              {
+                "text": "The committee has agreed the new route.",
+                "gloss": "The route is agreed. That is where things stand.",
+                "register": "written_formal"
+              },
+              {
+                "text": "Two of the surveyors have resigned.",
+                "gloss": "They are gone, and the team is two people short.",
+                "register": "neutral"
+              }
+            ],
+            "so_what": "None of them names a time. Each one is about how things stand at the moment of speaking."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "finished-time-with-perfect",
+            "code": "tense_finished_time_with_perfect",
+            "wrong": "The council has approved the plan in 2019.",
+            "right": "The council approved the plan in 2019.",
+            "why_it_happens": "You are thinking about the result — the plan is still approved — so you reach for the form that links back to now. *In 2019* closes the stretch, and a closed stretch takes the past simple.",
+            "smallest_fix": "Take the time expression out, or change *has approved* to *approved*."
+          },
+          {
+            "type": "warning",
+            "anchor": "open-time-with-past",
+            "code": "tense_open_time_with_past",
+            "wrong": "Since 2015 the number of applicants dropped by a third.",
+            "right": "Since 2015 the number of applicants has dropped by a third.",
+            "why_it_happens": "*Since* looks like a past-time word, so the past form feels right. *Since* opens a stretch that runs up to now, and a verb inside that stretch has to stay open too.",
+            "smallest_fix": "Change *dropped* to *has dropped*. The stretch from 2015 is still running."
+          },
+          {
+            "type": "variation",
+            "kind": "bre_ame",
+            "collapsed": true,
+            "variation_ref": 1,
+            "what_varies": "Which form goes with *just*, *already* and *yet*.",
+            "option_a": {
+              "label": "British English",
+              "form": "present perfect",
+              "example": "The panel has just published the figures."
+            },
+            "option_b": {
+              "label": "American English",
+              "form": "past simple",
+              "example": "The panel just published the figures."
+            },
+            "house_default": "British",
+            "why_this_default": "The perfect version is accepted everywhere and never sounds wrong. This is a house choice for our examples, not a rule of English.",
+            "costs_marks": "no"
+          },
+          {
+            "type": "false_rule",
+            "heard": "If the sentence has *already*, *yet* or *just* in it, you must use the present perfect.",
+            "also_known_as": ["the signal-word rule", "the keyword rule"],
+            "truth": "Those words often turn up with it. They do not decide it — the stretch of time does. *I have visited Verdon in 2019* is wrong, and it has no signal word in it at all.",
+            "what_to_do": "Ignore the signal words. Ask whether the stretch of time is finished. If it is, use the past simple, whatever words are in the sentence."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Find the time expression. It decides the verb.",
+            "table": {
+              "caption": "One row per situation.",
+              "headers": ["If the time is…", "Use", "Example"],
+              "rows": [
+                ["named and closed", "past simple", "closed in 2018"],
+                ["still running", "present perfect", "has closed since 2018"],
+                ["not mentioned at all", "present perfect, if it matters now", "has closed"]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Which one is right? *The bridge reopened in May.* / *The bridge has reopened in May.*",
+                "answer": "*The bridge reopened in May.*",
+                "why": "*In May* is a closed time, so the verb has to be past simple."
+              },
+              {
+                "prompt": "Why is *Since April the waiting list grew by a third* wrong?",
+                "answer": "*Since* opens a stretch that runs up to now, so the verb stays open: *has grown by a third*.",
+                "why": "The time expression and the verb have to agree about whether the stretch is finished."
+              }
+            ]
+          }
+        ],
+
+        "terms_introduced": [],
+        "term_refs": [
+          "verb",
+          "clause",
+          "third form (past participle)",
+          "tense",
+          "simple",
+          "perfect"
+        ],
+
+        "related_points": ["gr_pp_vs_past_simple", "gr_past_time_markers"],
+        "no_practice_reason": null,
+        "related_articles": [
+          { "id": "th_present_perfect", "reason": "how the form is built, in full, with its exceptions" },
+          { "id": "th_past_simple", "reason": "the other form in this choice, on its own" },
+          { "id": "th_pp_simple_vs_continuous", "reason": "the next choice down, once you have settled this one" }
+        ],
+        "fixes_errors": ["tense_finished_time_with_perfect", "tense_open_time_with_past"],
+        "confusion_set": "cs_past_time_reference",
+
+        "aliases": [
+          "present perfect vs past simple",
+          "have done or did",
+          "present perfect or past",
+          "which past tense",
+          "since or in"
+        ],
+        "intents": [
+          "talk about something that happened before now and still matters",
+          "say when something happened without sounding wrong"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [1],
+        "myth_refs": [18],
+        "estimated_read_minutes": 6,
+        "false_rule_absent_reason": null
+      }
+    }
+  ]
+}

@@ -131,6 +131,52 @@ def test_independent_points_keep_their_unit_grouping(tmp_path: Path) -> None:
     assert [seats[k] for k in ("a1", "a2", "b1", "b2")] == [1, 2, 3, 4]
 
 
+def test_an_advanced_point_does_not_jump_the_queue(tmp_path: Path) -> None:
+    """The defect a depth-layered sort produced on the real pack.
+
+    ``gr_embedded_question`` is C1, but its prerequisites are in units nobody has authored
+    yet, so it had no resolvable edges and layering seated it third — ahead of
+    ``gr_be_present``. Dependency-safe and pedagogically absurd. Among points that are all
+    eligible, the beginner material has to come first.
+    """
+    rows = [
+        _point("gr_embedded_question", "u11", 1000),
+        _point("gr_be_present", "u01", 1900),
+    ]
+    rows[0]["cefr_level"] = "C1"
+    rows[1]["cefr_level"] = "A1"
+    pack = _pack(tmp_path, rows)
+    reseq.main([str(pack), "--quiet"])
+
+    seats = _seated(pack)
+    assert seats["gr_be_present"] < seats["gr_embedded_question"]
+
+
+def test_cefr_never_overrides_a_real_dependency(tmp_path: Path) -> None:
+    """Kindness is only ever applied among points that are already safe to seat."""
+    rows = [
+        _point("easy_but_dependent", "u01", 1000, ["hard_but_first"]),
+        _point("hard_but_first", "u09", 1900),
+    ]
+    rows[0]["cefr_level"] = "A1"
+    rows[1]["cefr_level"] = "C1"
+    pack = _pack(tmp_path, rows)
+    reseq.main([str(pack), "--quiet"])
+
+    seats = _seated(pack)
+    assert seats["hard_but_first"] < seats["easy_but_dependent"]
+
+
+def test_an_unknown_cefr_level_sorts_last_rather_than_crashing(tmp_path: Path) -> None:
+    rows = [_point("weird", "u01", 1000), _point("normal", "u01", 1001)]
+    rows[0]["cefr_level"] = "banana"
+    rows[1]["cefr_level"] = "B2"
+    pack = _pack(tmp_path, rows)
+
+    assert reseq.main([str(pack), "--quiet"]) == 0
+    assert _seated(pack)["normal"] < _seated(pack)["weird"]
+
+
 def test_reseating_is_idempotent(tmp_path: Path) -> None:
     """A second pass must be a no-op, or the pack churns on every build."""
     rows = [

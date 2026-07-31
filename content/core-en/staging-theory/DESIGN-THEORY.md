@@ -622,7 +622,7 @@ top-level row key is silently dropped at import**. All payload lives in the blob
 {
   "id": "th_pp_vs_past_simple",
   "chapter_id": "thc_03",
-  "sequence_index": 71,          // global, 1..175, unique, = ledger position
+  "sequence_index": 58,          // global, 1..175, unique, = ledger position. See §6.2 for the blocks
   "title": "Is the time you mean finished, or still open?",
   "kind": "comparison",          // foundation | standard | comparison | paradigm | overview | myth
   "cefr_level": "A2",            // A1 A2 B1 B2 C1 C2
@@ -685,7 +685,12 @@ supplies them.
   "intents": ["talk about something that happened before now and still matters"],    // REQ, 0–3
   "on_start_here_path": false,               // REQ. §3.4
   "variation_refs": [1],                     // REQ (may be []). TH-R1 §5 row numbers covered here
-  "estimated_read_minutes": 6                // REQ, integer 2–9
+  "myth_refs": [18],                         // REQ (may be []). TH-R4 §8.3 row numbers killed here
+  "estimated_read_minutes": 6,               // REQ, integer 2–9
+
+  // ---- optional, and only in the stated cases -------------------------------
+  "false_rule_absent_reason": null           // REQ when the article has no false_rule block
+                                             // and its kind normally requires one (§2.4.11)
 }
 ```
 
@@ -1782,4 +1787,331 @@ Four devices, in descending preference. Reach for these before you reach for a n
 | **The physical picture, used once and dropped** | one concrete image, cashed out into a decision | time relationships, distance, containment |
 | **The slot picture** (`visual.kind: slot_frame`) | show the sentence as boxes to be filled | word order, question formation |
 
-<!-- SECTION-2-MARKER -->
+---
+
+## 5. THE WRITING STANDARD
+
+TH-R4 §10 is the source. This section restates it as **numbered rules an author can be held to**, and
+adds the four rules that only became necessary once §2's block schema existed. A verify agent cites
+these numbers; an author self-checks against §5.8 before committing.
+
+**The governing sentence:** *the prose must be easier than the thing it explains.* Every rule below
+is a consequence of it.
+
+### 5.1 Voice — ten rules
+
+| # | Rule | Wrong | Right |
+|---|---|---|---|
+| **W1** | **Second person.** *You*, *ask yourself*. Never *the student*, *the learner*, *we*, *one* | The learner should note that… | Watch what happens to *have*. |
+| **W2** | **Present tense throughout.** A reference is timeless | English has traditionally put the subject first | English puts the subject first. |
+| **W3** | **Active voice in the prose**, whatever the article is about. Do not explain the passive in the passive | The passive is formed by… | To build a passive, put *be* in front of the third form. |
+| **W4** | **An instruction, not a description**, wherever one is available | The form *have* is used with *I, you, we, they* | Use *have* with *I*, *you*, *we* and *they*. |
+| **W5** | **Name the decision before you name the grammar.** Meaning first, form second | This chapter covers the present perfect | You want to say something before now still matters. |
+| **W6** | **No hedging in a `rule` block, ever.** Hedges go in `exceptions`, where they are counted and verdict-labelled | Generally, in most cases you would usually use… | Use the past simple when the period is finished. |
+| **W7** | **No reassurance and no enthusiasm.** Banned: *simply, just, easy, obviously, of course, as you know, don't worry*, and exclamation marks | This is simply a matter of… | Two things decide it. |
+| **W8** | **No apology for English.** Banned: *unfortunately, annoyingly, English is illogical, there are many exceptions* | Unfortunately English is not logical here | Three verbs behave differently. Here they are. |
+| **W9** | **Concrete over abstract** | the perfect auxiliary precedes the participle | put *have* in front of the third form |
+| **W10** | **One idea per sentence.** An *and* joining two clauses is usually two sentences | — | — |
+
+### 5.2 Metrics — hard numbers, all countable
+
+| # | Metric | `foundation` | Every other kind |
+|---|---|---|---|
+| **W11** | Median prose sentence length | 10–14 words | 12–17 words |
+| **W12** | Maximum prose sentence length | **20 words** | **25 words** |
+| **W13** | Subordinate clauses per prose sentence | ≤ 1 | ≤ 1 |
+| **W14** | Words per prose paragraph (= per `prose` block) | ≤ 50 | ≤ 60 |
+| **W15** | Sentences per prose paragraph | ≤ 3 | ≤ 4 |
+| **W16** | Consecutive body words with no landmark | ≤ 100 | ≤ 120 |
+| **W17** | Passive-voice sentences in the prose | 0 | ≤ 5% |
+| **W18** | Nominalisations per 100 prose words | ≤ 1 | ≤ 2 |
+| **W19** | Prose words outside the top 2,000 word families + the 87 ledger terms | 0 without a gloss | 0 without a gloss |
+| **W20** | Prose CEFR level | ≤ A2 | **one level below the structure taught**, floor A2, cap B1 |
+
+**W20 is the rule most often broken and the most important.** The third-conditional article (a C1
+structure) is written in B2 prose. The present-simple article (A1) is written in A1–A2 prose. Nothing
+anywhere in the Theory tab is written above B1, because a reader consulting a reference is by
+definition not yet fluent in what the reference is about.
+
+**W19 is the second most often broken.** The words authors reach for without noticing: *utilise,
+denote, signify, comprise, constitute, respectively, hence, thus, whereby, notwithstanding, per se,
+ubiquitous, myriad, salient, pertinent, aforementioned, elucidate, delineate, nuance, subtle,
+arbitrary, inherent, implicit, explicit, canonical, paradigm.* If one is genuinely needed, it takes a
+gloss and joins the glossary.
+
+### 5.3 Sentence patterns — the rewrite table
+
+Authors reach for the left column under time pressure. Rewrite to the right column before committing.
+
+| Instead of | Write |
+|---|---|
+| The present perfect is formed by… | To make the present perfect, put *have* or *has* in front of the third form. |
+| It is used to indicate that… | Use it when you want to say that… |
+| This construction is employed in contexts where… | You need this when… |
+| Care must be taken not to… | Watch out: do not… |
+| It should be noted that… | *(delete — say the thing)* |
+| There are three cases in which this occurs. | This happens in three situations. Here they are. |
+| The auxiliary precedes the subject in interrogatives. | In a question the helping verb comes before the subject: **Have** you finished? |
+| One may optionally omit the relative pronoun. | You can leave out *who* or *that* when it is the object. Both are correct. |
+| As previously mentioned / In this section we will / Let us now consider | *(delete)* |
+
+### 5.4 Banned in our prose
+
+| Category | Banned | Use instead |
+|---|---|---|
+| Register | *utilise, employ* (= use)*, commence, endeavour, ascertain, in order to, prior to, subsequent to, with regard to* | *use, start, try, find out, to, before, after, about* |
+| Filler | *It should be noted that, It is important to remember that, As previously mentioned, In this section we will, Let us now consider* | delete and say the thing |
+| Hollow intensifiers | *very, really, quite, extremely, highly* in explanatory prose | delete, or use a precise word |
+| Reassurance | *simply, just, easy, obviously, of course, as you know, don't worry* | delete |
+| Vagueness | *some, certain, various, a number of* when a number or a list is available | give the number or the list |
+| Metalanguage | any term not on the §4.3 ledger | the substitution table, §4.5 |
+| Punctuation | semicolons in body prose; em-dash chains; brackets inside brackets | full stops |
+| Typography | ALL CAPS; `**bold**` for emphasis in prose — bold is reserved for marking a target or naming a term | restructure the sentence |
+| Claims | any percentage about learner errors, any error-count band threshold, any appeal to examiner training, any per-structure frequency figure | qualitative statements (`staging-grammar/DESIGN.md` §0.2) |
+| Citations | any sentence of the form "X says Y" | state the fact; it stands on the language |
+
+### 5.5 Headings carry the content
+
+| # | Rule |
+|---|---|
+| **W21** | Every `heading.text` is **a full statement or a question in the learner's vocabulary**, ≤ 12 words. Never a topic label |
+| **W22** | **A reader who reads only your headings must come away with the rule.** This is the acceptance test for the heading set, not an aspiration |
+| **W23** | Two heading levels only (`2` and `3`). Three levels on a phone is unnavigable |
+| **W24** | No article has a heading called *Form*, *Usage*, *Notes*, *Exceptions*, *Introduction* or *Conclusion*. Reference articles have no conclusions |
+
+### 5.6 Four rules that only exist because of §2's schema
+
+| # | Rule |
+|---|---|
+| **W25** | **A block earns its type.** Prose is for *reasons* — a paragraph with no *because*, no *so* and no *but* is a `table` or a `list` in disguise. A grid is a `table`. A nested condition is a `decision_tree`. Two forms whose difference is meaning is a `contrast`, never a table |
+| **W26** | **Every `span` and every `mark` is an exact substring of its own `text`.** A span that does not match highlights nothing, silently, and the feature dies without an error. Check them character by character |
+| **W27** | **Glosses are about the world, not about the grammar.** `examples[].gloss`, `minimal_pairs[].means` and `so_what` say what the sentence *means* — ✓ *"She still teaches there."* ✗ *"This shows the present perfect."* An author who writes grammar into a gloss has written a quiz |
+| **W28** | **`short_answer` is the highest-value 25 words you will write.** It is the search-result row, the practice-point link preview, and the whole article for a reader with 30 seconds. State the commonest case as an instruction, with one example, and no hedge |
+
+### 5.7 Originality and honesty — restated as author obligations
+
+| # | Rule |
+|---|---|
+| **W29** | **Every example sentence is authored fresh.** If a sentence feels familiar, it is; throw it away. The banned list in `staging-grammar/DESIGN.md` §0.2 binds verbatim, including the cake sentence, *I've lost my keys*, *The cat sat on the mat*, *Water boils at 100°C* as an example, and anyone called John, Mary, Tom, Sarah, Peter or Anna doing a textbook action |
+| **W30** | **Do not reproduce a remembered chapter shape.** The sequence of explanation in a famous reference is itself recognisable. Use the skeleton in §2.5; it is ours, and it is deliberately not the conventional one |
+| **W31** | **House world only:** Verdon, Norland, Ashfield, Sandmouth, Marlow, Brackenfield, and IELTS-adjacent topics — study, work, transport, environment, health, technology, city life. No proper noun ever carries the meaning of an example (EX-7) |
+| **W32** | **Where usage genuinely varies, ship a `variation` block.** Never resolve a variation silently to keep an article tidy. Name both options, give the house default, and label the default as a house choice rather than as a rule of English. The reader who meets the counter-example in the wild and was not warned stops trusting the whole reference |
+| **W33** | **Never ridicule a false rule's source.** *"Some teachers still teach this"* is fine. *"A silly old rule"* makes the reader defend the myth they were about to drop |
+| **W34** | **State a fact you are sure of, or state nothing.** This binds hardest in `l1_note.mechanism`: an inaccurate claim about the reader's own first language is worse than no note, because it is the one claim on the page they can check |
+
+### 5.8 The pre-commit self-check
+
+Run this on every article. It is ordered so the expensive checks come last. An article that fails any
+line does not get committed; it gets fixed or split.
+
+1. Can I state this article's question in one sentence with no grammar words? Is that sentence in
+   `question_in_learner_words`?
+2. Is `short_answer` ≤ 25 words, an instruction, with one example, no hedge? (W28)
+3. **Does the article read correctly for a reader who has read no other article?** Every article is
+   page one.
+4. Do the headings alone convey the rule? (W22)
+5. Is every ledger term used at or below its position, and is every term I introduce backed by a
+   `term_intro` block *and* declared in `terms_introduced`? (§4.4)
+6. Is any prose sentence over W12? Any `prose` block over W14 or W15?
+7. Any prose word outside the top 2,000 + the ledger, without a gloss? (W19)
+8. Is the prose one level below the structure taught? (W20)
+9. Does every `rule` block have ≥ 3 examples after it, and every `contrast` have 3–5 full minimal
+   pairs with both meanings and the named difference?
+10. Does every `examples` block vary one dimension, name it in `lead_in`, and end in a `so_what`?
+11. Is every table a real grid — cells ≤ 9 words, takeaway caption, leftmost column the thing the
+    reader already has, examples physically adjacent, weight markers if it is a paradigm?
+12. Is every exception classified A/B/C, frequency-labelled, verdict-labelled, and stop-lined if
+    there are more than three?
+13. Is every false rule in circulation for this structure named, **in its real wording**, and does
+    `what_to_do` replace it rather than only remove it?
+14. Is every genuine variation labelled with both options, a house default, and the reason?
+15. Is there any `wrong` string in the first 120 words? There must not be. (EX-4)
+16. Are all example sentences original, house-world, ≤ 16 words, and shared with nothing? (W29,
+    T-BOUND-3)
+17. Does every `span` and `mark` match its `text` exactly? (W26)
+18. Does the article link to ≥ 1 practice point, or does `no_practice_reason` say why not?
+19. Have I read any of these sentences somewhere before? If there is any doubt, rewrite.
+
+---
+
+## 6. QUANTITY TARGETS
+
+Eight agents author eight chapters. Without numbers they produce eight different books: one author
+ships 300-word stubs, another ships 2,000-word essays, a third ships no tables at all. Everything in
+this section is a **floor and a ceiling**, both countable by a script.
+
+### 6.1 What counts, and what does not
+
+**Body words** are the words in `prose`, `rule`, `heading`, `list.lead_in`, `list.items`, and the
+narrative fields of `contrast`, `warning`, `false_rule`, `exceptions`, `variation` and `summary`.
+
+**Body words exclude** example sentences, glosses, table cells, paradigm cells, `l1_note` blocks and
+any block with `collapsed: true`. Those are cheap to skip and expensive to cut, which is exactly why
+they are outside the budget — an author must never be tempted to delete an example to meet a count.
+
+### 6.2 Per chapter
+
+| Chapter | Articles | `sequence_index` block | Body words | Examples ≥ | `contrast` blocks ≥ | `warning` blocks ≥ | `false_rule` blocks | `variation` blocks | `term_intro` blocks | Myths (TH-R4 §8.3) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `thc_01` | 20 | **1–20** | 11,000–12,500 | 160 | 3 | 14 | 7 | 0 | **32** | 1 |
+| `thc_02` | 20 | **21–40** | 14,000–16,000 | 160 | 6 | 34 | 18 | 2 | 7 | 1 |
+| `thc_03` | 23 | **41–63** | 14,000–16,000 | 184 | 7 | 22 | 16 | 4 | 15 | 4 |
+| `thc_04` | 21 | **64–84** | 14,500–16,500 | 168 | 7 | 32 | 18 | 6 | 5 | 3 |
+| `thc_05` | 22 | **85–106** | 15,000–17,000 | 176 | 5 | 38 | 20 | 5 | 8 | 3 |
+| `thc_06` | 22 | **107–128** | 16,000–18,000 | 176 | 6 | 38 | 20 | 5 | 10 | 3 |
+| `thc_07` | 22 | **129–150** | 15,000–17,000 | 176 | 7 | 38 | 20 | 10 | 4 | 2 |
+| `thc_08` | 25 | **151–175** | 16,000–18,000 | 200 | 6 | 40 | 22 | 10 | 6 | 3 |
+| | **175** | **1–175** | **~123,000** | **1,400** | **47** | **256** | **141** | **42** | **87** | **20** |
+
+**`sequence_index` is global, 1–175, unique, and is the ledger position.** Take it from your
+chapter's block and your article's position in §1.3–§1.10. Do not compute it any other way and do not
+renumber another chapter's block.
+
+**Reading the columns.**
+
+- **`false_rule` blocks** is not a floor — it is **exactly one per `standard` and `comparison`
+  article**, which is what the column counts. An article with none sets
+  `false_rule_absent_reason`; that reason is reviewed, not rubber-stamped.
+- **`variation` blocks** is exact, not a floor. The 42 rows of TH-R1 §5 are assigned to chapters
+  above and **each is claimed exactly once**, in the article that owns its area, via
+  `variation_refs`. Chapter 1's `th_where_english_varies` re-presents all 42 as a reader-facing
+  appendix and claims none of them — it is authored last, after the other seven chapters exist.
+- **`term_intro` blocks** is exact. It is the §4.3 ledger sliced by chapter: `thc_01` owns terms
+  1–32, `thc_02` 33–39, `thc_03` 40–54, `thc_04` 55–59, `thc_05` 60–67, `thc_06` 68–77, `thc_07`
+  78–81, `thc_08` 82–87. **A `term_intro` block is permitted in an article of any `kind`** — including
+  `paradigm` and `overview`, whose skeletons do not list one — whenever the ledger names that article
+  as the introducer. It renders immediately before the term's first use.
+- **Myths** is exact. The 20 rows of TH-R4 §8.3 are distributed below and each is claimed once
+  through `myth_refs`.
+- **`contrast` blocks** is a floor. Every `comparison` article carries exactly one; the rest sit
+  inside `standard` articles whose structure has a rival. TH-R1 §3 marks 41 areas **C** or **F+C**
+  and every one of them is either a `contrast` block or the reason one exists nearby.
+- **`warning` blocks** is a floor of 2 per `standard` article. The ceiling is 5.
+
+**The myth ledger, distributed.**
+
+| Chapter | TH-R4 §8.3 rows | Owning article |
+|---|---|---|
+| `thc_01` | 16 | `th_what_a_sentence_is` |
+| `thc_02` | 10 | `th_people_in_general` |
+| `thc_03` | 8, 17, 18, 19 | `th_the_futures`, `th_present_perfect`, `th_pp_vs_past_simple`, `th_future_choice` |
+| `thc_04` | 6, 7, 13 | `th_when_to_choose_the_passive` ×2, `th_agreement_groups_and_amounts` |
+| `thc_05` | 4, 9, 11 | `th_perfect_and_passive_nonfinites`, `th_questions_with_prepositions`, `th_negative_prefixes_and_answering` |
+| `thc_06` | 1, 2, 14 | `th_hanging_a_clause_on`, `th_joining_equal_clauses`, `th_relative_details` |
+| `thc_07` | 3, 12 | `th_preposition_phrases_and_stranding`, `th_as_as_and_fewer_less` |
+| `thc_08` | 5, 15, 20 | `th_writing_without_i_and_being_polite`, `th_quotation_hyphens_and_lists`, `th_spoken_grammar_is_not_broken` |
+
+**The variation ledger, distributed.** TH-R1 §5 row numbers, by chapter:
+
+| Chapter | §5 rows |
+|---|---|
+| `thc_02` | 5, 33 |
+| `thc_03` | 1, 3, 6, 18 |
+| `thc_04` | 2, 4, 21, 26, 35, 39 |
+| `thc_05` | 17, 20, 22, 31, 38 |
+| `thc_06` | 15, 19, 25, 36, 37 |
+| `thc_07` | 13, 14, 16, 23, 24, 30, 32, 34, 41, 42 |
+| `thc_08` | 7, 8, 9, 10, 11, 12, 27, 28, 29, 40 |
+
+### 6.3 Article kind mix per chapter
+
+The mix is fixed by §1.3–§1.10 and repeated here as a count, because it is the fastest way for an
+author to notice they have drifted into writing 22 identical articles.
+
+| Chapter | `foundation` | `standard` | `comparison` | `paradigm` | `overview` | `myth` |
+|---|---|---|---|---|---|---|
+| `thc_01` | 11 | 7 | 0 | 1 | 1 | 0 |
+| `thc_02` | 0 | 17 | 1 | 2 | 0 | 0 |
+| `thc_03` | 0 | 11 | 5 | 6 | 1 | 0 |
+| `thc_04` | 0 | 16 | 2 | 3 | 0 | 0 |
+| `thc_05` | 0 | 19 | 1 | 2 | 0 | 0 |
+| `thc_06` | 0 | 19 | 1 | 2 | 0 | 0 |
+| `thc_07` | 0 | 19 | 1 | 2 | 0 | 0 |
+| `thc_08` | 0 | 20 | 2 | 3 | 0 | 0 |
+| **Total** | **11** | **128** | **13** | **21** | **2** | **0** |
+
+**No chapter authors a `kind: myth` article.** The kind stays in the schema for a myth large enough
+to become a search destination in a later pack; in this pack all 20 myths ship as `false_rule` blocks
+inside the article that owns the structure. An author who thinks they have found a twenty-first myth
+big enough for its own article raises it rather than inventing one.
+
+### 6.4 Per article
+
+| # | Target | Value |
+|---|---|---|
+| **Q1** | Body words | The band for the article's `kind`, §2.3. **Hard cap 1,400** |
+| **Q2** | Headings | 3–8, and within the band for the `kind` |
+| **Q3** | Examples | **≥ 6, ≤ 20.** ≥ 3 after every `rule` block. ≥ 1 within the first 120 words |
+| **Q4** | Minimal pairs | 3–5 per `contrast` block. **Fewer than 3 and the reader concludes the two forms are synonyms** |
+| **Q5** | Tables | Within the `kind` band. Never a one-row or one-column table |
+| **Q6** | `warning` blocks | 2–5 in `standard`; ≥ 1 in `comparison`; 0 permitted in `paradigm` and `overview` |
+| **Q7** | `l1_note` blocks | 0–3, collapsed, after the rule |
+| **Q8** | `quick_check` | 0 or 1 block, 2–3 items, collapsed, answers always shown |
+| **Q9** | `related_articles` | 2–4, each with a one-clause reason |
+| **Q10** | Inline cross-references | ≤ 5. More means the article is not self-contained |
+| **Q11** | `aliases` | 2–6 |
+| **Q12** | `intents` | 0–3 |
+| **Q13** | Collapsed content | ≤ 40% of the article. More than that means it is two articles |
+| **Q14** | `estimated_read_minutes` | 2–9, and it must agree with the body word count at ~120 wpm |
+
+### 6.5 Splitting, and the one thing you may not do
+
+**An article over 1,400 body words is split, never compressed.** Compressed reference prose is the
+densest, least readable text there is, and it is where the passive voice and the nominalisations
+creep back in. Three legal splits:
+
+| Split | Use when |
+|---|---|
+| **By form vs choice** | the article both builds a structure and adjudicates between it and a rival |
+| **By common vs advanced** | 80% of the value is in the first third |
+| **By paradigm extraction** | the article is mostly a table — pull it out as `kind: paradigm` and link to it from everywhere |
+
+**The split is announced in both halves.** The first ends by naming where the harder cases are. The
+second opens with a one-line restatement of the first, so it is still page one for a reader who
+arrived by search.
+
+**A split changes the article count in your chapter, so it is raised, not done silently.** The
+`sequence_index` block for your chapter is fixed and shared with seven other agents; a nineteenth
+article in an eighteen-article chapter is a merge conflict, not a judgement call.
+
+### 6.6 Corpus-level acceptance tests
+
+Run after the merge, over all eight chapters. Each is mechanical.
+
+| # | Test |
+|---|---|
+| **C1** | **Coverage.** The multiset of every `area_ids[]` value equals the TH-R1 §3 id set exactly — 474 ids, no duplicates, no omissions (§1.11) |
+| **C2** | **Ledger.** All 87 terms have exactly one introducer; no article uses a term whose introducer is later in `(chapter_index, sequence_index)`; every gloss is byte-identical to §4.3 (§4.4) |
+| **C3** | **Variation.** All 42 TH-R1 §5 rows are claimed exactly once through `variation_refs`, in the article that owns the area — not only in `th_where_english_varies` |
+| **C4** | **Myths.** All 20 TH-R4 §8.3 rows are claimed exactly once through `myth_refs` |
+| **C5** | **Ids.** `sequence_index` is 1–175, unique, and inside the owning chapter's block. Every `prerequisites[]`, `related_articles[].id` and `early_sighting.full_treatment_article` resolves to a real article |
+| **C6** | **Closed enums.** Every `warning.code` and every `fixes_errors[]` value is in the 53-slug set; every `confusion_set` is in the 19-set; every `related_points[]` and `options[].point_id` is in the closed 154 (`staging-grammar/DESIGN.md` §2.8, §4.2) |
+| **C7** | **Practice reachability.** Every one of the 154 practice point ids is named by ≥ 1 theory article, so the reverse link from every point lands somewhere |
+| **C8** | **Spans.** Every `marks[].span`, `minimal_pairs[].a.span`/`.b.span` and `show_first[].mark` is an exact substring of its own text |
+| **C9** | **Trees terminate.** Every `decision_tree` `goto` resolves to a later step in the same block; every path ends in a `verdict`; no cycles |
+| **C10** | **No shared sentences.** No example sentence appears in two theory articles, or in a theory article and a practice item (T-BOUND-3) |
+| **C11** | **Nothing is locked.** No article carries a `locked` state, an unlock computation or a gate of any kind (§3.1) |
+| **C12** | **Nothing is scored.** No `quick_check` writes a review log, a read-state change or an analytics event (§2.4.17, QC-2) |
+
+**C1, C2 and C11 are errors, not warnings.** C1 is the owner's requirement — *"we have to include ALL
+so they can view all structural things"*. C2 is the zero-knowledge guarantee. C11 is the reason the
+tab exists.
+
+---
+
+## 7. What an author hands back
+
+One file per chapter, at `content/core-en/staging-theory/content/<chapter_id>.json`, in the shape of
+`TEMPLATE-THEORY.json`: a top-level object with `staging_version`, `block`, `authored_by` and an
+`articles` array of rows, each row exactly the seven keys in §2.1.
+
+With it, four short statements the verify agent checks rather than trusts:
+
+1. **Coverage.** The list of area ids you claimed, and confirmation that it equals your chapter's row
+   in §1.3–§1.10 with nothing added and nothing dropped.
+2. **Ledger.** The terms you introduced, with their positions, and confirmation that you used no term
+   whose introducer is later than the article using it.
+3. **Claims.** The `variation_refs` and `myth_refs` you claimed, against your rows in §6.2.
+4. **Anything you could not state with confidence**, and what you wrote instead. A gap declared is a
+   gap someone can close. A gap papered over with a plausible sentence about English is the one
+   failure this contract cannot recover from.

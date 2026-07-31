@@ -27,7 +27,7 @@ import shutil
 import sys
 import tempfile
 import zipfile
-from collections.abc import Callable, Iterator
+from collections.abc import Callable, Iterator, Mapping
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
@@ -40,6 +40,7 @@ from bandready.content.validate import (
     PackReport,
     iter_listening_questions,
     iter_reading_questions,
+    read_manifest,
     validate_or_raise,
 )
 
@@ -304,8 +305,19 @@ def derive_reading_questions(session: Any, rows: list[dict[str, Any]]) -> int:
     total = 0
     for row in rows:
         passage_id = str(row["id"])
+        # Clear the old set, but NEVER a question an attempt has already answered:
+        # `reading_answers.question_id` FK-references this table, so deleting one aborts
+        # the whole import. That made a content update impossible on any install where
+        # the learner had actually practised — the module's own rule (§4: retire, never
+        # delete, because attempt history references these rows) was applied to the
+        # typed tables but not to the rows derived from them. Answered questions are
+        # kept and refreshed by the upsert below instead.
         session.execute(
-            text("DELETE FROM reading_questions WHERE passage_id = :pid"), {"pid": passage_id}
+            text(
+                "DELETE FROM reading_questions WHERE passage_id = :pid AND id NOT IN "
+                "(SELECT question_id FROM reading_answers WHERE question_id IS NOT NULL)"
+            ),
+            {"pid": passage_id},
         )
         payload: list[dict[str, Any]] = []
         for question in iter_reading_questions(row):
@@ -342,7 +354,13 @@ def derive_reading_questions(session: Any, rows: list[dict[str, Any]]) -> int:
                     "word_limit, answers_json, anchor_paragraphs_json, evidence_quote, "
                     "explanation, trap_note) VALUES (:id, :passage_id, :number, :group_index, "
                     ":qtype, :word_limit, :answers_json, :anchor_paragraphs_json, "
-                    ":evidence_quote, :explanation, :trap_note)"
+                    ":evidence_quote, :explanation, :trap_note) "
+                    "ON CONFLICT(id) DO UPDATE SET number = excluded.number, "
+                    "group_index = excluded.group_index, qtype = excluded.qtype, "
+                    "word_limit = excluded.word_limit, answers_json = excluded.answers_json, "
+                    "anchor_paragraphs_json = excluded.anchor_paragraphs_json, "
+                    "evidence_quote = excluded.evidence_quote, "
+                    "explanation = excluded.explanation, trap_note = excluded.trap_note"
                 ),
                 payload,
             )
@@ -354,8 +372,14 @@ def derive_listening_questions(session: Any, rows: list[dict[str, Any]]) -> int:
     total = 0
     for row in rows:
         script_id = str(row["id"])
+        # Same rule as reading: `listening_answers.question_id` FK-references this table,
+        # so an answered question must survive the refresh and be updated in place.
         session.execute(
-            text("DELETE FROM listening_questions WHERE script_id = :sid"), {"sid": script_id}
+            text(
+                "DELETE FROM listening_questions WHERE script_id = :sid AND id NOT IN "
+                "(SELECT question_id FROM listening_answers WHERE question_id IS NOT NULL)"
+            ),
+            {"sid": script_id},
         )
         payload: list[dict[str, Any]] = []
         for question in iter_listening_questions(row):
@@ -384,7 +408,12 @@ def derive_listening_questions(session: Any, rows: list[dict[str, Any]]) -> int:
                 text(
                     "INSERT INTO listening_questions (id, script_id, number, qtype, word_limit, "
                     "answers_json, cue_line_index, explanation) VALUES (:id, :script_id, :number, "
-                    ":qtype, :word_limit, :answers_json, :cue_line_index, :explanation)"
+                    ":qtype, :word_limit, :answers_json, :cue_line_index, :explanation) "
+                    "ON CONFLICT(id) DO UPDATE SET number = excluded.number, "
+                    "qtype = excluded.qtype, word_limit = excluded.word_limit, "
+                    "answers_json = excluded.answers_json, "
+                    "cue_line_index = excluded.cue_line_index, "
+                    "explanation = excluded.explanation"
                 ),
                 payload,
             )
@@ -474,6 +503,42 @@ def pack_installed(session: Any, pack_id: str, version: str) -> bool:
     return row is not None
 
 
+def installed_checksums(session: Any, pack_id: str, version: str) -> dict[str, str]:
+    """The per-file checksums recorded when this pack version was installed."""
+    row = session.execute(
+        text("SELECT manifest_json FROM content_packs WHERE pack_id = :p AND version = :v"),
+        {"p": pack_id, "v": version},
+    ).first()
+    if row is None:
+        return {}
+    try:
+        manifest = json.loads(row[0])
+    except (TypeError, ValueError):
+        return {}
+    checksums = manifest.get("checksums")
+    return dict(checksums) if isinstance(checksums, dict) else {}
+
+
+def content_changed(session: Any, pack_id: str, version: str, manifest: Mapping[str, Any]) -> bool:
+    """True when this version is installed but its files no longer match.
+
+    Version equality alone is not a safe skip. A pack is rebuilt far more often than
+    its version is bumped — during development that is every single time — and the
+    importer then reported ``already_installed`` and changed nothing. The failure is
+    silent and looks like success, so an install can sit on a stale bank indefinitely
+    while every count it reports says the import worked.
+
+    Comparing the manifest checksums is exact: identical files skip, changed files
+    re-import. An older install whose manifest recorded no checksums is treated as
+    changed, because we cannot prove it is current and re-importing is idempotent.
+    """
+    incoming = manifest.get("checksums")
+    if not isinstance(incoming, dict) or not incoming:
+        # Nothing to compare against — leave the version check in charge.
+        return False
+    return dict(incoming) != installed_checksums(session, pack_id, version)
+
+
 def import_pack(
     session: Any,
     path: Path,
@@ -489,7 +554,14 @@ def import_pack(
         pack_id = str(report.pack_id)
         version = str(report.version)
 
-        if pack_installed(session, pack_id, version) and not repair:
+        rebuilt = content_changed(session, pack_id, version, manifest)
+        if rebuilt:
+            _log.info(
+                "content pack %s %s is installed but its files have changed — re-importing",
+                pack_id,
+                version,
+            )
+        if pack_installed(session, pack_id, version) and not repair and not rebuilt:
             _log.info("content pack %s %s is already installed", pack_id, version)
             return {
                 "status": "already_installed",
@@ -635,10 +707,39 @@ def content_is_empty(session: Any) -> bool:
 
 
 def seed_if_empty(session: Any) -> dict[str, Any] | None:
-    """Startup hook called by ``bandready.server.app`` — safe to call on every boot."""
-    if not content_is_empty(session):
-        return None
+    """Startup hook called by ``bandready.server.app`` — safe to call on every boot.
+
+    Seeds an empty bank, and ALSO re-imports when the shipped pack has been rebuilt
+    since it was installed. Without the second case an existing install keeps whatever
+    it first seeded forever: shipping new content in an app update would change nothing
+    on any machine that had already run the app once, and nothing would report an error.
+    ``import_pack`` upserts by authored id, so re-importing is safe and idempotent.
+    """
     path = default_pack_path()
+    if not content_is_empty(session):
+        if path is None:
+            return None
+        try:
+            with open_pack(Path(path)) as root:
+                manifest = read_manifest(root)
+            pack_id = str(manifest.get("id") or "")
+            version = str(manifest.get("version") or "")
+            if not pack_id or not version:
+                return None
+            # Only ever REFRESH a pack this install already has. A bank holding other
+            # packs but not this one is a deliberate state — a side-loaded pack, or the
+            # shipped one removed — and quietly reinstalling on every boot would
+            # override that choice and never stop.
+            if not pack_installed(session, pack_id, version):
+                return None
+            if not content_changed(session, pack_id, version, manifest):
+                return None
+        except (PackError, OSError, ValueError) as exc:
+            # A shipped pack we cannot read is not a reason to fail startup; the bank
+            # already has content and the packs screen surfaces the problem.
+            _log.warning("could not check the shipped pack for changes: %s", exc)
+            return None
+        _log.info("shipped content pack has changed since install — refreshing")
     if path is None:
         _log.info("no shipped content pack found on disk — starting with an empty bank")
         return None

@@ -10,6 +10,7 @@ import {
   optionEntries,
   parseMarkdownTable,
   splitLetters,
+  stripEmphasis,
   wordLimitLabel,
 } from "../qtypes";
 import type { ListeningQuestion } from "../types";
@@ -127,7 +128,10 @@ function TextAnswer({ question, value, onChange, readOnly, onFocus }: AnswerProp
     />
   );
 
-  const prompt = question.prompt ?? "";
+  // Emphasis is authoring syntax, never learner-facing: an unstripped prompt shows
+  // "**1**" on screen. Shared blocks are drawn by SharedBlock; what reaches here is a
+  // prompt that belongs to this question alone.
+  const prompt = stripEmphasis(question.prompt ?? "");
   // One input per question: the field lands in the FIRST gap only; any further
   // blanks in the same prompt stay drawn as blanks (they belong to other numbers).
   const slot: GapSlot = { used: false };
@@ -301,7 +305,7 @@ function LetterAnswer({
       onFocus={onFocus}
     >
       <legend className="text-sm leading-relaxed">
-        {question.prompt || `Question ${question.number}`}
+        {stripEmphasis(question.prompt ?? "") || `Question ${question.number}`}
       </legend>
       {want > 1 && (
         <Badge tone="primary">

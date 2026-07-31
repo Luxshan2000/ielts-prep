@@ -6,6 +6,13 @@ export interface TooltipProps {
   content: ReactNode;
   side?: "top" | "bottom" | "left" | "right";
   className?: string;
+  /**
+   * Classes for the wrapper around the trigger. It is `inline-flex`, so a block-level
+   * trigger collapses to its content width unless told otherwise — pass `w-full` when the
+   * trigger is a row that should fill its container. (The collapsed sidebar rail learned
+   * this the hard way: its links shrank to the 16px icon and flowed two to a line.)
+   */
+  wrapperClassName?: string;
   children: ReactNode;
 }
 
@@ -21,13 +28,19 @@ const sides = {
  * chart points, annotation notes and palette hints. For anything interactive
  * inside the popup, use `Drawer`/`Modal` instead.
  */
-export function Tooltip({ content, side = "top", className, children }: TooltipProps) {
+export function Tooltip({
+  content,
+  side = "top",
+  className,
+  wrapperClassName,
+  children,
+}: TooltipProps) {
   const id = useId();
   if (!content) return <>{children}</>;
 
   return (
-    <span className="group/tooltip relative inline-flex">
-      <span aria-describedby={id} className="inline-flex">
+    <span className={cn("group/tooltip relative inline-flex", wrapperClassName)}>
+      <span aria-describedby={id} className={cn("inline-flex", wrapperClassName && "w-full")}>
         {children}
       </span>
       <span

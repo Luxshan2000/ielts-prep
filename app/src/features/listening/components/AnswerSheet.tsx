@@ -3,6 +3,7 @@ import { groupQuestions, rangeLabel, typeLabel } from "../qtypes";
 import type { ListeningPart } from "../types";
 import { MapAsset } from "./MapAsset";
 import { QuestionBlock } from "./QuestionBlock";
+import { SharedBlock, isSharedBlock } from "./SharedBlock";
 
 export interface AnswerSheetProps {
   part: ListeningPart;
@@ -52,21 +53,36 @@ export function AnswerSheet({
             {sharedAsset && (
               <MapAsset asset={sharedAsset} label={`Map for ${rangeLabel(group.questions)}`} />
             )}
-            <div className="space-y-1">
-              {group.questions.map((question) => (
-                <QuestionBlock
-                  key={question.id}
-                  question={question}
-                  value={answers[String(question.number)] ?? ""}
-                  onChange={(value) => onAnswer(question.number, value)}
-                  readOnly={readOnly}
-                  active={activeNumber === question.number}
-                  onFocus={() => onActive(question.number)}
-                  showAsset={!sharedAsset}
-                  registerRef={(el) => registerRef?.(question.number, el)}
-                />
-              ))}
-            </div>
+            {isSharedBlock(group.questions) ? (
+              // Form, note and table prompts are one block shared by the whole group. Drawn
+              // per question they repeat in full once per gap; drawn once they read as the
+              // form they are.
+              <SharedBlock
+                questions={group.questions}
+                answers={answers}
+                onAnswer={onAnswer}
+                readOnly={readOnly}
+                activeNumber={activeNumber}
+                onActive={onActive}
+                registerRef={registerRef}
+              />
+            ) : (
+              <div className="space-y-1">
+                {group.questions.map((question) => (
+                  <QuestionBlock
+                    key={question.id}
+                    question={question}
+                    value={answers[String(question.number)] ?? ""}
+                    onChange={(value) => onAnswer(question.number, value)}
+                    readOnly={readOnly}
+                    active={activeNumber === question.number}
+                    onFocus={() => onActive(question.number)}
+                    showAsset={!sharedAsset}
+                    registerRef={(el) => registerRef?.(question.number, el)}
+                  />
+                ))}
+              </div>
+            )}
           </section>
         );
       })}

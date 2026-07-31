@@ -18,10 +18,10 @@ import {
   Drawer,
   EmptyState,
   Progress,
-  QuestionPalette,
   Skeleton,
   useConfirm,
 } from "@/components/ui";
+import { PaletteFooter } from "@/components/practice/PaletteFooter";
 import { PageShell } from "@/components/shell/PageShell";
 import { cn } from "@/lib/cn";
 import { formatDuration } from "@/lib/format";
@@ -484,9 +484,14 @@ export function ReadingPlayer() {
           <div className="flex min-h-0 flex-1 flex-col">{questionsColumn}</div>
         </div>
 
-        <footer className="shrink-0 border-t border-border bg-background/95 px-5 py-2.5 backdrop-blur">
-          <div className="flex flex-wrap items-center gap-3">
-            {!isDrill && attempt.passages.length > 1 && (
+        <PaletteFooter
+          count={window_.end - window_.start + 1}
+          startAt={window_.start}
+          current={current ?? window_.start}
+          status={statuses}
+          onJump={jumpTo}
+          leading={
+            !isDrill && attempt.passages.length > 1 ? (
               <div className="flex items-center gap-1.5">
                 <span className="text-[11px] text-muted-foreground">Passage</span>
                 {attempt.passages.map((item, index) => (
@@ -508,17 +513,9 @@ export function ReadingPlayer() {
                   </button>
                 ))}
               </div>
-            )}
-            <QuestionPalette
-              className="min-w-0 flex-1"
-              count={window_.end - window_.start + 1}
-              startAt={window_.start}
-              current={current ?? window_.start}
-              status={statuses}
-              onJump={jumpTo}
-            />
-          </div>
-        </footer>
+            ) : undefined
+          }
+        />
       </div>
 
       <Drawer

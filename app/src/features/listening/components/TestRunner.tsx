@@ -18,12 +18,12 @@ import {
   CardHeader,
   CardTitle,
   EmptyState,
-  QuestionPalette,
   SkeletonCard,
   Tabs,
   useConfirm,
   type QuestionStatus,
 } from "@/components/ui";
+import { PaletteFooter } from "@/components/practice/PaletteFooter";
 import { PageShell } from "@/components/shell/PageShell";
 import { api, ApiError } from "@/lib/api";
 import { formatDuration } from "@/lib/format";
@@ -512,8 +512,7 @@ export function TestRunner() {
         ) : undefined
       }
     >
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_260px]">
-        <div className="space-y-4">
+      <div className="space-y-4">
           <PartPlayer
             key={playPart.id}
             part={playPart}
@@ -603,35 +602,25 @@ export function TestRunner() {
               )}
             </div>
           )}
-        </div>
+      </div>
 
-        <aside className="space-y-4 lg:sticky lg:top-4 lg:self-start">
-          <div className="rounded-xl border border-border bg-card p-3">
-            <p className="mb-2 text-[12px] font-semibold">
+      {/* The navigator lives in the same bottom strip Reading uses — see PaletteFooter. */}
+      {allNumbers.length > 0 && (
+        <PaletteFooter
+          count={allNumbers.length}
+          startAt={allNumbers[0]}
+          current={activeNumber || allNumbers[0]}
+          status={status}
+          onJump={jumpTo}
+          leading={
+            <span className="text-[11px] text-muted-foreground">
               {answeredCount} of {allNumbers.length} answered
-            </p>
-            {allNumbers.length > 0 && (
-              <QuestionPalette
-                count={allNumbers.length}
-                startAt={allNumbers[0]}
-                current={activeNumber || allNumbers[0]}
-                status={status}
-                onJump={jumpTo}
-              />
-            )}
-          </div>
-
-          <div className="space-y-2 rounded-xl border border-border bg-card p-3">
-            <p className="text-[12px] text-muted-foreground">
-              {exam
-                ? "The check step opens automatically when part " +
-                  parts.length +
-                  " finishes."
-                : "Finish whenever you are ready — practice attempts are not timed."}
-            </p>
+            </span>
+          }
+          actions={
             <Button
               variant={exam ? "outline" : "primary"}
-              className="w-full"
+              size="sm"
               onClick={() => {
                 void flush();
                 setPhase("check");
@@ -639,9 +628,9 @@ export function TestRunner() {
             >
               {exam ? "Go to the check step" : "Finish and check"}
             </Button>
-          </div>
-        </aside>
-      </div>
+          }
+        />
+      )}
     </PageShell>
   );
 }

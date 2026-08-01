@@ -40,3 +40,12 @@ content/core-en/staging-reading/tests/
 # Listening staging: merged into content/core-en/data by tools/content/merge_listening.py.
 # research/, DESIGN.md and TEMPLATE.json ARE tracked — they are the authoring contract.
 content/core-en/staging-listening/tests/
+
+# The dev data directory. `scripts/dev.mjs --browser` puts the learner's whole runtime here:
+# downloaded model weights (hundreds of MB, and never ours to redistribute — that is the
+# entire reason stage-sidecar does not bundle them), synthesized listening audio, the SQLite
+# database, the sidecar's auth secret, and recordings of the user's own voice.
+#
+# None of it belongs in the repo, and one 461MB weight file is over GitHub's hard limit, so
+# a push carrying it is rejected outright.
+.dev-data/

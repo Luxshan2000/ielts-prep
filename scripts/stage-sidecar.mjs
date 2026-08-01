@@ -25,7 +25,7 @@
  */
 
 import { execFileSync } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { platform } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -46,6 +46,16 @@ const arch = opt('--arch', process.arch === 'arm64' ? 'arm64' : 'x64')
 const withVoice = flag('--voice')
 const pythonDir = opt('--python-dir')
 const isWindows = platform() === 'win32'
+
+/**
+ * Recursive directory copy that works on all three platforms.
+ *
+ * `cp -R` is not a Windows command, and pwsh's `cp` alias does not take `-R` or the
+ * `<dir>/.` trailing-dot idiom. fs.cpSync is in Node 16.7+ and this repo requires 20.
+ */
+function copyTree(from, to) {
+  cpSync(from, to, { recursive: true, dereference: true })
+}
 const venvBin = join(VENV, isWindows ? 'Scripts' : 'bin')
 const venvPython = join(venvBin, isWindows ? 'python.exe' : 'python')
 
@@ -66,7 +76,7 @@ if (pythonDir) {
   // An already-downloaded python-build-standalone tree — useful offline or on a slow
   // connection, where re-fetching ~50 MB per build is the dominant cost.
   step(`Copying the interpreter from ${pythonDir}`)
-  run('cp', ['-R', `${pythonDir.replace(/\/$/, '')}/.`, PYDIR])
+  copyTree(pythonDir.replace(/[/\\]$/, ''), PYDIR)
 } else {
   // `uv python install` keeps its own copy of python-build-standalone; reuse it rather
   // than downloading a second one.
@@ -82,17 +92,23 @@ if (pythonDir) {
     )
     process.exit(1)
   }
-  // <root>/install/bin/python3.11 → <root>/install
-  const root = resolve(dirname(dirname(found)))
-  if (!existsSync(join(root, 'lib'))) {
+  // The two layouts are genuinely different shapes, not just different separators:
+  //   unix     <root>/bin/python3.11   with <root>/lib
+  //   windows  <root>/python.exe       with <root>/Lib and <root>/DLLs, and no bin/
+  // Deriving the root with dirname(dirname()) on Windows therefore climbs one level too far,
+  // and looking for a lowercase lib/ finds nothing. Both were Unix-only assumptions that had
+  // never run on Windows until CI tried.
+  const root = isWindows ? resolve(dirname(found)) : resolve(dirname(dirname(found)))
+  const marker = isWindows ? 'Lib' : 'lib'
+  if (!existsSync(join(root, marker))) {
     console.error(
-      `\n${found} does not look like a relocatable standalone tree (no lib/ beside bin/).\n` +
+      `\n${found} does not look like a relocatable standalone tree (no ${marker}/ in ${root}).\n` +
         'Pass --python-dir with a python-build-standalone extraction instead.\n',
     )
     process.exit(1)
   }
   step(`Copying ${root}`)
-  run('cp', ['-R', `${root}/.`, PYDIR])
+  copyTree(root, PYDIR)
 }
 
 // ----------------------------------------------------------------------- venv ---

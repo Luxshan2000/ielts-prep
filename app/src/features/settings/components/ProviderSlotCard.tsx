@@ -52,6 +52,17 @@ function stateTone(state: string | undefined): "success" | "warning" | "destruct
   }
 }
 
+/**
+ * The model list for this slot.
+ *
+ * Falls back to the flat `suggested_models` for presets that serve one modality, where the
+ * two are the same list. The point of the per-modality version is the presets that serve
+ * three: OpenRouter's chat models have no business appearing in the speech-to-text dropdown.
+ */
+function modelsFor(preset: Preset, modality: Modality): string[] {
+  return preset.models_by_modality?.[modality] ?? preset.suggested_models ?? [];
+}
+
 export function ProviderSlotCard({ modality }: { modality: Modality }) {
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [previewing, setPreviewing] = useState(false);
@@ -190,7 +201,7 @@ export function ProviderSlotCard({ modality }: { modality: Modality }) {
                 spec={spec}
                 draft={draft}
                 verifiedModels={models}
-                suggestedModels={selected.suggested_models ?? []}
+                suggestedModels={modelsFor(selected, modality)}
                 secretTouched={secretTouched}
                 onChange={(key, value) => setField(modality, key, value)}
               />
@@ -220,7 +231,7 @@ export function ProviderSlotCard({ modality }: { modality: Modality }) {
                     spec={spec}
                     draft={draft}
                     verifiedModels={models}
-                    suggestedModels={selected?.suggested_models ?? []}
+                    suggestedModels={selected ? modelsFor(selected, modality) : []}
                     secretTouched={secretTouched}
                     onChange={(key, value) => setField(modality, key, value)}
                   />

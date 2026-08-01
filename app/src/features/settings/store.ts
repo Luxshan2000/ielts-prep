@@ -55,6 +55,12 @@ export interface Preset {
   platforms?: string[];
   docs_url?: string;
   suggested_models?: string[];
+  /**
+   * Models we have actually pointed this app at, per modality. A provider that serves all
+   * three needs a different list in each slot — offering the chat models in the
+   * speech-to-text dropdown is how somebody ends up transcribing with a chat model.
+   */
+  models_by_modality?: Partial<Record<Modality, string[]>>;
   engine?: string;
   notes?: string;
   hidden?: boolean;

@@ -28,6 +28,48 @@ _MAX_TOKENS = {
     "key": "params.max_tokens", "label": "Max tokens", "type": "number",
     "group": "params", "default": 1024, "min": 64, "max": 32000, "step": 64,
 }
+#: Models we have actually pointed this app at, per modality.
+#:
+#: A preset whose model field falls back to free text is a trap: the learner types something
+#: plausible, the call 404s deep in a provider, and the failure surfaces as "the practice
+#: engine reported an error" three screens away. These lists keep the field a closed dropdown,
+#: so the set of things that can be chosen is the set of things that work.
+#:
+#: Verified against the live OpenRouter catalogue (`GET /api/v1/models?output_modalities=…`).
+#: It is a curated list, not a mirror — a provider adding a model does not silently add it
+#: here, which is the point.
+OPENROUTER_MODELS: dict[str, list[str]] = {
+    "llm": [
+        "anthropic/claude-sonnet-4.5",
+        "google/gemini-2.5-flash",
+        "meta-llama/llama-3.3-70b-instruct",
+        "qwen/qwen-2.5-72b-instruct",
+        "deepseek/deepseek-chat",
+    ],
+    "stt": [
+        "openai/whisper-large-v3-turbo",
+        "openai/whisper-large-v3",
+        "qwen/qwen3-asr-flash-2026-02-10",
+        "openai/gpt-4o-transcribe",
+        "openai/gpt-4o-mini-transcribe",
+        "deepgram/nova-3",
+        "mistralai/voxtral-mini-transcribe",
+    ],
+    "tts": [
+        "openai/gpt-audio",
+        "openai/gpt-audio-mini",
+        "deepgram/aura-2",
+        "google/gemini-3.1-flash-tts-preview",
+        "qwen/qwen-audio-3.0-tts-flash",
+    ],
+}
+
+OPENAI_MODELS: dict[str, list[str]] = {
+    "llm": ["gpt-4o-mini", "gpt-4o"],
+    "stt": ["whisper-1", "gpt-4o-transcribe", "gpt-4o-mini-transcribe"],
+    "tts": ["tts-1", "tts-1-hd", "gpt-4o-mini-tts"],
+}
+
 _MODEL_FROM_VERIFY = {
     "key": "model", "label": "Model", "type": "select", "required": True,
     "group": "connection", "options_from": "verify",
@@ -143,7 +185,8 @@ PRESETS: list[dict[str, Any]] = [
         "key_env_hint": "OPENAI_API_KEY",
         "platforms": ALL_PLATFORMS,
         "docs_url": "https://platform.openai.com/docs",
-        "suggested_models": ["gpt-4o-mini", "gpt-4o"],
+        "suggested_models": OPENAI_MODELS["llm"],
+        "models_by_modality": OPENAI_MODELS,
         "notes": "Covers all three modalities.",
         "config_spec": [
             _base_url("https://api.openai.com/v1", locked=True),
@@ -167,11 +210,12 @@ PRESETS: list[dict[str, Any]] = [
         "key_env_hint": "OPENROUTER_API_KEY",
         "platforms": ALL_PLATFORMS,
         "docs_url": "https://openrouter.ai/docs",
-        "suggested_models": [
-            "anthropic/claude-sonnet-4.5",
-            "meta-llama/llama-3.3-70b-instruct",
-        ],
-        "notes": "One key for the examiner, speech-to-text and the voice.",
+        "suggested_models": OPENROUTER_MODELS["llm"],
+        "models_by_modality": OPENROUTER_MODELS,
+        "notes": (
+            "One key for the examiner, speech-to-text and the voice. Pronunciation practice "
+            "still needs local Whisper — a remote transcript carries no per-word confidence."
+        ),
         "config_spec": [
             _base_url("https://openrouter.ai/api/v1", locked=True),
             _api_key("OPENROUTER_API_KEY", "sk-or-…"),

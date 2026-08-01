@@ -8,12 +8,11 @@
     "sequence_index uses the private band 3200-3299; the topological reseq pass re-seats the pack afterwards.",
     "gr_noun_clause_that carries exactly that id because five shipped points already declare it as a prerequisite."
   ],
-
   "points": [
     {
       "id": "gr_past_perfect",
       "unit_id": "u06",
-      "sequence_index": 3200,
+      "sequence_index": 2200,
       "title": "Showing that one past event happened before another one",
       "cefr_level": "B1",
       "role": "form",
@@ -21,7 +20,10 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Past perfect",
-        "prerequisites": ["gr_perfect_concept", "gr_past_simple_regular"],
+        "prerequisites": [
+          "gr_perfect_concept",
+          "gr_past_simple_regular"
+        ],
         "unlocks_hint": "gr_past_perfect_choice",
         "priority": 2,
         "insertable": false,
@@ -31,11 +33,20 @@
         "gravity": "local",
         "confusion_set": "cs_past_time_reference",
         "structure_slug": "past_perfect",
-        "signal_blocklist": ["by the time", "already", "previously", "earlier", "beforehand"],
-        "fixes_errors": ["tense_sequence_lost", "tense_drift_in_paragraph", "past_perfect_decorative"],
+        "signal_blocklist": [
+          "by the time",
+          "already",
+          "previously",
+          "earlier",
+          "beforehand"
+        ],
+        "fixes_errors": [
+          "tense_sequence_lost",
+          "tense_drift_in_paragraph",
+          "past_perfect_decorative"
+        ],
         "estimated_minutes": 22,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can show my listener which of two past events happened first, without having to spell the order out.",
           "why_it_matters": "Stories and explanations both double back at some point. Without this form the reader has to guess the order and usually guesses wrong.",
@@ -55,10 +66,27 @@
             "spec": {
               "now_label": "now",
               "marks": [
-                { "at": -8, "label": "the earlier event: had + participle", "style": "x" },
-                { "at": -8, "label": "measured backwards from here", "span_to": -4, "style": "arrow" },
-                { "at": -4, "label": "the moment the story has reached", "style": "point" },
-                { "at": 0, "label": "now, which this form says nothing about", "style": "point" }
+                {
+                  "at": -8,
+                  "label": "the earlier event: had + participle",
+                  "style": "x"
+                },
+                {
+                  "at": -8,
+                  "label": "measured backwards from here",
+                  "span_to": -4,
+                  "style": "arrow"
+                },
+                {
+                  "at": -4,
+                  "label": "the moment the story has reached",
+                  "style": "point"
+                },
+                {
+                  "at": 0,
+                  "label": "now, which this form says nothing about",
+                  "style": "point"
+                }
               ],
               "caption": "The past perfect is not further back on its own. It is further back than a point the telling has already fixed."
             }
@@ -72,42 +100,66 @@
             {
               "sentence": "When we got to the platform, the Marlow train had left.",
               "question": "Did we see the train go?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The leaving is placed behind our arrival, so it was over before we were standing there."
             },
             {
               "sentence": "When we got to the platform, the Marlow train left.",
               "question": "Did we see the train go?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "Both events sit on the same line in the order given, so the train went while we watched."
             },
             {
               "sentence": "The council cancelled the scheme. It had cost eleven million pounds.",
               "question": "Which came first?",
-              "options": ["The spending", "The cancelling", "The sentence doesn't say"],
+              "options": [
+                "The spending",
+                "The cancelling",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "The second sentence steps back behind the first one in order to explain it."
             },
             {
               "sentence": "Rasheed was furious because nobody had told him about the change.",
               "question": "Had anyone spoken to him before he found out?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The conversation that never happened is placed behind the anger, which is what makes the anger make sense."
             },
             {
               "sentence": "The ferry had been out of service for three weeks when the storm hit.",
               "question": "Was the ferry running on the day of the storm?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The three weeks are measured backwards from the storm, so they were over by the time it arrived."
             },
             {
               "sentence": "Delia moved to Sandmouth in 2016. She had trained as a baker in Verdon.",
               "question": "Where did she learn the trade?",
-              "options": ["In Sandmouth, after moving", "In Verdon, before moving", "The sentence doesn't say"],
+              "options": [
+                "In Sandmouth, after moving",
+                "In Verdon, before moving",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The training is set behind the move, so it belongs to the life she had before she arrived."
             }
@@ -115,7 +167,6 @@
           "rule_line": "Ask: has my telling already reached a later moment that this event happened before?",
           "false_rule": "That the past perfect means a long time ago. It says nothing about distance. It says only: earlier than the moment we are standing on."
         },
-
         "errors": [
           {
             "code": "tense_sequence_lost",
@@ -158,7 +209,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "speaking_p2",
@@ -179,7 +229,10 @@
             "model": "The council withdrew the subsidy. Passenger numbers had fallen for six straight years."
           }
         ],
-        "criteria": ["gra", "cohesion"],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
         "used_in": [
           {
             "module": "speaking",
@@ -192,7 +245,6 @@
             "quote": "Body paragraphs on this prompt explain a move by naming what had gone wrong in the job before it."
           }
         ],
-
         "items": [
           {
             "id": "gi_past_perfect_01",
@@ -201,7 +253,9 @@
             "register": "spoken",
             "topic_id": "topic_transport",
             "skill_hook": "speaking_p2",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -210,7 +264,11 @@
             "payload": {
               "sentence": "When I got to the stop, the last bus had gone.",
               "question": "Was the bus still there when I arrived?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -226,7 +284,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "reading",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -235,9 +295,12 @@
             "payload": {
               "sentence": "The firm closed in 2018. It had lost money for six years.",
               "question": "Where do the six loss-making years sit?",
-              "mode": "timeline",
-              "slots": ["before the closure", "after the closure", "at the same time as the closure"],
-              "key": 0
+              "key": 0,
+              "options": [
+                "before the closure",
+                "after the closure",
+                "at the same time as the closure"
+              ]
             },
             "expected": null,
             "feedback": {
@@ -252,7 +315,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["past_perfect_decorative"],
+            "error_codes": [
+              "past_perfect_decorative"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -283,7 +348,9 @@
             "register": "written",
             "topic_id": "topic_transport",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -293,9 +360,13 @@
               "context": "From a note on the Ashfield freight line.",
               "stem": "By the time the new depot opened, three of the four sidings ___ (close) for good.",
               "blanks": 1,
-              "lemma_hints": ["close"]
+              "lemma_hints": [
+                "close"
+              ]
             },
-            "expected": ["had closed"],
+            "expected": [
+              "had closed"
+            ],
             "feedback": {
               "why_key": "The opening is the moment the sentence stands on, and the sidings went before it.",
               "feed_forward": "Locate the later moment, then push the earlier verb behind it."
@@ -308,7 +379,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p2",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -318,9 +391,13 @@
               "context": "Two colleagues talking about a bad Monday.",
               "stem": "I got in at seven and somebody ___ (take) my locker already.",
               "blanks": 1,
-              "lemma_hints": ["take"]
+              "lemma_hints": [
+                "take"
+              ]
             },
-            "expected": ["had taken"],
+            "expected": [
+              "had taken"
+            ],
             "feedback": {
               "why_key": "Getting in fixes the moment; the locker had gone before that, so the taking goes behind it.",
               "feed_forward": "Put the earlier action into had plus the participle."
@@ -333,18 +410,50 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["the", "survey", "team", "found", "that", "the", "reeds", "had", "spread", "across", "the", "channel"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]],
+              "tokens": [
+                "the",
+                "survey",
+                "team",
+                "found",
+                "that",
+                "the",
+                "reeds",
+                "had",
+                "spread",
+                "across",
+                "the",
+                "channel"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ]
+              ],
               "context": "Build one sentence about the Verdon channel survey."
             },
-            "expected": ["the survey team found that the reeds had spread across the channel"],
+            "expected": [
+              "the survey team found that the reeds had spread across the channel"
+            ],
             "feedback": {
               "why_key": "The finding is the later moment and the spreading sits behind it, which is why had comes in front of the participle.",
               "feed_forward": "Build the main clause first, then hang the earlier event off it."
@@ -357,7 +466,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -385,7 +496,9 @@
             "register": "spoken",
             "topic_id": "topic_housing",
             "skill_hook": "listening",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -393,7 +506,10 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "She'd moved out before the letter arrived.",
-              "scored_tokens": ["She'd", "moved"],
+              "scored_tokens": [
+                "She'd",
+                "moved"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -415,7 +531,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["past_perfect_decorative"],
+            "error_codes": [
+              "past_perfect_decorative"
+            ],
             "confusion_set": "cs_past_time_reference",
             "twin_id": null,
             "review_only": true,
@@ -443,7 +561,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": "cs_past_time_reference",
             "twin_id": null,
             "review_only": true,
@@ -474,7 +594,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -502,7 +624,10 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p2",
-            "error_codes": ["tense_sequence_lost", "tense_drift_in_paragraph"],
+            "error_codes": [
+              "tense_sequence_lost",
+              "tense_drift_in_paragraph"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -529,7 +654,7 @@
     {
       "id": "gr_past_perfect_choice",
       "unit_id": "u06",
-      "sequence_index": 3201,
+      "sequence_index": 2201,
       "title": "Deciding when you actually need to show which past event came first",
       "cefr_level": "B1",
       "role": "choice",
@@ -537,7 +662,10 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Past perfect vs past simple in a sequence",
-        "prerequisites": ["gr_past_perfect", "gr_narrative_sequence"],
+        "prerequisites": [
+          "gr_past_perfect",
+          "gr_narrative_sequence"
+        ],
         "unlocks_hint": "gr_reported_statements",
         "priority": 2,
         "insertable": false,
@@ -547,11 +675,21 @@
         "gravity": "local",
         "confusion_set": "cs_past_time_reference",
         "structure_slug": "past_perfect",
-        "signal_blocklist": ["already", "never", "just", "yet", "ever", "so far"],
-        "fixes_errors": ["past_perfect_decorative", "tense_sequence_lost", "tense_drift_in_paragraph"],
+        "signal_blocklist": [
+          "already",
+          "never",
+          "just",
+          "yet",
+          "ever",
+          "so far"
+        ],
+        "fixes_errors": [
+          "past_perfect_decorative",
+          "tense_sequence_lost",
+          "tense_drift_in_paragraph"
+        ],
         "estimated_minutes": 24,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can tell when the step back into the past perfect is doing work, and when it is only weight.",
           "why_it_matters": "Learners are taught to use this form and never taught to stop. Sprinkling it through a story is as visible as leaving it out.",
@@ -569,8 +707,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "the order is already visible", "text": "She finished the report and then went home." },
-              "right": { "role": "the order needs fixing", "text": "She went home. She had finished the report at four." },
+              "left": {
+                "role": "the order is already visible",
+                "text": "She finished the report and then went home."
+              },
+              "right": {
+                "role": "the order needs fixing",
+                "text": "She went home. She had finished the report at four."
+              },
               "arrow": "left_to_right",
               "caption": "Same two events, same real order. Only one version needs an auxiliary to say so."
             }
@@ -584,35 +728,55 @@
             {
               "sentence": "The driver checked the load and then locked the van.",
               "question": "Which happened first?",
-              "options": ["The checking", "The locking", "The sentence doesn't say"],
+              "options": [
+                "The checking",
+                "The locking",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "Then does the whole job. Nothing needs marking, because the telling and the timing already agree."
             },
             {
               "sentence": "The van was empty when it reached Marlow. Somebody had unlocked it overnight.",
               "question": "Which happened first?",
-              "options": ["The van reaching Marlow", "The unlocking", "The sentence doesn't say"],
+              "options": [
+                "The van reaching Marlow",
+                "The unlocking",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The telling has gone backwards, and the auxiliary is the only thing telling the reader so."
             },
             {
               "sentence": "After the funding stopped, the clinic reduced its opening hours.",
               "question": "Can you tell which came first?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "After settles it on its own, which is why nothing else has to be marked."
             },
             {
               "sentence": "Rasheed apologised at the meeting. He had read the wrong version of the report.",
               "question": "Did he read the wrong version before or after apologising?",
-              "options": ["Before", "After", "The sentence doesn't say"],
+              "options": [
+                "Before",
+                "After",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "The second sentence is the explanation, and explanations sit behind the thing they explain."
             },
             {
               "sentence": "Rasheed apologised at the meeting. He read the wrong version of the report.",
               "question": "Did he read the wrong version before or after apologising?",
-              "options": ["Before", "After", "The sentence doesn't say"],
+              "options": [
+                "Before",
+                "After",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "With nothing marking a step back, the second sentence reads as the next thing he did."
             }
@@ -620,9 +784,18 @@
           "discovery": {
             "prompt": "Half of these would be worse with an extra auxiliary in them, and half would be wrong without one. What separates them?",
             "pairs": [
-              ["The van was empty. Somebody had unlocked it overnight.", "The driver checked the load and then locked the van."],
-              ["She refused to sign. Someone had altered the figures.", "She altered the figures and then refused to sign."],
-              ["The clinic cut its hours. The grant had run out in April.", "After the grant ran out, the clinic cut its hours."]
+              [
+                "The van was empty. Somebody had unlocked it overnight.",
+                "The driver checked the load and then locked the van."
+              ],
+              [
+                "She refused to sign. Someone had altered the figures.",
+                "She altered the figures and then refused to sign."
+              ],
+              [
+                "The clinic cut its hours. The grant had run out in April.",
+                "After the grant ran out, the clinic cut its hours."
+              ]
             ],
             "candidate_rules": [
               {
@@ -642,9 +815,11 @@
           "rule_line": "Ask: would the reader get the order wrong without it?",
           "false_rule": "That the earlier of two past events always takes the past perfect. Most of the time the order is already visible and the auxiliary is dead weight."
         },
-
         "contrast": {
-          "with": ["gr_past_perfect", "gr_narrative_sequence"],
+          "with": [
+            "gr_past_perfect",
+            "gr_narrative_sequence"
+          ],
           "board_id": "gb_past_perfect_or_not",
           "question": "Would the order be clear without the auxiliary?",
           "fork": [
@@ -700,7 +875,6 @@
             }
           ]
         },
-
         "errors": [
           {
             "code": "past_perfect_decorative",
@@ -743,7 +917,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "speaking_p2",
@@ -764,7 +937,10 @@
             "model": "The subsidy ended in March. Ridership had been falling since the depot closed."
           }
         ],
-        "criteria": ["gra", "cohesion"],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
         "used_in": [
           {
             "module": "speaking",
@@ -777,7 +953,6 @@
             "quote": "The essay narrates a change and then explains it, which is one backward step and no more."
           }
         ],
-
         "items": [
           {
             "id": "gi_past_perfect_choice_01",
@@ -786,7 +961,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p2",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -795,7 +972,11 @@
             "payload": {
               "sentence": "Nobody said anything at the meeting. The decision had been taken on Friday.",
               "question": "When was the decision taken?",
-              "options": ["During the meeting", "Before the meeting", "The sentence doesn't say"],
+              "options": [
+                "During the meeting",
+                "Before the meeting",
+                "The sentence doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -811,7 +992,9 @@
             "register": "written",
             "topic_id": "topic_health",
             "skill_hook": "reading",
-            "error_codes": ["past_perfect_decorative"],
+            "error_codes": [
+              "past_perfect_decorative"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -820,7 +1003,11 @@
             "payload": {
               "sentence": "The clinic opened at eight and closed again at four.",
               "question": "Do you know which of the two happened first?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -836,7 +1023,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["past_perfect_decorative"],
+            "error_codes": [
+              "past_perfect_decorative"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -867,7 +1056,9 @@
             "register": "written",
             "topic_id": "topic_transport",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -877,9 +1068,13 @@
               "context": "From a report on why a bus route was withdrawn.",
               "stem": "The operator withdrew the route in June. Ridership ___ (fall) every quarter since the depot closed.",
               "blanks": 1,
-              "lemma_hints": ["fall"]
+              "lemma_hints": [
+                "fall"
+              ]
             },
-            "expected": ["had fallen"],
+            "expected": [
+              "had fallen"
+            ],
             "feedback": {
               "why_key": "The withdrawal is the moment the paragraph stands on, and the falling ran up to it, so it goes behind.",
               "feed_forward": "Set the later moment, then mark what led up to it."
@@ -892,7 +1087,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p2",
-            "error_codes": ["past_perfect_decorative"],
+            "error_codes": [
+              "past_perfect_decorative"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -902,9 +1099,13 @@
               "context": "Two colleagues talking about a shift that went badly.",
               "stem": "I ___ (finish) the checks and then I went for a break.",
               "blanks": 1,
-              "lemma_hints": ["finish"]
+              "lemma_hints": [
+                "finish"
+              ]
             },
-            "expected": ["finished"],
+            "expected": [
+              "finished"
+            ],
             "feedback": {
               "why_key": "Then puts the break after the checks, so the sentence needs no second marker saying the same thing.",
               "feed_forward": "Leave the past simple alone when a time word already orders the clauses."
@@ -917,7 +1118,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -945,7 +1148,9 @@
             "register": "spoken",
             "topic_id": "topic_media",
             "skill_hook": "listening",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -953,7 +1158,10 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "They'd pulled the story before anyone noticed.",
-              "scored_tokens": ["They'd", "pulled"],
+              "scored_tokens": [
+                "They'd",
+                "pulled"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -975,7 +1183,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": "cs_past_time_reference",
             "twin_id": "gi_past_perfect_choice_09",
             "review_only": false,
@@ -985,12 +1195,20 @@
               "context": "A report on the youth centre, giving the reason the council acted when it did.",
               "stem": "The council withdrew the grant, and the centre ___ its evening sessions.",
               "options": [
-                { "text": "cut", "why_this_means": "That the cutting came after the withdrawal, as the next step in the story." },
-                { "text": "had cut", "why_this_means": "That the cutting came first, and the council's decision is a response to it." }
+                {
+                  "text": "cut",
+                  "why_this_means": "That the cutting came after the withdrawal, as the next step in the story."
+                },
+                {
+                  "text": "had cut",
+                  "why_this_means": "That the cutting came first, and the council's decision is a response to it."
+                }
               ],
               "key": 1
             },
-            "expected": ["had cut"],
+            "expected": [
+              "had cut"
+            ],
             "feedback": {
               "why_key": "The paragraph is working backwards to a cause, so the earlier event has to be marked or the reader files it as a consequence.",
               "feed_forward": "When the second clause is the reason, push it behind with had."
@@ -1003,7 +1221,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["past_perfect_decorative"],
+            "error_codes": [
+              "past_perfect_decorative"
+            ],
             "confusion_set": "cs_past_time_reference",
             "twin_id": "gi_past_perfect_choice_08",
             "review_only": false,
@@ -1013,12 +1233,20 @@
               "context": "A report on the youth centre, listing what happened after the council's decision, in sequence.",
               "stem": "The council withdrew the grant, and the centre ___ its evening sessions.",
               "options": [
-                { "text": "cut", "why_this_means": "That the cutting came after the withdrawal, as the next step in the story." },
-                { "text": "had cut", "why_this_means": "That the cutting came first, and the council's decision is a response to it." }
+                {
+                  "text": "cut",
+                  "why_this_means": "That the cutting came after the withdrawal, as the next step in the story."
+                },
+                {
+                  "text": "had cut",
+                  "why_this_means": "That the cutting came first, and the council's decision is a response to it."
+                }
               ],
               "key": 0
             },
-            "expected": ["cut"],
+            "expected": [
+              "cut"
+            ],
             "feedback": {
               "why_key": "The clauses are being told in the order they happened, so nothing has doubled back and nothing needs marking.",
               "feed_forward": "Leave the past simple when the telling runs forwards."
@@ -1031,7 +1259,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p2",
-            "error_codes": ["past_perfect_decorative"],
+            "error_codes": [
+              "past_perfect_decorative"
+            ],
             "confusion_set": "cs_past_time_reference",
             "twin_id": "gi_past_perfect_choice_11",
             "review_only": true,
@@ -1041,12 +1271,20 @@
               "context": "Priya is telling the story of the afternoon in the order it happened.",
               "stem": "The manager came out of the meeting and the two of us ___ the figures again.",
               "options": [
-                { "text": "checked", "why_this_means": "That the checking came after he came out, as the next thing the two of them did." },
-                { "text": "had checked", "why_this_means": "That the checking was finished before he came out, which is where his information came from." }
+                {
+                  "text": "checked",
+                  "why_this_means": "That the checking came after he came out, as the next thing the two of them did."
+                },
+                {
+                  "text": "had checked",
+                  "why_this_means": "That the checking was finished before he came out, which is where his information came from."
+                }
               ],
               "key": 0
             },
-            "expected": ["checked"],
+            "expected": [
+              "checked"
+            ],
             "feedback": {
               "why_key": "Nothing in the telling has doubled back, so the two events sit on the same line in the order given.",
               "feed_forward": "Ask whether the telling moved backwards before you reach for had."
@@ -1059,7 +1297,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p2",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": "cs_past_time_reference",
             "twin_id": "gi_past_perfect_choice_10",
             "review_only": true,
@@ -1069,12 +1309,20 @@
               "context": "Priya is explaining why the manager walked in knowing the totals were wrong.",
               "stem": "The manager came out of the meeting and the two of us ___ the figures again.",
               "options": [
-                { "text": "checked", "why_this_means": "That the checking came after he came out, as the next thing the two of them did." },
-                { "text": "had checked", "why_this_means": "That the checking was finished before he came out, which is where his information came from." }
+                {
+                  "text": "checked",
+                  "why_this_means": "That the checking came after he came out, as the next thing the two of them did."
+                },
+                {
+                  "text": "had checked",
+                  "why_this_means": "That the checking was finished before he came out, which is where his information came from."
+                }
               ],
               "key": 1
             },
-            "expected": ["had checked"],
+            "expected": [
+              "had checked"
+            ],
             "feedback": {
               "why_key": "His knowledge has to come from somewhere earlier, so the checking is being placed behind the moment he walked in.",
               "feed_forward": "When a later moment needs explaining, mark the source as earlier."
@@ -1087,7 +1335,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "reading",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": "cs_past_time_reference",
             "twin_id": null,
             "review_only": false,
@@ -1103,7 +1353,10 @@
                 "The drying is the reason the dredging happened.",
                 "The drying is what the dredging led to."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -1118,7 +1371,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t2",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": "cs_past_time_reference",
             "twin_id": null,
             "review_only": false,
@@ -1128,8 +1383,14 @@
               "context": "A housing officer is writing up two surveys of the same estate, six months apart.",
               "stem": "The block was sold in March. Half the flats ___ empty for a year.",
               "options": [
-                { "text": "stood", "why_this_means": "That the empty year is listed alongside the sale, as part of one forward account." },
-                { "text": "had stood", "why_this_means": "That the empty year ran up to the sale and is being offered as the reason for it." }
+                {
+                  "text": "stood",
+                  "why_this_means": "That the empty year is listed alongside the sale, as part of one forward account."
+                },
+                {
+                  "text": "had stood",
+                  "why_this_means": "That the empty year ran up to the sale and is being offered as the reason for it."
+                }
               ],
               "key": "both",
               "follow_up": {
@@ -1150,7 +1411,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["past_perfect_decorative"],
+            "error_codes": [
+              "past_perfect_decorative"
+            ],
             "confusion_set": "cs_past_time_reference",
             "twin_id": null,
             "review_only": true,
@@ -1181,7 +1444,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["tense_sequence_lost"],
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
             "confusion_set": "cs_past_time_reference",
             "twin_id": null,
             "review_only": true,
@@ -1192,7 +1457,9 @@
               "error_span": "nobody surveyed the drains",
               "accept_overlap_tokens": 1
             },
-            "expected": ["nobody had surveyed the drains"],
+            "expected": [
+              "nobody had surveyed the drains"
+            ],
             "feedback": {
               "why_key": "The surveying that never happened runs up to the flooding, so it belongs behind it rather than beside it.",
               "feed_forward": "Insert had when the clause explains what was already the case."
@@ -1205,7 +1472,10 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["past_perfect_decorative", "tense_sequence_lost"],
+            "error_codes": [
+              "past_perfect_decorative",
+              "tense_sequence_lost"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1233,7 +1503,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["tense_drift_in_paragraph"],
+            "error_codes": [
+              "tense_drift_in_paragraph"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -1260,7 +1532,7 @@
     {
       "id": "gr_noun_clause_that",
       "unit_id": "u09",
-      "sequence_index": 3202,
+      "sequence_index": 2202,
       "title": "Using a whole statement as the subject or object of a sentence",
       "cefr_level": "B1",
       "role": "form",
@@ -1268,7 +1540,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "That-clauses as subject and object",
-        "prerequisites": ["gr_clause_types"],
+        "prerequisites": [
+          "gr_clause_types"
+        ],
         "unlocks_hint": "gr_reported_statements",
         "priority": 1,
         "insertable": false,
@@ -1279,10 +1553,14 @@
         "confusion_set": null,
         "structure_slug": "noun_clause_that",
         "signal_blocklist": [],
-        "fixes_errors": ["fragment_no_main_verb", "verb_pattern_wrong", "agreement_across_distance", "reference_ambiguous"],
+        "fixes_errors": [
+          "fragment_no_main_verb",
+          "verb_pattern_wrong",
+          "agreement_across_distance",
+          "reference_ambiguous"
+        ],
         "estimated_minutes": 22,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can put a whole statement into a sentence as if it were a single noun.",
           "why_it_matters": "It is how you state a position without opening with I think. Every stance sentence in an essay is built on it.",
@@ -1300,8 +1578,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "a noun in the object slot", "text": "The report showed a sharp rise." },
-              "right": { "role": "a whole statement in the same slot", "text": "The report showed that costs had risen sharply." },
+              "left": {
+                "role": "a noun in the object slot",
+                "text": "The report showed a sharp rise."
+              },
+              "right": {
+                "role": "a whole statement in the same slot",
+                "text": "The report showed that costs had risen sharply."
+              },
               "arrow": "left_to_right",
               "caption": "One slot, two things that can fill it. The clause is doing a noun's job."
             }
@@ -1315,35 +1599,55 @@
             {
               "sentence": "The audit showed that the figures had been copied from the previous year.",
               "question": "What did the audit show?",
-              "options": ["The previous year", "That the figures were copied", "Nothing is stated"],
+              "options": [
+                "The previous year",
+                "That the figures were copied",
+                "Nothing is stated"
+              ],
               "key": 1,
               "why": "The whole statement is the thing the audit showed, which is why it sits where a noun would."
             },
             {
               "sentence": "That the trial was stopped early surprised nobody.",
               "question": "What surprised nobody?",
-              "options": ["The trial", "That it was stopped early", "Nobody"],
+              "options": [
+                "The trial",
+                "That it was stopped early",
+                "Nobody"
+              ],
               "key": 1,
               "why": "The clause is the subject here. It is what the sentence is about."
             },
             {
               "sentence": "It is unlikely that the funding will be renewed.",
               "question": "Is the funding expected to continue?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "It holds the subject slot for the clause, and the clause carries the whole prediction."
             },
             {
               "sentence": "The fact that two departments measure the same thing differently has never been raised.",
               "question": "How many departments measure it?",
-              "options": ["One", "Two", "The sentence doesn't say"],
+              "options": [
+                "One",
+                "Two",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The clause has been packed into a noun phrase so that the sentence can hang a verb on it."
             },
             {
               "sentence": "She admitted the deadline was impossible.",
               "question": "Whose view was it that the deadline was impossible?",
-              "options": ["Hers", "The reader's", "The sentence doesn't say"],
+              "options": [
+                "Hers",
+                "The reader's",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "That has been left out, but the clause is still doing the same job in the same slot."
             }
@@ -1351,7 +1655,6 @@
           "rule_line": "A that-clause fills a noun slot: subject, object, or after the fact.",
           "false_rule": "That you can drop that anywhere. Drop it after a reporting verb in speech; keep it when the clause is the subject or the sentence is long."
         },
-
         "errors": [
           {
             "code": "fragment_no_main_verb",
@@ -1394,7 +1697,6 @@
             "l1_note": "Common where the first language allows a verb with no subject."
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t2",
@@ -1415,7 +1717,10 @@
             "model": "The passage states that the decline began well before the subsidy ended."
           }
         ],
-        "criteria": ["gra", "cohesion"],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -1428,7 +1733,6 @@
             "quote": "The follow-up questions ask what people believe about experts, which is a claim inside a clause."
           }
         ],
-
         "items": [
           {
             "id": "gi_noun_clause_that_01",
@@ -1437,7 +1741,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "reading",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1446,7 +1752,11 @@
             "payload": {
               "sentence": "The review found that two of the three campuses were running below capacity.",
               "question": "What did the review find?",
-              "options": ["Three campuses", "That two campuses were under-used", "Nothing was found"],
+              "options": [
+                "Three campuses",
+                "That two campuses were under-used",
+                "Nothing was found"
+              ],
               "key": 1
             },
             "expected": null,
@@ -1462,7 +1772,9 @@
             "register": "spoken",
             "topic_id": "topic_technology",
             "skill_hook": "speaking_p3",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1471,7 +1783,11 @@
             "payload": {
               "sentence": "That so few people applied surprised the whole department.",
               "question": "What surprised them?",
-              "options": ["The people", "That the number of applicants was small", "The department"],
+              "options": [
+                "The people",
+                "That the number of applicants was small",
+                "The department"
+              ],
               "key": 1
             },
             "expected": null,
@@ -1487,7 +1803,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1518,7 +1836,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1530,7 +1850,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["it"],
+            "expected": [
+              "it"
+            ],
             "feedback": {
               "why_key": "The clause is too heavy for the front, so it goes to the end and something has to hold the subject slot.",
               "feed_forward": "Fill the subject slot before you move the clause to the end."
@@ -1543,7 +1865,9 @@
             "register": "written",
             "topic_id": "topic_health",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -1555,7 +1879,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["that"],
+            "expected": [
+              "that"
+            ],
             "feedback": {
               "why_key": "A subject clause keeps its that. Without it the sentence has no way in and the reader stalls on the first word.",
               "feed_forward": "Keep that when the clause is the subject."
@@ -1568,18 +1894,50 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["the", "report", "concluded", "that", "the", "cuts", "had", "made", "no", "difference", "to", "emissions"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]],
+              "tokens": [
+                "the",
+                "report",
+                "concluded",
+                "that",
+                "the",
+                "cuts",
+                "had",
+                "made",
+                "no",
+                "difference",
+                "to",
+                "emissions"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ]
+              ],
               "context": "Build one sentence about an emissions review."
             },
-            "expected": ["the report concluded that the cuts had made no difference to emissions"],
+            "expected": [
+              "the report concluded that the cuts had made no difference to emissions"
+            ],
             "feedback": {
               "why_key": "The clause fills the object slot of concluded, and it keeps its own subject and verb inside it.",
               "feed_forward": "Put the reporting verb first, then let the clause fill its object slot."
@@ -1592,7 +1950,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1619,7 +1979,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -1646,7 +2008,9 @@
             "register": "spoken",
             "topic_id": "topic_technology",
             "skill_hook": "listening",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1654,7 +2018,11 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "It's been argued that the rules are already out of date.",
-              "scored_tokens": ["It's", "been", "that"],
+              "scored_tokens": [
+                "It's",
+                "been",
+                "that"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -1676,7 +2044,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_across_distance"],
+            "error_codes": [
+              "agreement_across_distance"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -1687,7 +2057,9 @@
               "error_span": "districts mean",
               "accept_overlap_tokens": 1
             },
-            "expected": ["districts means"],
+            "expected": [
+              "districts means"
+            ],
             "feedback": {
               "why_key": "The subject is the fact, not districts. It stays one thing however long the clause hanging off it becomes.",
               "feed_forward": "Trace the verb back to its head noun before you choose the ending."
@@ -1700,7 +2072,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1728,7 +2102,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -1755,7 +2131,7 @@
     {
       "id": "gr_verb_obj_infinitive",
       "unit_id": "u12",
-      "sequence_index": 3203,
+      "sequence_index": 2203,
       "title": "Saying what one thing gets somebody else to do",
       "cefr_level": "B1",
       "role": "form",
@@ -1763,7 +2139,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Verb + object + to-infinitive",
-        "prerequisites": ["gr_verb_patterns_core"],
+        "prerequisites": [
+          "gr_verb_patterns_core"
+        ],
         "unlocks_hint": "gr_causative_verbs",
         "priority": 1,
         "insertable": false,
@@ -1774,10 +2152,12 @@
         "confusion_set": null,
         "structure_slug": null,
         "signal_blocklist": [],
-        "fixes_errors": ["verb_pattern_wrong", "fragment_no_main_verb"],
+        "fixes_errors": [
+          "verb_pattern_wrong",
+          "fragment_no_main_verb"
+        ],
         "estimated_minutes": 20,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can say that one thing causes, allows or persuades somebody else to act.",
           "why_it_matters": "Most of an essay about policy is sentences about what a rule makes people do. Without this pattern you write two clauses where one carries more.",
@@ -1795,8 +2175,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "who acts", "text": "encourages commuters" },
-              "right": { "role": "what they do", "text": "to leave the car at home" },
+              "left": {
+                "role": "who acts",
+                "text": "encourages commuters"
+              },
+              "right": {
+                "role": "what they do",
+                "text": "to leave the car at home"
+              },
               "arrow": "left_to_right",
               "caption": "The verb names the pressure. The object names who feels it. The infinitive names the result."
             }
@@ -1810,35 +2196,55 @@
             {
               "sentence": "The scheme allows residents to park free after six.",
               "question": "Who parks?",
-              "options": ["The scheme", "Residents", "Nobody"],
+              "options": [
+                "The scheme",
+                "Residents",
+                "Nobody"
+              ],
               "key": 1,
               "why": "The object after the verb is the one who acts, and the infinitive is the action."
             },
             {
               "sentence": "The council required the developer to rebuild the footpath.",
               "question": "Who did the rebuilding?",
-              "options": ["The council", "The developer", "Both"],
+              "options": [
+                "The council",
+                "The developer",
+                "Both"
+              ],
               "key": 1,
               "why": "Required names the pressure; the developer is the one under it."
             },
             {
               "sentence": "Poor lighting caused two drivers to miss the turning.",
               "question": "Was the lighting driving?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The subject supplies the cause. The object supplies the person who actually did the thing."
             },
             {
               "sentence": "Staff are expected to report faults the same day.",
               "question": "Who reports faults?",
-              "options": ["Staff", "Whoever expects it", "Nobody"],
+              "options": [
+                "Staff",
+                "Whoever expects it",
+                "Nobody"
+              ],
               "key": 0,
               "why": "In the passive the object has moved to the front, but it is still the one who acts."
             },
             {
               "sentence": "The grant enabled the clinic to open on Saturdays.",
               "question": "Was the clinic open on Saturdays before the grant?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "Enable says the action became possible, so it was not happening before."
             }
@@ -1846,7 +2252,6 @@
           "rule_line": "Name the pressure, then who feels it, then what they do.",
           "false_rule": "That you can say allow to do something. This group of verbs will not skip the person; the object is part of the pattern, not an option."
         },
-
         "errors": [
           {
             "code": "verb_pattern_wrong",
@@ -1889,7 +2294,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t2",
@@ -1910,7 +2314,10 @@
             "model": "The subsidy enabled two operators to keep the rural routes running."
           }
         ],
-        "criteria": ["gra", "lexis"],
+        "criteria": [
+          "gra",
+          "lexis"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -1923,7 +2330,6 @@
             "quote": "The follow-up questions are about who persuades whom, which is this pattern used aloud."
           }
         ],
-
         "items": [
           {
             "id": "gi_verb_obj_infinitive_01",
@@ -1932,7 +2338,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "reading",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1941,7 +2349,11 @@
             "payload": {
               "sentence": "The new charge forces delivery firms to use smaller vans in the centre.",
               "question": "Who uses the smaller vans?",
-              "options": ["The charge", "Delivery firms", "The centre"],
+              "options": [
+                "The charge",
+                "Delivery firms",
+                "The centre"
+              ],
               "key": 1
             },
             "expected": null,
@@ -1957,7 +2369,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p3",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1966,7 +2380,11 @@
             "payload": {
               "sentence": "The grant enabled the workshop to take on two apprentices.",
               "question": "Could the workshop have taken them on without the grant?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -1982,7 +2400,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2013,7 +2433,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2023,9 +2445,13 @@
               "context": "From a paragraph about a park-and-ride scheme.",
               "stem": "Cheaper parking on the edge of town encourages drivers ___ (leave) the car outside the centre.",
               "blanks": 1,
-              "lemma_hints": ["leave"]
+              "lemma_hints": [
+                "leave"
+              ]
             },
-            "expected": ["to leave"],
+            "expected": [
+              "to leave"
+            ],
             "feedback": {
               "why_key": "Encourage names the pressure, drivers names who feels it, and the action has to arrive with to in front of it.",
               "feed_forward": "Put to before the base verb after this group of verbs."
@@ -2038,7 +2464,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2050,7 +2478,12 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["students", "staff", "parents", "pupils"],
+            "expected": [
+              "students",
+              "staff",
+              "parents",
+              "pupils"
+            ],
             "feedback": {
               "why_key": "Require will not take the action alone. Somebody has to be named between the verb and the to.",
               "feed_forward": "Name who is under the requirement before the infinitive."
@@ -2063,18 +2496,48 @@
             "register": "written",
             "topic_id": "topic_health",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["longer", "opening", "hours", "allowed", "the", "clinic", "to", "see", "forty", "more", "patients"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
+              "tokens": [
+                "longer",
+                "opening",
+                "hours",
+                "allowed",
+                "the",
+                "clinic",
+                "to",
+                "see",
+                "forty",
+                "more",
+                "patients"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10
+                ]
+              ],
               "context": "Build one sentence about a clinic that extended its hours."
             },
-            "expected": ["longer opening hours allowed the clinic to see forty more patients"],
+            "expected": [
+              "longer opening hours allowed the clinic to see forty more patients"
+            ],
             "feedback": {
               "why_key": "The cause is the subject, the clinic is the one that acts, and the action comes last with its to.",
               "feed_forward": "Order it as cause, then actor, then action."
@@ -2087,7 +2550,9 @@
             "register": "written",
             "topic_id": "topic_transport",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2115,7 +2580,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p3",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2143,7 +2610,9 @@
             "register": "spoken",
             "topic_id": "topic_environment",
             "skill_hook": "listening",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2151,7 +2620,11 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "Residents are expected to separate food waste from packaging.",
-              "scored_tokens": ["are", "expected", "to"],
+              "scored_tokens": [
+                "are",
+                "expected",
+                "to"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -2172,7 +2645,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2200,7 +2675,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2228,7 +2705,10 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong", "fragment_no_main_verb"],
+            "error_codes": [
+              "verb_pattern_wrong",
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2255,7 +2735,7 @@
     {
       "id": "gr_infinitive_purpose",
       "unit_id": "u12",
-      "sequence_index": 3204,
+      "sequence_index": 2204,
       "title": "Saying why you did something, without using because",
       "cefr_level": "B1",
       "role": "choice",
@@ -2263,7 +2743,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Infinitive of purpose vs for + noun",
-        "prerequisites": ["gr_sub_purpose"],
+        "prerequisites": [
+          "gr_sub_purpose"
+        ],
         "unlocks_hint": "gr_gerund_subject",
         "priority": 2,
         "insertable": false,
@@ -2273,11 +2755,19 @@
         "gravity": "local",
         "confusion_set": "cs_purpose_marker",
         "structure_slug": null,
-        "signal_blocklist": ["in order to", "so as to", "so that", "because"],
-        "fixes_errors": ["verb_pattern_wrong", "preposition_dependent", "subordinator_vs_preposition"],
+        "signal_blocklist": [
+          "in order to",
+          "so as to",
+          "so that",
+          "because"
+        ],
+        "fixes_errors": [
+          "verb_pattern_wrong",
+          "preposition_dependent",
+          "subordinator_vs_preposition"
+        ],
         "estimated_minutes": 22,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can say what something is for, and pick the marker the sentence actually wants.",
           "why_it_matters": "For plus an -ing form to express a person's purpose is one of the commonest errors in the module, and it survives all the way up to band 7.",
@@ -2295,8 +2785,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "an action somebody aimed at", "text": "She went to Verdon to study engineering." },
-              "right": { "role": "the job a thing does", "text": "The back room is for storage." },
+              "left": {
+                "role": "an action somebody aimed at",
+                "text": "She went to Verdon to study engineering."
+              },
+              "right": {
+                "role": "the job a thing does",
+                "text": "The back room is for storage."
+              },
               "arrow": "left_to_right",
               "caption": "One names the aim of a person. The other names the function of a thing."
             }
@@ -2310,35 +2806,55 @@
             {
               "sentence": "She moved to Ashfield to look after her mother.",
               "question": "Why did she move?",
-              "options": ["To care for her mother", "Because Ashfield is cheap", "The sentence doesn't say"],
+              "options": [
+                "To care for her mother",
+                "Because Ashfield is cheap",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "To plus a verb names the aim behind the move."
             },
             {
               "sentence": "This card is for the staff car park.",
               "question": "Is the card doing something, or being used for something?",
-              "options": ["Doing something", "Being used for something", "Neither"],
+              "options": [
+                "Doing something",
+                "Being used for something",
+                "Neither"
+              ],
               "key": 1,
               "why": "For plus a noun names the job the object does."
             },
             {
               "sentence": "He took the early train to avoid the roadworks.",
               "question": "What was the point of the early train?",
-              "options": ["Missing the roadworks", "Meeting a colleague", "The sentence doesn't say"],
+              "options": [
+                "Missing the roadworks",
+                "Meeting a colleague",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "The infinitive gives the reason behind the choice."
             },
             {
               "sentence": "The hall is used for exams in June.",
               "question": "Who sits the exams, according to this sentence?",
-              "options": ["The hall", "People, though the sentence does not name them", "Nobody"],
+              "options": [
+                "The hall",
+                "People, though the sentence does not name them",
+                "Nobody"
+              ],
               "key": 1,
               "why": "For plus a noun names a function and leaves the people out of it."
             },
             {
               "sentence": "She rang the office to check the closing time.",
               "question": "What did she want?",
-              "options": ["To find out when it closes", "To tell them when it closes", "The sentence doesn't say"],
+              "options": [
+                "To find out when it closes",
+                "To tell them when it closes",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "The infinitive gives her aim, not a fact about the office."
             }
@@ -2346,9 +2862,18 @@
           "discovery": {
             "prompt": "Each pair describes the same situation from two sides. Work out what the marker in front is doing.",
             "pairs": [
-              ["He joined the club to meet people.", "The club is for people new to the town."],
-              ["She saved for a year to buy a van.", "The fund is for equipment, not wages."],
-              ["They rebuilt the shed to store the tools.", "The shed is for tools."]
+              [
+                "He joined the club to meet people.",
+                "The club is for people new to the town."
+              ],
+              [
+                "She saved for a year to buy a van.",
+                "The fund is for equipment, not wages."
+              ],
+              [
+                "They rebuilt the shed to store the tools.",
+                "The shed is for tools."
+              ]
             ],
             "candidate_rules": [
               {
@@ -2368,9 +2893,10 @@
           "rule_line": "If what follows is an action you were aiming at, use to plus a verb.",
           "false_rule": "That for and to are two ways of saying the same thing and you pick whichever sounds better. For will not carry an infinitive at all."
         },
-
         "contrast": {
-          "with": ["gr_sub_purpose"],
+          "with": [
+            "gr_sub_purpose"
+          ],
           "board_id": "gb_purpose_to_or_for",
           "question": "Is what comes next an action somebody aimed at?",
           "fork": [
@@ -2426,7 +2952,6 @@
             }
           ]
         },
-
         "errors": [
           {
             "code": "verb_pattern_wrong",
@@ -2469,7 +2994,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "speaking_p1",
@@ -2490,7 +3014,10 @@
             "model": "I am writing to ask about the repairs promised in March."
           }
         ],
-        "criteria": ["gra", "cohesion"],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -2503,7 +3030,6 @@
             "quote": "Why are you doing that course is a Part 1 question whose natural answer is an infinitive of purpose."
           }
         ],
-
         "items": [
           {
             "id": "gi_infinitive_purpose_01",
@@ -2512,7 +3038,9 @@
             "register": "spoken",
             "topic_id": "topic_education",
             "skill_hook": "speaking_p1",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2521,7 +3049,11 @@
             "payload": {
               "sentence": "I signed up for the evening class to meet a few people locally.",
               "question": "What was the speaker after?",
-              "options": ["Company", "A qualification", "The sentence doesn't say"],
+              "options": [
+                "Company",
+                "A qualification",
+                "The sentence doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -2537,7 +3069,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "reading",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2546,7 +3080,11 @@
             "payload": {
               "sentence": "The lower floor is for bicycles and prams.",
               "question": "Is the sentence naming an aim or a function?",
-              "options": ["An aim somebody had", "A function of the space", "Neither"],
+              "options": [
+                "An aim somebody had",
+                "A function of the space",
+                "Neither"
+              ],
               "key": 1
             },
             "expected": null,
@@ -2562,7 +3100,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2593,7 +3133,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2603,9 +3145,13 @@
               "context": "From a paragraph about adult learners.",
               "stem": "Many people take an evening course ___ (widen) the range of jobs open to them.",
               "blanks": 1,
-              "lemma_hints": ["widen"]
+              "lemma_hints": [
+                "widen"
+              ]
             },
-            "expected": ["to widen"],
+            "expected": [
+              "to widen"
+            ],
             "feedback": {
               "why_key": "Widening is what the learners are aiming at, and an aim takes to plus the bare verb.",
               "feed_forward": "Put to in front of the verb when a person is aiming at something."
@@ -2618,7 +3164,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2630,7 +3178,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["for"],
+            "expected": [
+              "for"
+            ],
             "feedback": {
               "why_key": "A cupboard has a function rather than an aim, and a function takes for with a noun after it.",
               "feed_forward": "Use for plus a noun when you are labelling a thing."
@@ -2643,7 +3193,9 @@
             "register": "written",
             "topic_id": "topic_transport",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2671,7 +3223,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "listening",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2679,7 +3233,11 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "I've moved to the early shift to see the kids in the evening.",
-              "scored_tokens": ["I've", "to", "see"],
+              "scored_tokens": [
+                "I've",
+                "to",
+                "see"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -2701,7 +3259,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_purpose_marker",
             "twin_id": "gi_infinitive_purpose_09",
             "review_only": false,
@@ -2711,12 +3271,20 @@
               "context": "A press release explaining the council's reasons for the change. The library is open to everyone on Sundays.",
               "stem": "The council reopened the library on Sundays ___ revising for exams.",
               "options": [
-                { "text": "to help students", "why_this_means": "That helping those students is the aim the council had, while anyone else may still walk in." },
-                { "text": "for students", "why_this_means": "That the Sunday hours are set aside for that group, and other people are not covered by them." }
+                {
+                  "text": "to help students",
+                  "why_this_means": "That helping those students is the aim the council had, while anyone else may still walk in."
+                },
+                {
+                  "text": "for students",
+                  "why_this_means": "That the Sunday hours are set aside for that group, and other people are not covered by them."
+                }
               ],
               "key": 0
             },
-            "expected": ["to help students"],
+            "expected": [
+              "to help students"
+            ],
             "feedback": {
               "why_key": "Everyone can use the building, so naming a group as what the day is for would shut a door the council left open.",
               "feed_forward": "Use to plus a verb when you are naming an aim, not a group."
@@ -2729,7 +3297,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": "cs_purpose_marker",
             "twin_id": "gi_infinitive_purpose_08",
             "review_only": false,
@@ -2739,12 +3309,20 @@
               "context": "A notice on the library door. On Sundays the building is open only to one group and everyone else waits until Monday.",
               "stem": "The council reopened the library on Sundays ___ revising for exams.",
               "options": [
-                { "text": "to help students", "why_this_means": "That helping those students is the aim the council had, while anyone else may still walk in." },
-                { "text": "for students", "why_this_means": "That the Sunday hours are set aside for that group, and other people are not covered by them." }
+                {
+                  "text": "to help students",
+                  "why_this_means": "That helping those students is the aim the council had, while anyone else may still walk in."
+                },
+                {
+                  "text": "for students",
+                  "why_this_means": "That the Sunday hours are set aside for that group, and other people are not covered by them."
+                }
               ],
               "key": 1
             },
-            "expected": ["for students"],
+            "expected": [
+              "for students"
+            ],
             "feedback": {
               "why_key": "The day is reserved, and reserving is what for plus a group does. An aim would leave the door open to everyone.",
               "feed_forward": "Use for plus a noun when you are naming who something is set aside for."
@@ -2757,7 +3335,9 @@
             "register": "spoken",
             "topic_id": "topic_education",
             "skill_hook": "speaking_p3",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": "cs_purpose_marker",
             "twin_id": "gi_infinitive_purpose_11",
             "review_only": true,
@@ -2767,12 +3347,20 @@
               "context": "A tutor is reading out a sign on the door. After six the rooms are restricted and a card is needed to get in.",
               "stem": "The college keeps two computer rooms open late ___ on the evening programme.",
               "options": [
-                { "text": "to support students", "why_this_means": "That supporting them is the aim behind the late opening, which anybody may use." },
-                { "text": "for students", "why_this_means": "That the late hours belong to that group and other students are not admitted." }
+                {
+                  "text": "to support students",
+                  "why_this_means": "That supporting them is the aim behind the late opening, which anybody may use."
+                },
+                {
+                  "text": "for students",
+                  "why_this_means": "That the late hours belong to that group and other students are not admitted."
+                }
               ],
               "key": 1
             },
-            "expected": ["for students"],
+            "expected": [
+              "for students"
+            ],
             "feedback": {
               "why_key": "A card on the door means the hours are allocated, and allocation is what for plus a group says.",
               "feed_forward": "Ask whether anybody else may walk in before you choose."
@@ -2785,7 +3373,9 @@
             "register": "spoken",
             "topic_id": "topic_education",
             "skill_hook": "speaking_p3",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_purpose_marker",
             "twin_id": "gi_infinitive_purpose_10",
             "review_only": true,
@@ -2795,12 +3385,20 @@
               "context": "A tutor is describing the prospectus. Any student may use the rooms at any hour, and one group was in mind when the hours were extended.",
               "stem": "The college keeps two computer rooms open late ___ on the evening programme.",
               "options": [
-                { "text": "to support students", "why_this_means": "That supporting them is the aim behind the late opening, which anybody may use." },
-                { "text": "for students", "why_this_means": "That the late hours belong to that group and other students are not admitted." }
+                {
+                  "text": "to support students",
+                  "why_this_means": "That supporting them is the aim behind the late opening, which anybody may use."
+                },
+                {
+                  "text": "for students",
+                  "why_this_means": "That the late hours belong to that group and other students are not admitted."
+                }
               ],
               "key": 0
             },
-            "expected": ["to support students"],
+            "expected": [
+              "to support students"
+            ],
             "feedback": {
               "why_key": "Nothing is reserved here, so the sentence has an aim and no allocation, and only one marker can carry an aim.",
               "feed_forward": "When nobody is shut out, name the aim rather than the group."
@@ -2813,7 +3411,9 @@
             "register": "written",
             "topic_id": "topic_health",
             "skill_hook": "reading",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_purpose_marker",
             "twin_id": null,
             "review_only": false,
@@ -2829,7 +3429,10 @@
                 "Reaching that group was the aim, and anybody can still walk in.",
                 "That group is who the day belongs to, and others come on another day."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -2844,7 +3447,9 @@
             "register": "written",
             "topic_id": "topic_technology",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_purpose_marker",
             "twin_id": null,
             "review_only": false,
@@ -2854,8 +3459,14 @@
               "context": "A charity is describing an app that is free to download and open to any user.",
               "stem": "The app was built ___ energy use in older houses.",
               "options": [
-                { "text": "to track", "why_this_means": "That tracking energy use is what the developers set out to make it do." },
-                { "text": "for tracking", "why_this_means": "That tracking energy use is the job it does, stated as a function rather than as anyone's aim." }
+                {
+                  "text": "to track",
+                  "why_this_means": "That tracking energy use is what the developers set out to make it do."
+                },
+                {
+                  "text": "for tracking",
+                  "why_this_means": "That tracking energy use is the job it does, stated as a function rather than as anyone's aim."
+                }
               ],
               "key": "both",
               "follow_up": {
@@ -2876,7 +3487,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_purpose_marker",
             "twin_id": null,
             "review_only": true,
@@ -2907,7 +3520,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_purpose_marker",
             "twin_id": null,
             "review_only": true,
@@ -2918,7 +3533,11 @@
               "error_span": "for to practise",
               "accept_overlap_tokens": 1
             },
-            "expected": ["to practise", "to practice", "in order to practise"],
+            "expected": [
+              "to practise",
+              "to practice",
+              "in order to practise"
+            ],
             "feedback": {
               "why_key": "Two purpose markers are stacked, and English keeps the one that can carry a verb.",
               "feed_forward": "Delete for and keep to."
@@ -2931,7 +3550,9 @@
             "register": "spoken",
             "topic_id": "topic_education",
             "skill_hook": "speaking_p1",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2959,7 +3580,10 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["verb_pattern_wrong", "preposition_dependent"],
+            "error_codes": [
+              "verb_pattern_wrong",
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2986,7 +3610,7 @@
     {
       "id": "gr_meaning_change_verbs",
       "unit_id": "u12",
-      "sequence_index": 3205,
+      "sequence_index": 2205,
       "title": "Choosing between -ing and to when the choice changes what you mean",
       "cefr_level": "B2",
       "role": "choice",
@@ -2994,7 +3618,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Verbs whose meaning changes with the pattern",
-        "prerequisites": ["gr_verb_patterns_core"],
+        "prerequisites": [
+          "gr_verb_patterns_core"
+        ],
         "unlocks_hint": "gr_reporting_verbs",
         "priority": 2,
         "insertable": false,
@@ -3004,11 +3630,18 @@
         "gravity": "local",
         "confusion_set": "cs_verb_pattern",
         "structure_slug": null,
-        "signal_blocklist": ["accidentally", "deliberately", "on purpose", "by mistake", "unfortunately"],
-        "fixes_errors": ["verb_pattern_wrong"],
+        "signal_blocklist": [
+          "accidentally",
+          "deliberately",
+          "on purpose",
+          "by mistake",
+          "unfortunately"
+        ],
+        "fixes_errors": [
+          "verb_pattern_wrong"
+        ],
         "estimated_minutes": 26,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can hear the difference between stopping to do something and stopping doing it, and say the one I mean.",
           "why_it_matters": "These are not two ways of saying the same thing. The wrong one produces a perfectly clear sentence reporting the opposite of what happened.",
@@ -3030,10 +3663,19 @@
           "visual": {
             "kind": "axis",
             "spec": {
-              "ends": ["already real, behind you", "planned or attempted, ahead of you"],
+              "ends": [
+                "already real, behind you",
+                "planned or attempted, ahead of you"
+              ],
               "marks": [
-                { "pos": 0.1, "label": "stop reading, remember posting, regret saying, mean losing" },
-                { "pos": 0.9, "label": "stop to read, remember to post, regret to say, mean to lose" }
+                {
+                  "pos": 0.1,
+                  "label": "stop reading, remember posting, regret saying, mean losing"
+                },
+                {
+                  "pos": 0.9,
+                  "label": "stop to read, remember to post, regret to say, mean to lose"
+                }
               ]
             }
           },
@@ -3046,42 +3688,66 @@
             {
               "sentence": "He stopped reading the report.",
               "question": "Was he reading before this moment?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "The -ing form points back at an activity that was already running."
             },
             {
               "sentence": "I remember locking the gate.",
               "question": "Is the speaker saying the gate got locked?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "The memory is of the act itself, so the act happened."
             },
             {
               "sentence": "She forgot to send the invoice.",
               "question": "Was the invoice sent?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "Forget plus to names a duty that never got done at all."
             },
             {
               "sentence": "Try adding a second coat.",
               "question": "Is this about a method, or about something difficult?",
-              "options": ["A method worth testing", "Something difficult to attempt", "Neither"],
+              "options": [
+                "A method worth testing",
+                "Something difficult to attempt",
+                "Neither"
+              ],
               "key": 0,
               "why": "Try plus -ing offers an experiment: see whether this works."
             },
             {
               "sentence": "We regret to inform you that the post has been filled.",
               "question": "When is the bad news being delivered?",
-              "options": ["In this sentence", "Last week", "No news is being given"],
+              "options": [
+                "In this sentence",
+                "Last week",
+                "No news is being given"
+              ],
               "key": 0,
               "why": "Regret plus to is the polite frame around news the writer is delivering right now."
             },
             {
               "sentence": "Building the bypass would mean losing eight hectares of woodland.",
               "question": "Is losing the woodland a plan or a consequence?",
-              "options": ["A plan", "A consequence", "Neither"],
+              "options": [
+                "A plan",
+                "A consequence",
+                "Neither"
+              ],
               "key": 1,
               "why": "Mean plus -ing names what something would involve, not what anybody intends."
             }
@@ -3089,9 +3755,18 @@
           "discovery": {
             "prompt": "Each pair uses the same verb and describes two different afternoons. Work out what the two forms are doing.",
             "pairs": [
-              ["He stopped reading the report.", "He stopped to read the report."],
-              ["She remembered posting the form.", "She remembered to post the form."],
-              ["They went on arguing about the budget.", "They went on to argue about the budget."]
+              [
+                "He stopped reading the report.",
+                "He stopped to read the report."
+              ],
+              [
+                "She remembered posting the form.",
+                "She remembered to post the form."
+              ],
+              [
+                "They went on arguing about the budget.",
+                "They went on to argue about the budget."
+              ]
             ],
             "candidate_rules": [
               {
@@ -3111,9 +3786,10 @@
           "rule_line": "Ask whether the second verb is already real or still ahead.",
           "false_rule": "That these verbs take both patterns freely, so either is safe. With this set the pattern is the meaning, and the wrong one is a clear sentence about a different event."
         },
-
         "contrast": {
-          "with": ["gr_verb_patterns_core"],
+          "with": [
+            "gr_verb_patterns_core"
+          ],
           "board_id": "gb_ing_or_to_meaning",
           "question": "Is the second verb already real, or still ahead?",
           "fork": [
@@ -3169,7 +3845,6 @@
             }
           ]
         },
-
         "errors": [
           {
             "code": "verb_pattern_wrong",
@@ -3212,7 +3887,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t2",
@@ -3233,7 +3907,10 @@
             "model": "The company went on to open two further sites in the region."
           }
         ],
-        "criteria": ["gra", "lexis"],
+        "criteria": [
+          "gra",
+          "lexis"
+        ],
         "used_in": [
           {
             "module": "speaking",
@@ -3246,7 +3923,6 @@
             "quote": "Every solution in this essay has a cost, and cost sentences are built on mean plus an -ing form."
           }
         ],
-
         "items": [
           {
             "id": "gi_meaning_change_verbs_01",
@@ -3255,7 +3931,9 @@
             "register": "spoken",
             "topic_id": "topic_health",
             "skill_hook": "speaking_p1",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3264,7 +3942,11 @@
             "payload": {
               "sentence": "I stopped taking the bus in about March.",
               "question": "Was the speaker a bus user before March?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -3280,7 +3962,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "reading",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3289,7 +3973,11 @@
             "payload": {
               "sentence": "The manager remembered to lock the safe before the alarm was set.",
               "question": "Was locking the safe something she had to do that night?",
-              "options": ["Yes, it was a task on her list", "No, she simply recalled doing it once", "The sentence doesn't say"],
+              "options": [
+                "Yes, it was a task on her list",
+                "No, she simply recalled doing it once",
+                "The sentence doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -3305,7 +3993,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "reading",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3314,7 +4004,11 @@
             "payload": {
               "sentence": "Draining the marsh would mean losing the last reed beds in the county.",
               "question": "Does anybody want the reed beds to go?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 2
             },
             "expected": null,
@@ -3330,7 +4024,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3340,9 +4036,13 @@
               "context": "A line from a complaints log.",
               "stem": "The office forgot ___ (send) the renewal, so the cover lapsed in April.",
               "blanks": 1,
-              "lemma_hints": ["send"]
+              "lemma_hints": [
+                "send"
+              ]
             },
-            "expected": ["to send"],
+            "expected": [
+              "to send"
+            ],
             "feedback": {
               "why_key": "The cover lapsed, so the sending never happened, and only the to-form says that.",
               "feed_forward": "Use forget plus to when the job was never done."
@@ -3355,7 +4055,9 @@
             "register": "spoken",
             "topic_id": "topic_technology",
             "skill_hook": "speaking_p3",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3365,9 +4067,13 @@
               "context": "Someone giving a friend advice about a slow laptop.",
               "stem": "Try ___ (clear) the cache first and see whether that does anything.",
               "blanks": 1,
-              "lemma_hints": ["clear"]
+              "lemma_hints": [
+                "clear"
+              ]
             },
-            "expected": ["clearing"],
+            "expected": [
+              "clearing"
+            ],
             "feedback": {
               "why_key": "See whether that does anything is exactly what try plus -ing means: an experiment, not a struggle.",
               "feed_forward": "Use try plus -ing when you are suggesting a method."
@@ -3380,7 +4086,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3408,7 +4116,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "listening",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3416,7 +4126,11 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "She'd stopped answering her phone by then.",
-              "scored_tokens": ["She'd", "stopped", "answering"],
+              "scored_tokens": [
+                "She'd",
+                "stopped",
+                "answering"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -3438,7 +4152,9 @@
             "register": "spoken",
             "topic_id": "topic_health",
             "skill_hook": "speaking_p2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_verb_pattern",
             "twin_id": "gi_meaning_change_verbs_09",
             "review_only": false,
@@ -3448,12 +4164,20 @@
               "context": "Priya is describing how her handover got shorter and shorter over the winter.",
               "stem": "Halfway through the shift she stopped ___ the notes.",
               "options": [
-                { "text": "writing", "why_this_means": "That she had been writing notes and gave the writing up." },
-                { "text": "to write", "why_this_means": "That she broke off from something else so that she could write them." }
+                {
+                  "text": "writing",
+                  "why_this_means": "That she had been writing notes and gave the writing up."
+                },
+                {
+                  "text": "to write",
+                  "why_this_means": "That she broke off from something else so that she could write them."
+                }
               ],
               "key": 0
             },
-            "expected": ["writing"],
+            "expected": [
+              "writing"
+            ],
             "feedback": {
               "why_key": "The story is about a habit shrinking, so the writing was already running and is what came to an end.",
               "feed_forward": "Use -ing when the second verb was already happening."
@@ -3466,7 +4190,9 @@
             "register": "spoken",
             "topic_id": "topic_health",
             "skill_hook": "speaking_p2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_verb_pattern",
             "twin_id": "gi_meaning_change_verbs_08",
             "review_only": false,
@@ -3476,12 +4202,20 @@
               "context": "Priya is describing a shift spent moving between beds, where she paused at the desk each time.",
               "stem": "Halfway through the shift she stopped ___ the notes.",
               "options": [
-                { "text": "writing", "why_this_means": "That she had been writing notes and gave the writing up." },
-                { "text": "to write", "why_this_means": "That she broke off from something else so that she could write them." }
+                {
+                  "text": "writing",
+                  "why_this_means": "That she had been writing notes and gave the writing up."
+                },
+                {
+                  "text": "to write",
+                  "why_this_means": "That she broke off from something else so that she could write them."
+                }
               ],
               "key": 1
             },
-            "expected": ["to write"],
+            "expected": [
+              "to write"
+            ],
             "feedback": {
               "why_key": "The pausing is what stops and the writing is what starts, so the second verb is the thing still ahead.",
               "feed_forward": "Use to when the second verb is what the break was for."
@@ -3494,7 +4228,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_verb_pattern",
             "twin_id": "gi_meaning_change_verbs_11",
             "review_only": true,
@@ -3504,12 +4240,20 @@
               "context": "A supervisor is checking the closing routine and asks him to confirm that nothing on the list was skipped.",
               "stem": "He remembered ___ the alarm before he left.",
               "options": [
-                { "text": "setting", "why_this_means": "That he can picture doing it, which is a claim about his memory." },
-                { "text": "to set", "why_this_means": "That the setting was a task he had to do, and it did not slip." }
+                {
+                  "text": "setting",
+                  "why_this_means": "That he can picture doing it, which is a claim about his memory."
+                },
+                {
+                  "text": "to set",
+                  "why_this_means": "That the setting was a task he had to do, and it did not slip."
+                }
               ],
               "key": 1
             },
-            "expected": ["to set"],
+            "expected": [
+              "to set"
+            ],
             "feedback": {
               "why_key": "The question is whether a duty was carried out, and the to-form is the one that reports a duty met.",
               "feed_forward": "Use remember plus to when a task had to be done."
@@ -3522,7 +4266,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_verb_pattern",
             "twin_id": "gi_meaning_change_verbs_10",
             "review_only": true,
@@ -3532,12 +4278,20 @@
               "context": "An insurer wants to know what he can actually recall about leaving the building, not what the routine required.",
               "stem": "He remembered ___ the alarm before he left.",
               "options": [
-                { "text": "setting", "why_this_means": "That he can picture doing it, which is a claim about his memory." },
-                { "text": "to set", "why_this_means": "That the setting was a task he had to do, and it did not slip." }
+                {
+                  "text": "setting",
+                  "why_this_means": "That he can picture doing it, which is a claim about his memory."
+                },
+                {
+                  "text": "to set",
+                  "why_this_means": "That the setting was a task he had to do, and it did not slip."
+                }
               ],
               "key": 0
             },
-            "expected": ["setting"],
+            "expected": [
+              "setting"
+            ],
             "feedback": {
               "why_key": "The insurer is asking about a memory of an act, and the -ing form is the one that reports a memory.",
               "feed_forward": "Use remember plus -ing when the act is what is being recalled."
@@ -3550,7 +4304,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "reading",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_verb_pattern",
             "twin_id": null,
             "review_only": false,
@@ -3566,7 +4322,10 @@
                 "The book went back, but she has no memory of taking it.",
                 "The book never went back at all."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -3581,7 +4340,9 @@
             "register": "written",
             "topic_id": "topic_technology",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_verb_pattern",
             "twin_id": null,
             "review_only": false,
@@ -3591,8 +4352,14 @@
               "context": "A support page giving two sensible pieces of advice about a router that keeps dropping.",
               "stem": "Try ___ the firmware before you call us.",
               "options": [
-                { "text": "updating", "why_this_means": "That updating is one method worth an experiment, and it may or may not fix it." },
-                { "text": "to update", "why_this_means": "That updating is awkward and the reader is being asked to make the attempt." }
+                {
+                  "text": "updating",
+                  "why_this_means": "That updating is one method worth an experiment, and it may or may not fix it."
+                },
+                {
+                  "text": "to update",
+                  "why_this_means": "That updating is awkward and the reader is being asked to make the attempt."
+                }
               ],
               "key": "both",
               "follow_up": {
@@ -3613,7 +4380,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_verb_pattern",
             "twin_id": null,
             "review_only": true,
@@ -3644,7 +4413,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_verb_pattern",
             "twin_id": null,
             "review_only": true,
@@ -3655,7 +4426,9 @@
               "error_span": "mean to divert",
               "accept_overlap_tokens": 1
             },
-            "expected": ["mean diverting"],
+            "expected": [
+              "mean diverting"
+            ],
             "feedback": {
               "why_key": "Nobody intends the diversion; it is what the plan would drag in behind it, and that reading needs the -ing form.",
               "feed_forward": "Use mean plus -ing for consequences and mean plus to for intentions."
@@ -3668,7 +4441,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3696,7 +4471,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3724,7 +4501,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_verb_pattern",
             "twin_id": null,
             "review_only": true,
@@ -3740,7 +4519,10 @@
                 "Sending you that message is the thing the writer is sorry about.",
                 "The course being full is what the writer is sorry about, and the news is arriving now."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -3755,7 +4537,9 @@
             "register": "spoken",
             "topic_id": "topic_economy",
             "skill_hook": "listening",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_verb_pattern",
             "twin_id": null,
             "review_only": false,
@@ -3771,7 +4555,10 @@
                 "She was already running it, and she stayed at it.",
                 "She finished doing something else, and the depot was what came next."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -3786,7 +4573,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": "cs_verb_pattern",
             "twin_id": null,
             "review_only": true,
@@ -3802,7 +4591,10 @@
                 "That was somebody's intention, and an intention can still be dropped.",
                 "That was the unavoidable cost of the closure, and nobody chose it."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -3816,7 +4608,7 @@
     {
       "id": "gr_gerund_subject",
       "unit_id": "u12",
-      "sequence_index": 3206,
+      "sequence_index": 2206,
       "title": "Starting a sentence with an activity instead of a person",
       "cefr_level": "B2",
       "role": "form",
@@ -3824,7 +4616,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "-ing forms as subject",
-        "prerequisites": ["gr_verb_patterns_core"],
+        "prerequisites": [
+          "gr_verb_patterns_core"
+        ],
         "unlocks_hint": "gr_nominalisation",
         "priority": 1,
         "insertable": false,
@@ -3835,10 +4629,14 @@
         "confusion_set": null,
         "structure_slug": null,
         "signal_blocklist": [],
-        "fixes_errors": ["agreement_subject_verb", "fragment_no_main_verb", "verb_pattern_wrong", "word_form_wrong"],
+        "fixes_errors": [
+          "agreement_subject_verb",
+          "fragment_no_main_verb",
+          "verb_pattern_wrong",
+          "word_form_wrong"
+        ],
         "estimated_minutes": 20,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can make an activity the subject of a sentence, so the sentence is about the doing rather than the doer.",
           "why_it_matters": "It is the shortest route out of I think people should and into a sentence that reads as an argument rather than an opinion.",
@@ -3856,8 +4654,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "a person as subject", "text": "Governments reduce emissions." },
-              "right": { "role": "an activity as subject", "text": "Reducing emissions costs money in the first decade." },
+              "left": {
+                "role": "a person as subject",
+                "text": "Governments reduce emissions."
+              },
+              "right": {
+                "role": "an activity as subject",
+                "text": "Reducing emissions costs money in the first decade."
+              },
               "arrow": "left_to_right",
               "caption": "The same verb, moved into the subject slot, where it becomes the thing under discussion."
             }
@@ -3871,35 +4675,55 @@
             {
               "sentence": "Closing the two smallest wards saved under a million pounds.",
               "question": "What is the sentence reporting on?",
-              "options": ["The wards", "The closing", "The million pounds"],
+              "options": [
+                "The wards",
+                "The closing",
+                "The million pounds"
+              ],
               "key": 1,
               "why": "The activity is in the subject slot, so it is the thing the verb is reporting on."
             },
             {
               "sentence": "Teaching children to cook takes time that the timetable does not have.",
               "question": "Who does not have the time?",
-              "options": ["The children", "The timetable", "The teachers"],
+              "options": [
+                "The children",
+                "The timetable",
+                "The teachers"
+              ],
               "key": 1,
               "why": "The whole activity is the subject, so the sentence can go straight on to what it costs."
             },
             {
               "sentence": "Not being told about the change annoyed the whole team.",
               "question": "Were they told?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The negative sits inside the subject, and the subject is the thing that annoyed them."
             },
             {
               "sentence": "Building on the flood plain has been banned since 2015.",
               "question": "What has been banned?",
-              "options": ["Building there", "The flood plain", "Both"],
+              "options": [
+                "Building there",
+                "The flood plain",
+                "Both"
+              ],
               "key": 0,
               "why": "The -ing phrase is what the ban applies to, because it is the subject of the sentence."
             },
             {
               "sentence": "Recycling more plastic will not solve the problem on its own.",
               "question": "Is the sentence saying recycling is useless?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "On its own limits the claim, and the claim is about the activity named in the subject."
             }
@@ -3907,7 +4731,6 @@
           "rule_line": "An -ing phrase in the subject slot is one thing and takes a singular verb.",
           "false_rule": "That an -ing subject is informal and an essay should use a noun instead. Both are academic; this one keeps the action visible where a noun hides it."
         },
-
         "errors": [
           {
             "code": "agreement_subject_verb",
@@ -3950,7 +4773,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t2",
@@ -3971,7 +4793,11 @@
             "model": "Working from home has changed what a city centre is actually for."
           }
         ],
-        "criteria": ["gra", "cohesion", "lexis"],
+        "criteria": [
+          "gra",
+          "cohesion",
+          "lexis"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -3984,7 +4810,6 @@
             "quote": "The passage opens several paragraphs with an activity as the subject, which is where the topic of each one sits."
           }
         ],
-
         "items": [
           {
             "id": "gi_gerund_subject_01",
@@ -3993,7 +4818,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "reading",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4002,7 +4829,11 @@
             "payload": {
               "sentence": "Insulating older houses cuts more carbon than any new build ever will.",
               "question": "What is being compared with new building?",
-              "options": ["Older houses", "Insulating them", "Carbon"],
+              "options": [
+                "Older houses",
+                "Insulating them",
+                "Carbon"
+              ],
               "key": 1
             },
             "expected": null,
@@ -4018,7 +4849,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "reading",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4027,9 +4860,12 @@
             "payload": {
               "sentence": "Marking two hundred scripts a week leaves very little room for anything else.",
               "question": "How many things is the verb agreeing with?",
-              "mode": "timeline",
-              "slots": ["one activity", "two hundred scripts", "a week"],
-              "key": 0
+              "key": 0,
+              "options": [
+                "one activity",
+                "two hundred scripts",
+                "a week"
+              ]
             },
             "expected": null,
             "feedback": {
@@ -4044,7 +4880,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4075,7 +4913,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4085,9 +4925,13 @@
               "context": "From a paragraph about household energy.",
               "stem": "Replacing old boilers across a whole street ___ (cost) less than most people assume.",
               "blanks": 1,
-              "lemma_hints": ["cost"]
+              "lemma_hints": [
+                "cost"
+              ]
             },
-            "expected": ["costs"],
+            "expected": [
+              "costs"
+            ],
             "feedback": {
               "why_key": "The subject is the replacing, which is one activity, so the verb takes the singular ending.",
               "feed_forward": "Agree the verb with the activity, not with the nearest noun."
@@ -4100,7 +4944,9 @@
             "register": "written",
             "topic_id": "topic_health",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4110,9 +4956,13 @@
               "context": "From a paragraph about workplace health.",
               "stem": "___ (walk) part of the commute makes more difference than an hour in a gym.",
               "blanks": 1,
-              "lemma_hints": ["walk"]
+              "lemma_hints": [
+                "walk"
+              ]
             },
-            "expected": ["walking"],
+            "expected": [
+              "walking"
+            ],
             "feedback": {
               "why_key": "A bare verb cannot be a subject, so it has to become a thing first, and -ing is how English does that.",
               "feed_forward": "Turn the verb into an -ing form before you put it in the subject slot."
@@ -4125,18 +4975,46 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["converting", "empty", "offices", "into", "flats", "has", "housed", "four", "hundred", "families"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]],
+              "tokens": [
+                "converting",
+                "empty",
+                "offices",
+                "into",
+                "flats",
+                "has",
+                "housed",
+                "four",
+                "hundred",
+                "families"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9
+                ]
+              ],
               "context": "Build one sentence about a city-centre housing scheme."
             },
-            "expected": ["converting empty offices into flats has housed four hundred families"],
+            "expected": [
+              "converting empty offices into flats has housed four hundred families"
+            ],
             "feedback": {
               "why_key": "The whole activity comes first as one block, and only then does the sentence get its verb.",
               "feed_forward": "Finish the subject phrase before you start the verb."
@@ -4149,7 +5027,9 @@
             "register": "written",
             "topic_id": "topic_transport",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4177,7 +5057,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p3",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4205,7 +5087,9 @@
             "register": "spoken",
             "topic_id": "topic_economy",
             "skill_hook": "listening",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4213,7 +5097,10 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "Raising wages hasn't closed the gap on its own.",
-              "scored_tokens": ["Raising", "hasn't"],
+              "scored_tokens": [
+                "Raising",
+                "hasn't"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -4235,7 +5122,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4246,7 +5135,9 @@
               "error_span": "cities have made",
               "accept_overlap_tokens": 1
             },
-            "expected": ["cities has made"],
+            "expected": [
+              "cities has made"
+            ],
             "feedback": {
               "why_key": "The subject is the banning, not the cities. Two cities sit next to the verb and steal the agreement.",
               "feed_forward": "Trace the verb back to the -ing form before choosing its ending."
@@ -4259,7 +5150,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4287,7 +5180,10 @@
             "register": "written",
             "topic_id": "topic_health",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb", "agreement_subject_verb"],
+            "error_codes": [
+              "fragment_no_main_verb",
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4314,7 +5210,7 @@
     {
       "id": "gr_adj_prep_patterns",
       "unit_id": "u12",
-      "sequence_index": 3207,
+      "sequence_index": 2207,
       "title": "Getting the small word right after an adjective",
       "cefr_level": "B2",
       "role": "accuracy",
@@ -4322,7 +5218,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Adjective + preposition + -ing",
-        "prerequisites": ["gr_gerund_after_prep"],
+        "prerequisites": [
+          "gr_gerund_after_prep"
+        ],
         "unlocks_hint": "gr_prepositions_dependent",
         "priority": 2,
         "insertable": false,
@@ -4333,10 +5231,13 @@
         "confusion_set": null,
         "structure_slug": "gerund_after_preposition",
         "signal_blocklist": [],
-        "fixes_errors": ["preposition_dependent", "verb_pattern_wrong", "word_form_wrong"],
+        "fixes_errors": [
+          "preposition_dependent",
+          "verb_pattern_wrong",
+          "word_form_wrong"
+        ],
         "estimated_minutes": 20,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can put the right preposition after an adjective and the right verb form after that preposition.",
           "why_it_matters": "Two mistakes stacked inside three words, and both are visible. They cost lexical marks as well as grammar marks, which is why fixing them pays twice.",
@@ -4354,8 +5255,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "the adjective and its own preposition", "text": "responsible for" },
-              "right": { "role": "and a preposition takes -ing", "text": "cutting the waiting list" },
+              "left": {
+                "role": "the adjective and its own preposition",
+                "text": "responsible for"
+              },
+              "right": {
+                "role": "and a preposition takes -ing",
+                "text": "cutting the waiting list"
+              },
               "arrow": "left_to_right",
               "caption": "Two fixed choices in a row: which preposition, and then which verb form."
             }
@@ -4369,35 +5276,55 @@
             {
               "sentence": "She is capable of running the whole depot on her own.",
               "question": "Is she running it now?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 2,
               "why": "Capable of names an ability, not a current arrangement."
             },
             {
               "sentence": "The firm is committed to reducing packaging by 2030.",
               "question": "What has the firm promised?",
-              "options": ["To use less packaging", "To reach 2030", "Nothing is promised"],
+              "options": [
+                "To use less packaging",
+                "To reach 2030",
+                "Nothing is promised"
+              ],
               "key": 0,
               "why": "Committed to takes what follows as a thing promised, which is why the verb turns into an -ing form."
             },
             {
               "sentence": "Nobody was aware of the change until Friday.",
               "question": "Did people know before Friday?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "Aware of takes a thing, and the thing here is the change."
             },
             {
               "sentence": "Two departments are involved in checking the figures.",
               "question": "How many departments do the checking?",
-              "options": ["One", "Two", "The sentence doesn't say"],
+              "options": [
+                "One",
+                "Two",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "Involved in takes the activity, and the -ing form is what the preposition allows."
             },
             {
               "sentence": "The town is famous for making rope.",
               "question": "Is the town doing something, or known for something?",
-              "options": ["Doing something", "Known for something", "Neither"],
+              "options": [
+                "Doing something",
+                "Known for something",
+                "Neither"
+              ],
               "key": 1,
               "why": "Famous for names what the place is known for, and for takes an -ing form."
             }
@@ -4405,7 +5332,6 @@
           "rule_line": "Learn the preposition with the adjective, then let it force the -ing.",
           "false_rule": "That the preposition can be worked out from the meaning. It cannot. Good at and skilled in mean nearly the same thing and take different words."
         },
-
         "errors": [
           {
             "code": "preposition_dependent",
@@ -4448,7 +5374,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t2",
@@ -4469,7 +5394,10 @@
             "model": "I understand the agency is responsible for arranging repairs of this kind."
           }
         ],
-        "criteria": ["gra", "lexis"],
+        "criteria": [
+          "gra",
+          "lexis"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -4482,7 +5410,6 @@
             "quote": "Questions about who should give advice are answered with adjectives that all carry their own preposition."
           }
         ],
-
         "items": [
           {
             "id": "gi_adj_prep_patterns_01",
@@ -4491,7 +5418,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "reading",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4500,7 +5429,11 @@
             "payload": {
               "sentence": "The site manager is responsible for checking every load before it leaves.",
               "question": "Who does the checking?",
-              "options": ["The site manager", "The load", "Nobody is named"],
+              "options": [
+                "The site manager",
+                "The load",
+                "Nobody is named"
+              ],
               "key": 0
             },
             "expected": null,
@@ -4516,7 +5449,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "reading",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4525,7 +5460,11 @@
             "payload": {
               "sentence": "The operator is committed to cutting its water use by a fifth.",
               "question": "Has the cut already happened?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -4541,7 +5480,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4572,7 +5513,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4584,7 +5527,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["for"],
+            "expected": [
+              "for"
+            ],
             "feedback": {
               "why_key": "Responsible carries for and nothing else, which is why the pair has to be stored as one item.",
               "feed_forward": "Store responsible for as a single chunk."
@@ -4597,7 +5542,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4607,9 +5554,13 @@
               "context": "From a paragraph about coastal defences.",
               "stem": "Older sea walls are simply not capable of ___ (hold) back a surge of that size.",
               "blanks": 1,
-              "lemma_hints": ["hold"]
+              "lemma_hints": [
+                "hold"
+              ]
             },
-            "expected": ["holding"],
+            "expected": [
+              "holding"
+            ],
             "feedback": {
               "why_key": "Of is a preposition, and a preposition takes the -ing form whatever the verb happens to be.",
               "feed_forward": "Put -ing on the verb straight after the preposition."
@@ -4622,7 +5573,9 @@
             "register": "spoken",
             "topic_id": "topic_education",
             "skill_hook": "speaking_p1",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4634,7 +5587,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["at"],
+            "expected": [
+              "at"
+            ],
             "feedback": {
               "why_key": "Good takes at, and no amount of thinking about ability will produce it. It has to be remembered.",
               "feed_forward": "Learn good at as one chunk, like a two-word adjective."
@@ -4647,7 +5602,9 @@
             "register": "written",
             "topic_id": "topic_health",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4674,7 +5631,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "listening",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4682,7 +5641,11 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "We're not really involved in running the site any more.",
-              "scored_tokens": ["involved", "in", "running"],
+              "scored_tokens": [
+                "involved",
+                "in",
+                "running"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -4704,7 +5667,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "writing_t2",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4715,7 +5680,10 @@
               "error_span": "dependent of",
               "accept_overlap_tokens": 1
             },
-            "expected": ["dependent on", "dependent upon"],
+            "expected": [
+              "dependent on",
+              "dependent upon"
+            ],
             "feedback": {
               "why_key": "Depend on is known, but the adjective is stored separately and picks up of from the crowd around it.",
               "feed_forward": "Carry the preposition across from the verb you already know."
@@ -4728,7 +5696,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4759,7 +5729,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4770,7 +5742,9 @@
               "error_span": "interested in learn",
               "accept_overlap_tokens": 1
             },
-            "expected": ["interested in learning"],
+            "expected": [
+              "interested in learning"
+            ],
             "feedback": {
               "why_key": "The preposition is right and the verb form is not, which is the other half of the same three-word problem.",
               "feed_forward": "Add -ing to any verb that follows a preposition."
@@ -4783,7 +5757,9 @@
             "register": "written",
             "topic_id": "topic_health",
             "skill_hook": "writing_t2",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4811,7 +5787,10 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["preposition_dependent", "verb_pattern_wrong"],
+            "error_codes": [
+              "preposition_dependent",
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4838,7 +5817,7 @@
     {
       "id": "gr_causative_verbs",
       "unit_id": "u12",
-      "sequence_index": 3208,
+      "sequence_index": 2208,
       "title": "Saying who made, let or helped somebody do something",
       "cefr_level": "B2",
       "role": "accuracy",
@@ -4846,7 +5825,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "make, let, have, get and help + object + verb form",
-        "prerequisites": ["gr_verb_obj_infinitive"],
+        "prerequisites": [
+          "gr_verb_obj_infinitive"
+        ],
         "unlocks_hint": null,
         "priority": 2,
         "insertable": false,
@@ -4857,10 +5838,12 @@
         "confusion_set": null,
         "structure_slug": "causative_have_get",
         "signal_blocklist": [],
-        "fixes_errors": ["verb_pattern_wrong", "word_form_wrong"],
+        "fixes_errors": [
+          "verb_pattern_wrong",
+          "word_form_wrong"
+        ],
         "estimated_minutes": 20,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can use make, let, have, get and help correctly, even though each one takes a different form after its object.",
           "why_it_matters": "Five extremely common verbs, five different shapes, and no rule joining them. Getting one wrong is audible in the first minute of a speaking test.",
@@ -4881,11 +5864,26 @@
             "spec": {
               "label": "how much pressure is being applied?",
               "steps": [
-                { "text": "let", "gloss": "you permit it" },
-                { "text": "help", "gloss": "you make it easier" },
-                { "text": "get", "gloss": "you persuade" },
-                { "text": "have", "gloss": "you arrange it as a matter of course" },
-                { "text": "make", "gloss": "they have no choice" }
+                {
+                  "text": "let",
+                  "gloss": "you permit it"
+                },
+                {
+                  "text": "help",
+                  "gloss": "you make it easier"
+                },
+                {
+                  "text": "get",
+                  "gloss": "you persuade"
+                },
+                {
+                  "text": "have",
+                  "gloss": "you arrange it as a matter of course"
+                },
+                {
+                  "text": "make",
+                  "gloss": "they have no choice"
+                }
               ]
             }
           },
@@ -4898,35 +5896,55 @@
             {
               "sentence": "The school made every pupil sit the test again.",
               "question": "Did the pupils have a choice?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "Make is the strongest of the five, and the bare verb goes straight after the object."
             },
             {
               "sentence": "She got two colleagues to check the figures.",
               "question": "Did she check them herself?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "Get names persuading somebody else, and it is the one verb here that keeps its to."
             },
             {
               "sentence": "They had the surveyor come back on Friday.",
               "question": "Who came back?",
-              "options": ["They", "The surveyor", "Both"],
+              "options": [
+                "They",
+                "The surveyor",
+                "Both"
+              ],
               "key": 1,
               "why": "The object is the person who acts, and the verb after it arrives bare."
             },
             {
               "sentence": "He helped his sister move the boxes.",
               "question": "How many people moved boxes?",
-              "options": ["One", "Two", "The sentence doesn't say"],
+              "options": [
+                "One",
+                "Two",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "Help means both were involved, and the verb after the object can go bare."
             },
             {
               "sentence": "Staff were made to sign a new contract.",
               "question": "Did they want to?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 2,
               "why": "The passive of make brings the to back, and the sentence reports pressure without reporting anyone's feelings."
             }
@@ -4934,7 +5952,6 @@
           "rule_line": "Make, let and have take a bare verb; get takes to; help takes either.",
           "false_rule": "That these five behave alike because they mean nearly the same thing. Meaning does not decide the pattern here. The individual verb does, and there are only five to learn."
         },
-
         "errors": [
           {
             "code": "verb_pattern_wrong",
@@ -4977,7 +5994,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "speaking_p1",
@@ -4998,7 +6014,10 @@
             "model": "They had the whole team come in on the Saturday."
           }
         ],
-        "criteria": ["gra", "lexis"],
+        "criteria": [
+          "gra",
+          "lexis"
+        ],
         "used_in": [
           {
             "module": "speaking",
@@ -5011,7 +6030,6 @@
             "quote": "The essay has to distinguish between forcing drivers out of the centre and helping them leave the car behind."
           }
         ],
-
         "items": [
           {
             "id": "gi_causative_verbs_01",
@@ -5020,7 +6038,9 @@
             "register": "spoken",
             "topic_id": "topic_education",
             "skill_hook": "speaking_p1",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -5029,7 +6049,11 @@
             "payload": {
               "sentence": "My parents let me drop chemistry after the first year.",
               "question": "Did the speaker want to drop it?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -5045,7 +6069,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "reading",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -5054,7 +6080,11 @@
             "payload": {
               "sentence": "The auditor got two of the managers to reopen the files.",
               "question": "Who reopened the files?",
-              "options": ["The auditor", "The two managers", "Nobody did"],
+              "options": [
+                "The auditor",
+                "The two managers",
+                "Nobody did"
+              ],
               "key": 1
             },
             "expected": null,
@@ -5070,7 +6100,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -5101,7 +6133,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -5111,9 +6145,13 @@
               "context": "From a paragraph about a change to the timetable.",
               "stem": "The new rule makes every pupil ___ (choose) a practical subject in the third year.",
               "blanks": 1,
-              "lemma_hints": ["choose"]
+              "lemma_hints": [
+                "choose"
+              ]
             },
-            "expected": ["choose"],
+            "expected": [
+              "choose"
+            ],
             "feedback": {
               "why_key": "Make takes the verb bare, with nothing at all between the pupil and the choosing.",
               "feed_forward": "After make, write the verb with no to in front of it."
@@ -5126,7 +6164,9 @@
             "register": "spoken",
             "topic_id": "topic_family",
             "skill_hook": "speaking_p1",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -5136,9 +6176,13 @@
               "context": "Someone talking about growing up in a big household.",
               "stem": "It took us weeks to get my father ___ (agree) to a shared calendar.",
               "blanks": 1,
-              "lemma_hints": ["agree"]
+              "lemma_hints": [
+                "agree"
+              ]
             },
-            "expected": ["to agree"],
+            "expected": [
+              "to agree"
+            ],
             "feedback": {
               "why_key": "Get is the one verb in the group that keeps its to, and weeks of persuading is exactly what it means.",
               "feed_forward": "After get, keep the to."
@@ -5151,7 +6195,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -5161,9 +6207,13 @@
               "context": "From a letter about work on a flat.",
               "stem": "I would like to have an engineer ___ (inspect) the boiler before the winter.",
               "blanks": 1,
-              "lemma_hints": ["inspect"]
+              "lemma_hints": [
+                "inspect"
+              ]
             },
-            "expected": ["inspect"],
+            "expected": [
+              "inspect"
+            ],
             "feedback": {
               "why_key": "Have used for arranging something takes the bare verb, the same as make and let.",
               "feed_forward": "After have, leave the verb bare."
@@ -5176,18 +6226,48 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["the", "training", "helped", "the", "new", "drivers", "read", "the", "route", "cards", "faster"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
+              "tokens": [
+                "the",
+                "training",
+                "helped",
+                "the",
+                "new",
+                "drivers",
+                "read",
+                "the",
+                "route",
+                "cards",
+                "faster"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10
+                ]
+              ],
               "context": "Build one sentence about a depot training week."
             },
-            "expected": ["the training helped the new drivers read the route cards faster"],
+            "expected": [
+              "the training helped the new drivers read the route cards faster"
+            ],
             "feedback": {
               "why_key": "Help takes the object first and then the verb, and the verb can go bare with nothing lost.",
               "feed_forward": "Put the person straight after help, then the verb."
@@ -5200,7 +6280,9 @@
             "register": "spoken",
             "topic_id": "topic_education",
             "skill_hook": "listening",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -5208,7 +6290,11 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "They wouldn't let us take the books home.",
-              "scored_tokens": ["let", "us", "take"],
+              "scored_tokens": [
+                "let",
+                "us",
+                "take"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -5230,7 +6316,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -5241,7 +6329,9 @@
               "error_span": "let us to move",
               "accept_overlap_tokens": 1
             },
-            "expected": ["let us move"],
+            "expected": [
+              "let us move"
+            ],
             "feedback": {
               "why_key": "Let refuses the to, however much it looks like allow. The two verbs mean the same and are built differently.",
               "feed_forward": "Delete to after let."
@@ -5254,7 +6344,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -5265,7 +6357,9 @@
               "error_span": "department fill in",
               "accept_overlap_tokens": 1
             },
-            "expected": ["department to fill in"],
+            "expected": [
+              "department to fill in"
+            ],
             "feedback": {
               "why_key": "Getting a department to do anything is persuasion, and persuasion is the one meaning in this group that keeps its to.",
               "feed_forward": "Insert to after the object when the verb is get."
@@ -5278,7 +6372,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -5309,7 +6405,9 @@
             "register": "spoken",
             "topic_id": "topic_family",
             "skill_hook": "speaking_p1",
-            "error_codes": ["verb_pattern_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -5337,7 +6435,10 @@
             "register": "spoken",
             "topic_id": "topic_education",
             "skill_hook": "speaking_p1",
-            "error_codes": ["verb_pattern_wrong", "word_form_wrong"],
+            "error_codes": [
+              "verb_pattern_wrong",
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -5362,7 +6463,6 @@
       }
     }
   ],
-
   "vocab_new": [],
   "vocab_updates": []
 }

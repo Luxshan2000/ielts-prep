@@ -12,7 +12,7 @@
     {
       "id": "gr_was_were",
       "unit_id": "u03",
-      "sequence_index": 1900,
+      "sequence_index": 2000,
       "title": "Saying what someone or something was like at a time that is over",
       "cefr_level": "A1",
       "role": "form",
@@ -652,7 +652,7 @@
     {
       "id": "gr_past_simple_regular",
       "unit_id": "u03",
-      "sequence_index": 1901,
+      "sequence_index": 2001,
       "title": "Saying that something happened and finished, using the -ed ending",
       "cefr_level": "A1",
       "role": "form",
@@ -1300,7 +1300,7 @@
     {
       "id": "gr_past_simple_irregular",
       "unit_id": "u03",
-      "sequence_index": 1902,
+      "sequence_index": 2002,
       "title": "Using the past of the verbs that refuse the -ed ending",
       "cefr_level": "A1",
       "role": "form",
@@ -1917,7 +1917,7 @@
     {
       "id": "gr_past_aux_did",
       "unit_id": "u03",
-      "sequence_index": 1903,
+      "sequence_index": 2003,
       "title": "Asking and denying things about the past without marking it twice",
       "cefr_level": "A1",
       "role": "accuracy",
@@ -2586,7 +2586,7 @@
     {
       "id": "gr_past_time_markers",
       "unit_id": "u03",
-      "sequence_index": 1904,
+      "sequence_index": 2004,
       "title": "Saying which past you mean, and putting the when-words where English keeps them",
       "cefr_level": "A1",
       "role": "accuracy",
@@ -3238,7 +3238,7 @@
     {
       "id": "gr_past_continuous",
       "unit_id": "u03",
-      "sequence_index": 1905,
+      "sequence_index": 2005,
       "title": "Putting a past moment inside something that was already going on",
       "cefr_level": "A2",
       "role": "form",
@@ -3878,7 +3878,7 @@
     {
       "id": "gr_past_simple_vs_cont",
       "unit_id": "u03",
-      "sequence_index": 1906,
+      "sequence_index": 2006,
       "title": "Choosing between the event and the scene it happened inside",
       "cefr_level": "A2",
       "role": "choice",
@@ -4744,7 +4744,7 @@
     {
       "id": "gr_used_to",
       "unit_id": "u03",
-      "sequence_index": 1907,
+      "sequence_index": 2007,
       "title": "Saying that something was true for a stretch of the past and is not true now",
       "cefr_level": "A2",
       "role": "form",
@@ -5463,7 +5463,7 @@
     {
       "id": "gr_narrative_sequence",
       "unit_id": "u03",
-      "sequence_index": 1908,
+      "sequence_index": 2008,
       "title": "Telling a past story in an order a listener can follow",
       "cefr_level": "A2",
       "role": "form",

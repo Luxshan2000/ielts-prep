@@ -14,7 +14,7 @@
     {
       "id": "gr_verb_patterns_core",
       "unit_id": "u12",
-      "sequence_index": 2200,
+      "sequence_index": 2600,
       "title": "Choosing between to work and working after the verb in front",
       "cefr_level": "B1",
       "role": "accuracy",
@@ -696,7 +696,7 @@
     {
       "id": "gr_gerund_after_prep",
       "unit_id": "u12",
-      "sequence_index": 2201,
+      "sequence_index": 2601,
       "title": "Putting the -ing shape after every preposition, with no exceptions",
       "cefr_level": "B1",
       "role": "accuracy",

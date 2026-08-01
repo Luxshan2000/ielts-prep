@@ -11,7 +11,7 @@
     {
       "id": "gr_comparatives",
       "unit_id": "u14",
-      "sequence_index": 1200,
+      "sequence_index": 1300,
       "title": "Saying that one thing is bigger, quicker or better than another",
       "cefr_level": "A2",
       "role": "form",
@@ -664,7 +664,7 @@
     {
       "id": "gr_as_as",
       "unit_id": "u14",
-      "sequence_index": 1201,
+      "sequence_index": 1301,
       "title": "Saying two things are level, or that one falls short of the other",
       "cefr_level": "A2",
       "role": "accuracy",
@@ -1294,7 +1294,7 @@
     {
       "id": "gr_superlative_hedge",
       "unit_id": "u14",
-      "sequence_index": 1202,
+      "sequence_index": 1302,
       "title": "Putting something near the top without claiming it is the top",
       "cefr_level": "B2",
       "role": "accuracy",
@@ -1918,7 +1918,7 @@
     {
       "id": "gr_comparative_grading",
       "unit_id": "u14",
-      "sequence_index": 1203,
+      "sequence_index": 1303,
       "title": "Saying how big the difference is, not just that there is one",
       "cefr_level": "B2",
       "role": "choice",
@@ -2825,7 +2825,7 @@
     {
       "id": "gr_double_comparative",
       "unit_id": "u14",
-      "sequence_index": 1204,
+      "sequence_index": 1304,
       "title": "Saying that when one thing changes, another changes with it",
       "cefr_level": "B2",
       "role": "form",
@@ -3432,7 +3432,7 @@
     {
       "id": "gr_multiples",
       "unit_id": "u14",
-      "sequence_index": 1205,
+      "sequence_index": 1305,
       "title": "Saying how many times bigger one figure is than another",
       "cefr_level": "B2",
       "role": "choice",
@@ -4305,7 +4305,7 @@
     {
       "id": "gr_change_language",
       "unit_id": "u14",
-      "sequence_index": 3400,
+      "sequence_index": 1306,
       "title": "Saying how a figure moved, how far it went and where it ended up",
       "cefr_level": "B2",
       "role": "accuracy",

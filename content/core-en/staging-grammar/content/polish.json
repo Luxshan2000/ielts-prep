@@ -8,12 +8,11 @@
     "gr_spoken_vs_written_grammar carries tool_surface register_switch; gr_error_triage carries tool_surface error_triage. Neither is decorative: one stops spoken grammar landing in Task 2, the other is the last-three-minutes procedure.",
     "Sequence indices are in this block's private band (3600-3699) and are re-seated into 1..154 by tools/content/reseq_grammar.py."
   ],
-
   "points": [
     {
       "id": "gr_concession_structures",
       "unit_id": "u17",
-      "sequence_index": 3600,
+      "sequence_index": 2300,
       "title": "Giving the other side one point on purpose so your own point lands harder",
       "cefr_level": "B2",
       "role": "choice",
@@ -21,7 +20,11 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Concession structures: while it is true that, admittedly, granted",
-        "prerequisites": ["gr_sub_contrast", "gr_despite_although", "gr_linkers_by_function"],
+        "prerequisites": [
+          "gr_sub_contrast",
+          "gr_despite_although",
+          "gr_linkers_by_function"
+        ],
         "unlocks_hint": "gr_stance_adverbials",
         "priority": 1,
         "insertable": false,
@@ -31,11 +34,21 @@
         "gravity": "local",
         "confusion_set": "cs_contrast_marker",
         "structure_slug": null,
-        "signal_blocklist": ["counter-argument", "objection", "opponents", "the case against", "rebut", "one-sided"],
-        "fixes_errors": ["double_connector", "subordinator_vs_preposition", "linker_overused"],
+        "signal_blocklist": [
+          "counter-argument",
+          "objection",
+          "opponents",
+          "the case against",
+          "rebut",
+          "one-sided"
+        ],
+        "fixes_errors": [
+          "double_connector",
+          "subordinator_vs_preposition",
+          "linker_overused"
+        ],
         "estimated_minutes": 22,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can hand the other side one point on purpose and then take the argument back.",
           "why_it_matters": "It is the shape of a band-7 body paragraph. The risk is small: concede once and answer it. Concede twice with no answer and you have changed sides.",
@@ -54,8 +67,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "what you hand over", "text": "the resorts really did bring work to the coast" },
-              "right": { "role": "what you keep", "text": "almost none of that work lasts past September" },
+              "left": {
+                "role": "what you hand over",
+                "text": "the resorts really did bring work to the coast"
+              },
+              "right": {
+                "role": "what you keep",
+                "text": "almost none of that work lasts past September"
+              },
               "arrow": "left_to_right",
               "caption": "The first box is a gift. It is only worth giving if the second box is heavier."
             }
@@ -69,35 +88,55 @@
             {
               "sentence": "Granted, the ferry is cheaper. It also takes four hours longer than the bridge.",
               "question": "Which one does the speaker want you to choose?",
-              "options": ["the ferry", "the bridge", "the sentence doesn't say"],
+              "options": [
+                "the ferry",
+                "the bridge",
+                "the sentence doesn't say"
+              ],
               "key": 1,
               "why": "The price is handed over first so that the four hours can be the thing that decides it."
             },
             {
               "sentence": "While it is true that the museum draws visitors, the town sees that money for six weeks a year.",
               "question": "Does the speaker think the museum has solved the town's problem?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The visitors are admitted and then answered, which is what somebody does when they are arguing against you."
             },
             {
               "sentence": "Nobody would deny that the scheme was expensive.",
               "question": "Has the speaker finished making their point?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "A point handed to the other side on its own is just a point for the other side. The answer has not arrived yet."
             },
             {
               "sentence": "Admittedly the first winter was hard, but the second one paid for it.",
               "question": "How does the speaker feel about the project now?",
-              "options": ["it was a mistake", "it was worth it", "the sentence doesn't say"],
+              "options": [
+                "it was a mistake",
+                "it was worth it",
+                "the sentence doesn't say"
+              ],
               "key": 1,
               "why": "The hard winter is given away and the second winter is kept, and what a speaker keeps is what they mean."
             },
             {
               "sentence": "The resorts brought work, whereas the fishing fleet lost half its crew.",
               "question": "Is the speaker answering somebody here?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "Two facts stand side by side and neither one is presented as anybody's argument, so there is nobody to answer."
             }
@@ -105,22 +144,42 @@
           "discovery": {
             "prompt": "On the left and on the right the two facts are identical. What has changed about the situation the writer is standing in?",
             "pairs": [
-              ["While it is true that the resorts brought work, most of the posts went to outsiders.", "While the resorts brought work, most of the posts went to outsiders."],
-              ["Granted, the ferry is cheaper. It also takes four hours longer.", "The ferry is cheaper. It also takes four hours longer."],
-              ["Nobody would deny that the scheme was expensive, but the road has paid for itself twice over.", "The scheme was expensive, but the road has paid for itself twice over."]
+              [
+                "While it is true that the resorts brought work, most of the posts went to outsiders.",
+                "While the resorts brought work, most of the posts went to outsiders."
+              ],
+              [
+                "Granted, the ferry is cheaper. It also takes four hours longer.",
+                "The ferry is cheaper. It also takes four hours longer."
+              ],
+              [
+                "Nobody would deny that the scheme was expensive, but the road has paid for itself twice over.",
+                "The scheme was expensive, but the road has paid for itself twice over."
+              ]
             ],
             "candidate_rules": [
-              { "text": "On the left, somebody has already argued the first fact and the writer is answering them.", "verdict": "right" },
-              { "text": "On the left, the writer is being polite about the other side.", "verdict": "too_narrow" },
-              { "text": "On the left, the sentence has an extra word or two in front of the first fact.", "verdict": "keyword_trap" }
+              {
+                "text": "On the left, somebody has already argued the first fact and the writer is answering them.",
+                "verdict": "right"
+              },
+              {
+                "text": "On the left, the writer is being polite about the other side.",
+                "verdict": "too_narrow"
+              },
+              {
+                "text": "On the left, the sentence has an extra word or two in front of the first fact.",
+                "verdict": "keyword_trap"
+              }
             ]
           },
           "rule_line": "Hand over the strongest thing they have, then take the argument back in the same breath.",
           "false_rule": "That a concession makes you sound balanced. It only does that if the answer arrives. Left alone, it is the other side's sentence with your name on it."
         },
-
         "contrast": {
-          "with": ["gr_sub_contrast", "gr_despite_although"],
+          "with": [
+            "gr_sub_contrast",
+            "gr_despite_although"
+          ],
           "board_id": "gb_despite_vs_although",
           "question": "Am I answering an argument, or just putting two facts side by side?",
           "fork": [
@@ -181,7 +240,6 @@
             }
           ]
         },
-
         "errors": [
           {
             "code": "double_connector",
@@ -224,19 +282,18 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t2",
             "mode": "productive",
             "note": "Every body paragraph that answers the other side opens on this move.",
-            "model": "While it is true that visitors spend heavily in the old town, the money leaves with the coach at six."
+            "model": "While it is true that the coaches bring shoppers in, they leave again before the cafes open."
           },
           {
             "surface": "speaking_p3",
             "mode": "productive",
             "note": "An answer that only agrees sounds thin; this is how you disagree without a fight.",
-            "model": "Granted, the festival brings people in, but the town pays for the clean-up all year."
+            "model": "Granted, the market draws a crowd on Saturdays, but nobody pays for clearing up after it."
           },
           {
             "surface": "reading",
@@ -245,7 +302,11 @@
             "model": "Admittedly the survey was small, yet its findings match three larger ones."
           }
         ],
-        "criteria": ["gra", "cohesion", "task"],
+        "criteria": [
+          "gra",
+          "cohesion",
+          "task"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -258,7 +319,6 @@
             "quote": "The follow-up questions here all ask whether a good thing is worth its cost, which is this move said out loud."
           }
         ],
-
         "items": [
           {
             "id": "gi_concession_structures_01",
@@ -267,7 +327,9 @@
             "register": "written",
             "topic_id": "topic_globalisation",
             "skill_hook": "reading",
-            "error_codes": ["double_connector"],
+            "error_codes": [
+              "double_connector"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -276,7 +338,11 @@
             "payload": {
               "sentence": "Granted, the new terminal has cut waiting times. It has also doubled the number of flights over the town.",
               "question": "What does the writer want you to think about the terminal?",
-              "options": ["it was worth building", "it was not worth building", "the sentence doesn't say"],
+              "options": [
+                "it was worth building",
+                "it was not worth building",
+                "the sentence doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -292,7 +358,9 @@
             "register": "spoken",
             "topic_id": "topic_tourism",
             "skill_hook": "speaking_p3",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -301,7 +369,11 @@
             "payload": {
               "sentence": "Nobody would deny that the festival fills the hotels.",
               "question": "Has the speaker told you what they think about the festival yet?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -317,15 +389,17 @@
             "register": "written",
             "topic_id": "topic_globalisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["double_connector"],
+            "error_codes": [
+              "double_connector"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
-            "decision_cue": "but the posts went to outsiders",
+            "decision_cue": "but the town sees none of it",
             "payload": {
-              "context": "From the second paragraph of a draft answer about coastal resorts.",
-              "sentence": "Although the resorts brought work to the coast, but the posts went to outsiders.",
+              "context": "From the second paragraph of a draft answer about a new container port.",
+              "sentence": "Although the port handles more freight every year, but the town sees none of it.",
               "acceptable": false,
               "reasons": [
                 "the sentence marks the same turn twice",
@@ -348,7 +422,9 @@
             "register": "written",
             "topic_id": "topic_globalisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["subordinator_vs_preposition"],
+            "error_codes": [
+              "subordinator_vs_preposition"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -358,9 +434,14 @@
               "context": "From a paragraph arguing that a new port has not helped the town it was built for.",
               "stem": "___ it is true that the port created two hundred jobs, most of them went to workers brought in from the city.",
               "blanks": 1,
-              "lemma_hints": ["while"]
+              "lemma_hints": [
+                "while"
+              ]
             },
-            "expected": ["while", "although"],
+            "expected": [
+              "while",
+              "although"
+            ],
             "feedback": {
               "why_key": "The frame has to open with a word that can hold a whole clause after it, and the clause here is the other side's claim, stated in full.",
               "feed_forward": "Open the frame with while or although when a full clause follows."
@@ -373,7 +454,9 @@
             "register": "written",
             "topic_id": "topic_globalisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["double_connector"],
+            "error_codes": [
+              "double_connector"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -400,18 +483,46 @@
             "register": "written",
             "topic_id": "topic_tourism",
             "skill_hook": "writing_t2",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["admittedly", "the", "season", "is", "short", "but", "the", "hotels", "are", "full"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]],
+              "tokens": [
+                "admittedly",
+                "the",
+                "season",
+                "is",
+                "short",
+                "but",
+                "the",
+                "hotels",
+                "are",
+                "full"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9
+                ]
+              ],
               "context": "Build one sentence that gives away the short season and keeps the hotels."
             },
-            "expected": ["admittedly the season is short but the hotels are full"],
+            "expected": [
+              "admittedly the season is short but the hotels are full"
+            ],
             "feedback": {
               "why_key": "The point you are giving away goes first, because the reader has to hear it handed over before your answer can mean anything.",
               "feed_forward": "Put the point you are giving away at the front."
@@ -424,7 +535,9 @@
             "register": "spoken",
             "topic_id": "topic_tourism",
             "skill_hook": "listening",
-            "error_codes": ["register_spoken_in_writing"],
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -432,7 +545,11 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "It's true the season's short, but we're full every August.",
-              "scored_tokens": ["It's", "true", "but"],
+              "scored_tokens": [
+                "It's",
+                "true",
+                "but"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -454,7 +571,9 @@
             "register": "written",
             "topic_id": "topic_globalisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["double_connector"],
+            "error_codes": [
+              "double_connector"
+            ],
             "confusion_set": "cs_contrast_marker",
             "twin_id": "gi_concession_structures_09",
             "review_only": false,
@@ -464,12 +583,20 @@
               "context": "Ravi is answering an examiner's claim that the port rescued the town, and he wants to show he has heard the claim before he takes it apart.",
               "stem": "___ the port brought money into the district, almost none of it reached the streets behind the harbour.",
               "options": [
-                { "text": "While it is true that", "why_this_means": "That the money is the other side's argument, granted in full, and about to be answered." },
-                { "text": "While", "why_this_means": "That two facts are being set side by side, with neither one presented as anybody's argument." }
+                {
+                  "text": "While it is true that",
+                  "why_this_means": "That the money is the other side's argument, granted in full, and about to be answered."
+                },
+                {
+                  "text": "While",
+                  "why_this_means": "That two facts are being set side by side, with neither one presented as anybody's argument."
+                }
               ],
               "key": 0
             },
-            "expected": ["while it is true that"],
+            "expected": [
+              "while it is true that"
+            ],
             "feedback": {
               "why_key": "The money is somebody's claim, not a loose fact, so it has to be named as a claim before the second half can answer it.",
               "feed_forward": "Name the other side's point as a claim before you answer it."
@@ -482,7 +609,9 @@
             "register": "written",
             "topic_id": "topic_globalisation",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": "cs_contrast_marker",
             "twin_id": "gi_concession_structures_08",
             "review_only": false,
@@ -492,12 +621,20 @@
               "context": "Ravi is writing a plain description of the district for a report. Nobody has argued anything and he is listing what the figures show.",
               "stem": "___ the port brought money into the district, almost none of it reached the streets behind the harbour.",
               "options": [
-                { "text": "While it is true that", "why_this_means": "That the money is the other side's argument, granted in full, and about to be answered." },
-                { "text": "While", "why_this_means": "That two facts are being set side by side, with neither one presented as anybody's argument." }
+                {
+                  "text": "While it is true that",
+                  "why_this_means": "That the money is the other side's argument, granted in full, and about to be answered."
+                },
+                {
+                  "text": "While",
+                  "why_this_means": "That two facts are being set side by side, with neither one presented as anybody's argument."
+                }
               ],
               "key": 1
             },
-            "expected": ["while"],
+            "expected": [
+              "while"
+            ],
             "feedback": {
               "why_key": "Nothing here is in dispute. Dressing a figure up as somebody's claim tells the reader about an argument that is not happening.",
               "feed_forward": "Use the plain marker when nobody has made a claim."
@@ -510,7 +647,9 @@
             "register": "written",
             "topic_id": "topic_globalisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": "cs_contrast_marker",
             "twin_id": "gi_concession_structures_11",
             "review_only": true,
@@ -520,12 +659,20 @@
               "context": "Dev has just argued that the levy was worth introducing, and he is about to hand the other side one fact before he answers it.",
               "stem": "___, the first year cost more than the council had forecast.",
               "options": [
-                { "text": "Admittedly", "why_this_means": "That the cost is a point for the other side, given away on purpose, with an answer on its way." },
-                { "text": "By contrast", "why_this_means": "That the cost is being set against something different that has just been described." }
+                {
+                  "text": "Admittedly",
+                  "why_this_means": "That the cost is a point for the other side, given away on purpose, with an answer on its way."
+                },
+                {
+                  "text": "By contrast",
+                  "why_this_means": "That the cost is being set against something different that has just been described."
+                }
               ],
               "key": 0
             },
-            "expected": ["admittedly"],
+            "expected": [
+              "admittedly"
+            ],
             "feedback": {
               "why_key": "He is giving away a point inside his own argument, not comparing two schemes, so the sentence has to mark a gift rather than a comparison.",
               "feed_forward": "Mark a point you are giving away with a concession word."
@@ -538,7 +685,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["double_connector"],
+            "error_codes": [
+              "double_connector"
+            ],
             "confusion_set": "cs_contrast_marker",
             "twin_id": "gi_concession_structures_10",
             "review_only": true,
@@ -548,12 +697,20 @@
               "context": "Dev has just described a neighbouring town whose levy came in under budget, and he is turning back to his own town.",
               "stem": "___, the first year cost more than the council had forecast.",
               "options": [
-                { "text": "Admittedly", "why_this_means": "That the cost is a point for the other side, given away on purpose, with an answer on its way." },
-                { "text": "By contrast", "why_this_means": "That the cost is being set against something different that has just been described." }
+                {
+                  "text": "Admittedly",
+                  "why_this_means": "That the cost is a point for the other side, given away on purpose, with an answer on its way."
+                },
+                {
+                  "text": "By contrast",
+                  "why_this_means": "That the cost is being set against something different that has just been described."
+                }
               ],
               "key": 1
             },
-            "expected": ["by contrast"],
+            "expected": [
+              "by contrast"
+            ],
             "feedback": {
               "why_key": "Two towns are being set against each other. Nothing is being handed to anybody, so the sentence marks a comparison instead.",
               "feed_forward": "Mark a comparison between two cases with a contrast word."
@@ -566,7 +723,9 @@
             "register": "written",
             "topic_id": "topic_globalisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["double_connector"],
+            "error_codes": [
+              "double_connector"
+            ],
             "confusion_set": "cs_contrast_marker",
             "twin_id": null,
             "review_only": false,
@@ -576,8 +735,14 @@
               "context": "Two sentences from a report on a new levy. Nobody in the report has taken sides yet.",
               "stem": "___ the levy raised less than the council forecast, it has changed how often people drive into the centre.",
               "options": [
-                { "text": "Although", "why_this_means": "That the shortfall and the change are two facts pulling against each other, with nobody arguing." },
-                { "text": "While it is true that", "why_this_means": "That the shortfall is somebody's argument against the levy, and the change is the answer to it." }
+                {
+                  "text": "Although",
+                  "why_this_means": "That the shortfall and the change are two facts pulling against each other, with nobody arguing."
+                },
+                {
+                  "text": "While it is true that",
+                  "why_this_means": "That the shortfall is somebody's argument against the levy, and the change is the answer to it."
+                }
               ],
               "key": "both",
               "follow_up": {
@@ -598,7 +763,9 @@
             "register": "written",
             "topic_id": "topic_tourism",
             "skill_hook": "reading",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": "cs_contrast_marker",
             "twin_id": null,
             "review_only": false,
@@ -614,7 +781,10 @@
                 "The writer is answering somebody who has offered the jobs as proof that the project worked.",
                 "The writer is laying two facts side by side and leaving the reader to weigh them."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -629,7 +799,9 @@
             "register": "spoken",
             "topic_id": "topic_tourism",
             "skill_hook": "speaking_p3",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": "cs_contrast_marker",
             "twin_id": null,
             "review_only": true,
@@ -660,21 +832,23 @@
             "register": "written",
             "topic_id": "topic_transport",
             "skill_hook": "writing_t2",
-            "error_codes": ["subordinator_vs_preposition"],
+            "error_codes": [
+              "subordinator_vs_preposition"
+            ],
             "confusion_set": "cs_contrast_marker",
             "twin_id": null,
             "review_only": true,
             "difficulty": 2,
-            "decision_cue": "Despite it is true that the fee is high",
+            "decision_cue": "Despite it is true that the ticket costs more",
             "payload": {
-              "sentence": "Despite it is true that the fee is high, the road it pays for carries every lorry in the district.",
-              "error_span": "Despite it is true that the fee is high",
+              "sentence": "Despite it is true that the ticket costs more, the new service reaches three villages the old one missed.",
+              "error_span": "Despite it is true that the ticket costs more",
               "accept_overlap_tokens": 1
             },
             "expected": [
-              "although it is true that the fee is high",
-              "while it is true that the fee is high",
-              "despite the high fee"
+              "although it is true that the ticket costs more",
+              "while it is true that the ticket costs more",
+              "despite the higher ticket price"
             ],
             "feedback": {
               "why_key": "Despite has no way of holding a whole clause, and the point being given away here is a whole clause dressed as somebody's claim.",
@@ -688,7 +862,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["double_connector"],
+            "error_codes": [
+              "double_connector"
+            ],
             "confusion_set": "cs_contrast_marker",
             "twin_id": null,
             "review_only": false,
@@ -716,7 +892,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": "cs_contrast_marker",
             "twin_id": null,
             "review_only": true,
@@ -743,7 +921,7 @@
     {
       "id": "gr_stance_adverbials",
       "unit_id": "u17",
-      "sequence_index": 3601,
+      "sequence_index": 2301,
       "title": "Telling your reader how far you are willing to back what you just said",
       "cefr_level": "B2",
       "role": "choice",
@@ -751,7 +929,10 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Stance and evaluation adverbials: arguably, crucially, to a large extent, on balance",
-        "prerequisites": ["gr_modal_hedging", "gr_linkers_by_function"],
+        "prerequisites": [
+          "gr_modal_hedging",
+          "gr_linkers_by_function"
+        ],
         "unlocks_hint": "gr_spoken_vs_written_grammar",
         "priority": 2,
         "insertable": false,
@@ -761,11 +942,21 @@
         "gravity": "local",
         "confusion_set": "cs_certainty_strength",
         "structure_slug": null,
-        "signal_blocklist": ["in my opinion", "i think", "i believe", "obviously", "everyone knows", "without doubt"],
-        "fixes_errors": ["hedge_missing_overclaim", "linker_overused", "word_order_adverb"],
+        "signal_blocklist": [
+          "in my opinion",
+          "i think",
+          "i believe",
+          "obviously",
+          "everyone knows",
+          "without doubt"
+        ],
+        "fixes_errors": [
+          "hedge_missing_overclaim",
+          "linker_overused",
+          "word_order_adverb"
+        ],
         "estimated_minutes": 20,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can say how far I am backing a claim without writing I think.",
           "why_it_matters": "One word, well placed, does the work of a whole hedging clause. The risk is real: four of them in a paragraph and nothing you write carries any weight.",
@@ -786,11 +977,26 @@
             "spec": {
               "label": "how far am I backing this?",
               "steps": [
-                { "text": "undoubtedly", "gloss": "I will not be argued out of this" },
-                { "text": "clearly", "gloss": "the evidence is already in front of you" },
-                { "text": "arguably", "gloss": "I hold this, and I expect somebody to argue" },
-                { "text": "to a large extent", "gloss": "most of it holds; some of it does not" },
-                { "text": "on balance", "gloss": "I have weighed both sides and this side wins" }
+                {
+                  "text": "undoubtedly",
+                  "gloss": "I will not be argued out of this"
+                },
+                {
+                  "text": "clearly",
+                  "gloss": "the evidence is already in front of you"
+                },
+                {
+                  "text": "arguably",
+                  "gloss": "I hold this, and I expect somebody to argue"
+                },
+                {
+                  "text": "to a large extent",
+                  "gloss": "most of it holds; some of it does not"
+                },
+                {
+                  "text": "on balance",
+                  "gloss": "I have weighed both sides and this side wins"
+                }
               ]
             }
           },
@@ -803,35 +1009,55 @@
             {
               "sentence": "On balance, the evening patrols have been worth what they cost.",
               "question": "Has the speaker found anything wrong with the patrols?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "You only balance something when there is weight on both sides, so something has been put on the other one."
             },
             {
               "sentence": "The patrols helped, but crucially, they were paired with a place for teenagers to go.",
               "question": "Which part does the speaker think mattered most?",
-              "options": ["the patrols", "the place for teenagers", "the sentence doesn't say"],
+              "options": [
+                "the patrols",
+                "the place for teenagers",
+                "the sentence doesn't say"
+              ],
               "key": 1,
               "why": "The word marks the part that carries the argument, and it is standing right next to the pairing."
             },
             {
               "sentence": "To a large extent, the fall in thefts follows the new street lighting.",
               "question": "Does the speaker think the lighting explains the whole fall?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "Most of it, not all of it. The words leave room for something else to explain the rest."
             },
             {
               "sentence": "Arguably, the scheme should never have been funded at all.",
               "question": "Does the speaker expect everyone to agree with them?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The word invites the argument it is expecting, which is why it does not sound the same as saying it flat."
             },
             {
               "sentence": "Undoubtedly, the scheme has cost more than the courts it replaced.",
               "question": "How sure is the speaker?",
-              "options": ["certain", "fairly sure", "not sure at all"],
+              "options": [
+                "certain",
+                "fairly sure",
+                "not sure at all"
+              ],
               "key": 0,
               "why": "Nothing has been left open, so if the figure turns out to be wrong the sentence has nowhere left to go."
             }
@@ -839,9 +1065,10 @@
           "rule_line": "Say how far you are backing it, then let the sentence carry the claim.",
           "false_rule": "That these words make writing sound academic. They mark a position. Put one on a claim nobody disputes and your reader hears somebody defending an empty room."
         },
-
         "contrast": {
-          "with": ["gr_modal_hedging"],
+          "with": [
+            "gr_modal_hedging"
+          ],
           "board_id": "gb_hedge_vs_flat_claim",
           "question": "Am I rating how likely it is, or how much of it holds?",
           "fork": [
@@ -880,8 +1107,8 @@
           "stronger_test": "Ask what you would do if somebody showed you a study going the other way. If you would drop the claim, you needed the hedge. If you would argue, you needed arguably.",
           "worked_pairs": [
             {
-              "a": "Community sentences arguably cost less than a short prison term.",
-              "b": "Community sentences may cost less than a short prison term.",
+              "a": "The scheme arguably keeps more people out of court than the fines did.",
+              "b": "The scheme may keep more people out of court than the fines did.",
               "deciding_span_a": "arguably",
               "deciding_span_b": "may",
               "gloss": "The first says the writer holds this and expects a fight. The second says the writer does not know."
@@ -902,7 +1129,6 @@
             }
           ]
         },
-
         "errors": [
           {
             "code": "hedge_missing_overclaim",
@@ -945,7 +1171,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t2",
@@ -957,7 +1182,7 @@
             "surface": "speaking_p3",
             "mode": "productive",
             "note": "Part 3 rewards a candidate who can say how sure they are and why.",
-            "model": "On balance I'd say the patrols helped, though not in the way the council expected."
+            "model": "Arguably the wardens have done more for that street than the cameras ever did."
           },
           {
             "surface": "reading",
@@ -966,7 +1191,11 @@
             "model": "The findings arguably overstate an effect that three later studies could not repeat."
           }
         ],
-        "criteria": ["gra", "task", "lexis"],
+        "criteria": [
+          "gra",
+          "task",
+          "lexis"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -979,7 +1208,6 @@
             "quote": "Every follow-up here asks the candidate to rate something rather than report it."
           }
         ],
-
         "items": [
           {
             "id": "gi_stance_adverbials_01",
@@ -988,16 +1216,22 @@
             "register": "written",
             "topic_id": "topic_crime",
             "skill_hook": "reading",
-            "error_codes": ["hedge_missing_overclaim"],
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 1,
             "decision_cue": null,
             "payload": {
-              "sentence": "To a large extent, the drop in break-ins follows the new lighting on the estate.",
-              "question": "Does the writer think the lighting explains the whole drop?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "sentence": "To a large extent, the fall in shoplifting followed the change in opening hours.",
+              "question": "Does the writer think the change in hours explains the whole fall?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -1013,16 +1247,22 @@
             "register": "spoken",
             "topic_id": "topic_urbanisation",
             "skill_hook": "speaking_p3",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "sentence": "On balance, the evening patrols were worth what the council paid for them.",
+              "sentence": "On balance, the new street wardens have earned the budget they were given.",
               "question": "Has the speaker found anything wrong with the patrols?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -1038,7 +1278,9 @@
             "register": "written",
             "topic_id": "topic_crime",
             "skill_hook": "writing_t2",
-            "error_codes": ["hedge_missing_overclaim"],
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1069,7 +1311,9 @@
             "register": "written",
             "topic_id": "topic_crime",
             "skill_hook": "writing_t2",
-            "error_codes": ["hedge_missing_overclaim"],
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1079,9 +1323,13 @@
               "context": "The writer has weighed two advantages against one disadvantage and is closing the paragraph.",
               "stem": "___ balance, the scheme has earned the money spent on it.",
               "blanks": 1,
-              "lemma_hints": ["on"]
+              "lemma_hints": [
+                "on"
+              ]
             },
-            "expected": ["on"],
+            "expected": [
+              "on"
+            ],
             "feedback": {
               "why_key": "The paragraph has put weight on both sides, and this is the phrase that says which side came down.",
               "feed_forward": "Close a weighed paragraph with on balance."
@@ -1094,7 +1342,9 @@
             "register": "written",
             "topic_id": "topic_crime",
             "skill_hook": "writing_t2",
-            "error_codes": ["hedge_missing_overclaim"],
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1122,18 +1372,42 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
             "difficulty": 3,
             "decision_cue": null,
             "payload": {
-              "tokens": ["the", "scheme", "is", "arguably", "not", "the", "cheapest", "option"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7]],
+              "tokens": [
+                "the",
+                "scheme",
+                "is",
+                "arguably",
+                "not",
+                "the",
+                "cheapest",
+                "option"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              ],
               "context": "Build a sentence that hedges the claim rather than denying the hedge."
             },
-            "expected": ["the scheme is arguably not the cheapest option"],
+            "expected": [
+              "the scheme is arguably not the cheapest option"
+            ],
             "feedback": {
               "why_key": "The marker has to sit outside the not, or the sentence ends up denying your own hedge instead of the claim.",
               "feed_forward": "Place the marker in front of not, never behind it."
@@ -1146,7 +1420,9 @@
             "register": "spoken",
             "topic_id": "topic_urbanisation",
             "skill_hook": "listening",
-            "error_codes": ["register_spoken_in_writing"],
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1154,7 +1430,11 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "On balance I'd say the patrols helped, though not everywhere.",
-              "scored_tokens": ["balance", "I'd", "though"],
+              "scored_tokens": [
+                "balance",
+                "I'd",
+                "though"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -1176,7 +1456,9 @@
             "register": "written",
             "topic_id": "topic_crime",
             "skill_hook": "writing_t2",
-            "error_codes": ["hedge_missing_overclaim"],
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
             "confusion_set": "cs_certainty_strength",
             "twin_id": "gi_stance_adverbials_09",
             "review_only": false,
@@ -1186,12 +1468,20 @@
               "context": "Nadia is writing about figures that nobody has published yet, so no one actually knows what the true cost is.",
               "stem": "Community sentences ___ cost less than a fortnight inside.",
               "options": [
-                { "text": "are likely to", "why_this_means": "That the writer does not know it happens, and is reporting what the odds look like." },
-                { "text": "arguably", "why_this_means": "That the writer holds this, and knows somebody will read the same evidence the other way." }
+                {
+                  "text": "are likely to",
+                  "why_this_means": "That the writer does not know it happens, and is reporting what the odds look like."
+                },
+                {
+                  "text": "arguably",
+                  "why_this_means": "That the writer holds this, and knows somebody will read the same evidence the other way."
+                }
               ],
               "key": 0
             },
-            "expected": ["are likely to"],
+            "expected": [
+              "are likely to"
+            ],
             "feedback": {
               "why_key": "Nobody has the figures, so there is no position to hold yet. What she can honestly report is how the odds look.",
               "feed_forward": "Rate the likelihood when the evidence does not exist yet."
@@ -1204,7 +1494,9 @@
             "register": "written",
             "topic_id": "topic_crime",
             "skill_hook": "writing_t2",
-            "error_codes": ["hedge_missing_overclaim"],
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
             "confusion_set": "cs_certainty_strength",
             "twin_id": "gi_stance_adverbials_08",
             "review_only": false,
@@ -1214,12 +1506,20 @@
               "context": "Nadia has the published figures in front of her and knows that other people read the same table a different way.",
               "stem": "Community sentences ___ cost less than a fortnight inside.",
               "options": [
-                { "text": "are likely to", "why_this_means": "That the writer does not know it happens, and is reporting what the odds look like." },
-                { "text": "arguably", "why_this_means": "That the writer holds this, and knows somebody will read the same evidence the other way." }
+                {
+                  "text": "are likely to",
+                  "why_this_means": "That the writer does not know it happens, and is reporting what the odds look like."
+                },
+                {
+                  "text": "arguably",
+                  "why_this_means": "That the writer holds this, and knows somebody will read the same evidence the other way."
+                }
               ],
               "key": 1
             },
-            "expected": ["arguably"],
+            "expected": [
+              "arguably"
+            ],
             "feedback": {
               "why_key": "She knows the number. What is in doubt is the reading of it, and that is a position to defend rather than a chance to report.",
               "feed_forward": "Hold the position when the evidence exists and the reading is disputed."
@@ -1232,7 +1532,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": "cs_certainty_strength",
             "twin_id": "gi_stance_adverbials_11",
             "review_only": true,
@@ -1242,12 +1544,20 @@
               "context": "Dev has weighed three gains against two costs and is closing the paragraph.",
               "stem": "___, the scheme costs less to run than the courts it replaced.",
               "options": [
-                { "text": "On balance", "why_this_means": "That both sides have been weighed and this is the side that came down." },
-                { "text": "Crucially", "why_this_means": "That this is the one point in the argument that decides the rest of it." }
+                {
+                  "text": "On balance",
+                  "why_this_means": "That both sides have been weighed and this is the side that came down."
+                },
+                {
+                  "text": "Crucially",
+                  "why_this_means": "That this is the one point in the argument that decides the rest of it."
+                }
               ],
               "key": 0
             },
-            "expected": ["on balance"],
+            "expected": [
+              "on balance"
+            ],
             "feedback": {
               "why_key": "The costs and the gains are already on the scales. This sentence reports which way they tipped, not which point matters most.",
               "feed_forward": "Close a weighed paragraph rather than reopening it."
@@ -1260,7 +1570,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": "cs_certainty_strength",
             "twin_id": "gi_stance_adverbials_10",
             "review_only": true,
@@ -1270,12 +1582,20 @@
               "context": "Dev has listed three gains and is about to explain which one decides the argument for him.",
               "stem": "___, the scheme costs less to run than the courts it replaced.",
               "options": [
-                { "text": "On balance", "why_this_means": "That both sides have been weighed and this is the side that came down." },
-                { "text": "Crucially", "why_this_means": "That this is the one point in the argument that decides the rest of it." }
+                {
+                  "text": "On balance",
+                  "why_this_means": "That both sides have been weighed and this is the side that came down."
+                },
+                {
+                  "text": "Crucially",
+                  "why_this_means": "That this is the one point in the argument that decides the rest of it."
+                }
               ],
               "key": 1
             },
-            "expected": ["crucially"],
+            "expected": [
+              "crucially"
+            ],
             "feedback": {
               "why_key": "Nothing has been weighed against anything here. He is picking one item out of three and telling the reader it carries the argument.",
               "feed_forward": "Mark the deciding point when you are ranking, not weighing."
@@ -1288,7 +1608,9 @@
             "register": "written",
             "topic_id": "topic_crime",
             "skill_hook": "writing_t2",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": "cs_certainty_strength",
             "twin_id": null,
             "review_only": false,
@@ -1298,8 +1620,14 @@
               "context": "The last sentence of a paragraph that has given two successes and one failure of the new patrols.",
               "stem": "___, the patrols have worked.",
               "options": [
-                { "text": "To a large extent", "why_this_means": "That most of the effect is real and the writer is about to name the part that is not." },
-                { "text": "On balance", "why_this_means": "That the good and the bad were weighed against each other and the good side won." }
+                {
+                  "text": "To a large extent",
+                  "why_this_means": "That most of the effect is real and the writer is about to name the part that is not."
+                },
+                {
+                  "text": "On balance",
+                  "why_this_means": "That the good and the bad were weighed against each other and the good side won."
+                }
               ],
               "key": "both",
               "follow_up": {
@@ -1320,7 +1648,9 @@
             "register": "written",
             "topic_id": "topic_crime",
             "skill_hook": "reading",
-            "error_codes": ["hedge_missing_overclaim"],
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
             "confusion_set": "cs_certainty_strength",
             "twin_id": null,
             "review_only": false,
@@ -1329,14 +1659,17 @@
             "payload": {
               "context": "Two sentences from different reviews of the same set of figures.",
               "sentences": [
-                "Longer sentences arguably reduce a first offence.",
-                "Longer sentences may reduce a first offence."
+                "Tagging arguably reduces a first offence.",
+                "Tagging may reduce a first offence."
               ],
               "meanings": [
                 "The writer holds this view and is telling you in advance that it is contested.",
                 "The writer does not know whether the effect exists and is reporting a possibility."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -1351,7 +1684,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": "cs_certainty_strength",
             "twin_id": null,
             "review_only": true,
@@ -1382,7 +1717,9 @@
             "register": "written",
             "topic_id": "topic_crime",
             "skill_hook": "writing_t2",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": "cs_certainty_strength",
             "twin_id": null,
             "review_only": true,
@@ -1393,7 +1730,9 @@
               "error_span": "is not arguably",
               "accept_overlap_tokens": 1
             },
-            "expected": ["is arguably not"],
+            "expected": [
+              "is arguably not"
+            ],
             "feedback": {
               "why_key": "As written, the sentence denies the hedge rather than the claim, and the reader is left unsure which part is being ruled out.",
               "feed_forward": "Move the marker in front of not."
@@ -1406,7 +1745,9 @@
             "register": "written",
             "topic_id": "topic_crime",
             "skill_hook": "writing_t2",
-            "error_codes": ["hedge_missing_overclaim"],
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
             "confusion_set": "cs_certainty_strength",
             "twin_id": null,
             "review_only": false,
@@ -1434,7 +1775,9 @@
             "register": "written",
             "topic_id": "topic_crime",
             "skill_hook": "writing_t2",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": "cs_certainty_strength",
             "twin_id": null,
             "review_only": true,
@@ -1461,7 +1804,7 @@
     {
       "id": "gr_spoken_vs_written_grammar",
       "unit_id": "u17",
-      "sequence_index": 3602,
+      "sequence_index": 2302,
       "title": "Choosing the grammar that fits the room you are in",
       "cefr_level": "B2",
       "role": "choice",
@@ -1469,7 +1812,10 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Register: spoken grammar and written grammar",
-        "prerequisites": ["gr_passive_when", "gr_linkers_by_function"],
+        "prerequisites": [
+          "gr_passive_when",
+          "gr_linkers_by_function"
+        ],
         "unlocks_hint": "gr_error_triage",
         "priority": 1,
         "insertable": false,
@@ -1479,11 +1825,22 @@
         "gravity": "local",
         "confusion_set": "cs_register_channel",
         "structure_slug": null,
-        "signal_blocklist": ["formal", "informal", "colloquial", "academic style", "slang", "posh"],
-        "fixes_errors": ["register_spoken_in_writing", "register_written_in_speech", "linker_overused", "passive_unnecessary"],
+        "signal_blocklist": [
+          "formal",
+          "informal",
+          "colloquial",
+          "academic style",
+          "slang",
+          "posh"
+        ],
+        "fixes_errors": [
+          "register_spoken_in_writing",
+          "register_written_in_speech",
+          "linker_overused",
+          "passive_unnecessary"
+        ],
         "estimated_minutes": 24,
         "tool_surface": "register_switch",
-
         "teach": {
           "can_do": "I can tell which grammar belongs in the speaking room and which belongs on the page.",
           "why_it_matters": "Learners lose marks twice over here: spoken grammar in Task 2, and essay grammar in Part 1, where a friendly question gets answered by a press release.",
@@ -1497,17 +1854,32 @@
               "a letter to a friend in GT Task 1 is spoken grammar written down, on purpose"
             ],
             "negative": "isn't and hasn't out loud; is not and has not on the page. Same meaning, different room.",
-            "question": "Ask yourself: is this going into somebody's ear, or onto somebody's page?"
+            "question": "Ask yourself which room the sentence is walking into before you build it."
           },
           "visual": {
             "kind": "ladder",
             "spec": {
               "rungs": [
-                { "text": "So they just called it off in the end.", "register": "spoken" },
-                { "text": "The parade got called off twice.", "register": "spoken" },
-                { "text": "The parade was cancelled twice.", "register": "both" },
-                { "text": "The parade was cancelled twice, both times at short notice.", "register": "written" },
-                { "text": "Two late cancellations preceded the decision to move the parade to the spring.", "register": "written" }
+                {
+                  "text": "So they just called it off in the end.",
+                  "register": "spoken"
+                },
+                {
+                  "text": "The parade got called off twice.",
+                  "register": "spoken"
+                },
+                {
+                  "text": "The parade was cancelled twice.",
+                  "register": "both"
+                },
+                {
+                  "text": "The parade was cancelled twice, both times at short notice.",
+                  "register": "written"
+                },
+                {
+                  "text": "Two late cancellations preceded the decision to move the parade to the spring.",
+                  "register": "written"
+                }
               ],
               "top_label": "onto a page, read once, marked once",
               "bottom_label": "into an ear, in real time, with somebody who can ask again"
@@ -1522,35 +1894,55 @@
             {
               "sentence": "The stalls got packed up well before six.",
               "question": "Where would you expect to come across this?",
-              "options": ["in a conversation", "in a written report", "either one"],
+              "options": [
+                "in a conversation",
+                "in a written report",
+                "either one"
+              ],
               "key": 0,
               "why": "Get plus a past form is how English does this out loud, so on a page it reads as somebody talking to you."
             },
             {
               "sentence": "Attendance has fallen in each of the last four years.",
               "question": "Where would you expect to come across this?",
-              "options": ["in a message to a friend", "in a written report", "either one"],
+              "options": [
+                "in a message to a friend",
+                "in a written report",
+                "either one"
+              ],
               "key": 1,
               "why": "Nothing is shortened and nothing is left out, which is what a reader who cannot ask you to repeat it needs."
             },
             {
               "sentence": "Went last year with my sister. Brilliant, it was.",
               "question": "Is the speaker leaving out anything the listener would miss?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The person and the usual order have both gone, and in a real conversation nobody notices, because both people can see who is talking."
             },
             {
               "sentence": "I've been going since I was about ten, I think.",
               "question": "Is the speaker still going?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "Two shortened words and a hedge on the end: this is somebody talking, and they are talking about now."
             },
             {
               "sentence": "It is generally accepted that small festivals bring money into a town.",
               "question": "Whose view is being reported?",
-              "options": ["one named person's", "most people's", "the sentence doesn't say"],
+              "options": [
+                "one named person's",
+                "most people's",
+                "the sentence doesn't say"
+              ],
               "key": 1,
               "why": "A page can report a view without naming anybody. Out loud the same thing comes out as everyone says."
             }
@@ -1558,9 +1950,11 @@
           "rule_line": "Ask which room the sentence is going into, then use the grammar that lives there.",
           "false_rule": "That spoken English is written English with mistakes in it. It is a different set of rules doing a different job, and it is right where it belongs."
         },
-
         "contrast": {
-          "with": ["gr_passive_when", "gr_linkers_by_function"],
+          "with": [
+            "gr_passive_when",
+            "gr_linkers_by_function"
+          ],
           "board_id": "gb_speaking_vs_writing",
           "question": "Is this going into somebody's ear or onto somebody's page?",
           "fork": [
@@ -1607,9 +2001,9 @@
             },
             {
               "a": "They've been getting fewer people every year, apparently.",
-              "b": "Attendance has fallen in each of the last four years.",
+              "b": "Visitor numbers have fallen in every year since the bypass opened.",
               "deciding_span_a": "apparently",
-              "deciding_span_b": "in each of the last four years",
+              "deciding_span_b": "in every year since the bypass opened",
               "gloss": "Speech hedges at the end and keeps the subject vague. The page puts the fact in the subject and dates it."
             },
             {
@@ -1621,7 +2015,6 @@
             }
           ]
         },
-
         "errors": [
           {
             "code": "register_spoken_in_writing",
@@ -1664,7 +2057,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "speaking_p1",
@@ -1691,7 +2083,11 @@
             "model": "Got moved to the spring in the end, apparently."
           }
         ],
-        "criteria": ["gra", "lexis", "fluency"],
+        "criteria": [
+          "gra",
+          "lexis",
+          "fluency"
+        ],
         "used_in": [
           {
             "module": "speaking",
@@ -1704,7 +2100,6 @@
             "quote": "This is the one task where the spoken column is the right answer, and saying so out loud stops the learner over-correcting everywhere."
           }
         ],
-
         "items": [
           {
             "id": "gi_spoken_vs_written_grammar_01",
@@ -1713,16 +2108,22 @@
             "register": "written",
             "topic_id": "topic_culture",
             "skill_hook": "reading",
-            "error_codes": ["register_spoken_in_writing"],
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 1,
             "decision_cue": null,
             "payload": {
-              "sentence": "The stalls got packed up well before six.",
+              "sentence": "The tents got taken down before the rain started.",
               "question": "Where would you expect to come across this sentence?",
-              "options": ["in a conversation", "in a written report", "either one"],
+              "options": [
+                "in a conversation",
+                "in a written report",
+                "either one"
+              ],
               "key": 0
             },
             "expected": null,
@@ -1738,16 +2139,22 @@
             "register": "spoken",
             "topic_id": "topic_culture",
             "skill_hook": "listening",
-            "error_codes": ["register_written_in_speech"],
+            "error_codes": [
+              "register_written_in_speech"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "sentence": "Went last year with my sister. Brilliant, it was.",
+              "sentence": "Saw it twice last summer. Brilliant, both times.",
               "question": "Is the speaker leaving out anything a listener would miss?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -1763,15 +2170,17 @@
             "register": "spoken",
             "topic_id": "topic_culture",
             "skill_hook": "speaking_p1",
-            "error_codes": ["register_written_in_speech"],
+            "error_codes": [
+              "register_written_in_speech"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
-            "decision_cue": "a pleasant place in which to live",
+            "decision_cue": "a pleasant environment in which to reside",
             "payload": {
               "context": "Part 1. The examiner has just asked whether the candidate likes their home town.",
-              "sentence": "It is generally accepted that my home town is a pleasant place in which to live.",
+              "sentence": "It is widely acknowledged that my home town offers a pleasant environment in which to reside.",
               "acceptable": false,
               "reasons": [
                 "it answers a friendly question with a report",
@@ -1794,7 +2203,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t2",
-            "error_codes": ["register_spoken_in_writing"],
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1804,9 +2215,14 @@
               "context": "From the middle of a Task 2 paragraph about public funding for local events.",
               "stem": "Funding for small festivals ___ (cut) in each of the last four years.",
               "blanks": 1,
-              "lemma_hints": ["cut"]
+              "lemma_hints": [
+                "cut"
+              ]
             },
-            "expected": ["has been cut", "was cut"],
+            "expected": [
+              "has been cut",
+              "was cut"
+            ],
             "feedback": {
               "why_key": "The page takes the plain passive. The version with got would be perfectly clear and would sound like somebody telling you about it.",
               "feed_forward": "Use the plain passive on the page."
@@ -1819,7 +2235,9 @@
             "register": "written",
             "topic_id": "topic_culture",
             "skill_hook": "writing_t2",
-            "error_codes": ["register_spoken_in_writing"],
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1847,18 +2265,46 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t2",
-            "error_codes": ["register_spoken_in_writing"],
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["attendance", "has", "fallen", "in", "each", "of", "the", "last", "four", "years"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]],
+              "tokens": [
+                "attendance",
+                "has",
+                "fallen",
+                "in",
+                "each",
+                "of",
+                "the",
+                "last",
+                "four",
+                "years"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9
+                ]
+              ],
               "context": "Build the page version of they've been getting fewer people every year."
             },
-            "expected": ["attendance has fallen in each of the last four years"],
+            "expected": [
+              "attendance has fallen in each of the last four years"
+            ],
             "feedback": {
               "why_key": "The page version puts the fact itself in the subject and spells the small words out. Nothing was added; the voice was taken away.",
               "feed_forward": "Open a page sentence with the thing being reported."
@@ -1871,7 +2317,9 @@
             "register": "spoken",
             "topic_id": "topic_culture",
             "skill_hook": "listening",
-            "error_codes": ["register_written_in_speech"],
+            "error_codes": [
+              "register_written_in_speech"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1879,7 +2327,10 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "It got moved to the spring, so we're going up then instead.",
-              "scored_tokens": ["got", "we're"],
+              "scored_tokens": [
+                "got",
+                "we're"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -1901,7 +2352,9 @@
             "register": "spoken",
             "topic_id": "topic_culture",
             "skill_hook": "speaking_p1",
-            "error_codes": ["register_written_in_speech"],
+            "error_codes": [
+              "register_written_in_speech"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": "gi_spoken_vs_written_grammar_09",
             "review_only": false,
@@ -1911,12 +2364,20 @@
               "context": "Marek is in Part 1, chatting to the examiner about what his home town is like.",
               "stem": "The parade ___ twice last winter.",
               "options": [
-                { "text": "got cancelled", "why_this_means": "That somebody is telling you what happened, the way people tell each other things." },
-                { "text": "was cancelled", "why_this_means": "That the event is being put on record, with no voice behind the record." }
+                {
+                  "text": "got cancelled",
+                  "why_this_means": "That somebody is telling you what happened, the way people tell each other things."
+                },
+                {
+                  "text": "was cancelled",
+                  "why_this_means": "That the event is being put on record, with no voice behind the record."
+                }
               ],
               "key": 0
             },
-            "expected": ["got cancelled"],
+            "expected": [
+              "got cancelled"
+            ],
             "feedback": {
               "why_key": "He is talking to a person who is about to reply. The version with a voice in it is the one that belongs in the room he is standing in.",
               "feed_forward": "Use the spoken form when somebody can answer you back."
@@ -1929,7 +2390,9 @@
             "register": "written",
             "topic_id": "topic_culture",
             "skill_hook": "writing_t2",
-            "error_codes": ["register_spoken_in_writing"],
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": "gi_spoken_vs_written_grammar_08",
             "review_only": false,
@@ -1939,12 +2402,20 @@
               "context": "Marek is writing the second body paragraph of a Task 2 answer about money for public events.",
               "stem": "The parade ___ twice last winter.",
               "options": [
-                { "text": "got cancelled", "why_this_means": "That somebody is telling you what happened, the way people tell each other things." },
-                { "text": "was cancelled", "why_this_means": "That the event is being put on record, with no voice behind the record." }
+                {
+                  "text": "got cancelled",
+                  "why_this_means": "That somebody is telling you what happened, the way people tell each other things."
+                },
+                {
+                  "text": "was cancelled",
+                  "why_this_means": "That the event is being put on record, with no voice behind the record."
+                }
               ],
               "key": 1
             },
-            "expected": ["was cancelled"],
+            "expected": [
+              "was cancelled"
+            ],
             "feedback": {
               "why_key": "His reader cannot ask him anything, so the sentence has to stand on its own. The plain passive is what standing on its own looks like.",
               "feed_forward": "Use the plain passive when nobody can ask you to repeat it."
@@ -1957,7 +2428,9 @@
             "register": "spoken",
             "topic_id": "topic_media",
             "skill_hook": "speaking_p2",
-            "error_codes": ["register_written_in_speech"],
+            "error_codes": [
+              "register_written_in_speech"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": "gi_spoken_vs_written_grammar_11",
             "review_only": true,
@@ -1967,12 +2440,21 @@
               "context": "Part 2. Sofia is telling the examiner about a festival she went to, and she has forty seconds left on the clock.",
               "stem": "The council ___ replace the funding after the first year.",
               "options": [
-                { "text": "didn't", "why_this_means": "That the speaker is talking, at speed, to somebody who is listening to them." },
-                { "text": "did not", "why_this_means": "That the sentence is being written for a reader, where the full form is the default." }
+                {
+                  "text": "didn't",
+                  "why_this_means": "That the speaker is talking, at speed, to somebody who is listening to them."
+                },
+                {
+                  "text": "did not",
+                  "why_this_means": "That the sentence is being written for a reader, where the full form is the default."
+                }
               ],
               "key": 0
             },
-            "expected": ["didn't", "didnt"],
+            "expected": [
+              "didn't",
+              "didnt"
+            ],
             "feedback": {
               "why_key": "Full forms in the middle of a spoken turn slow the answer down and make the speaker sound as though they are reading it out.",
               "feed_forward": "Shorten the small auxiliaries when you are speaking."
@@ -1985,7 +2467,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t2",
-            "error_codes": ["register_spoken_in_writing"],
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": "gi_spoken_vs_written_grammar_10",
             "review_only": true,
@@ -1995,12 +2479,20 @@
               "context": "Sofia is writing a Task 2 paragraph on public money for the arts, with no one to read it back to.",
               "stem": "The council ___ replace the funding after the first year.",
               "options": [
-                { "text": "didn't", "why_this_means": "That the speaker is talking, at speed, to somebody who is listening to them." },
-                { "text": "did not", "why_this_means": "That the sentence is being written for a reader, where the full form is the default." }
+                {
+                  "text": "didn't",
+                  "why_this_means": "That the speaker is talking, at speed, to somebody who is listening to them."
+                },
+                {
+                  "text": "did not",
+                  "why_this_means": "That the sentence is being written for a reader, where the full form is the default."
+                }
               ],
               "key": 1
             },
-            "expected": ["did not"],
+            "expected": [
+              "did not"
+            ],
             "feedback": {
               "why_key": "The page keeps the full form. It costs two letters and it is the difference between a written sentence and a transcribed one.",
               "feed_forward": "Write the full forms out on the page."
@@ -2013,7 +2505,9 @@
             "register": "written",
             "topic_id": "topic_communication",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["register_spoken_in_writing"],
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": null,
             "review_only": false,
@@ -2023,8 +2517,14 @@
               "context": "A letter to a friend you have known since school, telling them how the day ended.",
               "stem": "The stalls ___ packed up by ten.",
               "options": [
-                { "text": "got", "why_this_means": "That you are writing the way you would talk to them, which is what a letter to a friend is." },
-                { "text": "were", "why_this_means": "That you are reporting what happened, which a letter can also do without sounding cold." }
+                {
+                  "text": "got",
+                  "why_this_means": "That you are writing the way you would talk to them, which is what a letter to a friend is."
+                },
+                {
+                  "text": "were",
+                  "why_this_means": "That you are reporting what happened, which a letter can also do without sounding cold."
+                }
               ],
               "key": "both",
               "follow_up": {
@@ -2045,7 +2545,9 @@
             "register": "written",
             "topic_id": "topic_culture",
             "skill_hook": "reading",
-            "error_codes": ["register_spoken_in_writing"],
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": null,
             "review_only": false,
@@ -2061,7 +2563,10 @@
                 "Somebody is telling you what happened, and you can hear them saying it.",
                 "Somebody is putting it on record, and there is no one to hear."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -2076,7 +2581,9 @@
             "register": "spoken",
             "topic_id": "topic_culture",
             "skill_hook": "speaking_p1",
-            "error_codes": ["linker_overused"],
+            "error_codes": [
+              "linker_overused"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": null,
             "review_only": true,
@@ -2107,18 +2614,23 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t2",
-            "error_codes": ["register_spoken_in_writing"],
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": null,
             "review_only": true,
             "difficulty": 2,
             "decision_cue": "got put off",
             "payload": {
-              "sentence": "The council could not agree on the funding, so the whole event got put off until spring.",
+              "sentence": "The organisers could not agree on a date, so the fair got put off until the spring.",
               "error_span": "got put off",
               "accept_overlap_tokens": 1
             },
-            "expected": ["was postponed", "was cancelled"],
+            "expected": [
+              "was postponed",
+              "was cancelled"
+            ],
             "feedback": {
               "why_key": "The clause is perfectly clear. It is also the sentence the writer would have said out loud, and a reader can hear that from the page.",
               "feed_forward": "Swap the get-passive for a plain one on the page."
@@ -2131,7 +2643,9 @@
             "register": "spoken",
             "topic_id": "topic_culture",
             "skill_hook": "speaking_p1",
-            "error_codes": ["register_written_in_speech"],
+            "error_codes": [
+              "register_written_in_speech"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": null,
             "review_only": false,
@@ -2159,7 +2673,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t2",
-            "error_codes": ["register_spoken_in_writing"],
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": null,
             "review_only": true,
@@ -2186,7 +2702,7 @@
     {
       "id": "gr_emphasis_structures",
       "unit_id": "u17",
-      "sequence_index": 3603,
+      "sequence_index": 2303,
       "title": "Putting the one part that matters where nobody can read past it",
       "cefr_level": "C1",
       "role": "form",
@@ -2194,7 +2710,10 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Emphasis in production: clefts and fronting",
-        "prerequisites": ["gr_cleft", "gr_given_new"],
+        "prerequisites": [
+          "gr_cleft",
+          "gr_given_new"
+        ],
         "unlocks_hint": "gr_inversion_negative",
         "priority": 3,
         "insertable": false,
@@ -2204,11 +2723,20 @@
         "gravity": "local",
         "confusion_set": "cs_register_channel",
         "structure_slug": "cleft",
-        "signal_blocklist": ["emphasis", "emphasise", "stress the", "highlight", "most important"],
-        "fixes_errors": ["word_order_adverb", "fragment_no_main_verb", "agreement_subject_verb"],
+        "signal_blocklist": [
+          "emphasis",
+          "emphasise",
+          "stress the",
+          "highlight",
+          "most important"
+        ],
+        "fixes_errors": [
+          "word_order_adverb",
+          "fragment_no_main_verb",
+          "agreement_subject_verb"
+        ],
         "estimated_minutes": 22,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can lift one part of a sentence into the light, and I know when not to.",
           "why_it_matters": "Used once, at the point of disagreement, it marks your real claim. Used three times it cancels itself out. If nothing is in dispute, write the plain sentence.",
@@ -2227,8 +2755,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "what a tired reader skims", "text": "the repayment schedule puts borrowers in trouble" },
-              "right": { "role": "what a tired reader cannot skim", "text": "it is the repayment schedule that puts borrowers in trouble" },
+              "left": {
+                "role": "what a tired reader skims",
+                "text": "the repayment schedule puts borrowers in trouble"
+              },
+              "right": {
+                "role": "what a tired reader cannot skim",
+                "text": "it is the repayment schedule that puts borrowers in trouble"
+              },
               "arrow": "left_to_right",
               "caption": "Nothing has been added. One part has been lifted under a light, and the sentence is now four words longer for it."
             }
@@ -2242,35 +2776,55 @@
             {
               "sentence": "It is the fees that catch people out, not the rate.",
               "question": "What does the speaker think catches people out?",
-              "options": ["the fees", "the rate", "the sentence doesn't say"],
+              "options": [
+                "the fees",
+                "the rate",
+                "the sentence doesn't say"
+              ],
               "key": 0,
               "why": "The fees have been put in front and the rate has been ruled out by name, so there is nothing left to guess."
             },
             {
               "sentence": "What the leaflet never mentions is the charge for paying early.",
               "question": "Does the leaflet mention the charge?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The missing thing is held back to the last three words, which is where a reader is still paying attention."
             },
             {
               "sentence": "That kind of debt most families never clear.",
               "question": "Do most families clear this kind of debt?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The kind of debt has been moved to the front so the sentence can be about it, and the answer lands at the end."
             },
             {
               "sentence": "What surprised the council was how few households applied.",
               "question": "Did many households apply?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "Surprise plus how few tells you the number was small, and the number is held back to where it lands hardest."
             },
             {
               "sentence": "The complaints were not about the refund. It was the six-week wait that caused them.",
               "question": "What were people angry about?",
-              "options": ["the refund", "the wait", "the sentence doesn't say"],
+              "options": [
+                "the refund",
+                "the wait",
+                "the sentence doesn't say"
+              ],
               "key": 1,
               "why": "The first sentence clears the refund out of the way so the second can put the wait where it cannot be missed."
             }
@@ -2278,7 +2832,6 @@
           "rule_line": "Lift one part into the light only when a reader would otherwise blame the wrong thing.",
           "false_rule": "That these shapes make a paragraph sound advanced. They sound argumentative, and where nothing is disputed they read as somebody correcting a person who is not in the room."
         },
-
         "errors": [
           {
             "code": "word_order_adverb",
@@ -2321,7 +2874,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t2",
@@ -2342,7 +2894,10 @@
             "model": "It was the six-week wait, rather than the refund itself, that drew the complaints."
           }
         ],
-        "criteria": ["gra", "cohesion"],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -2350,7 +2905,6 @@
             "quote": "The prompt invites the obvious culprit, so the paragraph that names a different one has to say so where the reader cannot skim it."
           }
         ],
-
         "items": [
           {
             "id": "gi_emphasis_structures_01",
@@ -2359,16 +2913,22 @@
             "register": "written",
             "topic_id": "topic_money",
             "skill_hook": "reading",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 1,
             "decision_cue": null,
             "payload": {
-              "sentence": "What the leaflet never mentions is the charge for paying the loan back early.",
-              "question": "Does the leaflet mention that charge?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "sentence": "What the tenants were never told is the size of the service charge.",
+              "question": "Were the tenants told the size of the charge?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -2384,7 +2944,9 @@
             "register": "spoken",
             "topic_id": "topic_money",
             "skill_hook": "speaking_p3",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2393,7 +2955,11 @@
             "payload": {
               "sentence": "That kind of debt most families never clear.",
               "question": "Do most families clear this kind of debt?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -2409,15 +2975,17 @@
             "register": "spoken",
             "topic_id": "topic_money",
             "skill_hook": "speaking_p3",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
-            "decision_cue": "we cannot afford it",
+            "decision_cue": "the shops simply absorb it",
             "payload": {
-              "context": "A candidate is explaining why a scheme was dropped.",
-              "sentence": "That kind of delay we cannot afford it.",
+              "context": "A candidate is explaining why nobody complains when prices creep up.",
+              "sentence": "That kind of increase the shops simply absorb it.",
               "acceptable": false,
               "reasons": [
                 "the moved part has been left behind as well",
@@ -2429,7 +2997,7 @@
             },
             "expected": null,
             "feedback": {
-              "why_key": "The delay is named twice, once at the front and once as a small word at the end. English keeps one and drops the other.",
+              "why_key": "The increase is named twice, once at the front and once as a small word at the end. English keeps one of them and drops the other.",
               "feed_forward": "Delete the leftover pronoun after a fronted part."
             }
           },
@@ -2440,7 +3008,9 @@
             "register": "written",
             "topic_id": "topic_money",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2450,9 +3020,13 @@
               "context": "From a paragraph about tenants and service charges.",
               "stem": "What the tenants want ___ (be) a written promise about the charges.",
               "blanks": 1,
-              "lemma_hints": ["be"]
+              "lemma_hints": [
+                "be"
+              ]
             },
-            "expected": ["is"],
+            "expected": [
+              "is"
+            ],
             "feedback": {
               "why_key": "One promise is being asked for, so the verb matches the promise and not the tenants standing three words earlier.",
               "feed_forward": "Match the verb to the thing held back, not to the noun before it."
@@ -2465,20 +3039,22 @@
             "register": "written",
             "topic_id": "topic_money",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "given": "The repayment schedule puts borrowers in trouble. Your reader has arrived blaming the interest rate.",
+              "given": "The service charge empties a household budget. Your reader has arrived blaming the rent.",
               "instruction": "Write one sentence that stands the schedule in front of the reader.",
               "starter": "It is ___"
             },
             "expected": [
-              "the repayment schedule that puts borrowers in trouble",
-              "the repayment schedule, not the interest rate, that puts borrowers in trouble"
+              "the service charge that empties a household budget",
+              "the service charge, not the rent, that empties a household budget"
             ],
             "feedback": {
               "why_key": "Your reader arrives holding the wrong culprit, and nothing dislodges it except standing the right one where they cannot get by.",
@@ -2492,20 +3068,22 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
             "difficulty": 3,
             "decision_cue": null,
             "payload": {
-              "given": "Very few households applied. That is what the council did not expect.",
+              "given": "Almost nobody used the new payment app. The bank had not expected that.",
               "instruction": "Write one sentence that keeps the number back until the end.",
               "starter": "What ___"
             },
             "expected": [
-              "surprised the council was how few households applied",
-              "the council did not expect was how few households applied"
+              "surprised the bank was how few people used the app",
+              "the bank had not expected was how few people used the app"
             ],
             "feedback": {
               "why_key": "Keeping the number until the end holds your reader through to the final word, and that is the only thing this shape buys you.",
@@ -2519,18 +3097,42 @@
             "register": "spoken",
             "topic_id": "topic_money",
             "skill_hook": "speaking_p3",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["that", "sort", "of", "charge", "most", "people", "never", "notice"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7]],
+              "tokens": [
+                "that",
+                "sort",
+                "of",
+                "charge",
+                "most",
+                "people",
+                "never",
+                "notice"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              ],
               "context": "Build a spoken sentence that puts the charge first and leaves nothing behind it."
             },
-            "expected": ["that sort of charge most people never notice"],
+            "expected": [
+              "that sort of charge most people never notice"
+            ],
             "feedback": {
               "why_key": "The moved part sits at the front on its own, and no small word is left standing where it used to be.",
               "feed_forward": "Move the part to the front and leave no pronoun behind."
@@ -2543,23 +3145,28 @@
             "register": "spoken",
             "topic_id": "topic_money",
             "skill_hook": "listening",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 3,
             "decision_cue": null,
             "payload": {
-              "audio_text": "It's the fees that catch people out, not the rate.",
-              "scored_tokens": ["It's", "that"],
+              "audio_text": "It's the delivery charge that catches people out, not the price.",
+              "scored_tokens": [
+                "It's",
+                "that"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
             },
             "expected": [
-              "it's the fees that catch people out, not the rate",
-              "it is the fees that catch people out, not the rate",
-              "its the fees that catch people out, not the rate"
+              "it's the delivery charge that catches people out, not the price",
+              "it is the delivery charge that catches people out, not the price",
+              "its the delivery charge that catches people out, not the price"
             ],
             "feedback": {
               "why_key": "Both hinges are unstressed, so the whole frame can disappear and leave a listener holding two nouns and no argument.",
@@ -2573,15 +3180,17 @@
             "register": "spoken",
             "topic_id": "topic_money",
             "skill_hook": "speaking_p1",
-            "error_codes": ["register_written_in_speech"],
+            "error_codes": [
+              "register_written_in_speech"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": null,
             "review_only": true,
             "difficulty": 3,
-            "decision_cue": "It was the bus fare that I was complaining about",
+            "decision_cue": "It was the parking charge that I was objecting to",
             "payload": {
               "context": "Part 1. The examiner has asked how the candidate gets to work. Nobody has disagreed with anything.",
-              "sentence": "It was the bus fare that I was complaining about, and it is the timetable that I would change.",
+              "sentence": "It was the parking charge that I was objecting to, and it is the barrier that I would take out.",
               "acceptable": true,
               "reasons": [
                 "the frame is built wrongly",
@@ -2604,7 +3213,9 @@
             "register": "written",
             "topic_id": "topic_money",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": null,
             "review_only": true,
@@ -2615,7 +3226,9 @@
               "error_span": "that keeps borrowers awake",
               "accept_overlap_tokens": 1
             },
-            "expected": ["that keep borrowers awake"],
+            "expected": [
+              "that keep borrowers awake"
+            ],
             "feedback": {
               "why_key": "The repayments are standing in the light and the ending belongs to them, however distant that little word at the front now looks.",
               "feed_forward": "Trace the ending back to the lit part, not to the front."
@@ -2628,7 +3241,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "reading",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": null,
             "review_only": false,
@@ -2644,7 +3259,10 @@
                 "The writer is putting the reader right at once, before they can settle on the refund itself.",
                 "The writer takes the reader through the complaints first and leaves the cause to land at the end."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -2659,7 +3277,9 @@
             "register": "written",
             "topic_id": "topic_money",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": null,
             "review_only": false,
@@ -2687,7 +3307,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["register_written_in_speech"],
+            "error_codes": [
+              "register_written_in_speech"
+            ],
             "confusion_set": "cs_register_channel",
             "twin_id": null,
             "review_only": true,
@@ -2714,7 +3336,7 @@
     {
       "id": "gr_inversion_negative",
       "unit_id": "u17",
-      "sequence_index": 3604,
+      "sequence_index": 2304,
       "title": "Opening on a negative word and swapping the next two round",
       "cefr_level": "C1",
       "role": "form",
@@ -2722,7 +3344,10 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Inversion after negative and restrictive adverbials",
-        "prerequisites": ["gr_aux_system", "gr_modal_grammar"],
+        "prerequisites": [
+          "gr_aux_system",
+          "gr_modal_grammar"
+        ],
         "unlocks_hint": "gr_inversion_conditional",
         "priority": 3,
         "insertable": false,
@@ -2732,11 +3357,20 @@
         "gravity": "local",
         "confusion_set": null,
         "structure_slug": null,
-        "signal_blocklist": ["dramatic", "for effect", "advanced", "impressive", "sophisticated"],
-        "fixes_errors": ["word_order_adverb", "agreement_subject_verb", "register_written_in_speech"],
+        "signal_blocklist": [
+          "dramatic",
+          "for effect",
+          "advanced",
+          "impressive",
+          "sophisticated"
+        ],
+        "fixes_errors": [
+          "word_order_adverb",
+          "agreement_subject_verb",
+          "register_written_in_speech"
+        ],
         "estimated_minutes": 24,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can turn a sentence round after an opening negative, and I know when not to.",
           "why_it_matters": "Four things must be right at once and the reward is one sentence. If your ordinary sentences are not yet clean, leave this one alone and spend the nerve elsewhere.",
@@ -2745,7 +3379,7 @@
             "pattern": "NEGATIVE OPENER + AUXILIARY + SUBJECT + MAIN VERB",
             "notes": [
               "if there is no auxiliary in the sentence already, do, does or did comes in to be moved, exactly as in a question",
-              "rarely does the fund pay out; never had the fee been waived; only after the audit did the figures change",
+              "rarely does a lender admit it; never had the charge been waived; only after the inquiry did the figures change",
               "the turn happens once, in the clause the negative word opens, and nowhere else",
               "not only X but also Y turns the first half only: not only did costs rise, but the service also got slower"
             ],
@@ -2755,8 +3389,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "ordinary order", "text": "the fund has rarely paid out in full" },
-              "right": { "role": "turned round after the opener", "text": "rarely has the fund paid out in full" },
+              "left": {
+                "role": "ordinary order",
+                "text": "the fund has rarely paid out in full"
+              },
+              "right": {
+                "role": "turned round after the opener",
+                "text": "rarely has the fund paid out in full"
+              },
               "arrow": "left_to_right",
               "caption": "The words are the same and the claim is the same. Only the first thing your reader meets has changed."
             }
@@ -2770,35 +3410,55 @@
             {
               "sentence": "Not once has the fund paid out in full.",
               "question": "Has the fund ever paid out in full?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "Not once covers every occasion there has ever been, so no case is left over."
             },
             {
               "sentence": "Only after the audit did the figures change.",
               "question": "When did the figures change?",
-              "options": ["before the audit", "after the audit", "the sentence doesn't say"],
+              "options": [
+                "before the audit",
+                "after the audit",
+                "the sentence doesn't say"
+              ],
               "key": 1,
               "why": "The audit is put first because the timing is the part somebody is arguing about."
             },
             {
               "sentence": "Rarely does a small firm recover from a year like that.",
               "question": "Do small firms usually recover?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "Rarely says it does happen, but almost never, which is a different claim from never at all."
             },
             {
               "sentence": "Not only did the costs rise, but the service got slower too.",
               "question": "How many things went wrong?",
-              "options": ["one", "two", "the sentence doesn't say"],
+              "options": [
+                "one",
+                "two",
+                "the sentence doesn't say"
+              ],
               "key": 1,
               "why": "The frame exists to add a second thing to a first, and both halves are sitting here."
             },
             {
               "sentence": "Under no circumstances will the deposit be returned.",
               "question": "Could the deposit ever be returned?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "Every case has been ruled out in advance, which is why this belongs on a notice rather than in a conversation."
             }
@@ -2806,7 +3466,6 @@
           "rule_line": "After an opening negative, put the helping word in front of the subject.",
           "false_rule": "That this makes a sentence sound advanced. It makes a claim sound pressed, and in an answer where nothing is being pressed it reads as somebody shouting in a library."
         },
-
         "errors": [
           {
             "code": "word_order_adverb",
@@ -2849,7 +3508,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t2",
@@ -2870,7 +3528,9 @@
             "model": "Under no circumstances should passengers cross the line here."
           }
         ],
-        "criteria": ["gra"],
+        "criteria": [
+          "gra"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -2878,7 +3538,6 @@
             "quote": "The argument on this prompt turns on how unusual the spending is, which is exactly what a fronted negative is for."
           }
         ],
-
         "items": [
           {
             "id": "gi_inversion_negative_01",
@@ -2887,16 +3546,22 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "reading",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 1,
             "decision_cue": null,
             "payload": {
-              "sentence": "Not once has the fund paid out in full.",
-              "question": "Has the fund ever paid out in full?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "sentence": "Not once has the scheme returned a surplus.",
+              "question": "Has the scheme ever returned a surplus?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -2912,7 +3577,9 @@
             "register": "spoken",
             "topic_id": "topic_transport",
             "skill_hook": "listening",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2921,7 +3588,11 @@
             "payload": {
               "sentence": "Under no circumstances should passengers cross the line here.",
               "question": "Is this a question or an instruction?",
-              "options": ["a question", "an instruction", "neither"],
+              "options": [
+                "a question",
+                "an instruction",
+                "neither"
+              ],
               "key": 1
             },
             "expected": null,
@@ -2937,19 +3608,21 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
-            "decision_cue": "Under no circumstances the fee can be waived",
+            "decision_cue": "Under no circumstances the charge can be refunded",
             "payload": {
               "context": "From the terms attached to a savings account.",
-              "sentence": "Under no circumstances the fee can be waived.",
+              "sentence": "Under no circumstances the charge can be refunded.",
               "acceptable": false,
               "reasons": [
                 "the two words after the opener have not been turned round",
-                "the fee cannot be waived at all",
+                "the charge can never be refunded at all",
                 "the opener needs a comma after it",
                 "nothing wrong, it's fine"
               ],
@@ -2968,7 +3641,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2978,9 +3653,13 @@
               "context": "From a paragraph about small business lending.",
               "stem": "Rarely ___ a small firm recover from a year of that kind.",
               "blanks": 1,
-              "lemma_hints": ["do"]
+              "lemma_hints": [
+                "do"
+              ]
             },
-            "expected": ["does"],
+            "expected": [
+              "does"
+            ],
             "feedback": {
               "why_key": "There was no helping word in the sentence, so one has to be brought in, and it has to match the single firm that follows it.",
               "feed_forward": "Bring in does or did, then match it to the subject."
@@ -2993,7 +3672,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3003,9 +3684,13 @@
               "context": "From a report on a delayed audit.",
               "stem": "Only after the audit ___ the figures change.",
               "blanks": 1,
-              "lemma_hints": ["do"]
+              "lemma_hints": [
+                "do"
+              ]
             },
-            "expected": ["did"],
+            "expected": [
+              "did"
+            ],
             "feedback": {
               "why_key": "The change is over and done with, so the helping word brought in to be moved is the past one.",
               "feed_forward": "Put the time into the helping word, not the main verb."
@@ -3018,20 +3703,22 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "given": "A scheme of this size has rarely come in under its own forecast.",
+              "given": "A fund of this kind has rarely paid out in its first year.",
               "instruction": "Rewrite it so the sentence opens on how unusual it is.",
               "starter": "Rarely ___"
             },
             "expected": [
-              "has a scheme of this size come in under its own forecast",
-              "has a scheme of this size come in under its own forecast."
+              "has a fund of this kind paid out in its first year",
+              "has a fund of this kind paid out in its first year."
             ],
             "feedback": {
               "why_key": "The helping word was already in the sentence, so nothing had to be brought in. It only had to jump the subject.",
@@ -3045,18 +3732,48 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["modal_bare_infinitive"],
+            "error_codes": [
+              "modal_bare_infinitive"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 3,
             "decision_cue": null,
             "payload": {
-              "tokens": ["not", "only", "did", "costs", "rise", "but", "the", "service", "also", "got", "slower"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
+              "tokens": [
+                "not",
+                "only",
+                "did",
+                "costs",
+                "rise",
+                "but",
+                "the",
+                "service",
+                "also",
+                "got",
+                "slower"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10
+                ]
+              ],
               "context": "Build one sentence that adds a second problem to a first."
             },
-            "expected": ["not only did costs rise but the service also got slower"],
+            "expected": [
+              "not only did costs rise but the service also got slower"
+            ],
             "feedback": {
               "why_key": "Only the first half turns round. The second half keeps its ordinary order, with also sitting inside it rather than at the front.",
               "feed_forward": "Turn the first half only, and leave the second alone."
@@ -3069,7 +3786,9 @@
             "register": "spoken",
             "topic_id": "topic_transport",
             "skill_hook": "listening",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3077,7 +3796,10 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "Rarely does the ferry run in weather like this.",
-              "scored_tokens": ["Rarely", "does"],
+              "scored_tokens": [
+                "Rarely",
+                "does"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -3098,15 +3820,17 @@
             "register": "spoken",
             "topic_id": "topic_family",
             "skill_hook": "speaking_p1",
-            "error_codes": ["register_written_in_speech"],
+            "error_codes": [
+              "register_written_in_speech"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
             "difficulty": 3,
-            "decision_cue": "Never have I seen a garden as fine as that one",
+            "decision_cue": "Never have I encountered a town so completely reshaped",
             "payload": {
-              "context": "Part 1. The examiner has asked whether the candidate has a garden at home. Nothing is in dispute.",
-              "sentence": "Never have I seen a garden as fine as that one.",
+              "context": "Part 1. The examiner has asked whether the candidate's home town has changed. Nothing is in dispute.",
+              "sentence": "Never have I encountered a town so completely reshaped by a single road.",
               "acceptable": true,
               "reasons": [
                 "the two words after the opener have not been turned round",
@@ -3129,20 +3853,24 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
             "difficulty": 2,
-            "decision_cue": "Rarely do the fund pay out",
+            "decision_cue": "Rarely do a scheme of this kind",
             "payload": {
-              "sentence": "Rarely do the fund pay out in full, and never without a long delay.",
-              "error_span": "do the fund pay",
+              "sentence": "Rarely do a scheme of this kind come in on budget, and never in its first year.",
+              "error_span": "do a scheme",
               "accept_overlap_tokens": 1
             },
-            "expected": ["does the fund pay"],
+            "expected": [
+              "does a scheme"
+            ],
             "feedback": {
-              "why_key": "One fund, so one form of the helping word. The opener pulls the eye away from the subject and the ending gets chosen without it.",
+              "why_key": "One scheme, so one form of the helping word. The opener pulls the eye away from the subject and the ending gets picked without it.",
               "feed_forward": "Look past the opener to the subject before choosing do or does."
             }
           },
@@ -3153,7 +3881,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "reading",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3169,7 +3899,10 @@
                 "The timing is what the writer is pressing, and the reader meets it before anything else.",
                 "The same fact, reported evenly, with the figures as the thing the sentence is about."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -3184,7 +3917,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3212,7 +3947,9 @@
             "register": "written",
             "topic_id": "topic_economy",
             "skill_hook": "writing_t2",
-            "error_codes": ["register_written_in_speech"],
+            "error_codes": [
+              "register_written_in_speech"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3239,7 +3976,7 @@
     {
       "id": "gr_inversion_conditional",
       "unit_id": "u17",
-      "sequence_index": 3605,
+      "sequence_index": 2305,
       "title": "Dropping if and starting the sentence with had",
       "cefr_level": "C1",
       "role": "form",
@@ -3247,7 +3984,10 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Conditional inversion: had, were and should at the front",
-        "prerequisites": ["gr_cond_third", "gr_inversion_negative"],
+        "prerequisites": [
+          "gr_cond_third",
+          "gr_inversion_negative"
+        ],
         "unlocks_hint": "gr_error_triage",
         "priority": 3,
         "insertable": false,
@@ -3257,11 +3997,20 @@
         "gravity": "local",
         "confusion_set": null,
         "structure_slug": "conditional_unreal_past",
-        "signal_blocklist": ["dramatic", "advanced", "impressive", "sophisticated", "if only"],
-        "fixes_errors": ["unreal_past_missing", "conditional_would_in_if", "double_connector"],
+        "signal_blocklist": [
+          "dramatic",
+          "advanced",
+          "impressive",
+          "sophisticated",
+          "if only"
+        ],
+        "fixes_errors": [
+          "unreal_past_missing",
+          "conditional_would_in_if",
+          "double_connector"
+        ],
         "estimated_minutes": 22,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can write an unreal past sentence without using if, and I know what it buys me.",
           "why_it_matters": "It buys one thing: a formal sentence with no if in it. If the third conditional is not yet automatic, spend the nerve on something that pays more.",
@@ -3270,7 +4019,7 @@
             "pattern": "Had + SUBJECT + past participle , + would have + past participle    |    Were + SUBJECT + to + VERB , ...    |    Should + SUBJECT + VERB , ...",
             "notes": [
               "the if disappears; it never sits in front of had",
-              "had the update been tested, the outage would have lasted an hour rather than a week",
+              "had the licence been renewed, the office would not have lost a week of work",
               "the negative is not shortened at the front: had it not been for the backup, never hadn't it been for the backup",
               "should at the front is the polite one about a thing that might still happen: should you need help, call the desk"
             ],
@@ -3280,11 +4029,23 @@
           "visual": {
             "kind": "axis",
             "spec": {
-              "ends": ["this is what happened", "this is not what happened"],
+              "ends": [
+                "this is what happened",
+                "this is not what happened"
+              ],
               "marks": [
-                { "pos": 0.05, "label": "nobody tested the update" },
-                { "pos": 0.85, "label": "had the update been tested" },
-                { "pos": 0.95, "label": "the outage would have lasted an hour" }
+                {
+                  "pos": 0.05,
+                  "label": "nobody tested the update"
+                },
+                {
+                  "pos": 0.85,
+                  "label": "had the update been tested"
+                },
+                {
+                  "pos": 0.95,
+                  "label": "the outage would have lasted an hour"
+                }
               ]
             }
           },
@@ -3297,35 +4058,55 @@
             {
               "sentence": "Had the backup run that night, the records would still exist.",
               "question": "Do the records still exist?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The whole sentence is about a night that went differently, so the records went with it."
             },
             {
               "sentence": "Had the update been tested, the outage would have lasted an hour.",
               "question": "How long did the outage actually last?",
-              "options": ["an hour", "longer than an hour", "the sentence doesn't say"],
+              "options": [
+                "an hour",
+                "longer than an hour",
+                "the sentence doesn't say"
+              ],
               "key": 1,
               "why": "The one-hour outage is the version that never occurred, so the real one must have run longer than that."
             },
             {
               "sentence": "Should you need a replacement, the desk will order one.",
               "question": "Does the speaker know that you need a replacement?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "This one is about something that might still happen, not about something that did not."
             },
             {
               "sentence": "Were the system rebuilt today, it would still run the same software.",
               "question": "Is anyone rebuilding the system?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The rebuild is imagined in order to make a point about the software, which means nobody is actually doing it."
             },
             {
               "sentence": "Had it not been for the paper records, the whole month would have been lost.",
               "question": "Was the month lost?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1,
               "why": "The paper records are the reason it was not, and saying so is the only reason this sentence exists."
             }
@@ -3333,12 +4114,11 @@
           "rule_line": "Take out if, move had to the front, and change nothing else in the sentence.",
           "false_rule": "That this is a more advanced conditional. It is the same conditional wearing a coat, and the version with if scores exactly the same when it is clean."
         },
-
         "errors": [
           {
             "code": "unreal_past_missing",
-            "wrong": "Have the update been tested, the outage would have been shorter.",
-            "right": "Had the update been tested, the outage would have been shorter.",
+            "wrong": "Have the alarm been fitted, the loss would have been far smaller.",
+            "right": "Had the alarm been fitted, the loss would have been far smaller.",
             "why_it_happens": "The writer knows the shape opens on a form of have and reaches for the one they use most often, and the sentence loses the very word that made it unreal.",
             "smallest_fix": "Change one word: Have becomes Had.",
             "gravity": "local",
@@ -3367,8 +4147,8 @@
           },
           {
             "code": "conditional_wrong_system",
-            "wrong": "Had the update been tested, the outage would last an hour.",
-            "right": "Had the update been tested, the outage would have lasted an hour.",
+            "wrong": "Had the licence been renewed, the office would lose no time at all.",
+            "right": "Had the licence been renewed, the office would have lost no time at all.",
             "why_it_happens": "The first half is safely in the unreal past and the second half slides into the present unreal, because would arrives before the writer has settled which time they are in.",
             "smallest_fix": "Insert one word: have, after would.",
             "gravity": "local",
@@ -3376,7 +4156,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t2",
@@ -3394,10 +4173,12 @@
             "surface": "reading",
             "mode": "receptive",
             "note": "A fronted had signals an unreal past, and a reader who misses it takes away the opposite fact.",
-            "model": "Had the warning been passed on, the crew would have turned back."
+            "model": "Had the second alarm been fitted, the fire would have been caught in minutes."
           }
         ],
-        "criteria": ["gra"],
+        "criteria": [
+          "gra"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -3405,7 +4186,6 @@
             "quote": "The second half of this prompt asks what would have kept students in science, which is an unreal past claim in every paragraph."
           }
         ],
-
         "items": [
           {
             "id": "gi_inversion_conditional_01",
@@ -3414,7 +4194,9 @@
             "register": "written",
             "topic_id": "topic_technology",
             "skill_hook": "reading",
-            "error_codes": ["unreal_past_missing"],
+            "error_codes": [
+              "unreal_past_missing"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3423,7 +4205,11 @@
             "payload": {
               "sentence": "Had the backup run that night, the records would still exist.",
               "question": "Do the records still exist?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -3439,7 +4225,9 @@
             "register": "written",
             "topic_id": "topic_technology",
             "skill_hook": "reading",
-            "error_codes": ["conditional_wrong_system"],
+            "error_codes": [
+              "conditional_wrong_system"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3448,7 +4236,11 @@
             "payload": {
               "sentence": "Should you need a replacement, the desk will order one.",
               "question": "Does the writer know that you need a replacement?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -3464,15 +4256,17 @@
             "register": "written",
             "topic_id": "topic_technology",
             "skill_hook": "writing_t2",
-            "error_codes": ["double_connector"],
+            "error_codes": [
+              "double_connector"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
-            "decision_cue": "If had the council acted sooner",
+            "decision_cue": "If had the office renewed the licence",
             "payload": {
               "context": "From a draft paragraph about a failed software rollout.",
-              "sentence": "If had the council acted sooner, the cost would have been lower.",
+              "sentence": "If had the office renewed the licence, no time would have been lost.",
               "acceptable": false,
               "reasons": [
                 "the sentence marks the condition twice",
@@ -3495,7 +4289,9 @@
             "register": "written",
             "topic_id": "topic_technology",
             "skill_hook": "writing_t2",
-            "error_codes": ["unreal_past_missing"],
+            "error_codes": [
+              "unreal_past_missing"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3505,9 +4301,13 @@
               "context": "From a report on an outage that lasted a week. Nobody tested the update.",
               "stem": "___ the update been tested on one machine first, the outage would have lasted an hour.",
               "blanks": 1,
-              "lemma_hints": ["have"]
+              "lemma_hints": [
+                "have"
+              ]
             },
-            "expected": ["had"],
+            "expected": [
+              "had"
+            ],
             "feedback": {
               "why_key": "The past form is the word that makes the sentence unreal. Any other form of it puts the testing back into the real world.",
               "feed_forward": "Open with had when the thing did not happen."
@@ -3520,7 +4320,9 @@
             "register": "written",
             "topic_id": "topic_technology",
             "skill_hook": "writing_t2",
-            "error_codes": ["double_connector"],
+            "error_codes": [
+              "double_connector"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3547,7 +4349,9 @@
             "register": "written",
             "topic_id": "topic_science",
             "skill_hook": "writing_t2",
-            "error_codes": ["conditional_wrong_system"],
+            "error_codes": [
+              "conditional_wrong_system"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3574,18 +4378,46 @@
             "register": "written",
             "topic_id": "topic_technology",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["conditional_would_in_if"],
+            "error_codes": [
+              "conditional_would_in_if"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["should", "you", "need", "any", "further", "information", "please", "contact", "the", "desk"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]],
+              "tokens": [
+                "should",
+                "you",
+                "need",
+                "any",
+                "further",
+                "information",
+                "please",
+                "contact",
+                "the",
+                "desk"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9
+                ]
+              ],
               "context": "Build the closing line of a formal letter."
             },
-            "expected": ["should you need any further information please contact the desk"],
+            "expected": [
+              "should you need any further information please contact the desk"
+            ],
             "feedback": {
               "why_key": "The opener takes the subject straight after it and a plain verb after that. Nothing is added and no if appears anywhere.",
               "feed_forward": "Put the subject directly after the opening word."
@@ -3598,7 +4430,9 @@
             "register": "spoken",
             "topic_id": "topic_technology",
             "skill_hook": "listening",
-            "error_codes": ["conditional_wrong_system"],
+            "error_codes": [
+              "conditional_wrong_system"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3606,7 +4440,10 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "Had we tested it first, we'd have caught it in an hour.",
-              "scored_tokens": ["Had", "we'd"],
+              "scored_tokens": [
+                "Had",
+                "we'd"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -3628,7 +4465,9 @@
             "register": "spoken",
             "topic_id": "topic_technology",
             "skill_hook": "speaking_p1",
-            "error_codes": ["unreal_past_missing"],
+            "error_codes": [
+              "unreal_past_missing"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3659,7 +4498,9 @@
             "register": "written",
             "topic_id": "topic_technology",
             "skill_hook": "writing_t2",
-            "error_codes": ["conditional_would_in_if"],
+            "error_codes": [
+              "conditional_would_in_if"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3686,7 +4527,9 @@
             "register": "written",
             "topic_id": "topic_technology",
             "skill_hook": "reading",
-            "error_codes": ["conditional_wrong_system"],
+            "error_codes": [
+              "conditional_wrong_system"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3702,7 +4545,10 @@
                 "Nobody rebuilt it, and the software the office is using now is the price of that.",
                 "Nobody is rebuilding it, and doing so would not fix what the writer is complaining about."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -3717,7 +4563,9 @@
             "register": "written",
             "topic_id": "topic_technology",
             "skill_hook": "writing_t2",
-            "error_codes": ["double_connector"],
+            "error_codes": [
+              "double_connector"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3745,7 +4593,9 @@
             "register": "written",
             "topic_id": "topic_science",
             "skill_hook": "writing_t2",
-            "error_codes": ["conditional_wrong_system"],
+            "error_codes": [
+              "conditional_wrong_system"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3772,7 +4622,7 @@
     {
       "id": "gr_error_triage",
       "unit_id": "u17",
-      "sequence_index": 3606,
+      "sequence_index": 2306,
       "title": "Spending your last three minutes on the mistakes that cost most",
       "cefr_level": "B2",
       "role": "accuracy",
@@ -3780,7 +4630,11 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Self-editing: the four end checks, in priority order",
-        "prerequisites": ["gr_sv_agreement_hard", "gr_article_decision", "gr_comma_splice"],
+        "prerequisites": [
+          "gr_sv_agreement_hard",
+          "gr_article_decision",
+          "gr_comma_splice"
+        ],
         "unlocks_hint": null,
         "priority": 1,
         "insertable": false,
@@ -3790,11 +4644,21 @@
         "gravity": "global",
         "confusion_set": null,
         "structure_slug": null,
-        "signal_blocklist": ["proofreading", "spellcheck", "grammar check", "careless", "silly mistake"],
-        "fixes_errors": ["comma_splice", "agreement_subject_verb", "tense_drift_in_paragraph", "article_missing_singular"],
+        "signal_blocklist": [
+          "proofreading",
+          "spellcheck",
+          "grammar check",
+          "careless",
+          "silly mistake"
+        ],
+        "fixes_errors": [
+          "comma_splice",
+          "agreement_subject_verb",
+          "tense_drift_in_paragraph",
+          "article_missing_singular"
+        ],
         "estimated_minutes": 26,
         "tool_surface": "error_triage",
-
         "teach": {
           "can_do": "I can spend my last three minutes on the four mistakes that cost most, in order.",
           "why_it_matters": "Accuracy at the end of a timed task is a procedure, not a feeling. Reading it through again finds almost nothing; running four named checks finds most of it.",
@@ -3815,10 +4679,22 @@
             "spec": {
               "label": "what does it cost if you leave it?",
               "steps": [
-                { "text": "where the sentence ends", "gloss": "your reader loses the sentence itself, so fix this one first" },
-                { "text": "each verb against its own subject", "gloss": "visible in almost every line and quick to repair" },
-                { "text": "one time per paragraph", "gloss": "your reader has to re-date every claim you make" },
-                { "text": "the small words before nouns", "gloss": "costs least and takes longest, so it goes last" }
+                {
+                  "text": "where the sentence ends",
+                  "gloss": "your reader loses the sentence itself, so fix this one first"
+                },
+                {
+                  "text": "each verb against its own subject",
+                  "gloss": "visible in almost every line and quick to repair"
+                },
+                {
+                  "text": "one time per paragraph",
+                  "gloss": "your reader has to re-date every claim you make"
+                },
+                {
+                  "text": "the small words before nouns",
+                  "gloss": "costs least and takes longest, so it goes last"
+                }
               ]
             }
           },
@@ -3831,35 +4707,55 @@
             {
               "sentence": "The number of families sharing a home have risen sharply.",
               "question": "How many things is the writer counting here?",
-              "options": ["one number", "many families", "the sentence doesn't say"],
+              "options": [
+                "one number",
+                "many families",
+                "the sentence doesn't say"
+              ],
               "key": 0,
               "why": "What rose is a count, and a count stays single no matter how many families it is counting."
             },
             {
               "sentence": "Rents in the city has doubled since the mill closed.",
               "question": "What doubled?",
-              "options": ["the city", "the rents", "the sentence doesn't say"],
+              "options": [
+                "the city",
+                "the rents",
+                "the sentence doesn't say"
+              ],
               "key": 1,
               "why": "The rents are what doubled. The city is only where they are, and it has ended up standing next to the wrong word."
             },
             {
               "sentence": "The scheme was popular, it closed after two years.",
               "question": "How many separate pieces of news is the writer giving you?",
-              "options": ["one", "two", "three"],
+              "options": [
+                "one",
+                "two",
+                "three"
+              ],
               "key": 1,
               "why": "Two whole pieces of news are leaning on one comma, and a comma cannot take that weight."
             },
             {
               "sentence": "Grandparents used to live nearby. Now families move away for work and the children only saw them twice a year.",
               "question": "Is the writer talking about the past or about now?",
-              "options": ["the past", "now", "both, in that order"],
+              "options": [
+                "the past",
+                "now",
+                "both, in that order"
+              ],
               "key": 2,
               "why": "The writer moves from an old arrangement to the present one, and one word at the end is still standing in the wrong half."
             },
             {
               "sentence": "She works as nurse in a hospital near the coast.",
               "question": "Is anything missing from what you can picture here?",
-              "options": ["Yes", "No", "The sentence doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
               "key": 0,
               "why": "One job, one person: with nothing standing in front of it, an English reader pictures the idea instead of anybody at all."
             }
@@ -3867,20 +4763,37 @@
           "discovery": {
             "prompt": "Here are three drafts, each in its last minute. What did the writer on the right do that the writer on the left did not?",
             "pairs": [
-              ["The scheme was popular, it closed after two years.", "The scheme was popular, but it closed after two years."],
-              ["The number of families sharing a home have risen.", "The number of families sharing a home has risen."],
-              ["She works as nurse in a hospital near the coast.", "She works as a nurse in a hospital near the coast."]
+              [
+                "The market was busy, it moved to the retail park.",
+                "The market was busy, but it moved to the retail park."
+              ],
+              [
+                "The list of names taken at the door were long.",
+                "The list of names taken at the door was long."
+              ],
+              [
+                "He trained as electrician before the yard shut.",
+                "He trained as an electrician before the yard shut."
+              ]
             ],
             "candidate_rules": [
-              { "text": "On the right, the writer hunted one named thing at a time instead of reading it all through.", "verdict": "right" },
-              { "text": "On the right, the writer had more time left at the end.", "verdict": "too_narrow" },
-              { "text": "On the right, the sentences are longer, so more care went into them.", "verdict": "keyword_trap" }
+              {
+                "text": "On the right, the writer hunted one named thing at a time instead of reading it all through.",
+                "verdict": "right"
+              },
+              {
+                "text": "On the right, the writer had more time left at the end.",
+                "verdict": "too_narrow"
+              },
+              {
+                "text": "On the right, the sentences are longer, so more care went into them.",
+                "verdict": "keyword_trap"
+              }
             ]
           },
           "rule_line": "Four narrow passes, in cost order, beat one read-through every single time.",
           "false_rule": "That reading your answer through again is checking it. Your eye repairs what you meant to write, so a general read-through finds only the mistakes you were never going to make."
         },
-
         "errors": [
           {
             "code": "comma_splice",
@@ -3923,7 +4836,6 @@
             "l1_note": "Persistent for speakers of languages with no articles, long after the rule is known."
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t2",
@@ -3941,10 +4853,13 @@
             "surface": "reading",
             "mode": "receptive",
             "note": "Finding where a writer's sentence really ends is half of reading a long paragraph accurately.",
-            "model": "The scheme was popular; it closed after two years for reasons nobody has explained."
+            "model": "The trial was popular; it ended after two years for reasons nobody has explained."
           }
         ],
-        "criteria": ["gra", "cohesion"],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -3957,7 +4872,6 @@
             "quote": "Every sentence here has a long subject with a plural noun in the middle of it, which is check two's whole hunting ground."
           }
         ],
-
         "items": [
           {
             "id": "gi_error_triage_01",
@@ -3966,16 +4880,22 @@
             "register": "written",
             "topic_id": "topic_family",
             "skill_hook": "reading",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 1,
             "decision_cue": null,
             "payload": {
-              "sentence": "The number of families sharing a home has risen sharply since the mill closed.",
+              "sentence": "The number of households on the waiting list has grown in every one of the last five years.",
               "question": "What is the writer counting?",
-              "options": ["one number", "many families", "the sentence doesn't say"],
+              "options": [
+                "one number",
+                "many families",
+                "the sentence doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -3991,16 +4911,22 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "reading",
-            "error_codes": ["comma_splice"],
+            "error_codes": [
+              "comma_splice"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "sentence": "The estate was popular, it closed after two years.",
+              "sentence": "The playground was well used, it was sold for housing.",
               "question": "How many separate pieces of news are you being given?",
-              "options": ["one", "two", "three"],
+              "options": [
+                "one",
+                "two",
+                "three"
+              ],
               "key": 1
             },
             "expected": null,
@@ -4016,15 +4942,17 @@
             "register": "written",
             "topic_id": "topic_family",
             "skill_hook": "writing_t2",
-            "error_codes": ["comma_splice"],
+            "error_codes": [
+              "comma_splice"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
-            "decision_cue": "popular, it closed after two years",
+            "decision_cue": "afternoon, it shut in the spring",
             "payload": {
               "context": "From the last paragraph of a timed answer, written with four minutes left.",
-              "sentence": "The scheme was popular, it closed after two years.",
+              "sentence": "The library was busy every afternoon, it shut in the spring.",
               "acceptable": false,
               "reasons": [
                 "two whole pieces of news are being joined by a comma",
@@ -4047,7 +4975,9 @@
             "register": "written",
             "topic_id": "topic_family",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4055,13 +4985,17 @@
             "decision_cue": null,
             "payload": {
               "context": "Check two, run over one sentence of a draft.",
-              "stem": "The number of households sharing a home ___ (rise) sharply over the last decade.",
+              "stem": "The number of children living with a grandparent ___ (rise) sharply over the last decade.",
               "blanks": 1,
-              "lemma_hints": ["rise"]
+              "lemma_hints": [
+                "rise"
+              ]
             },
-            "expected": ["has risen"],
+            "expected": [
+              "has risen"
+            ],
             "feedback": {
-              "why_key": "Households is the nearest noun and the number is the real one. Trace it back past everything in between and the ending chooses itself.",
+              "why_key": "Grandparent is the nearest noun and the number is the real one. Trace it back past everything in between and the ending chooses itself.",
               "feed_forward": "Trace the verb back to its own subject, past whatever sits between."
             }
           },
@@ -4072,7 +5006,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["article_missing_singular"],
+            "error_codes": [
+              "article_missing_singular"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4080,11 +5016,15 @@
             "decision_cue": null,
             "payload": {
               "context": "Check four, run over one line of a Task 1 answer.",
-              "stem": "Her mother worked as ___ nurse at the hospital on the far side of the estate.",
+              "stem": "Her father trained as ___ electrician at the yard before it closed.",
               "blanks": 1,
-              "lemma_hints": ["a"]
+              "lemma_hints": [
+                "a"
+              ]
             },
-            "expected": ["a"],
+            "expected": [
+              "an"
+            ],
             "feedback": {
               "why_key": "One job and one person, so your reader needs something standing in front of that noun before they can picture anybody.",
               "feed_forward": "Check what is standing in front of each singular noun."
@@ -4097,22 +5037,24 @@
             "register": "written",
             "topic_id": "topic_family",
             "skill_hook": "writing_t2",
-            "error_codes": ["comma_splice"],
+            "error_codes": [
+              "comma_splice"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "given": "The scheme was popular, it closed after two years.",
+              "given": "The market was busy, it moved to the retail park.",
               "instruction": "Repair it with the smallest edit you can make.",
-              "starter": "The scheme was popular ___"
+              "starter": "The market was busy ___"
             },
             "expected": [
-              ", but it closed after two years",
-              "but it closed after two years",
-              ". It closed after two years",
-              "; it closed after two years"
+              ", but it moved to the retail park",
+              "but it moved to the retail park",
+              ". It moved to the retail park",
+              "; it moved to the retail park"
             ],
             "feedback": {
               "why_key": "One word, one full stop or one semicolon. All three repairs cost the same and all three tell the reader where the first piece of news ended.",
@@ -4126,22 +5068,27 @@
             "register": "spoken",
             "topic_id": "topic_family",
             "skill_hook": "listening",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 3,
             "decision_cue": null,
             "payload": {
-              "audio_text": "The number of families sharing a home has risen again.",
-              "scored_tokens": ["number", "has"],
+              "audio_text": "The number of pupils walking to school has fallen again.",
+              "scored_tokens": [
+                "number",
+                "has"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
             },
             "expected": [
-              "the number of families sharing a home has risen again",
-              "the number of families sharing a home has risen again."
+              "the number of pupils walking to school has fallen again",
+              "the number of pupils walking to school has fallen again."
             ],
             "feedback": {
               "why_key": "Has is unstressed and arrives straight after a plural noun, so a listener writing at speed puts the ending that the last word suggested.",
@@ -4155,18 +5102,44 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["the", "proportion", "of", "adults", "living", "alone", "has", "risen", "steadily"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8]],
+              "tokens": [
+                "the",
+                "proportion",
+                "of",
+                "adults",
+                "living",
+                "alone",
+                "has",
+                "risen",
+                "steadily"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ]
+              ],
               "context": "Build a sentence whose ending matches the proportion rather than the adults."
             },
-            "expected": ["the proportion of adults living alone has risen steadily"],
+            "expected": [
+              "the proportion of adults living alone has risen steadily"
+            ],
             "feedback": {
               "why_key": "Four words sit between the proportion and the ending that belongs to it, and every one of them is a chance to lose track.",
               "feed_forward": "Read a long subject back to its first word before choosing."
@@ -4179,20 +5152,24 @@
             "register": "written",
             "topic_id": "topic_family",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
             "difficulty": 2,
-            "decision_cue": "rents in the city has doubled",
+            "decision_cue": "wages in the district has fallen",
             "payload": {
-              "sentence": "One reason is that rents in the city has doubled since the mill closed.",
-              "error_span": "rents in the city has doubled",
+              "sentence": "One reason is that wages in the district has fallen since the yard shut.",
+              "error_span": "wages in the district has fallen",
               "accept_overlap_tokens": 1
             },
-            "expected": ["rents in the city have doubled"],
+            "expected": [
+              "wages in the district have fallen"
+            ],
             "feedback": {
-              "why_key": "The city is only where the rents are. What doubled is the rents, and the ending has copied the word standing nearest to it instead.",
+              "why_key": "The district is only where the wages are paid. What fell is the wages, and the ending has copied whichever word stood nearest to it.",
               "feed_forward": "Ignore whatever sits between the subject and its verb."
             }
           },
@@ -4203,7 +5180,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t2",
-            "error_codes": ["comma_splice"],
+            "error_codes": [
+              "comma_splice"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4231,15 +5210,17 @@
             "register": "written",
             "topic_id": "topic_family",
             "skill_hook": "writing_t2",
-            "error_codes": ["tense_drift_in_paragraph"],
+            "error_codes": [
+              "tense_drift_in_paragraph"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
             "difficulty": 3,
-            "decision_cue": "the children only saw them twice a year",
+            "decision_cue": "the children only visited twice a year",
             "payload": {
               "context": "Check three, run over the closing paragraph of a timed answer.",
-              "sentence": "Grandparents used to live nearby. Now families move away for work and the children only saw them twice a year.",
+              "sentence": "Grandparents used to be a bus ride away. Now most people settle where the work is and the children only visited twice a year.",
               "acceptable": false,
               "reasons": [
                 "one word at the end is still standing in the earlier half",
@@ -4262,7 +5243,9 @@
             "register": "written",
             "topic_id": "topic_family",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4290,7 +5273,9 @@
             "register": "written",
             "topic_id": "topic_family",
             "skill_hook": "writing_t2",
-            "error_codes": ["tense_drift_in_paragraph"],
+            "error_codes": [
+              "tense_drift_in_paragraph"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4315,7 +5300,6 @@
       }
     }
   ],
-
   "vocab_new": [],
   "vocab_updates": []
 }

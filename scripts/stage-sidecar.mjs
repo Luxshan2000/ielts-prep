@@ -25,7 +25,16 @@
  */
 
 import { execFileSync } from 'node:child_process'
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  cpSync,
+  existsSync,
+  lstatSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from 'node:fs'
 import { platform } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -53,15 +62,26 @@ const isWindows = platform() === 'win32'
  * `cp -R` is not a Windows command, and pwsh's `cp` alias does not take `-R` or the
  * `<dir>/.` trailing-dot idiom. fs.cpSync is in Node 16.7+ and this repo requires 20.
  */
+/** `existsSync` follows symlinks, so a dangling one reads as absent. This does not. */
+function lstatSafe(p) {
+  try {
+    return lstatSync(p)
+  } catch {
+    return null
+  }
+}
+
 function copyTree(from, to) {
   cpSync(from, to, { recursive: true, dereference: true })
 }
 const venvBin = join(VENV, isWindows ? 'Scripts' : 'bin')
 const venvPython = join(venvBin, isWindows ? 'python.exe' : 'python')
 
-const run = (cmd, args, cwd = REPO) => {
+const run = (cmd, args, opts = {}) => {
+  // Third arg was a bare cwd string; both spellings work so existing call sites are untouched.
+  const { cwd = REPO, env } = typeof opts === 'string' ? { cwd: opts } : opts
   process.stdout.write(`  $ ${cmd} ${args.join(' ')}\n`)
-  execFileSync(cmd, args, { cwd, stdio: 'inherit' })
+  execFileSync(cmd, args, { cwd, stdio: 'inherit', ...(env ? { env } : {}) })
 }
 
 const step = (msg) => process.stdout.write(`\n▸ ${msg}\n`)
@@ -140,6 +160,24 @@ if (existsSync(cfg)) {
   writeFileSync(cfg, rewritten)
 }
 
+// `uv venv` points bin/python at the interpreter by ABSOLUTE path, so on any machine that
+// is not the build machine those three symlinks dangle. Nothing at runtime follows them —
+// Electron spawns the bundled interpreter directly, which is why this shipped and worked —
+// but a dangling symlink inside a .app is not free: `xattr -cr` errors on each one, which is
+// alarming when a tester runs it to clear quarantine, and codesign has to walk them too.
+//
+// This is the same footgun pyvenv.cfg and the shebangs below are already rewritten for; the
+// symlinks were simply missed. Relative targets survive being moved into Resources/.
+if (!isWindows) {
+  const target = '../../python/bin/python3.11'
+  for (const name of ['python', 'python3', 'python3.11']) {
+    const link = join(venvBin, name)
+    if (!existsSync(link) && !lstatSafe(link)) continue
+    rmSync(link, { force: true })
+    symlinkSync(name === 'python' ? target : 'python', link)
+  }
+}
+
 // Console scripts hard-code the build machine's interpreter path in their shebang.
 // The app spawns `python -m bandready.cli`, so the shebangs are not on the critical
 // path, but a stale absolute path in a shipped file is a footgun worth removing.
@@ -155,8 +193,21 @@ if (!isWindows) {
 
 // -------------------------------------------------------------------- verify ---
 
+// Verified through the BASE interpreter with the venv's site-packages on the path, which is
+// how the app actually starts the sidecar in a packaged build (app/electron/sidecar.ts).
+//
+// Not through the venv's own python: on Windows that is a launcher that reads `home` out of
+// pyvenv.cfg to find its base, and we rewrite `home` to a relative path so the bundle stays
+// movable. The launcher cannot resolve a relative home — it exits 103 with no output at all,
+// which is what broke this build twice and looks nothing like a Python error. On macOS the
+// equivalent file is a symlink, so the same rewrite is harmless and the problem never showed.
 step('Verifying the staged sidecar imports and serves')
-run(venvPython, ['-c', 'from bandready.server.app import create_app; a=create_app(); print(f"  routes: {len(a.state.route_paths)}")'])
+const sitePackages = isWindows
+  ? join(VENV, 'Lib', 'site-packages')
+  : join(VENV, 'lib', 'python3.11', 'site-packages')
+run(stagedPython, ['-c', 'from bandready.server.app import create_app; a=create_app(); print(f"  routes: {len(a.state.route_paths)}")'], {
+  env: { ...process.env, PYTHONPATH: sitePackages },
+})
 
 step('Done')
 process.stdout.write(

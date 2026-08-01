@@ -39,6 +39,21 @@ _log = logging.getLogger("bandready.pron.analyze")
 
 METHOD = "proxy-v1"
 
+#: Whether this method can produce a number that means "how well was this pronounced".
+#:
+#: proxy-v1 cannot, and the distinction is mechanical rather than a matter of degree. What it
+#: has is the recogniser's confidence, which falls for a rare word, a proper noun, background
+#: noise, and — the case that matters here — speech that is accented and perfectly
+#: intelligible. Multiplying that by 100 and banding it green/amber/red tells a Tamil or
+#: Sinhala speaker their pronunciation is poor when the recogniser merely hesitated, which is
+#: precisely what 09 §0 forbids.
+#:
+#: The module already serialises ``score: null`` into ``pron_signals_json`` for exactly this
+#: reason. This flag makes the wire payload agree with it. Set it True only when a method
+#: lands that genuinely scores pronunciation (the v2 GOP pipeline), never to make a screen
+#: look more populated.
+SCORE_IS_PRONUNCIATION = False
+
 ACCENT_NOTICE = (
     "IELTS accepts every accent. These scores measure how clearly each sound comes "
     "across — not how British or American you sound."
@@ -117,8 +132,15 @@ class WordScore:
             "word_index": self.word_index,
             "t_start_ms": self.t_start_ms,
             "t_end_ms": self.t_end_ms,
-            "score": self.score,
+            # Null under proxy-v1: this method has no pronunciation score to give, and
+            # dressing a confidence up as one is the failure mode 09 §0 names.
+            "score": self.score if SCORE_IS_PRONUNCIATION else None,
             "confidence": self.confidence,
+            # What the confidence honestly supports: the recogniser was unsure here, which is
+            # a reason to *look*, not a verdict on the speaker.
+            "recogniser_unsure": (
+                None if self.score is None else bool(self.score < BAND_AMBER)
+            ),
             "expected_ipa": self.expected_ipa,
             "heard_approx": self.heard_approx,
             "phones": None,  # v2 only
@@ -128,7 +150,7 @@ class WordScore:
             "skipped": self.score is None,
             "level": (
                 None
-                if self.score is None
+                if self.score is None or not SCORE_IS_PRONUNCIATION
                 else "good" if self.score >= BAND_GREEN else "warn" if self.score >= BAND_AMBER else "poor"
             ),
         }

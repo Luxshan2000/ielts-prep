@@ -228,18 +228,28 @@ async def read_aloud(
     pron.persist_standalone(session, profile_id, result, source, passage_id, rel)
 
     scored = [w.score for w in result.words if w.score is not None]
+    unsure = sorted(
+        (w for w in result.words if w.score is not None and w.score < pron.BAND_AMBER),
+        key=lambda w: w.score or 0,
+    )
     return {
         **result.as_wire(),
         "audio_path": rel,
         "media_url": f"/api/v1/media/pron/attempts/{target.name}",
         "passage_id": passage_id,
-        "overall": round(sum(scored) / len(scored)) if scored else None,
-        "words_to_work_on": [
-            w.as_wire() for w in sorted(
-                (w for w in result.words if w.score is not None and w.score < pron.BAND_AMBER),
-                key=lambda w: w.score or 0,
-            )
-        ][:5],
+        # An average of recogniser confidences is not an overall pronunciation score, so
+        # proxy-v1 returns none. `mean_confidence` is the same number under its real name,
+        # for anybody debugging the recogniser rather than the learner.
+        "overall": round(sum(scored) / len(scored)) if scored and pron.SCORE_IS_PRONUNCIATION else None,
+        "mean_confidence": round(sum(scored) / len(scored)) if scored else None,
+        # Renamed from words_to_work_on, which claimed more than the method can support.
+        # These are words the recogniser hesitated on: worth replaying and listening to
+        # together, not words the learner has been judged to have said badly.
+        "words_the_recogniser_was_unsure_of": [w.as_wire() for w in unsure][:5],
+        "method_note": (
+            "This check listens for words the recogniser found hard to catch. It does not "
+            "score your pronunciation, and a strong accent is not a mistake."
+        ),
         "accent_notice": pron.ACCENT_NOTICE,
     }
 

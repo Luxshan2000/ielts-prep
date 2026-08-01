@@ -20,23 +20,31 @@ const REQUIRED = ['main.js', 'preload.js'];
 
 const watch = process.argv.includes('--watch');
 
-function viteBin() {
-  const bin = path.join(
-    appDir,
-    'node_modules',
-    '.bin',
-    process.platform === 'win32' ? 'vite.cmd' : 'vite',
-  );
-  if (!fs.existsSync(bin)) {
-    throw new Error(`vite binary not found at ${bin} — run pnpm install first`);
+/**
+ * Vite's own entry script, run under this Node rather than through the `.bin` shim.
+ *
+ * The shim is `vite.cmd` on Windows, and since Node 18.20/20.12 closed CVE-2024-27980
+ * `spawn` refuses a `.cmd` without `shell: true` — it throws EINVAL, which is exactly how
+ * this failed on the first Windows CI run. Turning `shell: true` on would fix it and hand
+ * the whole command line to cmd.exe, where a path like `Lux's Projects` becomes a quoting
+ * problem instead. Running the script directly has neither issue and behaves identically on
+ * all three platforms.
+ *
+ * Resolved by path rather than `require.resolve`: vite's `exports` map does not expose
+ * `./bin/vite.js`, though the file is right there on disk.
+ */
+function viteEntry() {
+  const entry = path.join(appDir, 'node_modules', 'vite', 'bin', 'vite.js');
+  if (!fs.existsSync(entry)) {
+    throw new Error(`vite not found at ${entry} — run pnpm install first`);
   }
-  return bin;
+  return entry;
 }
 
 export function buildElectron({ watch: watchMode = false, stdio = 'inherit' } = {}) {
-  const args = ['build', '-c', 'electron.vite.config.ts'];
+  const args = [viteEntry(), 'build', '-c', 'electron.vite.config.ts'];
   if (watchMode) args.push('--watch');
-  const child = spawn(viteBin(), args, {
+  const child = spawn(process.execPath, args, {
     cwd: appDir,
     stdio,
     env: { ...process.env, NODE_ENV: process.env.NODE_ENV ?? 'production' },

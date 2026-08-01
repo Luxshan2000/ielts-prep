@@ -62,7 +62,17 @@ win:
   target:
     - target: nsis
       arch: [x64]
+    # MSI as well as NSIS: an MSI is what a managed or locked-down Windows machine will
+    # accept, and some testers simply trust it more than a bare .exe. Both are unsigned, so
+    # neither escapes SmartScreen — this is about the installer format, not the warning.
+    - target: msi
+      arch: [x64]
   # v1 ships unsigned — see 13 §8.2 (documented SmartScreen flow).
+
+msi:
+  oneClick: false
+  perMachine: false
+  artifactName: ${productName}-${version}-${arch}.${ext}
 
 nsis:
   oneClick: false

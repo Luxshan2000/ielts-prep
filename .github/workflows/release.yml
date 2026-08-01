@@ -111,7 +111,7 @@ jobs:
 
       - name: List what was built
         shell: bash
-        run: ls -lh dist-electron/*.dmg dist-electron/*.exe dist-electron/*.zip 2>/dev/null || ls -lh dist-electron
+        run: ls -lh dist-electron/*.dmg dist-electron/*.exe dist-electron/*.msi dist-electron/*.zip 2>/dev/null || ls -lh dist-electron
 
       - uses: actions/upload-artifact@v4
         with:
@@ -119,6 +119,7 @@ jobs:
           path: |
             dist-electron/*.dmg
             dist-electron/*.exe
+            dist-electron/*.msi
             dist-electron/*.zip
           if-no-files-found: error
           retention-days: 14
@@ -153,9 +154,14 @@ jobs:
 
             ### Windows
 
-            The installer is **unsigned**, so SmartScreen will say *"Windows protected your
-            PC"*. That warning is expected here and is not a sign of anything wrong with the
-            download.
+            Two installers, same app — take whichever your machine prefers:
+
+            - **`BandReady-Setup-*.exe`** (NSIS) — the normal one.
+            - **`BandReady-*-x64.msi`** — use this if the `.exe` is blocked, or on a managed
+              or locked-down machine that only accepts MSI packages.
+
+            Both are **unsigned**, so SmartScreen will say *"Windows protected your PC"*
+            either way. The format changes what will install it, not whether Windows warns.
 
             To run it anyway: click **More info**, then **Run anyway**.
 

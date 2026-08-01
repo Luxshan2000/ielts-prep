@@ -12,7 +12,7 @@
     {
       "id": "gr_modal_grammar",
       "unit_id": "u07",
-      "sequence_index": 1900,
+      "sequence_index": 2000,
       "title": "Using can, must and should without adding anything they do not take",
       "cefr_level": "A2",
       "role": "form",
@@ -657,7 +657,7 @@
     {
       "id": "gr_modal_ability",
       "unit_id": "u07",
-      "sequence_index": 1901,
+      "sequence_index": 2001,
       "title": "Saying what someone is able to do, now and back then",
       "cefr_level": "A1",
       "role": "form",
@@ -1259,7 +1259,7 @@
     {
       "id": "gr_modal_permission",
       "unit_id": "u07",
-      "sequence_index": 1902,
+      "sequence_index": 2002,
       "title": "Choosing between asking someone to let you and reporting what is already allowed",
       "cefr_level": "A2",
       "role": "choice",
@@ -2168,7 +2168,7 @@
     {
       "id": "gr_modal_requests",
       "unit_id": "u07",
-      "sequence_index": 1903,
+      "sequence_index": 2003,
       "title": "Asking someone to do something without it landing as an order",
       "cefr_level": "A2",
       "role": "form",
@@ -2783,7 +2783,7 @@
     {
       "id": "gr_modal_obligation",
       "unit_id": "u07",
-      "sequence_index": 1904,
+      "sequence_index": 2004,
       "title": "Saying that something has to happen, and how much room there is to refuse",
       "cefr_level": "A2",
       "role": "form",
@@ -3427,7 +3427,7 @@
     {
       "id": "gr_must_vs_have_to",
       "unit_id": "u07",
-      "sequence_index": 1905,
+      "sequence_index": 2005,
       "title": "Choosing between an obligation you feel yourself and one someone else laid down",
       "cefr_level": "B1",
       "role": "choice",

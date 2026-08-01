@@ -12,7 +12,7 @@
     {
       "id": "gr_concession_structures",
       "unit_id": "u17",
-      "sequence_index": 2300,
+      "sequence_index": 2400,
       "title": "Giving the other side one point on purpose so your own point lands harder",
       "cefr_level": "B2",
       "role": "choice",
@@ -921,7 +921,7 @@
     {
       "id": "gr_stance_adverbials",
       "unit_id": "u17",
-      "sequence_index": 2301,
+      "sequence_index": 2401,
       "title": "Telling your reader how far you are willing to back what you just said",
       "cefr_level": "B2",
       "role": "choice",
@@ -1804,7 +1804,7 @@
     {
       "id": "gr_spoken_vs_written_grammar",
       "unit_id": "u17",
-      "sequence_index": 2302,
+      "sequence_index": 2402,
       "title": "Choosing the grammar that fits the room you are in",
       "cefr_level": "B2",
       "role": "choice",
@@ -2702,7 +2702,7 @@
     {
       "id": "gr_emphasis_structures",
       "unit_id": "u17",
-      "sequence_index": 2303,
+      "sequence_index": 2403,
       "title": "Putting the one part that matters where nobody can read past it",
       "cefr_level": "C1",
       "role": "form",
@@ -3336,7 +3336,7 @@
     {
       "id": "gr_inversion_negative",
       "unit_id": "u17",
-      "sequence_index": 2304,
+      "sequence_index": 2404,
       "title": "Opening on a negative word and swapping the next two round",
       "cefr_level": "C1",
       "role": "form",
@@ -3976,7 +3976,7 @@
     {
       "id": "gr_inversion_conditional",
       "unit_id": "u17",
-      "sequence_index": 2305,
+      "sequence_index": 2405,
       "title": "Dropping if and starting the sentence with had",
       "cefr_level": "C1",
       "role": "form",
@@ -4622,7 +4622,7 @@
     {
       "id": "gr_error_triage",
       "unit_id": "u17",
-      "sequence_index": 2306,
+      "sequence_index": 2406,
       "title": "Spending your last three minutes on the mistakes that cost most",
       "cefr_level": "B2",
       "role": "accuracy",

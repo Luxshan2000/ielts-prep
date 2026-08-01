@@ -12,7 +12,7 @@
     {
       "id": "gr_modal_past_forms",
       "unit_id": "u07",
-      "sequence_index": 1800,
+      "sequence_index": 1900,
       "title": "Saying what you had to do, could do and were allowed to do back then",
       "cefr_level": "B1",
       "role": "form",
@@ -679,7 +679,7 @@
     {
       "id": "gr_modal_hedging",
       "unit_id": "u07",
-      "sequence_index": 1801,
+      "sequence_index": 1901,
       "title": "Making a claim you can defend instead of one a reader can knock down",
       "cefr_level": "B2",
       "role": "choice",

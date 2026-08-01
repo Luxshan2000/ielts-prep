@@ -12,7 +12,7 @@
     {
       "id": "gr_past_perfect",
       "unit_id": "u06",
-      "sequence_index": 2200,
+      "sequence_index": 2300,
       "title": "Showing that one past event happened before another one",
       "cefr_level": "B1",
       "role": "form",
@@ -654,7 +654,7 @@
     {
       "id": "gr_past_perfect_choice",
       "unit_id": "u06",
-      "sequence_index": 2201,
+      "sequence_index": 2301,
       "title": "Deciding when you actually need to show which past event came first",
       "cefr_level": "B1",
       "role": "choice",
@@ -1532,7 +1532,7 @@
     {
       "id": "gr_noun_clause_that",
       "unit_id": "u09",
-      "sequence_index": 2202,
+      "sequence_index": 2302,
       "title": "Using a whole statement as the subject or object of a sentence",
       "cefr_level": "B1",
       "role": "form",
@@ -2131,7 +2131,7 @@
     {
       "id": "gr_verb_obj_infinitive",
       "unit_id": "u12",
-      "sequence_index": 2203,
+      "sequence_index": 2303,
       "title": "Saying what one thing gets somebody else to do",
       "cefr_level": "B1",
       "role": "form",
@@ -2735,7 +2735,7 @@
     {
       "id": "gr_infinitive_purpose",
       "unit_id": "u12",
-      "sequence_index": 2204,
+      "sequence_index": 2304,
       "title": "Saying why you did something, without using because",
       "cefr_level": "B1",
       "role": "choice",
@@ -3610,7 +3610,7 @@
     {
       "id": "gr_meaning_change_verbs",
       "unit_id": "u12",
-      "sequence_index": 2205,
+      "sequence_index": 2305,
       "title": "Choosing between -ing and to when the choice changes what you mean",
       "cefr_level": "B2",
       "role": "choice",
@@ -4608,7 +4608,7 @@
     {
       "id": "gr_gerund_subject",
       "unit_id": "u12",
-      "sequence_index": 2206,
+      "sequence_index": 2306,
       "title": "Starting a sentence with an activity instead of a person",
       "cefr_level": "B2",
       "role": "form",
@@ -5210,7 +5210,7 @@
     {
       "id": "gr_adj_prep_patterns",
       "unit_id": "u12",
-      "sequence_index": 2207,
+      "sequence_index": 2307,
       "title": "Getting the small word right after an adjective",
       "cefr_level": "B2",
       "role": "accuracy",
@@ -5817,7 +5817,7 @@
     {
       "id": "gr_causative_verbs",
       "unit_id": "u12",
-      "sequence_index": 2208,
+      "sequence_index": 2308,
       "title": "Saying who made, let or helped somebody do something",
       "cefr_level": "B2",
       "role": "accuracy",

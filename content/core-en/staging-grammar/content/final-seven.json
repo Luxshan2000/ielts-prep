@@ -1,0 +1,3643 @@
+{
+  "staging_version": 1,
+  "block": "final-seven",
+  "authored_by": "hand",
+  "_readme": "The last seven points of the 154-point syllabus, written by hand after six agent runs reached 147 and lost the same two blocks to session limits each time. Four close the u07 certainty family; three are the u15 accuracy points the block was cut off before.",
+  "points": [
+    {
+      "id": "gr_modal_possibility",
+      "unit_id": "u07",
+      "sequence_index": 1500,
+      "title": "Saying that something is possible without claiming to know",
+      "cefr_level": "B1",
+      "role": "choice",
+      "topic_id": "topic_education",
+      "point_json": {
+        "schema_version": 1,
+        "unlocks_hint": null,
+        "priority": 2,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "local",
+        "confusion_set": "cs_certainty_strength",
+        "signal_blocklist": [],
+        "tool_surface": null,
+        "estimated_minutes": 20,
+        "pays_in": [],
+        "criteria": [
+          "gra"
+        ],
+        "used_in": [],
+        "grammar_name": "may, might and could for possibility",
+        "prerequisites": [
+          "gr_modal_grammar"
+        ],
+        "structure_slug": "modal_simple",
+        "fixes_errors": [
+          "modal_strength_mismatch"
+        ],
+        "contrast": {
+          "with": [
+            "gr_modal_deduction_present"
+          ],
+          "board_id": "gb_certainty_strength",
+          "question": "Could I show this if somebody asked me to?",
+          "fork": [
+            {
+              "answer": "No — it is a reasonable expectation and nothing more",
+              "selects": "may / might / could",
+              "point_id": "gr_modal_possibility"
+            },
+            {
+              "answer": "Yes — the evidence is in front of me and only one conclusion fits",
+              "selects": "must / cannot",
+              "point_id": "gr_modal_deduction_present"
+            }
+          ],
+          "minimal_pair": {
+            "a": {
+              "text": "The delay might be down to the signal failure at Ashfield.",
+              "means": "One explanation among several, and the speaker is not committing to it."
+            },
+            "b": {
+              "text": "The delay must be down to the signal failure at Ashfield.",
+              "means": "The speaker has ruled the others out and is committing to this one."
+            },
+            "only_difference": "might / must"
+          },
+          "wrong_choice_note": "You wrote must where nothing has been shown. That turns a fair suggestion into a claim the next sentence has to defend, and a reader who spots the gap stops trusting the rest of the paragraph.",
+          "edge_case": {
+            "text": "May, might and could are close enough here that no examiner will separate them. Spend the attention on choosing a hedge at all, not on choosing between the three.",
+            "ignore_the_rest": true
+          },
+          "stronger_test": "Ask what you would say if the reader replied how do you know. If the honest answer is I do not, you need may, might or could.",
+          "worked_pairs": [
+            {
+              "a": "Free transport may increase use of the network.",
+              "b": "Free transport increases use of the network.",
+              "why": "The first is a proposal being discussed; the second is a finding that needs a source."
+            }
+          ]
+        },
+        "teach": {
+          "can_do": "I can say that something is possible without pretending to be sure of it.",
+          "why_it_matters": "Stating a possibility as a fact is the fastest way to lose a reader's trust, and in Task 2 it turns a reasonable argument into one the next paragraph has to rescue.",
+          "meaning": "May, might and could all do the same job here: they put a sentence somewhere between yes and no. The differences are small and mostly about how tentative you sound — may is the most formal, might the most cautious, could the one that presents an option among several. What matters far more is that you use one of them at all, rather than writing a guess as though it were established.",
+          "form": {
+            "pattern": "subject + may / might / could + plain verb",
+            "notes": [
+              "no to, and no -s: the fee may rise, not the fee may to rise or may rises",
+              "for something possible right now, add be + -ing: she may be waiting",
+              "may not and might not mean possibly not — the possibility is still open",
+              "could not is NOT the negative of could here: it means impossible, not possibly not"
+            ],
+            "negative": "may not / might not = perhaps not. Use cannot only when you mean it is impossible.",
+            "question": "English avoids may I ...? for possibility; use Do you think ...? or Is it possible that ...?"
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "claimed as fact",
+                "text": "The scheme reduces congestion."
+              },
+              "right": {
+                "role": "offered as possible",
+                "text": "The scheme may reduce congestion."
+              },
+              "arrow": "left_to_right",
+              "caption": "One word is the difference between a claim you must defend and one you have only raised."
+            }
+          },
+          "worked_example": {
+            "sentence": "Charging drivers to enter the centre might push shoppers out to the retail parks.",
+            "why_this_form": "Nobody has run the scheme yet, so the effect is a reasonable expectation and not a finding. Might says exactly that, and leaves the sentence defensible.",
+            "what_the_other_would_mean": "Charging drivers pushes shoppers out states it as something already observed, which invites the reader to ask where the evidence is."
+          },
+          "notice_set": [
+            {
+              "sentence": "The council may review the parking charges in the spring.",
+              "question": "Has the council decided to review them?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 2
+            },
+            {
+              "sentence": "Fees might not rise at all this year.",
+              "question": "Is a rise still possible?",
+              "options": [
+                "Yes, it is still possible",
+                "No, it has been ruled out"
+              ],
+              "key": 0
+            },
+            {
+              "sentence": "The line could be extended as far as Brackenfield.",
+              "question": "Is this presented as a plan or as one possibility?",
+              "options": [
+                "A settled plan",
+                "One possibility"
+              ],
+              "key": 1
+            }
+          ],
+          "rule_line": "If you cannot show it, say may, might or could and keep the sentence defensible.",
+          "false_rule": "That may is for permission and might is for possibility. Both do possibility; may also does permission, and context tells them apart."
+        },
+        "errors": [
+          {
+            "code": "modal_strength_mismatch",
+            "wrong": "The scheme may to reduce congestion in the centre.",
+            "right": "The scheme may reduce congestion in the centre.",
+            "why_it_happens": "Have to, need to and want to all keep their to, and a learner has met far more of those than of the bare modals.",
+            "smallest_fix": "delete to"
+          },
+          {
+            "code": "modal_strength_mismatch",
+            "wrong": "Fares couldn't rise next year, but nobody knows yet.",
+            "right": "Fares might not rise next year, but nobody knows yet.",
+            "why_it_happens": "Couldn't looks like the natural negative of could, but it means impossible rather than possibly not, so the sentence contradicts its own second half.",
+            "smallest_fix": "couldn't -> might not"
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_modal_possibility_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The department may move the deadline to the following Friday.",
+              "question": "Has the deadline been moved?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 2
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "May raises it as possible and settles nothing.",
+              "feed_forward": "Read may as an open question, never as an announcement."
+            }
+          },
+          {
+            "id": "gi_modal_possibility_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Rents in the district might not fall for another two years.",
+              "question": "Is a fall within two years still possible?",
+              "options": [
+                "Yes, it is still possible",
+                "No, it has been ruled out"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Might not leaves the possibility open; it does not close it.",
+              "feed_forward": "Might not means perhaps not, not certainly not."
+            }
+          },
+          {
+            "id": "gi_modal_possibility_03",
+            "kind": "judge",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A first draft of a Task 2 paragraph.",
+              "sentence": "Free transport for students reduces car use in every city that tries it.",
+              "acceptable": false,
+              "reasons": [
+                "it states a result nobody has measured as though it were settled",
+                "the tense is wrong",
+                "the subject and verb do not agree",
+                "the sentence is too short"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Every city that tries it is a claim the essay cannot support; a modal makes it defensible.",
+              "feed_forward": "Before a sweeping claim, ask whether you could show it. If not, hedge it."
+            }
+          },
+          {
+            "id": "gi_modal_possibility_04",
+            "kind": "gap_fill",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A note on a proposal that has not been trialled.",
+              "stem": "A later last train ___ (possible) encourage more people to use the line in the evening.",
+              "blanks": 1,
+              "lemma_hints": [
+                "may"
+              ]
+            },
+            "expected": [
+              "may",
+              "might",
+              "could"
+            ],
+            "feedback": {
+              "why_key": "Any of the three marks it as possible rather than proven.",
+              "feed_forward": "All three work here; pick one and stay consistent within a paragraph."
+            }
+          },
+          {
+            "id": "gi_modal_possibility_05",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The new timetable may to reduce waiting times at the interchange.",
+              "error_span": "may to reduce",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "may reduce",
+              "might reduce",
+              "could reduce"
+            ],
+            "feedback": {
+              "why_key": "A modal is followed by the plain verb, with nothing between them.",
+              "feed_forward": "Delete to after may, might, could, must, should and will."
+            }
+          },
+          {
+            "id": "gi_modal_possibility_06",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Numbers couldn't recover next season, though the club is hopeful.",
+              "error_span": "couldn't recover",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "might not recover",
+              "may not recover"
+            ],
+            "feedback": {
+              "why_key": "Couldn't says a recovery is impossible, which contradicts the hopeful second half.",
+              "feed_forward": "For possibly not, use might not or may not — never couldn't."
+            }
+          },
+          {
+            "id": "gi_modal_possibility_07",
+            "kind": "choose_form",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": "cs_certainty_strength",
+            "twin_id": "gi_modal_possibility_08",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "not due until March",
+            "payload": {
+              "context": "A report on a trial that has produced no results yet.",
+              "stem": "The scheme ___ cut journey times, but the first figures are not due until March.",
+              "options": [
+                {
+                  "text": "may",
+                  "why_this_means": "That a cut is possible and nothing has been shown yet."
+                },
+                {
+                  "text": "does",
+                  "why_this_means": "That the cut is already an established fact."
+                }
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "No figures exist, so only the hedged version is defensible.",
+              "feed_forward": "Ask what you could show. That decides whether you hedge."
+            }
+          },
+          {
+            "id": "gi_modal_possibility_08",
+            "kind": "choose_form",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": "cs_certainty_strength",
+            "twin_id": "gi_modal_possibility_07",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "each of the three years measured",
+            "payload": {
+              "context": "A report quoting three years of published figures that all point the same way.",
+              "stem": "The scheme ___ cut journey times, and has done so in each of the three years measured.",
+              "options": [
+                {
+                  "text": "may",
+                  "why_this_means": "That a cut is possible and nothing has been shown yet."
+                },
+                {
+                  "text": "does",
+                  "why_this_means": "That the cut is already an established fact."
+                }
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Three years of figures is exactly the evidence that makes the flat claim honest.",
+              "feed_forward": "Hedging something you have measured is its own mistake — it wastes your evidence."
+            }
+          },
+          {
+            "id": "gi_modal_possibility_09",
+            "kind": "transform",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "Perhaps the college will open a second campus.",
+              "instruction": "Say the same thing with a modal instead of perhaps.",
+              "starter": "The college ___"
+            },
+            "expected": [
+              "may open a second campus",
+              "might open a second campus",
+              "could open a second campus"
+            ],
+            "feedback": {
+              "why_key": "The modal carries the doubt, so perhaps is no longer needed.",
+              "feed_forward": "One hedge is enough; perhaps it might possibly is three."
+            }
+          },
+          {
+            "id": "gi_modal_possibility_10",
+            "kind": "order",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "the",
+                "charge",
+                "might",
+                "discourage",
+                "short",
+                "car",
+                "journeys"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6
+                ]
+              ],
+              "context": "Build one sentence about a proposed charge."
+            },
+            "expected": [
+              "the charge might discourage short car journeys"
+            ],
+            "feedback": {
+              "why_key": "The modal sits between the subject and the plain verb.",
+              "feed_forward": "Subject, then modal, then the verb with nothing added."
+            }
+          },
+          {
+            "id": "gi_modal_possibility_11",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "The line may not reopen before the autumn.",
+              "scored_tokens": [
+                "may",
+                "not"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "the line may not reopen before the autumn"
+            ],
+            "feedback": {
+              "why_key": "May not is two words and both are stressed.",
+              "feed_forward": "Listen for the gap between may and not."
+            }
+          },
+          {
+            "id": "gi_modal_possibility_12",
+            "kind": "produce",
+            "stage": 5,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "A city is considering making the central library open on Sundays. Nobody has trialled it. Write one sentence about a possible effect.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": true,
+              "min_words": 10,
+              "max_words": 28,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "An untrialled proposal can only be discussed in possibilities.",
+              "feed_forward": "Use may, might or could — and only one of them."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_modal_deduction_present",
+      "unit_id": "u07",
+      "sequence_index": 1501,
+      "title": "Saying what must be true now, and what cannot be",
+      "cefr_level": "B1",
+      "role": "choice",
+      "topic_id": "topic_education",
+      "point_json": {
+        "schema_version": 1,
+        "unlocks_hint": null,
+        "priority": 2,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "local",
+        "confusion_set": "cs_certainty_strength",
+        "signal_blocklist": [],
+        "tool_surface": null,
+        "estimated_minutes": 20,
+        "pays_in": [],
+        "criteria": [
+          "gra"
+        ],
+        "used_in": [],
+        "grammar_name": "must and cannot for deduction in the present",
+        "prerequisites": [
+          "gr_modal_possibility"
+        ],
+        "structure_slug": "modal_simple",
+        "fixes_errors": [
+          "modal_strength_mismatch"
+        ],
+        "contrast": {
+          "with": [
+            "gr_modal_possibility"
+          ],
+          "board_id": "gb_certainty_strength",
+          "question": "Does the evidence leave one conclusion, or several?",
+          "fork": [
+            {
+              "answer": "One — everything else is ruled out",
+              "selects": "must / cannot",
+              "point_id": "gr_modal_deduction_present"
+            },
+            {
+              "answer": "Several — this is only one of them",
+              "selects": "may / might / could",
+              "point_id": "gr_modal_possibility"
+            }
+          ],
+          "minimal_pair": {
+            "a": {
+              "text": "The gates are chained, so the site cannot be in use.",
+              "means": "The evidence rules the conclusion out completely."
+            },
+            "b": {
+              "text": "The gates are chained, so the site might not be in use.",
+              "means": "The speaker treats it as likely but leaves room to be wrong."
+            },
+            "only_difference": "cannot / might not"
+          },
+          "wrong_choice_note": "You wrote mustn't for a conclusion. Mustn't forbids an action, so the sentence reads as though somebody is issuing the shop an order. For a conclusion the opposite of must is can't.",
+          "edge_case": {
+            "text": "Must for deduction is common in speech and slightly informal in an essay; it is safest in Speaking Part 3 and in a sentence that names its evidence.",
+            "ignore_the_rest": false
+          },
+          "stronger_test": "Say the evidence out loud first. If the conclusion follows from it without a gap, use must; if there is a gap, use might.",
+          "worked_pairs": [
+            {
+              "a": "Every seat is taken, so the talk must be popular.",
+              "b": "Every seat is taken, so the talk might be popular.",
+              "why": "The first draws the conclusion the full room forces; the second undersells evidence the speaker already has."
+            }
+          ]
+        },
+        "teach": {
+          "can_do": "I can say what the evidence forces me to conclude, and what it rules out.",
+          "why_it_matters": "This is how you reason out loud in Speaking Part 3 and in an essay — you show the reader that a conclusion follows, rather than asserting it.",
+          "meaning": "Here must has nothing to do with obligation. It says: given what I can see, this is the only conclusion left. Its opposite is cannot, which says the opposite conclusion is impossible. The negative of the obligation must is must not, and that is a different word doing a different job — using it for a conclusion produces a sentence English speakers simply do not write.",
+          "form": {
+            "pattern": "subject + must / cannot + plain verb  (for something happening now: must + be + -ing)",
+            "notes": [
+              "must here means I am sure, not you are required",
+              "the opposite is cannot or can't — never must not",
+              "for something in progress: the lights are on, so somebody must be working late",
+              "might sits between them: must (sure), might (possible), cannot (ruled out)"
+            ],
+            "negative": "cannot / can't. Must not is prohibition and belongs to a different point.",
+            "question": "Rare as a question; English asks Do you think it is ...? instead."
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "the only conclusion left",
+                "text": "The office is dark, so it must be closed."
+              },
+              "right": {
+                "role": "the conclusion ruled out",
+                "text": "The office is dark, so it cannot be open."
+              },
+              "arrow": "left_to_right",
+              "caption": "Same evidence, opposite ends. Neither of them is about being allowed."
+            }
+          },
+          "worked_example": {
+            "sentence": "The car park has been full since eight, so the exhibition must be more popular than the organisers expected.",
+            "why_this_form": "The full car park is the evidence; the conclusion follows from it rather than being independently known. Must marks that reasoning.",
+            "what_the_other_would_mean": "The exhibition must be popular in the obligation sense would say somebody is requiring it to be popular, which is not a thing anyone can require."
+          },
+          "notice_set": [
+            {
+              "sentence": "Every seat is taken, so the talk must have been advertised widely.",
+              "question": "Does the speaker know how it was advertised?",
+              "options": [
+                "Yes, they were told",
+                "No, they are working it out"
+              ],
+              "key": 1
+            },
+            {
+              "sentence": "The bridge cannot be open, because the diversion signs are still up.",
+              "question": "How sure is the speaker?",
+              "options": [
+                "Sure it is closed",
+                "Guessing that it might be closed"
+              ],
+              "key": 0
+            }
+          ],
+          "rule_line": "Must for the conclusion the evidence forces, cannot for the one it rules out.",
+          "false_rule": "That must not is the opposite of must. For a conclusion the opposite is cannot; must not is about prohibition and belongs elsewhere."
+        },
+        "errors": [
+          {
+            "code": "modal_strength_mismatch",
+            "wrong": "The shop is dark, so it mustn't be open.",
+            "right": "The shop is dark, so it can't be open.",
+            "why_it_happens": "Mustn't looks like the natural negative of must, and in the obligation sense it is — but for a conclusion English uses can't.",
+            "smallest_fix": "mustn't -> can't"
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_modal_deduction_present_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The lights are still on, so somebody must be working late.",
+              "question": "Does the speaker know somebody is there?",
+              "options": [
+                "Yes, they have seen them",
+                "No, they are concluding it",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The lights are the evidence; the person is the conclusion drawn from it.",
+              "feed_forward": "Must here marks reasoning, not knowledge."
+            }
+          },
+          {
+            "id": "gi_modal_deduction_present_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "She cannot be on the early train, because it was cancelled.",
+              "question": "What is the speaker doing?",
+              "options": [
+                "Forbidding her from travelling",
+                "Ruling out one possibility"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Cannot rules the conclusion out; nobody is being forbidden anything.",
+              "feed_forward": "Cannot has two jobs; the evidence clause tells you which one is running."
+            }
+          },
+          {
+            "id": "gi_modal_deduction_present_03",
+            "kind": "judge",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A learner's sentence about a closed shop.",
+              "sentence": "The shop is dark, so it mustn't be open.",
+              "acceptable": false,
+              "reasons": [
+                "mustn't is prohibition, and nobody is forbidding the shop anything",
+                "the tense is wrong",
+                "dark and open cannot appear in one sentence",
+                "so cannot join two clauses"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "For a conclusion the opposite of must is can't.",
+              "feed_forward": "If you are concluding rather than forbidding, the negative is can't."
+            }
+          },
+          {
+            "id": "gi_modal_deduction_present_04",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "There is no queue at all, so the exhibition mustn't be as popular as they said.",
+              "error_span": "mustn't be",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "can't be",
+              "cannot be",
+              "cant be"
+            ],
+            "feedback": {
+              "why_key": "The absent queue is evidence, so this is a conclusion and takes can't.",
+              "feed_forward": "Prohibition takes mustn't; conclusions take can't."
+            }
+          },
+          {
+            "id": "gi_modal_deduction_present_05",
+            "kind": "gap_fill",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "The staff car park has been empty all morning.",
+              "stem": "The office ___ be closed today.",
+              "blanks": 1,
+              "lemma_hints": [
+                "must"
+              ]
+            },
+            "expected": [
+              "must"
+            ],
+            "feedback": {
+              "why_key": "An empty car park all morning leaves closed as the conclusion that fits.",
+              "feed_forward": "Strong evidence takes must, not might."
+            }
+          },
+          {
+            "id": "gi_modal_deduction_present_06",
+            "kind": "gap_fill",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "The diversion signs are still up at both ends of the bridge.",
+              "stem": "The bridge ___ be open yet.",
+              "blanks": 1,
+              "lemma_hints": [
+                "cannot"
+              ]
+            },
+            "expected": [
+              "cannot",
+              "can't",
+              "cant"
+            ],
+            "feedback": {
+              "why_key": "The signs rule the open conclusion out.",
+              "feed_forward": "Evidence against a conclusion takes cannot."
+            }
+          },
+          {
+            "id": "gi_modal_deduction_present_07",
+            "kind": "choose_form",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": "cs_certainty_strength",
+            "twin_id": "gi_modal_deduction_present_08",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "dark and the gates are chained",
+            "payload": {
+              "context": "Every window is dark and the gates are chained.",
+              "stem": "The site ___ be in use at the moment.",
+              "options": [
+                {
+                  "text": "must",
+                  "why_this_means": "That the evidence forces this conclusion."
+                },
+                {
+                  "text": "cannot",
+                  "why_this_means": "That the evidence rules this conclusion out."
+                }
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Dark windows and chained gates rule out in use.",
+              "feed_forward": "Ask whether the evidence supports the conclusion or kills it."
+            }
+          },
+          {
+            "id": "gi_modal_deduction_present_08",
+            "kind": "choose_form",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": "cs_certainty_strength",
+            "twin_id": "gi_modal_deduction_present_07",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "lit and there are vans",
+            "payload": {
+              "context": "Every window is lit and there are vans at the loading bay.",
+              "stem": "The site ___ be in use at the moment.",
+              "options": [
+                {
+                  "text": "must",
+                  "why_this_means": "That the evidence forces this conclusion."
+                },
+                {
+                  "text": "cannot",
+                  "why_this_means": "That the evidence rules this conclusion out."
+                }
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Lights and vans force the in use conclusion.",
+              "feed_forward": "Same sentence, opposite evidence, opposite modal."
+            }
+          },
+          {
+            "id": "gi_modal_deduction_present_09",
+            "kind": "transform",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "I am sure the library is shut, because the blinds are down.",
+              "instruction": "Say it with a modal instead of I am sure.",
+              "starter": "The blinds are down, so the library ___"
+            },
+            "expected": [
+              "must be shut",
+              "must be closed"
+            ],
+            "feedback": {
+              "why_key": "Must carries the certainty, so I am sure becomes unnecessary.",
+              "feed_forward": "Let the modal do the work I am sure was doing."
+            }
+          },
+          {
+            "id": "gi_modal_deduction_present_10",
+            "kind": "order",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "the",
+                "hall",
+                "must",
+                "be",
+                "booked",
+                "for",
+                "something",
+                "else"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              ],
+              "context": "Build one conclusion about the hall."
+            },
+            "expected": [
+              "the hall must be booked for something else"
+            ],
+            "feedback": {
+              "why_key": "Must sits before be, and the participle follows.",
+              "feed_forward": "Modal, then be, then the participle."
+            }
+          },
+          {
+            "id": "gi_modal_deduction_present_11",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "It can't be the last bus already.",
+              "scored_tokens": [
+                "can't"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "it can't be the last bus already",
+              "it cannot be the last bus already",
+              "it cant be the last bus already"
+            ],
+            "feedback": {
+              "why_key": "Can't is the deduction negative and is heard as one syllable.",
+              "feed_forward": "Write can't, not mustn't, when a conclusion is being ruled out."
+            }
+          },
+          {
+            "id": "gi_modal_deduction_present_12",
+            "kind": "produce",
+            "stage": 5,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "You arrive at a station and every departure on the board says DELAYED. Write one sentence drawing a conclusion about the cause.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": true,
+              "min_words": 9,
+              "max_words": 26,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A board of delays is evidence, so the sentence should conclude rather than assert.",
+              "feed_forward": "Use must or can't, and make the evidence visible in the sentence."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_modal_perfect",
+      "unit_id": "u07",
+      "sequence_index": 1502,
+      "title": "Saying how sure you are about something that already happened",
+      "cefr_level": "B2",
+      "role": "form",
+      "topic_id": "topic_education",
+      "point_json": {
+        "schema_version": 1,
+        "unlocks_hint": null,
+        "priority": 2,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 3,
+        "gravity": "local",
+        "confusion_set": null,
+        "signal_blocklist": [],
+        "tool_surface": null,
+        "estimated_minutes": 25,
+        "pays_in": [],
+        "criteria": [
+          "gra"
+        ],
+        "used_in": [],
+        "grammar_name": "The modal perfect: modal + have + past participle",
+        "prerequisites": [
+          "gr_modal_deduction_present",
+          "gr_past_participle"
+        ],
+        "structure_slug": "modal_perfect",
+        "fixes_errors": [
+          "modal_perfect_form"
+        ],
+        "teach": {
+          "can_do": "I can say what probably happened, what cannot have happened, and what I wish had happened.",
+          "why_it_matters": "It is the single structure that lets you discuss a past you did not witness, which is most of what Speaking Part 3 and a Task 2 body paragraph are made of.",
+          "meaning": "Every one of these is the same three pieces: a modal, then have, then the third form of the verb. The modal supplies the attitude — sure, impossible, possible, regretful — and have plus the participle pushes all of it into the past. Learn the frame once and six meanings come with it.",
+          "form": {
+            "pattern": "subject + modal + have + past participle",
+            "notes": [
+              "have never changes: he must have gone, not he must has gone",
+              "the third form, not the past: must have gone, never must have went",
+              "must have = I am sure it happened; can't have = I am sure it did not",
+              "might / may / could have = it possibly happened",
+              "should have = it did not happen and it would have been better if it had",
+              "needn't have = it did happen, and it was not necessary"
+            ],
+            "negative": "can't have / couldn't have for the impossible past; shouldn't have for the regretted one",
+            "question": "Could she have missed the announcement? — the modal moves to the front, have stays put"
+          },
+          "visual": {
+            "kind": "table",
+            "spec": {
+              "headers": [
+                "Frame",
+                "What it claims about the past"
+              ],
+              "rows": [
+                [
+                  "must have arrived",
+                  "I am sure it happened"
+                ],
+                [
+                  "can't have arrived",
+                  "I am sure it did not happen"
+                ],
+                [
+                  "might have arrived",
+                  "it possibly happened"
+                ],
+                [
+                  "should have arrived",
+                  "it did not happen, and it would have been better if it had"
+                ],
+                [
+                  "needn't have arrived",
+                  "it did happen, and it was not necessary"
+                ]
+              ]
+            }
+          },
+          "worked_example": {
+            "sentence": "The report was on the desk before nine, so somebody must have come in early.",
+            "why_this_form": "The report is the evidence and the early arrival is the conclusion, both of them in the past. Must have plus come places the reasoning and the event where they belong.",
+            "what_the_other_would_mean": "Somebody must come in early is about a standing requirement now, not about what happened this morning."
+          },
+          "notice_set": [
+            {
+              "sentence": "She can't have seen the notice, or she would have said something.",
+              "question": "Did she see the notice?",
+              "options": [
+                "Almost certainly not",
+                "Almost certainly yes"
+              ],
+              "key": 0
+            },
+            {
+              "sentence": "We should have booked the hall earlier.",
+              "question": "Did they book it earlier?",
+              "options": [
+                "Yes",
+                "No"
+              ],
+              "key": 1
+            },
+            {
+              "sentence": "You needn't have brought your own copy.",
+              "question": "Did they bring one?",
+              "options": [
+                "Yes, and it was unnecessary",
+                "No, and they should have"
+              ],
+              "key": 0
+            }
+          ],
+          "rule_line": "Modal, then have, then the third form — and have never changes its shape.",
+          "false_rule": "That must of is an acceptable spelling because it sounds the same. It is must have; must of is never correct in writing."
+        },
+        "errors": [
+          {
+            "code": "modal_perfect_form",
+            "wrong": "The courier must have went to the old address.",
+            "right": "The courier must have gone to the old address.",
+            "why_it_happens": "Went is the past that the learner reaches for most; the frame needs the third form.",
+            "smallest_fix": "went -> gone"
+          },
+          {
+            "code": "modal_perfect_form",
+            "wrong": "She must of missed the last train.",
+            "right": "She must have missed the last train.",
+            "why_it_happens": "Must have is reduced to must-uv in speech, and of is spelled the way that sounds.",
+            "smallest_fix": "of -> have"
+          },
+          {
+            "code": "modal_perfect_form",
+            "wrong": "He must has forgotten about the meeting.",
+            "right": "He must have forgotten about the meeting.",
+            "why_it_happens": "Third-person -s is applied to have out of habit, but nothing after a modal ever agrees.",
+            "smallest_fix": "has -> have"
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_modal_perfect_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "They can't have finished the survey already.",
+              "question": "Does the speaker think the survey is finished?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Can't have is the confident no about the past.",
+              "feed_forward": "Can't have rules a past event out."
+            }
+          },
+          {
+            "id": "gi_modal_perfect_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "We should have booked the hall a month earlier.",
+              "question": "Did they book it a month earlier?",
+              "options": [
+                "Yes",
+                "No"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Should have always describes what did not happen.",
+              "feed_forward": "Should have is a regret, so the thing did not happen."
+            }
+          },
+          {
+            "id": "gi_modal_perfect_03",
+            "kind": "interpret",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "You needn't have queued at all — the tickets were on the door.",
+              "question": "Did they queue?",
+              "options": [
+                "Yes, and it turned out to be unnecessary",
+                "No, they went straight in"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Needn't have means it was done and turned out not to be needed.",
+              "feed_forward": "Needn't have describes wasted effort that really happened."
+            }
+          },
+          {
+            "id": "gi_modal_perfect_04",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "modal_perfect_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The courier must have went to the old address again.",
+              "error_span": "went",
+              "accept_overlap_tokens": 0
+            },
+            "expected": [
+              "gone"
+            ],
+            "feedback": {
+              "why_key": "The frame takes the third form, not the past.",
+              "feed_forward": "After have, use the third form: gone, seen, taken, written."
+            }
+          },
+          {
+            "id": "gi_modal_perfect_05",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "modal_perfect_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "She must of missed the last train from Ashfield.",
+              "error_span": "of",
+              "accept_overlap_tokens": 0
+            },
+            "expected": [
+              "have"
+            ],
+            "feedback": {
+              "why_key": "Must have is reduced in speech, but of is never correct in writing.",
+              "feed_forward": "If you can write must've, the full form is must have."
+            }
+          },
+          {
+            "id": "gi_modal_perfect_06",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "modal_perfect_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "He must has forgotten about the deadline entirely.",
+              "error_span": "has",
+              "accept_overlap_tokens": 0
+            },
+            "expected": [
+              "have"
+            ],
+            "feedback": {
+              "why_key": "Nothing after a modal takes an ending, including have.",
+              "feed_forward": "Have never becomes has after a modal."
+            }
+          },
+          {
+            "id": "gi_modal_perfect_07",
+            "kind": "gap_fill",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "The room was already tidy when they arrived.",
+              "stem": "Somebody ___ (clean) it before the session.",
+              "blanks": 1,
+              "lemma_hints": [
+                "must",
+                "clean"
+              ]
+            },
+            "expected": [
+              "must have cleaned"
+            ],
+            "feedback": {
+              "why_key": "The tidy room is evidence for a past action.",
+              "feed_forward": "Modal, have, third form — all three every time."
+            }
+          },
+          {
+            "id": "gi_modal_perfect_08",
+            "kind": "gap_fill",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "Her name is not on the attendance list at all.",
+              "stem": "She ___ (attend) the first session.",
+              "blanks": 1,
+              "lemma_hints": [
+                "cannot",
+                "attend"
+              ]
+            },
+            "expected": [
+              "cannot have attended",
+              "can't have attended",
+              "cant have attended"
+            ],
+            "feedback": {
+              "why_key": "An absent name rules the attendance out.",
+              "feed_forward": "For a past ruled out, use can't have."
+            }
+          },
+          {
+            "id": "gi_modal_perfect_09",
+            "kind": "transform",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "I am sure the parcel was delivered to the wrong flat.",
+              "instruction": "Say it with a modal perfect instead of I am sure.",
+              "starter": "The parcel ___"
+            },
+            "expected": [
+              "must have been delivered to the wrong flat"
+            ],
+            "feedback": {
+              "why_key": "Must have carries the certainty and the past together.",
+              "feed_forward": "I am sure it happened becomes must have plus the third form."
+            }
+          },
+          {
+            "id": "gi_modal_perfect_10",
+            "kind": "transform",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "It was a mistake not to keep a copy of the form.",
+              "instruction": "Say it as a regret about what you did not do.",
+              "starter": "We ___"
+            },
+            "expected": [
+              "should have kept a copy of the form",
+              "should have kept a copy"
+            ],
+            "feedback": {
+              "why_key": "Should have names the better action that was not taken.",
+              "feed_forward": "Regret about the past is should have plus the third form."
+            }
+          },
+          {
+            "id": "gi_modal_perfect_11",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "They might have missed the announcement.",
+              "scored_tokens": [
+                "might",
+                "have",
+                "missed"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "they might have missed the announcement",
+              "they might've missed the announcement"
+            ],
+            "feedback": {
+              "why_key": "Have is reduced in speech but is still written in full.",
+              "feed_forward": "Write have even when you hear only a v."
+            }
+          },
+          {
+            "id": "gi_modal_perfect_12",
+            "kind": "judge",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "modal_perfect_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A learner's sentence about a delayed delivery.",
+              "sentence": "The driver must of took the wrong turning at the roundabout.",
+              "acceptable": false,
+              "reasons": [
+                "of should be have, and took should be taken",
+                "the sentence needs a comma",
+                "must is the wrong modal for this evidence",
+                "roundabout is the wrong word"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Two separate slips of the same frame in one short sentence.",
+              "feed_forward": "Check both halves: have, then the third form."
+            }
+          },
+          {
+            "id": "gi_modal_perfect_13",
+            "kind": "produce",
+            "stage": 5,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "A colleague did not arrive at a meeting and did not answer their phone. Write one sentence giving a possible explanation for what happened.",
+              "required_structure": "modal_perfect",
+              "seed_from_vocab_queue": true,
+              "min_words": 9,
+              "max_words": 28,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "An unwitnessed past is exactly what this frame is for.",
+              "feed_forward": "Use modal + have + the third form."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_mustnt_vs_dont_have_to",
+      "unit_id": "u07",
+      "sequence_index": 1503,
+      "title": "Two negatives that mean opposite things: must not and do not have to",
+      "cefr_level": "B1",
+      "role": "choice",
+      "topic_id": "topic_education",
+      "point_json": {
+        "schema_version": 1,
+        "unlocks_hint": null,
+        "priority": 1,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "global",
+        "confusion_set": "cs_obligation_source",
+        "signal_blocklist": [],
+        "tool_surface": null,
+        "estimated_minutes": 20,
+        "pays_in": [],
+        "criteria": [
+          "gra"
+        ],
+        "used_in": [],
+        "grammar_name": "mustn't against don't have to",
+        "prerequisites": [
+          "gr_modal_obligation"
+        ],
+        "structure_slug": "modal_simple",
+        "fixes_errors": [
+          "modal_obligation_source"
+        ],
+        "contrast": {
+          "with": [
+            "gr_modal_obligation"
+          ],
+          "board_id": "gb_obligation_source",
+          "question": "Am I banning the action, or removing the requirement?",
+          "fork": [
+            {
+              "answer": "Banning it — doing it would break a rule",
+              "selects": "must not",
+              "point_id": "gr_mustnt_vs_dont_have_to"
+            },
+            {
+              "answer": "Removing the requirement — doing it is fine either way",
+              "selects": "do not have to",
+              "point_id": "gr_modal_obligation"
+            }
+          ],
+          "minimal_pair": {
+            "a": {
+              "text": "You mustn't use a dictionary in the exam.",
+              "means": "Bringing one in breaks the rules."
+            },
+            "b": {
+              "text": "You don't have to use a dictionary in the exam.",
+              "means": "Bring one if you like; nobody requires it."
+            },
+            "only_difference": "mustn't / don't have to"
+          },
+          "wrong_choice_note": "You wrote mustn't where you meant there is no need. Those are opposites, and the sentence stays perfectly grammatical while telling the reader the rule is the reverse of what it is.",
+          "edge_case": {
+            "text": "Needn't matches don't have to, not mustn't. And mustn't has no past — for a past ban use wasn't allowed to.",
+            "ignore_the_rest": false
+          },
+          "stronger_test": "Ask what happens if somebody does it anyway. If they are in trouble, it is mustn't. If nothing happens, it is don't have to.",
+          "worked_pairs": [
+            {
+              "a": "Visitors mustn't feed the animals.",
+              "b": "Visitors don't have to feed the animals.",
+              "why": "The first is a rule with consequences; the second implies feeding is an optional service, which is not what a sign means."
+            }
+          ]
+        },
+        "teach": {
+          "can_do": "I can tell somebody that something is forbidden, and separately that it is optional, without saying the opposite of what I mean.",
+          "why_it_matters": "These two look like the same negative and mean opposite things. Getting it wrong does not sound like a small slip — it tells the reader the rule is the reverse of what it is, and the sentence stays perfectly grammatical while doing so.",
+          "meaning": "Must and have to are close enough in the positive that learners treat them as one word. In the negative they split completely. Must not attaches the negative to the action: doing it is forbidden. Do not have to attaches the negative to the obligation itself: the obligation is what is absent, and the action is free either way.",
+          "form": {
+            "pattern": "subject + must not + plain verb   /   subject + do not have to + plain verb",
+            "notes": [
+              "mustn't = it is forbidden, do not do it",
+              "don't have to = there is no requirement, do it or don't as you like",
+              "didn't have to is the past of the second; mustn't has no past — use wasn't allowed to",
+              "needn't matches don't have to, not mustn't"
+            ],
+            "negative": "These are the negatives. Their positives, must and have to, are far closer in meaning than these are.",
+            "question": "Do I have to ...? asks about the requirement; May I ...? asks about permission."
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "forbidden",
+                "text": "You mustn't use a dictionary in the exam."
+              },
+              "right": {
+                "role": "optional",
+                "text": "You don't have to use a dictionary in the exam."
+              },
+              "arrow": "left_to_right",
+              "caption": "One bans the dictionary. The other says bring it if you like."
+            }
+          },
+          "worked_example": {
+            "sentence": "Candidates must not bring a phone into the hall, but they do not have to leave their bag outside.",
+            "why_this_form": "The phone is banned and the bag is optional, so the sentence needs both negatives doing their own job. Swapping them would ban the bag and permit the phone.",
+            "what_the_other_would_mean": "Candidates do not have to bring a phone would say phones are simply not required, which is not a rule anyone needs to state."
+          },
+          "notice_set": [
+            {
+              "sentence": "You mustn't park in front of the gates.",
+              "question": "Is parking there allowed?",
+              "options": [
+                "Yes",
+                "No"
+              ],
+              "key": 1
+            },
+            {
+              "sentence": "You don't have to park in the visitor bay.",
+              "question": "Is parking in the visitor bay allowed?",
+              "options": [
+                "Yes, but it is not required",
+                "No, it is forbidden"
+              ],
+              "key": 0
+            }
+          ],
+          "rule_line": "Mustn't bans the action; don't have to removes the requirement.",
+          "false_rule": "That mustn't is simply the negative of have to. It is not — don't have to is, and mustn't means something else entirely."
+        },
+        "errors": [
+          {
+            "code": "modal_obligation_source",
+            "wrong": "You mustn't pay for the workshop, it is included in the course fee.",
+            "right": "You don't have to pay for the workshop, it is included in the course fee.",
+            "why_it_happens": "The writer means there is no need to pay, but mustn't forbids paying, so the sentence bans something the second half says is already covered.",
+            "smallest_fix": "mustn't -> don't have to"
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_mustnt_vs_dont_have_to_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "You mustn't take photographs inside the reading room.",
+              "question": "Are photographs allowed?",
+              "options": [
+                "Yes",
+                "No"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Mustn't forbids the action outright.",
+              "feed_forward": "Mustn't is a ban."
+            }
+          },
+          {
+            "id": "gi_mustnt_vs_dont_have_to_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "You don't have to book a slot in advance.",
+              "question": "Can you book a slot in advance if you want to?",
+              "options": [
+                "Yes",
+                "No"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The requirement is absent; the action is still available.",
+              "feed_forward": "Don't have to leaves you free either way."
+            }
+          },
+          {
+            "id": "gi_mustnt_vs_dont_have_to_03",
+            "kind": "judge",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A note to students about a free workshop.",
+              "sentence": "You mustn't pay for the workshop, it is covered by the course fee.",
+              "acceptable": false,
+              "reasons": [
+                "mustn't forbids paying, when the writer means paying is unnecessary",
+                "the comma should be a full stop",
+                "workshop is the wrong word",
+                "the tense is wrong"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The second half explains there is no need, which is don't have to, not a ban.",
+              "feed_forward": "If the reason is it is already covered, use don't have to."
+            }
+          },
+          {
+            "id": "gi_mustnt_vs_dont_have_to_04",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Students mustn't attend the optional Friday seminar if they are already confident.",
+              "error_span": "mustn't attend",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "don't have to attend",
+              "do not have to attend",
+              "needn't attend",
+              "dont have to attend"
+            ],
+            "feedback": {
+              "why_key": "Optional and if they are already confident both say the seminar is a choice.",
+              "feed_forward": "Optional means don't have to, never mustn't."
+            }
+          },
+          {
+            "id": "gi_mustnt_vs_dont_have_to_05",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Visitors don't have to feed the animals under any circumstances.",
+              "error_span": "don't have to feed",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "mustn't feed",
+              "must not feed",
+              "mustnt feed"
+            ],
+            "feedback": {
+              "why_key": "Under any circumstances is the language of a ban.",
+              "feed_forward": "A ban takes mustn't, whatever the surrounding politeness."
+            }
+          },
+          {
+            "id": "gi_mustnt_vs_dont_have_to_06",
+            "kind": "gap_fill",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A sign at the entrance to a laboratory.",
+              "stem": "You ___ enter without eye protection.",
+              "blanks": 1,
+              "lemma_hints": [
+                "must not"
+              ]
+            },
+            "expected": [
+              "must not",
+              "mustn't",
+              "mustnt"
+            ],
+            "feedback": {
+              "why_key": "Safety equipment rules are bans.",
+              "feed_forward": "Safety rules take mustn't."
+            }
+          },
+          {
+            "id": "gi_mustnt_vs_dont_have_to_07",
+            "kind": "gap_fill",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A note about a form that is only needed by first-year students.",
+              "stem": "Returning students ___ complete this section.",
+              "blanks": 1,
+              "lemma_hints": [
+                "do not have to"
+              ]
+            },
+            "expected": [
+              "do not have to",
+              "don't have to",
+              "needn't",
+              "dont have to"
+            ],
+            "feedback": {
+              "why_key": "It simply does not apply to them; nothing is forbidden.",
+              "feed_forward": "Not applicable means don't have to."
+            }
+          },
+          {
+            "id": "gi_mustnt_vs_dont_have_to_08",
+            "kind": "choose_form",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": "gi_mustnt_vs_dont_have_to_09",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "quiet study area",
+            "payload": {
+              "context": "A rule about a quiet study area.",
+              "stem": "You ___ make phone calls in this room.",
+              "options": [
+                {
+                  "text": "mustn't",
+                  "why_this_means": "That doing it is forbidden."
+                },
+                {
+                  "text": "don't have to",
+                  "why_this_means": "That doing it is optional."
+                }
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A quiet room bans calls rather than making them optional.",
+              "feed_forward": "Ask whether the action is banned or merely unnecessary."
+            }
+          },
+          {
+            "id": "gi_mustnt_vs_dont_have_to_09",
+            "kind": "choose_form",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": "gi_mustnt_vs_dont_have_to_08",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "being recorded",
+            "payload": {
+              "context": "A note about a session that is being recorded for anybody who misses it.",
+              "stem": "You ___ attend the session in person.",
+              "options": [
+                {
+                  "text": "mustn't",
+                  "why_this_means": "That doing it is forbidden."
+                },
+                {
+                  "text": "don't have to",
+                  "why_this_means": "That doing it is optional."
+                }
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A recording removes the requirement without banning attendance.",
+              "feed_forward": "Same frame, opposite rule — read the context clause."
+            }
+          },
+          {
+            "id": "gi_mustnt_vs_dont_have_to_10",
+            "kind": "transform",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "It is forbidden to bring food into the archive.",
+              "instruction": "Say it as a rule addressed to the reader.",
+              "starter": "You ___"
+            },
+            "expected": [
+              "mustn't bring food into the archive",
+              "must not bring food into the archive",
+              "mustnt bring food into the archive"
+            ],
+            "feedback": {
+              "why_key": "Forbidden maps onto mustn't.",
+              "feed_forward": "Forbidden becomes mustn't."
+            }
+          },
+          {
+            "id": "gi_mustnt_vs_dont_have_to_11",
+            "kind": "transform",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "There is no requirement to submit a printed copy.",
+              "instruction": "Say it as a rule addressed to the reader.",
+              "starter": "You ___"
+            },
+            "expected": [
+              "don't have to submit a printed copy",
+              "do not have to submit a printed copy",
+              "needn't submit a printed copy",
+              "dont have to submit a printed copy"
+            ],
+            "feedback": {
+              "why_key": "No requirement maps onto don't have to.",
+              "feed_forward": "No requirement becomes don't have to."
+            }
+          },
+          {
+            "id": "gi_mustnt_vs_dont_have_to_12",
+            "kind": "produce",
+            "stage": 5,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "Write two rules for a library in one sentence: one thing that is forbidden and one thing that is optional.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": false,
+              "min_words": 12,
+              "max_words": 32,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Putting both in one sentence is the fastest way to feel the difference.",
+              "feed_forward": "Use mustn't for the ban and don't have to for the option."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_ed_ing_adjectives",
+      "unit_id": "u15",
+      "sequence_index": 1504,
+      "title": "Saying who feels it and what causes it: bored against boring",
+      "cefr_level": "A2",
+      "role": "choice",
+      "topic_id": "topic_education",
+      "point_json": {
+        "schema_version": 1,
+        "unlocks_hint": null,
+        "priority": 1,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "global",
+        "confusion_set": null,
+        "signal_blocklist": [],
+        "tool_surface": null,
+        "estimated_minutes": 20,
+        "pays_in": [],
+        "criteria": [
+          "gra"
+        ],
+        "used_in": [],
+        "grammar_name": "-ed and -ing describing words",
+        "prerequisites": [
+          "gr_adjective_position"
+        ],
+        "structure_slug": null,
+        "fixes_errors": [
+          "word_form_wrong"
+        ],
+        "contrast": {
+          "with": [],
+          "board_id": "gb_ed_ing",
+          "question": "Am I describing the one who feels it, or the one that causes it?",
+          "fork": [
+            {
+              "answer": "The one who feels it — usually a person",
+              "selects": "-ed: bored, interested, confused",
+              "point_id": "gr_ed_ing_adjectives"
+            },
+            {
+              "answer": "The one that causes it — usually a thing or an event",
+              "selects": "-ing: boring, interesting, confusing",
+              "point_id": "gr_ed_ing_adjectives"
+            }
+          ],
+          "minimal_pair": {
+            "a": {
+              "text": "The students were confused.",
+              "means": "The students are the ones experiencing it."
+            },
+            "b": {
+              "text": "The students were confusing.",
+              "means": "The students are what puzzled everybody else."
+            },
+            "only_difference": "confused / confusing"
+          },
+          "wrong_choice_note": "You wrote I am interesting. That says you are what other people find interesting, which is a claim about you rather than about how you feel. The felt form is interested.",
+          "edge_case": {
+            "text": "A person can genuinely take -ing when they really are the cause: he is confusing when he explains. That is not an exception to the rule, it is the rule applied to a person who happens to be the source.",
+            "ignore_the_rest": false
+          },
+          "stronger_test": "Put by after it. If by the lecture can follow, you want the -ed form.",
+          "worked_pairs": [
+            {
+              "a": "The results were surprising.",
+              "b": "The researchers were surprised.",
+              "why": "Same event, and each word sits on the end that belongs to it."
+            }
+          ]
+        },
+        "teach": {
+          "can_do": "I can say how somebody feels without accidentally saying they are the cause of the feeling.",
+          "why_it_matters": "The two endings are one letter apart and describe opposite ends of the same event. I am boring is a sentence about you that you did not mean to write, and readers do notice it.",
+          "meaning": "Both endings come from the same verb, and they point in opposite directions. The -ed ending lands on whoever feels it. The -ing ending lands on whatever produces it. So a lecture that produces boredom is boring, and the student who receives it is bored — and the two words are never interchangeable, because they describe different people.",
+          "form": {
+            "pattern": "person + be + -ed adjective   /   thing + be + -ing adjective",
+            "notes": [
+              "-ed goes with the one who feels: interested, bored, confused, surprised, tired",
+              "-ing goes with the one that causes: interesting, boring, confusing, surprising, tiring",
+              "a person can take -ing when they are genuinely the cause: he is confusing when he explains",
+              "the pair sits on many verbs of feeling: excite, frustrate, disappoint, worry, satisfy"
+            ],
+            "negative": "Both take not in the usual place: I was not interested; the talk was not interesting.",
+            "question": "Were you interested? asks about the person; Was it interesting? asks about the thing."
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "the one who feels it",
+                "text": "The students were bored."
+              },
+              "right": {
+                "role": "the one that causes it",
+                "text": "The lecture was boring."
+              },
+              "arrow": "right_to_left",
+              "caption": "The arrow runs from the cause to the person. The endings mark which end you are on."
+            }
+          },
+          "worked_example": {
+            "sentence": "The results were surprising, and the researchers were surprised by them.",
+            "why_this_form": "The results did the surprising and the researchers received it, so each word sits on the right end of the same event. One sentence shows both endings doing their own job.",
+            "what_the_other_would_mean": "The researchers were surprising would say the researchers were what startled everybody, which is a different claim."
+          },
+          "notice_set": [
+            {
+              "sentence": "I was confused by the timetable.",
+              "question": "Who or what caused the confusion?",
+              "options": [
+                "I did",
+                "The timetable did"
+              ],
+              "key": 1
+            },
+            {
+              "sentence": "The instructions are confusing.",
+              "question": "Is this about how the instructions feel, or what they do to a reader?",
+              "options": [
+                "What they do to a reader",
+                "How they feel"
+              ],
+              "key": 0
+            }
+          ],
+          "rule_line": "-ed on the one who feels it, -ing on the one that causes it.",
+          "false_rule": "That -ing is always the present and -ed always the past. These are describing words, not tenses; both can appear in any tense."
+        },
+        "errors": [
+          {
+            "code": "word_form_wrong",
+            "wrong": "I am very interesting in renewable energy.",
+            "right": "I am very interested in renewable energy.",
+            "why_it_happens": "The learner is describing themselves and reaches for the form they hear most, which is the -ing one from talking about topics.",
+            "smallest_fix": "interesting -> interested"
+          },
+          {
+            "code": "word_form_wrong",
+            "wrong": "The three-hour seminar was very tired.",
+            "right": "The three-hour seminar was very tiring.",
+            "why_it_happens": "The seminar produced the tiredness rather than feeling it, but the felt form is the more familiar word.",
+            "smallest_fix": "tired -> tiring"
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_ed_ing_adjectives_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The audience was fascinated.",
+              "question": "Who felt something?",
+              "options": [
+                "The audience",
+                "Somebody else"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The -ed ending marks the one who feels it.",
+              "feed_forward": "-ed points at the person."
+            }
+          },
+          {
+            "id": "gi_ed_ing_adjectives_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The exhibition was fascinating.",
+              "question": "What is being described?",
+              "options": [
+                "The effect the exhibition had",
+                "How the exhibition felt"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The -ing ending marks the cause.",
+              "feed_forward": "-ing points at the thing."
+            }
+          },
+          {
+            "id": "gi_ed_ing_adjectives_03",
+            "kind": "judge",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "word_form_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A learner introducing themselves.",
+              "sentence": "I am very interesting in environmental policy.",
+              "acceptable": false,
+              "reasons": [
+                "interesting describes the cause, and the speaker means how they feel",
+                "very cannot go with interesting",
+                "in should be on",
+                "the tense is wrong"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The speaker is the one who feels it, so the -ed form belongs.",
+              "feed_forward": "Describing yourself takes -ed."
+            }
+          },
+          {
+            "id": "gi_ed_ing_adjectives_04",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "word_form_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The three-hour seminar was very tired by the end.",
+              "error_span": "tired",
+              "accept_overlap_tokens": 0
+            },
+            "expected": [
+              "tiring"
+            ],
+            "feedback": {
+              "why_key": "A seminar cannot feel tiredness; it produces it.",
+              "feed_forward": "A thing that causes the feeling takes -ing."
+            }
+          },
+          {
+            "id": "gi_ed_ing_adjectives_05",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "word_form_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Most of the class were confusing by the new referencing rules.",
+              "error_span": "confusing",
+              "accept_overlap_tokens": 0
+            },
+            "expected": [
+              "confused"
+            ],
+            "feedback": {
+              "why_key": "The class received the confusion; the rules caused it.",
+              "feed_forward": "After by, the subject is the one who felt it, so use -ed."
+            }
+          },
+          {
+            "id": "gi_ed_ing_adjectives_06",
+            "kind": "gap_fill",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A student writing about a documentary.",
+              "stem": "The programme was ___ (fascinate) and I watched it twice.",
+              "blanks": 1,
+              "lemma_hints": [
+                "fascinate"
+              ]
+            },
+            "expected": [
+              "fascinating"
+            ],
+            "feedback": {
+              "why_key": "The programme is the cause.",
+              "feed_forward": "The thing takes -ing."
+            }
+          },
+          {
+            "id": "gi_ed_ing_adjectives_07",
+            "kind": "gap_fill",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "The same student, about themselves.",
+              "stem": "I was ___ (fascinate) by how the footage had been assembled.",
+              "blanks": 1,
+              "lemma_hints": [
+                "fascinate"
+              ]
+            },
+            "expected": [
+              "fascinated"
+            ],
+            "feedback": {
+              "why_key": "The student is the one who felt it.",
+              "feed_forward": "The person takes -ed."
+            }
+          },
+          {
+            "id": "gi_ed_ing_adjectives_08",
+            "kind": "choose_form",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": "gi_ed_ing_adjectives_09",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "passengers were",
+            "payload": {
+              "context": "A sentence about a delay at the airport.",
+              "stem": "The passengers were extremely ___ by the fourth announcement.",
+              "options": [
+                {
+                  "text": "frustrated",
+                  "why_this_means": "That the passengers felt it."
+                },
+                {
+                  "text": "frustrating",
+                  "why_this_means": "That the passengers caused it in others."
+                }
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The passengers received the frustration.",
+              "feed_forward": "Ask who felt it and who caused it."
+            }
+          },
+          {
+            "id": "gi_ed_ing_adjectives_09",
+            "kind": "choose_form",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": "gi_ed_ing_adjectives_08",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "announcement was",
+            "payload": {
+              "context": "A sentence about the same delay, from a member of staff.",
+              "stem": "The fourth announcement was extremely ___ for everybody waiting.",
+              "options": [
+                {
+                  "text": "frustrated",
+                  "why_this_means": "That the passengers felt it."
+                },
+                {
+                  "text": "frustrating",
+                  "why_this_means": "That the passengers caused it in others."
+                }
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The announcement produced the frustration.",
+              "feed_forward": "Same event, opposite end, opposite ending."
+            }
+          },
+          {
+            "id": "gi_ed_ing_adjectives_10",
+            "kind": "transform",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "The film surprised the critics.",
+              "instruction": "Write two sentences using describing words, one about the film and one about the critics.",
+              "starter": "The film ___"
+            },
+            "expected": [
+              "was surprising and the critics were surprised",
+              "was surprising, and the critics were surprised"
+            ],
+            "feedback": {
+              "why_key": "One event supplies both words, one for each end.",
+              "feed_forward": "Every verb of feeling gives you a matching pair."
+            }
+          },
+          {
+            "id": "gi_ed_ing_adjectives_11",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "The results were surprising and the team was surprised.",
+              "scored_tokens": [
+                "surprising",
+                "surprised"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "the results were surprising and the team was surprised"
+            ],
+            "feedback": {
+              "why_key": "Both forms appear once each and the endings are the only difference.",
+              "feed_forward": "Listen to the final syllable; it carries the whole meaning."
+            }
+          },
+          {
+            "id": "gi_ed_ing_adjectives_12",
+            "kind": "produce",
+            "stage": 5,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "Write one sentence about a class or a talk you have been to, using both an -ed and an -ing describing word.",
+              "required_structure": null,
+              "seed_from_vocab_queue": true,
+              "min_words": 10,
+              "max_words": 30,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Using both in one sentence forces the distinction to be deliberate.",
+              "feed_forward": "Put the thing with -ing and yourself with -ed."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_dummy_subjects",
+      "unit_id": "u15",
+      "sequence_index": 1505,
+      "title": "Filling the front of a sentence when there is nothing real to put there",
+      "cefr_level": "A2",
+      "role": "form",
+      "topic_id": "topic_education",
+      "point_json": {
+        "schema_version": 1,
+        "unlocks_hint": null,
+        "priority": 1,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "global",
+        "confusion_set": null,
+        "signal_blocklist": [],
+        "tool_surface": null,
+        "estimated_minutes": 20,
+        "pays_in": [],
+        "criteria": [
+          "gra"
+        ],
+        "used_in": [],
+        "grammar_name": "it and there as empty subjects",
+        "prerequisites": [
+          "gr_there_is"
+        ],
+        "structure_slug": null,
+        "fixes_errors": [],
+        "teach": {
+          "can_do": "I can start a sentence that has no real subject without leaving the front of it empty.",
+          "why_it_matters": "Many languages let a sentence begin with the verb. English never does, and a missing subject is a global error — the reader stops, which costs far more than a local slip.",
+          "meaning": "Sometimes there is nothing to put at the front of an English sentence: no one is raining, and nothing is being when you say there is a problem. English refuses to leave the slot empty anyway, so it fills it with a placeholder. It carries weather, time, distance and any statement whose real subject is a whole clause moved to the end. There announces that something exists.",
+          "form": {
+            "pattern": "It + be + ...   /   There + be + a noun",
+            "notes": [
+              "it for weather, time, distance and temperature: it is raining, it is nearly four",
+              "it to move a heavy clause to the end: it is clear that the figures have been revised",
+              "there to say something exists: there is a delay, there are three options",
+              "there is / there are agrees with what follows it, not with there"
+            ],
+            "negative": "It is not raining. There is no delay. There are no seats left.",
+            "question": "Is it raining? — Is there a delay? — the placeholder swaps with be, exactly as any subject would."
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "the slot left empty",
+                "text": "Is raining again in Sandmouth."
+              },
+              "right": {
+                "role": "the slot filled",
+                "text": "It is raining again in Sandmouth."
+              },
+              "arrow": "left_to_right",
+              "caption": "Nothing is doing the raining. English fills the slot anyway."
+            }
+          },
+          "worked_example": {
+            "sentence": "It is clear that the figures have been revised since the first draft.",
+            "why_this_form": "The real subject is the whole clause that the figures have been revised, which is too heavy to sit at the front. It holds the slot so the clause can arrive at the end where it reads easily.",
+            "what_the_other_would_mean": "That the figures have been revised since the first draft is clear says the same thing, but makes the reader carry the entire clause before learning what is being claimed about it."
+          },
+          "notice_set": [
+            {
+              "sentence": "There are three routes into the centre.",
+              "question": "What is there doing in this sentence?",
+              "options": [
+                "Pointing at a place",
+                "Announcing that something exists"
+              ],
+              "key": 1
+            },
+            {
+              "sentence": "It is nearly a mile from the station to the campus.",
+              "question": "What does it refer to?",
+              "options": [
+                "The station",
+                "Nothing — it fills the subject slot"
+              ],
+              "key": 1
+            }
+          ],
+          "rule_line": "An English sentence never starts with the verb: put it or there in the empty slot.",
+          "false_rule": "That there in there is a delay is the same word as the there in put it over there. They are spelled alike and do unrelated jobs."
+        },
+        "errors": [
+          {
+            "code": "fragment_no_main_verb",
+            "wrong": "Is raining again, so the match has been postponed.",
+            "right": "It is raining again, so the match has been postponed.",
+            "why_it_happens": "Spanish, Tamil, Italian and many other languages mark the doer on the verb, so no separate subject word is needed and none is missed.",
+            "smallest_fix": "add It"
+          },
+          {
+            "code": "fragment_no_main_verb",
+            "wrong": "Is a long queue outside the exam hall.",
+            "right": "There is a long queue outside the exam hall.",
+            "why_it_happens": "The sentence announces that something exists, and the learner starts with the verb because nothing obvious can go first.",
+            "smallest_fix": "add There"
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_dummy_subjects_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "There is no charge for the evening session.",
+              "question": "What does there tell you?",
+              "options": [
+                "Where the session is",
+                "That no charge exists"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "There announces existence rather than pointing at a place.",
+              "feed_forward": "There is means something exists, or here does not."
+            }
+          },
+          {
+            "id": "gi_dummy_subjects_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "It takes about twenty minutes to walk from the station.",
+              "question": "What does it refer to?",
+              "options": [
+                "The station",
+                "Nothing — it holds the subject slot"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Distance and duration sentences use it as a placeholder.",
+              "feed_forward": "It can refer to nothing at all and still be required."
+            }
+          },
+          {
+            "id": "gi_dummy_subjects_03",
+            "kind": "error_fix",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Is raining heavily again in Sandmouth this morning.",
+              "error_span": "Is raining",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "It is raining"
+            ],
+            "feedback": {
+              "why_key": "Nothing does the raining, but the slot still has to be filled.",
+              "feed_forward": "Weather always takes it."
+            }
+          },
+          {
+            "id": "gi_dummy_subjects_04",
+            "kind": "error_fix",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Is a long queue outside the exam hall already.",
+              "error_span": "Is a long queue",
+              "accept_overlap_tokens": 2
+            },
+            "expected": [
+              "There is a long queue"
+            ],
+            "feedback": {
+              "why_key": "The sentence announces existence, which takes there.",
+              "feed_forward": "Announcing something exists takes there."
+            }
+          },
+          {
+            "id": "gi_dummy_subjects_05",
+            "kind": "gap_fill",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A note about the walk from the campus to the station.",
+              "stem": "___ is nearly a mile from the main gate to the platform.",
+              "blanks": 1,
+              "lemma_hints": [
+                "it"
+              ]
+            },
+            "expected": [
+              "it",
+              "It"
+            ],
+            "feedback": {
+              "why_key": "Distance takes it.",
+              "feed_forward": "Distance, time, weather: it."
+            }
+          },
+          {
+            "id": "gi_dummy_subjects_06",
+            "kind": "gap_fill",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A note about the options open to students.",
+              "stem": "___ are three ways to apply for the bursary.",
+              "blanks": 1,
+              "lemma_hints": [
+                "there"
+              ]
+            },
+            "expected": [
+              "there",
+              "There"
+            ],
+            "feedback": {
+              "why_key": "Existence of several things takes there are.",
+              "feed_forward": "Existence: there."
+            }
+          },
+          {
+            "id": "gi_dummy_subjects_07",
+            "kind": "choose_form",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": "gi_dummy_subjects_08",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "too foggy",
+            "payload": {
+              "context": "A sentence about the weather on the morning of the trip.",
+              "stem": "___ was too foggy to see the far bank.",
+              "options": [
+                {
+                  "text": "It",
+                  "why_this_means": "That the placeholder is carrying weather or conditions."
+                },
+                {
+                  "text": "There",
+                  "why_this_means": "That something is being announced as existing."
+                }
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Weather and conditions take it.",
+              "feed_forward": "Ask whether you are describing conditions or announcing existence."
+            }
+          },
+          {
+            "id": "gi_dummy_subjects_08",
+            "kind": "choose_form",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": "gi_dummy_subjects_07",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "too much fog",
+            "payload": {
+              "context": "A sentence about what could be seen from the bridge.",
+              "stem": "___ was too much fog to see the far bank.",
+              "options": [
+                {
+                  "text": "It",
+                  "why_this_means": "That the placeholder is carrying weather or conditions."
+                },
+                {
+                  "text": "There",
+                  "why_this_means": "That something is being announced as existing."
+                }
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Too much fog is a quantity of a thing, so it is announced with there.",
+              "feed_forward": "A noun after the gap means there; an adjective means it."
+            }
+          },
+          {
+            "id": "gi_dummy_subjects_09",
+            "kind": "transform",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "That the deadline has moved is obvious from the email.",
+              "instruction": "Rewrite it so the heavy clause comes at the end.",
+              "starter": "It ___"
+            },
+            "expected": [
+              "is obvious from the email that the deadline has moved"
+            ],
+            "feedback": {
+              "why_key": "It holds the slot so the clause can arrive last.",
+              "feed_forward": "Move a heavy that-clause to the end and put it at the front."
+            }
+          },
+          {
+            "id": "gi_dummy_subjects_10",
+            "kind": "order",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "there",
+                "are",
+                "no",
+                "seats",
+                "left",
+                "on",
+                "the",
+                "later",
+                "train"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ]
+              ],
+              "context": "Build one sentence about the later train."
+            },
+            "expected": [
+              "there are no seats left on the later train"
+            ],
+            "feedback": {
+              "why_key": "There comes first and be agrees with seats.",
+              "feed_forward": "There are, because seats is plural."
+            }
+          },
+          {
+            "id": "gi_dummy_subjects_11",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "There is a delay and it is getting worse.",
+              "scored_tokens": [
+                "There",
+                "it"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "there is a delay and it is getting worse"
+            ],
+            "feedback": {
+              "why_key": "Both placeholders appear once each, doing different jobs.",
+              "feed_forward": "Neither word refers to anything; both are required."
+            }
+          },
+          {
+            "id": "gi_dummy_subjects_12",
+            "kind": "produce",
+            "stage": 5,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "Describe the weather where you are and one thing that exists nearby, in one sentence.",
+              "required_structure": null,
+              "seed_from_vocab_queue": false,
+              "min_words": 10,
+              "max_words": 28,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Weather takes it and existence takes there, so one sentence exercises both.",
+              "feed_forward": "Use it for the weather and there for the thing."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_confusable_pairs",
+      "unit_id": "u15",
+      "sequence_index": 1506,
+      "title": "The word pairs that sound the same and are marked wrong anyway",
+      "cefr_level": "B1",
+      "role": "accuracy",
+      "topic_id": "topic_education",
+      "point_json": {
+        "schema_version": 1,
+        "unlocks_hint": null,
+        "priority": 1,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "local",
+        "confusion_set": null,
+        "signal_blocklist": [],
+        "tool_surface": null,
+        "estimated_minutes": 25,
+        "pays_in": [],
+        "criteria": [
+          "gra"
+        ],
+        "used_in": [],
+        "grammar_name": "Commonly confused pairs",
+        "prerequisites": [
+          "gr_possessive"
+        ],
+        "structure_slug": null,
+        "fixes_errors": [
+          "word_form_wrong"
+        ],
+        "teach": {
+          "can_do": "I can choose correctly between the pairs that sound identical and are spelled differently.",
+          "why_it_matters": "Every one of these is scored as an error in Writing, and they are dense: a single paragraph can carry three. They are also the cheapest errors in the language to remove, because each pair has a test that takes one second.",
+          "meaning": "None of these pairs is a grammar problem in the usual sense — the structures are already known. They survive because speech gives no clue: the two words sound the same, so the ear cannot correct the hand. Each pair therefore needs a written test rather than a feel, and the tests below are the ones that work.",
+          "form": {
+            "pattern": "one test per pair, applied while writing",
+            "notes": [
+              "it's = it is or it has. If you cannot expand it, write its.",
+              "they're = they are; their = belonging to them; there = existence or place.",
+              "affect is the verb, effect is the noun: it affects the result; it has an effect.",
+              "than compares; then is time. If nothing is being compared, write then.",
+              "whose = belonging to whom; who's = who is or who has.",
+              "practice is the noun and practise the verb in British English; American uses practice for both.",
+              "lose = stop having; loose = not tight."
+            ],
+            "negative": "The tests work in the negative too: it isn't expands, so it's is correct.",
+            "question": "Whose is it? asks about ownership; Who's coming? expands to who is."
+          },
+          "visual": {
+            "kind": "table",
+            "spec": {
+              "headers": [
+                "Pair",
+                "The test",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "it's / its",
+                  "expand to it is",
+                  "It's late. Its cover is torn."
+                ],
+                [
+                  "they're / their / there",
+                  "expand to they are; else ownership; else existence",
+                  "They're late. Their bags. There is a delay."
+                ],
+                [
+                  "affect / effect",
+                  "verb or noun",
+                  "It affects the result. It has an effect."
+                ],
+                [
+                  "than / then",
+                  "is anything being compared?",
+                  "Cheaper than before. We then left."
+                ],
+                [
+                  "whose / who's",
+                  "expand to who is",
+                  "Whose seat? Who's next?"
+                ],
+                [
+                  "lose / loose",
+                  "one o or two",
+                  "Don't lose it. The strap is loose."
+                ]
+              ]
+            }
+          },
+          "worked_example": {
+            "sentence": "The policy has had a clear effect on attendance, and it affects the evening classes most.",
+            "why_this_form": "Effect follows a and an adjective, which only a noun can do; affects has a subject and an object, which only a verb can do. The sentence uses each word in the slot the other cannot occupy.",
+            "what_the_other_would_mean": "A clear affect is not a milder mistake — it puts a verb where the sentence has left a noun-shaped hole."
+          },
+          "notice_set": [
+            {
+              "sentence": "It's been raining since Tuesday and its roof still leaks.",
+              "question": "Which one expands to it has?",
+              "options": [
+                "The first",
+                "The second"
+              ],
+              "key": 0
+            },
+            {
+              "sentence": "The delay affected everybody, and the effect is still being felt.",
+              "question": "Which word is the verb?",
+              "options": [
+                "affected",
+                "effect"
+              ],
+              "key": 0
+            }
+          ],
+          "rule_line": "Apply the test as you write: expand it, or ask whether it is a verb or a noun.",
+          "false_rule": "That its needs an apostrophe because it shows ownership. Possessive pronouns never take one — his, hers, ours, theirs and its all go without."
+        },
+        "errors": [
+          {
+            "code": "word_form_wrong",
+            "wrong": "The building has lost it's roof tiles in the storm.",
+            "right": "The building has lost its roof tiles in the storm.",
+            "why_it_happens": "Apostrophe-s marks ownership everywhere else, so it is applied here too — but its is a possessive pronoun and those never take one.",
+            "smallest_fix": "it's -> its"
+          },
+          {
+            "code": "word_form_wrong",
+            "wrong": "The new timetable will effect everybody who travels before eight.",
+            "right": "The new timetable will affect everybody who travels before eight.",
+            "why_it_happens": "The two words are near-homophones and the noun is met far more often in reading.",
+            "smallest_fix": "effect -> affect"
+          },
+          {
+            "code": "word_form_wrong",
+            "wrong": "Fares rose more sharply then they had in the previous decade.",
+            "right": "Fares rose more sharply than they had in the previous decade.",
+            "why_it_happens": "The vowel is reduced to almost nothing in speech, so the ear offers no help.",
+            "smallest_fix": "then -> than"
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_confusable_pairs_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "It's been closed since March, and its windows are boarded up.",
+              "question": "Which one can be expanded to it has?",
+              "options": [
+                "The first",
+                "The second"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Only it's expands; its is the possessive.",
+              "feed_forward": "If it expands to it is or it has, write it's."
+            }
+          },
+          {
+            "id": "gi_confusable_pairs_02",
+            "kind": "interpret",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The closure affected the whole timetable, and the effect lasted a term.",
+              "question": "Which word is doing the work of a verb?",
+              "options": [
+                "affected",
+                "effect"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Affected has a subject and an object; effect follows the.",
+              "feed_forward": "Affect acts, effect is a thing."
+            }
+          },
+          {
+            "id": "gi_confusable_pairs_03",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "word_form_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The building has lost it's roof tiles in the storm.",
+              "error_span": "it's",
+              "accept_overlap_tokens": 0
+            },
+            "expected": [
+              "its"
+            ],
+            "feedback": {
+              "why_key": "It is roof tiles is not a sentence, so the possessive is needed.",
+              "feed_forward": "Try expanding it. If the expansion fails, drop the apostrophe."
+            }
+          },
+          {
+            "id": "gi_confusable_pairs_04",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "word_form_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The new timetable will effect everybody who travels before eight.",
+              "error_span": "effect",
+              "accept_overlap_tokens": 0
+            },
+            "expected": [
+              "affect"
+            ],
+            "feedback": {
+              "why_key": "Will needs a verb after it, and effect is a noun.",
+              "feed_forward": "After will, you need affect."
+            }
+          },
+          {
+            "id": "gi_confusable_pairs_05",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "word_form_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Fares rose more sharply then they had in the previous decade.",
+              "error_span": "then",
+              "accept_overlap_tokens": 0
+            },
+            "expected": [
+              "than"
+            ],
+            "feedback": {
+              "why_key": "More sharply sets up a comparison, which takes than.",
+              "feed_forward": "A comparison always takes than."
+            }
+          },
+          {
+            "id": "gi_confusable_pairs_06",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "word_form_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Their are four routes into the centre from the north.",
+              "error_span": "Their",
+              "accept_overlap_tokens": 0
+            },
+            "expected": [
+              "There"
+            ],
+            "feedback": {
+              "why_key": "The sentence announces existence, which takes there.",
+              "feed_forward": "Are four routes announces existence: there."
+            }
+          },
+          {
+            "id": "gi_confusable_pairs_07",
+            "kind": "gap_fill",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A note about a laptop left in a lecture theatre.",
+              "stem": "The laptop is still in the office, but ___ battery is flat.",
+              "blanks": 1,
+              "lemma_hints": [
+                "its"
+              ]
+            },
+            "expected": [
+              "its"
+            ],
+            "feedback": {
+              "why_key": "Ownership by a thing takes its, with no apostrophe.",
+              "feed_forward": "Possessive pronouns never take an apostrophe."
+            }
+          },
+          {
+            "id": "gi_confusable_pairs_08",
+            "kind": "gap_fill",
+            "stage": 3,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A sentence about a policy and what it has done.",
+              "stem": "The charge has had a measurable ___ on traffic in the centre.",
+              "blanks": 1,
+              "lemma_hints": [
+                "effect"
+              ]
+            },
+            "expected": [
+              "effect"
+            ],
+            "feedback": {
+              "why_key": "A and measurable both require a noun.",
+              "feed_forward": "After a or an adjective, you need the noun: effect."
+            }
+          },
+          {
+            "id": "gi_confusable_pairs_09",
+            "kind": "judge",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [
+              "word_form_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A learner's sentence in a first draft.",
+              "sentence": "Whose going to collect the keys, and who's turn is it to lock up?",
+              "acceptable": false,
+              "reasons": [
+                "the two words have been swapped",
+                "the sentence needs a full stop",
+                "collect is the wrong verb",
+                "keys should be singular"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Who's expands to who is, so it belongs in the first slot, not the second.",
+              "feed_forward": "Expand it: who is going, and whose turn."
+            }
+          },
+          {
+            "id": "gi_confusable_pairs_10",
+            "kind": "choose_form",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": "gi_confusable_pairs_11",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "the bag keeps slipping",
+            "payload": {
+              "context": "A sentence about a strap on a bag.",
+              "stem": "The strap has gone ___ and the bag keeps slipping.",
+              "options": [
+                {
+                  "text": "loose",
+                  "why_this_means": "That it is no longer tight."
+                },
+                {
+                  "text": "lose",
+                  "why_this_means": "That something is stopping being had."
+                }
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Gone plus a describing word takes loose.",
+              "feed_forward": "Two o's for not tight."
+            }
+          },
+          {
+            "id": "gi_confusable_pairs_11",
+            "kind": "choose_form",
+            "stage": 4,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": "gi_confusable_pairs_10",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "you will",
+            "payload": {
+              "context": "A warning about a small memory card.",
+              "stem": "Keep it in the case, or you will ___ it.",
+              "options": [
+                {
+                  "text": "loose",
+                  "why_this_means": "That it is no longer tight."
+                },
+                {
+                  "text": "lose",
+                  "why_this_means": "That something is stopping being had."
+                }
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "After will the sentence needs a verb, which is lose.",
+              "feed_forward": "One o for the verb."
+            }
+          },
+          {
+            "id": "gi_confusable_pairs_12",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "They're leaving their bags over there.",
+              "scored_tokens": [
+                "They're",
+                "their",
+                "there"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "they're leaving their bags over there"
+            ],
+            "feedback": {
+              "why_key": "All three sound identical and only the spelling separates them.",
+              "feed_forward": "Expand the first, check ownership on the second, place on the third."
+            }
+          },
+          {
+            "id": "gi_confusable_pairs_13",
+            "kind": "produce",
+            "stage": 5,
+            "register": "both",
+            "topic_id": "topic_education",
+            "skill_hook": null,
+            "error_codes": [],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "Write one sentence about a change at your college or workplace that uses both affect and effect correctly.",
+              "required_structure": null,
+              "seed_from_vocab_queue": true,
+              "min_words": 12,
+              "max_words": 32,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Using both in one sentence forces each into the slot only it can fill.",
+              "feed_forward": "Affect is what it does; effect is what it has."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "vocab_new": [],
+  "vocab_updates": []
+}

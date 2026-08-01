@@ -1,0 +1,178 @@
+name: Release (pre-release, unsigned)
+
+# Builds installers and attaches them to a GitHub **pre-release**.
+#
+# Everything this produces is UNSIGNED and UNTESTED, on purpose:
+#
+#   * Windows has no code-signing certificate (app/electron-builder.yml says so in as many
+#     words), so SmartScreen will warn. The release notes tell the tester how to get past it
+#     rather than leaving them to guess.
+#   * macOS notarization is switched OFF here. The repo config sets `notarize: true` because
+#     that is what a real release needs, and a build without APPLE_ID credentials would
+#     simply fail — so this workflow overrides it and Gatekeeper will warn instead.
+#
+# Both are marked pre-release so nobody mistakes a test build for a shipped one.
+#
+# WHY THIS WORKFLOW EXISTS AT ALL: `scripts/stage-sidecar.mjs` branches on
+# `platform() === 'win32'` — the HOST platform, not a target — so the Python venv it builds
+# is always for the machine it runs on. A Windows installer therefore cannot be produced from
+# a Mac, and this is the only way to get one without owning a Windows box.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag for the pre-release, e.g. v0.1.0-rc1"
+        required: true
+        default: v0.1.0-rc1
+      voice:
+        description: "Include the voice extra (pipecat + faster-whisper, adds 2-3GB). Without it there is no live speaking and no speech-to-text."
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.event.inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    # The venv install and the electron-builder pack are both slow, and the voice extra adds
+    # a few hundred megabytes of wheels on top.
+    timeout-minutes: 60
+    strategy:
+      # One broken platform must still produce the other installer — a tester waiting on
+      # Windows should not be blocked by a macOS problem.
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            name: windows (x64)
+            builder: --win
+            artifact: windows
+          - os: macos-14
+            name: macos (arm64)
+            builder: --mac
+            artifact: macos-arm64
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enable corepack and pin pnpm
+        # Must match `packageManager` in the root package.json.
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.12.0 --activate
+          pnpm --version
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: sidecar/uv.lock
+
+      - name: Set up Python 3.11
+        # stage-sidecar reuses uv's own python-build-standalone copy, which is exactly the
+        # relocatable tree the bundle needs.
+        run: uv python install 3.11
+
+      - name: Install node dependencies
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+        run: pnpm install --frozen-lockfile
+
+      - name: Build the renderer bundle
+        run: pnpm --filter bandready-app build
+
+      - name: Build the main and preload bundles
+        run: node scripts/build-electron.mjs
+
+      - name: Stage the Python interpreter and sidecar venv
+        # Produces build/python/ and build/sidecar-venv/, which electron-builder maps into
+        # the bundle and nothing else creates.
+        run: node scripts/stage-sidecar.mjs ${{ github.event.inputs.voice == 'true' && '--voice' || '' }}
+
+      - name: Package the installer
+        working-directory: app
+        env:
+          # A pre-release is not notarized: the credentials do not exist here, and a build
+          # that tried would fail rather than degrade.
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: pnpm exec electron-builder --config electron-builder.yml ${{ matrix.builder }} --publish never -c.mac.notarize=false -c.mac.identity=null
+
+      - name: List what was built
+        shell: bash
+        run: ls -lh dist-electron/*.dmg dist-electron/*.exe dist-electron/*.zip 2>/dev/null || ls -lh dist-electron
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bandready-${{ matrix.artifact }}
+          path: |
+            dist-electron/*.dmg
+            dist-electron/*.exe
+            dist-electron/*.zip
+          if-no-files-found: error
+          retention-days: 14
+
+  publish:
+    name: attach to a pre-release
+    needs: build
+    # `always()` so one platform failing still publishes the other — see fail-fast above.
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Show what will be attached
+        run: find artifacts -type f -exec ls -lh {} \;
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          name: ${{ github.event.inputs.tag }} — untested pre-release
+          prerelease: true
+          fail_on_unmatched_files: false
+          files: artifacts/**/*
+          body: |
+            ## Untested pre-release — for testing only
+
+            These installers are built straight from `main`. **Nobody has run them yet.**
+            They are not signed, not notarized, and not release-tested. Do not treat a green
+            build as a working app.
+
+            ### Windows
+
+            The installer is **unsigned**, so SmartScreen will say *"Windows protected your
+            PC"*. That warning is expected here and is not a sign of anything wrong with the
+            download.
+
+            To run it anyway: click **More info**, then **Run anyway**.
+
+            ### macOS (Apple Silicon)
+
+            The app is **unsigned and not notarized**, so Gatekeeper will refuse it on first
+            open. Right-click → Open no longer works on macOS 15 and later.
+
+            To run it: open **System Settings → Privacy & Security**, scroll to the message
+            about BandReady being blocked, and click **Open Anyway**.
+
+            ### What may not work
+
+            - **Speaking and speech-to-text** are absent unless this build was made with the
+              voice extra, which is off by default because it adds 2-3 GB. Without it,
+              everything except the live examiner call and transcription still works.
+            - **Model weights are not bundled** — the app downloads them on first run, so the
+              first launch needs a connection and some patience.
+
+            Please report what breaks. That is the point of this build.

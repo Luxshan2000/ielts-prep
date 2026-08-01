@@ -71,7 +71,7 @@ describe("feature route discovery", () => {
     expect(new Set(paths).size).toBe(paths.length);
   });
 
-  it("shows the nine shipped screens in the sidebar, in order", () => {
+  it("shows the ten shipped screens in the sidebar, in order", () => {
     const labelled = routes.filter((r) => Boolean(r.label)).map((r) => r.label);
     expect(labelled).toEqual([
       "Home",
@@ -81,6 +81,7 @@ describe("feature route discovery", () => {
       "Listening",
       "Vocabulary",
       "Grammar",
+      "Pronunciation",
       "Progress",
       "Settings",
     ]);

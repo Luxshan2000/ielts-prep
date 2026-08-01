@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Mic } from "lucide-react";
 import { Badge } from "@/components/ui";
 import { WordAudioButton } from "../WordAudioButton";
+import { ReadAloud } from "@/features/pron/components/ReadAloud";
 import { ChipList, Section, type ExerciseBodyProps } from "./shared";
 import type { SpeakingDrillPayload } from "../../types";
 
@@ -14,6 +15,10 @@ import type { SpeakingDrillPayload } from "../../types";
 export function SpeakingDrillExercise({ item, revealed, onCommit }: ExerciseBodyProps) {
   const payload = item.exercise.payload as SpeakingDrillPayload;
   const committed = useRef(false);
+  // The authored context sentence if there is one, else the first example. Both are written
+  // to show the word doing its job, which is what makes them worth saying.
+  const modelSentence =
+    item.entry.own_context_sentence?.trim() || item.entry.example_sentences[0]?.trim() || null;
 
   useEffect(() => {
     if (!revealed || committed.current) return;
@@ -42,17 +47,32 @@ export function SpeakingDrillExercise({ item, revealed, onCommit }: ExerciseBody
         <div className="space-y-1">
           <p className="text-sm font-medium">Say one full sentence using it, out loud.</p>
           <p className="text-[12px] text-muted-foreground">
-            Self-rated: BandReady does not listen here.{" "}
+            You still rate yourself — a recogniser cannot tell you whether the sentence was a
+            good one.{" "}
             <Link
               to="/speaking"
               className="text-primary underline decoration-primary/40 hover:decoration-primary"
             >
               Start a Speaking session
             </Link>{" "}
-            if you want feedback on it.
+            for feedback on a whole answer.
           </p>
         </div>
       </div>
+
+      {/* A model sentence to read first, and a recorder for it.
+          The bank already holds 2,709 authored context sentences and this exercise was
+          showing them only after the reveal, as reference. Read one aloud before producing
+          your own and the target is concrete rather than remembered — which is the whole
+          difference between "use it in a sentence" and knowing what that sounds like. */}
+      {modelSentence && (
+        <div className="space-y-2">
+          <p className="text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
+            Start by reading this one aloud
+          </p>
+          <ReadAloud sentence={modelSentence} />
+        </div>
+      )}
 
       {revealed && (
         <div className="space-y-4 border-t border-border pt-4">
@@ -64,7 +84,10 @@ export function SpeakingDrillExercise({ item, revealed, onCommit }: ExerciseBody
           {item.entry.example_sentences.length > 0 && (
             <Section title="Compare with">
               <ul className="space-y-1 text-[13px] text-muted-foreground">
-                {item.entry.example_sentences.slice(0, 2).map((example) => (
+                {item.entry.example_sentences
+                  .filter((example) => example.trim() !== modelSentence)
+                  .slice(0, 2)
+                  .map((example) => (
                   <li key={example} className="leading-relaxed">
                     {example}
                   </li>

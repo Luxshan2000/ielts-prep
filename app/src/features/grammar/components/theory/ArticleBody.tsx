@@ -1,6 +1,7 @@
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { AlertTriangle, ArrowRight, Check, HelpCircle, Lightbulb, X } from "lucide-react";
-import { Badge, Button } from "@/components/ui";
+import { Badge } from "@/components/ui";
+import { QuickCheck } from "@/components/practice/QuickCheck";
 import { cn } from "@/lib/cn";
 
 /**
@@ -22,9 +23,9 @@ export interface Block {
   [key: string]: unknown;
 }
 
-//: Authors write example sentences as *emphasis* and terms as **bold**, which is how the
-//: reference reads on the page — and printed raw it shows the asterisks instead. The same
-//: defect the listening answer sheet had: authoring syntax is never learner-facing.
+// Authors write example sentences as *emphasis* and terms as **bold**, which is how the
+// reference reads on the page — and printed raw it shows the asterisks instead. The same
+// defect the listening answer sheet had: authoring syntax is never learner-facing.
 const EMPHASIS = /(\*\*[^*]+\*\*|\*[^*\n]+\*)/g;
 
 /** Render a string with `**bold**` and `*italic*` resolved rather than printed. */
@@ -78,7 +79,7 @@ function WrongRight({ wrong, right }: { wrong?: string; right?: string }) {
   );
 }
 
-//: `l1_note.lang` is an ISO code; a learner should see their language's name.
+// `l1_note.lang` is an ISO code; a learner should see their language's name.
 const LANGUAGES: Record<string, string> = {
   ar: "Arabic",
   es: "Spanish",
@@ -260,8 +261,18 @@ function BlockView({ block }: { block: Block }) {
     case "bre_ame":
       return <BreAme block={block} />;
 
-    case "quick_check":
-      return <QuickCheck block={block} />;
+    case "quick_check": {
+      const items = arr("items").map((raw) => {
+        const item = raw as Record<string, unknown>;
+        return {
+          question: String(item.question ?? item.prompt ?? item.text ?? ""),
+          answer: String(item.answer ?? ""),
+          why: item.why == null ? null : String(item.why),
+        };
+      });
+      // Authors write emphasis into these too, so they resolve the same way the prose does.
+      return <QuickCheck items={items} renderText={(t) => <RichText text={t} />} />;
+    }
 
     default:
       // Never drop a block: an unknown type still has text worth reading.
@@ -603,50 +614,6 @@ function BreAme({ block }: { block: Block }) {
       {block.note != null && (
         <p className="mt-1.5 text-[13px] text-muted-foreground">{String(block.note)}</p>
       )}
-    </div>
-  );
-}
-
-/**
- * Two self-test items with their answers a click away.
- *
- * Deliberately not gated. Theory is reference: someone checking whether they understood a
- * paradigm should not have to prove anything to see the answer.
- */
-function QuickCheck({ block }: { block: Block }) {
-  const items = Array.isArray(block.items) ? (block.items as Block[]) : [];
-  const [shown, setShown] = useState<Record<number, boolean>>({});
-
-  return (
-    <div className="rounded-xl border border-border bg-card p-3">
-      <p className="mb-2 flex items-center gap-1.5 text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
-        <HelpCircle className="h-3.5 w-3.5" aria-hidden="true" />
-        Check yourself
-      </p>
-      <ol className="space-y-2.5">
-        {items.map((item, i) => (
-          <li key={i} className="text-[14px] leading-relaxed">
-            <p>{String(item.question ?? item.prompt ?? item.text ?? "")}</p>
-            {shown[i] ? (
-              <div className="mt-1 rounded-lg bg-success/10 p-2">
-                <p className="font-medium">{String(item.answer ?? "")}</p>
-                {item.why != null && (
-                  <p className="mt-0.5 text-[13px] text-muted-foreground">{String(item.why)}</p>
-                )}
-              </div>
-            ) : (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="mt-1 h-7 px-2 text-[13px]"
-                onClick={() => setShown((s) => ({ ...s, [i]: true }))}
-              >
-                Show the answer
-              </Button>
-            )}
-          </li>
-        ))}
-      </ol>
     </div>
   );
 }

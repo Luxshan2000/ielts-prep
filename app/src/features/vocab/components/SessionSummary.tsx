@@ -110,62 +110,67 @@ export function SessionSummary({
       {outcomes.length > 0 && (
         <Card>
           <CardContent className="p-0">
-            <table className="w-full text-left text-[13px]">
-              <caption className="sr-only">Words reviewed in this session</caption>
-              <thead className="border-b border-border text-[11px] uppercase tracking-wide text-muted-foreground">
-                <tr>
-                  <th scope="col" className="px-4 py-2 font-medium">
-                    Word
-                  </th>
-                  <th scope="col" className="px-4 py-2 font-medium">
-                    Exercise
-                  </th>
-                  <th scope="col" className="px-4 py-2 font-medium">
-                    Rated
-                  </th>
-                  <th scope="col" className="px-4 py-2 text-right font-medium">
-                    Comes back
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {outcomes.map((outcome, i) => {
-                  const rating = RATINGS[outcome.rating - 1];
-                  return (
-                    <tr key={`${outcome.entryId}-${i}`} className="border-b border-border last:border-0">
-                      <td className="px-4 py-2 font-medium">{outcome.headword}</td>
-                      <td className="px-4 py-2 text-muted-foreground">
-                        {EXERCISE_META[outcome.exercise]?.label ?? outcome.exercise}
-                        {outcome.correct === false && (
-                          <span className="ml-2 text-destructive">missed</span>
-                        )}
-                        {outcome.correct === true && (
-                          <span className="ml-2 text-success">correct</span>
-                        )}
-                      </td>
-                      <td className="px-4 py-2">
-                        <Badge
-                          tone={
-                            outcome.rating === 1
-                              ? "destructive"
-                              : outcome.rating === 2
-                                ? "warning"
-                                : outcome.rating === 4
-                                  ? "success"
-                                  : "primary"
-                          }
-                        >
-                          {rating?.label ?? outcome.rating}
-                        </Badge>
-                      </td>
-                      <td className="tabular px-4 py-2 text-right text-muted-foreground">
-                        {outcome.nextLabel}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            {/* Headwords are often multi-word ("take something into consideration" — 582 of
+                the bank's entries are phrases), so four columns will not fit a narrow window.
+                The table scrolls inside itself rather than pushing the page sideways. */}
+            <div className="scrollbar-thin overflow-x-auto">
+              <table className="w-full min-w-[34rem] text-left text-[13px]">
+                <caption className="sr-only">Words reviewed in this session</caption>
+                <thead className="border-b border-border text-[11px] uppercase tracking-wide text-muted-foreground">
+                  <tr>
+                    <th scope="col" className="px-4 py-2 font-medium">
+                      Word
+                    </th>
+                    <th scope="col" className="px-4 py-2 font-medium">
+                      Exercise
+                    </th>
+                    <th scope="col" className="px-4 py-2 font-medium">
+                      Rated
+                    </th>
+                    <th scope="col" className="px-4 py-2 text-right font-medium">
+                      Comes back
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {outcomes.map((outcome, i) => {
+                    const rating = RATINGS[outcome.rating - 1];
+                    return (
+                      <tr key={`${outcome.entryId}-${i}`} className="border-b border-border last:border-0">
+                        <td className="px-4 py-2 font-medium">{outcome.headword}</td>
+                        <td className="px-4 py-2 text-muted-foreground">
+                          {EXERCISE_META[outcome.exercise]?.label ?? outcome.exercise}
+                          {outcome.correct === false && (
+                            <span className="ml-2 text-destructive">missed</span>
+                          )}
+                          {outcome.correct === true && (
+                            <span className="ml-2 text-success">correct</span>
+                          )}
+                        </td>
+                        <td className="px-4 py-2">
+                          <Badge
+                            tone={
+                              outcome.rating === 1
+                                ? "destructive"
+                                : outcome.rating === 2
+                                  ? "warning"
+                                  : outcome.rating === 4
+                                    ? "success"
+                                    : "primary"
+                            }
+                          >
+                            {rating?.label ?? outcome.rating}
+                          </Badge>
+                        </td>
+                        <td className="tabular px-4 py-2 text-right text-muted-foreground">
+                          {outcome.nextLabel}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </CardContent>
         </Card>
       )}

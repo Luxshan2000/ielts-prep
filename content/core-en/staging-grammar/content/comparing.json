@@ -4301,6 +4301,727 @@
           }
         ]
       }
+    },
+    {
+      "id": "gr_change_language",
+      "unit_id": "u14",
+      "sequence_index": 3400,
+      "title": "Saying how a figure moved, how far it went and where it ended up",
+      "cefr_level": "B2",
+      "role": "accuracy",
+      "topic_id": "topic_environment",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "The grammar of change: rise in / rise to / rise by, from ... to, peak at, level off",
+        "prerequisites": [
+          "gr_prepositions_dependent",
+          "gr_multiples"
+        ],
+        "unlocks_hint": null,
+        "priority": 1,
+        "insertable": false,
+        "register": "written",
+        "risk_tier": "A",
+        "error_surface": 3,
+        "gravity": "local",
+        "confusion_set": null,
+        "structure_slug": "comparative",
+        "signal_blocklist": [
+          "over the period shown",
+          "as can be seen from the graph",
+          "respectively",
+          "the highest point of all"
+        ],
+        "fixes_errors": [
+          "preposition_dependent",
+          "word_form_wrong",
+          "word_order_adverb",
+          "passive_on_intransitive"
+        ],
+        "estimated_minutes": 26,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can describe how a figure moved: how far it travelled, where it stopped and what shape the journey had.",
+          "why_it_matters": "A chart description is nothing but this. Every sentence reports a movement, and the small word after the verb is where the marks go.",
+          "meaning": "A chart hands you two kinds of number and English keeps them apart. One is the movement itself, which is how far the line travelled. The other is the level, which is where it stopped. The verb names the shape of the journey and the small word after it tells the reader which of those two numbers is coming next. Choose the right verb and the wrong preposition, and the reader still walks away with a different chart from the one in front of you.",
+          "form": {
+            "pattern": "rise / fall + by SIZE  ·  rise / fall + to LEVEL  ·  rise / fall + from START + to END  ·  a rise / fall + in WHAT  ·  a rise / fall + of SIZE  ·  peak / stand / remain + at LEVEL",
+            "notes": [
+              "The three prepositions do three different jobs. By measures the movement: rose by four points. To names the level it reached: rose to eleven per cent. In names the thing that is moving: a rise in unemployment.",
+              "The verb takes by for the size; the noun takes of for the size and never by. Output fell by nine million. There was a fall of nine million.",
+              "from ... to ... gives both ends at once and wants nothing else with it: demand rose from twenty to thirty-five million litres.",
+              "The irregular past forms, which are the ones that get guessed: rise / rose / risen, fall / fell / fallen, grow / grew / grown. The rest are regular: increase, decrease, decline, double, fluctuate, plateau, peak.",
+              "rise never takes an object and never goes passive; raise does both. Prices rose. The council raised the fee. Never was risen, and never was increased when nobody did the increasing.",
+              "Verb and noun come in fixed pairs: rise / a rise, fall / a fall, grow / growth (there is no a grow), decline / a decline, fluctuate / a fluctuation, level off / a levelling off, peak / a peak.",
+              "The flat verbs report an absence of movement and take no figure at all: level off, plateau, remain stable, hold steady, fluctuate. Only peak, stand and remain take at.",
+              "Adverb after the verb, adjective in front of the noun, and they come in matched pairs: rose sharply / a sharp rise, fell dramatically / a dramatic fall, grew steadily / steady growth, dipped slightly / a slight dip.",
+              "The article is not optional in the noun version. There was a sharp rise, never there was sharp rise. Growth is the exception, because it is uncountable: steady growth, no article."
+            ],
+            "negative": "The negative you almost never need is nothing fell. Reach instead for the flat verbs — remained stable, showed little change, held steady at — which say it without a negative.",
+            "question": "Which number am I about to give: how far it moved, or where it ended up?"
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "how far it moved",
+                "text": "demand fell by nine million litres"
+              },
+              "right": {
+                "role": "where it ended up",
+                "text": "demand fell to nine million litres"
+              },
+              "arrow": "left_to_right",
+              "caption": "Same verb, same figure, two different charts. One small word is the only thing telling the reader which one you are looking at."
+            }
+          },
+          "worked_example": {
+            "sentence": "Industrial water demand rose by a fifth between 2000 and 2010, peaking at just over ninety million litres a day.",
+            "why_this_form": "By measures the climb and at fixes the highest point. Two numbers doing two different jobs, and neither preposition will do the other one's work.",
+            "what_the_other_would_mean": "Rose to a fifth would put demand at twenty per cent of something. That is a level, not a climb, and it describes a different graph."
+          },
+          "notice_set": [
+            {
+              "sentence": "Unemployment in the northern districts fell by four per cent between 2010 and 2014.",
+              "question": "What was unemployment in 2014?",
+              "options": [
+                "four per cent",
+                "four per cent lower than in 2010",
+                "the sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "By measures the drop and nothing else. Without the 2010 figure there is no way to work out where it landed."
+            },
+            {
+              "sentence": "Unemployment in the northern districts fell to four per cent by 2014.",
+              "question": "What was unemployment in 2014?",
+              "options": [
+                "four per cent",
+                "four per cent lower than in 2010",
+                "the sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "To names the level the line stopped at, so four per cent is the destination rather than the distance travelled."
+            },
+            {
+              "sentence": "Visitor numbers levelled off after 2016.",
+              "question": "Did visitor numbers go down after 2016?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Levelling off is a line that stops moving. It is flat, not falling, and that is exactly why the verb exists."
+            },
+            {
+              "sentence": "Rainfall in the catchment fluctuated between 2005 and 2012.",
+              "question": "Did rainfall end the period higher than it started it?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 2,
+              "why": "Fluctuate reports repeated movement up and down and makes no claim at all about the two end points."
+            },
+            {
+              "sentence": "Household spending on fuel peaked at eleven per cent in 2013.",
+              "question": "Was eleven per cent the highest figure anywhere in the period?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "A peak is the top of the whole graph, not just a local bump, and at pins it to one number."
+            },
+            {
+              "sentence": "There was a slight rise in cycling, followed by a dramatic fall.",
+              "question": "Which of the two movements was the bigger one?",
+              "options": [
+                "the rise",
+                "the fall",
+                "they were the same size"
+              ],
+              "key": 1,
+              "why": "Slight and dramatic are the two words carrying the sizes, and they sit in front of the nouns rather than after the verbs."
+            }
+          ],
+          "rule_line": "Ask which number is coming: how far it moved, or the level it reached.",
+          "false_rule": "That the little word after a change verb is decoration, so by, to, in and of are interchangeable. Each one points the reader at a different number."
+        },
+        "errors": [
+          {
+            "code": "preposition_dependent",
+            "wrong": "There was a sharp rise of unemployment in the northern districts after 2009.",
+            "right": "There was a sharp rise in unemployment in the northern districts after 2009.",
+            "why_it_happens": "Of is the all-purpose linking word and it arrives first. The learner has also met a rise of nine points, which is correct, and does not yet separate the thing that rises from the size of the rise.",
+            "smallest_fix": "Change one word: of becomes in.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "preposition_dependent",
+            "wrong": "Freight moved by rail fell by nine million tonnes, a drop by almost a third.",
+            "right": "Freight moved by rail fell by nine million tonnes, a drop of almost a third.",
+            "why_it_happens": "By was correct three words earlier, so it is still loaded and fires again. The verb takes by for the size of a movement; the noun for that same movement takes of.",
+            "smallest_fix": "Change one word: the second by becomes of.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "word_form_wrong",
+            "wrong": "A dramatically fall in rainfall followed the diversion of the river.",
+            "right": "A dramatic fall in rainfall followed the diversion of the river.",
+            "why_it_happens": "The learner has drilled fell dramatically and stored the pair as one lump. Turning the verb into a noun leaves the adverb behind, and nothing in the meaning signals that it has to change shape too.",
+            "smallest_fix": "Delete two letters: dramatically becomes dramatic.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "word_order_adverb",
+            "wrong": "Visitor numbers rose between 2005 and 2010 sharply.",
+            "right": "Visitor numbers rose sharply between 2005 and 2010.",
+            "why_it_happens": "The dates feel like the important information, so they go straight after the verb and the adverb is left to trail on the end. English wants the manner word next to the verb it describes.",
+            "smallest_fix": "Move one word: sharply goes straight after rose.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "passive_on_intransitive",
+            "wrong": "Rainfall in the uplands was decreased steadily after 2011.",
+            "right": "Rainfall in the uplands decreased steadily after 2011.",
+            "why_it_happens": "The learner has been taught that the passive makes a description sound academic and applies it to a verb that has no object to promote. Nobody decreased the rainfall; it went down on its own.",
+            "smallest_fix": "Delete one word: was.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "writing_t1_academic",
+            "mode": "productive",
+            "note": "Every single sentence of a line graph or bar chart answer is built out of this.",
+            "model": "Demand from agriculture rose steadily from twenty million litres a day in 2000 to thirty-five million in 2020."
+          },
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "Arguments about change need the movement described before it can be explained.",
+            "model": "Car ownership has grown by roughly a third since the ring road opened, and congestion has grown with it."
+          },
+          {
+            "surface": "listening",
+            "mode": "receptive",
+            "note": "Table and note completion turns on hearing by rather than to.",
+            "model": "Numbers dropped by a third, not to a third."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "A statement that swaps by for to is false on the preposition alone.",
+            "model": "Average commuting time fell to twenty-two minutes over the decade."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "lexis"
+        ],
+        "used_in": [
+          {
+            "module": "writing",
+            "ref_id": "wp_a1_06_line_water_demand_projection",
+            "quote": "Four sectors, twenty years of history and thirty years of projection: the answer is perhaps fifteen movements, and each one needs a verb, an adverb and the right preposition."
+          },
+          {
+            "module": "writing",
+            "ref_id": "wp_a1_03_line_freight_by_mode",
+            "quote": "Four lines that cross means describing where each one started, how far it moved and where it finished, which is the whole of this point in one task."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_change_language_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "reading",
+            "error_codes": [
+              "preposition_dependent"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Water demand from industry fell by twelve million litres a day after 2010.",
+              "question": "What was industrial demand after 2010?",
+              "options": [
+                "twelve million litres a day",
+                "twelve million litres a day lower than before",
+                "the sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "By measures the size of the drop. The sentence never says where the line landed, only how far down it went.",
+              "feed_forward": "Read by as a distance travelled, not a destination."
+            }
+          },
+          {
+            "id": "gi_change_language_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "reading",
+            "error_codes": [
+              "preposition_dependent"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Export earnings rose to sixty million between 2008 and 2016.",
+              "question": "How much did export earnings go up by?",
+              "options": [
+                "by sixty million",
+                "the sentence doesn't say",
+                "the sentence says they went down"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "To names the finishing level. Working out the climb would need the 2008 figure as well, and it is not there.",
+              "feed_forward": "Read to as the place the line stopped."
+            }
+          },
+          {
+            "id": "gi_change_language_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_transport",
+            "skill_hook": "speaking_p3",
+            "error_codes": [
+              "passive_on_intransitive"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "was increased",
+            "payload": {
+              "context": "Two colleagues going through last year's traffic figures.",
+              "sentence": "Bus use was increased steadily right through the autumn.",
+              "acceptable": false,
+              "reasons": [
+                "nobody did the increasing, so the verb cannot be passive here",
+                "steadily is the wrong word for that shape of line",
+                "the autumn needs a preposition in front of it",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Bus use went up on its own. There is no hidden agent behind it, and a verb with no object cannot be turned round.",
+              "feed_forward": "Ask who did it. If nobody did, drop the was."
+            }
+          },
+          {
+            "id": "gi_change_language_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "preposition_dependent"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a description of a line graph on upland rainfall.",
+              "stem": "Rainfall in the uplands fell ___ nine centimetres, from forty-one down to thirty-two.",
+              "blanks": 1,
+              "lemma_hints": []
+            },
+            "expected": [
+              "by"
+            ],
+            "feedback": {
+              "why_key": "Nine is the distance between the two figures that follow it, so the sentence needs the word that measures a movement.",
+              "feed_forward": "If the number is the gap, write by."
+            }
+          },
+          {
+            "id": "gi_change_language_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "preposition_dependent"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a table description of district rents.",
+              "stem": "Average rent in the eastern district rose ___ four hundred and twenty pounds to six hundred and ten over the decade.",
+              "blanks": 1,
+              "lemma_hints": []
+            },
+            "expected": [
+              "from"
+            ],
+            "feedback": {
+              "why_key": "Both ends of the movement are given, and the pair that carries two ends at once is from and to.",
+              "feed_forward": "When you see to later in the clause, open with from."
+            }
+          },
+          {
+            "id": "gi_change_language_06",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_health",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "preposition_dependent",
+              "word_form_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A nurse describing waiting times at the walk-in clinic.",
+              "stem": "Waits ___ (peak) at eleven days in March, and they've come down every month since.",
+              "blanks": 1,
+              "lemma_hints": [
+                "peak"
+              ]
+            },
+            "expected": [
+              "peaked"
+            ],
+            "feedback": {
+              "why_key": "Eleven days is the top of the whole graph, and the verb that names a top is followed by at and nothing else.",
+              "feed_forward": "Pin a highest figure with peaked at."
+            }
+          },
+          {
+            "id": "gi_change_language_07",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_tourism",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "word_form_wrong",
+              "preposition_dependent"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "Visitor numbers went up after 2015. The movement was sharp.",
+              "instruction": "Write one sentence that turns the movement into a noun.",
+              "starter": "There ___"
+            },
+            "expected": [
+              "was a sharp rise in visitor numbers after 2015",
+              "was a sharp increase in visitor numbers after 2015",
+              "was a sharp rise in visitor numbers after 2015.",
+              "was a sharp increase in visitor numbers after 2015."
+            ],
+            "feedback": {
+              "why_key": "Once the movement becomes a thing, it takes an article in front of it, a describing word rather than an adverb, and in to name what is moving.",
+              "feed_forward": "Change the adverb to an adjective when the verb becomes a noun."
+            }
+          },
+          {
+            "id": "gi_change_language_08",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "word_order_adverb"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "enrolments",
+                "in",
+                "science",
+                "rose",
+                "steadily",
+                "from",
+                "2004",
+                "to",
+                "2011"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ],
+                [
+                  5,
+                  6,
+                  7,
+                  8,
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ]
+              ],
+              "context": "Build one sentence about a line on the Verdon College enrolment graph."
+            },
+            "expected": [
+              "enrolments in science rose steadily from 2004 to 2011",
+              "from 2004 to 2011 enrolments in science rose steadily"
+            ],
+            "feedback": {
+              "why_key": "Steadily describes the rising, so it sits next to rose. The dates can go at either end, because they frame the whole sentence.",
+              "feed_forward": "Keep the manner word beside its verb, then place the dates."
+            }
+          },
+          {
+            "id": "gi_change_language_09",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_transport",
+            "skill_hook": "listening",
+            "error_codes": [
+              "preposition_dependent"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "Numbers dropped by a third, not to a third.",
+              "scored_tokens": [
+                "by",
+                "to"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "numbers dropped by a third not to a third",
+              "numbers dropped by a third, not to a third"
+            ],
+            "feedback": {
+              "why_key": "Both words are unstressed and last about a tenth of a second, and they are the difference between a small drop and a collapse.",
+              "feed_forward": "Listen hard to the weak syllable after the verb."
+            }
+          },
+          {
+            "id": "gi_change_language_10",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "preposition_dependent"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "a sharp rise of unemployment",
+            "payload": {
+              "sentence": "The second half of the period brought a sharp rise of unemployment in the northern districts.",
+              "error_span": "a sharp rise of unemployment",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "a sharp rise in unemployment",
+              "a sharp increase in unemployment",
+              "a sharp rise in unemployment in the northern districts"
+            ],
+            "feedback": {
+              "why_key": "Of introduces the size of a rise, so a rise of unemployment reads as though unemployment were the measurement rather than the thing moving.",
+              "feed_forward": "Write in before the thing that is moving."
+            }
+          },
+          {
+            "id": "gi_change_language_11",
+            "kind": "judge",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "preposition_dependent"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "rose by nearly a half, to just over nine thousand",
+            "payload": {
+              "context": "From a draft answer on a graph of college applications.",
+              "sentence": "Between 2004 and 2011 applications rose by nearly a half, to just over nine thousand.",
+              "acceptable": true,
+              "reasons": [
+                "by and to cannot both appear in one sentence",
+                "the size of a rise has to be a number, not a fraction",
+                "a rise cannot be described after the figure it reached",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 3
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The two prepositions are doing two different jobs here, so both belong: one gives the climb and the other gives the landing point.",
+              "feed_forward": "Let by and to share a sentence when you have both numbers."
+            }
+          },
+          {
+            "id": "gi_change_language_12",
+            "kind": "contrast_pair",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "reading",
+            "error_codes": [
+              "preposition_dependent"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": "fell by eight per cent",
+            "payload": {
+              "context": "Two lines taken from different summaries of the same emissions data.",
+              "sentences": [
+                "Emissions fell by eight per cent after 2012.",
+                "Emissions fell to eight per cent of the 1990 figure after 2012."
+              ],
+              "meanings": [
+                "A modest movement: ninety-two per cent of the old total is still there.",
+                "An enormous movement: almost all of the old total has gone."
+              ],
+              "key": [
+                0,
+                1
+              ]
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The same verb and the same number describe a small dent and a near-total collapse. The preposition is carrying all of that difference.",
+              "feed_forward": "Decide whether eight per cent is the gap or the level."
+            }
+          },
+          {
+            "id": "gi_change_language_13",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "preposition_dependent",
+              "word_order_adverb"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "A line on a graph starts at twenty million litres a day in 2000, climbs without interruption and finishes at thirty-five million in 2020. Write one sentence that gives both end figures and says what the climb looked like.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": true,
+              "min_words": 10,
+              "max_words": 32,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Both ends and the shape of the journey in one sentence is the unit an examiner reads a chart description in.",
+              "feed_forward": "Give the shape word first, then hang both figures on it."
+            }
+          },
+          {
+            "id": "gi_change_language_14",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "preposition_dependent",
+              "word_form_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Open your freight graph answer. Rewrite the two sentences about the road and rail lines so that each one names how far the line moved and where it finished, and turn one of them into a noun phrase. Three minutes.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": false,
+              "min_words": 20,
+              "max_words": 55,
+              "task_ref": "wp_a1_03_line_freight_by_mode"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Under a clock the prepositions are the first thing to slip, because they carry no stress and the numbers feel like the real content.",
+              "feed_forward": "Check every by, to, in and of on the last read-through."
+            }
+          }
+        ]
+      }
     }
   ],
   "vocab_new": [],

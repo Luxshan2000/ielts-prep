@@ -178,12 +178,35 @@ def get_scores(
         params,
     ).mappings().all()
 
-    items = [dict(r) for r in rows]
+    # The stored number is the recogniser's confidence, which is worth keeping — it ranks
+    # which words are worth replaying. It is only wrong when published as a judgement, so it
+    # travels under its own name and `score` stays null until a method exists that earns it.
+    items = []
+    for row in rows:
+        entry = dict(row)
+        stored = entry.pop("score", None)
+        entry["confidence_score"] = stored
+        entry["score"] = stored if pron.SCORE_IS_PRONUNCIATION else None
+        items.append(entry)
+
+    unsure = [
+        {**row, "confidence_score": row.pop("score", None), "score": None}
+        for row in pron.worst_words(session, profile_id, limit=8)
+    ]
+
     return {
         "items": items,
         "next_cursor": items[-1]["id"] if len(items) == limit else None,
-        "worst_words": pron.worst_words(session, profile_id, limit=8),
+        # Renamed from worst_words. Ordering by ASR confidence and calling the result a
+        # learner's worst pronunciation is the same defect as banding a single word, and it
+        # lands harder here because this list is what a progress screen would render.
+        "words_the_recogniser_was_unsure_of": unsure,
+        "worst_words": unsure if pron.SCORE_IS_PRONUNCIATION else [],
         "method": pron.METHOD,
+        "method_note": (
+            "These are words the recogniser found hard to catch. They are worth listening to "
+            "again. They are not a score, and a strong accent is not a mistake."
+        ),
         "accent_notice": pron.ACCENT_NOTICE,
     }
 

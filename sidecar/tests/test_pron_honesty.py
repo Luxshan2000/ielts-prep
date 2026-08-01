@@ -116,3 +116,32 @@ def test_every_response_carries_the_accent_notice() -> None:
 def test_the_accent_notice_says_accents_are_not_penalised() -> None:
     text = pron.ACCENT_NOTICE.lower()
     assert "accent" in text
+
+
+# ======================================================================================
+# The same rule at every boundary, not just the one I fixed first
+# ======================================================================================
+
+
+def test_the_signals_boundary_and_the_wire_boundary_now_agree() -> None:
+    """The original defect was a disagreement, so the fix has to be checked as one.
+
+    `pron_signals_json` always said `score: null` for proxy-v1. `as_wire` said
+    `confidence * 100`. Fixing one boundary and not the other is how the first pass of this
+    fix missed `/pron/scores`, which reads the stored column straight back out.
+    """
+    wire = _word(0.31).as_wire()
+    assert wire["score"] is None
+    assert wire["level"] is None
+    # And the honest number is still there, under a name that says what it is.
+    assert wire["confidence"] == 0.31
+
+
+def test_the_stored_column_is_still_populated_for_ranking() -> None:
+    """Suppressing the number in the database too would throw away the useful part.
+
+    Which words the recogniser struggled with is a real signal — it decides what is worth
+    replaying. The rule is about what may be *published as a judgement*, not about what may
+    be recorded.
+    """
+    assert pron.score_from_confidence(0.31) == 31

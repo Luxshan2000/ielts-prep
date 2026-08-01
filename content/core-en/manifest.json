@@ -27,11 +27,11 @@
     "listening_tests": 7,
     "vocab": 1246,
     "pron_pairs": 20,
-    "grammar": 112
+    "grammar": 120
   },
   "checksums": {
     "data/card_sets.jsonl": "sha256:43e96dd230c1ba9fa046883836843394ffa187ab3a1337a1a7f27666d30807e5",
-    "data/grammar.jsonl": "sha256:f40946cc8ff6bf61f83f8e3d5a031db2b71f9e5f412de7c1628975f5d2852f25",
+    "data/grammar.jsonl": "sha256:0781f629adce2d9e8ebb084361c81deec3b18255a2d05ed178cb99004cf87649",
     "data/listening_scripts.jsonl": "sha256:d2d7776f98557df8f09d18e684cc612f595cd93b0ba5e640156cb9c44dc07cd7",
     "data/listening_tests.jsonl": "sha256:19d332442ef2f993619ad6f81284c387d8037f0134ea56d71363448ce27df866",
     "data/pron_pairs.jsonl": "sha256:2dd90ca56fa2ec67b7476fa7d51b6e18a2dea362e24dfae17d383567e6e4c06b",

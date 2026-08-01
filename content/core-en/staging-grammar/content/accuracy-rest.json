@@ -1,0 +1,18 @@
+{
+  "staging_version": 1,
+  "block": "accuracy-rest",
+  "authored_by": "G-A15:u15-prepositions-rest",
+  "_readme": [
+    "NO-OP BLOCK. The closed id set allocated to this block was gr_prepositions_core, gr_prepositions_dependent and gr_prepositions_phrases (u15, band 4000-4099).",
+    "All three were already authored in the frozen staging block accuracy.json (authored_by G-A9:accuracy) and are already merged into content/core-en/data/grammar.jsonl. Verified: each merged row's point_json is byte-identical to its accuracy.json source, carries no placeholder sentinel, and meets the DESIGN 2.7 item floors.",
+    "  gr_prepositions_core       seq 19  role form      13 items  stages {1:3, 2:5, 3:3, 4:1, 5:1}  3 errors  topic_transport",
+    "  gr_prepositions_dependent  seq 104 role accuracy  14 items  stages {1:3, 2:5, 3:4, 4:1, 5:1}  4 errors  topic_environment",
+    "  gr_prepositions_phrases    seq 105 role form      13 items  stages {1:3, 2:5, 3:3, 4:1, 5:1}  4 errors  topic_tourism",
+    "gr_prepositions_core resolves cleanly as the declared prerequisite of gr_relative_prepositions (#93), gr_prepositions_dependent (#104) and gr_prepositions_phrases (#105). There is no dangling edge to repair.",
+    "HARD RULE 5 of the authoring brief says an id already present in data/grammar.jsonl is SKIPPED. Re-authoring any of the three would replace a merged, shipped row (merge_grammar counts it as points_replaced) and silently discard content the pack is already serving, so this block authors nothing. Points, vocab_new and vocab_updates are deliberately empty: the merge folds this file in as a no-op and re-running it stays byte-identical.",
+    "Nothing in the u15 preposition allocation is outstanding. If the syllabus wants further preposition coverage it needs a NEW id, not one of these three."
+  ],
+  "points": [],
+  "vocab_new": [],
+  "vocab_updates": []
+}

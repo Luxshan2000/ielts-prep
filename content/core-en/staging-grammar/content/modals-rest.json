@@ -1,0 +1,1661 @@
+{
+  "staging_version": 1,
+  "block": "modals-rest",
+  "authored_by": "G-A9:modals-rest",
+  "_readme": [
+    "Unit u07, the two modal points the first pass did not reach: gr_modal_past_forms and gr_modal_hedging.",
+    "gr_modal_grammar, gr_modal_ability, gr_modal_permission and gr_modal_requests were in this agent's brief but already ship in content/core-en/data/grammar.jsonl (authored in modals.json). They were SKIPPED rather than re-authored.",
+    "sequence_index values come from this agent's private band 3800-3899 and are re-seated by tools/content/reseq_grammar.py.",
+    "gr_modal_hedging declares confusion_set cs_certainty_strength; its contrast.with[] resolves to gr_future_will, which is installed. Prerequisites were chosen from ids that already exist in grammar.jsonl so that nothing dangles."
+  ],
+  "points": [
+    {
+      "id": "gr_modal_past_forms",
+      "unit_id": "u07",
+      "sequence_index": 1700,
+      "title": "Saying what you had to do, could do and were allowed to do back then",
+      "cefr_level": "B1",
+      "role": "form",
+      "topic_id": "topic_work",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "Past modality: had to, could, was able to, was allowed to",
+        "prerequisites": [
+          "gr_modal_obligation",
+          "gr_modal_ability",
+          "gr_past_simple_regular"
+        ],
+        "unlocks_hint": "gr_modal_perfect",
+        "priority": 2,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "local",
+        "confusion_set": null,
+        "structure_slug": "modal_simple",
+        "signal_blocklist": [
+          "yesterday",
+          "last year",
+          "back then",
+          "at the time",
+          "in the end",
+          "eventually",
+          "finally",
+          "managed to",
+          "as a child"
+        ],
+        "fixes_errors": [
+          "tense_sequence_lost",
+          "modal_strength_mismatch",
+          "passive_participle_wrong",
+          "verb_pattern_wrong"
+        ],
+        "estimated_minutes": 20,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can say what was compulsory, what I was capable of and what I was permitted to do at some time in the past.",
+          "why_it_matters": "Most modals have no past tense at all. When a story moves backwards, half of them must be swapped for something else, and that is where learners stall.",
+          "meaning": "Modals are one-shape words. Can has could, and that is the end of the list: must, may and had better have no past whatsoever. When a situation moves back in time, English swaps the modal for its longer partner — had to, was able to, was allowed to — and those partners take every shape an ordinary verb takes. Could is the exception that causes the trouble: it covers what somebody was generally capable of, not one occasion when they actually pulled it off.",
+          "form": {
+            "pattern": "had to + plain verb  ·  could + plain verb  ·  was / were able to + plain verb  ·  was / were allowed to + plain verb",
+            "notes": [
+              "had to is the past of both must and have to; must itself never travels backwards",
+              "could covers a stretch of past ability; one occasion that came off takes was able to",
+              "was allowed to is the past of can, could and may whenever the sentence is about permission",
+              "have to keeps its ordinary-verb behaviour in the past: didn't have to, did you have to",
+              "the negative is the one place could still stretches — couldn't covers the whole period and the single occasion alike"
+            ],
+            "negative": "did not / didn't have to  ·  could not / couldn't  ·  was not able to  ·  was not allowed to",
+            "question": "Did you have to ...?  ·  Could you ...?  ·  Were you able to ...?  ·  Were you allowed to ...?"
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "the word you use about now",
+                "text": "must · have to · can · may"
+              },
+              "right": {
+                "role": "the word it becomes about back then",
+                "text": "had to · had to · could or was able to · was allowed to"
+              },
+              "arrow": "left_to_right",
+              "caption": "Four words go in on the left and three come out on the right. Two of them collapse into one, and one of them splits in two."
+            }
+          },
+          "worked_example": {
+            "sentence": "The depot lost its power for two days, so we had to log every delivery by hand.",
+            "why_this_form": "Must has no past shape. The two days are finished, so the obligation is carried by had to, which has all the shapes an ordinary verb has.",
+            "what_the_other_would_mean": "Must log would drag the sentence forward and claim the paperwork is still done by hand today, which is not what the story is about."
+          },
+          "notice_set": [
+            {
+              "sentence": "Rasheed could read a wiring diagram before he left school.",
+              "question": "Did he read a diagram on his last day at school?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 2,
+              "why": "Could reports a capacity that sat there for years. Whether he used it on any one day is outside what the sentence claims."
+            },
+            {
+              "sentence": "The pump kept cutting out, but Rasheed was able to restart it before the shift ended.",
+              "question": "Did the restart actually happen?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Was able to reports one occasion that came off, and it carries the result with it. That is the job could cannot do."
+            },
+            {
+              "sentence": "We had to sign the visitors' book every morning.",
+              "question": "Could a worker skip it if they were in a hurry?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Had to shuts the question exactly the way must does. The only thing that has changed is the time."
+            },
+            {
+              "sentence": "We didn't have to sign the visitors' book at the Norland site.",
+              "question": "Was it up to the worker whether they signed?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Didn't have to takes the obligation away and puts nothing in its place. It forbids nothing."
+            },
+            {
+              "sentence": "Apprentices weren't allowed to drive the forklift in their first year.",
+              "question": "Was somebody deciding this while the sentence was being spoken?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Was allowed to reports an arrangement that was already in place. Nobody in the room is granting or refusing anything."
+            },
+            {
+              "sentence": "Delia couldn't get the software to open the file.",
+              "question": "Did she get it open in the end?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Couldn't works for a single occasion as happily as for a whole stretch. Only the positive side of could splits in two."
+            }
+          ],
+          "rule_line": "Must, may and had better cannot go back. Swap them for had to and was allowed to.",
+          "false_rule": "That could is simply the past of can. It is the past of general ability only. One occasion that actually came off takes was able to."
+        },
+        "errors": [
+          {
+            "code": "tense_sequence_lost",
+            "wrong": "The road was flooded, so we must take the long way round.",
+            "right": "The road was flooded, so we had to take the long way round.",
+            "why_it_happens": "Must is stored as a strength rather than as a tense, so nothing in the learner's rule tells them it cannot move. The first half of the sentence has already gone into the past and left the modal standing in the present.",
+            "smallest_fix": "Swap one form: must becomes had to.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": "Many languages inflect their obligation verb for tense, so nothing warns the learner that English cannot."
+          },
+          {
+            "code": "modal_strength_mismatch",
+            "wrong": "In the end I could persuade the supplier to hold the order.",
+            "right": "In the end I was able to persuade the supplier to hold the order.",
+            "why_it_happens": "Could has been learned as the past of can with no limit on its scope, so it gets used for a single occasion. To an English ear the sentence then reports a talent rather than a result, and the story loses its point.",
+            "smallest_fix": "Swap one form: could becomes was able to.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "passive_participle_wrong",
+            "wrong": "Apprentices were not allow to use the cutter.",
+            "right": "Apprentices were not allowed to use the cutter.",
+            "why_it_happens": "Allowed to is stored as one fixed lump meaning permitted, and in speech the ending is swallowed by the t of to, so there is nothing to remind the writer that a participle is in there at all.",
+            "smallest_fix": "Add two letters: allow becomes allowed.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "verb_pattern_wrong",
+            "wrong": "We hadn't to book the room in advance.",
+            "right": "We didn't have to book the room in advance.",
+            "why_it_happens": "Have to sits beside must in the learner's head, so it inherits must's behaviour and takes not directly. It is an ordinary verb wearing a modal's meaning, and its negative and question both need did.",
+            "smallest_fix": "Swap one form: hadn't becomes didn't have.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "speaking_p2",
+            "mode": "productive",
+            "note": "Every Part 2 story about a difficulty runs on had to and was able to.",
+            "model": "The lift was out, so we had to carry the stock up three floors, and even then we were able to open on time."
+          },
+          {
+            "surface": "speaking_p1",
+            "mode": "productive",
+            "note": "Questions about school and childhood are answered almost entirely in past permission.",
+            "model": "We weren't allowed to use the science lab unless a teacher was in the room with us."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "A True or False stem often swaps could for was able to and changes the claim.",
+            "model": "Engineers were able to reopen the tunnel within a week of the collapse."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "fluency"
+        ],
+        "used_in": [
+          {
+            "module": "speaking",
+            "ref_id": "card_p2_an_achievement_503",
+            "quote": "Describing something you achieved means saying what you had to do first and what you were finally able to do, and the two halves take different words."
+          },
+          {
+            "module": "speaking",
+            "ref_id": "card_p2_a_mistake_504",
+            "quote": "A story about a mistake is a run of past obligations plus one thing the speaker could not do at the time."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_modal_past_forms_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Nadia could handle the till on her own by the end of her first week.",
+              "question": "Is this about one particular busy afternoon?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Could reports what she was generally up to from that point on. A single afternoon would need a form that carries a result.",
+              "feed_forward": "Read could as a stretch of time, not as one event."
+            }
+          },
+          {
+            "id": "gi_modal_past_forms_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "reading",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The crew were able to clear the loading bay before the inspection began.",
+              "question": "Did the clearing actually get done?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Were able to reports an occasion that came off and carries the outcome with it, which is exactly why could would not fit here.",
+              "feed_forward": "Use were able to when the sentence has to say it worked."
+            }
+          },
+          {
+            "id": "gi_modal_past_forms_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "Before the new depot opened",
+            "payload": {
+              "context": "From a paragraph about how a delivery firm used to run.",
+              "sentence": "Before the new depot opened, drivers must load their own vans.",
+              "acceptable": false,
+              "reasons": [
+                "the sentence is set in the past and must cannot go there",
+                "the drivers did not load the vans themselves",
+                "the wrong kind of verb follows must",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Must has one shape and it belongs to now. The rest of the sentence has already moved into the past and left it standing.",
+              "feed_forward": "When the sentence is set in the past, write had to."
+            }
+          },
+          {
+            "id": "gi_modal_past_forms_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a note about how the old Ashfield warehouse ran.",
+              "stem": "Every driver ___ (have) to sign the keys out before eight.",
+              "blanks": 1,
+              "lemma_hints": [
+                "have"
+              ]
+            },
+            "expected": [
+              "had"
+            ],
+            "feedback": {
+              "why_key": "The rule was in force then and is not now, so the obligation takes the past shape that have to provides and must cannot.",
+              "feed_forward": "Put have to into the past; must will not follow you there."
+            }
+          },
+          {
+            "id": "gi_modal_past_forms_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_education",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "passive_participle_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "Two friends talking about their old school.",
+              "stem": "We weren't ___ (allow) to leave the site at lunchtime.",
+              "blanks": 1,
+              "lemma_hints": [
+                "allow"
+              ]
+            },
+            "expected": [
+              "allowed"
+            ],
+            "feedback": {
+              "why_key": "Allowed to reports a rule that somebody else had already settled, and the ending is what makes it a report rather than an order.",
+              "feed_forward": "Keep the -ed on allowed; it vanishes in speech, not on paper."
+            }
+          },
+          {
+            "id": "gi_modal_past_forms_06",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "From an account of the night the ordering network went down.",
+              "stem": "The team ___ (be) able to rebuild the day's orders from a printed list.",
+              "blanks": 1,
+              "lemma_hints": [
+                "be"
+              ]
+            },
+            "expected": [
+              "were",
+              "was"
+            ],
+            "feedback": {
+              "why_key": "One night, one problem, one rebuild that actually happened. That is the slot could is not allowed to fill.",
+              "feed_forward": "When the sentence reports a success, reach for was or were able to."
+            }
+          },
+          {
+            "id": "gi_modal_past_forms_07",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "The lift is out of service. Staff must carry the stock up by hand.",
+              "instruction": "Write one sentence about last month, when the lift was out, keeping both facts.",
+              "starter": "Last month ___"
+            },
+            "expected": [
+              "the lift was out of service so staff had to carry the stock up by hand",
+              "the lift was out of service and staff had to carry the stock up by hand",
+              "the lift was out of service so the staff had to carry the stock up by hand"
+            ],
+            "feedback": {
+              "why_key": "Moving the sentence into last month strands must, because it has no past shape to move into and had to has to take the load.",
+              "feed_forward": "Change the time first, then check every modal still has a shape."
+            }
+          },
+          {
+            "id": "gi_modal_past_forms_08",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "passengers",
+                "did",
+                "not",
+                "have",
+                "to",
+                "book",
+                "a",
+                "seat",
+                "on",
+                "the",
+                "early",
+                "service"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ]
+              ],
+              "context": "Build one sentence about how the Ashfield line used to work."
+            },
+            "expected": [
+              "passengers did not have to book a seat on the early service"
+            ],
+            "feedback": {
+              "why_key": "Have to builds its negative with did, exactly like any ordinary verb, because underneath the meaning that is what it is.",
+              "feed_forward": "Build the negative of have to with did, never with a bare not."
+            }
+          },
+          {
+            "id": "gi_modal_past_forms_09",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "listening",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "I couldn't shift it on my own, so we had to wait for the second van.",
+              "scored_tokens": [
+                "couldn't",
+                "had",
+                "to"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "i couldn't shift it on my own so we had to wait for the second van",
+              "i could not shift it on my own so we had to wait for the second van",
+              "i couldnt shift it on my own so we had to wait for the second van"
+            ],
+            "feedback": {
+              "why_key": "Had to is squashed to almost one sound in speech and couldn't loses its middle. Neither survives unless you already know it is there.",
+              "feed_forward": "Listen for a flat d in front of to; that is had to."
+            }
+          },
+          {
+            "id": "gi_modal_past_forms_10",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "in the end",
+            "payload": {
+              "sentence": "The line was blocked for six hours, but in the end the crew could clear it before the morning peak.",
+              "error_span": "could clear",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "were able to clear",
+              "was able to clear",
+              "managed to clear"
+            ],
+            "feedback": {
+              "why_key": "One blockage, one crew, one clearance that actually came off. Could would only say they were the sort of crew who can clear blockages.",
+              "feed_forward": "Swap could for were able to whenever the sentence reports a result."
+            }
+          },
+          {
+            "id": "gi_modal_past_forms_11",
+            "kind": "judge",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_education",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "hadn't to",
+            "payload": {
+              "context": "Two former students remembering their old college.",
+              "sentence": "We hadn't to wear a uniform after the second year.",
+              "acceptable": false,
+              "reasons": [
+                "have to builds its negative with did, like an ordinary verb",
+                "the students did wear a uniform after the second year",
+                "the wrong kind of verb follows to",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Have to only looks like a modal. Its negative and its question both need did, and the past tense is no exception to that.",
+              "feed_forward": "Say didn't have to aloud until hadn't to sounds wrong."
+            }
+          },
+          {
+            "id": "gi_modal_past_forms_12",
+            "kind": "produce",
+            "stage": 4,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "Think of a day at work or college when something went wrong and you sorted it out. Say one sentence covering what you were obliged to do and what you succeeded in doing.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": true,
+              "min_words": 12,
+              "max_words": 35,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The two halves of the story need different words: the obligation takes had to and the outcome takes was able to.",
+              "feed_forward": "Say the obligation first, then the outcome, changing the form between them."
+            }
+          },
+          {
+            "id": "gi_modal_past_forms_13",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Here is your body paragraph about how careers used to work. Rewrite one sentence so that it names something workers were once obliged to do and are no longer obliged to do. Three minutes.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": false,
+              "min_words": 15,
+              "max_words": 45,
+              "task_ref": "wp_core_t2_two_part_changing_careers"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A before-and-after sentence needs had to on one side and don't have to on the other, and the pair is what shows the reader the change.",
+              "feed_forward": "Put the old obligation and the present freedom in one sentence."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_modal_hedging",
+      "unit_id": "u07",
+      "sequence_index": 1701,
+      "title": "Making a claim you can defend instead of one a reader can knock down",
+      "cefr_level": "B2",
+      "role": "choice",
+      "topic_id": "topic_education",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "Hedging: may, tends to, appears to, is likely to, arguably",
+        "prerequisites": [
+          "gr_modal_grammar",
+          "gr_future_will"
+        ],
+        "unlocks_hint": "gr_stance_adverbials",
+        "priority": 1,
+        "insertable": false,
+        "register": "written",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "global",
+        "confusion_set": "cs_certainty_strength",
+        "structure_slug": "modal_simple",
+        "signal_blocklist": [
+          "always",
+          "never",
+          "definitely",
+          "certainly",
+          "obviously",
+          "undoubtedly",
+          "perhaps",
+          "maybe",
+          "possibly"
+        ],
+        "fixes_errors": [
+          "hedge_missing_overclaim",
+          "modal_strength_mismatch",
+          "register_spoken_in_writing",
+          "verb_pattern_wrong"
+        ],
+        "estimated_minutes": 26,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can make a claim in writing that is strong enough to argue for and careful enough to survive an objection.",
+          "why_it_matters": "An essay of flat absolute claims reads as band 6 however clean the grammar is. One word in front of the verb changes what the reader thinks of the writer.",
+          "meaning": "A hedge does not weaken a claim. It states how much of the claim you are undertaking to defend. Automation will destroy millions of jobs commits you to every job and every year. Automation is likely to displace many routine jobs commits you to a tendency, which is what the evidence actually supports. The reader is not measuring your confidence. They are measuring whether your sentence and your evidence are the same size.",
+          "form": {
+            "pattern": "may / might / could + plain verb   ·   tends to / appears to / is likely to + plain verb   ·   arguably, largely, in most cases",
+            "notes": [
+              "is likely to, tends to and appears to all end in to, and to takes a plain verb, never an -ing word",
+              "hedge the interpretation, not the figure: a number printed on a chart is not in doubt",
+              "one hedge per claim; a second one cancels the first and the sentence stops saying anything",
+              "arguably and largely stand in front of the thing being narrowed, not at the end of the sentence",
+              "the hedges belong to the writing register; I think and in my opinion belong to the spoken one"
+            ],
+            "negative": "is unlikely to + plain verb  ·  does not tend to + plain verb  ·  may not + plain verb",
+            "question": "Is it likely that ...? — at home in a research question, almost never in a Task 2 body paragraph"
+          },
+          "visual": {
+            "kind": "cline",
+            "spec": {
+              "label": "how much am I undertaking to defend?",
+              "steps": [
+                {
+                  "text": "will / does",
+                  "gloss": "every case, no exceptions, and I will defend all of it"
+                },
+                {
+                  "text": "is likely to",
+                  "gloss": "more often than not, and I can say why"
+                },
+                {
+                  "text": "tends to",
+                  "gloss": "a real pattern, and I already know there are exceptions"
+                },
+                {
+                  "text": "appears to",
+                  "gloss": "this is what the evidence looks like from here"
+                },
+                {
+                  "text": "may",
+                  "gloss": "one possibility among several I am still weighing"
+                }
+              ]
+            }
+          },
+          "worked_example": {
+            "sentence": "Charging drivers to enter the centre is likely to cut traffic, though it tends to push some of it onto neighbouring streets.",
+            "why_this_form": "The first claim is the one the paragraph will defend at length. The second is a known side effect with exceptions, so it takes the weaker of the two hedges.",
+            "what_the_other_would_mean": "Will cut and always pushes would commit the writer to every city and every street, and a single counter-example would take the whole paragraph down."
+          },
+          "notice_set": [
+            {
+              "sentence": "Free bus travel tends to raise passenger numbers in smaller towns.",
+              "question": "Does the writer claim it works in every small town?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Tends to names a pattern and quietly admits there are towns where it made no difference."
+            },
+            {
+              "sentence": "Free bus travel raises passenger numbers in smaller towns.",
+              "question": "Would one town where numbers fell damage this claim?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "With nothing narrowing the verb, the sentence covers every town, so a single exception is enough to break it."
+            },
+            {
+              "sentence": "The fall in reading may be connected to the rise in screen time.",
+              "question": "Is the writer saying screen time caused the fall?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "May offers a connection as one possibility to be weighed. Nothing at all has been claimed about cause."
+            },
+            {
+              "sentence": "The chart appears to show a fall of forty per cent between 2015 and 2019.",
+              "question": "Is there anything here the writer could still turn out to be wrong about?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "The figure is printed on the page, so hedging it only makes the writer sound unsure of what they can see. Hedge what a figure means, not the figure."
+            },
+            {
+              "sentence": "Arguably, the largest gains have gone to households that were already comfortable.",
+              "question": "Is the writer expecting to be contradicted?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Arguably admits the other side exists before anybody raises it, which is what makes the claim look considered rather than nervous."
+            },
+            {
+              "sentence": "It could possibly be the case that fees may sometimes deter a few applicants.",
+              "question": "After reading that, do you know what the writer thinks?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Four hedges in one sentence cancel each other out. The writer has spent a whole line and undertaken nothing."
+            }
+          ],
+          "discovery": {
+            "prompt": "The sentences on the left and the right make claims about the same things. What has the writer on the left done to each claim?",
+            "pairs": [
+              [
+                "Free bus travel tends to raise passenger numbers.",
+                "Free bus travel raises passenger numbers."
+              ],
+              [
+                "Charging drivers is likely to cut traffic in the centre.",
+                "Charging drivers will cut traffic in the centre."
+              ],
+              [
+                "The fall in reading may be connected to screen time.",
+                "The fall in reading is caused by screen time."
+              ]
+            ],
+            "candidate_rules": [
+              {
+                "text": "On the left the writer has said exactly how much of the claim they are willing to defend.",
+                "verdict": "right"
+              },
+              {
+                "text": "On the left the writer is talking about something that has not been proved yet.",
+                "verdict": "too_narrow"
+              },
+              {
+                "text": "On the left the writer has put a word like may, likely or tends in front of the verb.",
+                "verdict": "keyword_trap"
+              }
+            ]
+          },
+          "rule_line": "Say only as much as your evidence will carry, and say it once.",
+          "false_rule": "That hedging is for when you are unsure. It is for when your claim is narrower than the sentence would otherwise make it. Certainty is not the measure."
+        },
+        "contrast": {
+          "with": [
+            "gr_future_will"
+          ],
+          "board_id": "gb_hedge_vs_flat_claim",
+          "question": "Is my evidence the same size as my sentence?",
+          "fork": [
+            {
+              "answer": "Yes — every case, no exceptions, and I can stand behind that",
+              "selects": "the flat claim: will, is, does",
+              "point_id": "gr_future_will"
+            },
+            {
+              "answer": "No — a strong pattern with exceptions I would rather name than be caught by",
+              "selects": "a hedge: is likely to, tends to, appears to, may",
+              "point_id": "gr_modal_hedging"
+            }
+          ],
+          "minimal_pair": {
+            "a": {
+              "text": "A four-day week raises productivity.",
+              "means": "Every workplace, every sector. One firm where output fell is enough to sink the claim."
+            },
+            "b": {
+              "text": "A four-day week tends to raise productivity.",
+              "means": "It happens more often than not, and the writer already knows there are firms where it did not."
+            },
+            "only_difference": "tends to"
+          },
+          "wrong_choice_note": "You wrote the flat version. That commits you to every workplace there is, and your next paragraph only has evidence about offices. A reader who thinks of one factory has already stopped believing you, and nothing later in the essay wins them back.",
+          "edge_case": {
+            "text": "Task 1 is the exception. When you are describing a chart the figures are given, and hedging them reads as not trusting the page in front of you. Hedge what a trend suggests; never hedge what the axis says.",
+            "ignore_the_rest": true
+          },
+          "stronger_test": "Read your sentence back and then add out loud: and there are no exceptions to that. If you flinch, the sentence is bigger than your evidence and it needs narrowing.",
+          "worked_pairs": [
+            {
+              "a": "Higher tuition fees are likely to deter applicants from lower-income households.",
+              "b": "Higher tuition fees deter applicants from lower-income households.",
+              "deciding_span_a": "are likely to deter",
+              "deciding_span_b": "deter applicants",
+              "gloss": "The first says the pressure is real and the pattern is strong. The second says it happens to every such applicant, which no study has ever shown."
+            },
+            {
+              "a": "Remote work appears to suit experienced staff better than new recruits.",
+              "b": "Remote work suits experienced staff better than new recruits.",
+              "deciding_span_a": "appears to suit",
+              "deciding_span_b": "suits experienced staff",
+              "gloss": "Appears to hands the reader the evidence and lets them weigh it. The bare verb hands them a verdict and dares them to disagree."
+            },
+            {
+              "a": "Congestion charges tend to shift traffic rather than remove it.",
+              "b": "Congestion charges shift traffic rather than remove it.",
+              "deciding_span_a": "tend to shift",
+              "deciding_span_b": "shift traffic",
+              "gloss": "One is a finding with room for the cities where it did not happen. The other is a law of nature, and the writer has not got one."
+            }
+          ]
+        },
+        "errors": [
+          {
+            "code": "hedge_missing_overclaim",
+            "wrong": "Free public transport will cut congestion in large cities.",
+            "right": "Free public transport is likely to cut congestion in large cities.",
+            "why_it_happens": "The learner has been told that a clear position scores well, so every claim comes out at full volume. The essay then defends a position nobody could defend, and the reader stops trusting the sentences around it.",
+            "smallest_fix": "Swap one form: will becomes is likely to.",
+            "gravity": "global",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "modal_strength_mismatch",
+            "wrong": "It may possibly be the case that fees deter some students.",
+            "right": "It may be the case that fees deter some students.",
+            "why_it_happens": "Having discovered that hedging is rewarded, the writer stacks hedges. Two do not make the claim twice as careful; the second one narrows what the first left, and by the end there is nothing to argue with.",
+            "smallest_fix": "Delete one word: possibly.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "register_spoken_in_writing",
+            "wrong": "In my opinion, tuition fees tend to put off students from poorer homes.",
+            "right": "Tuition fees tend to put off students from poorer homes.",
+            "why_it_happens": "The writer knows the claim needs softening and reaches for the softener they already own from speech. In an essay it reads as a disclaimer, and the hedge already sitting in the verb goes unnoticed.",
+            "smallest_fix": "Delete one phrase: In my opinion.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "verb_pattern_wrong",
+            "wrong": "Older workers are likely to being replaced first.",
+            "right": "Older workers are likely to be replaced first.",
+            "why_it_happens": "Is likely to is stored whole as a lump meaning probably, so the writer stops noticing that it ends in to and that to takes a plain verb. The -ing arrives from the nearest familiar pattern.",
+            "smallest_fix": "Change one word: being becomes be.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "Every body paragraph makes a claim, and every claim has to be the size of its evidence.",
+            "model": "Restricting advertising aimed at children is likely to reduce demand, though it may not change what parents buy."
+          },
+          {
+            "surface": "speaking_p3",
+            "mode": "productive",
+            "note": "Part 3 asks for opinions about whole societies, which nobody can defend flat.",
+            "model": "I'd say people tend to trust local news more, though that probably varies a lot by age."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "A True stem often overstates a hedged claim in the passage, which makes it False.",
+            "model": "The author suggests that the scheme may have contributed to the decline."
+          },
+          {
+            "surface": "writing_t1_academic",
+            "mode": "productive",
+            "note": "A trend description hedges the explanation and leaves the figures alone.",
+            "model": "The sharp rise after 2016 appears to coincide with the change in licensing."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "task",
+          "lexis"
+        ],
+        "used_in": [
+          {
+            "module": "writing",
+            "ref_id": "wp_core_t2_opinion_car_free_city_centres",
+            "quote": "The prompt invites a flat promise about air quality, and the answers that score are the ones that decline it."
+          },
+          {
+            "module": "writing",
+            "ref_id": "wp_t2od_13_discussion_four_day_working_week",
+            "quote": "A discussion essay has to hold two positions at once, which is impossible without a hedge on each of them."
+          },
+          {
+            "module": "speaking",
+            "ref_id": "card_p3_achievement_503",
+            "quote": "Part 3 answers about what makes people succeed are generalisations, and flat ones sound naive rather than confident."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_modal_hedging_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "reading",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Restricting deliveries to the morning tends to reduce congestion on residential streets.",
+              "question": "Is the writer claiming it works on every street?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Tends to reports a pattern and admits, without saying so, that there are streets where the restriction made no difference at all.",
+              "feed_forward": "Read a hedge as a size, not as a doubt."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_media",
+            "skill_hook": "speaking_p3",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "People get their news from social media now.",
+              "question": "Would one country where most people still watch television damage this claim?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Nothing narrows the sentence, so it covers everyone everywhere, and one counter-example is enough to bring the whole thing down.",
+              "feed_forward": "Ask how many exceptions your sentence can survive."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "may possibly",
+            "payload": {
+              "context": "From a draft Task 2 paragraph about tuition fees.",
+              "sentence": "It may possibly be the case that higher fees could perhaps deter some applicants.",
+              "acceptable": false,
+              "reasons": [
+                "four hedges in one sentence leave no claim standing",
+                "the claim about fees is untrue",
+                "the wrong kind of verb follows could",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Each hedge narrows what the one before it left, and by the end the writer has spent a whole line and undertaken nothing a reader could argue with.",
+              "feed_forward": "Hedge once, then stop."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "The writer has read about four cities where low-emission zones worked and knows of others where they did not.",
+              "stem": "Low-emission zones ___ (tend) to cut roadside pollution in the streets they cover.",
+              "blanks": 1,
+              "lemma_hints": [
+                "tend"
+              ]
+            },
+            "expected": [
+              "tend"
+            ],
+            "feedback": {
+              "why_key": "The evidence covers four cities, so the sentence has to describe a pattern rather than promise an outcome everywhere.",
+              "feed_forward": "Match the verb to the number of cases you can name."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From an essay about online degree courses.",
+              "stem": "Students in remote areas are likely to ___ (benefit) most from online teaching.",
+              "blanks": 1,
+              "lemma_hints": [
+                "benefit"
+              ]
+            },
+            "expected": [
+              "benefit"
+            ],
+            "feedback": {
+              "why_key": "Is likely to ends in to, so the plain verb follows it and nothing whatever is added to the end of that verb.",
+              "feed_forward": "Write the plain verb straight after likely to."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_06",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "Standing desks reduce back pain. The writer has read two small trials that found a benefit and one that found no effect.",
+              "instruction": "Rewrite the claim so that it is the size of that evidence.",
+              "starter": "Standing desks ___"
+            },
+            "expected": [
+              "appear to reduce back pain",
+              "may reduce back pain",
+              "might reduce back pain",
+              "tend to reduce back pain",
+              "are likely to reduce back pain",
+              "seem to reduce back pain"
+            ],
+            "feedback": {
+              "why_key": "Three trials that disagree support a possibility rather than a finding, and the sentence now says which of the two the writer is defending.",
+              "feed_forward": "Count your sources, then size the verb to match them."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_07",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_technology",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "automation",
+                "is",
+                "likely",
+                "to",
+                "displace",
+                "routine",
+                "jobs",
+                "before",
+                "it",
+                "reaches",
+                "skilled",
+                "ones"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ]
+              ],
+              "context": "Build one sentence for a paragraph about work and machines."
+            },
+            "expected": [
+              "automation is likely to displace routine jobs before it reaches skilled ones"
+            ],
+            "feedback": {
+              "why_key": "The hedge sits on the claim that could be challenged, and the second half runs flat because the order of the two is not in doubt.",
+              "feed_forward": "Put the hedge on the claim you might have to defend."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_media",
+            "skill_hook": "listening",
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "It'd probably be fairer to say the coverage tends to follow the money.",
+              "scored_tokens": [
+                "It'd",
+                "tends",
+                "to"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "it'd probably be fairer to say the coverage tends to follow the money",
+              "it would probably be fairer to say the coverage tends to follow the money",
+              "itd probably be fairer to say the coverage tends to follow the money"
+            ],
+            "feedback": {
+              "why_key": "Spoken hedging rides on contractions you barely hear, and tends to comes out as one sound. Miss them and a careful speaker sounds blunt.",
+              "feed_forward": "Listen for the small unstressed hedge in front of the main verb."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_09",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a Task 1 summary. Both figures are printed on the chart in front of the writer.",
+              "stem": "The graph ___ (show) a fall of nine per cent between 2016 and 2020.",
+              "blanks": 1,
+              "lemma_hints": [
+                "show"
+              ]
+            },
+            "expected": [
+              "shows"
+            ],
+            "feedback": {
+              "why_key": "The number is on the page in front of both of you, so hedging it would only say the writer does not trust their own eyes.",
+              "feed_forward": "Hedge what a figure means, never the figure itself."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_10",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": "cs_certainty_strength",
+            "twin_id": "gi_modal_hedging_11",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "one study of a single city",
+            "payload": {
+              "context": "The writer is opening a body paragraph and has one study of a single city behind them.",
+              "stem": "Charging drivers to enter the centre ___ traffic.",
+              "options": [
+                {
+                  "text": "will cut",
+                  "why_this_means": "That the writer undertakes to defend the outcome in every city where the charge is tried."
+                },
+                {
+                  "text": "is likely to cut",
+                  "why_this_means": "That the writer expects the outcome in most cases and has left room for the cities where it failed."
+                }
+              ],
+              "key": 1
+            },
+            "expected": [
+              "is likely to cut"
+            ],
+            "feedback": {
+              "why_key": "One city is enough to argue from and nowhere near enough to promise from, so the sentence has to say which of the two it is doing.",
+              "feed_forward": "Look at your evidence before you size the verb."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_11",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": "cs_certainty_strength",
+            "twin_id": "gi_modal_hedging_10",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "traffic fell in every single case",
+            "payload": {
+              "context": "The writer is summarising a review of forty schemes in which traffic fell in every single case, and the paragraph will set out that evidence.",
+              "stem": "Charging drivers to enter the centre ___ traffic.",
+              "options": [
+                {
+                  "text": "will cut",
+                  "why_this_means": "That the writer undertakes to defend the outcome in every city where the charge is tried."
+                },
+                {
+                  "text": "is likely to cut",
+                  "why_this_means": "That the writer expects the outcome in most cases and has left room for the cities where it failed."
+                }
+              ],
+              "key": 0
+            },
+            "expected": [
+              "will cut"
+            ],
+            "feedback": {
+              "why_key": "Forty schemes with no exception is the one situation where the flat claim is the honest one, and hedging it would give away evidence you have.",
+              "feed_forward": "Do not narrow a claim your evidence already fills."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_12",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": "cs_certainty_strength",
+            "twin_id": "gi_modal_hedging_13",
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "the two bars are clearly labelled",
+            "payload": {
+              "context": "A Task 1 summary. The chart is on the page and the two bars are clearly labelled.",
+              "stem": "The figures ___ a fall of nine per cent in applications between 2016 and 2020.",
+              "options": [
+                {
+                  "text": "show",
+                  "why_this_means": "That the fall is printed on the page and the writer is reading it out."
+                },
+                {
+                  "text": "appear to show",
+                  "why_this_means": "That the writer is reporting an impression they would not want to be held to."
+                }
+              ],
+              "key": 0
+            },
+            "expected": [
+              "show"
+            ],
+            "feedback": {
+              "why_key": "Both writer and reader are looking at the same labelled bars, so a hedge here reports doubt about something that is not in doubt.",
+              "feed_forward": "Leave given figures alone; hedge only what they mean."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_13",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": "cs_certainty_strength",
+            "twin_id": "gi_modal_hedging_12",
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "the sample was small",
+            "payload": {
+              "context": "A Task 2 paragraph quoting a survey the writer has only read about in a news report, where the sample was small.",
+              "stem": "The figures ___ a fall of nine per cent in applications between 2016 and 2020.",
+              "options": [
+                {
+                  "text": "show",
+                  "why_this_means": "That the fall is printed on the page and the writer is reading it out."
+                },
+                {
+                  "text": "appear to show",
+                  "why_this_means": "That the writer is reporting an impression they would not want to be held to."
+                }
+              ],
+              "key": 1
+            },
+            "expected": [
+              "appear to show"
+            ],
+            "feedback": {
+              "why_key": "The reader cannot see this survey and the sample is thin, so the sentence has to hand over the evidence rather than the verdict.",
+              "feed_forward": "Hedge a figure your reader cannot check for themselves."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_14",
+            "kind": "both_ok",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": "cs_certainty_strength",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "the same two studies",
+            "payload": {
+              "context": "Two drafts of one sentence about sedentary work, by a writer who has read the same two studies.",
+              "stem": "Long periods of sitting ___ the risk of heart disease.",
+              "options": [
+                {
+                  "text": "raise",
+                  "why_this_means": "That the writer treats it as settled and will spend the paragraph on what to do about it."
+                },
+                {
+                  "text": "appear to raise",
+                  "why_this_means": "That the writer treats it as a reported result and will spend the paragraph weighing it."
+                }
+              ],
+              "key": "both",
+              "follow_up": {
+                "question": "Which version leaves the writer room to discuss a study that disagreed?",
+                "key": 1
+              }
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Both sentences are honest English about the same evidence. They open two different paragraphs, and the writer has to know which one they are about to write.",
+              "feed_forward": "Decide what the next three sentences will do before you choose."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_15",
+            "kind": "contrast_pair",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "reading",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": "cs_certainty_strength",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "is likely to push",
+            "payload": {
+              "context": "Two sentences from different drafts of a paragraph about very high salaries.",
+              "sentences": [
+                "Capping executive pay is likely to push some firms to relocate.",
+                "Capping executive pay will push some firms to relocate."
+              ],
+              "meanings": [
+                "The writer expects it in most cases and is ready to discuss the firms that stayed put.",
+                "The writer has promised it happens, so one firm that stayed put breaks the paragraph."
+              ],
+              "key": [
+                0,
+                1
+              ]
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The two sentences describe the same policy and take on different amounts of work. Only one of them can be defended with the evidence anybody actually has.",
+              "feed_forward": "Ask what each version would have to survive."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_16",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": "cs_certainty_strength",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "likely to being",
+            "payload": {
+              "sentence": "Older workers are likely to being replaced first when a firm automates its warehouse.",
+              "error_span": "likely to being replaced",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "likely to be replaced",
+              "to be replaced",
+              "likely to be replaced first"
+            ],
+            "feedback": {
+              "why_key": "Is likely to ends in to, and to takes a plain verb. The phrase is stored as one lump, so the ending gets borrowed from a different pattern.",
+              "feed_forward": "After likely to, write the plain verb and nothing else."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_17",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": "cs_certainty_strength",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "You are arguing that cities should charge drivers to enter the centre. You have read about two cities where it worked and one where the traffic simply moved elsewhere. Write the opening claim of your paragraph.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": true,
+              "min_words": 10,
+              "max_words": 30,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Three cities and one failure support a strong tendency, and the opening sentence has to say so before the paragraph starts defending it.",
+              "feed_forward": "Fix the evidence in your head first, then size the claim to it."
+            }
+          },
+          {
+            "id": "gi_modal_hedging_18",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "hedge_missing_overclaim",
+              "register_spoken_in_writing"
+            ],
+            "confusion_set": "cs_certainty_strength",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Take the body paragraph you wrote on online university courses and rewrite its first sentence twice: once as a flat claim and once at the size of your evidence. Keep the better one. Four minutes.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": false,
+              "min_words": 15,
+              "max_words": 45,
+              "task_ref": "wp_core_t2_discussion_online_university_courses"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Seeing the two versions side by side is the only reliable way to notice that the flat one was never defensible in the first place.",
+              "feed_forward": "Write both, then read each one back adding and there are no exceptions."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "vocab_new": [],
+  "vocab_updates": []
+}

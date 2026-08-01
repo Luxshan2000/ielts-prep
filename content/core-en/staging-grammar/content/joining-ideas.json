@@ -14,7 +14,7 @@
     {
       "id": "gr_coordination",
       "unit_id": "u09",
-      "sequence_index": 1500,
+      "sequence_index": 1600,
       "title": "Putting two complete ideas into one sentence with and, but, or and so",
       "cefr_level": "A1",
       "role": "form",
@@ -655,7 +655,7 @@
     {
       "id": "gr_clause_types",
       "unit_id": "u09",
-      "sequence_index": 1501,
+      "sequence_index": 1601,
       "title": "Telling a piece of a sentence apart from a whole one",
       "cefr_level": "B1",
       "role": "form",
@@ -1343,7 +1343,7 @@
     {
       "id": "gr_sub_time",
       "unit_id": "u09",
-      "sequence_index": 1502,
+      "sequence_index": 1602,
       "title": "Pinning one event to another with when, while, before, after and until",
       "cefr_level": "A2",
       "role": "form",
@@ -2007,7 +2007,7 @@
     {
       "id": "gr_sub_reason_result",
       "unit_id": "u09",
-      "sequence_index": 1503,
+      "sequence_index": 1603,
       "title": "Choosing the right word to attach a reason or a result",
       "cefr_level": "A2",
       "role": "choice",
@@ -2898,7 +2898,7 @@
     {
       "id": "gr_sub_contrast",
       "unit_id": "u09",
-      "sequence_index": 1504,
+      "sequence_index": 1604,
       "title": "Admitting a fact that works against you and still keeping your point",
       "cefr_level": "B1",
       "role": "form",
@@ -3548,7 +3548,7 @@
     {
       "id": "gr_despite_although",
       "unit_id": "u09",
-      "sequence_index": 1505,
+      "sequence_index": 1605,
       "title": "Deciding between despite and although by looking at what comes next",
       "cefr_level": "B1",
       "role": "choice",
@@ -4430,7 +4430,7 @@
     {
       "id": "gr_sub_purpose",
       "unit_id": "u09",
-      "sequence_index": 1506,
+      "sequence_index": 1606,
       "title": "Saying why something was done, and choosing between to and so that",
       "cefr_level": "B1",
       "role": "choice",
@@ -5318,7 +5318,7 @@
     {
       "id": "gr_so_such_too_enough",
       "unit_id": "u09",
-      "sequence_index": 1507,
+      "sequence_index": 1607,
       "title": "Saying how much of something there was and what it led to",
       "cefr_level": "B1",
       "role": "choice",

@@ -1,0 +1,4308 @@
+{
+  "staging_version": 1,
+  "block": "comparing",
+  "authored_by": "G-A2:comparing",
+  "_readme": [
+    "U14 — comparison, degree and the language of describing data. Seven points, band 3400-3499.",
+    "gr_change_language and gr_multiples carry Academic Task 1 almost on their own; gr_comparative_grading is the hedging layer between a band 6 and a band 7 description.",
+    "Two points are role: choice (gr_comparative_grading, gr_multiples). Both sit in cs_quantifier_polarity and share the board gb_grading_vs_multiples."
+  ],
+  "points": [
+    {
+      "id": "gr_comparatives",
+      "unit_id": "u14",
+      "sequence_index": 1200,
+      "title": "Saying that one thing is bigger, quicker or better than another",
+      "cefr_level": "A2",
+      "role": "form",
+      "topic_id": "topic_transport",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "Comparative and superlative adjectives and adverbs",
+        "prerequisites": [
+          "gr_adjective_position"
+        ],
+        "unlocks_hint": "gr_as_as",
+        "priority": 1,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "local",
+        "confusion_set": null,
+        "structure_slug": "comparative",
+        "signal_blocklist": [
+          "a lot more",
+          "way more",
+          "loads more",
+          "by far"
+        ],
+        "fixes_errors": [
+          "comparative_form",
+          "word_form_wrong",
+          "article_specific_missing_the"
+        ],
+        "estimated_minutes": 22,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can say that one thing is bigger, quicker or better than another, and which one is the best of a group.",
+          "why_it_matters": "Every chart description and half of every opinion paragraph is built out of these endings, and the two ways of breaking them are visible from across the room.",
+          "meaning": "A comparison puts two things on one scale and says which of them sits higher. It does not say by how much, and it does not say either of them is high — a slower train can still be fast. The top form does something different again: it takes one thing out of a named group and puts it at the end of the scale, with nothing left beyond it. That is a much stronger claim, and it is the one a reader will check.",
+          "form": {
+            "pattern": "SHORT WORD + -er + than  ·  more + LONG WORD + than  ·  the + -est  ·  the most + LONG WORD",
+            "notes": [
+              "one syllable: add -er and -est — fast, faster, the fastest",
+              "one syllable ending consonant-vowel-consonant: double the last letter — big, bigger, the biggest; hot, hotter, the hottest. Not after w, x or y: new, newer; slow, slower",
+              "ending in -e: add -r and -st only — safe, safer, the safest; large, larger, the largest",
+              "two syllables ending in -y: the y becomes i — busy, busier, the busiest; early, earlier, the earliest",
+              "two syllables or more otherwise: more and the most — careful, more careful, the most careful",
+              "a handful of two-syllable words take either: quiet, clever, narrow, simple, gentle — quieter or more quiet, both fine",
+              "words describing how something is done and ending in -ly take more and the most: more quickly, the most carefully. But fast, hard, early, late, soon and long keep the ending: arrives earliest, works hardest",
+              "the ones that ignore all of this: good and well go to better and the best; bad and badly go to worse and the worst; far goes to further or farther and the furthest or the farthest; little goes to less and the least; much and many both go to more and the most",
+              "never both at once: not more easier, not the most biggest",
+              "the goes in front of every top form — the cheapest fares, not cheapest fares"
+            ],
+            "negative": "less + word + than sends the comparison the other way: the new timetable is less reliable than the old one.",
+            "question": "Which route is quicker, the coast road or the bypass?"
+          },
+          "visual": {
+            "kind": "cline",
+            "spec": {
+              "label": "how long does the crossing take?",
+              "steps": [
+                {
+                  "text": "the tunnel — 12 minutes",
+                  "gloss": "the quickest of the three; nothing in the group beats it"
+                },
+                {
+                  "text": "the bypass — 35 minutes",
+                  "gloss": "quicker than the coast road, slower than the tunnel"
+                },
+                {
+                  "text": "the coast road — 50 minutes",
+                  "gloss": "the slowest of the three"
+                }
+              ]
+            }
+          },
+          "worked_example": {
+            "sentence": "The bypass is quicker than the coast road, but the tunnel is the quickest of the three.",
+            "why_this_form": "The first half weighs two roads against each other and names the winner. The second half stops weighing and ranks: nothing in the group is left above the tunnel.",
+            "what_the_other_would_mean": "Write that the tunnel is quicker and you have beaten one rival only. The -est ending is what puts it in front of every crossing in the group."
+          },
+          "notice_set": [
+            {
+              "sentence": "The 8:10 is slower than the 8:40.",
+              "question": "Which train takes longer to get there?",
+              "options": [
+                "the 8:10",
+                "the 8:40",
+                "the sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Slower puts the 8:10 lower on the speed scale, and than names the train it is being measured against."
+            },
+            {
+              "sentence": "The Verdon bridge is the narrowest crossing on the river.",
+              "question": "How many crossings on the river are narrower?",
+              "options": [
+                "none",
+                "one",
+                "the sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "The -est ending puts the bridge at the end of the line, so there is nothing left below it in that group."
+            },
+            {
+              "sentence": "Fares on the coast route rose more steeply than fares on the bypass.",
+              "question": "Where did people end up paying a bigger increase?",
+              "options": [
+                "on the coast route",
+                "on the bypass",
+                "both paid the same"
+              ],
+              "key": 0,
+              "why": "More steeply measures the two rises against each other, and the coast route is the one placed higher."
+            },
+            {
+              "sentence": "This lift is less reliable than the one in the north block.",
+              "question": "Which lift breaks down more often?",
+              "options": [
+                "this one",
+                "the one in the north block",
+                "the sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Less sends the comparison downwards, so this lift sits below the other one on the reliability scale."
+            },
+            {
+              "sentence": "Halima cycles further to work than anyone else on her floor.",
+              "question": "Does anybody on her floor have a longer ride in?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Anyone else sweeps in the whole floor, so beating all of them leaves nobody with a longer journey."
+            }
+          ],
+          "discovery": {
+            "prompt": "The describing words on the left change their ending. The ones on the right take an extra word in front instead. Work out what decides it.",
+            "pairs": [
+              [
+                "The path is wider here.",
+                "The path is more crowded here."
+              ],
+              [
+                "Fares are higher this year.",
+                "Fares are more affordable this year."
+              ],
+              [
+                "The 8:10 is slower.",
+                "The 8:10 is more reliable."
+              ]
+            ],
+            "candidate_rules": [
+              {
+                "text": "Short words change their ending; longer words take an extra word in front.",
+                "verdict": "right"
+              },
+              {
+                "text": "Words about size and speed change their ending.",
+                "verdict": "too_narrow"
+              },
+              {
+                "text": "Add -er whenever the sentence contains than.",
+                "verdict": "keyword_trap"
+              }
+            ]
+          },
+          "rule_line": "Count the syllables: one takes the ending, three or more take more, two can go either way.",
+          "false_rule": "That more is the polite or academic way of building a comparison. It is not a style choice at all — the length of the word decides it for you."
+        },
+        "errors": [
+          {
+            "code": "comparative_form",
+            "wrong": "The coast road is more quicker than the bypass at that hour.",
+            "right": "The coast road is quicker than the bypass at that hour.",
+            "why_it_happens": "The learner has two working ways of building a comparison and no rule for choosing between them, so both go in for safety. Doubling up feels like emphasis rather than like an error.",
+            "smallest_fix": "Delete one word: more.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "comparative_form",
+            "wrong": "The Verdon is the most long river in the county.",
+            "right": "The Verdon is the longest river in the county.",
+            "why_it_happens": "Most is easier to reach for than a spelling change, and it works on almost every word the learner has met in an essay. Nothing warns them that a one-syllable word refuses it.",
+            "smallest_fix": "Swap one form: most long becomes longest.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "word_form_wrong",
+            "wrong": "The new lifts run more quick than the old ones.",
+            "right": "The new lifts run more quickly than the old ones.",
+            "why_it_happens": "The word is describing how the lifts run rather than what they are like, and that difference is invisible until somebody points at it. The comparison itself was built correctly.",
+            "smallest_fix": "Add two letters: quick becomes quickly.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "article_specific_missing_the",
+            "wrong": "Sandmouth has cheapest fares anywhere on this stretch of coast.",
+            "right": "Sandmouth has the cheapest fares anywhere on this stretch of coast.",
+            "why_it_happens": "The ending already feels like it has done the ranking, so the small word in front looks like it is not carrying anything. In this one place it is compulsory.",
+            "smallest_fix": "Insert one word: the.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "writing_t1_academic",
+            "mode": "productive",
+            "note": "The overview sentence ranks the bars, and ranking is what these endings are for.",
+            "model": "Road carried more freight than rail and water combined throughout the period."
+          },
+          {
+            "surface": "speaking_p1",
+            "mode": "productive",
+            "note": "Questions about your town, your commute or your job all invite a comparison.",
+            "model": "The bus is cheaper, but the train gets me in a good deal earlier."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "A statement that quietly upgrades a comparison into a top ranking is false on one ending.",
+            "model": "Sandmouth recorded the steepest fall of the four coastal towns."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "task"
+        ],
+        "used_in": [
+          {
+            "module": "writing",
+            "ref_id": "wp_a1_03_line_freight_by_mode",
+            "quote": "Three lines on one graph cannot be described without ranking them, and ranking three things needs both the two-way and the top form."
+          },
+          {
+            "module": "speaking",
+            "ref_id": "card_p1_home_town_802",
+            "quote": "Answers about a home town turn into comparisons with somewhere else within about two sentences."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_comparatives_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_transport",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The bypass is busier than the coast road at this time of day.",
+              "question": "Which road has more traffic on it right now?",
+              "options": [
+                "the bypass",
+                "the coast road",
+                "the sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Busier puts the bypass higher on one scale, and than names the road it has been measured against.",
+              "feed_forward": "Read than as the thing that came second."
+            }
+          },
+          {
+            "id": "gi_comparatives_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "reading",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Sandmouth had the lowest rents of the four districts surveyed.",
+              "question": "How many of the four districts were cheaper than Sandmouth?",
+              "options": [
+                "none",
+                "one",
+                "the sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The ending places Sandmouth at the bottom of a named group, so nothing inside that group sits below it.",
+              "feed_forward": "Treat an -est ending as a claim about the whole group."
+            }
+          },
+          {
+            "id": "gi_comparatives_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "more quicker",
+            "payload": {
+              "context": "A first draft describing a graph of journey times.",
+              "sentence": "Travel by rail became more quicker across the ten-year period.",
+              "acceptable": false,
+              "reasons": [
+                "the comparison has been built twice over",
+                "the wrong two things are being weighed",
+                "the period named is too long for this word",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Quicker has already done the whole job. More tries to do it a second time and English allows only one of them.",
+              "feed_forward": "Use more or use the ending, never both."
+            }
+          },
+          {
+            "id": "gi_comparatives_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "A note attached to a table of district rents.",
+              "stem": "Rents in Ashfield are ___ (high) than anywhere else along the line.",
+              "blanks": 1,
+              "lemma_hints": [
+                "high"
+              ]
+            },
+            "expected": [
+              "higher"
+            ],
+            "feedback": {
+              "why_key": "One syllable, so the ending carries the comparison and there is nothing for an extra word to do.",
+              "feed_forward": "Count the syllables before you reach for more."
+            }
+          },
+          {
+            "id": "gi_comparatives_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_sport",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "Two runners weighing up two ways round the park.",
+              "stem": "The river loop is ___ (muddy) in winter than the path along the top.",
+              "blanks": 1,
+              "lemma_hints": [
+                "muddy"
+              ]
+            },
+            "expected": [
+              "muddier"
+            ],
+            "feedback": {
+              "why_key": "Two syllables ending in y, so the y turns into an i and the ending goes on after it.",
+              "feed_forward": "Change y to i before you add the ending."
+            }
+          },
+          {
+            "id": "gi_comparatives_06",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "article_specific_missing_the"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "the",
+                "tunnel",
+                "is",
+                "the",
+                "quickest",
+                "of",
+                "the",
+                "three",
+                "crossings"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ]
+              ],
+              "context": "Build one sentence about the three ways across the Verdon."
+            },
+            "expected": [
+              "the tunnel is the quickest of the three crossings"
+            ],
+            "feedback": {
+              "why_key": "The small word goes in front of the ending, and the group being beaten follows straight after it.",
+              "feed_forward": "Put the in front of an -est ending, every time."
+            }
+          },
+          {
+            "id": "gi_comparatives_07",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "The coast road takes fifty minutes. The bypass takes thirty-five.",
+              "instruction": "Write one sentence that weighs the two roads against each other.",
+              "starter": "The bypass ___"
+            },
+            "expected": [
+              "is quicker than the coast road",
+              "is faster than the coast road",
+              "is quicker than the coast road by fifteen minutes"
+            ],
+            "feedback": {
+              "why_key": "Two numbers collapse into one clause: the ending carries the comparison and than carries the road that lost.",
+              "feed_forward": "Name the winner first, then add than."
+            }
+          },
+          {
+            "id": "gi_comparatives_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_housing",
+            "skill_hook": "listening",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "The flat upstairs is bigger and it's warmer.",
+              "scored_tokens": [
+                "bigger",
+                "warmer"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "the flat upstairs is bigger and it's warmer",
+              "the flat upstairs is bigger and its warmer",
+              "the flat upstairs is bigger and it is warmer"
+            ],
+            "feedback": {
+              "why_key": "The endings are unstressed and easy to lose. Lose them and you hear one flat described rather than two flats weighed up.",
+              "feed_forward": "Listen to the very end of the describing word."
+            }
+          },
+          {
+            "id": "gi_comparatives_09",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "the most easiest",
+            "payload": {
+              "sentence": "Evening classes are the most easiest option to fit round a shift pattern.",
+              "error_span": "the most easiest",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "the easiest",
+              "the simplest",
+              "the most straightforward"
+            ],
+            "feedback": {
+              "why_key": "Easiest has already put the classes at the top of the group. Most is a second run at the same job.",
+              "feed_forward": "Delete most when the word already ends in -est."
+            }
+          },
+          {
+            "id": "gi_comparatives_10",
+            "kind": "contrast_pair",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "reading",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "the most steeply of the six districts",
+            "payload": {
+              "context": "Two lines taken from separate notes on one set of figures.",
+              "sentences": [
+                "Fares in Marlow rose more steeply than fares in Ashfield.",
+                "Fares in Marlow rose the most steeply of the six districts."
+              ],
+              "meanings": [
+                "Two places are being weighed against each other, and one of them moved further.",
+                "Marlow sits at the top of a list of six, with nothing above it."
+              ],
+              "key": [
+                0,
+                1
+              ]
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "One sentence weighs a pair; the other ranks a group of six. The ending is the only thing telling you which.",
+              "feed_forward": "Ask how many things are in the group before you choose the ending."
+            }
+          },
+          {
+            "id": "gi_comparatives_11",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "A graph shows freight moved by road, rail and water over ten years. Road is highest all the way through and water is lowest. Write one sentence that ranks all three.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": true,
+              "min_words": 10,
+              "max_words": 30,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Ranking three things inside one sentence is the move that turns a list of numbers into a description of a graph.",
+              "feed_forward": "Name the top, then place the other two against it."
+            }
+          },
+          {
+            "id": "gi_comparatives_12",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Open your freight graph answer. Rewrite the overview so that it ranks the three modes in a single sentence instead of listing them one after another. Two minutes.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": false,
+              "min_words": 12,
+              "max_words": 40,
+              "task_ref": "wp_a1_03_line_freight_by_mode"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "An overview that ranks is doing the task. An overview that lists is only reading the graph out loud.",
+              "feed_forward": "Rank first, then give the numbers that prove the ranking."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_as_as",
+      "unit_id": "u14",
+      "sequence_index": 1201,
+      "title": "Saying two things are level, or that one falls short of the other",
+      "cefr_level": "A2",
+      "role": "accuracy",
+      "topic_id": "topic_sport",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "as ... as, not as ... as, the same as, similar to, different from",
+        "prerequisites": [
+          "gr_comparatives"
+        ],
+        "unlocks_hint": "gr_multiples",
+        "priority": 2,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "local",
+        "confusion_set": null,
+        "structure_slug": "comparative",
+        "signal_blocklist": [
+          "exactly the same",
+          "no difference at all",
+          "level with",
+          "neck and neck"
+        ],
+        "fixes_errors": [
+          "comparative_form",
+          "preposition_dependent",
+          "quantifier_wrong_class"
+        ],
+        "estimated_minutes": 20,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can say that two things are level, or that one of them does not reach the other.",
+          "why_it_matters": "A description that only ever names winners cannot say two figures met, and figures meet constantly. These frames also keep a preposition each, and learners lose all three.",
+          "meaning": "A comparison does not always have a winner. Sometimes the whole point is that two things sit at the same height, and sometimes it is that one of them stops short of the other. English builds both with a frame rather than with an ending, and the describing word sits inside the frame without changing shape at all. That last part is what makes these easy to build, and it is also why they go wrong: the ending arrives out of habit and has nothing to do.",
+          "form": {
+            "pattern": "as + WORD + as  ·  not as + WORD + as  ·  the same as  ·  similar to  ·  different from",
+            "notes": [
+              "the word inside the frame never changes shape: as high as, not as high as — never as higher as",
+              "the same needs the in front and one as after it: the fee is the same as last year's",
+              "similar always takes to; different always takes from",
+              "with things you count the frame stretches to as many ... as; with things you measure it is as much ... as",
+              "not so ... as turns up in speech, but not as ... as is safe everywhere and costs nothing",
+              "the frame can carry a whole noun phrase: as high a figure as, as long a wait as"
+            ],
+            "negative": "not as high as, or the gentler not quite as high as",
+            "question": "Is the new pass as cheap as the old one?"
+          },
+          "visual": {
+            "kind": "axis",
+            "spec": {
+              "ends": [
+                "level with it",
+                "nowhere near it"
+              ],
+              "marks": [
+                {
+                  "pos": 0.0,
+                  "label": "as high as"
+                },
+                {
+                  "pos": 0.15,
+                  "label": "almost as high as"
+                },
+                {
+                  "pos": 0.4,
+                  "label": "not quite as high as"
+                },
+                {
+                  "pos": 0.7,
+                  "label": "not as high as"
+                },
+                {
+                  "pos": 1.0,
+                  "label": "nowhere near as high as"
+                }
+              ]
+            }
+          },
+          "worked_example": {
+            "sentence": "Rail carried as much freight in 2016 as it had ten years earlier.",
+            "why_this_form": "The two figures met, so there is no winner to name. The frame holds them side by side and leaves the describing word alone.",
+            "what_the_other_would_mean": "Carried more freight than would put 2016 in front, which the figures do not support, and it would hide the fact that a decade produced no movement at all."
+          },
+          "notice_set": [
+            {
+              "sentence": "The new footbridge is not as wide as the old one.",
+              "question": "Which bridge takes more people side by side?",
+              "options": [
+                "the new one",
+                "the old one",
+                "the sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Not as wide as stops the new bridge short of the old one, so the old one is the roomier of the two."
+            },
+            {
+              "sentence": "Fees in Ashfield are the same as fees in Marlow.",
+              "question": "Would you pay more in Marlow?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "The same as sets the two towns at one figure, so neither of them is the dearer place."
+            },
+            {
+              "sentence": "The pool is as busy on Sunday as it is on Saturday.",
+              "question": "Is Sunday the quiet day?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "The frame holds the two days at one level, so neither of them can be the quiet one."
+            },
+            {
+              "sentence": "Water use in the south is similar to water use in the east.",
+              "question": "Are the two figures close together?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Similar claims a short distance between the two. It does not claim there is none."
+            },
+            {
+              "sentence": "Journey times on the coast route are nowhere near as reliable as they were.",
+              "question": "Has the route got worse?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Nowhere near stretches the shortfall as far as it will go, and today's route is on the low end of it."
+            }
+          ],
+          "rule_line": "Two ases hold two things level. Put not in front and the first one falls short.",
+          "false_rule": "That this frame is only for things that are exactly equal. It measures the distance between two things, and one of the distances it measures is none."
+        },
+        "errors": [
+          {
+            "code": "comparative_form",
+            "wrong": "The tunnel is as quicker as the bypass in the evening.",
+            "right": "The tunnel is as quick as the bypass in the evening.",
+            "why_it_happens": "Every comparison the learner has built so far needed an ending, so the ending comes along automatically. Inside this frame there is nothing for it to do, because the frame is already doing the comparing.",
+            "smallest_fix": "Delete two letters: quicker becomes quick.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "preposition_dependent",
+            "wrong": "Rents in Marlow are different than rents in Brackenfield.",
+            "right": "Rents in Marlow are different from rents in Brackenfield.",
+            "why_it_happens": "Than is the word that follows every other comparison, so it turns up here as well. Different is not that kind of word and never has been: it takes from.",
+            "smallest_fix": "Change one word: than becomes from.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "comparative_form",
+            "wrong": "This year's total is as same as last year's.",
+            "right": "This year's total is the same as last year's.",
+            "why_it_happens": "The learner has one frame for comparing and pushes same into it. Same is an ordinary describing word that needs the in front of it, and only one as behind.",
+            "smallest_fix": "Change one word: the first as becomes the.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "quantifier_wrong_class",
+            "wrong": "The reserve gets as much visitors as the castle does.",
+            "right": "The reserve gets as many visitors as the castle does.",
+            "why_it_happens": "Much and many both mean a large amount and nothing in the meaning separates them, so whichever is nearer the front of the learner's mind goes in. Only many will sit in front of something you count one at a time.",
+            "smallest_fix": "Change one word: much becomes many.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "writing_t1_academic",
+            "mode": "productive",
+            "note": "Half the sentences in a chart description report a level, not a winner.",
+            "model": "In 2014 the reserve drew as many visitors as the castle."
+          },
+          {
+            "surface": "speaking_p1",
+            "mode": "productive",
+            "note": "Comparing where you live now with where you lived before.",
+            "model": "The new place isn't as noisy as the flat I had before."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "A statement that swaps from for than, or drops the second as, is testing exactly this.",
+            "model": "Rainfall in the uplands was similar to rainfall on the coast."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "lexis"
+        ],
+        "used_in": [
+          {
+            "module": "writing",
+            "ref_id": "wp_a1_01_bar_recycling_materials",
+            "quote": "Two towns with the same recycling figure cannot be described with a ranking, and the bar chart hands the learner several such pairs."
+          },
+          {
+            "module": "speaking",
+            "ref_id": "card_p3_sport_and_society_806",
+            "quote": "Part 3 answers about sport compare two activities or two generations, and most of those comparisons end level."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_as_as_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_sport",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The five-a-side pitch isn't as busy as it used to be.",
+              "question": "Do fewer people use it now?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The frame holds today's pitch below its own past, so use has come down since then.",
+              "feed_forward": "Find the two things being held apart before you answer."
+            }
+          },
+          {
+            "id": "gi_as_as_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "reading",
+            "error_codes": [
+              "preposition_dependent"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Rainfall in the Verdon valley is similar to rainfall further inland.",
+              "question": "Are the two areas close on this measure?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Similar claims a short distance between two figures. It stops well short of claiming they match.",
+              "feed_forward": "Read similar as close, never as equal."
+            }
+          },
+          {
+            "id": "gi_as_as_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "preposition_dependent"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "different than",
+            "payload": {
+              "context": "A draft paragraph on a table of district rents.",
+              "sentence": "Rents in Brackenfield are different than rents in Sandmouth.",
+              "acceptable": false,
+              "reasons": [
+                "different does not take than",
+                "the two districts cannot be weighed this way",
+                "the sentence is missing its second as",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Than belongs after an ending or after more. Different asks for from and will not take anything else.",
+              "feed_forward": "Pair different with from before you write the second half."
+            }
+          },
+          {
+            "id": "gi_as_as_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a report weighing up two regions.",
+              "stem": "Water use in the south is ___ same as water use in the east.",
+              "blanks": 1,
+              "lemma_hints": []
+            },
+            "expected": [
+              "the"
+            ],
+            "feedback": {
+              "why_key": "Same is an ordinary describing word and needs the in front of it. An as will not do that job.",
+              "feed_forward": "Write the same as as one three-word block."
+            }
+          },
+          {
+            "id": "gi_as_as_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_food",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "quantifier_wrong_class"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "Two colleagues weighing up two places to eat near the depot.",
+              "stem": "The café gets as ___ customers at lunchtime as the canteen does.",
+              "blanks": 1,
+              "lemma_hints": [
+                "much / many"
+              ]
+            },
+            "expected": [
+              "many"
+            ],
+            "feedback": {
+              "why_key": "Customers arrive one at a time and can be counted, so the frame takes many. Much is for what you measure instead.",
+              "feed_forward": "Ask whether you could count them before choosing."
+            }
+          },
+          {
+            "id": "gi_as_as_06",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "Rail moved 40 million tonnes in 2006. Rail moved 40 million tonnes in 2016.",
+              "instruction": "Write one sentence saying the two years came out level.",
+              "starter": "Rail moved ___"
+            },
+            "expected": [
+              "as much freight in 2016 as it did in 2006",
+              "as much freight in 2016 as in 2006",
+              "the same amount of freight in 2016 as in 2006",
+              "as much in 2016 as it did in 2006"
+            ],
+            "feedback": {
+              "why_key": "Two identical figures have no winner between them. The frame sets them side by side and says so in one clause.",
+              "feed_forward": "Reach for the frame whenever two numbers match."
+            }
+          },
+          {
+            "id": "gi_as_as_07",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_tourism",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "the",
+                "island",
+                "is",
+                "not",
+                "as",
+                "popular",
+                "as",
+                "it",
+                "was",
+                "in",
+                "2010"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10
+                ]
+              ],
+              "context": "Build one sentence about visitor numbers on the island."
+            },
+            "expected": [
+              "the island is not as popular as it was in 2010"
+            ],
+            "feedback": {
+              "why_key": "Not sits in front of the whole frame, and the describing word stays plain between the two ases.",
+              "feed_forward": "Put not before the frame, never inside it."
+            }
+          },
+          {
+            "id": "gi_as_as_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_housing",
+            "skill_hook": "listening",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "It's not as quiet as the place we had before.",
+              "scored_tokens": [
+                "not",
+                "as",
+                "quiet"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "it's not as quiet as the place we had before",
+              "its not as quiet as the place we had before",
+              "it is not as quiet as the place we had before"
+            ],
+            "feedback": {
+              "why_key": "Both ases are unstressed and the second almost disappears. Learners write not quiet as and lose half the frame.",
+              "feed_forward": "Count two ases every time you hear this frame."
+            }
+          },
+          {
+            "id": "gi_as_as_09",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "as same as",
+            "payload": {
+              "sentence": "The fee for an evening class is as same as the daytime fee.",
+              "error_span": "as same as",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "the same as",
+              "identical to",
+              "no different from"
+            ],
+            "feedback": {
+              "why_key": "Same needs the in front of it, and a single as behind is enough to carry the second half.",
+              "feed_forward": "Change the first as to the whenever same follows."
+            }
+          },
+          {
+            "id": "gi_as_as_10",
+            "kind": "judge",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_sport",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "as cheaper as",
+            "payload": {
+              "context": "A paragraph arguing about the cost of keeping fit.",
+              "sentence": "Swimming at the council pool is as cheaper as running in the park.",
+              "acceptable": false,
+              "reasons": [
+                "the describing word should stay plain inside the frame",
+                "the two activities are too different to weigh",
+                "the sentence needs from instead of the second as",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The frame is already doing the comparing. An ending on top of it makes the sentence compare twice over.",
+              "feed_forward": "Strip the ending off the word between the two ases."
+            }
+          },
+          {
+            "id": "gi_as_as_11",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "A chart shows household recycling in two towns. In 2018 both of them recycled 44 out of every hundred tonnes. Write one sentence reporting that, without naming a winner.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": true,
+              "min_words": 10,
+              "max_words": 30,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Figures meet all the time, and a writer with no way of saying so has to invent a difference that is not there.",
+              "feed_forward": "Say the two are level, then give the year."
+            }
+          },
+          {
+            "id": "gi_as_as_12",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Open your recycling chart answer. Find a place where two figures are level or nearly level, and rewrite that sentence so it reports the level instead of ranking them. Two minutes.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": false,
+              "min_words": 12,
+              "max_words": 40,
+              "task_ref": "wp_a1_01_bar_recycling_materials"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Under time pressure every sentence turns into a ranking, and a reader who checks two of them stops trusting the rest.",
+              "feed_forward": "Check each comparison for a winner that is not really there."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_superlative_hedge",
+      "unit_id": "u14",
+      "sequence_index": 1202,
+      "title": "Putting something near the top without claiming it is the top",
+      "cefr_level": "B2",
+      "role": "accuracy",
+      "topic_id": "topic_tourism",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "one of the + superlative + plural noun; among the most",
+        "prerequisites": [
+          "gr_comparatives"
+        ],
+        "unlocks_hint": "gr_comparative_grading",
+        "priority": 2,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "local",
+        "confusion_set": null,
+        "structure_slug": "comparative",
+        "signal_blocklist": [
+          "number one",
+          "top of the list",
+          "the single biggest",
+          "beyond doubt"
+        ],
+        "fixes_errors": [
+          "hedge_missing_overclaim",
+          "countable_uncountable",
+          "agreement_subject_verb"
+        ],
+        "estimated_minutes": 20,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can put something near the top of a group without claiming it is the very top.",
+          "why_it_matters": "A top-of-the-list claim needs only one counter-example to fall over, and it takes the rest of your paragraph with it. This frame keeps the claim strong and keeps it survivable.",
+          "meaning": "A top ranking is the strongest claim English will let you make about a group: nothing else comes close, and one exception destroys it. Most of the time what you actually mean is weaker and more useful — that the thing sits in the small handful at the top. That is what this frame says. Because it reaches into a group and picks one member out, the group itself has to be named, and a group is always more than one.",
+          "form": {
+            "pattern": "one of the + -est / most + PLURAL NOUN  ·  among the + -est / most + PLURAL NOUN",
+            "notes": [
+              "the noun after the frame is always plural, because it names the group, not the thing: one of the largest towns",
+              "the verb answers to one, not to the plural: one of the busiest stations is closed this week",
+              "among the takes no one and no a in front of it: among the cheapest options available",
+              "a clause hanging off the plural noun agrees with the group: one of the few schemes that have survived",
+              "it works on words describing how something is done too: one of the most heavily used crossings",
+              "the softer versions: among the busier crossings, one of the more expensive options — near the top, no ranking claimed"
+            ],
+            "negative": "not one of the cheapest puts the thing outside the top group without saying where it does sit.",
+            "question": "Is it one of the busiest crossings on the river?"
+          },
+          "visual": {
+            "kind": "cline",
+            "spec": {
+              "label": "how strong is the claim, and how easily does it fall over?",
+              "steps": [
+                {
+                  "text": "the busiest crossing on the river",
+                  "gloss": "alone at the top; one busier crossing sinks the sentence"
+                },
+                {
+                  "text": "one of the busiest crossings on the river",
+                  "gloss": "in the top handful; survives a reader who knows the river"
+                },
+                {
+                  "text": "among the busier crossings",
+                  "gloss": "above the middle, and nothing more is claimed"
+                },
+                {
+                  "text": "a busy crossing",
+                  "gloss": "no claim about anything else at all"
+                }
+              ]
+            }
+          },
+          "worked_example": {
+            "sentence": "Sandmouth is one of the wettest towns on this stretch of coast.",
+            "why_this_form": "The claim is strong enough to be worth making and small enough to survive a reader who knows a wetter town. The group at the top has several members, so towns is plural.",
+            "what_the_other_would_mean": "The wettest town would stand Sandmouth alone at the top, and a single rainier place anywhere along that coast would make the whole sentence untrue."
+          },
+          "notice_set": [
+            {
+              "sentence": "Brackenfield has one of the oldest markets in the county.",
+              "question": "Could any market in the county be older?",
+              "options": [
+                "yes, a few",
+                "no, none",
+                "the sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "The frame reaches into a small group at the top and picks one member, so a handful of older markets is exactly what it expects."
+            },
+            {
+              "sentence": "Brackenfield has the oldest market in the county.",
+              "question": "Could any market in the county be older?",
+              "options": [
+                "yes, a few",
+                "no, none",
+                "the sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Nothing is left above it, so one older market anywhere in the county would make the sentence untrue."
+            },
+            {
+              "sentence": "Cycling is among the cheapest ways of getting into town.",
+              "question": "Might something be cheaper than cycling?",
+              "options": [
+                "yes, possibly",
+                "no, nothing",
+                "the sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Among places cycling inside the cheap group and deliberately leaves room underneath it."
+            },
+            {
+              "sentence": "One of the two lifts is out of service today.",
+              "question": "How many lifts are working?",
+              "options": [
+                "one",
+                "two",
+                "none"
+              ],
+              "key": 0,
+              "why": "The sentence picks a single lift out of the pair and says nothing at all against the other one."
+            },
+            {
+              "sentence": "The island is one of the few places on this coast that have kept a daily boat.",
+              "question": "Do other places still have a daily boat?",
+              "options": [
+                "yes, a few",
+                "no, only the island",
+                "the sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Few places names a small surviving group, and the island is one member of it rather than the whole of it."
+            }
+          ],
+          "rule_line": "One of the always lands on a group, so the thing you name after it must be plural.",
+          "false_rule": "That one of means you are describing one thing, so the noun should be singular. One picks the item; the noun names the group it was picked out of."
+        },
+        "errors": [
+          {
+            "code": "countable_uncountable",
+            "wrong": "Marlow is one of the largest town in the district.",
+            "right": "Marlow is one of the largest towns in the district.",
+            "why_it_happens": "One is sitting right beside the noun and drags it into the singular. The noun is not describing Marlow, though — it is naming the group Marlow has just been lifted out of.",
+            "smallest_fix": "Add one letter: town becomes towns.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "agreement_subject_verb",
+            "wrong": "One of the busiest crossings are closed for repairs.",
+            "right": "One of the busiest crossings is closed for repairs.",
+            "why_it_happens": "Crossings stands next to the verb and wins the argument by being nearest. The thing that is actually shut is a single crossing, and that is the word the verb has to answer to.",
+            "smallest_fix": "Change one word: are becomes is.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "hedge_missing_overclaim",
+            "wrong": "Traffic is the most serious problem any council has to deal with.",
+            "right": "Traffic is one of the most serious problems any council has to deal with.",
+            "why_it_happens": "The unhedged version sounds more forceful, and force feels like a virtue in an argument. The reader only has to think of one worse problem to stop believing the paragraph.",
+            "smallest_fix": "Insert three words: one of the.",
+            "gravity": "global",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "agreement_subject_verb",
+            "wrong": "It is one of the few schemes that has survived the cuts.",
+            "right": "It is one of the few schemes that have survived the cuts.",
+            "why_it_happens": "The clause looks as though it belongs to the one, but it is doing its work on schemes: the survivors are the few, and one of them is being singled out afterwards.",
+            "smallest_fix": "Change one word: has becomes have.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "It lets you make a strong claim you can still defend in the next sentence.",
+            "model": "Housing is one of the hardest costs for a young household to absorb."
+          },
+          {
+            "surface": "writing_t1_academic",
+            "mode": "productive",
+            "note": "It ranks a bar without pretending it stands alone at the top.",
+            "model": "Rail was among the fastest-growing categories across the period."
+          },
+          {
+            "surface": "speaking_p3",
+            "mode": "productive",
+            "note": "Part 3 runs on claims that are strong without being absolute.",
+            "model": "It's one of the reasons people move away, though it isn't the only one."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "task"
+        ],
+        "used_in": [
+          {
+            "module": "writing",
+            "ref_id": "wp_t2od_17_discussion_rural_town_services",
+            "quote": "An answer about services in small towns has to rank several problems, and every ranking in it needs to survive a reader who lives in one."
+          },
+          {
+            "module": "reading",
+            "ref_id": "rp_a2",
+            "quote": "A statement that turns the passage's hedged ranking into an outright top ranking is false on those three small words."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_superlative_hedge_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_tourism",
+            "skill_hook": "reading",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The Norland reserve is one of the largest wetlands in the region.",
+              "question": "Might another wetland in the region be about the same size?",
+              "options": [
+                "Yes, probably",
+                "No, none",
+                "The sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The frame puts the reserve in the top handful and leaves the other members of that handful standing.",
+              "feed_forward": "Read one of the as top handful, not as top."
+            }
+          },
+          {
+            "id": "gi_superlative_hedge_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_food",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "That's one of the better places to eat near the station.",
+              "question": "Is the speaker saying nowhere else nearby is any good?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The frame names a group of decent places and picks one out, so the rest of the group is still there.",
+              "feed_forward": "Notice how much the speaker is not claiming."
+            }
+          },
+          {
+            "id": "gi_superlative_hedge_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_urbanisation",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "countable_uncountable"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "one of the fastest growing city",
+            "payload": {
+              "context": "A draft paragraph about towns that have grown quickly.",
+              "sentence": "Ashfield is one of the fastest growing city in the north.",
+              "acceptable": false,
+              "reasons": [
+                "the group being named has to be plural",
+                "the ranking is stronger than the evidence allows",
+                "the sentence needs among instead of one of",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The word after the ending names the group Ashfield was picked from, and a group of one is not a group.",
+              "feed_forward": "Make the noun plural whenever one of the comes first."
+            }
+          },
+          {
+            "id": "gi_superlative_hedge_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_urbanisation",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "countable_uncountable"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a paragraph on a table of district populations.",
+              "stem": "Ashfield is one of the fastest-growing ___ (district) in the county.",
+              "blanks": 1,
+              "lemma_hints": [
+                "district"
+              ]
+            },
+            "expected": [
+              "districts"
+            ],
+            "feedback": {
+              "why_key": "The word names the group Ashfield has been lifted out of, and that group has several members in it.",
+              "feed_forward": "Add the plural ending after one of the."
+            }
+          },
+          {
+            "id": "gi_superlative_hedge_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A notice at the Verdon river crossings.",
+              "stem": "One of the two river crossings ___ (be) shut until April.",
+              "blanks": 1,
+              "lemma_hints": [
+                "be"
+              ]
+            },
+            "expected": [
+              "is"
+            ],
+            "feedback": {
+              "why_key": "A single crossing is shut. Crossings is only there to say which pair it came out of.",
+              "feed_forward": "Look back to one before you choose the verb."
+            }
+          },
+          {
+            "id": "gi_superlative_hedge_06",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "The Verdon is the most polluted river in the region.",
+              "instruction": "Rewrite it so the claim survives a reader who knows a dirtier river.",
+              "starter": "The Verdon is ___"
+            },
+            "expected": [
+              "one of the most polluted rivers in the region",
+              "among the most polluted rivers in the region",
+              "one of the more polluted rivers in the region"
+            ],
+            "feedback": {
+              "why_key": "The claim stays worth making and stops depending on there being no worse river anywhere in the region.",
+              "feed_forward": "Hedge a ranking you have not personally checked."
+            }
+          },
+          {
+            "id": "gi_superlative_hedge_07",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_tourism",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "countable_uncountable"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "the",
+                "island",
+                "was",
+                "among",
+                "the",
+                "most",
+                "visited",
+                "sites",
+                "in",
+                "the",
+                "survey"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10
+                ]
+              ],
+              "context": "Build one sentence about where the island came in a visitor survey."
+            },
+            "expected": [
+              "the island was among the most visited sites in the survey"
+            ],
+            "feedback": {
+              "why_key": "Among takes the group straight after it with no one and no a, and the group stays plural.",
+              "feed_forward": "Follow among directly with the plural group."
+            }
+          },
+          {
+            "id": "gi_superlative_hedge_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_housing",
+            "skill_hook": "listening",
+            "error_codes": [
+              "countable_uncountable"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "It's one of the cheapest streets in the whole district.",
+              "scored_tokens": [
+                "one",
+                "cheapest",
+                "streets"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "it's one of the cheapest streets in the whole district",
+              "its one of the cheapest streets in the whole district",
+              "it is one of the cheapest streets in the whole district"
+            ],
+            "feedback": {
+              "why_key": "The plural ending on streets is a single unstressed sound, and the writers who miss it are the ones who miss it on paper too.",
+              "feed_forward": "Listen for the s at the end of the group word."
+            }
+          },
+          {
+            "id": "gi_superlative_hedge_09",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "countable_uncountable"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "one of the biggest problem",
+            "payload": {
+              "sentence": "Class size is one of the biggest problem facing the college.",
+              "error_span": "one of the biggest problem",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "one of the biggest problems",
+              "among the biggest problems",
+              "one of the bigger problems"
+            ],
+            "feedback": {
+              "why_key": "The frame reached for a group of problems and then named only one, so the sentence contradicts its own opening.",
+              "feed_forward": "Add the plural ending as you write the noun."
+            }
+          },
+          {
+            "id": "gi_superlative_hedge_10",
+            "kind": "judge",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "the healthiest town on the coast",
+            "payload": {
+              "context": "A body paragraph arguing for more cycle lanes.",
+              "sentence": "Cycle lanes have made Brackenfield the healthiest town on the coast.",
+              "acceptable": false,
+              "reasons": [
+                "the ranking claims more than anything could support",
+                "the group named should be plural",
+                "the verb does not agree with its subject",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "One healthier town anywhere on that coast ends the argument, and the writer has no way of knowing there isn't one.",
+              "feed_forward": "Hedge any ranking you could not defend under questioning."
+            }
+          },
+          {
+            "id": "gi_superlative_hedge_11",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_urbanisation",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "You are arguing that traffic is a serious problem in fast-growing towns. Write one sentence that puts it near the top of the list of problems without claiming it is the worst of them.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": true,
+              "min_words": 10,
+              "max_words": 30,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A hedged ranking is the strongest claim you can make that a hostile reader cannot knock down with one example.",
+              "feed_forward": "Name the group, then take one item out of it."
+            }
+          },
+          {
+            "id": "gi_superlative_hedge_12",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_urbanisation",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Open your answer on services in small towns. Find every ranking you made and decide which of them you could actually defend. Rewrite the rest with the hedged frame. Three minutes.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": false,
+              "min_words": 12,
+              "max_words": 45,
+              "task_ref": "wp_t2od_17_discussion_rural_town_services"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Rankings pile up under time pressure because they sound decisive, and each one is a hostage the reader can take.",
+              "feed_forward": "Reread every top ranking and ask whether you could prove it."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_comparative_grading",
+      "unit_id": "u14",
+      "sequence_index": 1203,
+      "title": "Saying how big the difference is, not just that there is one",
+      "cefr_level": "B2",
+      "role": "choice",
+      "topic_id": "topic_economy",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "Grading a comparison: far, much, slightly, considerably, marginally, nowhere near",
+        "prerequisites": [
+          "gr_comparatives",
+          "gr_as_as"
+        ],
+        "unlocks_hint": "gr_multiples",
+        "priority": 1,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "local",
+        "confusion_set": "cs_quantifier_polarity",
+        "structure_slug": "comparative",
+        "signal_blocklist": [
+          "a huge gap",
+          "almost identical",
+          "hardly any difference",
+          "an enormous difference",
+          "nearly the same"
+        ],
+        "fixes_errors": [
+          "comparative_form",
+          "hedge_missing_overclaim",
+          "register_spoken_in_writing"
+        ],
+        "estimated_minutes": 26,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can say how big a difference is, in one word, and get the size right.",
+          "why_it_matters": "A bare comparison tells the reader a difference exists and leaves them to guess whether it matters. The guess is usually wrong, and it is the difference between describing a chart and reading one aloud.",
+          "meaning": "A comparison on its own reports a direction: one thing is higher than another. It says nothing about distance, so two figures a whisker apart and two figures miles apart come out as the same sentence. A grading word puts the distance back in. It is one word, it goes in front of the comparison, and it decides whether the reader treats the gap as noise or as the story.",
+          "form": {
+            "pattern": "GRADER + comparative + than  ·  GRADER + as + WORD + as",
+            "notes": [
+              "big gap: far, much, considerably, significantly, substantially, a great deal",
+              "small gap: slightly, marginally, a little, somewhat, a fraction",
+              "next to nothing: barely, hardly, no higher than, little more than",
+              "the grader always goes in front of the comparison, never after it",
+              "it works on both builds: much higher, and much more expensive",
+              "with the level frame the graders change shape: nowhere near as high as, almost as high as, just as high as, not quite as high as",
+              "very will not grade a comparison. Very high is fine; very higher is not",
+              "a lot, loads, way and miles belong to speech; considerably, substantially and marginally belong to writing, and mixing them up is visible on the page"
+            ],
+            "negative": "no higher than, not much higher than, nowhere near as high as",
+            "question": "How much higher is it — a little, or a great deal?"
+          },
+          "visual": {
+            "kind": "cline",
+            "spec": {
+              "label": "how big is the gap between the two figures?",
+              "steps": [
+                {
+                  "text": "nowhere near as high as",
+                  "gloss": "the two are not in the same conversation"
+                },
+                {
+                  "text": "no higher than",
+                  "gloss": "level, or below; there is no gap to report"
+                },
+                {
+                  "text": "marginally higher than",
+                  "gloss": "a gap you would need the table to see"
+                },
+                {
+                  "text": "slightly higher than",
+                  "gloss": "visible, and not worth building anything on"
+                },
+                {
+                  "text": "higher than",
+                  "gloss": "a gap of unstated size — the reader has to guess"
+                },
+                {
+                  "text": "considerably higher than",
+                  "gloss": "one of the things the chart is about"
+                },
+                {
+                  "text": "far higher than",
+                  "gloss": "the gap is the story"
+                }
+              ]
+            }
+          },
+          "worked_example": {
+            "sentence": "Spending on rail was marginally higher at the end of the period than at the start.",
+            "why_this_form": "The two figures are a whisker apart. Marginally warns the reader not to build an argument on the gap, which is exactly what the numbers deserve.",
+            "what_the_other_would_mean": "Far higher would promise a gap worth explaining, and the reader would go looking in the figures for something that is not there."
+          },
+          "notice_set": [
+            {
+              "sentence": "Fuel spending was marginally lower in the second year.",
+              "question": "Would you be able to see the change on a chart?",
+              "options": [
+                "Yes, easily",
+                "Barely, if at all",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Marginally says the distance between the two figures is about as small as a distance can be while still existing."
+            },
+            {
+              "sentence": "Rents in the city are far higher than rents along the coast.",
+              "question": "Could somebody save real money by moving to the coast?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Far stretches the gap out to the point where it changes what a household can afford."
+            },
+            {
+              "sentence": "The tunnel is nowhere near as busy as the bypass on a Sunday.",
+              "question": "Which route would you take to avoid queues on a Sunday?",
+              "options": [
+                "the tunnel",
+                "the bypass",
+                "either, it makes no difference"
+              ],
+              "key": 0,
+              "why": "Nowhere near drops the tunnel a long way below the bypass, and the quiet road is the one to take."
+            },
+            {
+              "sentence": "Waiting times at the two clinics are slightly different.",
+              "question": "Is it worth travelling across town for the shorter wait?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Slightly puts the two clinics close enough together that the journey would cost more than the wait it saves."
+            },
+            {
+              "sentence": "The new pass is a fraction cheaper than the old one.",
+              "question": "How much would a traveller save?",
+              "options": [
+                "very little",
+                "a great deal",
+                "the sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "A fraction is at the small end of the scale, and the saving is being described as barely worth naming."
+            }
+          ],
+          "rule_line": "Look at the two numbers, then pick the one word that sizes the gap between them.",
+          "false_rule": "That dramatically, sharply and significantly make a description sound more academic. They make a claim about size, and the numbers underneath either back it or contradict it."
+        },
+        "contrast": {
+          "with": [
+            "gr_comparatives"
+          ],
+          "board_id": "gb_grading_vs_multiples",
+          "question": "How big is the gap, and is the size worth saying?",
+          "fork": [
+            {
+              "answer": "Small — a point or two, a few units, something the reader would shrug at",
+              "selects": "slightly, marginally, a little, a fraction",
+              "point_id": "gr_comparative_grading"
+            },
+            {
+              "answer": "Large — a gap that changes what the chart is about",
+              "selects": "far, considerably, substantially, a great deal",
+              "point_id": "gr_comparative_grading"
+            },
+            {
+              "answer": "Unmeasured, or beside the point of the sentence",
+              "selects": "the bare comparison on its own",
+              "point_id": "gr_comparatives"
+            }
+          ],
+          "minimal_pair": {
+            "a": {
+              "text": "Rents in Marlow are slightly higher than rents in Ashfield.",
+              "means": "A few pounds in it. Nobody would move house over the difference."
+            },
+            "b": {
+              "text": "Rents in Marlow are far higher than rents in Ashfield.",
+              "means": "A gap big enough to decide which of the two towns a household can live in."
+            },
+            "only_difference": "slightly / far"
+          },
+          "wrong_choice_note": "You wrote far higher for a two-pound gap. The sentence is correct English and wrong about the chart: your reader now pictures a gap the figures do not contain, and every number after it has to fight that picture.",
+          "edge_case": {
+            "text": "Very will not stretch a comparison — not very higher, not very more expensive. It strengthens the plain word instead: very high. Learn the pair much higher and very high together and the problem stops arising.",
+            "ignore_the_rest": true
+          },
+          "stronger_test": "Cover the sentence and look only at the two numbers. If you had to describe the gap to somebody over the phone in a single word, which word would come out? That is the one the sentence needs.",
+          "worked_pairs": [
+            {
+              "a": "Unemployment in Sandmouth was marginally lower in 2016 than in 2015.",
+              "b": "Unemployment in Sandmouth was considerably lower in 2016 than it had been the year before.",
+              "deciding_span_a": "marginally lower",
+              "deciding_span_b": "considerably lower",
+              "gloss": "The first says the fall would be hard to spot on the chart. The second says the fall is what the chart is about."
+            },
+            {
+              "a": "The coast route is slightly busier at weekends.",
+              "b": "The coast route is nowhere near as busy at weekends.",
+              "deciding_span_a": "slightly busier",
+              "deciding_span_b": "nowhere near as busy",
+              "gloss": "One nudges the weekend above the weekday. The other drops it a long way below. The size word carries the entire claim."
+            },
+            {
+              "a": "Fees at the college rose a little faster than fees at the school.",
+              "b": "Fees at the college climbed a great deal faster than the school's did.",
+              "deciding_span_a": "a little faster",
+              "deciding_span_b": "a great deal faster",
+              "gloss": "Both sentences report the same direction. Only one of them tells the reader whether to care about it."
+            }
+          ]
+        },
+        "errors": [
+          {
+            "code": "comparative_form",
+            "wrong": "The bypass is very quicker at that hour of the morning.",
+            "right": "The bypass is much quicker at that hour of the morning.",
+            "why_it_happens": "Very is the word the learner reaches for to make anything stronger, and it has never failed them before. It will strengthen a plain describing word, but it cannot stretch a comparison.",
+            "smallest_fix": "Change one word: very becomes much.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "register_spoken_in_writing",
+            "wrong": "Spending on transport was way higher in the second half of the period.",
+            "right": "Spending on transport was considerably higher in the second half of the period.",
+            "why_it_happens": "Way, loads and miles do this job perfectly well and the learner has met them far more often than the written set. Nothing marks them as spoken until a reader flinches at them on the page.",
+            "smallest_fix": "Change one word: way becomes considerably.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "hedge_missing_overclaim",
+            "wrong": "Rail use rose dramatically, from 41 in every hundred journeys to 43.",
+            "right": "Rail use rose marginally, from 41 in every hundred journeys to 43.",
+            "why_it_happens": "Dramatically is the first word most learners are handed for describing a graph, so it lands on every movement regardless of size. The figures then contradict the sentence in the same breath.",
+            "smallest_fix": "Change one word: dramatically becomes marginally.",
+            "gravity": "global",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "word_order_adverb",
+            "wrong": "The fee is higher slightly than it was last term.",
+            "right": "The fee is slightly higher than it was last term.",
+            "why_it_happens": "The learner knows the word describes the comparison and puts it next to what it describes, which almost everywhere else in English means after it. These words lean on the front instead.",
+            "smallest_fix": "Move one word: slightly goes in front of higher.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "writing_t1_academic",
+            "mode": "productive",
+            "note": "Every movement on a graph needs a size, and the size is one word.",
+            "model": "Demand rose marginally in the first decade and considerably after 2010."
+          },
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "It stops an argument from being either flat or wild.",
+            "model": "Rural services are considerably harder to fund than urban ones."
+          },
+          {
+            "surface": "speaking_p3",
+            "mode": "productive",
+            "note": "Part 3 answers are full of comparisons that need sizing.",
+            "model": "It's a bit better than it was, but nowhere near as good as people expected."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "lexis",
+          "task"
+        ],
+        "used_in": [
+          {
+            "module": "writing",
+            "ref_id": "wp_a1_17_table_district_rent_commute",
+            "quote": "The table hands the learner gaps of two minutes and gaps of half an hour, and an answer that grades them all the same way describes neither."
+          },
+          {
+            "module": "listening",
+            "ref_id": "ls_t1_p1",
+            "quote": "The speaker sizes two options for the listener, and the answer turns on which of them was called only slightly cheaper."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_comparative_grading_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "reading",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Household spending on fuel was marginally lower in the second year.",
+              "question": "Was the change big enough to notice on a chart?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Marginally is at the small end of the scale, and it exists to stop the reader building anything on the gap.",
+              "feed_forward": "Take the size word as a measurement, not as decoration."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_transport",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The tunnel's a lot quicker, but the toll is brutal.",
+              "question": "Is there much in it on journey time?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A lot sits at the big end of the scale. It does the same work in speech that considerably does on paper.",
+              "feed_forward": "Notice which size words belong to talking."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "very higher",
+            "payload": {
+              "context": "A first draft describing a bar chart of earnings by district.",
+              "sentence": "Earnings in the city were very higher than in the coastal towns.",
+              "acceptable": false,
+              "reasons": [
+                "very cannot stretch a comparison",
+                "the gap named is larger than the chart shows",
+                "the comparison is missing its second half",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Very strengthens a plain word and has no grip on a comparison. Much and far are the words that take hold of one.",
+              "feed_forward": "Swap very for much in front of any comparison."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "The figure moved from 41 to 43 in every hundred households across the decade.",
+              "stem": "Ownership rose ___ over the decade, from 41 to 43 in every hundred households.",
+              "blanks": 1,
+              "lemma_hints": [
+                "marginally / dramatically"
+              ]
+            },
+            "expected": [
+              "marginally",
+              "slightly"
+            ],
+            "feedback": {
+              "why_key": "Two points in ten years is at the small end of the scale, and the numbers are sitting in the same sentence to prove it.",
+              "feed_forward": "Read the figures before you choose the size word."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "The uplands recorded 1,400 millimetres of rain; the coast recorded 760.",
+              "stem": "Rainfall in the uplands was ___ higher than rainfall on the coast.",
+              "blanks": 1,
+              "lemma_hints": [
+                "far / slightly"
+              ]
+            },
+            "expected": [
+              "far",
+              "considerably",
+              "much",
+              "substantially",
+              "significantly"
+            ],
+            "feedback": {
+              "why_key": "One figure is nearly double the other, and a size word at the small end would leave the reader disbelieving the numbers.",
+              "feed_forward": "Match the size word to the distance in the data."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_06",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "Course fees went up from 310 pounds to 317 pounds.",
+              "instruction": "Rewrite it as one sentence that tells the reader how small the rise was.",
+              "starter": "Fees rose ___"
+            },
+            "expected": [
+              "slightly",
+              "marginally",
+              "only slightly",
+              "only marginally",
+              "slightly over the year",
+              "marginally over the year",
+              "by a small amount"
+            ],
+            "feedback": {
+              "why_key": "Seven pounds on three hundred is a rise the reader should be told to ignore, and one word does that.",
+              "feed_forward": "Put the size word straight after the verb."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_07",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "word_order_adverb"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "waiting",
+                "times",
+                "were",
+                "considerably",
+                "shorter",
+                "at",
+                "the",
+                "smaller",
+                "clinics"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ]
+              ],
+              "context": "Build one sentence about what the clinic table shows."
+            },
+            "expected": [
+              "waiting times were considerably shorter at the smaller clinics"
+            ],
+            "feedback": {
+              "why_key": "The size word goes immediately in front of the comparison it is measuring, and nothing gets between them.",
+              "feed_forward": "Place the size word directly before the comparison."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_transport",
+            "skill_hook": "listening",
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "It's a fair bit cheaper if you book early.",
+              "scored_tokens": [
+                "fair",
+                "bit",
+                "cheaper"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "it's a fair bit cheaper if you book early",
+              "its a fair bit cheaper if you book early",
+              "it is a fair bit cheaper if you book early"
+            ],
+            "feedback": {
+              "why_key": "A fair bit is three unstressed syllables carrying the whole size of the saving. Lose them and the sentence reports no size at all.",
+              "feed_forward": "Listen for the small words in front of the comparison."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_09",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": "gi_comparative_grading_10",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "12.1 in 2010 and 12.4 in 2020",
+            "payload": {
+              "context": "A chart puts fuel at 12.1 in 2010 and 12.4 in 2020, out of every hundred pounds a household spends.",
+              "stem": "Spending on fuel was ___ higher at the end of the period.",
+              "options": [
+                {
+                  "text": "marginally",
+                  "why_this_means": "That the two figures sit a whisker apart and nothing should be built on the gap."
+                },
+                {
+                  "text": "considerably",
+                  "why_this_means": "That the gap is one of the main things the chart has to show."
+                }
+              ],
+              "key": 0
+            },
+            "expected": [
+              "marginally"
+            ],
+            "feedback": {
+              "why_key": "Three tenths of a point in ten years is a gap the reader should be told to ignore, and the sentence has to say so.",
+              "feed_forward": "Subtract the two figures before you choose."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_10",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": "gi_comparative_grading_09",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "12.1 in 2010 and 19.8 in 2020",
+            "payload": {
+              "context": "A chart puts fuel at 12.1 in 2010 and 19.8 in 2020, out of every hundred pounds a household spends.",
+              "stem": "Spending on fuel was ___ higher at the end of the period.",
+              "options": [
+                {
+                  "text": "marginally",
+                  "why_this_means": "That the two figures sit a whisker apart and nothing should be built on the gap."
+                },
+                {
+                  "text": "considerably",
+                  "why_this_means": "That the gap is one of the main things the chart has to show."
+                }
+              ],
+              "key": 1
+            },
+            "expected": [
+              "considerably"
+            ],
+            "feedback": {
+              "why_key": "Nearly eight points out of a hundred is the movement the chart exists to show, and calling it small would mislead the reader.",
+              "feed_forward": "Let the arithmetic pick the size word."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_11",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_health",
+            "skill_hook": "speaking_p3",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": "gi_comparative_grading_12",
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": "the wait for an appointment is four days, at the other five",
+            "payload": {
+              "context": "Halima is describing two clinics: at one the wait for an appointment is four days, at the other five.",
+              "stem": "The town clinic is ___ quicker than the one out at Norland.",
+              "options": [
+                {
+                  "text": "a fraction",
+                  "why_this_means": "That the difference is barely worth the journey across town."
+                },
+                {
+                  "text": "a great deal",
+                  "why_this_means": "That anybody in a hurry should be going to the town clinic."
+                }
+              ],
+              "key": 0
+            },
+            "expected": [
+              "a fraction"
+            ],
+            "feedback": {
+              "why_key": "One day between them is a gap nobody would travel for, and the size word is what tells the listener that.",
+              "feed_forward": "Ask what the listener would do with the gap."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_12",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_health",
+            "skill_hook": "speaking_p3",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": "gi_comparative_grading_11",
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "at the other three weeks",
+            "payload": {
+              "context": "Halima is describing two clinics: at one the wait for an appointment is four days, at the other three weeks.",
+              "stem": "The town clinic is ___ quicker than the one out at Norland.",
+              "options": [
+                {
+                  "text": "a fraction",
+                  "why_this_means": "That the difference is barely worth the journey across town."
+                },
+                {
+                  "text": "a great deal",
+                  "why_this_means": "That anybody in a hurry should be going to the town clinic."
+                }
+              ],
+              "key": 1
+            },
+            "expected": [
+              "a great deal"
+            ],
+            "feedback": {
+              "why_key": "Four days against three weeks is a gap that decides where somebody goes, and the sentence has to carry that weight.",
+              "feed_forward": "Size the gap by what it changes for the listener."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_13",
+            "kind": "contrast_pair",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "reading",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "far faster than wages",
+            "payload": {
+              "context": "Two sentences from separate summaries of one table.",
+              "sentences": [
+                "Rents in the north rose slightly faster than wages.",
+                "Rents in the north rose far faster than wages."
+              ],
+              "meanings": [
+                "Tenants finished the period roughly where they started.",
+                "Tenants finished the period materially worse off than they began it."
+              ],
+              "key": [
+                0,
+                1
+              ]
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Both sentences report rents outrunning wages. Only one of them says the outrunning was enough to change how people live.",
+              "feed_forward": "Ask what the size word does to the conclusion."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_14",
+            "kind": "both_ok",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": "climbing from 31 to 46 out of every hundred tonnes",
+            "payload": {
+              "context": "A line graph shows recycling in Ashfield climbing from 31 to 46 out of every hundred tonnes over eight years, without ever dropping back.",
+              "stem": "Recycling rose ___ across the period.",
+              "options": [
+                {
+                  "text": "considerably",
+                  "why_this_means": "That the climb is large enough to be one of the main features of the graph."
+                },
+                {
+                  "text": "steadily",
+                  "why_this_means": "That the climb never stalled or reversed, while saying nothing at all about its size."
+                }
+              ],
+              "key": "both",
+              "follow_up": {
+                "question": "Which one tells the reader how big the climb was?",
+                "key": 0
+              }
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Both are true of this graph and they report different things: one measures the distance, the other describes the shape of the line.",
+              "feed_forward": "Decide whether you are reporting size or shape."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_15",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "way more expensive",
+            "payload": {
+              "sentence": "Private tuition is way more expensive than an evening class at the college.",
+              "error_span": "way more expensive",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "considerably more expensive",
+              "far more expensive",
+              "substantially more expensive",
+              "much more expensive",
+              "significantly more expensive"
+            ],
+            "feedback": {
+              "why_key": "The size being claimed is right. The word claiming it belongs in a conversation, not in a paragraph an examiner is reading.",
+              "feed_forward": "Swap the spoken size word for its written twin."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_16",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "A table gives average commuting times: Ashfield 31 minutes, Marlow 33 minutes, Sandmouth 58 minutes. Write one sentence comparing all three that gets the size of both gaps right.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": true,
+              "min_words": 12,
+              "max_words": 35,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Two of these towns are two minutes apart and the third is nearly half an hour away. One sentence has to say both things.",
+              "feed_forward": "Grade each gap separately, in the same sentence."
+            }
+          },
+          {
+            "id": "gi_comparative_grading_17",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "hedge_missing_overclaim"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Open your rent and commuting table answer. Find every comparison in it and put a size word in front of each one, checking the figures as you go. Three minutes.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": false,
+              "min_words": 12,
+              "max_words": 45,
+              "task_ref": "wp_a1_17_table_district_rent_commute"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "An answer where every gap is described the same way tells the reader that the writer never looked at the numbers.",
+              "feed_forward": "Check each size word against the two figures behind it."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_double_comparative",
+      "unit_id": "u14",
+      "sequence_index": 1204,
+      "title": "Saying that when one thing changes, another changes with it",
+      "cefr_level": "B2",
+      "role": "form",
+      "topic_id": "topic_education",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "the more ..., the more ...; increasingly",
+        "prerequisites": [
+          "gr_comparatives"
+        ],
+        "unlocks_hint": "gr_change_language",
+        "priority": 2,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "B",
+        "error_surface": 3,
+        "gravity": "local",
+        "confusion_set": null,
+        "structure_slug": "comparative",
+        "signal_blocklist": [
+          "as a result",
+          "because of this",
+          "this leads to",
+          "consequently"
+        ],
+        "fixes_errors": [
+          "comparative_form",
+          "quantifier_wrong_class",
+          "word_order_adverb"
+        ],
+        "estimated_minutes": 22,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can say that two things move together, and which way each of them goes.",
+          "why_it_matters": "It packs a whole cause-and-effect sentence into eight words, and it is one of the few patterns that reads as fluent even when the rest of the paragraph is plain.",
+          "meaning": "Two things are moving, and they are tied to each other: whenever one goes up, the other follows it up or pulls the other way. Two separate sentences would report both movements and leave the reader to guess whether there is a link. This pattern states the link itself, and it does it without a single word for cause. The shape carries the meaning, which is why the shape has to be exact.",
+          "form": {
+            "pattern": "The + comparison + first half, the + comparison + second half",
+            "notes": [
+              "both halves open with the, and the comparison jumps to the front of its own half: the longer the wait, the angrier the queue",
+              "in short halves the verb is often left out entirely: the sooner the better",
+              "the two halves have to be built the same way — a full clause on the left wants a full clause on the right",
+              "when a noun is involved the whole phrase moves forward: the more money a council spends, the fewer complaints it receives",
+              "use fewer with things you count and less with things you measure: the fewer complaints, the less paperwork",
+              "increasingly does a smaller version of the same job on one scale by itself: journeys are increasingly made by rail",
+              "increasingly goes in front of the word it stretches: increasingly crowded, increasingly hard to fund"
+            ],
+            "negative": "The less you book ahead, the more you pay — the pattern reverses simply by changing the comparison in either half.",
+            "question": "Does one really move with the other, or do they just both happen to be moving?"
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "as this goes up",
+                "text": "the longer the wait at the clinic"
+              },
+              "right": {
+                "role": "this follows it",
+                "text": "the more people give up and go home"
+              },
+              "arrow": "left_to_right",
+              "caption": "Two scales tied together. The pattern claims the tie; two separate sentences would only report the two movements."
+            }
+          },
+          "worked_example": {
+            "sentence": "The later the train leaves, the fewer connections there are at the other end.",
+            "why_this_form": "Every extra minute takes another connection away, so the two are tied rather than merely both true. The sentence states the tie in one clause pair.",
+            "what_the_other_would_mean": "Two separate sentences would report a late train and a thin timetable and leave the reader to work out for themselves whether one of them causes the other."
+          },
+          "notice_set": [
+            {
+              "sentence": "The longer the queue at the clinic, the more people give up and go home.",
+              "question": "What happens on a quiet morning?",
+              "options": [
+                "fewer people leave",
+                "more people leave",
+                "the sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "The two are tied, so a short queue pulls the other side of the sentence down with it."
+            },
+            {
+              "sentence": "The more the council spends on street lighting, the fewer break-ins are reported.",
+              "question": "What would probably happen if the lighting budget were cut?",
+              "options": [
+                "break-ins would rise",
+                "break-ins would fall",
+                "nothing would change"
+              ],
+              "key": 0,
+              "why": "The sentence ties the two scales together, so pulling one down pushes the other up."
+            },
+            {
+              "sentence": "Cycling to work is increasingly common in Ashfield.",
+              "question": "Was it less common a few years ago?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Increasingly reports movement along one scale, and movement has to start somewhere lower down."
+            },
+            {
+              "sentence": "The earlier you book, the less you pay.",
+              "question": "Who ends up paying the most?",
+              "options": [
+                "whoever books last",
+                "whoever books first",
+                "everybody pays the same"
+              ],
+              "key": 0,
+              "why": "Booking late is the far end of the first scale, and the second scale follows it in the opposite direction."
+            },
+            {
+              "sentence": "The bigger the class, the harder it is to notice a quiet student.",
+              "question": "Are quiet students easier to spot in small classes?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Small is the low end of the first scale, and the difficulty drops with it."
+            }
+          ],
+          "rule_line": "Two halves, each opening with the, each with its comparison pulled to the front.",
+          "false_rule": "That the here is the ordinary little word that goes in front of a noun. It is a different word doing a different job, and it turns up twice or not at all."
+        },
+        "errors": [
+          {
+            "code": "quantifier_wrong_class",
+            "wrong": "The more the council spends, the less complaints it receives.",
+            "right": "The more the council spends, the fewer complaints it receives.",
+            "why_it_happens": "Less is the word that comes out when the meaning is downwards, and it works in front of almost everything the learner says out loud. Complaints arrive one at a time, and that is the one thing less will not sit in front of.",
+            "smallest_fix": "Change one word: less becomes fewer.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "comparative_form",
+            "wrong": "More you wait, more it costs.",
+            "right": "The more you wait, the more it costs.",
+            "why_it_happens": "The pattern is usually met in speech, where the two small words are almost inaudible, so the learner stores it without them. What is left still looks balanced, so nothing feels missing.",
+            "smallest_fix": "Insert two words: the, at the front of each half.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "comparative_form",
+            "wrong": "The busier the road, the more accidents happening.",
+            "right": "The busier the road, the more accidents happen.",
+            "why_it_happens": "The second half is doing a lot at once — pulling its comparison forward and keeping its own verb — and the verb is what slips. The half then has no working verb and stops being a clause.",
+            "smallest_fix": "Change one word: happening becomes happen.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          },
+          {
+            "code": "word_order_adverb",
+            "wrong": "The centre of town is becoming crowded increasingly.",
+            "right": "The centre of town is becoming increasingly crowded.",
+            "why_it_happens": "Words ending in -ly usually settle at the end of a clause, and this one is treated the same way. It belongs in front of whatever it is stretching, exactly like the other size words.",
+            "smallest_fix": "Move one word: increasingly goes in front of crowded.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "It states a cause-and-effect claim without a single linking word.",
+            "model": "The longer a household waits for social housing, the harder it becomes to hold down steady work."
+          },
+          {
+            "surface": "speaking_p3",
+            "mode": "productive",
+            "note": "Part 3 asks what happens if something changes, and this answers it in one breath.",
+            "model": "The earlier children start, the less nervous they seem about speaking."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "A statement that reverses one half of the pattern is false while looking almost identical.",
+            "model": "The steeper the fee, the fewer applications the course attracted."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
+        "used_in": [
+          {
+            "module": "speaking",
+            "ref_id": "card_p3_environment_action_001",
+            "quote": "Part 3 questions about what would happen if habits changed are answered most economically by tying two scales together."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_double_comparative_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_education",
+            "skill_hook": "speaking_p3",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The smaller the group, the more everyone ends up saying.",
+              "question": "Do people talk less in a big group?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The two scales are tied, so moving up the group size pulls the talking down with it.",
+              "feed_forward": "Trace what happens at the other end of the first scale."
+            }
+          },
+          {
+            "id": "gi_double_comparative_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_urbanisation",
+            "skill_hook": "reading",
+            "error_codes": [
+              "word_order_adverb"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The district is becoming increasingly expensive for first-time buyers.",
+              "question": "Was it easier to buy there in the past?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Increasingly reports a journey along a scale rather than a position on it, so the district started somewhere cheaper.",
+              "feed_forward": "Read increasingly as a movement, not a level."
+            }
+          },
+          {
+            "id": "gi_double_comparative_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "you will save more",
+            "payload": {
+              "context": "A sentence from a leaflet about season tickets.",
+              "sentence": "The earlier you buy, you will save more on the fare.",
+              "acceptable": false,
+              "reasons": [
+                "the second half was not built to match the first",
+                "the two things named are not really connected",
+                "the sentence needs a linking word in the middle",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The sentence starts the pattern and then finishes as an ordinary statement, so the tie between the two scales never gets made.",
+              "feed_forward": "Finish the pattern you started, in the same shape."
+            }
+          },
+          {
+            "id": "gi_double_comparative_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a paragraph on class sizes.",
+              "stem": "The bigger the class, ___ harder it is to give anybody attention.",
+              "blanks": 1,
+              "lemma_hints": []
+            },
+            "expected": [
+              "the"
+            ],
+            "feedback": {
+              "why_key": "The second half opens exactly the way the first one did. Both halves need the little word or neither of them works.",
+              "feed_forward": "Open the second half the same way as the first."
+            }
+          },
+          {
+            "id": "gi_double_comparative_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "quantifier_wrong_class"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a note on kerbside collections.",
+              "stem": "The more households sort their waste, the ___ (few / little) lorries the council needs.",
+              "blanks": 1,
+              "lemma_hints": [
+                "few / little"
+              ]
+            },
+            "expected": [
+              "fewer"
+            ],
+            "feedback": {
+              "why_key": "Lorries are counted one at a time, so the downward word is fewer. Less would be right for something poured or measured.",
+              "feed_forward": "Ask whether you could count them, then choose."
+            }
+          },
+          {
+            "id": "gi_double_comparative_06",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "the",
+                "cheaper",
+                "the",
+                "fare",
+                "the",
+                "more",
+                "people",
+                "use",
+                "the",
+                "service"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9
+                ]
+              ],
+              "context": "Build one sentence tying fares to passenger numbers."
+            },
+            "expected": [
+              "the cheaper the fare the more people use the service"
+            ],
+            "feedback": {
+              "why_key": "Each half opens with the same little word and puts its comparison straight afterwards. Everything else follows behind.",
+              "feed_forward": "Build the two openings first, then fill each half."
+            }
+          },
+          {
+            "id": "gi_double_comparative_07",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_housing",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "When a flat is further from the station, the rent on it is lower.",
+              "instruction": "Rewrite it as one sentence that ties the distance and the rent together.",
+              "starter": "The further ___"
+            },
+            "expected": [
+              "the flat is from the station the lower the rent",
+              "a flat is from the station the lower the rent",
+              "the flat is from the station the cheaper the rent",
+              "from the station a flat is the lower the rent"
+            ],
+            "feedback": {
+              "why_key": "The when clause disappears and the tie is carried by the shape instead, which is shorter and considerably harder to argue with.",
+              "feed_forward": "Drop the when and pull both comparisons to the front."
+            }
+          },
+          {
+            "id": "gi_double_comparative_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_education",
+            "skill_hook": "listening",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "The sooner you start, the easier it gets.",
+              "scored_tokens": [
+                "The",
+                "sooner",
+                "the",
+                "easier"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "the sooner you start the easier it gets"
+            ],
+            "feedback": {
+              "why_key": "Both openings are unstressed and run into the word behind them. Learners hear sooner you start, easier it gets and write exactly that.",
+              "feed_forward": "Listen for a small word in front of each comparison."
+            }
+          },
+          {
+            "id": "gi_double_comparative_09",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "the more accidents happening",
+            "payload": {
+              "sentence": "The busier the road becomes, the more accidents happening at the junction.",
+              "error_span": "the more accidents happening",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "the more accidents happen",
+              "the more accidents there are",
+              "the more accidents occur"
+            ],
+            "feedback": {
+              "why_key": "The second half has a comparison and a noun but no working verb, so it never becomes a half that can stand opposite the first.",
+              "feed_forward": "Give the second half a verb that can carry it."
+            }
+          },
+          {
+            "id": "gi_double_comparative_10",
+            "kind": "judge",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "quantifier_wrong_class"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "the less journeys",
+            "payload": {
+              "context": "A sentence from an essay on cycle lanes.",
+              "sentence": "The more lanes a town builds, the less journeys are made by car.",
+              "acceptable": false,
+              "reasons": [
+                "journeys are counted, so this is the wrong downward word",
+                "the two halves are not tied to each other",
+                "the first half is missing its opening word",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "You can count journeys one at a time, and the word for going down in front of countable things is fewer.",
+              "feed_forward": "Check countability before you write less."
+            }
+          },
+          {
+            "id": "gi_double_comparative_11",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "You are arguing that starting a language early pays off. Write one sentence that ties the starting age to some result, using the two-halves pattern.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": true,
+              "min_words": 9,
+              "max_words": 28,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The pattern states a tie between two scales, which is a stronger claim than two facts side by side and costs fewer words.",
+              "feed_forward": "Name the two scales first, then decide their directions."
+            }
+          },
+          {
+            "id": "gi_double_comparative_12",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Open your answer on services in small towns. Find a place where you wrote two sentences that were really one cause and one effect, and fold them into the two-halves pattern. Two minutes.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": false,
+              "min_words": 10,
+              "max_words": 40,
+              "task_ref": "wp_t2od_17_discussion_rural_town_services"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "This is where the pattern earns its place: one sentence claiming a link, in an essay that otherwise only lists things that are true.",
+              "feed_forward": "Look for a pair of sentences that are secretly one claim."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_multiples",
+      "unit_id": "u14",
+      "sequence_index": 1205,
+      "title": "Saying how many times bigger one figure is than another",
+      "cefr_level": "B2",
+      "role": "choice",
+      "topic_id": "topic_economy",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "twice as many, three times higher, more than double, a tenfold increase",
+        "prerequisites": [
+          "gr_as_as",
+          "gr_comparatives"
+        ],
+        "unlocks_hint": "gr_change_language",
+        "priority": 1,
+        "insertable": false,
+        "register": "written",
+        "risk_tier": "A",
+        "error_surface": 3,
+        "gravity": "global",
+        "confusion_set": "cs_quantifier_polarity",
+        "structure_slug": "comparative",
+        "signal_blocklist": [
+          "the ratio of",
+          "per cent more",
+          "percentage points",
+          "the gap between",
+          "exactly double"
+        ],
+        "fixes_errors": [
+          "comparative_form",
+          "quantifier_wrong_class",
+          "countable_uncountable"
+        ],
+        "estimated_minutes": 28,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can say how many times one figure fits into another, and get the direction right.",
+          "why_it_matters": "A chart description that can only report differences has to give every number twice. A multiple says the relationship once, in three words, and a reader who never sees the chart still gets it.",
+          "meaning": "There are two honest ways of describing the distance between two figures. One is the difference: subtract the smaller from the larger and report what is left. The other is the multiple: ask how many times the smaller one fits into the larger, and report that. They answer different questions. A difference of two hundred is enormous between two figures of three hundred and meaningless between two figures of a million, and a multiple carries its own scale with it.",
+          "form": {
+            "pattern": "twice / three times + as + many / much / WORD + as  ·  NUMBER times + comparative + than  ·  a NUMBERfold increase",
+            "notes": [
+              "twice, not two times, in careful writing. From three upwards the number is used: three times, four times",
+              "as many with things you count, as much with things you measure: twice as many visitors, twice as much rain",
+              "the second half takes as after as high, and than after higher — three times as high as, or three times higher than, and never a mixture of the two",
+              "double and half attach straight to the noun: double the number of visitors, half the rainfall",
+              "the noun versions: a twofold increase, a threefold rise, a tenfold increase — written as one word, with the number spelt out",
+              "the verbs: double, treble, halve — demand doubled between 2005 and 2015",
+              "hedges go in front, not inside: almost twice as many, just over three times higher, more than double"
+            ],
+            "negative": "half as many as sends the multiple the other way, and so does a halving of.",
+            "question": "How many times does the smaller figure fit into the larger one?"
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "the difference",
+                "text": "twenty thousand more visitors than the castle"
+              },
+              "right": {
+                "role": "the multiple",
+                "text": "twice as many visitors as the castle"
+              },
+              "arrow": "left_to_right",
+              "caption": "Both describe the same two figures. Only the one on the right still means something to a reader who never sees the totals."
+            }
+          },
+          "worked_example": {
+            "sentence": "The reserve drew twice as many visitors as the castle in 2015.",
+            "why_this_form": "Two visitors at the reserve for every one at the castle. The relationship survives without the totals, which is what a reader of an overview sentence actually needs.",
+            "what_the_other_would_mean": "Twenty thousand more visitors reports the same two figures and tells the reader nothing about whether that is a landslide or a rounding error."
+          },
+          "notice_set": [
+            {
+              "sentence": "The reserve drew twice as many visitors as the castle.",
+              "question": "For every hundred people at the castle, how many were at the reserve?",
+              "options": [
+                "fifty",
+                "two hundred",
+                "the sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Twice puts two of the second figure into the first, so the reserve is the busier of the two sites."
+            },
+            {
+              "sentence": "The castle drew half as many visitors as the reserve.",
+              "question": "Which of the two sites was busier?",
+              "options": [
+                "the castle",
+                "the reserve",
+                "they were level"
+              ],
+              "key": 1,
+              "why": "Half runs the multiple downwards, so the castle is the smaller figure and the reserve is the larger one."
+            },
+            {
+              "sentence": "There was a threefold rise in applications between 2010 and 2014.",
+              "question": "If there were 200 applications in 2010, how many were there in 2014?",
+              "options": [
+                "203",
+                "600",
+                "the sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "A threefold rise multiplies the starting figure by three rather than adding three to it."
+            },
+            {
+              "sentence": "Water use in the uplands was almost twice as much as on the coast.",
+              "question": "Was upland use quite double the coastal figure?",
+              "options": [
+                "yes, just over",
+                "no, just under",
+                "the sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Almost stops the multiple just short, so the upland figure had not quite reached double."
+            },
+            {
+              "sentence": "Rail carried more than double the freight that water did.",
+              "question": "Did water carry less than half the rail figure?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "More than double turned round gives the same relationship from the other end: water is under half of rail."
+            }
+          ],
+          "rule_line": "Ask how many times the smaller figure fits into the larger, then hang that number on the larger one.",
+          "false_rule": "That three times more and three times as many are two names for one thing, so either will do. Say what fits into what and the question stops arising."
+        },
+        "contrast": {
+          "with": [
+            "gr_as_as",
+            "gr_comparative_grading"
+          ],
+          "board_id": "gb_grading_vs_multiples",
+          "question": "Is this relationship a multiple, or is it a difference?",
+          "fork": [
+            {
+              "answer": "One figure fits into the other a whole number of times — 20 and 40, 12 and 36",
+              "selects": "twice as many, three times as high",
+              "point_id": "gr_multiples"
+            },
+            {
+              "answer": "The two figures are close, and no multiple would be honest — 41 and 43",
+              "selects": "a graded comparison: marginally higher",
+              "point_id": "gr_comparative_grading"
+            },
+            {
+              "answer": "The two figures met",
+              "selects": "as many as, the same as",
+              "point_id": "gr_as_as"
+            }
+          ],
+          "minimal_pair": {
+            "a": {
+              "text": "The reserve drew twice as many visitors as the castle.",
+              "means": "Two people at the reserve for every one at the castle: forty thousand against twenty."
+            },
+            "b": {
+              "text": "The reserve drew half as many visitors as the castle.",
+              "means": "One person at the reserve for every two at the castle: twenty thousand against forty."
+            },
+            "only_difference": "twice / half"
+          },
+          "wrong_choice_note": "You wrote half as many where the figures say twice as many. Nothing in the sentence looks broken, so nobody will query it — the reader simply takes away the opposite chart from the one in front of you.",
+          "edge_case": {
+            "text": "Two times as many is not wrong and plenty of people say it. In writing, twice is the safe choice and it is one word shorter. Above two, nobody says thrice any more — use three times.",
+            "ignore_the_rest": true
+          },
+          "stronger_test": "Say the smaller figure out loud and count how many of it you need to reach the bigger one. That count is your multiple, and it always hangs on the bigger thing.",
+          "worked_pairs": [
+            {
+              "a": "Rail freight was three times as high as road freight in 2010.",
+              "b": "Rail freight was three times higher than road freight in 2010.",
+              "deciding_span_a": "as high as",
+              "deciding_span_b": "higher than",
+              "gloss": "Both of these are standard. What you may never do is take the front of one and the back of the other and write three times as high than."
+            },
+            {
+              "a": "The town recorded double the number of visitors it had in 2005.",
+              "b": "The town recorded a twofold rise in visitors between 2005 and 2015.",
+              "deciding_span_a": "double the number of visitors",
+              "deciding_span_b": "a twofold rise in visitors",
+              "gloss": "One compares two points in time. The other turns the movement between them into a thing you can put a verb in front of."
+            },
+            {
+              "a": "Almost twice as much water was used in the southern district.",
+              "b": "Almost twice as many households were connected in the southern district.",
+              "deciding_span_a": "as much water",
+              "deciding_span_b": "as many households",
+              "gloss": "Water is measured and households are counted, and the frame changes word for word to follow that."
+            }
+          ]
+        },
+        "errors": [
+          {
+            "code": "quantifier_wrong_class",
+            "wrong": "The site attracted twice as much visitors as the museum.",
+            "right": "The site attracted twice as many visitors as the museum.",
+            "why_it_happens": "Much and many mean the same thing to the ear, and nothing in the sentence's meaning separates them. Only many will sit in front of something that arrives one at a time.",
+            "smallest_fix": "Change one word: much becomes many.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "comparative_form",
+            "wrong": "Demand in the city was three times as high than in the villages.",
+            "right": "Demand in the city was three times as high as in the villages.",
+            "why_it_happens": "The learner holds two correct patterns and builds a sentence out of the front of one and the back of the other. Both halves feel familiar, so nothing sounds wrong on the way past.",
+            "smallest_fix": "Change one word: than becomes as.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "comparative_form",
+            "wrong": "Road freight was half as high as rail freight, at 60 million tonnes against 30 million.",
+            "right": "Road freight was twice as high as rail freight, at 60 million tonnes against 30 million.",
+            "why_it_happens": "The learner reads the two numbers in the order they appear on the page instead of in the order the sentence needs, so the multiple lands on the smaller side and the whole claim inverts.",
+            "smallest_fix": "Change one word: half becomes twice.",
+            "gravity": "global",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "word_form_wrong",
+            "wrong": "There was a ten fold increase in the number of applications.",
+            "right": "There was a tenfold increase in the number of applications.",
+            "why_it_happens": "Fold is not a word the learner meets on its own, so there is no reason to expect it to weld onto the number. On the page it looks like an ordinary two-word phrase.",
+            "smallest_fix": "Delete one space: ten fold becomes tenfold.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "writing_t1_academic",
+            "mode": "productive",
+            "note": "The arithmetic of a chart, said in words, is most of the marks in the body paragraphs.",
+            "model": "Road carried roughly three times as much freight as rail throughout the period."
+          },
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "A multiple makes a claim about scale that a raw figure cannot.",
+            "model": "Rents have risen at more than double the rate of local wages."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "A statement that swaps twice for half is false, and it is the hardest kind to spot.",
+            "model": "The northern district used almost twice as much water as the coast."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "task"
+        ],
+        "used_in": [
+          {
+            "module": "writing",
+            "ref_id": "wp_core_ac1_bar_transport_modes",
+            "quote": "The bars stand in whole-number relationships to one another, and an answer that only ever subtracts them misses what the chart is showing."
+          },
+          {
+            "module": "reading",
+            "ref_id": "rp_b2",
+            "quote": "The passage gives a relationship as a multiple and a statement gives it back reversed, which is invisible unless the reader does the arithmetic."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_multiples_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_tourism",
+            "skill_hook": "reading",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The harbour museum took three times as many bookings as the gallery.",
+              "question": "For every ten bookings at the gallery, how many did the museum take?",
+              "options": [
+                "thirteen",
+                "thirty",
+                "the sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A multiple multiplies rather than adds, so ten at the gallery becomes thirty at the museum.",
+              "feed_forward": "Multiply the smaller figure, never add to it."
+            }
+          },
+          {
+            "id": "gi_multiples_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The coastal plots received half as much rain as the uplands.",
+              "question": "Which area was wetter?",
+              "options": [
+                "the coastal plots",
+                "the uplands",
+                "they were level"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Half runs the multiple downwards, so the figure carrying it is the smaller of the two.",
+              "feed_forward": "Check which side of the sentence the multiple is sitting on."
+            }
+          },
+          {
+            "id": "gi_multiples_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "quantifier_wrong_class"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "twice as much households",
+            "payload": {
+              "context": "A draft describing a chart of connections by district.",
+              "sentence": "The eastern district had twice as much households on the network.",
+              "acceptable": false,
+              "reasons": [
+                "households are counted, so this is the wrong word",
+                "the multiple has been put on the wrong district",
+                "the sentence is missing its second as",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Households arrive one at a time and can be counted, so the frame needs many. Much belongs in front of what you measure.",
+              "feed_forward": "Test the noun for counting before you fill the frame."
+            }
+          },
+          {
+            "id": "gi_multiples_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "quantifier_wrong_class"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a paragraph on a chart of water use by district.",
+              "stem": "The northern district used twice as ___ (much / many) water as the coast.",
+              "blanks": 1,
+              "lemma_hints": [
+                "much / many"
+              ]
+            },
+            "expected": [
+              "much"
+            ],
+            "feedback": {
+              "why_key": "Water is measured rather than counted, so the frame stretches with much.",
+              "feed_forward": "Match the frame word to what the noun does."
+            }
+          },
+          {
+            "id": "gi_multiples_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "Earnings in the city stood at 900 a week; along the coast they stood at 300.",
+              "stem": "Earnings in the city were three times ___ high as earnings along the coast.",
+              "blanks": 1,
+              "lemma_hints": []
+            },
+            "expected": [
+              "as"
+            ],
+            "feedback": {
+              "why_key": "As high is one half of the frame and it calls for the matching as behind it, not for than.",
+              "feed_forward": "Finish the frame you opened."
+            }
+          },
+          {
+            "id": "gi_multiples_06",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_technology",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "In 2004 the college had 400 laptops. In 2014 it had 4,000.",
+              "instruction": "Write one sentence reporting the change as a multiple rather than as a difference.",
+              "starter": "Between 2004 and 2014 the number of laptops ___"
+            },
+            "expected": [
+              "rose tenfold",
+              "increased tenfold",
+              "grew tenfold",
+              "rose by a factor of ten",
+              "became ten times higher"
+            ],
+            "feedback": {
+              "why_key": "Three thousand six hundred more laptops means nothing on its own. Tenfold carries the scale with it.",
+              "feed_forward": "Divide the two figures before you write."
+            }
+          },
+          {
+            "id": "gi_multiples_07",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "road",
+                "carried",
+                "almost",
+                "four",
+                "times",
+                "as",
+                "much",
+                "freight",
+                "as",
+                "water"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9
+                ]
+              ],
+              "context": "Build one sentence from the freight chart."
+            },
+            "expected": [
+              "road carried almost four times as much freight as water"
+            ],
+            "feedback": {
+              "why_key": "The hedge goes in front of the number, the number in front of the frame, and the frame closes with its second as.",
+              "feed_forward": "Put the hedge outside the frame, never inside it."
+            }
+          },
+          {
+            "id": "gi_multiples_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_money",
+            "skill_hook": "listening",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "It costs about twice as much as it did.",
+              "scored_tokens": [
+                "twice",
+                "as",
+                "much"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "it costs about twice as much as it did"
+            ],
+            "feedback": {
+              "why_key": "Twice as much runs together into something close to one word, and the second as is the piece that disappears.",
+              "feed_forward": "Write both ases even when you only hear one."
+            }
+          },
+          {
+            "id": "gi_multiples_09",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_tourism",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": "gi_multiples_10",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "40,000 at the reserve and 20,000 at the castle",
+            "payload": {
+              "context": "A chart records 40,000 at the reserve and 20,000 at the castle.",
+              "stem": "The reserve drew ___ visitors as the castle.",
+              "options": [
+                {
+                  "text": "twice as many",
+                  "why_this_means": "That two people came to the reserve for every one who went to the castle."
+                },
+                {
+                  "text": "half as many",
+                  "why_this_means": "That one person came to the reserve for every two who went to the castle."
+                }
+              ],
+              "key": 0
+            },
+            "expected": [
+              "twice as many"
+            ],
+            "feedback": {
+              "why_key": "Twenty thousand fits into forty thousand twice, and the multiple hangs on the bigger of the two sites.",
+              "feed_forward": "Divide the larger figure by the smaller one first."
+            }
+          },
+          {
+            "id": "gi_multiples_10",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_tourism",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": "gi_multiples_09",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "20,000 at the reserve and 40,000 at the castle",
+            "payload": {
+              "context": "A chart records 20,000 at the reserve and 40,000 at the castle.",
+              "stem": "The reserve drew ___ visitors as the castle.",
+              "options": [
+                {
+                  "text": "twice as many",
+                  "why_this_means": "That two people came to the reserve for every one who went to the castle."
+                },
+                {
+                  "text": "half as many",
+                  "why_this_means": "That one person came to the reserve for every two who went to the castle."
+                }
+              ],
+              "key": 1
+            },
+            "expected": [
+              "half as many"
+            ],
+            "feedback": {
+              "why_key": "Same two figures, opposite sites. The reserve is now the smaller one, so the multiple has to run downwards.",
+              "feed_forward": "Check which site the sentence has made its subject."
+            }
+          },
+          {
+            "id": "gi_multiples_11",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_urbanisation",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "quantifier_wrong_class"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": "gi_multiples_12",
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "measured in litres",
+            "payload": {
+              "context": "A table gives what each district drew from the reservoir last year, measured in litres.",
+              "stem": "The north recorded ___ as the south.",
+              "options": [
+                {
+                  "text": "twice as much",
+                  "why_this_means": "That what is being counted is measured in quantity rather than in whole items."
+                },
+                {
+                  "text": "twice as many",
+                  "why_this_means": "That what is being counted arrives in separate items you could count on your fingers."
+                }
+              ],
+              "key": 0
+            },
+            "expected": [
+              "twice as much"
+            ],
+            "feedback": {
+              "why_key": "Litres are measured out rather than counted one by one, so the frame stretches with much.",
+              "feed_forward": "Look at what the table is counting before you choose."
+            }
+          },
+          {
+            "id": "gi_multiples_12",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_urbanisation",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "quantifier_wrong_class"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": "gi_multiples_11",
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "new connections signed off",
+            "payload": {
+              "context": "A table gives the new connections signed off in each district last year.",
+              "stem": "The north recorded ___ as the south.",
+              "options": [
+                {
+                  "text": "twice as much",
+                  "why_this_means": "That what is being counted is measured in quantity rather than in whole items."
+                },
+                {
+                  "text": "twice as many",
+                  "why_this_means": "That what is being counted arrives in separate items you could count on your fingers."
+                }
+              ],
+              "key": 1
+            },
+            "expected": [
+              "twice as many"
+            ],
+            "feedback": {
+              "why_key": "Connections are signed off one at a time, so the frame takes many even though the sentence is otherwise identical.",
+              "feed_forward": "Let the noun, not the number, choose the frame word."
+            }
+          },
+          {
+            "id": "gi_multiples_13",
+            "kind": "contrast_pair",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "reading",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "doubled over the decade",
+            "payload": {
+              "context": "Two sentences from separate reports on the same cycling figures.",
+              "sentences": [
+                "Journeys by bicycle doubled over the decade.",
+                "Journeys by bicycle rose by two thousand across the same ten years."
+              ],
+              "meanings": [
+                "Whatever the starting figure was, the town finished on twice it.",
+                "The rise is fixed at two thousand, and how impressive that is depends entirely on where the line began."
+              ],
+              "key": [
+                0,
+                1
+              ]
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "One sentence carries its own scale and the other borrows it from a figure the reader may never see.",
+              "feed_forward": "Ask whether the sentence still works without the totals."
+            }
+          },
+          {
+            "id": "gi_multiples_14",
+            "kind": "both_ok",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": "30 tonnes of glass in 2010 and 60 tonnes in 2020",
+            "payload": {
+              "context": "A chart records 30 tonnes of glass in 2010 and 60 tonnes in 2020.",
+              "stem": "Glass recycling ___ across the decade.",
+              "options": [
+                {
+                  "text": "doubled",
+                  "why_this_means": "That the second figure is the first one multiplied by two, whatever those figures happen to be."
+                },
+                {
+                  "text": "rose by thirty tonnes",
+                  "why_this_means": "That thirty tonnes were added, which is only meaningful to somebody who knows the starting point."
+                }
+              ],
+              "key": "both",
+              "follow_up": {
+                "question": "Which one still makes sense to a reader who never sees the totals?",
+                "key": 0
+              }
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Both are true of this chart. One of them survives on its own and the other needs the chart standing next to it.",
+              "feed_forward": "Prefer the version that carries its own scale."
+            }
+          },
+          {
+            "id": "gi_multiples_15",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": "cs_quantifier_polarity",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "three times as high than",
+            "payload": {
+              "sentence": "Spending on housing was three times as high than spending on transport.",
+              "error_span": "three times as high than",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "three times as high as",
+              "three times higher than"
+            ],
+            "feedback": {
+              "why_key": "Two good patterns have been welded together at the join. Either half is fine; the two halves are not compatible.",
+              "feed_forward": "Pick one pattern and finish it before you move on."
+            }
+          },
+          {
+            "id": "gi_multiples_16",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "A chart shows export earnings: machinery 900 million, textiles 300 million, fish 150 million. Write one sentence that reports the relationship between all three as multiples rather than as totals.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": true,
+              "min_words": 12,
+              "max_words": 35,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "These three figures stand in whole-number relationships to each other, and saying so is what an overview sentence is for.",
+              "feed_forward": "Divide first, then write the sentence."
+            }
+          },
+          {
+            "id": "gi_multiples_17",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "comparative_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Open your export earnings answer. Find one place where you subtracted two figures and rewrite it as a multiple, then check the direction by dividing. Three minutes.",
+              "required_structure": "comparative",
+              "seed_from_vocab_queue": false,
+              "min_words": 12,
+              "max_words": 45,
+              "task_ref": "wp_a1_11_stacked_bar_export_earnings"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "This is the sentence that separates a description from a transcription, and the direction is the part that goes wrong under a clock.",
+              "feed_forward": "Divide the two figures again before you move on."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "vocab_new": [],
+  "vocab_updates": []
+}

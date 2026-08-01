@@ -192,3 +192,23 @@ export function addRule(request: {
 }): Promise<{ ok: boolean }> {
   return api.post<{ ok: boolean }>(`${BASE}/rules`, request);
 }
+
+/**
+ * Send a spoken answer for a produce item.
+ *
+ * The sidecar transcribes it and runs the ordinary answer path with the transcript, so the
+ * reply carries both what was heard and whatever the normal grader said. A refused recording
+ * comes back `gradeable: false` with `graded: null` and must not be treated as wrong.
+ */
+export async function speakGrammarAnswer(audio: Blob, itemId: string) {
+  const form = new FormData();
+  form.append("wav", audio, "answer.webm");
+  form.append("item_id", itemId);
+  return api.post<{
+    transcript: string;
+    heard: string;
+    gradeable: boolean;
+    refusal: string | null;
+    graded: unknown;
+  }>(`${BASE}/answer/spoken`, form);
+}

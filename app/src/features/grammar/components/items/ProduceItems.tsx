@@ -18,6 +18,8 @@
 
 import { Sparkles } from "lucide-react";
 import { Badge, Button } from "@/components/ui";
+import { SpeakAnswer } from "@/components/practice/SpeakAnswer";
+import { speakGrammarAnswer } from "../../api";
 import { AnswerField, ContextBlock, useTypedAnswer, type ItemViewProps } from "./shared";
 
 function WordCount({ value, min, max }: { value: string; min?: number | null; max?: number | null }) {
@@ -80,6 +82,18 @@ export function ProduceItem({ item, attempt, disabled, onAnswer }: ItemViewProps
             multiline
             label="Your sentence"
             placeholder="Write one sentence"
+          />
+          {/* Speaking sits beside the typed path, never in place of it: no microphone, no
+              permission, or no speech provider must still leave a working exercise. The
+              transcript lands in the same field, so from here everything is identical. */}
+          <SpeakAnswer
+            prompt="Or say your sentence out loud — it will be checked the same way."
+            disabled={disabled}
+            onSubmit={async (audio) => {
+              const spoken = await speakGrammarAnswer(audio, item.id);
+              if (spoken.gradeable) setValue(spoken.transcript);
+              return spoken;
+            }}
           />
           <div className="flex flex-wrap items-center gap-3">
             <Button size="sm" onClick={() => onAnswer(value.trim())} disabled={disabled || !value.trim()}>

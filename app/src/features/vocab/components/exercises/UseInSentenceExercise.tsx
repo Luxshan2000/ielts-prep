@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { AlertTriangle, Check, WifiOff } from "lucide-react";
 import { Button, Textarea } from "@/components/ui";
+import { SpeakAnswer } from "@/components/practice/SpeakAnswer";
+import { speakVocabSentence } from "../../api";
 import { api, ApiError } from "@/lib/api";
 import { cn } from "@/lib/cn";
 import { ChipList, Section, type CommitResult, type ExerciseBodyProps } from "./shared";
@@ -98,6 +100,17 @@ export function UseInSentenceExercise({ item, revealed, onCommit, autoFocus }: E
 
       {!revealed && (
         <div className="flex flex-wrap items-center gap-2">
+          {/* Beside the typed path, never instead of it. The transcript lands in the same
+              box, so the check that follows is the identical one. */}
+          <SpeakAnswer
+            prompt="Or say your sentence out loud."
+            disabled={revealed || checking}
+            onSubmit={async (audio) => {
+              const spoken = await speakVocabSentence(audio, item.entry_id);
+              if (spoken.gradeable) setSentence(spoken.transcript);
+              return spoken;
+            }}
+          />
           <Button size="sm" loading={checking} disabled={!sentence.trim()} onClick={() => void runCheck()}>
             Check my sentence
           </Button>

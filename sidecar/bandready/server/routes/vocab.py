@@ -17,16 +17,30 @@ from __future__ import annotations
 import base64
 import json
 import logging
+import tempfile
 from datetime import UTC, datetime
 from typing import Any, Literal
 
-from fastapi import APIRouter, BackgroundTasks, Body, Depends, Query, Response
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Body,
+    Depends,
+    File,
+    Form,
+    Query,
+    Response,
+    UploadFile,
+)
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import delete, func, or_, select, text, tuple_
 from sqlalchemy.orm import Session
 from ulid import ULID
 
+from pathlib import Path
+
 from bandready.db import models as m
+from bandready.speech import answers
 from bandready.db.engine import get_session
 from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
@@ -1128,3 +1142,60 @@ def vocab_stats(
 ) -> dict[str, Any]:
     profile_id = current_profile_id(session)
     return sched.stats(session, profile_id)
+
+
+# --------------------------------------------------------------------------------------
+# Speaking a sentence instead of typing it
+# --------------------------------------------------------------------------------------
+
+
+def _speech_tmp_path() -> Path:
+    """A scratch file for one recording. Deleted in a finally — this is user voice data and
+    it has no reason to outlive the request that graded it (11 §9 rule 1)."""
+    root = Path(tempfile.gettempdir()) / "bandready-speak"
+    root.mkdir(parents=True, exist_ok=True)
+    return root / f"{ULID()}.wav"
+
+
+@router.post("/speak", summary="Say a use-in-sentence answer instead of typing it")
+async def speak_sentence(
+    wav: UploadFile = File(...),
+    entry_id: str = Form(...),
+    _: None = Depends(require_auth),
+    session: Session = Depends(get_session),
+) -> dict[str, Any]:
+    """Transcribe a spoken answer, then grade it exactly as a typed one.
+
+    A spoken answer is a typed answer that arrived by microphone: it becomes a string here
+    and from this point runs through `check_sentence` unchanged, with the same prompt, the
+    same offline-degrades-to-accepted behaviour and the same shape on the wire. There is no
+    second grader, so there is nothing to drift.
+
+    A refused recording — silence, room tone, one of Whisper's stock hallucinations — returns
+    `graded: null` rather than a verdict. Marking somebody wrong when the microphone never
+    heard them is worse than telling them nothing, and the two must be distinguishable.
+    """
+    profile_id = current_profile_id(session)
+    entry = _entry_or_404(session, profile_id, entry_id)
+
+    target = _speech_tmp_path()
+    target.write_bytes(await wav.read())
+    try:
+        spoken = await answers.transcribe_answer(target)
+    except answers.SpeechUnavailable as exc:
+        raise ApiError(
+            503,
+            "speech_unavailable",
+            "Speech-to-text is not set up on this machine, so a spoken answer cannot be "
+            "checked. Type the sentence instead, or set up speech in Settings.",
+        ) from exc
+    finally:
+        target.unlink(missing_ok=True)
+
+    if not spoken.gradeable:
+        return {**spoken.as_wire(), "graded": None}
+
+    graded = await ex.check_sentence(
+        entry.headword, spoken.transcript, pos=entry.pos, definition=entry.definition
+    )
+    return {**spoken.as_wire(), "graded": graded}

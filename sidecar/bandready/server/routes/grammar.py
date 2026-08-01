@@ -36,7 +36,7 @@ import random
 from datetime import UTC, datetime
 from typing import Any
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, File, Form, UploadFile, Query
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import select, text
 from sqlalchemy.orm import Session
@@ -1594,3 +1594,75 @@ def get_drill(
             "wherever in the course it appears."
         ),
     }
+
+
+# --------------------------------------------------------------------------------------
+# Speaking a produced answer instead of typing it
+# --------------------------------------------------------------------------------------
+
+
+def _speech_tmp_path() -> Path:
+    """Scratch file for one recording, deleted in a finally: user voice data has no reason
+    to outlive the request that graded it (11 §9 rule 1)."""
+    root = Path(tempfile.gettempdir()) / "bandready-speak"
+    root.mkdir(parents=True, exist_ok=True)
+    return root / f"{ULID()}.wav"
+
+
+@router.post("/answer/spoken", summary="Say a produced answer instead of typing it")
+async def post_answer_spoken(
+    wav: UploadFile = File(...),
+    item_id: str = Form(...),
+    point_id: str | None = Form(default=None),
+    card_id: str | None = Form(default=None),
+    session_id: str | None = Form(default=None),
+    attempt: int = Form(default=1),
+    elapsed_ms: int | None = Form(default=None),
+    session_started_at: str | None = Form(default=None),
+    _: None = Depends(require_auth),
+    session: Session = Depends(grammar_session),
+) -> dict[str, Any]:
+    """Transcribe the recording, then run the ordinary answer path with it.
+
+    Everything after the transcription is `post_answer` unchanged: same grader, same rung
+    movement, same FSRS write, same log row. `judge_production` already takes a string, and
+    its three fairness mechanisms — span-quoting enforcement, two-call confirmation, and
+    offline-counts-as-a-pass — are the reason a spoken answer must arrive as a string rather
+    than through a parallel path that would reimplement them worse.
+
+    A refused recording never reaches the grader and never touches the card. Silence must not
+    cost a learner a rung.
+    """
+    target = _speech_tmp_path()
+    target.write_bytes(await wav.read())
+    try:
+        spoken = await answers.transcribe_answer(target)
+    except answers.SpeechUnavailable as exc:
+        raise ApiError(
+            503,
+            "speech_unavailable",
+            "Speech-to-text is not set up on this machine, so a spoken answer cannot be "
+            "checked. Type your answer instead, or set up speech in Settings.",
+        ) from exc
+    finally:
+        target.unlink(missing_ok=True)
+
+    if not spoken.gradeable:
+        # Not a wrong answer — no grading, no rung change, no log row.
+        return {**spoken.as_wire(), "graded": None, "spoken": True}
+
+    graded = await post_answer(
+        AnswerRequest(
+            item_id=item_id,
+            point_id=point_id,
+            card_id=card_id,
+            session_id=session_id,
+            answer=spoken.transcript,
+            attempt=attempt,
+            elapsed_ms=elapsed_ms,
+            session_started_at=session_started_at,
+        ),
+        None,
+        session,
+    )
+    return {**graded, **spoken.as_wire(), "graded": graded, "spoken": True}

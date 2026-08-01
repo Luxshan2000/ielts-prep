@@ -1,0 +1,4317 @@
+{
+  "staging_version": 1,
+  "block": "modals",
+  "authored_by": "G-A7:modals",
+  "_readme": [
+    "U7 — Modality: certainty, obligation and social distance. 12 points, sequence_index 1301-1312 in the authoring band 1300-1399; tools/content/reseq_grammar.py re-seats them into the final 1..154.",
+    "Two confusion sets are used and each carries exactly one board: cs_obligation_source -> gb_must_vs_have_to (gr_modal_obligation, gr_modal_permission, gr_must_vs_have_to, gr_mustnt_vs_dont_have_to, gr_modal_past_forms) and cs_certainty_strength -> gb_certainty_strength (gr_modal_possibility, gr_modal_deduction_present, gr_modal_perfect, gr_modal_hedging).",
+    "gr_mustnt_vs_dont_have_to carries the fullest contrast in the unit because the pair is a meaning reversal, not a nuance.",
+    "Shapes copied from staging-grammar/content/clauses-cohesion.json; no prose reused from it or from TEMPLATE.json."
+  ],
+  "points": [
+    {
+      "id": "gr_modal_grammar",
+      "unit_id": "u07",
+      "sequence_index": 1600,
+      "title": "Using can, must and should without adding anything they do not take",
+      "cefr_level": "A2",
+      "role": "form",
+      "topic_id": "topic_education",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "How modal verbs behave",
+        "prerequisites": [
+          "gr_aux_system"
+        ],
+        "unlocks_hint": "gr_modal_ability",
+        "priority": 1,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "global",
+        "confusion_set": null,
+        "structure_slug": "modal_simple",
+        "signal_blocklist": [
+          "modal verb",
+          "bare infinitive",
+          "auxiliary",
+          "plain form",
+          "helping verb"
+        ],
+        "fixes_errors": [
+          "modal_bare_infinitive",
+          "agreement_subject_verb",
+          "verb_pattern_wrong"
+        ],
+        "estimated_minutes": 20,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can build a sentence with can, must, should or might without breaking it.",
+          "why_it_matters": "Nine modal errors out of ten are one extra word or one extra letter. They are cheap to fix and a reader notices every one.",
+          "meaning": "A modal does not describe an action. It sits in front of a verb and says how sure you are, how obliged you feel, or what you are willing to do. Because it speaks for the whole sentence, English gives it one slot and keeps it plain: nothing goes in front of it, nothing is added to the end of it, and only one of them fits in that slot at a time.",
+          "form": {
+            "pattern": "subject + can / must / might / should / will / would + plain verb",
+            "notes": [
+              "no -s on the modal, whoever the subject is: she can, the tutor can, they can",
+              "nothing stands between the modal and the verb, and that includes to",
+              "no do or does in the question or the negative — the modal moves, or takes not itself",
+              "only one fits the slot; for a second idea use be able to, have to or be allowed to"
+            ],
+            "negative": "cannot is written as one word; must not, should not, might not, and the spoken can't, mustn't, shouldn't",
+            "question": "Can you + plain verb ...? — the modal jumps in front of the subject and nothing else moves"
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "an ordinary verb has to borrow",
+                "text": "Does she start? — She starts. — She doesn't start."
+              },
+              "right": {
+                "role": "a modal already owns it",
+                "text": "Can she start? — She can start. — She can't start."
+              },
+              "arrow": "left_to_right",
+              "caption": "Everything the ordinary verb borrows from do, the modal has in the word itself."
+            }
+          },
+          "worked_example": {
+            "sentence": "Anyone taking the evening class must collect a key from reception.",
+            "why_this_form": "Must carries the obligation for the whole sentence, so collect is left exactly as it is, with nothing in front of it and no ending on it.",
+            "what_the_other_would_mean": "Must to collect is not a more careful version of the same instruction. There is nothing for the reader to take from it except that the writer is unsure."
+          },
+          "notice_set": [
+            {
+              "sentence": "Students can borrow four books at a time.",
+              "question": "Is a fifth book going to be handed over?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Four is the ceiling the sentence sets, so the fifth one falls outside it."
+            },
+            {
+              "sentence": "The language centre must close at six.",
+              "question": "Could it stay open until seven?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Must leaves nothing to argue with. Six is where the evening ends."
+            },
+            {
+              "sentence": "Marek might join the drawing class in January.",
+              "question": "Has he settled it?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Might holds the whole thing in the air. Nothing has been decided either way."
+            },
+            {
+              "sentence": "You should book the workshop early.",
+              "question": "Is booking early the better move?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Should is advice, and advice recommends one course of action over another."
+            },
+            {
+              "sentence": "The tutor will mark the essays over the weekend.",
+              "question": "Is the marking still ahead?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Will points forward, so both the weekend and the marking are still to come."
+            }
+          ],
+          "rule_line": "One of them, then the plain verb: no to, no -s, no do.",
+          "false_rule": "That must to and can to are the careful, polite versions. Nothing at all stands between one of these words and its verb."
+        },
+        "errors": [
+          {
+            "code": "modal_bare_infinitive",
+            "wrong": "All first-year students must to register before the second week.",
+            "right": "All first-year students must register before the second week.",
+            "why_it_happens": "Have to, need to, ought to and want to all keep their to, and the learner has met far more of those than of bare must. The extra word arrives out of habit rather than out of a decision.",
+            "smallest_fix": "Delete one word: to.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "agreement_subject_verb",
+            "wrong": "The tutor cans see you at four o'clock.",
+            "right": "The tutor can see you at four o'clock.",
+            "why_it_happens": "Every other verb in the language takes an ending after he, she or it, and the learner is applying a rule that has worked for months. Nothing has told them this small group is exempt.",
+            "smallest_fix": "Delete one letter: the s on cans.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "verb_pattern_wrong",
+            "wrong": "The office doesn't can take payments after five.",
+            "right": "The office can't take payments after five.",
+            "why_it_happens": "Negatives are built with do or does for ordinary verbs, so the learner reaches for the machinery they already trust. A modal carries its own negative and has nothing to borrow.",
+            "smallest_fix": "Swap one phrase: doesn't can becomes can't.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "modal_bare_infinitive",
+            "wrong": "We will can finish the module in June.",
+            "right": "We will be able to finish the module in June.",
+            "why_it_happens": "The learner wants a future and an ability in one sentence and stacks the two words that carry them. The slot holds one, and English keeps a longer phrase in reserve for exactly this collision.",
+            "smallest_fix": "Swap one word: can becomes be able to.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "speaking_p1",
+            "mode": "productive",
+            "note": "Part 1 answers about rules, plans and what you manage day to day run on these words.",
+            "model": "I can usually get across town in twenty minutes, so I should be fine for a nine o'clock start."
+          },
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "Every recommendation sentence in an essay is built on one of them.",
+            "model": "Colleges should fund evening teaching before they fund another building."
+          },
+          {
+            "surface": "listening",
+            "mode": "receptive",
+            "note": "The negative is often one squashed syllable, and it reverses the instruction.",
+            "model": "You mustn't leave the equipment out overnight."
+          }
+        ],
+        "criteria": [
+          "gra"
+        ],
+        "used_in": [
+          {
+            "module": "speaking",
+            "ref_id": "card_p1_learning_at_work_503",
+            "quote": "Answers about what you have to learn and what you are allowed to try out are three of these words and nothing else."
+          },
+          {
+            "module": "listening",
+            "ref_id": "ls_t1_p1",
+            "quote": "The enrolment conversation is a run of small obligations and permissions, and every one of them turns on a single word."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_modal_grammar_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_education",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_bare_infinitive"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The seminar room can hold twenty people at a push.",
+              "question": "Is a group of thirty going to fit?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Twenty at a push is the ceiling of what the room manages, so thirty is over it.",
+              "feed_forward": "Read the plain verb after the modal as the thing being limited."
+            }
+          },
+          {
+            "id": "gi_modal_grammar_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "reading",
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Applicants should attach a transcript.",
+              "question": "Will an application without one be turned away?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 2
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Should is advice. It recommends the transcript without saying what happens to anyone who leaves it out.",
+              "feed_forward": "Ask how strong the word in front of the verb is before you act on it."
+            }
+          },
+          {
+            "id": "gi_modal_grammar_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_bare_infinitive"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "must to attend",
+            "payload": {
+              "context": "A line lifted from a college handbook.",
+              "sentence": "Everyone in the first year must to attend the safety briefing.",
+              "acceptable": false,
+              "reasons": [
+                "nothing may stand between must and the verb after it",
+                "the briefing is not compulsory",
+                "must is too strong for a briefing",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The obligation is already carried by must. The extra word gives the reader a stumble and adds nothing to the instruction.",
+              "feed_forward": "Delete to whenever it lands after must, can or should."
+            }
+          },
+          {
+            "id": "gi_modal_grammar_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "modal_bare_infinitive"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a card pinned to the studio door.",
+              "stem": "Anyone using the kiln must ___ (sign) the log before starting.",
+              "blanks": 1,
+              "lemma_hints": [
+                "sign"
+              ]
+            },
+            "expected": [
+              "sign"
+            ],
+            "feedback": {
+              "why_key": "Must has already done the work of the sentence, so the verb stays exactly as the dictionary has it.",
+              "feed_forward": "Leave the verb plain after a modal, with no to and no ending."
+            }
+          },
+          {
+            "id": "gi_modal_grammar_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_education",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "Two students waiting outside a rehearsal room.",
+              "stem": "My flatmate ___ (can) read music, so she picks the pieces.",
+              "blanks": 1,
+              "lemma_hints": [
+                "can"
+              ]
+            },
+            "expected": [
+              "can"
+            ],
+            "feedback": {
+              "why_key": "She is one person, and the word still does not change. This small group never takes the ending.",
+              "feed_forward": "Keep can, must and should identical for every subject."
+            }
+          },
+          {
+            "id": "gi_modal_grammar_06",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_bare_infinitive"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "the",
+                "college",
+                "should",
+                "publish",
+                "the",
+                "marks",
+                "by",
+                "Friday"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7
+                ],
+                [
+                  6,
+                  7,
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ]
+              ],
+              "context": "Build one sentence recommending a deadline."
+            },
+            "expected": [
+              "the college should publish the marks by friday"
+            ],
+            "feedback": {
+              "why_key": "One word carries the recommendation, and the verb that follows it is left plain.",
+              "feed_forward": "Put the modal straight after the subject and the verb straight after that."
+            }
+          },
+          {
+            "id": "gi_modal_grammar_07",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "The admissions office does not accept forms after the closing date.",
+              "instruction": "Rewrite it so that the refusal is an inability rather than a decision, using cannot.",
+              "starter": "The admissions office ___"
+            },
+            "expected": [
+              "cannot accept forms after the closing date",
+              "can't accept forms after the closing date",
+              "cant accept forms after the closing date"
+            ],
+            "feedback": {
+              "why_key": "The does not machinery goes out with the ordinary verb, because the modal is carrying the negative itself.",
+              "feed_forward": "Drop does not as soon as a modal takes over the negative."
+            }
+          },
+          {
+            "id": "gi_modal_grammar_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_education",
+            "skill_hook": "listening",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "You mustn't leave the kiln running overnight.",
+              "scored_tokens": [
+                "mustn't",
+                "leave"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "you mustn't leave the kiln running overnight",
+              "you must not leave the kiln running overnight",
+              "you mustnt leave the kiln running overnight"
+            ],
+            "feedback": {
+              "why_key": "The t in mustn't nearly disappears at speed, and what is left sounds like must. The two say opposite things about the kiln.",
+              "feed_forward": "Listen for the n riding on the end of must."
+            }
+          },
+          {
+            "id": "gi_modal_grammar_09",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_education",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "modal_bare_infinitive"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A tutor describing what the spring term brings.",
+              "stem": "You will ___ (be able) to choose two options after Easter.",
+              "blanks": 1,
+              "lemma_hints": [
+                "be able"
+              ]
+            },
+            "expected": [
+              "be able"
+            ],
+            "feedback": {
+              "why_key": "Will has taken the slot, so the second idea has to arrive in the longer phrase that fits after it.",
+              "feed_forward": "Reach for be able to when a modal already holds the slot."
+            }
+          },
+          {
+            "id": "gi_modal_grammar_10",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The supervisor cans authorise overtime, but the shift lead cannot.",
+              "error_span": "cans authorise",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "can authorise"
+            ],
+            "feedback": {
+              "why_key": "The second half of the sentence has it right. Only the first one picked up an ending it is not entitled to.",
+              "feed_forward": "Delete the s from a modal wherever you find one."
+            }
+          },
+          {
+            "id": "gi_modal_grammar_11",
+            "kind": "judge",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_sport",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "Does she can play",
+            "payload": {
+              "context": "Two coaches deciding who to put in goal on Saturday.",
+              "sentence": "Does she can play on the left as well?",
+              "acceptable": false,
+              "reasons": [
+                "the question is already built into can, so does has no job here",
+                "she plays on the right, not the left",
+                "the question is too blunt for a colleague",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Can moves in front of the subject and the question is finished. Borrowing does leaves two question openings in one sentence.",
+              "feed_forward": "Move the modal in front of the subject to make a question."
+            }
+          },
+          {
+            "id": "gi_modal_grammar_12",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_bare_infinitive"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "Your college is deciding whether to keep the library open at weekends. Write one sentence saying what you think it ought to do.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": true,
+              "min_words": 8,
+              "max_words": 28,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A recommendation is one word in front of a plain verb, and it is the cheapest considered-sounding sentence available in an essay.",
+              "feed_forward": "Check that nothing sits between your modal and its verb."
+            }
+          },
+          {
+            "id": "gi_modal_grammar_13",
+            "kind": "produce",
+            "stage": 5,
+            "register": "spoken",
+            "topic_id": "topic_education",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Open your Part 1 answer about learning new things at work. Rewrite one sentence so it says what you are able to do, and one so it says what you think you ought to do. Ninety seconds.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": false,
+              "min_words": 12,
+              "max_words": 40,
+              "task_ref": "card_p1_learning_at_work_503"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Two of these words in two sentences turns a flat answer into a considered one, and neither of them costs you any thinking time.",
+              "feed_forward": "Say the plain verb straight after the modal, with nothing between."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_modal_ability",
+      "unit_id": "u07",
+      "sequence_index": 1601,
+      "title": "Saying what someone is able to do, now and back then",
+      "cefr_level": "A1",
+      "role": "form",
+      "topic_id": "topic_sport",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "can, could and be able to",
+        "prerequisites": [
+          "gr_modal_grammar"
+        ],
+        "unlocks_hint": "gr_modal_permission",
+        "priority": 2,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "local",
+        "confusion_set": null,
+        "structure_slug": "modal_simple",
+        "signal_blocklist": [
+          "ability",
+          "manage to",
+          "succeed in",
+          "skill",
+          "capable of"
+        ],
+        "fixes_errors": [
+          "verb_pattern_wrong",
+          "modal_bare_infinitive",
+          "modal_strength_mismatch"
+        ],
+        "estimated_minutes": 18,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can say what someone is able to do now, what they were able to do years ago, and fit that idea into any sentence.",
+          "why_it_matters": "Can has only two shapes and they run out fast. Be able to is what you reach for when the sentence needs a third one.",
+          "meaning": "Can says the ability is there. Could takes the same ability and parks it in a stretch of the past — what somebody was generally up to then, rather than one occasion when they pulled it off. Be able to means exactly what can means; it exists because can has only two shapes, and it cannot follow another modal, sit after to, or turn up after have. When can will not fit, be able to walks in.",
+          "form": {
+            "pattern": "can / could + plain verb   ·   be able to + plain verb",
+            "notes": [
+              "could covers a whole stretch of past ability; one occasion that came off takes was able to",
+              "be able to has every shape you need: am, is, are, was, were, will be, has been",
+              "after will, would, might or have, only be able to fits",
+              "cannot is one word in writing; can't in speech and in a note to a friend"
+            ],
+            "negative": "cannot / can't  ·  could not / couldn't  ·  is not able to / wasn't able to",
+            "question": "Can you + plain verb ...?  ·  Were you able to + plain verb ...?"
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "can and could: two shapes, one shelf",
+                "text": "She can swim. She could swim at four."
+              },
+              "right": {
+                "role": "be able to: every other shelf",
+                "text": "She will be able to swim. She has been able to swim since she was four."
+              },
+              "arrow": "left_to_right",
+              "caption": "Same meaning, different shelves. The longer phrase exists to reach the ones can cannot."
+            }
+          },
+          "worked_example": {
+            "sentence": "By the end of the course everyone will be able to swim a length unaided.",
+            "why_this_form": "Will has already taken the one slot the sentence has, so the ability has to arrive in the phrase that goes anywhere.",
+            "what_the_other_would_mean": "Will can is not a firmer promise. It is two words competing for one place, and the reader stops there instead of reaching the length."
+          },
+          "notice_set": [
+            {
+              "sentence": "Noor can hold a plank for two minutes.",
+              "question": "Is two minutes within her reach this week?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Can reports something she has in hand, and what she has in hand covers this week."
+            },
+            {
+              "sentence": "Marek could sail single-handed when he lived on the coast.",
+              "question": "Does the sentence tell you whether he sails these days?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "The sailing is parked in the coastal years, and the sentence stops at the edge of them."
+            },
+            {
+              "sentence": "After three months of training Yusuf was able to finish the coastal race.",
+              "question": "Did he get to the finish line?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Was able to reports one occasion that actually came off, so the race really was finished."
+            },
+            {
+              "sentence": "Yusuf could swim well as a boy.",
+              "question": "Is one particular swim being described here?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "This is a general picture of his boyhood rather than a report of any single morning in the water."
+            },
+            {
+              "sentence": "Nobody will be able to use the pool while the tiles are replaced.",
+              "question": "Is the pool open next week?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "The repairs shut everybody out, and the sentence is looking at the weeks ahead."
+            }
+          ],
+          "rule_line": "Can for now, could for a stretch of the past, be able to everywhere else.",
+          "false_rule": "That could and was able to are the same thing. Could paints a general picture; was able to reports one occasion that came off."
+        },
+        "errors": [
+          {
+            "code": "verb_pattern_wrong",
+            "wrong": "She has could swim since she was four.",
+            "right": "She has been able to swim since she was four.",
+            "why_it_happens": "Could looks like a past shape, so the learner drops it in where a past shape belongs. This small group has no shape at all that will sit after have, and nothing warns them.",
+            "smallest_fix": "Swap one phrase: has could becomes has been able to.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "modal_bare_infinitive",
+            "wrong": "I would like to can lift the whole set on my own.",
+            "right": "I would like to be able to lift the whole set on my own.",
+            "why_it_happens": "The learner needs the ability inside an infinitive and reaches for the only ability word they have practised. Can has no infinitive, so the sentence has nowhere to put it.",
+            "smallest_fix": "Swap one word: can becomes be able to.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "verb_pattern_wrong",
+            "wrong": "After a year of lessons Karin was able swim two lengths.",
+            "right": "After a year of lessons Karin was able to swim two lengths.",
+            "why_it_happens": "The learner has just been taught that nothing follows a modal, and applies that to the longer phrase as well. Able is an ordinary word and it keeps its to.",
+            "smallest_fix": "Insert one word: to.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          },
+          {
+            "code": "modal_strength_mismatch",
+            "wrong": "The rope broke, but she could climb out on her own.",
+            "right": "The rope broke, but she was able to climb out on her own.",
+            "why_it_happens": "Could is stored as the past of can and used for anything in the past. It draws a general picture, and a difficult occasion that actually came off is not a general picture.",
+            "smallest_fix": "Swap one phrase: could becomes was able to.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "speaking_p2",
+            "mode": "productive",
+            "note": "Part 2 answers about something you learned to do live on this pair.",
+            "model": "By the end of that summer I was able to cycle the whole coast road in a day."
+          },
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "Arguments about access — who is able to do what — need every shape of it.",
+            "model": "Households on the lowest incomes are not able to absorb a rise of that size."
+          },
+          {
+            "surface": "listening",
+            "mode": "receptive",
+            "note": "Could and couldn't are almost the same sound and they are opposites.",
+            "model": "We couldn't get the boat out until the wind dropped."
+          }
+        ],
+        "criteria": [
+          "gra"
+        ],
+        "used_in": [
+          {
+            "module": "speaking",
+            "ref_id": "card_p2_sport_to_improve_806",
+            "quote": "The card asks what you would like to be better at, which is a sentence about what you cannot do yet and what you want to be able to do."
+          },
+          {
+            "module": "speaking",
+            "ref_id": "card_p3_achievement_503",
+            "quote": "Every answer about achievement compares what somebody managed on one hard occasion with what they could generally do."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_modal_ability_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_sport",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Bea can run ten kilometres without stopping.",
+              "question": "Is ten kilometres within her reach at the moment?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Can reports an ability she is holding right now, so the moment the speaker is standing in is exactly when it applies.",
+              "feed_forward": "Read can as something the person has in hand today."
+            }
+          },
+          {
+            "id": "gi_modal_ability_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_sport",
+            "skill_hook": "reading",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "As a teenager Idris could throw further than anyone in the county.",
+              "question": "Does the sentence tell you how far he throws now?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The throwing sits inside his teenage years, and nothing in the sentence reaches past the edge of them.",
+              "feed_forward": "Find the stretch of past the ability is parked in."
+            }
+          },
+          {
+            "id": "gi_modal_ability_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_sport",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "The path was flooded",
+            "payload": {
+              "context": "Two runners comparing notes after a race in heavy rain.",
+              "sentence": "The path was flooded, but we could finish inside the cut-off.",
+              "acceptable": false,
+              "reasons": [
+                "one hard occasion that came off needs was able to",
+                "the path was not flooded after all",
+                "finish is the wrong word for a race",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Could paints what runners generally managed. This was one wet afternoon that actually came off, and English marks the difference.",
+              "feed_forward": "Use was able to for a single occasion that succeeded."
+            }
+          },
+          {
+            "id": "gi_modal_ability_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a leaflet about a knee operation.",
+              "stem": "Most patients will ___ (be able) to walk unaided within a fortnight.",
+              "blanks": 1,
+              "lemma_hints": [
+                "be able"
+              ]
+            },
+            "expected": [
+              "be able"
+            ],
+            "feedback": {
+              "why_key": "Will has the slot, so the ability arrives in the only phrase that will sit behind it.",
+              "feed_forward": "Use be able to whenever another word already fills the slot."
+            }
+          },
+          {
+            "id": "gi_modal_ability_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_sport",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A coach describing what a player was like at school.",
+              "stem": "At fifteen she ___ (can) kick with either foot.",
+              "blanks": 1,
+              "lemma_hints": [
+                "can"
+              ]
+            },
+            "expected": [
+              "could",
+              "was able to"
+            ],
+            "feedback": {
+              "why_key": "Fifteen is a stretch of her life rather than one afternoon, so the general picture is what the sentence wants.",
+              "feed_forward": "Use could when the past ability covers a whole period."
+            }
+          },
+          {
+            "id": "gi_modal_ability_06",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_sport",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "Fenella swims two kilometres a day. She has been doing that since she was twelve.",
+              "instruction": "Write one sentence saying the ability has been there the whole time, using be able to.",
+              "starter": "Fenella ___"
+            },
+            "expected": [
+              "has been able to swim two kilometres a day since she was twelve",
+              "has been able to swim two kilometres a day since the age of twelve"
+            ],
+            "feedback": {
+              "why_key": "Nothing else will sit after has, and that gap is precisely the one the longer phrase was invented to fill.",
+              "feed_forward": "Reach for been able to after have or has."
+            }
+          },
+          {
+            "id": "gi_modal_ability_07",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_bare_infinitive"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "nobody",
+                "in",
+                "the",
+                "group",
+                "could",
+                "read",
+                "the",
+                "map"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              ],
+              "context": "A walking party lost in fog. Build the sentence."
+            },
+            "expected": [
+              "nobody in the group could read the map"
+            ],
+            "feedback": {
+              "why_key": "The ability word sits straight after the subject, and the verb behind it stays exactly as it is.",
+              "feed_forward": "Place could directly in front of the plain verb."
+            }
+          },
+          {
+            "id": "gi_modal_ability_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_sport",
+            "skill_hook": "listening",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "We couldn't get the boat out until the wind dropped.",
+              "scored_tokens": [
+                "couldn't",
+                "get"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "we couldn't get the boat out until the wind dropped",
+              "we could not get the boat out until the wind dropped",
+              "we couldnt get the boat out until the wind dropped"
+            ],
+            "feedback": {
+              "why_key": "Could and couldn't differ by a sound that almost vanishes, and they say opposite things about whether the boat went anywhere.",
+              "feed_forward": "Listen for the n riding on the end of could."
+            }
+          },
+          {
+            "id": "gi_modal_ability_09",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_sport",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a report on a council swimming scheme.",
+              "stem": "Since the new pool opened, far more children have ___ (be able) to swim by the age of eight.",
+              "blanks": 1,
+              "lemma_hints": [
+                "be able"
+              ]
+            },
+            "expected": [
+              "been able"
+            ],
+            "feedback": {
+              "why_key": "After have there is exactly one shape available, and could is not one of the options.",
+              "feed_forward": "Use been able to after have or has."
+            }
+          },
+          {
+            "id": "gi_modal_ability_10",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Since the operation she has could walk as far as the gate and back.",
+              "error_span": "has could walk",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "has been able to walk"
+            ],
+            "feedback": {
+              "why_key": "The ability is being held against now, and only the longer phrase can stand in that position.",
+              "feed_forward": "Swap could for been able to after has."
+            }
+          },
+          {
+            "id": "gi_modal_ability_11",
+            "kind": "produce",
+            "stage": 4,
+            "register": "spoken",
+            "topic_id": "topic_sport",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "Think of something physical you have got better at. Say one sentence about what you manage now and what you did not manage a year ago.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": true,
+              "min_words": 10,
+              "max_words": 30,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A now-and-then pair inside one sentence is worth more to a listener than two flat sentences, and this is its natural home.",
+              "feed_forward": "Name what you manage now first, then what it used to be."
+            }
+          },
+          {
+            "id": "gi_modal_ability_12",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_sport",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Open your paragraph on daily exercise in schools. Rewrite one sentence so that it says what children will be able to do afterwards, rather than what schools will provide. Two minutes.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": false,
+              "min_words": 12,
+              "max_words": 40,
+              "task_ref": "wp_t2od_08_opinion_daily_school_exercise"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Turning a policy into what somebody is able to do afterwards is the move that makes an argument concrete instead of well-meaning.",
+              "feed_forward": "Put be able to after will, never can."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_modal_permission",
+      "unit_id": "u07",
+      "sequence_index": 1602,
+      "title": "Choosing between asking someone to let you and reporting what is already allowed",
+      "cefr_level": "A2",
+      "role": "choice",
+      "topic_id": "topic_work",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "can, could, may and be allowed to",
+        "prerequisites": [
+          "gr_modal_grammar",
+          "gr_modal_ability"
+        ],
+        "unlocks_hint": "gr_modal_requests",
+        "priority": 2,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "local",
+        "confusion_set": "cs_obligation_source",
+        "structure_slug": "modal_simple",
+        "signal_blocklist": [
+          "the rules say",
+          "policy",
+          "handbook",
+          "please",
+          "officially",
+          "regulations",
+          "permission"
+        ],
+        "fixes_errors": [
+          "modal_obligation_source",
+          "register_spoken_in_writing",
+          "modal_strength_mismatch"
+        ],
+        "estimated_minutes": 24,
+        "tool_surface": "register_switch",
+        "teach": {
+          "can_do": "I can ask for something at the right distance, and report what is already allowed without sounding as though I am asking.",
+          "why_it_matters": "Asking the wrong way costs nothing in a corridor and a great deal in a letter. One word turns a settled arrangement into a favour.",
+          "meaning": "Permission has two sides and English keeps them apart. On one side you are asking a person to let you: can, could and may all do that, and what separates them is how much room you leave the other person to say no. On the other side nobody in the room is deciding anything, because an arrangement settled it long before either of you arrived, and be allowed to reports that arrangement without asking anyone for anything.",
+          "form": {
+            "pattern": "Can / Could / May I + plain verb ...?   ·   subject + be allowed to + plain verb",
+            "notes": [
+              "could and may leave more room than can; may is the one for a letter or a stranger",
+              "be allowed to has all the shapes: am, is, are, was, will be, has been",
+              "the answer to may I is usually yes, you can — nobody answers with may",
+              "the refusal works the same way round: we are not allowed to open it"
+            ],
+            "negative": "You cannot / can't ...  ·  You may not ...  ·  We are not allowed to ...",
+            "question": "Could I ...?  ·  May I ...?  ·  Are we allowed to ...?"
+          },
+          "visual": {
+            "kind": "cline",
+            "spec": {
+              "label": "how much room am I leaving you to say no?",
+              "steps": [
+                {
+                  "text": "Can I ...?",
+                  "gloss": "straight in; fine with people you see every day"
+                },
+                {
+                  "text": "Could I ...?",
+                  "gloss": "one step back; safe almost anywhere"
+                },
+                {
+                  "text": "May I ...?",
+                  "gloss": "furthest back; a letter, a stranger, someone senior"
+                },
+                {
+                  "text": "Am I allowed to ...?",
+                  "gloss": "not asking you at all — asking what has already been settled"
+                }
+              ]
+            }
+          },
+          "worked_example": {
+            "sentence": "Are we allowed to park on the verge during the market?",
+            "why_this_form": "Nobody being spoken to decides this. The question is what the standing arrangement permits, so it points past the listener at the arrangement.",
+            "what_the_other_would_mean": "Can we park on the verge asks the listener to grant it, and invites the answer I don't mind, which is not at all the same as permitted."
+          },
+          "notice_set": [
+            {
+              "sentence": "Could I take the Friday shift off?",
+              "question": "Who is being asked to decide?",
+              "options": [
+                "the person listening",
+                "an arrangement made somewhere else",
+                "nobody at all"
+              ],
+              "key": 0,
+              "why": "The speaker is putting the decision in the listener's hands and leaving them room to refuse it."
+            },
+            {
+              "sentence": "Am I allowed to take the Friday shift off?",
+              "question": "Who is being asked to decide?",
+              "options": [
+                "the person listening",
+                "an arrangement made somewhere else",
+                "nobody at all"
+              ],
+              "key": 1,
+              "why": "The speaker wants to know what has already been settled, not what the listener would prefer."
+            },
+            {
+              "sentence": "May I see the rota before I answer?",
+              "question": "How well do these two people know each other?",
+              "options": [
+                "well",
+                "not well, or one of them is senior",
+                "the sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "This is the furthest back of the three, and people stand furthest back with strangers and with anyone above them."
+            },
+            {
+              "sentence": "Drivers are not allowed to load after nine.",
+              "question": "Could the person speaking make an exception if they wanted to?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "A settled arrangement is being reported, and the speaker is not the one who settled it."
+            },
+            {
+              "sentence": "Can I borrow your pass for ten minutes?",
+              "question": "Who is being asked to decide?",
+              "options": [
+                "the person listening",
+                "an arrangement made somewhere else",
+                "nobody at all"
+              ],
+              "key": 0,
+              "why": "The pass belongs to the listener, so the listener is the only person who can hand it over."
+            }
+          ],
+          "discovery": {
+            "prompt": "Each pair asks about the same thing. Work out what changes between the left and the right.",
+            "pairs": [
+              [
+                "Could I use the small meeting room?",
+                "Am I allowed to use the small meeting room?"
+              ],
+              [
+                "Can I take my break at eleven?",
+                "Are we allowed to take breaks at eleven?"
+              ],
+              [
+                "May I keep the file overnight?",
+                "Are we allowed to keep files overnight?"
+              ]
+            ],
+            "candidate_rules": [
+              {
+                "text": "On the left the listener decides; on the right something settled earlier has already decided.",
+                "verdict": "right"
+              },
+              {
+                "text": "The right-hand sentences are more polite than the left-hand ones.",
+                "verdict": "too_narrow"
+              },
+              {
+                "text": "Use be allowed to whenever the sentence is about work.",
+                "verdict": "keyword_trap"
+              }
+            ]
+          },
+          "rule_line": "Ask who can say no. A person: can, could, may. An arrangement: be allowed to.",
+          "false_rule": "That may is simply the polite version of can. May is the distant one, and distance is not the same thing as politeness."
+        },
+        "contrast": {
+          "with": [
+            "gr_modal_obligation"
+          ],
+          "board_id": "gb_must_vs_have_to",
+          "question": "Is the person in front of me the one who decides?",
+          "fork": [
+            {
+              "answer": "Yes — they can say no themselves, so choose how far back to stand: can, could, may",
+              "selects": "asking a person",
+              "point_id": "gr_modal_permission"
+            },
+            {
+              "answer": "No — it was settled before either of us arrived",
+              "selects": "be allowed to",
+              "point_id": "gr_modal_obligation"
+            }
+          ],
+          "minimal_pair": {
+            "a": {
+              "text": "Can I bring a second guest to the depot open day?",
+              "means": "I am asking you to let me, and you are free to say no."
+            },
+            "b": {
+              "text": "Am I allowed to bring a second guest to the depot open day?",
+              "means": "I am asking what the arrangement permits, and you are only reporting it."
+            },
+            "only_difference": "Can I / Am I allowed to"
+          },
+          "wrong_choice_note": "You wrote can I. That hands the decision to the person reading, and it may not be theirs to give. If something already covers the question, ask what it permits and you get an answer you can rely on.",
+          "edge_case": {
+            "text": "May I is standard in a letter and in front of a stranger, and stiff between colleagues who share a kettle. Nobody anywhere will mark you down for could I. Learn may for writing and stop worrying about it in speech.",
+            "ignore_the_rest": true
+          },
+          "stronger_test": "Imagine the answer no. If the person could add sorry, that is my decision, you want can or could. If they would have to say sorry, that is how it works here, you want be allowed to.",
+          "worked_pairs": [
+            {
+              "a": "Could I leave my bike inside the yard gate?",
+              "b": "Are cyclists allowed to leave bikes inside the yard gate?",
+              "deciding_span_a": "Could I",
+              "deciding_span_b": "Are cyclists allowed to",
+              "gloss": "The first asks one person for a favour. The second asks what the site already permits, whoever is standing there."
+            },
+            {
+              "a": "May I sit in on the safety meeting tomorrow?",
+              "b": "Am I allowed to sit in on the safety meeting tomorrow?",
+              "deciding_span_a": "May I",
+              "deciding_span_b": "Am I allowed to",
+              "gloss": "Both are careful. Only the second treats the answer as something that was fixed before the question was asked."
+            },
+            {
+              "a": "Can we start half an hour early on Fridays?",
+              "b": "Are we allowed to start half an hour early on Fridays?",
+              "deciding_span_a": "Can we",
+              "deciding_span_b": "Are we allowed to",
+              "gloss": "The first invites the manager to agree. The second asks whether agreeing is even open to her."
+            }
+          ]
+        },
+        "errors": [
+          {
+            "code": "modal_obligation_source",
+            "wrong": "Visitors can not go past the yellow line, according to the site notice.",
+            "right": "Visitors are not allowed to go past the yellow line, according to the site notice.",
+            "why_it_happens": "Can is the first permission word anybody learns and in many languages it covers both jobs. Nothing in the learner's stored rule says that reporting a settled arrangement calls for different words.",
+            "smallest_fix": "Swap one phrase: can not becomes are not allowed to.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "register_spoken_in_writing",
+            "wrong": "Dear Ms Verrall, can I ask you to send the signed copy back?",
+            "right": "Dear Ms Verrall, may I ask you to send the signed copy back?",
+            "why_it_happens": "The learner uses the words that work in a corridor because nobody has told them that a letter stands further back. The sentence is not broken; it is dressed for the wrong room.",
+            "smallest_fix": "Swap one word: can becomes may.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "modal_strength_mismatch",
+            "wrong": "May you send me the file before Friday?",
+            "right": "Could you send me the file before Friday?",
+            "why_it_happens": "May has been stored as an all-purpose polite word and is therefore aimed outwards at the listener. It only ever asks about the speaker's own side, and pointed the other way it lands as very strange indeed.",
+            "smallest_fix": "Swap one word: may becomes could.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          },
+          {
+            "code": "verb_pattern_wrong",
+            "wrong": "Staff are allowed park in the north yard after six.",
+            "right": "Staff are allowed to park in the north yard after six.",
+            "why_it_happens": "The learner has just been taught that nothing follows a modal and carries the habit across to a phrase that is not one. Allowed is an ordinary word and it keeps its to.",
+            "smallest_fix": "Insert one word: to.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "speaking_p3",
+            "mode": "productive",
+            "note": "Part 3 answers about rules and who sets them need both sides of this.",
+            "model": "People aren't allowed to build on that land, so the pressure just moves somewhere else."
+          },
+          {
+            "surface": "writing_t1_gt",
+            "mode": "productive",
+            "note": "A letter that asks for something has to ask at the right distance.",
+            "model": "May I ask whether residents are allowed to use the side entrance after six?"
+          },
+          {
+            "surface": "listening",
+            "mode": "receptive",
+            "note": "An announcement reports what is permitted; a conversation asks for it, and the two sound nothing alike.",
+            "model": "Passengers are not allowed to stand forward of the yellow line."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "task"
+        ],
+        "used_in": [
+          {
+            "module": "speaking",
+            "ref_id": "card_p1_r2pa_rules_where_you_live_905",
+            "quote": "Every answer on this card is a report of what people where you live are and are not allowed to do."
+          },
+          {
+            "module": "writing",
+            "ref_id": "wp_core_gt1_semiformal_landlord_repairs",
+            "quote": "The letter has to ask the landlord for something and ask what tenants may already do, and the two need different words."
+          },
+          {
+            "module": "listening",
+            "ref_id": "ls_dx_p2m08",
+            "quote": "A service announcement is a stream of things passengers are and are not allowed to do while the line is shut."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_modal_permission_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Could I swap my Thursday for your Monday?",
+              "question": "Who is being asked to agree?",
+              "options": [
+                "the person listening",
+                "an arrangement made somewhere else",
+                "nobody at all"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The swap needs the other person to give something up, so they are the only one who can agree to it.",
+              "feed_forward": "Ask who would have to say yes before you read the sentence."
+            }
+          },
+          {
+            "id": "gi_modal_permission_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "reading",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Contractors are not allowed to use the passenger lift.",
+              "question": "Can the person reading this make an exception on the spot?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The sentence reports something already settled, and a reader who did not settle it cannot unsettle it either.",
+              "feed_forward": "Read be allowed to as a report, never as an offer."
+            }
+          },
+          {
+            "id": "gi_modal_permission_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "can I bring two colleagues",
+            "payload": {
+              "context": "The opening line of a letter to a site manager the writer has never met.",
+              "sentence": "Dear Mr Aldiss, can I bring two colleagues to the open morning?",
+              "acceptable": false,
+              "reasons": [
+                "a first letter to a stranger stands further back than this",
+                "two colleagues is too many to ask for",
+                "the open morning is not the writer's to attend",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Nothing here is impolite, but the distance is wrong for a first letter, and a reader hears that before they hear the request.",
+              "feed_forward": "Use may in a first letter to someone you have never met."
+            }
+          },
+          {
+            "id": "gi_modal_permission_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "The first line of a formal letter to a registrar the writer has never met.",
+              "stem": "___ I ask whether the closing date could be moved by a week?",
+              "blanks": 1,
+              "lemma_hints": []
+            },
+            "expected": [
+              "may"
+            ],
+            "feedback": {
+              "why_key": "A first letter to a stranger takes the word that stands furthest back, and this is the one.",
+              "feed_forward": "Open a formal letter with may I rather than can I."
+            }
+          },
+          {
+            "id": "gi_modal_permission_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "A new starter checking something with the shift lead.",
+              "stem": "Are we ___ (allow) to leave the yard during a break?",
+              "blanks": 1,
+              "lemma_hints": [
+                "allow"
+              ]
+            },
+            "expected": [
+              "allowed"
+            ],
+            "feedback": {
+              "why_key": "The question points past the shift lead at whatever was settled about breaks long before either of them arrived.",
+              "feed_forward": "Keep the to after allowed; it never drops."
+            }
+          },
+          {
+            "id": "gi_modal_permission_06",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "Nobody takes photographs inside the packing hall. That was settled long before this manager arrived.",
+              "instruction": "Write one sentence reporting the arrangement, using be allowed to.",
+              "starter": "Visitors ___"
+            },
+            "expected": [
+              "are not allowed to take photographs inside the packing hall",
+              "aren't allowed to take photographs inside the packing hall",
+              "arent allowed to take photographs inside the packing hall"
+            ],
+            "feedback": {
+              "why_key": "Nobody in the building decided this, so the sentence has to point somewhere other than at a person.",
+              "feed_forward": "Report a settled arrangement with be allowed to."
+            }
+          },
+          {
+            "id": "gi_modal_permission_07",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_housing",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "could",
+                "I",
+                "borrow",
+                "the",
+                "spare",
+                "key",
+                "for",
+                "an",
+                "hour"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ]
+              ],
+              "context": "Build a request you could put in a note to a neighbour."
+            },
+            "expected": [
+              "could i borrow the spare key for an hour"
+            ],
+            "feedback": {
+              "why_key": "The word that leaves the neighbour room to refuse goes first, and everything after it stays plain.",
+              "feed_forward": "Start a request with could I and leave the verb bare."
+            }
+          },
+          {
+            "id": "gi_modal_permission_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_transport",
+            "skill_hook": "listening",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "You're not allowed to park there after four.",
+              "scored_tokens": [
+                "not",
+                "allowed"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "you're not allowed to park there after four",
+              "you are not allowed to park there after four",
+              "youre not allowed to park there after four"
+            ],
+            "feedback": {
+              "why_key": "You're not allowed and you can't sound about the same length, but only one of them says the speaker is reporting rather than refusing.",
+              "feed_forward": "Listen past the contraction for the word allowed."
+            }
+          },
+          {
+            "id": "gi_modal_permission_09",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_transport",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "Two passengers on a late train, one wanting the empty window seat.",
+              "stem": "___ I sit here, or is somebody coming back to it?",
+              "blanks": 1,
+              "lemma_hints": []
+            },
+            "expected": [
+              "can",
+              "could"
+            ],
+            "feedback": {
+              "why_key": "The seat is in the gift of the person sitting next to it, so the question is aimed straight at them.",
+              "feed_forward": "Aim can or could at the person who can hand it over."
+            }
+          },
+          {
+            "id": "gi_modal_permission_10",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": "gi_modal_permission_11",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "wants his manager to agree",
+            "payload": {
+              "context": "Ravi wants his manager to agree to a different finish time on Fridays.",
+              "stem": "___ finish at four on Fridays?",
+              "options": [
+                {
+                  "text": "Could I",
+                  "why_this_means": "That you are asking the manager herself, and leaving her room to refuse."
+                },
+                {
+                  "text": "Am I allowed to",
+                  "why_this_means": "That you are asking what has already been settled, and expecting her only to report it."
+                }
+              ],
+              "key": 0
+            },
+            "expected": [
+              "could i"
+            ],
+            "feedback": {
+              "why_key": "The decision is hers to make, so the question goes to her rather than past her.",
+              "feed_forward": "Aim could I at whoever has the power to say yes."
+            }
+          },
+          {
+            "id": "gi_modal_permission_11",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": "gi_modal_permission_10",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "a written arrangement covers finishing times",
+            "payload": {
+              "context": "Ravi has been told a written arrangement covers finishing times, and he wants to know what it says.",
+              "stem": "___ finish at four on Fridays?",
+              "options": [
+                {
+                  "text": "Could I",
+                  "why_this_means": "That you are asking the manager herself, and leaving her room to refuse."
+                },
+                {
+                  "text": "Am I allowed to",
+                  "why_this_means": "That you are asking what has already been settled, and expecting her only to report it."
+                }
+              ],
+              "key": 1
+            },
+            "expected": [
+              "am i allowed to"
+            ],
+            "feedback": {
+              "why_key": "The answer exists already and neither of them is writing it, so the question points past both of them.",
+              "feed_forward": "Ask what is allowed when the answer is already fixed."
+            }
+          },
+          {
+            "id": "gi_modal_permission_12",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": "gi_modal_permission_13",
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "asking about her own piece of work",
+            "payload": {
+              "context": "Mira is writing to a tutor she has never met, asking about her own piece of work.",
+              "stem": "___ submit the essay in two parts?",
+              "options": [
+                {
+                  "text": "May I",
+                  "why_this_means": "That you want the tutor to decide, and you are standing well back while she does."
+                },
+                {
+                  "text": "Are students allowed to",
+                  "why_this_means": "That you want to know what has been settled for everybody on the course."
+                }
+              ],
+              "key": 0
+            },
+            "expected": [
+              "may i"
+            ],
+            "feedback": {
+              "why_key": "One essay, one writer, one reader who can decide. The question is about her own submission and nobody else's.",
+              "feed_forward": "Use may I when you are asking about your own case in writing."
+            }
+          },
+          {
+            "id": "gi_modal_permission_13",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": "gi_modal_permission_12",
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "what the course permits for everybody",
+            "payload": {
+              "context": "Mira is writing to a tutor to find out what the course permits for everybody, not just for her.",
+              "stem": "___ submit the essay in two parts?",
+              "options": [
+                {
+                  "text": "May I",
+                  "why_this_means": "That you want the tutor to decide, and you are standing well back while she does."
+                },
+                {
+                  "text": "Are students allowed to",
+                  "why_this_means": "That you want to know what has been settled for everybody on the course."
+                }
+              ],
+              "key": 1
+            },
+            "expected": [
+              "are students allowed to"
+            ],
+            "feedback": {
+              "why_key": "Asking about everybody turns the question into one about the arrangement, and the tutor becomes the person who reports it.",
+              "feed_forward": "Ask what is allowed when the answer covers a whole group."
+            }
+          },
+          {
+            "id": "gi_modal_permission_14",
+            "kind": "both_ok",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p3",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "the manager has the power to set the parking",
+            "payload": {
+              "context": "Bea is at a depot where the manager has the power to set the parking arrangement aside for one afternoon.",
+              "stem": "___ park inside the gate?",
+              "options": [
+                {
+                  "text": "Can we",
+                  "why_this_means": "That you are asking the manager to let you in, and she may simply agree."
+                },
+                {
+                  "text": "Are we allowed to",
+                  "why_this_means": "That you are asking what the standing arrangement says, whatever the manager thinks of it."
+                }
+              ],
+              "key": "both",
+              "follow_up": {
+                "question": "Which one leaves the decision with the manager?",
+                "key": 0
+              }
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Both are good English about the same yard. One asks a woman with the power to say yes; the other asks what happens when nobody uses that power.",
+              "feed_forward": "Decide who you want answering before you pick the opening."
+            }
+          },
+          {
+            "id": "gi_modal_permission_15",
+            "kind": "contrast_pair",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "reading",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "are not allowed to",
+            "payload": {
+              "context": "Two lines from the same site induction pack.",
+              "sentences": [
+                "Visitors cannot open the roller doors themselves.",
+                "Visitors are not allowed to open the roller doors themselves."
+              ],
+              "meanings": [
+                "The doors are too heavy, or the mechanism will not answer to a visitor.",
+                "The doors work perfectly well, and something settled earlier keeps visitors off them."
+              ],
+              "key": [
+                0,
+                1
+              ]
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "One sentence is about a door and the other is about a decision. A reader who mixes them up will try the handle.",
+              "feed_forward": "Ask whether the obstacle is the thing or the arrangement."
+            }
+          },
+          {
+            "id": "gi_modal_permission_16",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_housing",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "You rent a room in a building with a shared hallway. You want to know whether tenants may keep a bicycle there. Write one sentence that asks about the arrangement rather than asking the manager to agree.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": true,
+              "min_words": 10,
+              "max_words": 30,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Asking about the arrangement gets you an answer that survives a change of manager, which is the whole reason to ask that way.",
+              "feed_forward": "Point the question past the reader at the arrangement."
+            }
+          },
+          {
+            "id": "gi_modal_permission_17",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_housing",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Open your letter to the landlord about repairs. Rewrite one sentence so that it asks what tenants are entitled to do, rather than asking him to grant it as a favour. Two minutes.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": false,
+              "min_words": 12,
+              "max_words": 40,
+              "task_ref": "wp_core_gt1_semiformal_landlord_repairs"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A letter that asks for a favour can be refused politely. A letter that asks what is already settled is much harder to answer with a shrug.",
+              "feed_forward": "Turn one favour in your letter into a question about the arrangement."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_modal_requests",
+      "unit_id": "u07",
+      "sequence_index": 1603,
+      "title": "Asking someone to do something without it landing as an order",
+      "cefr_level": "A2",
+      "role": "form",
+      "topic_id": "topic_communication",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "Requests and offers",
+        "prerequisites": [
+          "gr_modal_permission"
+        ],
+        "unlocks_hint": "gr_modal_obligation",
+        "priority": 2,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "local",
+        "confusion_set": null,
+        "structure_slug": "modal_simple",
+        "signal_blocklist": [
+          "polite",
+          "politely",
+          "formal",
+          "informal",
+          "kindly",
+          "distance"
+        ],
+        "fixes_errors": [
+          "modal_strength_mismatch",
+          "register_spoken_in_writing",
+          "verb_pattern_wrong"
+        ],
+        "estimated_minutes": 20,
+        "tool_surface": "register_switch",
+        "teach": {
+          "can_do": "I can ask someone for a favour at a distance that fits how big the favour is, and offer to do something myself.",
+          "why_it_matters": "A request that is too direct does not sound rude to the person who wrote it. It sounds rude only to the person who has to answer it.",
+          "meaning": "A request asks for somebody else's time, so English makes it easy to refuse. The further back you stand, the easier the refusal, and the words are a straight ladder: can you, could you, would you mind. An offer works the other way round, because it spends your own effort instead of theirs, and the words for that are shall I and would you like me to. Same machinery, opposite direction.",
+          "form": {
+            "pattern": "Can / Could you + plain verb ...?   ·   Would you mind + -ing word ...?   ·   Shall I + plain verb ...?",
+            "notes": [
+              "would you mind takes an -ing word, never a plain verb: would you mind moving",
+              "the answer to would you mind is upside down: not at all means yes, go ahead",
+              "shall I offers your own effort; would you like me to does the same from further back",
+              "will you do it lands as an instruction, whatever the speaker intended"
+            ],
+            "negative": "I don't suppose you could ...? backs right off  ·  couldn't you ...? presses instead",
+            "question": "Could you ...?  ·  Would you mind ...?  ·  Shall I ...?"
+          },
+          "visual": {
+            "kind": "ladder",
+            "spec": {
+              "rungs": [
+                {
+                  "text": "Will you send it?",
+                  "register": "spoken"
+                },
+                {
+                  "text": "Can you send it?",
+                  "register": "spoken"
+                },
+                {
+                  "text": "Could you send it?",
+                  "register": "both"
+                },
+                {
+                  "text": "Would you mind sending it?",
+                  "register": "both"
+                },
+                {
+                  "text": "I don't suppose you could send it?",
+                  "register": "spoken"
+                }
+              ],
+              "top_label": "easy to refuse — use it for a big favour",
+              "bottom_label": "hard to refuse — it arrives as an instruction"
+            }
+          },
+          "worked_example": {
+            "sentence": "Would you mind moving the pallets before the delivery arrives?",
+            "why_this_form": "The pallets are heavy and the favour is real, so the speaker asks about the other person's inconvenience rather than about the pallets.",
+            "what_the_other_would_mean": "Would you mind to move stalls the sentence at the word the care was supposed to land on, and that is what the listener notices."
+          },
+          "notice_set": [
+            {
+              "sentence": "Shall I carry the second box?",
+              "question": "Who is offering to do the carrying?",
+              "options": [
+                "the speaker",
+                "the listener",
+                "nobody yet"
+              ],
+              "key": 0,
+              "why": "Shall I puts the speaker's own arms on the table, so nothing is being asked of anybody else."
+            },
+            {
+              "sentence": "Could you carry the second box?",
+              "question": "Who ends up doing the carrying?",
+              "options": [
+                "the speaker",
+                "the listener",
+                "nobody yet"
+              ],
+              "key": 1,
+              "why": "The question points outwards, so the effort lands on the person being spoken to."
+            },
+            {
+              "sentence": "Would you mind waiting outside for a moment?",
+              "question": "Is the speaker expecting this to be an inconvenience?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Asking whether somebody minds only makes sense when there is something there to mind."
+            },
+            {
+              "sentence": "Will you sign the sheet on your way out.",
+              "question": "Is this an invitation or an instruction?",
+              "options": [
+                "an invitation",
+                "an instruction",
+                "the sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Nothing here leaves the other person room to decline, which is what turns a request into an instruction."
+            },
+            {
+              "sentence": "Would you like me to book the room?",
+              "question": "Who would end up doing the booking?",
+              "options": [
+                "the speaker",
+                "the listener",
+                "a third person"
+              ],
+              "key": 0,
+              "why": "The speaker is offering to spend their own afternoon on it and checking whether that is wanted."
+            }
+          ],
+          "rule_line": "The bigger the favour, the further back you stand.",
+          "false_rule": "That adding please to anything makes it polite. Please softens a request; it does not change how easily the other person can say no."
+        },
+        "errors": [
+          {
+            "code": "verb_pattern_wrong",
+            "wrong": "Would you mind to move your car off the ramp?",
+            "right": "Would you mind moving your car off the ramp?",
+            "why_it_happens": "Almost every other verb the learner knows takes to in this position, so the pattern arrives automatically. Mind belongs to the small group that will not have it.",
+            "smallest_fix": "Swap one word: to move becomes moving.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "modal_strength_mismatch",
+            "wrong": "Will you send me the figures before lunch?",
+            "right": "Could you send me the figures before lunch?",
+            "why_it_happens": "Will looks like nothing more than the future, so the learner reads the sentence as neutral. To an English ear it presses, and a colleague hears an instruction where a favour was meant.",
+            "smallest_fix": "Swap one word: will becomes could.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "modal_strength_mismatch",
+            "wrong": "Would you mind waiting outside? — Yes, of course.",
+            "right": "Would you mind waiting outside? — Not at all.",
+            "why_it_happens": "Mind asks whether something bothers you, so agreeing to help means answering no. The learner replies to the favour they heard rather than to the question that was actually put.",
+            "smallest_fix": "Swap one phrase: yes, of course becomes not at all.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "verb_pattern_wrong",
+            "wrong": "Shall I to book the room for the whole afternoon?",
+            "right": "Shall I book the room for the whole afternoon?",
+            "why_it_happens": "Shall turns up rarely enough that it never gets filed with the words that refuse to take to, so the learner treats it like want or need.",
+            "smallest_fix": "Delete one word: to.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "writing_t1_gt",
+            "mode": "productive",
+            "note": "A letter asking a favour is judged on how easy it is to refuse.",
+            "model": "Would you mind keeping an eye on the flat while we are away?"
+          },
+          {
+            "surface": "speaking_p1",
+            "mode": "productive",
+            "note": "The examiner's room is full of small requests, and one word sets the tone.",
+            "model": "Could you say that one more time? I didn't quite catch the last part."
+          },
+          {
+            "surface": "listening",
+            "mode": "receptive",
+            "note": "Arrangements are made through requests and offers, and who does what turns on which one it was.",
+            "model": "Shall I put the delivery down for the Tuesday morning slot?"
+          }
+        ],
+        "criteria": [
+          "gra",
+          "task"
+        ],
+        "used_in": [
+          {
+            "module": "writing",
+            "ref_id": "wp_gtl_17_informal_favour_flat_and_cat",
+            "quote": "The whole letter is one large favour, and it works or fails on how much room the writer leaves the reader to say no."
+          },
+          {
+            "module": "listening",
+            "ref_id": "ls_07_p1",
+            "quote": "Arranging a delivery is a run of offers and requests, and the answer sheet depends on which party ends up doing what."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_modal_requests_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_communication",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Shall I ring the depot and check?",
+              "question": "Who would be making the call?",
+              "options": [
+                "the speaker",
+                "the listener",
+                "nobody yet"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The speaker is putting their own time on the table and asking only whether it would help.",
+              "feed_forward": "Read shall I as an offer of your own effort."
+            }
+          },
+          {
+            "id": "gi_modal_requests_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_communication",
+            "skill_hook": "reading",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "I don't suppose you could cover the desk until two?",
+              "question": "Is the writer expecting a yes?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Opening with I don't suppose builds the refusal into the question, which is what you do when the favour is large.",
+              "feed_forward": "Match how far back you stand to how big the favour is."
+            }
+          },
+          {
+            "id": "gi_modal_requests_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_communication",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "mind to check",
+            "payload": {
+              "context": "A message to a neighbour about a parcel.",
+              "sentence": "Would you mind to check whether it was left in the porch?",
+              "acceptable": false,
+              "reasons": [
+                "mind takes an -ing word after it, never a plain verb",
+                "the parcel is not the neighbour's responsibility",
+                "the request is too direct for a neighbour",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The sentence stalls at exactly the word that was supposed to carry the care, and that is the word the reader remembers.",
+              "feed_forward": "Put an -ing word after mind every time."
+            }
+          },
+          {
+            "id": "gi_modal_requests_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_communication",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "A note left for a colleague.",
+              "stem": "Would you mind ___ (lock) the side door when you go?",
+              "blanks": 1,
+              "lemma_hints": [
+                "lock"
+              ]
+            },
+            "expected": [
+              "locking"
+            ],
+            "feedback": {
+              "why_key": "Mind belongs to the small group that refuses to take to, and only the -ing word will stand behind it.",
+              "feed_forward": "Write mind, then reach straight for the -ing word."
+            }
+          },
+          {
+            "id": "gi_modal_requests_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_food",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "In a café, to a member of staff the speaker has never met.",
+              "stem": "___ you bring the bill when you have a moment?",
+              "blanks": 1,
+              "lemma_hints": []
+            },
+            "expected": [
+              "could",
+              "can"
+            ],
+            "feedback": {
+              "why_key": "The favour is small and the two people are strangers, so one step back is exactly right.",
+              "feed_forward": "Use could you with a stranger and a small favour."
+            }
+          },
+          {
+            "id": "gi_modal_requests_06",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_communication",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "Send the signed form back this week.",
+              "instruction": "Rewrite it as a request that leaves the reader room to refuse, using would you mind.",
+              "starter": "Would you mind ___"
+            },
+            "expected": [
+              "sending the signed form back this week",
+              "sending the signed form back to us this week"
+            ],
+            "feedback": {
+              "why_key": "The instruction and the request ask for the same piece of paper. Only one of them lets the reader answer.",
+              "feed_forward": "Turn an instruction into a question the reader can answer no to."
+            }
+          },
+          {
+            "id": "gi_modal_requests_07",
+            "kind": "order",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_communication",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "shall",
+                "I",
+                "wait",
+                "outside",
+                "with",
+                "the",
+                "bags"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6
+                ]
+              ],
+              "context": "Offer to do something yourself. Build the sentence."
+            },
+            "expected": [
+              "shall i wait outside with the bags"
+            ],
+            "feedback": {
+              "why_key": "The offer starts with the speaker's own name for themselves, and the verb behind it stays plain.",
+              "feed_forward": "Open an offer with shall I and a bare verb."
+            }
+          },
+          {
+            "id": "gi_modal_requests_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_communication",
+            "skill_hook": "listening",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "Could you hold the lift a second?",
+              "scored_tokens": [
+                "Could",
+                "you"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "could you hold the lift a second",
+              "could you hold the lift for a second"
+            ],
+            "feedback": {
+              "why_key": "Could you flattens to almost one syllable in speech, and what is left sounds very like can you, which stands a step closer.",
+              "feed_forward": "Listen for the d hiding at the end of could."
+            }
+          },
+          {
+            "id": "gi_modal_requests_09",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "verb_pattern_wrong"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Would you mind to let me know by Thursday, as the room has to be confirmed?",
+              "error_span": "mind to let",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "mind letting"
+            ],
+            "feedback": {
+              "why_key": "Everything after the comma is fine. The sentence only comes apart at the one word that will not take to.",
+              "feed_forward": "Change to plus verb into the -ing word after mind."
+            }
+          },
+          {
+            "id": "gi_modal_requests_10",
+            "kind": "judge",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_communication",
+            "skill_hook": "speaking_p3",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "Yes, of course",
+            "payload": {
+              "context": "A receptionist has just asked a visitor whether he would mind waiting in the corridor.",
+              "sentence": "Yes, of course, I'll wait here.",
+              "acceptable": false,
+              "reasons": [
+                "the question asked whether it bothered him, so agreeing means answering no",
+                "the corridor is not where he was asked to wait",
+                "of course is too abrupt in a waiting room",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The words after it show he is happy to wait, so the first word contradicts the rest of his own sentence.",
+              "feed_forward": "Answer not at all when you are happy to do it."
+            }
+          },
+          {
+            "id": "gi_modal_requests_11",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_communication",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "You need a neighbour you barely know to take in a delivery on a weekday. Write one sentence asking, and leave them plenty of room to refuse.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": true,
+              "min_words": 10,
+              "max_words": 30,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A whole weekday is a large favour from somebody you barely know, and the size of the favour decides where you stand.",
+              "feed_forward": "Ask about their inconvenience, not about the delivery."
+            }
+          },
+          {
+            "id": "gi_modal_requests_12",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_communication",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "register_spoken_in_writing"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Open your letter asking a friend to look after the flat. Find the largest thing you asked for and rewrite that sentence so it stands one step further back. Two minutes.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": false,
+              "min_words": 12,
+              "max_words": 40,
+              "task_ref": "wp_gtl_17_informal_favour_flat_and_cat"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A letter that asks four things in the same voice reads as a list of jobs. Moving the biggest one back turns it into a request again.",
+              "feed_forward": "Find your biggest ask and step back one rung."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_modal_obligation",
+      "unit_id": "u07",
+      "sequence_index": 1604,
+      "title": "Saying that something has to happen, and how much room there is to refuse",
+      "cefr_level": "A2",
+      "role": "form",
+      "topic_id": "topic_health",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "must, have to, need to, should, ought to, had better",
+        "prerequisites": [
+          "gr_modal_grammar"
+        ],
+        "unlocks_hint": "gr_must_vs_have_to",
+        "priority": 1,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 3,
+        "gravity": "global",
+        "confusion_set": "cs_obligation_source",
+        "structure_slug": "modal_simple",
+        "signal_blocklist": [
+          "compulsory",
+          "necessary",
+          "required",
+          "obliged",
+          "essential"
+        ],
+        "fixes_errors": [
+          "modal_strength_mismatch",
+          "modal_bare_infinitive",
+          "modal_obligation_source"
+        ],
+        "estimated_minutes": 24,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can say that something has to happen and show how much room there is to argue about it.",
+          "why_it_matters": "These six are not six ways of saying the same thing. Picking the wrong one makes a suggestion sound like a threat, or a requirement sound optional.",
+          "meaning": "English has a whole row of words for saying something has to happen, and they are not interchangeable — they sit at different heights. At the top, must and have to close the question: there is nothing to discuss. Need to sits just under them and points at the practical reason. Should and ought to open the question again: this is the better move, and you are free to make a worse one. Had better sits off to one side and warns you what follows if you do not.",
+          "form": {
+            "pattern": "must / should + plain verb   ·   have to / need to / ought to / had better + plain verb",
+            "notes": [
+              "have to and need to change shape: has to, had to, will have to, don't have to",
+              "must has one shape and no past at all — the past is had to",
+              "ought to and had better keep their to and their 'd; had better is not about the past",
+              "must I is rare and sounds put upon; do I have to is the everyday question"
+            ],
+            "negative": "must not  ·  do not have to  ·  should not  ·  had better not — and the first two are opposites, not partners",
+            "question": "Do I have to ...?  ·  Should I ...?  ·  Must I ...?"
+          },
+          "visual": {
+            "kind": "cline",
+            "spec": {
+              "label": "how much room is there to argue?",
+              "steps": [
+                {
+                  "text": "must / have to",
+                  "gloss": "none at all; the question is shut"
+                },
+                {
+                  "text": "need to",
+                  "gloss": "the situation demands it, and here is why"
+                },
+                {
+                  "text": "had better",
+                  "gloss": "do it, or something you won't like happens"
+                },
+                {
+                  "text": "ought to / should",
+                  "gloss": "this is the better move; you may still take the worse one"
+                }
+              ]
+            }
+          },
+          "worked_example": {
+            "sentence": "Patients must fast for six hours before the scan.",
+            "why_this_form": "The scan does not work otherwise, so there is nothing to weigh up and nothing to negotiate. The word chosen shuts the question rather than opening it.",
+            "what_the_other_would_mean": "Patients should fast would offer fasting as the better of two workable plans, and a patient who ate breakfast would arrive expecting to be scanned."
+          },
+          "notice_set": [
+            {
+              "sentence": "Patients must fast for six hours before the scan.",
+              "question": "Is a sandwich an hour beforehand all right?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Six hours with nothing in them is exactly what the sentence sets out, so an hour before is inside the six."
+            },
+            {
+              "sentence": "You should take the tablets with food.",
+              "question": "Is taking them with food the better move or the only move?",
+              "options": [
+                "the better move",
+                "the only move",
+                "the sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Should recommends one option over another, which means the other one is still there."
+            },
+            {
+              "sentence": "We had better leave now.",
+              "question": "Is something likely to go wrong if they stay?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "Had better always has a consequence behind it, even when nobody bothers to name it."
+            },
+            {
+              "sentence": "I have to collect a repeat prescription this afternoon.",
+              "question": "Is the speaker free to skip it?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "The afternoon is already spoken for, and the speaker is reporting that rather than deciding it."
+            },
+            {
+              "sentence": "You need to drink more water in this heat.",
+              "question": "Is the speaker treating this as optional?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "Need to points at what the situation demands, and the heat is not open to discussion."
+            }
+          ],
+          "rule_line": "Pick by height: must and have to shut the question, should and ought to leave it open.",
+          "false_rule": "That should is a gentler must. Should offers a better option; must removes the choice. Different jobs, not different volumes."
+        },
+        "errors": [
+          {
+            "code": "modal_obligation_source",
+            "wrong": "The nurse says I must bring a urine sample.",
+            "right": "The nurse says I have to bring a urine sample.",
+            "why_it_happens": "Must is learned first and treated as the general word for obligation. When somebody else has laid the requirement down, English hands the sentence to have to, and nothing in the learner's rule mentions who is speaking.",
+            "smallest_fix": "Swap one phrase: must becomes have to.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "modal_strength_mismatch",
+            "wrong": "Patients should fast for six hours, or the scan cannot go ahead.",
+            "right": "Patients must fast for six hours, or the scan cannot go ahead.",
+            "why_it_happens": "Should feels safely polite, so it becomes the learner's all-purpose obligation word. Where refusing has a hard consequence, the sentence needs the word that closes the question rather than the one that opens it.",
+            "smallest_fix": "Swap one word: should becomes must.",
+            "gravity": "global",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "modal_bare_infinitive",
+            "wrong": "You ought take the tablets with food.",
+            "right": "You ought to take the tablets with food.",
+            "why_it_happens": "The learner has just been told that nothing stands between a modal and its verb, and ought looks like one of them. It is the one member of the row that keeps its to.",
+            "smallest_fix": "Insert one word: to.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          },
+          {
+            "code": "modal_bare_infinitive",
+            "wrong": "You had better to see a pharmacist about that.",
+            "right": "You had better see a pharmacist about that.",
+            "why_it_happens": "Ought to keeps its to and had better does not, and the two sit next to each other in every list the learner has ever met. The to migrates from one to the other.",
+            "smallest_fix": "Delete one word: to.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "Every recommendation paragraph is a run of these, and the height has to match the claim.",
+            "model": "Employers should build short walks into the working day rather than lengthening breaks."
+          },
+          {
+            "surface": "speaking_p1",
+            "mode": "productive",
+            "note": "Answers about a daily routine are half made of them.",
+            "model": "I have to be at the depot by seven, so I usually skip breakfast."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "A True or False stem often turns a recommendation in the passage into a requirement.",
+            "model": "Applicants are advised to submit two references before the interview."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "task"
+        ],
+        "used_in": [
+          {
+            "module": "writing",
+            "ref_id": "wp_core_t2_problem_solution_sedentary_working_day",
+            "quote": "A solutions paragraph is a stack of these words, and an essay that puts them all at the same height reads as a shouted list."
+          },
+          {
+            "module": "speaking",
+            "ref_id": "card_p2_r2pa_a_fair_rule_905",
+            "quote": "Describing a rule you think is fair means saying what people have to do and what they merely ought to do."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_modal_obligation_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "reading",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Visitors should wash their hands on entering the ward.",
+              "question": "Will a visitor who forgets be turned away?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 2
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Should recommends the better move and stops there. What happens to anyone who takes the worse one is left outside the sentence.",
+              "feed_forward": "Read should as a recommendation, not as a gate."
+            }
+          },
+          {
+            "id": "gi_modal_obligation_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_health",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "We had better set off before the tide turns.",
+              "question": "Is something unwelcome waiting if they stay?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Had better always carries a consequence behind it, and here the tide is doing the threatening.",
+              "feed_forward": "Look for the consequence hiding behind had better."
+            }
+          },
+          {
+            "id": "gi_modal_obligation_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_bare_infinitive"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "ought take",
+            "payload": {
+              "context": "From a leaflet about a new prescription.",
+              "sentence": "Anyone on this dose ought take the tablets with food.",
+              "acceptable": false,
+              "reasons": [
+                "ought is the one in this row that keeps its to",
+                "the dose is too high for tablets",
+                "ought is too weak for medical advice",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Everything else about the advice is right. Ought simply does not travel without its to, however much the words either side of it do.",
+              "feed_forward": "Write ought and add to before you write the verb."
+            }
+          },
+          {
+            "id": "gi_modal_obligation_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a hospital letter. The scan is impossible on a full stomach.",
+              "stem": "Patients ___ fast for six hours before the appointment.",
+              "blanks": 1,
+              "lemma_hints": []
+            },
+            "expected": [
+              "must"
+            ],
+            "feedback": {
+              "why_key": "The scan will not work otherwise, so there is nothing left to weigh up and the word has to shut the question.",
+              "feed_forward": "Use must when refusing makes the whole thing impossible."
+            }
+          },
+          {
+            "id": "gi_modal_obligation_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "A driver describing his week.",
+              "stem": "I ___ (have) to be at the depot by seven every morning.",
+              "blanks": 1,
+              "lemma_hints": [
+                "have"
+              ]
+            },
+            "expected": [
+              "have"
+            ],
+            "feedback": {
+              "why_key": "The seven o'clock start was set by somebody else, and the speaker is reporting it rather than deciding it.",
+              "feed_forward": "Use have to for something arranged outside you."
+            }
+          },
+          {
+            "id": "gi_modal_obligation_06",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_bare_infinitive"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A note added to the bottom of the same letter.",
+              "stem": "You had better ___ (bring) someone with you, as you will not be able to drive home.",
+              "blanks": 1,
+              "lemma_hints": [
+                "bring"
+              ]
+            },
+            "expected": [
+              "bring"
+            ],
+            "feedback": {
+              "why_key": "Had better warns you about the drive home, and the verb behind it stays plain with nothing added.",
+              "feed_forward": "Leave the verb bare after had better."
+            }
+          },
+          {
+            "id": "gi_modal_obligation_07",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "Walking twenty minutes a day is the better option. Nobody is forcing anyone.",
+              "instruction": "Write one sentence recommending it, at a height that leaves the reader free to ignore it.",
+              "starter": "Office staff ___"
+            },
+            "expected": [
+              "should walk for twenty minutes a day",
+              "ought to walk for twenty minutes a day",
+              "should walk twenty minutes a day",
+              "ought to walk twenty minutes a day"
+            ],
+            "feedback": {
+              "why_key": "Nobody is being forced, so the sentence has to sit at the height where a reader can still take the worse option.",
+              "feed_forward": "Choose should when the reader is genuinely free to refuse."
+            }
+          },
+          {
+            "id": "gi_modal_obligation_08",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_food",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "modal_bare_infinitive"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "staff",
+                "must",
+                "wash",
+                "their",
+                "hands",
+                "before",
+                "handling",
+                "food"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              ],
+              "context": "Build the line for a notice above a kitchen sink."
+            },
+            "expected": [
+              "staff must wash their hands before handling food"
+            ],
+            "feedback": {
+              "why_key": "The word that shuts the question sits straight after the subject, and the verb after it takes nothing at all.",
+              "feed_forward": "Put must next to the subject and the bare verb next to must."
+            }
+          },
+          {
+            "id": "gi_modal_obligation_09",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_health",
+            "skill_hook": "listening",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "You'd better ring the surgery before nine.",
+              "scored_tokens": [
+                "You'd",
+                "better"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "you'd better ring the surgery before nine",
+              "you had better ring the surgery before nine",
+              "youd better ring the surgery before nine"
+            ],
+            "feedback": {
+              "why_key": "The whole warning is carried by a d that lasts a fraction of a second. Miss it and the sentence becomes an ordinary suggestion.",
+              "feed_forward": "Listen for the d clipped onto the end of you."
+            }
+          },
+          {
+            "id": "gi_modal_obligation_10",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_bare_infinitive"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Anyone with a temperature had better to stay at home until it settles.",
+              "error_span": "had better to stay",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "had better stay"
+            ],
+            "feedback": {
+              "why_key": "The warning itself is right and the consequence is clear. Only the extra word between the warning and the verb has no business there.",
+              "feed_forward": "Delete to after had better every time."
+            }
+          },
+          {
+            "id": "gi_modal_obligation_11",
+            "kind": "judge",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "or the machine cannot be used",
+            "payload": {
+              "context": "From a draft notice next to a piece of gym equipment.",
+              "sentence": "Users should wipe the handles down, or the machine cannot be used by the next person.",
+              "acceptable": false,
+              "reasons": [
+                "the second half removes the choice, so the first half cannot offer one",
+                "wiping the handles is not the user's job",
+                "the notice is too long for a gym",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A sentence cannot recommend something in its first half and make it unavoidable in its second. The reader has to be told which one is true.",
+              "feed_forward": "Raise the word to must when a consequence follows."
+            }
+          },
+          {
+            "id": "gi_modal_obligation_12",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "An office wants people to move about more during the day. Write two short sentences: one thing employers have no choice about, and one thing they would merely be wise to do.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": true,
+              "min_words": 14,
+              "max_words": 40,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Putting the unavoidable and the advisable side by side is what stops a solutions paragraph reading as one long demand.",
+              "feed_forward": "Set the height of each word to match its consequence."
+            }
+          },
+          {
+            "id": "gi_modal_obligation_13",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_strength_mismatch"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Open your solutions paragraph on the sedentary working day. Every recommendation in it is probably sitting at the same height. Rewrite one so that it shuts the question and one so that it opens it. Two minutes.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": false,
+              "min_words": 16,
+              "max_words": 45,
+              "task_ref": "wp_core_t2_problem_solution_sedentary_working_day"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A paragraph where everything is equally urgent reads as though the writer has not thought about which measure matters most.",
+              "feed_forward": "Rank your measures, then match the word to the rank."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_must_vs_have_to",
+      "unit_id": "u07",
+      "sequence_index": 1605,
+      "title": "Choosing between an obligation you feel yourself and one someone else laid down",
+      "cefr_level": "B1",
+      "role": "choice",
+      "topic_id": "topic_environment",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "must vs have to",
+        "prerequisites": [
+          "gr_modal_obligation"
+        ],
+        "unlocks_hint": "gr_mustnt_vs_dont_have_to",
+        "priority": 1,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "A",
+        "error_surface": 2,
+        "gravity": "local",
+        "confusion_set": "cs_obligation_source",
+        "structure_slug": "modal_simple",
+        "signal_blocklist": [
+          "obliged to",
+          "no choice",
+          "compulsory",
+          "forced to",
+          "of my own accord"
+        ],
+        "fixes_errors": [
+          "modal_obligation_source",
+          "modal_strength_mismatch",
+          "agreement_subject_verb"
+        ],
+        "estimated_minutes": 26,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can show whether an obligation is one I have taken on myself or one that was handed to me.",
+          "why_it_matters": "In an essay this is the line between arguing for a measure and reporting one. Pick the wrong side and your own argument reads as somebody else's rule.",
+          "meaning": "Both of these say something has to happen, and they are equally strong. What separates them is who is behind the push. Must comes from inside the speaker: my decision, my conviction, or my notice that I am the one writing. Have to comes from outside: a timetable, an arrangement, a person with authority, a road under water. Nothing about the action changes. What changes is where the reader thinks the pressure is coming from.",
+          "form": {
+            "pattern": "subject + must + plain verb   ·   subject + have to / has to + plain verb",
+            "notes": [
+              "have to changes shape like any ordinary verb: has to, will have to, do you have to",
+              "must has one shape and cannot go anywhere else in a sentence",
+              "in speech have to is spreading over must's ground; in writing must holds firm",
+              "have to is squashed to almost one word when spoken, which is why it is hard to hear"
+            ],
+            "negative": "the two negatives are opposites, not partners — that is the next point",
+            "question": "Do you have to ...? is the everyday question; must I ...? sounds put upon"
+          },
+          "visual": {
+            "kind": "two_box",
+            "spec": {
+              "left": {
+                "role": "must — the push starts inside the speaker",
+                "text": "I must stop driving out to the reserve."
+              },
+              "right": {
+                "role": "have to — the push arrives from outside",
+                "text": "I have to stop driving out to the reserve."
+              },
+              "arrow": "left_to_right",
+              "caption": "Same decision, two different people standing behind it."
+            }
+          },
+          "worked_example": {
+            "sentence": "We must cut what the depot burns this winter, whatever the council decides.",
+            "why_this_form": "The second half says outright that nobody outside the room is deciding this, so the first half has to name the speaker as the source.",
+            "what_the_other_would_mean": "We have to cut would hand the decision to somebody beyond the depot gates, which is exactly what the rest of the sentence goes on to deny."
+          },
+          "notice_set": [
+            {
+              "sentence": "I must cut down on the driving — it is costing me a fortune.",
+              "question": "Whose idea is this?",
+              "options": [
+                "the speaker's own",
+                "somebody else's",
+                "the sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "The reason given is the speaker's own money, and nobody else has been mentioned at all."
+            },
+            {
+              "sentence": "I have to cut down on the driving — the parking permits have gone.",
+              "question": "Whose idea is this?",
+              "options": [
+                "the speaker's own",
+                "somebody else's",
+                "the sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "The permits were withdrawn by somebody outside this sentence, and the speaker is living with the result."
+            },
+            {
+              "sentence": "Everyone on site has to wear a hard hat.",
+              "question": "Did the speaker set this up?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "The speaker is passing on an arrangement that was already there when they arrived."
+            },
+            {
+              "sentence": "You must see the reedbeds before the water drops.",
+              "question": "Is this an order or an enthusiastic recommendation?",
+              "options": [
+                "an order",
+                "an enthusiastic recommendation",
+                "the sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "The speaker is the whole source and nothing follows a refusal, so the pressure turns into enthusiasm."
+            },
+            {
+              "sentence": "I must remember to book the tickets tonight.",
+              "question": "Is anybody else pressing the speaker about this?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "The speaker is reminding themselves, so the pressure begins and ends inside their own head."
+            }
+          ],
+          "discovery": {
+            "prompt": "Both sides describe the same thing happening. Work out what changes about the speaker.",
+            "pairs": [
+              [
+                "I must get the roof looked at.",
+                "I have to get the roof looked at."
+              ],
+              [
+                "We must cut what we burn.",
+                "We have to cut what we burn."
+              ],
+              [
+                "Staff must sign the log.",
+                "Staff have to sign the log."
+              ]
+            ],
+            "candidate_rules": [
+              {
+                "text": "On the left the push comes from the speaker; on the right it arrives from outside them.",
+                "verdict": "right"
+              },
+              {
+                "text": "Must is for serious things and have to is for small everyday ones.",
+                "verdict": "too_narrow"
+              },
+              {
+                "text": "Use have to whenever the sentence is about work or a public arrangement.",
+                "verdict": "keyword_trap"
+              }
+            ]
+          },
+          "rule_line": "Ask who is pushing. Me: must. Somebody or something else: have to.",
+          "false_rule": "That must is the formal or stronger version of have to. They are equally strong. What differs is who the reader thinks is behind it."
+        },
+        "contrast": {
+          "with": [
+            "gr_modal_obligation"
+          ],
+          "board_id": "gb_must_vs_have_to",
+          "question": "Who is this obligation coming from?",
+          "fork": [
+            {
+              "answer": "From me — my decision, my conviction, my notice",
+              "selects": "must",
+              "point_id": "gr_must_vs_have_to"
+            },
+            {
+              "answer": "From outside me — a timetable, an arrangement, a person with authority, the weather",
+              "selects": "have to",
+              "point_id": "gr_modal_obligation"
+            }
+          ],
+          "minimal_pair": {
+            "a": {
+              "text": "I must stop taking the car out to the depot.",
+              "means": "I have decided it myself, and nobody has made me."
+            },
+            "b": {
+              "text": "I have to stop taking the car out to the depot.",
+              "means": "Something outside me has closed the option — the cost, the permits, a new arrangement."
+            },
+            "only_difference": "must / have to"
+          },
+          "wrong_choice_note": "You wrote have to. That tells your reader somebody else made you, and it quietly removes you from your own decision. In an essay it turns a measure you are arguing for into a rule you are merely passing on.",
+          "edge_case": {
+            "text": "In everyday speech have to has spread across most of must's ground, and nobody will think you odd for using it. Must holds firm in writing, on notices, and wherever the speaker owns the claim. Write must; stop policing your own speech.",
+            "ignore_the_rest": true
+          },
+          "stronger_test": "Ask who you would blame if it did not happen. If the answer is yourself, you want must. If you would point at somebody else, you want have to.",
+          "worked_pairs": [
+            {
+              "a": "I must get the boiler looked at before it fails completely.",
+              "b": "I have to get the boiler looked at before the inspection.",
+              "deciding_span_a": "before it fails completely",
+              "deciding_span_b": "before the inspection",
+              "gloss": "The first is the speaker's own worry about the winter. The second is somebody else's date in somebody else's diary."
+            },
+            {
+              "a": "Councils must think further ahead than one election.",
+              "b": "Councils have to publish the figures every March.",
+              "deciding_span_a": "think further ahead than one election",
+              "deciding_span_b": "publish the figures every March",
+              "gloss": "The first is the writer arguing. The second is the writer reporting something that would happen whether or not they approved of it."
+            },
+            {
+              "a": "You must see the reedbeds while the water is high.",
+              "b": "You have to book a permit before you walk the reedbeds.",
+              "deciding_span_a": "while the water is high",
+              "deciding_span_b": "book a permit",
+              "gloss": "The first is enthusiasm with nobody behind it but the speaker. The second has a desk and a form behind it."
+            }
+          ]
+        },
+        "errors": [
+          {
+            "code": "modal_obligation_source",
+            "wrong": "Under the new arrangement, residents must sort their glass separately.",
+            "right": "Under the new arrangement, residents have to sort their glass separately.",
+            "why_it_happens": "Must is stored as the strong obligation word and this is a strong obligation. Nothing in that stored rule asks who is speaking, so a reported arrangement comes out sounding like the writer's own decision.",
+            "smallest_fix": "Swap one phrase: must becomes have to.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "modal_obligation_source",
+            "wrong": "I have to say something about the state of the river, even though nobody has asked me to.",
+            "right": "I must say something about the state of the river, even though nobody has asked me to.",
+            "why_it_happens": "Have to is the everyday word in speech and it spreads by habit. Here the end of the sentence says there is no outside pressure, and the beginning has already claimed there is.",
+            "smallest_fix": "Swap one phrase: have to becomes must.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "agreement_subject_verb",
+            "wrong": "Every household have to put the bins out by seven.",
+            "right": "Every household has to put the bins out by seven.",
+            "why_it_happens": "Every household sounds like many households, so the ear counts the meaning instead of the word. Have to changes shape like an ordinary verb, which is exactly what makes it catchable in a way must never is.",
+            "smallest_fix": "Swap one word: have becomes has.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "modal_strength_mismatch",
+            "wrong": "You must have to renew the permit each year.",
+            "right": "You have to renew the permit each year.",
+            "why_it_happens": "The learner wants the obligation to land firmly and stacks both words to be sure of it. Only one of them can hold the slot, and the second one is already doing the whole job.",
+            "smallest_fix": "Delete one word: must.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "This is the line between arguing for a measure and reporting one that already exists.",
+            "model": "Coastal councils must plan for the worst case rather than the average one."
+          },
+          {
+            "surface": "speaking_p1",
+            "mode": "productive",
+            "note": "Answers about your routine and your intentions use both sides in the same breath.",
+            "model": "I have to be on site by seven, so I must get into the habit of packing the night before."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "A passage reporting a regulation and a writer recommending one look alike until you read the verb.",
+            "model": "Operators have to log every discharge into the estuary within an hour."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "task"
+        ],
+        "used_in": [
+          {
+            "module": "writing",
+            "ref_id": "wp_t2pa06_problem_solution_farm_river_pollution",
+            "quote": "The essay has to report what farms are already required to do and argue for what they ought to be required to do, and the two need different words."
+          },
+          {
+            "module": "speaking",
+            "ref_id": "card_p3_r2pa_rules_and_enforcement_905",
+            "quote": "Answers here move between rules that exist and rules the speaker thinks should exist, several times a minute."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_must_vs_have_to_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_environment",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "I must stop driving out to the reserve every weekend.",
+              "question": "Whose idea is this?",
+              "options": [
+                "the speaker's own",
+                "somebody else's",
+                "the sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Nobody else appears in the sentence at all, so the pressure has nowhere to come from except the speaker.",
+              "feed_forward": "Look for who else is in the sentence before you decide."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "reading",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "Operators have to log every discharge into the estuary.",
+              "question": "Did the operators set this up themselves?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The sentence reports a requirement that came from somewhere beyond the operators, which is the whole reason it is written this way.",
+              "feed_forward": "Read have to as pressure arriving from outside."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "In my view",
+            "payload": {
+              "context": "The opening of a body paragraph in an essay about flood defence.",
+              "sentence": "In my view, coastal towns have to be given money to move buildings back from the shore.",
+              "acceptable": false,
+              "reasons": [
+                "the opening claims the writer is the source and the verb hands it to somebody else",
+                "coastal towns cannot be moved back",
+                "money is not the issue in flood defence",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Three words in, the writer has claimed the argument as their own. Four words later they hand it to an authority they never name.",
+              "feed_forward": "Match the verb to whoever your opening says is speaking."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From an essay. The writer is arguing for something nobody has yet required.",
+              "stem": "Cities ___ plant far more street trees than they currently do.",
+              "blanks": 1,
+              "lemma_hints": []
+            },
+            "expected": [
+              "must"
+            ],
+            "feedback": {
+              "why_key": "Nothing outside the essay is requiring this. The only source of the pressure is the person writing the sentence.",
+              "feed_forward": "Use must when you are the one making the case."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_environment",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "A volunteer explaining the shift she was given at the bird hide.",
+              "stem": "I ___ (have) to be in the hide by six, before the birds move off the mud.",
+              "blanks": 1,
+              "lemma_hints": [
+                "have"
+              ]
+            },
+            "expected": [
+              "have"
+            ],
+            "feedback": {
+              "why_key": "The six o'clock start came with the shift; she is passing on an arrangement rather than announcing a decision.",
+              "feed_forward": "Use have to for something arranged outside you."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_06",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "The council brought in a new arrangement in April. Households now separate their glass.",
+              "instruction": "Write one sentence reporting the arrangement rather than recommending it.",
+              "starter": "Households ___"
+            },
+            "expected": [
+              "have to separate their glass",
+              "have to separate their glass now",
+              "have to separate their glass from april"
+            ],
+            "feedback": {
+              "why_key": "The council is named in the first sentence, so the pressure has a visible source and the verb has to point at it.",
+              "feed_forward": "Point the verb at whoever brought the requirement in."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_07",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_urbanisation",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "every",
+                "household",
+                "has",
+                "to",
+                "separate",
+                "its",
+                "glass"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6
+                ]
+              ],
+              "context": "Build the line for a leaflet reporting the new arrangement."
+            },
+            "expected": [
+              "every household has to separate its glass"
+            ],
+            "feedback": {
+              "why_key": "One household at a time is what every counts, and the verb follows the word rather than the picture in your head.",
+              "feed_forward": "Match the verb to the single word every introduces."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_environment",
+            "skill_hook": "listening",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "You have to leave the van at the top gate.",
+              "scored_tokens": [
+                "have",
+                "to"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "you have to leave the van at the top gate",
+              "you've to leave the van at the top gate",
+              "youve to leave the van at the top gate"
+            ],
+            "feedback": {
+              "why_key": "Have to is squashed into something close to one word in speech, which is why learners hear an instruction and write down a verb they never heard.",
+              "feed_forward": "Listen for the f sound where have meets to."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_09",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a notice written and signed by the site manager herself.",
+              "stem": "All staff ___ report a spill within the hour.",
+              "blanks": 1,
+              "lemma_hints": []
+            },
+            "expected": [
+              "must"
+            ],
+            "feedback": {
+              "why_key": "The person writing the notice is the person imposing it, so the sentence has an author standing right behind it.",
+              "feed_forward": "Use must when the writer is also the source."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_10",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_environment",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": "gi_must_vs_have_to_11",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "nobody has said a word to her about it",
+            "payload": {
+              "context": "Silje has decided by herself to give up the drive out to the reserve; nobody has said a word to her about it.",
+              "stem": "I ___ stop taking the car out there.",
+              "options": [
+                {
+                  "text": "must",
+                  "why_this_means": "That the decision started with you and you are the only one behind it."
+                },
+                {
+                  "text": "have to",
+                  "why_this_means": "That something beyond you has closed the option and you are living with the result."
+                }
+              ],
+              "key": 0
+            },
+            "expected": [
+              "must"
+            ],
+            "feedback": {
+              "why_key": "There is nobody else in the story to push her, so the push has to be coming from where the decision was made.",
+              "feed_forward": "Ask whether anybody else appears in the situation."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_11",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_environment",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": "gi_must_vs_have_to_10",
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "the permits have been withdrawn",
+            "payload": {
+              "context": "Silje has just been told the permits have been withdrawn and the visitor car park is closing.",
+              "stem": "I ___ stop taking the car out there.",
+              "options": [
+                {
+                  "text": "must",
+                  "why_this_means": "That the decision started with you and you are the only one behind it."
+                },
+                {
+                  "text": "have to",
+                  "why_this_means": "That something beyond you has closed the option and you are living with the result."
+                }
+              ],
+              "key": 1
+            },
+            "expected": [
+              "have to"
+            ],
+            "feedback": {
+              "why_key": "The car park closing is not her idea and not in her gift, so she is reporting a change rather than making one.",
+              "feed_forward": "Point the verb outwards when the situation decides for you."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_12",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": "gi_must_vs_have_to_13",
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "arguing for a change nobody has made yet",
+            "payload": {
+              "context": "From an essay in which the writer is arguing for a change nobody has made yet.",
+              "stem": "Water companies ___ publish every discharge within the hour.",
+              "options": [
+                {
+                  "text": "must",
+                  "why_this_means": "That the writer is making the case and asking the reader to agree with it."
+                },
+                {
+                  "text": "have to",
+                  "why_this_means": "That this is already the arrangement and the writer is merely passing it on."
+                }
+              ],
+              "key": 0
+            },
+            "expected": [
+              "must"
+            ],
+            "feedback": {
+              "why_key": "Nothing outside the essay requires this yet. The only pressure in the room is the writer's own argument.",
+              "feed_forward": "Use must for the measure you are arguing for."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_13",
+            "kind": "choose_form",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": "gi_must_vs_have_to_12",
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "describing an arrangement that came into force last spring",
+            "payload": {
+              "context": "From an essay describing an arrangement that came into force last spring.",
+              "stem": "Water companies ___ publish every discharge within the hour.",
+              "options": [
+                {
+                  "text": "must",
+                  "why_this_means": "That the writer is making the case and asking the reader to agree with it."
+                },
+                {
+                  "text": "have to",
+                  "why_this_means": "That this is already the arrangement and the writer is merely passing it on."
+                }
+              ],
+              "key": 1
+            },
+            "expected": [
+              "have to"
+            ],
+            "feedback": {
+              "why_key": "The requirement was in place before the essay was written, so the writer is reporting rather than arguing.",
+              "feed_forward": "Use have to when the requirement already exists."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_14",
+            "kind": "both_ok",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "who wrote it is not stated anywhere on the board",
+            "payload": {
+              "context": "A line on a site notice where who wrote it is not stated anywhere on the board.",
+              "stem": "Contractors ___ wear high-visibility jackets beyond this point.",
+              "options": [
+                {
+                  "text": "must",
+                  "why_this_means": "That whoever wrote the board is the one imposing it, and is speaking to you directly."
+                },
+                {
+                  "text": "have to",
+                  "why_this_means": "That the board is passing on a requirement someone else set, and is only the messenger."
+                }
+              ],
+              "key": "both",
+              "follow_up": {
+                "question": "Which one sounds like the person who wrote the board speaking?",
+                "key": 0
+              }
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Both are ordinary English on a real site. One makes the board an author and the other makes it a messenger, and the jacket is the same either way.",
+              "feed_forward": "Decide whether your sentence is authoring or reporting."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_15",
+            "kind": "contrast_pair",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_environment",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "I have to do something",
+            "payload": {
+              "context": "Two things the same volunteer said on the same afternoon.",
+              "sentences": [
+                "I must do something about the state of that hedge.",
+                "I have to do something about the state of that hedge."
+              ],
+              "meanings": [
+                "Nobody has mentioned it to her; it has simply been bothering her every time she walks past.",
+                "Somebody has raised it with her, and she is now committed to dealing with it."
+              ],
+              "key": [
+                0,
+                1
+              ]
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The hedge has not changed between the two sentences. What has changed is whether anybody else has noticed it.",
+              "feed_forward": "Ask whether a third person has entered the story."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_16",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "Farms near the Verdon already log their fertiliser use. You think they should also be measuring what leaves the fields. Write two short sentences: one reporting what happens now and one arguing for the change.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": true,
+              "min_words": 16,
+              "max_words": 45,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Putting the reported and the argued side by side is what shows a reader you know which one you are doing.",
+              "feed_forward": "Report first, then argue, and change the verb between them."
+            }
+          },
+          {
+            "id": "gi_must_vs_have_to_17",
+            "kind": "produce",
+            "stage": 5,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_obligation_source"
+            ],
+            "confusion_set": "cs_obligation_source",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Open your essay on farm run-off. Find one sentence where you describe what farms already do and one where you argue for something new. Check that the two use different verbs, and rewrite whichever one is wrong. Two minutes.",
+              "required_structure": "modal_simple",
+              "seed_from_vocab_queue": false,
+              "min_words": 16,
+              "max_words": 45,
+              "task_ref": "wp_t2pa06_problem_solution_farm_river_pollution"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "An essay that uses one verb for both jobs leaves the reader unable to tell your proposals from the situation you are describing.",
+              "feed_forward": "Underline your proposals and check every verb in front of them."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "vocab_new": [],
+  "vocab_updates": []
+}

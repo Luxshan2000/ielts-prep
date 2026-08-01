@@ -13,7 +13,7 @@
     {
       "id": "gr_past_participle",
       "unit_id": "u06",
-      "sequence_index": 1400,
+      "sequence_index": 1800,
       "title": "Building the third form of a verb, the one that follows have and be",
       "cefr_level": "A2",
       "role": "form",
@@ -614,7 +614,7 @@
     {
       "id": "gr_perfect_concept",
       "unit_id": "u06",
-      "sequence_index": 1405,
+      "sequence_index": 1801,
       "title": "Looking back at an earlier event from a moment further on",
       "cefr_level": "A2",
       "role": "form",
@@ -1206,7 +1206,7 @@
     {
       "id": "gr_present_perfect",
       "unit_id": "u06",
-      "sequence_index": 1410,
+      "sequence_index": 1802,
       "title": "Saying that something from before still counts right now",
       "cefr_level": "A2",
       "role": "form",
@@ -1844,7 +1844,7 @@
     {
       "id": "gr_pp_for_since",
       "unit_id": "u06",
-      "sequence_index": 1415,
+      "sequence_index": 1803,
       "title": "Saying how long something has gone on, or when it started",
       "cefr_level": "A2",
       "role": "choice",
@@ -2656,7 +2656,7 @@
     {
       "id": "gr_pp_adverbs",
       "unit_id": "u06",
-      "sequence_index": 1420,
+      "sequence_index": 1804,
       "title": "Saying whether something is early, late, overdue or just done",
       "cefr_level": "A2",
       "role": "accuracy",
@@ -3249,7 +3249,7 @@
     {
       "id": "gr_been_vs_gone",
       "unit_id": "u06",
-      "sequence_index": 1425,
+      "sequence_index": 1805,
       "title": "Saying whether somebody went and came back, or is still there",
       "cefr_level": "B1",
       "role": "choice",
@@ -4042,7 +4042,7 @@
     {
       "id": "gr_pp_vs_past_simple",
       "unit_id": "u06",
-      "sequence_index": 1430,
+      "sequence_index": 1806,
       "title": "Saying whether the stretch of time you mean is over or still running",
       "cefr_level": "A2",
       "role": "choice",
@@ -5127,7 +5127,7 @@
     {
       "id": "gr_pp_continuous",
       "unit_id": "u06",
-      "sequence_index": 1435,
+      "sequence_index": 1807,
       "title": "Talking about an activity that has been running up to now and still shows",
       "cefr_level": "B1",
       "role": "form",
@@ -5737,7 +5737,7 @@
     {
       "id": "gr_pp_simple_vs_cont",
       "unit_id": "u06",
-      "sequence_index": 1440,
+      "sequence_index": 1808,
       "title": "Choosing between pointing at the finished thing and pointing at the doing",
       "cefr_level": "B1",
       "role": "choice",

@@ -1321,3 +1321,35 @@ class GrammarReviewLog(Base):
         Index("ix_grammar_review_logs_card", "card_id", "reviewed_at"),
         Index("ix_grammar_review_logs_time", "reviewed_at"),
     )
+
+
+class TheoryArticle(PackMixin, Base):
+    """One article of the browsable grammar reference (DESIGN-THEORY §2).
+
+    Theory is the map; the practice module is the walking route. It carries no learner state
+    and no prerequisite gate, deliberately: a learner who has never met grammar terminology
+    has to be able to survey the language — the tenses, the modals, when the passive is the
+    right choice — *before* being asked to practise any of it, and gating reference would
+    defeat the only reason it exists.
+
+    Every block the reader sees lives inside ``article_json``. The columns above it exist
+    only to build and order the chapter index, and ``loader.TABLE_COLUMNS`` copies just those
+    — an extra top-level key an author adds is dropped at import without a word.
+    """
+
+    __tablename__ = "theory_articles"
+
+    id: Mapped[str] = mapped_column(Text, primary_key=True)
+    chapter_id: Mapped[str] = mapped_column(Text, nullable=False)
+    sequence_index: Mapped[int] = mapped_column(Integer, nullable=False)
+    title: Mapped[str] = mapped_column(Text, nullable=False)
+    kind: Mapped[str] = mapped_column(Text, nullable=False, server_default=text("'explainer'"))
+    cefr_level: Mapped[str] = mapped_column(Text, nullable=False, server_default=text("'A1'"))
+    article_json: Mapped[str] = mapped_column(Text, nullable=False)
+
+    __table_args__ = (
+        *pack_checks(),
+        CheckConstraint("cefr_level IN ('A1','A2','B1','B2','C1','C2')", name="cefr_level"),
+        Index("ix_theory_articles_chapter", "chapter_id", "sequence_index"),
+        Index("ix_theory_articles_seq", "sequence_index", "retired"),
+    )

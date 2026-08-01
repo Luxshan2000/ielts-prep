@@ -1,0 +1,4938 @@
+{
+  "staging_version": 1,
+  "block": "th-a4-questions-and-negatives",
+  "authored_by": "TH-A4",
+  "_readme": [
+    "Chapter thc_05 articles 1-13: the questions run (M1-M17) and the negation run (N1-N14).",
+    "Articles 14-22 of thc_05 (the non-finite and verb-pattern run, O1-O25 and Z2) are NOT in this file and are owned by another agent.",
+    "sequence_index values 85-97 come from DESIGN-THEORY.md section 6.2: thc_05 owns the block 85-106.",
+    "Terms introduced here: 60 question word, 61 question tag, 62 embedded question. Terms 63-67 belong to thc_05 articles 14 and 21 and are NOT used anywhere in this file."
+  ],
+  "articles": [
+    {
+      "id": "th_yes_no_questions",
+      "chapter_id": "thc_04",
+      "sequence_index": 85,
+      "title": "Questions you answer with yes or no",
+      "kind": "standard",
+      "cefr_level": "A1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Yes/no questions, and the helping-verb swap",
+        "one_line": "This lets you turn a statement into a question that the other person can answer with *yes* or with *no*.",
+        "short_answer": "Put the helping verb in front of the subject. With no helping verb, start with *do*, *does* or *did*: *Does the bus stop here?*",
+        "question_in_learner_words": "How do I turn a statement into a question?",
+        "area_ids": [
+          "M1"
+        ],
+        "prerequisites": [
+          "th_the_helper_system",
+          "th_be_have_do",
+          "th_word_order"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What this kind of question asks the other person",
+            "anchor": "what-it-asks"
+          },
+          {
+            "type": "prose",
+            "text": "A yes/no question hands the other person two answers to choose from. They say yes, or they say no, and either one finishes the job."
+          },
+          {
+            "type": "prose",
+            "text": "So this question needs no question word at the front. What it needs is a change of order, and English makes that change the same way every time."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Move the helping verb in front of the subject",
+            "anchor": "move-the-helper"
+          },
+          {
+            "type": "table",
+            "anchor": "how-to-build-one",
+            "caption": "The helping verb jumps in front of the subject. Nothing else moves.",
+            "headers": [
+              "The statement you have",
+              "The helping verb",
+              "The question"
+            ],
+            "rows": [
+              [
+                "The lift is working.",
+                "*is*",
+                "Is the lift working?"
+              ],
+              [
+                "They have signed the form.",
+                "*have*",
+                "Have they signed the form?"
+              ],
+              [
+                "She can drive a van.",
+                "*can*",
+                "Can she drive a van?"
+              ],
+              [
+                "The results will come out today.",
+                "*will*",
+                "Will the results come out today?"
+              ],
+              [
+                "The bus stops at the clinic.",
+                "none — use *does*",
+                "Does the bus stop at the clinic?"
+              ],
+              [
+                "The bus stopped at the clinic.",
+                "none — use *did*",
+                "Did the bus stop at the clinic?"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "The last two rows had no helping verb, so English put one in and the main verb went back to its plain form."
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "In the first four rows one word moved and everything else stayed put. In the last two there was no word to move, so *does* and *did* took the time and the person, and *stops* became *stop*."
+          },
+          {
+            "type": "visual",
+            "kind": "slot_frame",
+            "caption": "Three boxes. The first one is the word you moved.",
+            "spec": {
+              "slots": [
+                {
+                  "label": "helping verb",
+                  "filler": "Did"
+                },
+                {
+                  "label": "who or what",
+                  "filler": "the survey"
+                },
+                {
+                  "label": "the rest",
+                  "filler": "close in March?"
+                }
+              ],
+              "caption": "One question, three boxes."
+            }
+          },
+          {
+            "type": "examples",
+            "lead_in": "The statement already had a helping verb in each of these. Watch which word moved to the front.",
+            "dimension": "the helping verb",
+            "items": [
+              {
+                "text": "Is the ferry running today?",
+                "gloss": "You want to know whether it is running. Yes or no settles it.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Is",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Have the results been published?",
+                "gloss": "You want to know whether they are out yet.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "Have",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Can the council refuse the application?",
+                "gloss": "You want to know whether refusing it is allowed.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "Can",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Should we book the room in advance?",
+                "gloss": "You want advice about booking early.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Should",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Was the site closed all week?",
+                "gloss": "You want to know whether anybody could get on to it.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "Was",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Every one of them starts with a word taken out of the middle of a statement."
+          },
+          {
+            "type": "examples",
+            "lead_in": "None of these statements had a helping verb, so *do*, *does* or *did* went in at the front.",
+            "dimension": "the supplied helping verb",
+            "items": [
+              {
+                "text": "Does the clinic open on Saturdays?",
+                "gloss": "You want to know whether you can go at the weekend.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Does",
+                    "role": "target"
+                  },
+                  {
+                    "span": "open",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "Did the survey close in March?",
+                "gloss": "You want to know whether it is too late to take part.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "Did",
+                    "role": "target"
+                  },
+                  {
+                    "span": "close",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "Do the buses run after nine?",
+                "gloss": "You want to know whether you can get home late.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Do",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Did the panel reach a decision?",
+                "gloss": "You want to know whether the matter is settled.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "Did",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "*Do*, *does* and *did* carry the time and the person, so the verb behind them is the plain form."
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Put the helping verb in front of the subject. If the statement has no helping verb, put *do*, *does* or *did* in front and use the plain verb."
+          },
+          {
+            "type": "examples",
+            "lead_in": "One statement, four times. Only the time changes, and only the first word shows it.",
+            "dimension": "the time",
+            "items": [
+              {
+                "text": "Is the depot open at weekends?",
+                "gloss": "You are asking about how things stand now.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "Is",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Was the depot open last weekend?",
+                "gloss": "You are asking about one weekend that is over.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "Was",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Has the depot been open all week?",
+                "gloss": "You are asking about the stretch running up to today.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "Has",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Will the depot be open in August?",
+                "gloss": "You are asking about a month that has not come yet.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "Will",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Only the first word changed. Everything behind it stayed where it was."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The verb *be* moves on its own",
+            "anchor": "be-moves-on-its-own"
+          },
+          {
+            "type": "prose",
+            "text": "*Is*, *are*, *was* and *were* need no help. When one of them is the only verb in the sentence, it moves to the front by itself, and *do* never appears."
+          },
+          {
+            "type": "examples",
+            "lead_in": "There is no other verb in any of these, so *be* does the moving.",
+            "dimension": "*be* as the only verb",
+            "items": [
+              {
+                "text": "Are the seats free at the back?",
+                "gloss": "You want to know whether you can sit there.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Are",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Was the second route cheaper?",
+                "gloss": "You want to know which one cost less.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "Was",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Is the training free for staff?",
+                "gloss": "You want to know whether staff have to pay.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "Is",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "None of them has *do* in it, because there was already a word that could move."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Which word starts the question?",
+            "anchor": "which-word-starts-it"
+          },
+          {
+            "type": "decision_tree",
+            "anchor": "which-word-first",
+            "intro": "Three questions, in this order. Stop at the first one that answers.",
+            "steps": [
+              {
+                "id": "s1",
+                "ask": "Does the statement contain *is*, *are*, *was* or *were*?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "that word, moved to the front",
+                      "example": "Is the coast road open?",
+                      "why": "*Be* is its own helping verb, so nothing needs to be put in."
+                    }
+                  },
+                  {
+                    "answer": "No",
+                    "goto": "s2"
+                  }
+                ]
+              },
+              {
+                "id": "s2",
+                "ask": "Does it contain *have*, *will*, *can*, *must* or another helper?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "that word, moved to the front",
+                      "example": "Have the tenants replied?",
+                      "why": "The first helper is the one that moves. Later ones stay where they are."
+                    }
+                  },
+                  {
+                    "answer": "No",
+                    "goto": "s3"
+                  }
+                ]
+              },
+              {
+                "id": "s3",
+                "ask": "Is the statement about the past?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "*did* + the plain verb",
+                      "example": "Did the meeting finish early?",
+                      "why": "*Did* takes the past, so the verb behind it loses its past shape."
+                    }
+                  },
+                  {
+                    "answer": "No",
+                    "verdict": {
+                      "use": "*do* or *does* + the plain verb",
+                      "example": "Does the office close at four?",
+                      "why": "Use *does* for *he*, *she*, *it* or one thing, and *do* for the rest."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "Most sentences stop at the first two questions. The third one only comes up when the statement has no helping verb anywhere in it."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "past-left-on-the-verb",
+            "code": "word_form_wrong",
+            "wrong": "Did the survey closed in March?",
+            "right": "Did the survey close in March?",
+            "why_it_happens": "The statement was *the survey closed*, and that past shape feels like part of the word. *Did* has already taken the past, so the verb behind it goes back to its plain form.",
+            "smallest_fix": "Take the *-ed* off the main verb. Only one word in the question carries the time."
+          },
+          {
+            "type": "warning",
+            "anchor": "s-left-on-the-verb",
+            "code": "agreement_subject_verb",
+            "wrong": "Does the clinic opens on Saturdays?",
+            "right": "Does the clinic open on Saturdays?",
+            "why_it_happens": "The statement was *the clinic opens*, and the *-s* looks like it belongs to the verb. The *-s* has moved onto *does*, and it cannot sit in two places at once.",
+            "smallest_fix": "Take the *-s* off the main verb. *Does* is already carrying it."
+          },
+          {
+            "type": "warning",
+            "anchor": "nothing-moved",
+            "code": "register_spoken_in_writing",
+            "wrong": "You have sent the application form?",
+            "right": "Have you sent the application form?",
+            "why_it_happens": "In speech you can leave the words in statement order and raise your voice at the end, and it works. On the page there is no voice, so the order has to do the work.",
+            "smallest_fix": "Move the helping verb to the front whenever you are writing."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "One older shape you will meet in reading and should not copy",
+            "items": [
+              {
+                "text": "When *have* means *own*, modern English uses *do*: *Does she have a permit?*",
+                "example": "Does the flat have a second exit?",
+                "kind": "B",
+                "how_often": "common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "The older British shape moves *have* itself. It sounds dated and formal.",
+                "example": "Has she a permit?",
+                "kind": "B",
+                "how_often": "uncommon",
+                "verdict": "recognise only"
+              }
+            ],
+            "stop_line": null
+          },
+          {
+            "type": "false_rule",
+            "heard": "To make a question, put a question mark at the end and raise your voice.",
+            "also_known_as": [
+              "a question mark is what makes it a question"
+            ],
+            "truth": "That works in speech and it does not work on the page. *You have sent the form?* has a question mark and is still written as a statement. What makes it a question in English is the order: the helping verb sits in front of the subject.",
+            "what_to_do": "Move the helping verb to the front, then add the question mark. Keep the statement-with-a-question-mark shape for speech, where the rise in your voice does the same job."
+          },
+          {
+            "type": "l1_note",
+            "collapsed": true,
+            "lang": "zh",
+            "mechanism": "Chinese turns a statement into a yes/no question by adding a small word at the end, and nothing in the sentence moves.",
+            "wrong": "The ferry is running today?",
+            "right": "Is the ferry running today?",
+            "fix": "Move the helping verb to the front. English has no word you can add at the end instead."
+          },
+          {
+            "type": "l1_note",
+            "collapsed": true,
+            "lang": "ta",
+            "mechanism": "Tamil marks a yes/no question with an ending added to a word, and the word order stays as it is.",
+            "wrong": "The clinic opens on Saturdays?",
+            "right": "Does the clinic open on Saturdays?",
+            "fix": "Start the question with *do*, *does* or *did* when there is no other helping verb."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "One word moves to the front. If there is no such word, put one in.",
+            "table": {
+              "caption": "One row per kind of statement.",
+              "headers": [
+                "What the statement has",
+                "What starts the question",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "*is*, *are*, *was*, *were*",
+                  "that word",
+                  "Is the lift working?"
+                ],
+                [
+                  "*have*, *will*, *can*, *must*",
+                  "that word",
+                  "Will the results come out?"
+                ],
+                [
+                  "nothing, and it is about now",
+                  "*do* or *does*",
+                  "Does the bus stop here?"
+                ],
+                [
+                  "nothing, and it is about the past",
+                  "*did*",
+                  "Did the bus stop here?"
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Turn this into a question: *The tenants received the notice.*",
+                "answer": "*Did the tenants receive the notice?*",
+                "why": "There was no helping verb, so *did* went in and *received* went back to *receive*."
+              },
+              {
+                "prompt": "Why is *Does the office closes at four?* wrong?",
+                "answer": "The *-s* has already moved onto *does*: *Does the office close at four?*",
+                "why": "One word in the question carries the person, and that word is *does*."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "sentence",
+          "subject",
+          "verb",
+          "auxiliary (helping) verb",
+          "operator",
+          "modal verb",
+          "base form",
+          "statement / question / instruction / exclamation",
+          "register"
+        ],
+        "related_points": [
+          "gr_aux_system",
+          "gr_past_aux_did"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_wh_questions",
+            "reason": "the other kind of question, and the words that start it"
+          },
+          {
+            "id": "th_short_answers",
+            "reason": "how to answer one of these in three words"
+          },
+          {
+            "id": "th_making_a_sentence_negative",
+            "reason": "the same helping verb, doing the other job"
+          },
+          {
+            "id": "th_the_helper_system",
+            "reason": "the one mechanism behind questions, negatives and short answers"
+          }
+        ],
+        "fixes_errors": [
+          "word_form_wrong",
+          "agreement_subject_verb"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "yes no questions",
+          "how to make a question",
+          "do does did questions",
+          "question word order",
+          "auxiliary inversion"
+        ],
+        "intents": [
+          "ask a question that gets a yes or no answer"
+        ],
+        "on_start_here_path": true,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 5,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_wh_questions",
+      "chapter_id": "thc_04",
+      "sequence_index": 86,
+      "title": "Asking for information",
+      "kind": "standard",
+      "cefr_level": "A1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "*Wh*-questions: the question words, and object questions",
+        "one_line": "This lets you ask for one piece of information — a time, a place, a reason, a person or an amount.",
+        "short_answer": "Put the question word first, then build a yes/no question behind it: *Where did the survey take place?*",
+        "question_in_learner_words": "How do I ask a question that needs a real answer, not yes or no?",
+        "area_ids": [
+          "M2",
+          "M3"
+        ],
+        "prerequisites": [
+          "th_yes_no_questions",
+          "th_the_helper_system"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What this kind of question asks for",
+            "anchor": "what-it-asks-for"
+          },
+          {
+            "type": "prose",
+            "text": "A yes/no question offers two answers. This one leaves a hole in the sentence and asks the other person to fill it, so the answer can be anything."
+          },
+          {
+            "type": "prose",
+            "text": "The hole is marked by one word at the front, and that word says what kind of thing is missing: a time, a place, a person, a reason."
+          },
+          {
+            "type": "term_intro",
+            "term": "question word",
+            "also_called": null,
+            "gloss": "*who*, *what*, *which*, *where*, *when*, *why*, *how*",
+            "show_first": [
+              {
+                "text": "Where is the second entrance?",
+                "mark": "Where"
+              },
+              {
+                "text": "Why did the line close early?",
+                "mark": "Why"
+              },
+              {
+                "text": "How many people applied this year?",
+                "mark": "How many"
+              }
+            ],
+            "name_line": "The word at the front is called the **question word**.",
+            "anchor_line": "Each one names the shape of the missing piece. Answer with the wrong shape and the other person will ask again.",
+            "l1_hook": null,
+            "ledger_position": 60
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What each question word asks for",
+            "anchor": "what-each-word-asks-for"
+          },
+          {
+            "type": "table",
+            "anchor": "the-question-words",
+            "caption": "Pick the word by the shape of the answer you want back.",
+            "headers": [
+              "What you want to know",
+              "The word",
+              "Example"
+            ],
+            "rows": [
+              [
+                "a person",
+                "*who*",
+                "Who signed the attendance sheet?"
+              ],
+              [
+                "a person, in a formal letter",
+                "*whom*",
+                "To whom should the form be sent?"
+              ],
+              [
+                "who something belongs to",
+                "*whose*",
+                "Whose signature is on the last page?"
+              ],
+              [
+                "a thing, from an open set",
+                "*what*",
+                "What delayed the report?"
+              ],
+              [
+                "one from a known set",
+                "*which*",
+                "Which of the two routes is shorter?"
+              ],
+              [
+                "a time",
+                "*when*",
+                "When did the survey close?"
+              ],
+              [
+                "a place",
+                "*where*",
+                "Where is the archive kept?"
+              ],
+              [
+                "a reason",
+                "*why*",
+                "Why was the span closed?"
+              ],
+              [
+                "a way of doing something",
+                "*how*",
+                "How did they measure the drift?"
+              ],
+              [
+                "an amount",
+                "*how much*, *how many*",
+                "How many spans were repainted?"
+              ],
+              [
+                "a length of time",
+                "*how long*",
+                "How long has the ferry been running?"
+              ],
+              [
+                "how many times",
+                "*how often*",
+                "How often is the bridge inspected?"
+              ],
+              [
+                "a measurement",
+                "*how far*, *how deep*, *how old*",
+                "How far is the depot from the port?"
+              ],
+              [
+                "a description",
+                "*what … like*",
+                "What is the coast road like in winter?"
+              ],
+              [
+                "a kind or a type",
+                "*what kind of*",
+                "What kind of survey was it?"
+              ],
+              [
+                "what something is for",
+                "*what … for*",
+                "What is the second valve for?"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "*Whom* is the formal form and it belongs after a small placing word such as *to* or *for*. Everyday English uses *who*."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "One sentence, six holes. Only the missing piece changes.",
+            "dimension": "the missing piece",
+            "items": [
+              {
+                "text": "Who approved the new timetable?",
+                "gloss": "You want a name.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "Who",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "When did the council approve the new timetable?",
+                "gloss": "You want a date.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "When",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Why did the council approve the new timetable?",
+                "gloss": "You want the reason behind it.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "Why",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "How did the council approve it so quickly?",
+                "gloss": "You want to know what made the speed possible.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "How",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "The rest of the question stayed the same. Only the word at the front decided what came back."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Build a yes/no question, then put the word in front",
+            "anchor": "build-it-in-two-moves"
+          },
+          {
+            "type": "prose",
+            "text": "There is nothing new to learn about the order. Make the yes/no question first, then set the question word in front of it and take out the piece you are asking about."
+          },
+          {
+            "type": "table",
+            "anchor": "two-moves",
+            "caption": "The middle column is the whole of the work. The last move is one word.",
+            "headers": [
+              "The statement",
+              "As a yes/no question",
+              "With the question word"
+            ],
+            "rows": [
+              [
+                "The survey closed in March.",
+                "Did the survey close?",
+                "When did the survey close?"
+              ],
+              [
+                "The archive is in the annexe.",
+                "Is the archive there?",
+                "Where is the archive?"
+              ],
+              [
+                "They chose the coast road.",
+                "Did they choose it?",
+                "Which road did they choose?"
+              ],
+              [
+                "The panel will meet six people.",
+                "Will the panel meet them?",
+                "How many people will the panel meet?"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": []
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Put the question word first, then the helping verb, then the subject. If there is no helping verb, use *do*, *does* or *did*."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Four questions, four helping verbs. The question word is in front of every one of them.",
+            "dimension": "the helping verb",
+            "items": [
+              {
+                "text": "Where are the spare keys kept?",
+                "gloss": "You want to know where to look for them.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "are",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Why has the second gate been locked?",
+                "gloss": "You want the reason it is shut.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "has",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "How long will the roadworks last?",
+                "gloss": "You want to know when the road will be clear.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "will",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "What did the inspectors recommend?",
+                "gloss": "You want to know what they said should happen.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "did",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "In every one, the word after the question word is a helping verb, and the subject comes after that."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "*What* or *which*?",
+            "anchor": "what-or-which"
+          },
+          {
+            "type": "contrast",
+            "anchor": "what-against-which",
+            "question": "Do we both already know the list I am choosing from?",
+            "options": [
+              {
+                "label": "*what*",
+                "use_it_when": "The set is open. You have not named the possible answers and the other person could say anything.",
+                "example": "What caused the flooding on the coast road?",
+                "point_id": "gr_questions_wh"
+              },
+              {
+                "label": "*which*",
+                "use_it_when": "The set is known to both of you — it is in front of you, or you named it a moment ago.",
+                "example": "Which of the two routes did they close?",
+                "point_id": "gr_questions_wh"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "What did the council fund this year?",
+                  "means": "The other person can name anything the council paid for.",
+                  "span": "What"
+                },
+                "b": {
+                  "text": "Which did the council fund this year?",
+                  "means": "You both already have a short list, and you want one item off it.",
+                  "span": "Which"
+                },
+                "only_difference": "*What* / *Which*"
+              },
+              {
+                "a": {
+                  "text": "What time works for you?",
+                  "means": "Any time at all. Name one.",
+                  "span": "What time"
+                },
+                "b": {
+                  "text": "Which time works for you?",
+                  "means": "Two or three times have already been offered. Pick one of them.",
+                  "span": "Which time"
+                },
+                "only_difference": "*What time* / *Which time*"
+              },
+              {
+                "a": {
+                  "text": "What did you study at university?",
+                  "means": "You are asking about any subject in the world.",
+                  "span": "What"
+                },
+                "b": {
+                  "text": "Which did you study, engineering or architecture?",
+                  "means": "You have named two subjects and you want one of them.",
+                  "span": "Which"
+                },
+                "only_difference": "*What* / *Which*, and the named pair that follows"
+              },
+              {
+                "a": {
+                  "text": "What is the fastest way into town?",
+                  "means": "Any route counts, including one you have never heard of.",
+                  "span": "What"
+                },
+                "b": {
+                  "text": "Which is the fastest way into town?",
+                  "means": "The routes are on a map in front of you both.",
+                  "span": "Which"
+                },
+                "only_difference": "*What* / *Which*"
+              }
+            ],
+            "deciding_factor": "Ask whether you could point at the answers. If you could, use *which*. If the other person could say anything, use *what*.",
+            "trap": "You were taught that *which* is for things and *who* is for people, so you avoid *which* about people. *Which of the two candidates withdrew?* is normal English.",
+            "register_note": "Both belong everywhere. The choice pays most in Speaking Part 3, where *which of these* narrows a wide question down to something you can answer."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "s-on-the-main-verb",
+            "code": "agreement_subject_verb",
+            "wrong": "What means this word?",
+            "right": "What does this word mean?",
+            "why_it_happens": "Many languages put the question word in front and leave the rest of the sentence alone. English still needs a helping verb after the question word, and here it has to be put in.",
+            "smallest_fix": "Add *does* after the question word and take the *-s* off the main verb."
+          },
+          {
+            "type": "warning",
+            "anchor": "helper-behind-the-subject",
+            "code": "word_order_adverb",
+            "wrong": "Where the survey did take place?",
+            "right": "Where did the survey take place?",
+            "why_it_happens": "The question word went to the front, and then the rest of the sentence was left in statement order. The helping verb has to come before the subject as well.",
+            "smallest_fix": "Swap the helping verb and the subject: *did the survey*, not *the survey did*."
+          },
+          {
+            "type": "warning",
+            "anchor": "past-twice",
+            "code": "word_form_wrong",
+            "wrong": "Why did the line closed so early?",
+            "right": "Why did the line close so early?",
+            "why_it_happens": "The statement was *the line closed*, and the past shape feels welded to the verb. *Did* is already carrying the past, so the verb behind it goes back to its plain form.",
+            "smallest_fix": "Take the *-ed* off the main verb."
+          },
+          {
+            "type": "false_rule",
+            "heard": "*Which* is for things and *who* is for people, so you cannot use *which* about people.",
+            "also_known_as": [
+              "which is only for objects"
+            ],
+            "truth": "*Which* is not about people or things at all. It is about whether the list is already known. *Which of the two surveyors signed it?* is normal English, because the two surveyors have already been named.",
+            "what_to_do": "Choose *which* when you could point at the possible answers, whatever they are. Choose *what* when the other person could say anything."
+          },
+          {
+            "type": "l1_note",
+            "collapsed": true,
+            "lang": "es",
+            "mechanism": "Spanish can leave the subject after the verb in a question, so the English order sounds like an extra step that is not needed.",
+            "wrong": "Where lives your brother now?",
+            "right": "Where does your brother live now?",
+            "fix": "Put a helping verb straight after the question word, then the subject."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Question word, helping verb, subject. In that order, every time.",
+            "table": {
+              "caption": "One row per thing you might be missing.",
+              "headers": [
+                "What is missing",
+                "Word",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "a person",
+                  "*who*",
+                  "Who chose the site?"
+                ],
+                [
+                  "a thing, open set",
+                  "*what*",
+                  "What delayed the work?"
+                ],
+                [
+                  "one from a known set",
+                  "*which*",
+                  "Which route was closed?"
+                ],
+                [
+                  "a time, place or reason",
+                  "*when*, *where*, *why*",
+                  "Why was it closed?"
+                ],
+                [
+                  "an amount or a length",
+                  "*how much*, *how long*",
+                  "How long will it take?"
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Fix this: *When the contract was signed?*",
+                "answer": "*When was the contract signed?*",
+                "why": "The helping verb has to come in front of the subject, even after a question word."
+              },
+              {
+                "prompt": "*What* or *which*: you have two folders on the desk and you want one of them.",
+                "answer": "*Which folder do you need?*",
+                "why": "The two folders are in front of you both, so the set is known."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [
+          {
+            "term": "question word",
+            "gloss": "*who*, *what*, *which*, *where*, *when*, *why*, *how*",
+            "also_called": null,
+            "ledger_position": 60
+          }
+        ],
+        "term_refs": [
+          "subject",
+          "object",
+          "verb",
+          "auxiliary (helping) verb",
+          "base form",
+          "statement / question / instruction / exclamation",
+          "question word",
+          "register"
+        ],
+        "related_points": [
+          "gr_questions_wh"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_yes_no_questions",
+            "reason": "the shape you build first, before the question word goes on"
+          },
+          {
+            "id": "th_subject_questions",
+            "reason": "the questions that take no *do* at all"
+          },
+          {
+            "id": "th_questions_with_prepositions",
+            "reason": "where *to*, *for* and *with* go in a question"
+          },
+          {
+            "id": "th_indirect_and_embedded_questions",
+            "reason": "what happens to this order inside a longer sentence"
+          }
+        ],
+        "fixes_errors": [
+          "agreement_subject_verb",
+          "word_form_wrong",
+          "word_order_adverb"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "wh questions",
+          "question words",
+          "who what where when why how",
+          "what or which",
+          "asking for information"
+        ],
+        "intents": [
+          "ask for a fact I do not have",
+          "ask a question that needs more than yes or no"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 6,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_subject_questions",
+      "chapter_id": "thc_04",
+      "sequence_index": 87,
+      "title": "Questions where you do not use *do*",
+      "kind": "standard",
+      "cefr_level": "A2",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Subject *wh*-questions, against object *wh*-questions",
+        "one_line": "This lets you ask who or what did something, without adding a helping verb that does not belong in the sentence.",
+        "short_answer": "If the question word is the doer, use no *do* and keep statement order: *Who signed the form?*",
+        "question_in_learner_words": "When do I leave *do*, *does* and *did* out of a *wh*-question?",
+        "area_ids": [
+          "M4"
+        ],
+        "prerequisites": [
+          "th_wh_questions",
+          "th_yes_no_questions",
+          "th_who_does_what_to_what"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Two questions that look the same and are not",
+            "anchor": "two-questions"
+          },
+          {
+            "type": "prose",
+            "text": "*Who called the office?* and *Who did the office call?* both start with *who* and both ask about a person. One asks for the caller. The other asks for the person on the other end."
+          },
+          {
+            "type": "prose",
+            "text": "The difference is which slot the question word is standing in. If it is standing where the doer would stand, English adds nothing at all."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "When the question word is the doer, nothing moves",
+            "anchor": "nothing-moves"
+          },
+          {
+            "type": "table",
+            "anchor": "the-two-shapes",
+            "caption": "The doer version has no helping verb in it, and needs none.",
+            "headers": [
+              "What you are asking for",
+              "The shape",
+              "Example"
+            ],
+            "rows": [
+              [
+                "the doer",
+                "question word + verb",
+                "Who chose the site?"
+              ],
+              [
+                "the one it was done to",
+                "question word + helper + subject + verb",
+                "Who did the panel choose?"
+              ],
+              [
+                "the doer, in the past",
+                "question word + past verb",
+                "What delayed the report?"
+              ],
+              [
+                "the one it was done to, in the past",
+                "question word + *did* + subject + verb",
+                "What did the report delay?"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "The doer rows keep the order of an ordinary statement. Only the first word tells you it is a question."
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "So the doer version is shorter, and it is short because nothing was taken out of the middle. The question word is sitting in the doer's own place."
+          },
+          {
+            "type": "visual",
+            "kind": "two_box",
+            "caption": "The question word fills a different slot in each one.",
+            "spec": {
+              "left": {
+                "role": "doer question",
+                "text": "Who chose the site?"
+              },
+              "right": {
+                "role": "done-to question",
+                "text": "Who did the panel choose?"
+              },
+              "arrow": "left_to_right"
+            }
+          },
+          {
+            "type": "examples",
+            "lead_in": "In each of these the question word is the doer, so there is no helping verb anywhere.",
+            "dimension": "the doer question",
+            "items": [
+              {
+                "text": "Who runs the evening sessions?",
+                "gloss": "You want the name of the person in charge of them.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Who runs",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "What caused the second delay?",
+                "gloss": "You want to know what went wrong the second time.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "What caused",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Which department funds the training?",
+                "gloss": "You want to know where the money comes from.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "Which department funds",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "How many residents attended the meeting?",
+                "gloss": "You want a number of people in the room.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "How many residents attended",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Not one of them contains *do*, *does* or *did*, and not one of them is missing anything."
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "When the question word is the doer, keep statement order and add no helping verb. Everything else takes a helping verb."
+          },
+          {
+            "type": "examples",
+            "lead_in": "The same four questions, now asking about the thing the action landed on. A helping verb appears in every one.",
+            "dimension": "the done-to question",
+            "items": [
+              {
+                "text": "Who does the trust employ at the site?",
+                "gloss": "You want the names of the people on the payroll.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "does",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "What did the second delay affect?",
+                "gloss": "You want to know what else was held up by it.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "did",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Which department did they contact first?",
+                "gloss": "You want to know who got the call.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "did",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "How many residents did they invite?",
+                "gloss": "You want the number on the invitation list.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "did",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Each one has a subject of its own sitting after the helping verb, so the question word cannot be the doer."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Is the answer the doer, or the one it was done to?",
+            "anchor": "which-slot"
+          },
+          {
+            "type": "contrast",
+            "anchor": "doer-or-done-to",
+            "question": "Would the answer come before the verb, or after it?",
+            "options": [
+              {
+                "label": "no *do* — the question word is the doer",
+                "use_it_when": "The answer would go in front of the verb in a full sentence: *The site engineer signed it.*",
+                "example": "Who signed the release form?",
+                "point_id": "gr_questions_wh"
+              },
+              {
+                "label": "*do*, *does* or *did* — the question word is not the doer",
+                "use_it_when": "The answer would go after the verb: *They appointed the site engineer.*",
+                "example": "Who did they appoint as site engineer?",
+                "point_id": "gr_questions_wh"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "Who called the office?",
+                  "means": "You want the name of the person who made the call.",
+                  "span": "Who called"
+                },
+                "b": {
+                  "text": "Who did the office call?",
+                  "means": "You want the name of the person whose phone rang.",
+                  "span": "Who did the office call"
+                },
+                "only_difference": "*Who called* / *Who did the office call*"
+              },
+              {
+                "a": {
+                  "text": "What delayed the inspection?",
+                  "means": "You want to know what got in the way.",
+                  "span": "What delayed"
+                },
+                "b": {
+                  "text": "What did the inspection delay?",
+                  "means": "You want to know what else was pushed back because of it.",
+                  "span": "What did the inspection delay"
+                },
+                "only_difference": "*What delayed* / *What did the inspection delay*"
+              },
+              {
+                "a": {
+                  "text": "Which council funded the scheme?",
+                  "means": "You want to know where the money came from.",
+                  "span": "Which council funded"
+                },
+                "b": {
+                  "text": "Which council did the scheme fund?",
+                  "means": "You want to know who received the money.",
+                  "span": "Which council did the scheme fund"
+                },
+                "only_difference": "*Which council funded* / *Which council did the scheme fund*"
+              },
+              {
+                "a": {
+                  "text": "Whose signature appears on the last page?",
+                  "means": "You want to know whose name is written there.",
+                  "span": "Whose signature appears"
+                },
+                "b": {
+                  "text": "Whose signature did they check?",
+                  "means": "You want to know which one they looked at.",
+                  "span": "Whose signature did they check"
+                },
+                "only_difference": "*Whose signature appears* / *Whose signature did they check*"
+              }
+            ],
+            "deciding_factor": "Answer your own question in a full sentence. If the answer lands in front of the verb, drop the *do*.",
+            "trap": "You have been drilled on *do*, *does* and *did* until they feel obligatory, so you put one in every question, and *Who did write it?* comes out.",
+            "register_note": "Both belong everywhere. The doer version is common in Speaking Part 1 and in reading, and getting it wrong is heard at once by a listener."
+          },
+          {
+            "type": "decision_tree",
+            "anchor": "the-answer-test",
+            "intro": "Two questions, and the first one settles most sentences.",
+            "steps": [
+              {
+                "id": "s1",
+                "ask": "Answer your own question in a full sentence. Where does the answer sit?",
+                "branches": [
+                  {
+                    "answer": "In front of the verb — *The warden locked it.*",
+                    "verdict": {
+                      "use": "no helping verb",
+                      "example": "Who locked the gate?",
+                      "why": "The question word is standing in the doer's place, so nothing was taken out."
+                    }
+                  },
+                  {
+                    "answer": "After the verb — *She locked the gate.*",
+                    "goto": "s2"
+                  }
+                ]
+              },
+              {
+                "id": "s2",
+                "ask": "Is there already a helping verb in the sentence?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "that helping verb, in front of the subject",
+                      "example": "What has the panel decided?",
+                      "why": "The helper is already there, so it moves rather than being put in."
+                    }
+                  },
+                  {
+                    "answer": "No",
+                    "verdict": {
+                      "use": "*do*, *does* or *did* + the plain verb",
+                      "example": "What did the panel decide?",
+                      "why": "There is nothing to move, so English puts a helper in to carry the time."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "did-in-a-doer-question",
+            "code": "word_form_wrong",
+            "wrong": "Who did chose the site?",
+            "right": "Who chose the site?",
+            "why_it_happens": "Every other *wh*-question you have practised needed *did*, so it goes in by habit. Here *who* is already the doer, and nothing has been taken out for *did* to stand in for.",
+            "smallest_fix": "Delete *did* and put the past back on the verb: *chose*."
+          },
+          {
+            "type": "warning",
+            "anchor": "plural-verb-after-who",
+            "code": "agreement_subject_verb",
+            "wrong": "Who are coming to the session tomorrow?",
+            "right": "Who is coming to the session tomorrow?",
+            "why_it_happens": "You expect several people, so the verb is made plural to match them. *Who* takes the singular verb whatever the answer turns out to be.",
+            "smallest_fix": "Use *is*, *has* or *was* after *who* and *what* as the doer."
+          },
+          {
+            "type": "warning",
+            "anchor": "no-helper-in-a-done-to-question",
+            "code": "word_order_adverb",
+            "wrong": "Who the trust appointed last year?",
+            "right": "Who did the trust appoint last year?",
+            "why_it_happens": "The doer version has no helping verb, so the pattern is copied across to the other one. Here *the trust* is the doer, so *who* is not, and a helper is needed.",
+            "smallest_fix": "Put *did* after *who* and use the plain verb behind it."
+          },
+          {
+            "type": "false_rule",
+            "heard": "Every *wh*-question needs *do*, *does* or *did* unless there is another helping verb in it.",
+            "also_known_as": [
+              "always add did to a past question"
+            ],
+            "truth": "That covers most *wh*-questions and it breaks on the commonest one of all. When the question word is the doer, there is no gap for the helper to fill, so *Who chose the site?* takes nothing.",
+            "what_to_do": "Before you add *did*, answer your own question. If the answer goes in front of the verb, leave the helper out."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Answer your own question. If the answer comes first, drop the *do*.",
+            "table": {
+              "caption": "One row per slot the question word can fill.",
+              "headers": [
+                "Where the answer sits",
+                "Helping verb",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "in front of the verb",
+                  "none",
+                  "Who signed it?"
+                ],
+                [
+                  "after the verb",
+                  "*do*, *does*, *did*",
+                  "Who did they ask?"
+                ],
+                [
+                  "after the verb, helper already there",
+                  "the one already there",
+                  "What has the panel agreed?"
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Which is right? *Who did organise the training?* or *Who organised the training?*",
+                "answer": "*Who organised the training?*",
+                "why": "The answer would be the person doing the organising, so it comes before the verb."
+              },
+              {
+                "prompt": "Fix this: *What the storm damaged?*",
+                "answer": "*What did the storm damage?*",
+                "why": "*The storm* is the doer, so *what* is not, and a helping verb is needed."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "subject",
+          "object",
+          "verb",
+          "auxiliary (helping) verb",
+          "question word",
+          "agree (subject–verb)",
+          "singular / plural",
+          "base form",
+          "register"
+        ],
+        "related_points": [
+          "gr_questions_wh"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_wh_questions",
+            "reason": "the question words themselves, and what each one asks for"
+          },
+          {
+            "id": "th_yes_no_questions",
+            "reason": "where the helping-verb move comes from"
+          },
+          {
+            "id": "th_who_does_what_to_what",
+            "reason": "the doer and the thing it lands on, before either becomes a question"
+          },
+          {
+            "id": "th_agreement_basics",
+            "reason": "why *who* takes a singular verb"
+          }
+        ],
+        "fixes_errors": [
+          "word_form_wrong",
+          "agreement_subject_verb",
+          "word_order_adverb"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "subject questions",
+          "who did or who",
+          "questions without do",
+          "subject and object questions",
+          "who wrote it"
+        ],
+        "intents": [
+          "ask who or what did something"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 6,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_questions_with_prepositions",
+      "chapter_id": "thc_04",
+      "sequence_index": 88,
+      "title": "*Who did you speak to?*",
+      "kind": "standard",
+      "cefr_level": "B1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Questions with prepositions, and *who* against *whom*",
+        "one_line": "This lets you ask a question about the small placing word a verb takes, without losing it or sounding stiff.",
+        "short_answer": "Leave the small placing word at the end: *Who did you speak to?* Moving it to the front sounds formal.",
+        "question_in_learner_words": "Where does *to*, *for* or *with* go in a question?",
+        "area_ids": [
+          "M5"
+        ],
+        "prerequisites": [
+          "th_wh_questions",
+          "th_joining_and_placing_words"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 3,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Why the question sounds unfinished without it",
+            "anchor": "why-it-matters"
+          },
+          {
+            "type": "prose",
+            "text": "Many verbs carry a small placing word with them. You *wait for* a bus, *apply for* a job, *write to* somebody, *depend on* somebody. The verb is not finished without it."
+          },
+          {
+            "type": "prose",
+            "text": "When you turn one of those into a question, the small word has nowhere to go, so English leaves it standing at the end. That is not sloppy. It is the normal shape."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Leave the small word at the end",
+            "anchor": "leave-it-at-the-end"
+          },
+          {
+            "type": "table",
+            "anchor": "end-or-front",
+            "caption": "Everyday English leaves it at the end. Moving it forward sounds formal.",
+            "headers": [
+              "What you want to know",
+              "Everyday",
+              "Formal"
+            ],
+            "rows": [
+              [
+                "who got the letter",
+                "Who did she write to?",
+                "To whom did she write?"
+              ],
+              [
+                "who you should ask",
+                "Who should I speak to?",
+                "To whom should I speak?"
+              ],
+              [
+                "which team he answers to",
+                "Which team does he report to?",
+                "To which team does he report?"
+              ],
+              [
+                "what the meeting covered",
+                "What was the meeting about?",
+                "About what was the meeting?"
+              ],
+              [
+                "what the money is for",
+                "What is the grant for?",
+                "For what is the grant intended?"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "Both columns are correct English. The last row is stiff enough that a writer would rewrite the sentence instead."
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "The everyday column is what you will hear and what you should write. The formal column belongs in a letter that is already formal from the first line."
+          },
+          {
+            "type": "examples",
+            "lead_in": "One question shape, five verbs. The small word each verb takes is the last word every time.",
+            "dimension": "the small placing word",
+            "items": [
+              {
+                "text": "What are you applying for?",
+                "gloss": "You want to know which job or which place they want.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "for",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Who does the site manager report to?",
+                "gloss": "You want to know who is above him.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "to",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "What does the funding depend on?",
+                "gloss": "You want to know what has to happen before the money comes.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "on",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Which committee was the plan sent to?",
+                "gloss": "You want to know who received it.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "to",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Who were you talking to at the gate?",
+                "gloss": "You want to know who the other person was.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "to",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Take the last word off any of them and the question stops making sense."
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Keep the small placing word the verb takes, and leave it at the end of the question."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Say the answer as a statement first. Whatever small word it needs, the question needs the same one.",
+            "dimension": "matching the statement",
+            "items": [
+              {
+                "text": "Who did the council consult about the route?",
+                "gloss": "You want the names of the people they asked.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "about",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "What is the second entrance used for?",
+                "gloss": "You want to know its purpose.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "for",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "Which of the surveys was the figure taken from?",
+                "gloss": "You want to know where the number came from.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "from",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "Who are you sharing the flat with?",
+                "gloss": "You want to know who else lives there.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "with",
+                    "role": "deciding"
+                  }
+                ]
+              }
+            ],
+            "so_what": "The small word in the question is the one the verb would have taken in a plain statement."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Which small word, and where does it sit?",
+            "anchor": "which-small-word"
+          },
+          {
+            "type": "contrast",
+            "anchor": "which-word-and-where",
+            "question": "Which small word does this verb take, and how formal is the sentence?",
+            "options": [
+              {
+                "label": "the small word at the end, with *who*",
+                "use_it_when": "Speaking, and almost all writing. This is the ordinary shape and nobody will notice it.",
+                "example": "Who did the panel consult before the vote?",
+                "point_id": "gr_questions_wh"
+              },
+              {
+                "label": "the small word in front, with *whom*",
+                "use_it_when": "A formal letter, or a piece of writing that is formal from the first line to the last.",
+                "example": "With whom did the panel consult before the vote?"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "What is the second form for?",
+                  "means": "You want to know what job the form does.",
+                  "span": "for"
+                },
+                "b": {
+                  "text": "What is the second form about?",
+                  "means": "You want to know what the form asks you about.",
+                  "span": "about"
+                },
+                "only_difference": "*for* / *about*"
+              },
+              {
+                "a": {
+                  "text": "Who did she write to?",
+                  "means": "You want the person who received the letter.",
+                  "span": "to"
+                },
+                "b": {
+                  "text": "Who did she write about?",
+                  "means": "You want the person the letter is about.",
+                  "span": "about"
+                },
+                "only_difference": "*to* / *about*"
+              },
+              {
+                "a": {
+                  "text": "Which department did he move to?",
+                  "means": "You want to know where he works now.",
+                  "span": "to"
+                },
+                "b": {
+                  "text": "Which department did he move from?",
+                  "means": "You want to know where he worked before.",
+                  "span": "from"
+                },
+                "only_difference": "*to* / *from*"
+              },
+              {
+                "a": {
+                  "text": "Who did they give the contract to?",
+                  "means": "This is what you would say to a colleague in the corridor.",
+                  "span": "Who did they give the contract to"
+                },
+                "b": {
+                  "text": "To whom did they give the contract?",
+                  "means": "This is what you would write in a formal letter of complaint.",
+                  "span": "To whom did they give the contract"
+                },
+                "only_difference": "*Who … to* / *To whom …*"
+              }
+            ],
+            "deciding_factor": "Say the answer as a statement first. Whatever small word the verb takes there, put the same one at the end of your question.",
+            "trap": "You were told never to end a sentence with a small placing word, so you rewrite a normal question into something stiff, and sometimes into something no one says.",
+            "register_note": "The end position belongs everywhere, including academic writing. *To whom* and *with whom* belong in a formal letter and nowhere else."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "small-word-dropped",
+            "code": "preposition_dependent",
+            "wrong": "What are you waiting?",
+            "right": "What are you waiting for?",
+            "why_it_happens": "In many languages the question word already carries the meaning that English puts in the small word, so nothing is left to say at the end. English keeps the word the verb takes, even when it lands last.",
+            "smallest_fix": "Say the answer as a statement — *I am waiting for the bus* — and put the same small word at the end."
+          },
+          {
+            "type": "warning",
+            "anchor": "whom-as-the-doer",
+            "code": "word_form_wrong",
+            "wrong": "Whom signed the attendance sheet?",
+            "right": "Who signed the attendance sheet?",
+            "why_it_happens": "*Whom* has been learned as the careful, correct form, so it goes in wherever a person is being asked about. *Whom* is never the doer of the verb, however formal the sentence is.",
+            "smallest_fix": "If the answer would come before the verb, use *who*."
+          },
+          {
+            "type": "warning",
+            "anchor": "half-moved",
+            "code": "word_form_wrong",
+            "wrong": "To who should I send the form?",
+            "right": "Who should I send the form to?",
+            "why_it_happens": "The small word was moved to the front, which is the formal shape, and *who* stayed as it was. The two halves belong to two different registers, so the question sounds broken.",
+            "smallest_fix": "Move both or move neither: *Who … to?* or *To whom …?*"
+          },
+          {
+            "type": "variation",
+            "kind": "register",
+            "collapsed": true,
+            "variation_ref": 20,
+            "what_varies": "Whether a question about a person starts with *who* or with *whom*.",
+            "option_a": {
+              "label": "Everyday English",
+              "form": "*who*, with the small word at the end",
+              "example": "Who did the panel consult?"
+            },
+            "option_b": {
+              "label": "Formal writing",
+              "form": "*whom*, straight after the small word",
+              "example": "With whom did the panel consult?"
+            },
+            "house_default": "*who*, with the small word at the end",
+            "why_this_default": "Our examples use *who* because it is right in speech and in most writing. This is a house choice about register, not a rule of English.",
+            "costs_marks": "no"
+          },
+          {
+            "type": "false_rule",
+            "heard": "After a preposition you must always use *whom*, never *who*.",
+            "also_known_as": [
+              "whom is the object form, so it is compulsory after to and for"
+            ],
+            "truth": "*To whom* and *for whom* are correct and formal, and you rarely need them, because English leaves the small word at the end. Once it is there, *who* is the natural choice. What is a real error is *whom* as the doer: *Whom signed it?*",
+            "what_to_do": "Leave the small word at the end and use *who*. Keep *to whom* for a formal letter. Never use *whom* where the answer would come before the verb."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Keep the verb's small word, and leave it at the end.",
+            "table": {
+              "caption": "One row per shape you might reach for.",
+              "headers": [
+                "What you want",
+                "Write",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "an ordinary question",
+                  "*who* … small word at the end",
+                  "Who did you speak to?"
+                ],
+                [
+                  "a formal letter",
+                  "small word + *whom* at the front",
+                  "To whom did you speak?"
+                ],
+                [
+                  "a question about the doer",
+                  "*who*, never *whom*",
+                  "Who signed it?"
+                ],
+                [
+                  "a verb with a fixed small word",
+                  "keep the word",
+                  "What are you waiting for?"
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Fix this: *Who did the money come?*",
+                "answer": "*Who did the money come from?*",
+                "why": "The statement would be *the money came from a donation*, so the question keeps *from*."
+              },
+              {
+                "prompt": "*Who* or *whom*: ___ chaired the second meeting?",
+                "answer": "*Who chaired the second meeting?*",
+                "why": "The answer is the doer, and *whom* is never the doer."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "verb",
+          "subject",
+          "object",
+          "preposition",
+          "question word",
+          "auxiliary (helping) verb",
+          "register",
+          "statement / question / instruction / exclamation"
+        ],
+        "related_points": [
+          "gr_questions_wh",
+          "gr_prepositions_dependent"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_wh_questions",
+            "reason": "the question words, and the order they sit in"
+          },
+          {
+            "id": "th_dependent_prepositions",
+            "reason": "which small word each verb takes, listed"
+          },
+          {
+            "id": "th_preposition_phrases_and_stranding",
+            "reason": "ending a sentence with a small placing word, in statements too"
+          },
+          {
+            "id": "th_relative_details",
+            "reason": "the same choice inside a clause describing a noun"
+          }
+        ],
+        "fixes_errors": [
+          "preposition_dependent",
+          "word_form_wrong"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "who did you speak to",
+          "questions with prepositions",
+          "who or whom",
+          "preposition at the end of a question",
+          "to whom"
+        ],
+        "intents": [
+          "ask a question about the person on the other end",
+          "ask what something is for"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [
+          20
+        ],
+        "myth_refs": [
+          9
+        ],
+        "estimated_read_minutes": 6,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_short_answers",
+      "chapter_id": "thc_04",
+      "sequence_index": 89,
+      "title": "*Yes, I have.*",
+      "kind": "standard",
+      "cefr_level": "A1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Short answers, and the helping verb that carries them",
+        "one_line": "This lets you answer a yes/no question in three words instead of repeating everything the other person said.",
+        "short_answer": "Say *yes* or *no*, then the subject, then the helping verb from the question: *Yes, they have.*",
+        "question_in_learner_words": "How do I answer a yes/no question without repeating the whole sentence?",
+        "area_ids": [
+          "M9"
+        ],
+        "prerequisites": [
+          "th_yes_no_questions",
+          "th_the_helper_system",
+          "th_contractions"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Why English does not repeat the whole sentence",
+            "anchor": "why-not-repeat"
+          },
+          {
+            "type": "prose",
+            "text": "Somebody asks *Have you sent the form?* Everything in that question is already shared, so repeating it back adds nothing. English keeps one word from it and leaves the rest out."
+          },
+          {
+            "type": "prose",
+            "text": "The word it keeps is the helping verb. That single word is enough to point back at the whole question, and the listener fills in the rest without noticing."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Take the helping verb, and stop",
+            "anchor": "take-the-helper"
+          },
+          {
+            "type": "table",
+            "anchor": "short-answer-forms",
+            "caption": "The answer repeats the helping verb from the question and nothing else.",
+            "headers": [
+              "The question",
+              "Yes",
+              "No"
+            ],
+            "rows": [
+              [
+                "Is the office open?",
+                "Yes, it is.",
+                "No, it isn't."
+              ],
+              [
+                "Are you a full-time student?",
+                "Yes, I am.",
+                "No, I'm not."
+              ],
+              [
+                "Have they replied?",
+                "Yes, they have.",
+                "No, they haven't."
+              ],
+              [
+                "Can you drive a van?",
+                "Yes, I can.",
+                "No, I can't."
+              ],
+              [
+                "Will the results come out today?",
+                "Yes, they will.",
+                "No, they won't."
+              ],
+              [
+                "Does the bus stop here?",
+                "Yes, it does.",
+                "No, it doesn't."
+              ],
+              [
+                "Did the panel agree?",
+                "Yes, it did.",
+                "No, it didn't."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "*Yes, I am.* never runs together. *No, I'm not.* does. Learn that pair as it stands.",
+              "The negative answers all run together in speech, and all of them can be written out in full."
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "The subject comes back as a short word — *it*, *they*, *I*, *she* — because the full name is already in the question and saying it again sounds heavy."
+          },
+          {
+            "type": "examples",
+            "lead_in": "The same three-word shape, five times. Only the helping verb changes.",
+            "dimension": "the helping verb",
+            "items": [
+              {
+                "text": "Has the deposit been returned? — Yes, it has.",
+                "gloss": "The money is back. The person asking can stop worrying.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Yes, it has",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Were the gates locked overnight? — No, they weren't.",
+                "gloss": "They were left open all night.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "No, they weren't",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Should we book a room? — Yes, we should.",
+                "gloss": "Booking is the right thing to do.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Yes, we should",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Did the second survey confirm it? — No, it did not.",
+                "gloss": "The second survey found something different.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "No, it did not",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Every answer is *yes* or *no*, a short subject word, and one helping verb."
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Answer with *yes* or *no*, then a short subject word, then the helping verb from the question."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Four questions with no helping verb in them. *Do*, *does* and *did* carry the answer instead.",
+            "dimension": "the supplied helping verb",
+            "items": [
+              {
+                "text": "Do you cycle to work? — Yes, I do.",
+                "gloss": "Cycling is how the person gets in.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Yes, I do",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Does the clinic take walk-ins? — No, it doesn't.",
+                "gloss": "You have to book before you go.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "No, it doesn't",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Did they publish the figures? — Yes, they did.",
+                "gloss": "The numbers are out and anybody can read them.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "Yes, they did",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Did the storm reach the coast road? — No, it didn't.",
+                "gloss": "The road stayed clear.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "No, it didn't",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "The main verb never comes back. It is the word English leaves out."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Which word do you repeat?",
+            "anchor": "which-word"
+          },
+          {
+            "type": "decision_tree",
+            "anchor": "which-helper-comes-back",
+            "intro": "Two questions, and the first one settles most answers.",
+            "steps": [
+              {
+                "id": "s1",
+                "ask": "Was there a helping verb in the question — *is*, *have*, *can*, *will*?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "the same word",
+                      "example": "Have you sent it? — Yes, I have.",
+                      "why": "The answer borrows the helper the question already used."
+                    }
+                  },
+                  {
+                    "answer": "No",
+                    "goto": "s2"
+                  }
+                ]
+              },
+              {
+                "id": "s2",
+                "ask": "Was the question about the past?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "*did* or *didn't*",
+                      "example": "Did you apply? — No, I didn't.",
+                      "why": "*Did* carried the past in the question, so it carries it in the answer."
+                    }
+                  },
+                  {
+                    "answer": "No",
+                    "verdict": {
+                      "use": "*do*, *does*, *don't* or *doesn't*",
+                      "example": "Does she work here? — Yes, she does.",
+                      "why": "Use *does* for *he*, *she*, *it* or one thing, and *do* for the rest."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "How much to say when somebody is listening to your English",
+            "anchor": "how-much-to-say"
+          },
+          {
+            "type": "table",
+            "anchor": "how-long-an-answer",
+            "caption": "The short answer opens the door. What you add after it is the answer.",
+            "headers": [
+              "What you say",
+              "How it lands",
+              "Example"
+            ],
+            "rows": [
+              [
+                "*Yes.*",
+                "correct, and it ends the exchange",
+                "Yes."
+              ],
+              [
+                "*Yes, I do.*",
+                "natural, and it sounds like speech",
+                "Yes, I do."
+              ],
+              [
+                "short answer plus a reason",
+                "the shape to aim for",
+                "Yes, I do. It is quicker than the bus."
+              ],
+              [
+                "the whole question repeated",
+                "correct, and it sounds translated",
+                "Yes, I cycle to work."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "In Speaking Part 1 the examiner is listening for language, and a bare *yes* offers none."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "The same question, answered three ways. Watch how much the listener gets each time.",
+            "dimension": "how much you add",
+            "items": [
+              {
+                "text": "Do you live near the centre? — Yes.",
+                "gloss": "True, and the other person now has to think of a new question.",
+                "register": "spoken"
+              },
+              {
+                "text": "Do you live near the centre? — Yes, I do.",
+                "gloss": "True, and it sounds like a person talking.",
+                "register": "spoken"
+              },
+              {
+                "text": "Do you live near the centre? — Yes, I do. It is about ten minutes on foot.",
+                "gloss": "True, and the other person can pick up the walking.",
+                "register": "spoken"
+              }
+            ],
+            "so_what": "All three are correct English. Only the third one gives the listener something to go on."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "contracted-last-word",
+            "code": "word_form_wrong",
+            "wrong": "Have you finished the form? — Yes, I've.",
+            "right": "Have you finished the form? — Yes, I have.",
+            "why_it_happens": "The run-together form is what you hear all day, so it comes out here as well. A short answer ends on the helping verb, and a run-together form cannot be a last word.",
+            "smallest_fix": "Write the helping verb out in full: *Yes, I have.* The negative ones do run together: *No, I haven't.*"
+          },
+          {
+            "type": "warning",
+            "anchor": "main-verb-repeated",
+            "code": "word_form_wrong",
+            "wrong": "Do you work at the clinic? — Yes, I work.",
+            "right": "Do you work at the clinic? — Yes, I do.",
+            "why_it_happens": "Repeating the main verb feels like a fuller, more helpful answer. English brings back the helping verb instead, and the main verb is the word it leaves out.",
+            "smallest_fix": "Use the word that started the question: *do*, *does* or *did*."
+          },
+          {
+            "type": "warning",
+            "anchor": "everything-repeated",
+            "code": "register_written_in_speech",
+            "wrong": "Have you sent the application form? — Yes, I have sent the application form.",
+            "right": "Have you sent the application form? — Yes, I have. I sent it on Monday.",
+            "why_it_happens": "Repeating every word looks careful and complete on paper. In speech it sounds like a translation exercise, because everything after the helping verb is already known.",
+            "smallest_fix": "Stop after the helping verb, then add something the other person does not know yet."
+          },
+          {
+            "type": "false_rule",
+            "heard": "Answering with only *yes* or *no* is rude in English.",
+            "also_known_as": [
+              "you must always answer in a full sentence"
+            ],
+            "truth": "A bare *yes* is not rude. It is short. The problem is different: in a conversation where somebody is listening to your English, one word gives them nothing to work with. *Yes, I do.* costs two more words and sounds like speech.",
+            "what_to_do": "Use the short answer, then add one reason or one example. That turns a dead end into an answer without making you talk for a minute."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "*Yes* or *no*, a short subject word, and the helping verb. Then add one thing.",
+            "table": {
+              "caption": "One row per kind of question.",
+              "headers": [
+                "The question started with",
+                "The answer uses",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "*is*, *are*, *was*, *were*",
+                  "the same word",
+                  "Yes, it is."
+                ],
+                [
+                  "*have*, *will*, *can*, *should*",
+                  "the same word",
+                  "No, they haven't."
+                ],
+                [
+                  "*do* or *does*",
+                  "*do* or *does*",
+                  "Yes, I do."
+                ],
+                [
+                  "*did*",
+                  "*did*",
+                  "No, it didn't."
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Answer with a short answer: *Has the second gate been repaired?* — no.",
+                "answer": "*No, it hasn't.*",
+                "why": "The question started with *has*, so the answer brings *has* back."
+              },
+              {
+                "prompt": "Why is *Yes, I've.* wrong?",
+                "answer": "A short answer cannot end on a run-together form: *Yes, I have.*",
+                "why": "The last word of the answer has to be the helping verb, written out."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "subject",
+          "verb",
+          "auxiliary (helping) verb",
+          "operator",
+          "pronoun",
+          "contraction",
+          "register"
+        ],
+        "related_points": [
+          "gr_short_answers",
+          "gr_aux_system"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_yes_no_questions",
+            "reason": "the questions these answers are built for"
+          },
+          {
+            "id": "th_tag_questions",
+            "reason": "the same helping verb, added to the end of a statement"
+          },
+          {
+            "id": "th_substitution_and_ellipsis",
+            "reason": "leaving words out, as a habit across a whole text"
+          },
+          {
+            "id": "th_negative_prefixes_and_answering",
+            "reason": "what *yes* and *no* mean after a negative question"
+          }
+        ],
+        "fixes_errors": [
+          "word_form_wrong",
+          "register_written_in_speech"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "short answers",
+          "yes I have",
+          "how to answer a question",
+          "yes I do no I don't",
+          "answering in speaking part 1"
+        ],
+        "intents": [
+          "answer a yes or no question naturally"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 5,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_tag_questions",
+      "chapter_id": "thc_04",
+      "sequence_index": 90,
+      "title": "*…, isn't it?*",
+      "kind": "paradigm",
+      "cefr_level": "B1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Question tags, all patterns, and what the rise or fall means",
+        "one_line": "This lets you turn a statement into something that invites the other person to agree with you or to confirm it.",
+        "short_answer": "Take the helping verb, flip positive to negative, and use a short subject word: *The lift works, doesn't it?*",
+        "question_in_learner_words": "How do I add *isn't it?* to the end of a sentence?",
+        "area_ids": [
+          "M7",
+          "M17"
+        ],
+        "prerequisites": [
+          "th_yes_no_questions",
+          "th_short_answers",
+          "th_the_helper_system"
+        ],
+        "register": "spoken",
+        "risk_note": "Four things must be right in a tag: the helping verb, the flip, the short subject word and the tune. In writing, use none of them.",
+        "error_surface": 4,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Four steps, and the same four every time",
+            "anchor": "four-steps"
+          },
+          {
+            "type": "prose",
+            "text": "A tag is a two-word question stuck on the end of a statement. It does not ask for new information. It asks the other person to come in and agree."
+          },
+          {
+            "type": "term_intro",
+            "term": "question tag",
+            "also_called": null,
+            "gloss": "the short question added to the end: *…, isn't it?*",
+            "show_first": [
+              {
+                "text": "The ferry runs on Sundays, doesn't it?",
+                "mark": "doesn't it?"
+              },
+              {
+                "text": "You've seen the new timetable, haven't you?",
+                "mark": "haven't you?"
+              },
+              {
+                "text": "The gates weren't locked, were they?",
+                "mark": "were they?"
+              }
+            ],
+            "name_line": "That two-word ending is called a **question tag**.",
+            "anchor_line": "It belongs to speech. Many languages have one fixed ending that does this job. English rebuilds it for every sentence.",
+            "l1_hook": [
+              "es",
+              "zh",
+              "ta",
+              "ru"
+            ],
+            "ledger_position": 61
+          },
+          {
+            "type": "prose",
+            "text": "Take the helping verb out of the statement. Flip it — positive becomes negative, negative becomes positive. Put a short subject word after it. Run the negative together: *isn't it*, never *is not it*."
+          },
+          {
+            "type": "paradigm",
+            "anchor": "tag-forms",
+            "caption": "The tag flips whatever the statement had. Nothing else changes.",
+            "form_line": "the helping verb (with or without *not*) + a short subject word",
+            "model_verbs": [
+              "paint",
+              "write"
+            ],
+            "headers": [
+              "What the statement has",
+              "Positive statement",
+              "Its tag",
+              "Negative statement",
+              "Its tag"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "*is* / *are*",
+                  "The lift is working,",
+                  "isn't it?",
+                  "The lift isn't working,",
+                  "is it?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "*was* / *were*",
+                  "The gates were open,",
+                  "weren't they?",
+                  "The gates weren't open,",
+                  "were they?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "*have* / *has*",
+                  "She has signed it,",
+                  "hasn't she?",
+                  "She hasn't signed it,",
+                  "has she?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "*had*",
+                  "They had left by six,",
+                  "hadn't they?",
+                  "They hadn't left by six,",
+                  "had they?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "*will*",
+                  "The results will come out,",
+                  "won't they?",
+                  "The results won't come out,",
+                  "will they?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "*can* / *could*",
+                  "You can drive a van,",
+                  "can't you?",
+                  "You can't drive a van,",
+                  "can you?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "*should*",
+                  "We should ask first,",
+                  "shouldn't we?",
+                  "We shouldn't ask first,",
+                  "should we?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "no helper, about now",
+                  "The ferry runs daily,",
+                  "doesn't it?",
+                  "The ferry doesn't run daily,",
+                  "does it?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "no helper, about the past",
+                  "The council approved it,",
+                  "didn't they?",
+                  "The council didn't approve it,",
+                  "did they?"
+                ],
+                "weight": "high"
+              }
+            ],
+            "sub_tables": [
+              {
+                "caption": "The tag does not care whether the verb is regular.",
+                "headers": [
+                  "Statement",
+                  "Its tag"
+                ],
+                "rows": [
+                  [
+                    "They painted the hall last week,",
+                    "didn't they?"
+                  ],
+                  [
+                    "They wrote the report last week,",
+                    "didn't they?"
+                  ],
+                  [
+                    "The hall has been painted,",
+                    "hasn't it?"
+                  ],
+                  [
+                    "The report has been written,",
+                    "hasn't it?"
+                  ]
+                ]
+              },
+              {
+                "caption": "The tags the four steps do not give you. Learn these as they stand.",
+                "headers": [
+                  "Statement",
+                  "Its tag",
+                  "Why"
+                ],
+                "rows": [
+                  [
+                    "I am late,",
+                    "aren't I?",
+                    "English has no *amn't*"
+                  ],
+                  [
+                    "I am not late,",
+                    "am I?",
+                    "the positive tag is regular"
+                  ],
+                  [
+                    "Let's start,",
+                    "shall we?",
+                    "fixed; never *don't we*"
+                  ],
+                  [
+                    "Close the gate,",
+                    "will you?",
+                    "an instruction takes *will you?*"
+                  ],
+                  [
+                    "Don't close the gate,",
+                    "will you?",
+                    "the one tag that does not flip"
+                  ],
+                  [
+                    "Let me try,",
+                    "will you?",
+                    "this *let* asks the listener"
+                  ],
+                  [
+                    "Come in,",
+                    "won't you?",
+                    "a warm invitation, not an order"
+                  ],
+                  [
+                    "There's a fault in the wiring,",
+                    "isn't there?",
+                    "*there* comes back as the subject"
+                  ],
+                  [
+                    "There aren't any spare keys,",
+                    "are there?",
+                    "same word, flipped"
+                  ],
+                  [
+                    "Nobody objected,",
+                    "did they?",
+                    "*nobody* is negative; use *they*"
+                  ],
+                  [
+                    "Nothing was damaged,",
+                    "was it?",
+                    "*nothing* comes back as *it*"
+                  ],
+                  [
+                    "Everybody signed,",
+                    "didn't they?",
+                    "people in general become *they*"
+                  ],
+                  [
+                    "Everything is ready,",
+                    "isn't it?",
+                    "things in general become *it*"
+                  ],
+                  [
+                    "This is the right file,",
+                    "isn't it?",
+                    "*this* and *that* become *it*"
+                  ],
+                  [
+                    "These are the originals,",
+                    "aren't they?",
+                    "*these* and *those* become *they*"
+                  ],
+                  [
+                    "I used to work there,",
+                    "didn't I?",
+                    "*used to* takes *did*"
+                  ],
+                  [
+                    "You'd better check,",
+                    "hadn't you?",
+                    "the helping verb is *had*"
+                  ],
+                  [
+                    "You'd rather wait,",
+                    "wouldn't you?",
+                    "the helping verb is *would*"
+                  ],
+                  [
+                    "He has to sign it,",
+                    "doesn't he?",
+                    "*have to* takes *do*"
+                  ],
+                  [
+                    "He's got to sign it,",
+                    "hasn't he?",
+                    "*have got to* keeps *have*"
+                  ],
+                  [
+                    "She has a permit,",
+                    "doesn't she?",
+                    "*have* meaning *own* takes *do*"
+                  ],
+                  [
+                    "They ought to be told,",
+                    "shouldn't they?",
+                    "*oughtn't they?* is rare"
+                  ],
+                  [
+                    "I think she's coming,",
+                    "isn't she?",
+                    "the tag matches the inner part"
+                  ],
+                  [
+                    "I don't think she's coming,",
+                    "is she?",
+                    "the *not* moves to the inner part"
+                  ]
+                ]
+              },
+              {
+                "caption": "These words are negative without *not*, so the tag stays positive.",
+                "headers": [
+                  "Statement",
+                  "Its tag"
+                ],
+                "rows": [
+                  [
+                    "The ferry rarely runs in January,",
+                    "does it?"
+                  ],
+                  [
+                    "There were few objections,",
+                    "were there?"
+                  ],
+                  [
+                    "She never files them late,",
+                    "does she?"
+                  ],
+                  [
+                    "Hardly anyone applied this year,",
+                    "did they?"
+                  ],
+                  [
+                    "Neither route was quicker,",
+                    "was it?"
+                  ]
+                ]
+              }
+            ],
+            "gaps": [],
+            "examples": [
+              {
+                "text": "The coast road is closed again, isn't it?",
+                "gloss": "You are fairly sure it is shut and you want it confirmed.",
+                "register": "spoken"
+              },
+              {
+                "text": "You haven't been to the new site yet, have you?",
+                "gloss": "You think they have not been, and you are checking.",
+                "register": "spoken"
+              },
+              {
+                "text": "The council approved the plan in March, didn't they?",
+                "gloss": "You remember it happening and you want somebody to back you up.",
+                "register": "spoken"
+              },
+              {
+                "text": "I am on the list for Thursday, aren't I?",
+                "gloss": "You expect to be on it and you are asking for reassurance.",
+                "register": "spoken"
+              },
+              {
+                "text": "Let's meet at the depot instead, shall we?",
+                "gloss": "You are suggesting a change of plan.",
+                "register": "spoken"
+              },
+              {
+                "text": "Nobody has locked the side gate, have they?",
+                "gloss": "You think it is still open and you are worried about it.",
+                "register": "spoken"
+              }
+            ],
+            "notes": [
+              "A tag belongs to speech. It has no place in an essay.",
+              "The tag always uses a short subject word, never the full name of the thing.",
+              "*Aren't I?* is standard in speech. *Am I not?* is the formal version.",
+              "Same-shape tags exist — *So you've finished, have you?* — and carry surprise or interest."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The tune decides what the tag means",
+            "anchor": "the-tune"
+          },
+          {
+            "type": "prose",
+            "text": "Two speakers can say the same tag and mean opposite things. The words are identical. What separates them is whether the voice goes down at the end or up."
+          },
+          {
+            "type": "table",
+            "anchor": "rise-or-fall",
+            "caption": "Down means agree with me. Up means I do not know.",
+            "headers": [
+              "What you want",
+              "Your voice",
+              "What the other person hears"
+            ],
+            "rows": [
+              [
+                "confirmation of something you believe",
+                "falls at the end",
+                "say yes, I am fairly sure"
+              ],
+              [
+                "a genuine answer you do not have",
+                "rises at the end",
+                "a real question, answer it"
+              ],
+              [
+                "to keep a conversation going",
+                "falls at the end",
+                "an invitation to add something"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "A learner who forms the tag correctly and uses the wrong tune sounds unsure when they meant to be sure."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "The same six words twice. Only the direction of the voice changes.",
+            "dimension": "the tune",
+            "items": [
+              {
+                "text": "The gate's locked, isn't it?",
+                "gloss": "Said with the voice falling: you are sure it is, and you want agreement.",
+                "register": "spoken"
+              },
+              {
+                "text": "The gate's locked, isn't it?",
+                "gloss": "Said with the voice rising: you have no idea, and you want a real answer.",
+                "register": "spoken"
+              },
+              {
+                "text": "You've done this before, haven't you?",
+                "gloss": "Falling: you can tell they have, and you are saying so.",
+                "register": "spoken"
+              }
+            ],
+            "so_what": "The words carry the form. The voice carries the meaning."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Helping verb, flipped, plus a short subject word. Speech only.",
+            "table": {
+              "caption": "One row per step.",
+              "headers": [
+                "Step",
+                "What to do",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "1",
+                  "take the helping verb, or use *do*",
+                  "The ferry runs daily → *does*"
+                ],
+                [
+                  "2",
+                  "flip it",
+                  "*does* → *doesn't*"
+                ],
+                [
+                  "3",
+                  "add a short subject word",
+                  "*doesn't it*"
+                ],
+                [
+                  "4",
+                  "let your voice fall to ask for agreement",
+                  "…, doesn't it?"
+                ]
+              ]
+            },
+            "points": null
+          }
+        ],
+        "terms_introduced": [
+          {
+            "term": "question tag",
+            "gloss": "the short question added to the end: *…, isn't it?*",
+            "also_called": null,
+            "ledger_position": 61
+          }
+        ],
+        "term_refs": [
+          "subject",
+          "verb",
+          "auxiliary (helping) verb",
+          "operator",
+          "modal verb",
+          "pronoun",
+          "contraction",
+          "semi-modal",
+          "question tag",
+          "register",
+          "statement / question / instruction / exclamation"
+        ],
+        "related_points": [],
+        "no_practice_reason": "Tags are spoken grammar and the ladder has no point for them. They are drilled in the speaking practice instead.",
+        "related_articles": [
+          {
+            "id": "th_yes_no_questions",
+            "reason": "where the helping-verb move in the tag comes from"
+          },
+          {
+            "id": "th_short_answers",
+            "reason": "the same one word, doing the same pointing-back job"
+          },
+          {
+            "id": "th_other_question_types",
+            "reason": "the other spoken question shapes, including *Has it?* and *Right?*"
+          },
+          {
+            "id": "th_spoken_grammar_is_not_broken",
+            "reason": "why a tag is right in speech and wrong in an essay"
+          }
+        ],
+        "fixes_errors": [
+          "register_spoken_in_writing"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "question tags",
+          "isn't it",
+          "tag questions",
+          "aren't I",
+          "doesn't it haven't you"
+        ],
+        "intents": [
+          "check something I am fairly sure about",
+          "sound natural when I speak"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 5,
+        "false_rule_absent_reason": "The false rules in this area are about where tags belong, not about how they are built, and they are named in th_spoken_grammar_is_not_broken, which owns register."
+      }
+    },
+    {
+      "id": "th_other_question_types",
+      "chapter_id": "thc_04",
+      "sequence_index": 91,
+      "title": "The other shapes a question comes in",
+      "kind": "standard",
+      "cefr_level": "B1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Negative, alternative, echo, reply, declarative and reduced questions",
+        "one_line": "This lets you hear what a speaker means by *Didn't you know?*, and shows you the short question shapes speech uses.",
+        "short_answer": "A negative question is not neutral. *Didn't you apply?* says you expected them to, or that you are surprised they did not.",
+        "question_in_learner_words": "What does a question like *Didn't you?* or *Has it?* actually ask?",
+        "area_ids": [
+          "M6",
+          "M8",
+          "M10",
+          "M15",
+          "M16"
+        ],
+        "prerequisites": [
+          "th_yes_no_questions",
+          "th_short_answers",
+          "th_making_a_sentence_negative"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Not every question is asking for a fact",
+            "anchor": "not-asking-for-a-fact"
+          },
+          {
+            "type": "prose",
+            "text": "A plain question leaves a hole and waits. The shapes on this page do something else. They check something you already believe, or they show that you are listening, or they save words."
+          },
+          {
+            "type": "prose",
+            "text": "Five of the six belong to speech, so they are worth recognising more than producing. The first one is different, because it turns up in reading and in letters as well."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Six shapes, and what each one does",
+            "anchor": "six-shapes"
+          },
+          {
+            "type": "table",
+            "anchor": "the-six-shapes",
+            "caption": "Only the first shape is safe in an essay. The rest are speech.",
+            "headers": [
+              "What you want to do",
+              "The shape",
+              "Example"
+            ],
+            "rows": [
+              [
+                "check something you believe",
+                "helping verb + *n't*, then the subject",
+                "Isn't the coast road quicker?"
+              ],
+              [
+                "offer two choices",
+                "the choices joined by *or*",
+                "Do you want the report or the summary?"
+              ],
+              [
+                "show you are listening",
+                "helping verb + short subject word",
+                "Has it? / Did they?"
+              ],
+              [
+                "ask for one word again",
+                "the question word in that word's place",
+                "They closed the what?"
+              ],
+              [
+                "ask without moving anything",
+                "a statement, with your voice rising",
+                "You're leaving already?"
+              ],
+              [
+                "ask in as few words as you can",
+                "drop what can be filled in",
+                "Any idea when it reopens?"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "The two-choice question is answered with one of the two, never with *yes* or *no*."
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "The two-choice question is the one learners most often answer wrongly. *Do you want the report or the summary?* is not asking whether you want something. It is asking which."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Four negative questions. Each one shows what the speaker already thinks.",
+            "dimension": "what the speaker expected",
+            "items": [
+              {
+                "text": "Haven't they finished the survey yet?",
+                "gloss": "You expected it to be done by now and it is not.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Haven't",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Isn't the coast road quicker at this hour?",
+                "gloss": "You think it is quicker and you want the driver to agree.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Isn't",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Didn't the council promise a decision in June?",
+                "gloss": "You remember a promise and it has not been kept.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "Didn't",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Did the council not consider the second site?",
+                "gloss": "You are surprised that a whole site was left out.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "not",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "None of them is a blank request for information. Each one carries what the speaker was expecting."
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "A negative question is not a neutral request for a fact. It asks the other person to agree, or it shows that you are surprised."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Three replies that keep a conversation moving. Each one repeats one word from what was said.",
+            "dimension": "showing you are listening",
+            "items": [
+              {
+                "text": "The ferry has been cancelled again. — Has it?",
+                "gloss": "You did not know, and you want to hear more.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Has it?",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "They finished the resurfacing last night. — Did they?",
+                "gloss": "You are surprised it went so fast.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Did they?",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I've been on the waiting list since May. — Have you?",
+                "gloss": "You are showing that you heard and that it matters.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Have you?",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "The reply borrows the helping verb from what the other person said, exactly as a short answer does."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "A plain question, or one that already has an answer in mind?",
+            "anchor": "plain-or-loaded"
+          },
+          {
+            "type": "contrast",
+            "anchor": "is-it-or-isnt-it",
+            "question": "Would the answer *no* surprise me?",
+            "options": [
+              {
+                "label": "the plain question",
+                "use_it_when": "You do not know, and any answer would do. This is the one that belongs in writing.",
+                "example": "Is the second route quicker at this hour?",
+                "point_id": "gr_aux_system"
+              },
+              {
+                "label": "the negative question",
+                "use_it_when": "You already think you know, and you want that confirmed — or something has surprised you.",
+                "example": "Isn't the second route quicker at this hour?"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "Is the second route quicker?",
+                  "means": "You have no idea which one is faster.",
+                  "span": "Is"
+                },
+                "b": {
+                  "text": "Isn't the second route quicker?",
+                  "means": "You believe it is faster and you want that confirmed.",
+                  "span": "Isn't"
+                },
+                "only_difference": "*Is* / *Isn't*"
+              },
+              {
+                "a": {
+                  "text": "Did they finish the survey?",
+                  "means": "You do not know whether the work is done.",
+                  "span": "Did"
+                },
+                "b": {
+                  "text": "Didn't they finish the survey?",
+                  "means": "You thought it was done, and something suggests it is not.",
+                  "span": "Didn't"
+                },
+                "only_difference": "*Did* / *Didn't*"
+              },
+              {
+                "a": {
+                  "text": "Have the results come out?",
+                  "means": "You are asking for news you do not have.",
+                  "span": "Have"
+                },
+                "b": {
+                  "text": "Haven't the results come out?",
+                  "means": "You expected them by now, and you are surprised.",
+                  "span": "Haven't"
+                },
+                "only_difference": "*Have* / *Haven't*"
+              },
+              {
+                "a": {
+                  "text": "Would you like tea?",
+                  "means": "One drink is on offer, and yes or no settles it.",
+                  "span": "tea"
+                },
+                "b": {
+                  "text": "Would you like tea or coffee?",
+                  "means": "Two drinks are on offer, and the answer names one of them.",
+                  "span": "tea or coffee"
+                },
+                "only_difference": "*tea* / *tea or coffee*"
+              }
+            ],
+            "deciding_factor": "If the answer *no* would surprise you, use the negative question. If any answer would do, use the plain one.",
+            "trap": "A negative question looks like a plain question with *not* added, so it goes into an essay, where it reads as though you are pushing the reader to agree with you.",
+            "register_note": "The plain question belongs everywhere. The negative one is natural in speech and in an informal letter, and it is out of place in Task 2."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The shapes that belong to speech only",
+            "anchor": "speech-only"
+          },
+          {
+            "type": "table",
+            "anchor": "spoken-shapes",
+            "caption": "All four are right in speech and wrong in an essay.",
+            "headers": [
+              "What it does",
+              "The shape",
+              "Example"
+            ],
+            "rows": [
+              [
+                "shows you are listening",
+                "helping verb + short subject word",
+                "The ferry's been cancelled. — Has it?"
+              ],
+              [
+                "asks for one word again",
+                "the question word where the word was",
+                "They've closed the what?"
+              ],
+              [
+                "asks with as few words as possible",
+                "drop what can be filled in",
+                "Any idea when it reopens?"
+              ],
+              [
+                "asks without changing the order",
+                "a statement, with your voice rising",
+                "You're leaving already?"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "These are worth recognising for listening. Producing them is optional, and none of them belongs in writing."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "Three short questions, all of them normal in speech and none of them in an essay.",
+            "dimension": "how many words are dropped",
+            "items": [
+              {
+                "text": "Any idea when the results come out?",
+                "gloss": "You are asking whether the other person knows the date.",
+                "register": "spoken"
+              },
+              {
+                "text": "Coming to the site visit tomorrow?",
+                "gloss": "You are asking whether they will be there.",
+                "register": "spoken"
+              },
+              {
+                "text": "You're taking the early train, then?",
+                "gloss": "You worked it out from something they said and you are checking.",
+                "register": "spoken"
+              }
+            ],
+            "so_what": "Each one drops words the listener can fill in, which is why a reader with no context cannot."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "spoken-shape-in-an-email",
+            "code": "register_spoken_in_writing",
+            "wrong": "Any idea when the results come out?",
+            "right": "Could you tell me when the results come out?",
+            "why_it_happens": "The short shape is what you hear all day, and it feels friendly rather than lazy. On the page there is no voice and no shared context, so the missing words are missing for the reader too.",
+            "smallest_fix": "Put the dropped words back and wrap the question: *Could you tell me…*"
+          },
+          {
+            "type": "warning",
+            "anchor": "not-in-the-wrong-place",
+            "code": "word_order_adverb",
+            "wrong": "Did not the council approve the plan?",
+            "right": "Didn't the council approve the plan?",
+            "why_it_happens": "The full form is learned first and feels safer than the run-together one, so it goes everywhere. When *not* is written out it goes after the subject, and the shape it makes is formal.",
+            "smallest_fix": "Run *not* together with the helping verb, or move it behind the subject: *Did the council not approve it?*"
+          },
+          {
+            "type": "false_rule",
+            "heard": "*Isn't it…?* is the negative of *Is it…?*, so it means the same thing with *not* added.",
+            "also_known_as": [
+              "a negative question is just a question about a negative"
+            ],
+            "truth": "The two ask for different things. *Is the coast road open?* is a request for a fact. *Isn't the coast road open?* says you believed it was, and you are checking or you are surprised. The *not* changes what the question expects.",
+            "what_to_do": "Use the negative question when you already have an answer in mind. Use the plain one in writing, where a reader cannot hear your surprise."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "A negative question expects an answer. The rest of these are speech.",
+            "table": {
+              "caption": "One row per shape, with where it belongs.",
+              "headers": [
+                "Shape",
+                "Where it belongs",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "negative question",
+                  "speech, letters, reading",
+                  "Didn't they reply?"
+                ],
+                [
+                  "two-choice question",
+                  "everywhere",
+                  "Tea or coffee?"
+                ],
+                [
+                  "reply question",
+                  "speech only",
+                  "Has it?"
+                ],
+                [
+                  "statement said as a question",
+                  "speech only",
+                  "You're leaving already?"
+                ],
+                [
+                  "question with words dropped",
+                  "speech only",
+                  "Any idea when?"
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Somebody asks *Do you want the long report or the summary?* Is *Yes* an answer?",
+                "answer": "No. Name one of the two: *The summary, please.*",
+                "why": "A two-choice question asks which one, not whether."
+              },
+              {
+                "prompt": "Which belongs in a formal email: *Any idea when it reopens?* or *Could you tell me when it reopens?*",
+                "answer": "*Could you tell me when it reopens?*",
+                "why": "The short shape relies on a voice and a shared moment that a reader does not have."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "subject",
+          "verb",
+          "auxiliary (helping) verb",
+          "question word",
+          "pronoun",
+          "contraction",
+          "register",
+          "statement / question / instruction / exclamation"
+        ],
+        "related_points": [
+          "gr_aux_system"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_yes_no_questions",
+            "reason": "the plain question these are built on top of"
+          },
+          {
+            "id": "th_tag_questions",
+            "reason": "the other way of asking somebody to agree with you"
+          },
+          {
+            "id": "th_negative_prefixes_and_answering",
+            "reason": "what *yes* and *no* mean in reply to a negative question"
+          },
+          {
+            "id": "th_spoken_grammar_is_not_broken",
+            "reason": "why four of these are right in speech and wrong on paper"
+          }
+        ],
+        "fixes_errors": [
+          "register_spoken_in_writing"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "negative questions",
+          "didn't you",
+          "echo and reply questions",
+          "alternative questions",
+          "short spoken questions"
+        ],
+        "intents": [
+          "check something I already believe",
+          "sound interested when somebody tells me something"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 6,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_indirect_and_embedded_questions",
+      "chapter_id": "thc_04",
+      "sequence_index": 92,
+      "title": "Questions inside a longer sentence",
+      "kind": "standard",
+      "cefr_level": "B1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Indirect and embedded questions, and *what to do*",
+        "one_line": "This lets you put a question inside a longer sentence, which sounds politer in speech and is required in academic writing.",
+        "short_answer": "Inside a longer sentence the question goes back to statement order: *Could you tell me where the office is?* — not *where is the office*.",
+        "question_in_learner_words": "Why is *Could you tell me where is the office?* wrong?",
+        "area_ids": [
+          "M11",
+          "M12",
+          "M13",
+          "M14"
+        ],
+        "prerequisites": [
+          "th_wh_questions",
+          "th_yes_no_questions"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "A question stops being a question when it goes inside",
+            "anchor": "stops-being-a-question"
+          },
+          {
+            "type": "prose",
+            "text": "*Where is the archive?* is a whole question standing on its own. Put it inside *Could you tell me…* and it stops being the question. The outer sentence is the question now."
+          },
+          {
+            "type": "prose",
+            "text": "So the inside part goes back to the order a statement uses. That is the whole rule, and it is the single most persistent error in this area."
+          },
+          {
+            "type": "term_intro",
+            "term": "embedded question",
+            "also_called": null,
+            "gloss": "a question put inside a longer sentence",
+            "show_first": [
+              {
+                "text": "Nobody knows why the line closed.",
+                "mark": "why the line closed"
+              },
+              {
+                "text": "Could you tell me where the archive is?",
+                "mark": "where the archive is"
+              },
+              {
+                "text": "The study examines how the figures were collected.",
+                "mark": "how the figures were collected"
+              }
+            ],
+            "name_line": "The part inside is called an **embedded question**.",
+            "anchor_line": "Look at the marked part in each one. The subject comes before the verb, and there is no *do* anywhere.",
+            "l1_hook": [
+              "es",
+              "ar",
+              "ru"
+            ],
+            "ledger_position": 62
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The order goes back to a statement",
+            "anchor": "back-to-statement-order"
+          },
+          {
+            "type": "table",
+            "anchor": "direct-to-embedded",
+            "caption": "Behind the wrapper, the words go back into statement order.",
+            "headers": [
+              "The question on its own",
+              "Inside a longer sentence"
+            ],
+            "rows": [
+              [
+                "Where is the archive?",
+                "Could you tell me where the archive is?"
+              ],
+              [
+                "When did the survey start?",
+                "Do you know when the survey started?"
+              ],
+              [
+                "What does this symbol mean?",
+                "I am not sure what this symbol means."
+              ],
+              [
+                "Why has the span been closed?",
+                "Nobody has explained why it has been closed."
+              ],
+              [
+                "Does the library open on Sundays?",
+                "Could you tell me whether the library opens?"
+              ],
+              [
+                "Is there a later ferry?",
+                "I wondered whether there was a later ferry."
+              ],
+              [
+                "What should we do next?",
+                "Nobody has decided what to do next."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "The last row shows the short version: a question word plus *to* and a verb replaces *should we*."
+            ]
+          },
+          {
+            "type": "list",
+            "style": "number",
+            "lead_in": "Three things happen when a question moves inside another sentence:",
+            "items": [
+              "the subject goes back in front of the verb",
+              "*do*, *does* and *did* disappear, and the time moves onto the main verb",
+              "a yes/no question needs *whether* or *if* to join on"
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "Four wrappers, four embedded questions. The order inside is the same every time.",
+            "dimension": "the wrapper",
+            "items": [
+              {
+                "text": "Do you know when the next ferry leaves?",
+                "gloss": "You want the time of the next crossing.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "when the next ferry leaves",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I wonder why the second gate was locked.",
+                "gloss": "You are turning the question over and not asking anybody.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "why the second gate was locked",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The report explains how the figures were collected.",
+                "gloss": "The method is in the report for anybody to read.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "how the figures were collected",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Could you tell me whether the deposit is refundable?",
+                "gloss": "You want to know whether you get your money back.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "whether the deposit is refundable",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "In every marked part the subject comes first and there is no *do*, whatever the wrapper is."
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Inside a longer sentence the question takes statement order: the subject first, and no *do*, *does* or *did*."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Three sentences where nobody is being polite to anybody. The order is the same as before.",
+            "dimension": "writing rather than asking",
+            "items": [
+              {
+                "text": "The study investigates why emissions rose after the ban.",
+                "gloss": "The study is going to work out the cause.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "why emissions rose",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "It is still unclear how the second figure was reached.",
+                "gloss": "Nobody has explained where that number came from.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "how the second figure was reached",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The council has not said whether the site will reopen.",
+                "gloss": "There is no announcement either way.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "whether the site will reopen",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "The order is not a politeness device. It is what English does whenever a question sits inside a sentence."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "How direct do you want to sound?",
+            "anchor": "how-direct"
+          },
+          {
+            "type": "contrast",
+            "anchor": "direct-or-wrapped",
+            "question": "Am I asking somebody I know, or a stranger, or writing this down?",
+            "options": [
+              {
+                "label": "the question on its own",
+                "use_it_when": "Speaking to somebody you know, and in a form or a heading where the question stands alone.",
+                "example": "Where is the registration desk?",
+                "point_id": "gr_questions_wh"
+              },
+              {
+                "label": "the question inside a sentence",
+                "use_it_when": "Asking a stranger, writing a formal letter, or putting the question into academic writing.",
+                "example": "Could you tell me where the registration desk is?",
+                "point_id": "gr_embedded_question"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "Where is the registration desk?",
+                  "means": "A plain request. It is fine with a colleague.",
+                  "span": "is the registration desk"
+                },
+                "b": {
+                  "text": "Could you tell me where the registration desk is?",
+                  "means": "The same request, softened for somebody you have never met.",
+                  "span": "the registration desk is"
+                },
+                "only_difference": "*is the desk* / *the desk is*"
+              },
+              {
+                "a": {
+                  "text": "Why did the scheme fail?",
+                  "means": "You are asking somebody to explain it to you now.",
+                  "span": "did the scheme fail"
+                },
+                "b": {
+                  "text": "The report examines why the scheme failed.",
+                  "means": "The report will explain it, and nobody is being asked anything.",
+                  "span": "the scheme failed"
+                },
+                "only_difference": "*did the scheme fail* / *the scheme failed*"
+              },
+              {
+                "a": {
+                  "text": "Does the library open on Sundays?",
+                  "means": "You want to know whether you can go at the weekend.",
+                  "span": "Does the library open"
+                },
+                "b": {
+                  "text": "Could you tell me whether the library opens on Sundays?",
+                  "means": "The same thing, asked of somebody behind a desk.",
+                  "span": "whether the library opens"
+                },
+                "only_difference": "*Does the library open* / *whether the library opens*"
+              },
+              {
+                "a": {
+                  "text": "What should we do next?",
+                  "means": "You are asking the group for a decision, out loud.",
+                  "span": "should we do"
+                },
+                "b": {
+                  "text": "Nobody has decided what to do next.",
+                  "means": "The decision has not been made, and you are reporting that.",
+                  "span": "what to do"
+                },
+                "only_difference": "*what should we do* / *what to do*"
+              }
+            ],
+            "deciding_factor": "Ask whether the whole sentence is a question. If it is not, drop the question mark. Behind the wrapper, subject before verb, always.",
+            "trap": "*Could you tell me* is learned as a politeness formula, so the question behind it is left exactly as it was and the order never changes.",
+            "register_note": "The direct question belongs in speech with people you know. The wrapped version is the polite register of a formal letter and the required shape in academic writing."
+          },
+          {
+            "type": "visual",
+            "kind": "ladder",
+            "caption": "The same request, three distances from the other person.",
+            "spec": {
+              "rungs": [
+                {
+                  "text": "Where's the office?",
+                  "register": "spoken"
+                },
+                {
+                  "text": "Do you know where the office is?",
+                  "register": "neutral"
+                },
+                {
+                  "text": "Could you tell me where the office is?",
+                  "register": "written_formal"
+                }
+              ],
+              "top_label": "more formal",
+              "bottom_label": "more direct"
+            }
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Questions you are not expecting anybody to answer",
+            "anchor": "questions-with-no-answer"
+          },
+          {
+            "type": "prose",
+            "text": "A speaker can ask a question and answer it themselves, or leave it hanging because the answer is obvious. In Speaking Part 3 that is a natural way to open a long turn."
+          },
+          {
+            "type": "prose",
+            "text": "On paper it works against you. A reader who is marking your writing wants your claim, so a question in place of one reads as though you are avoiding the work."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "inversion-kept-inside",
+            "code": "embedded_question_inversion",
+            "wrong": "Could you tell me where is the nearest pharmacy?",
+            "right": "Could you tell me where the nearest pharmacy is?",
+            "why_it_happens": "The opening is learned as a politeness formula, so the question behind it is left exactly as it was. Once the outer sentence is the question, the inner part has to go back to statement order.",
+            "smallest_fix": "Move the verb behind the subject: *the nearest pharmacy is*."
+          },
+          {
+            "type": "warning",
+            "anchor": "do-kept-inside",
+            "code": "embedded_question_inversion",
+            "wrong": "The study examines why did emissions rise after the ban.",
+            "right": "The study examines why emissions rose after the ban.",
+            "why_it_happens": "Nothing here is polite, so the rule feels as though it does not apply. It is not a politeness rule. Any question inside a sentence loses its *do*, and the time goes onto the main verb.",
+            "smallest_fix": "Delete *did* and put the past on the main verb: *rose*."
+          },
+          {
+            "type": "warning",
+            "anchor": "missing-whether",
+            "code": "embedded_question_inversion",
+            "wrong": "I would like to know is the deposit refundable.",
+            "right": "I would like to know whether the deposit is refundable.",
+            "why_it_happens": "A yes/no question has no question word, so there is nothing to join it on with, and the two halves are left touching. *Whether* or *if* is the word that does the joining.",
+            "smallest_fix": "Put *whether* in and then use statement order behind it."
+          },
+          {
+            "type": "warning",
+            "anchor": "rhetorical-in-task-two",
+            "code": "register_spoken_in_writing",
+            "wrong": "Isn't it obvious that cities need better public transport?",
+            "right": "Cities plainly need better public transport.",
+            "why_it_happens": "The question sounds forceful when you read it aloud, so it feels like a strong opening. A marked essay is graded on the claim you make, and a question makes no claim.",
+            "smallest_fix": "Turn the question into the statement it was hiding."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Three details that come up constantly, all worth learning now",
+            "items": [
+              {
+                "text": "The question mark follows the whole sentence, not the part inside it.",
+                "example": "I wonder where the archive is.",
+                "kind": "A",
+                "how_often": "very common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "*Whether* and *if* both join a yes/no question on. Before *to* and before *or not*, only *whether* works.",
+                "example": "The panel has not decided whether to appeal.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "A question word plus *to* and a verb is a short way of saying *what we should do*.",
+                "example": "Nobody explained how to fill in the second page.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this now"
+              }
+            ],
+            "stop_line": null
+          },
+          {
+            "type": "false_rule",
+            "heard": "An indirect question is a polite opening — you add *Could you tell me* and leave the rest of the question as it was.",
+            "also_known_as": [
+              "indirect questions are about politeness"
+            ],
+            "truth": "The opening is half of it. Behind it the words change order: the subject moves in front of the verb and *do* disappears. The same order is required in academic writing, where nothing polite is going on.",
+            "what_to_do": "After *Could you tell me*, *Do you know*, *I wonder* or *The report examines*, write the rest as a statement. Keep the question mark only if the whole sentence is a question."
+          },
+          {
+            "type": "l1_note",
+            "collapsed": true,
+            "lang": "es",
+            "mechanism": "Spanish keeps the verb in front of the subject inside an embedded question, so the English change of order looks like a rule with no reason behind it.",
+            "wrong": "I do not know where is the office.",
+            "right": "I do not know where the office is.",
+            "fix": "Behind the wrapper, put the subject before the verb.",
+            "shared_with": [
+              "ar"
+            ]
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Wrapper first, then a statement. No *do*, and no swapped order.",
+            "table": {
+              "caption": "One row per thing that changes.",
+              "headers": [
+                "In the question on its own",
+                "Inside a sentence",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "verb before subject",
+                  "subject before verb",
+                  "where the office is"
+                ],
+                [
+                  "*do*, *does*, *did*",
+                  "gone; the time moves to the verb",
+                  "why it closed"
+                ],
+                [
+                  "no joining word",
+                  "*whether* or *if*",
+                  "whether it is refundable"
+                ],
+                [
+                  "question mark",
+                  "only if the whole sentence asks",
+                  "I wonder where it is."
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Fix this: *Do you know when does the next session start?*",
+                "answer": "*Do you know when the next session starts?*",
+                "why": "*Does* disappears and its time goes onto the main verb."
+              },
+              {
+                "prompt": "Full stop or question mark: *I wonder whether the fee has gone up*",
+                "answer": "A full stop. The whole sentence is a statement.",
+                "why": "The question mark follows the outer sentence, not the part inside it."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [
+          {
+            "term": "embedded question",
+            "gloss": "a question put inside a longer sentence",
+            "also_called": null,
+            "ledger_position": 62
+          }
+        ],
+        "term_refs": [
+          "sentence",
+          "subject",
+          "verb",
+          "clause",
+          "auxiliary (helping) verb",
+          "question word",
+          "embedded question",
+          "register",
+          "statement / question / instruction / exclamation"
+        ],
+        "related_points": [
+          "gr_embedded_question",
+          "gr_questions_wh"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_wh_questions",
+            "reason": "the order these sentences are undoing"
+          },
+          {
+            "id": "th_reporting_questions_and_commands",
+            "reason": "the same order rule, used to report what somebody asked"
+          },
+          {
+            "id": "th_wh_clauses_and_whether",
+            "reason": "*whether* and *if* as joining words, in full"
+          },
+          {
+            "id": "th_writing_without_i_and_being_polite",
+            "reason": "the other ways English puts distance into a request"
+          }
+        ],
+        "fixes_errors": [
+          "embedded_question_inversion",
+          "register_spoken_in_writing"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "indirect questions",
+          "embedded questions",
+          "could you tell me where",
+          "polite questions",
+          "questions inside a sentence"
+        ],
+        "intents": [
+          "ask a stranger something politely",
+          "put a question into a piece of academic writing"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 7,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_making_a_sentence_negative",
+      "chapter_id": "thc_04",
+      "sequence_index": 93,
+      "title": "Putting *not* in the right place",
+      "kind": "standard",
+      "cefr_level": "A1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Negation with *not*, and the *do* that carries it",
+        "one_line": "This lets you say that something is not the case, at any time, without moving anything else in the sentence.",
+        "short_answer": "Put *not* straight after the first helping verb. If there is none, use *do not*, *does not* or *did not*.",
+        "question_in_learner_words": "How do I say that something did not happen?",
+        "area_ids": [
+          "N1",
+          "N2"
+        ],
+        "prerequisites": [
+          "th_the_helper_system",
+          "th_be_have_do",
+          "th_five_verb_forms"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "One word, and one place for it",
+            "anchor": "one-word-one-place"
+          },
+          {
+            "type": "prose",
+            "text": "English says no with a single word, *not*, and that word has one address. It goes straight after the first helping verb in the sentence."
+          },
+          {
+            "type": "prose",
+            "text": "So the only real question is what to do when the sentence has no helping verb at all. English puts one in, and that is where *do*, *does* and *did* come from."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Put *not* after the first helping verb",
+            "anchor": "after-the-first-helper"
+          },
+          {
+            "type": "paradigm",
+            "anchor": "negative-forms",
+            "caption": "*Not* sits after the first helping verb. Only the helping verb changes.",
+            "form_line": "the first helping verb + *not* + the rest of the verb group",
+            "model_verbs": [
+              "paint",
+              "write"
+            ],
+            "headers": [
+              "Time",
+              "Positive",
+              "Negative (full)",
+              "Short form (spoken)",
+              "Question"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "now, generally",
+                  "they paint the hall",
+                  "they do not paint the hall",
+                  "they don't paint the hall",
+                  "Do they paint the hall?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "now, generally (*he*, *she*, *it*)",
+                  "she paints the hall",
+                  "she does not paint the hall",
+                  "she doesn't paint the hall",
+                  "Does she paint the hall?"
+                ],
+                "weight": "high",
+                "note": "The *-s* moves onto *does* and leaves the verb."
+              },
+              {
+                "cells": [
+                  "now, in progress",
+                  "they are painting",
+                  "they are not painting",
+                  "they aren't painting",
+                  "Are they painting?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "finished past",
+                  "they painted the hall",
+                  "they did not paint the hall",
+                  "they didn't paint the hall",
+                  "Did they paint the hall?"
+                ],
+                "weight": "high",
+                "note": "The past moves onto *did* and leaves the verb."
+              },
+              {
+                "cells": [
+                  "past, in progress",
+                  "they were painting",
+                  "they were not painting",
+                  "they weren't painting",
+                  "Were they painting?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "before now",
+                  "they have painted it",
+                  "they have not painted it",
+                  "they haven't painted it",
+                  "Have they painted it?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "the past before the past",
+                  "they had painted it",
+                  "they had not painted it",
+                  "they hadn't painted it",
+                  "Had they painted it?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "later",
+                  "they will paint it",
+                  "they will not paint it",
+                  "they won't paint it",
+                  "Will they paint it?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "with a modal verb",
+                  "they can paint it",
+                  "they cannot paint it",
+                  "they can't paint it",
+                  "Can they paint it?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "*be* as the only verb",
+                  "the hall is ready",
+                  "the hall is not ready",
+                  "the hall isn't ready",
+                  "Is the hall ready?"
+                ],
+                "weight": "high",
+                "note": "*Be* needs no help. *Do* never appears with it."
+              }
+            ],
+            "sub_tables": [
+              {
+                "caption": "After *did*, the plain form comes back, regular or not.",
+                "headers": [
+                  "Verb",
+                  "Positive past",
+                  "Negative past"
+                ],
+                "rows": [
+                  [
+                    "*paint*",
+                    "they painted the hall",
+                    "they did not paint the hall"
+                  ],
+                  [
+                    "*write*",
+                    "they wrote the report",
+                    "they did not write the report"
+                  ],
+                  [
+                    "*paint*, before now",
+                    "they have painted it",
+                    "they have not painted it"
+                  ],
+                  [
+                    "*write*, before now",
+                    "they have written it",
+                    "they have not written it"
+                  ]
+                ]
+              },
+              {
+                "caption": "Four short forms are not built the way you would expect.",
+                "headers": [
+                  "Full form",
+                  "Short form",
+                  "Note"
+                ],
+                "rows": [
+                  [
+                    "will not",
+                    "won't",
+                    "never *willn't*"
+                  ],
+                  [
+                    "cannot",
+                    "can't",
+                    "one word when written in full"
+                  ],
+                  [
+                    "am not",
+                    "I'm not",
+                    "there is no short form of *am not*"
+                  ],
+                  [
+                    "shall not",
+                    "shan't",
+                    "British, and now dated"
+                  ]
+                ]
+              }
+            ],
+            "gaps": [],
+            "examples": [
+              {
+                "text": "The clinic does not take walk-in patients.",
+                "gloss": "You have to book before you go.",
+                "register": "written_formal"
+              },
+              {
+                "text": "The gates aren't locked at the weekend.",
+                "gloss": "You can get in on a Saturday.",
+                "register": "spoken"
+              },
+              {
+                "text": "The council did not consult the residents.",
+                "gloss": "Nobody was asked before the decision was made.",
+                "register": "written_formal"
+              },
+              {
+                "text": "They haven't published the second report yet.",
+                "gloss": "The second report is still not available.",
+                "register": "neutral"
+              },
+              {
+                "text": "The bus won't run after nine in winter.",
+                "gloss": "Late travel is not possible in those months.",
+                "register": "neutral"
+              },
+              {
+                "text": "You cannot park on the access road.",
+                "gloss": "Parking there is against the rules.",
+                "register": "written_formal"
+              }
+            ],
+            "notes": [
+              "*Cannot* is one word when it is written out in full.",
+              "*Doesn't* is spelled with *oe* and does not sound like *does* with an ending.",
+              "Both *she is not* and *she isn't* are correct. The short one belongs to speech."
+            ]
+          },
+          {
+            "type": "visual",
+            "kind": "slot_frame",
+            "caption": "Four boxes. *Not* always goes in the second one.",
+            "spec": {
+              "slots": [
+                {
+                  "label": "who or what",
+                  "filler": "The council"
+                },
+                {
+                  "label": "first helping verb",
+                  "filler": "did"
+                },
+                {
+                  "label": "not",
+                  "filler": "not"
+                },
+                {
+                  "label": "the rest",
+                  "filler": "consult the residents."
+                }
+              ],
+              "caption": "One negative sentence, four boxes."
+            }
+          },
+          {
+            "type": "examples",
+            "lead_in": "The helping verb was already there in each of these, so *not* went straight in behind it.",
+            "dimension": "the helping verb",
+            "items": [
+              {
+                "text": "The lift is not working today.",
+                "gloss": "You will have to use the stairs.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "is not",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "They have not replied to the second letter.",
+                "gloss": "The letter is still sitting unanswered.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "have not",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "She can't start before the end of the month.",
+                "gloss": "The earliest she can begin is next month.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "can't",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The results will not be published this week.",
+                "gloss": "You will have to wait longer than a week.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "will not",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "In every one, the word after the first helping verb is *not*, and nothing else moved."
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Put *not* straight after the first helping verb. If the sentence has none, put *do*, *does* or *did* in and use the plain verb."
+          },
+          {
+            "type": "examples",
+            "lead_in": "None of these sentences had a helping verb, so one was put in to carry the *not*.",
+            "dimension": "the supplied helping verb",
+            "items": [
+              {
+                "text": "The ferry does not run on public holidays.",
+                "gloss": "There is no crossing on those days.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "does not",
+                    "role": "target"
+                  },
+                  {
+                    "span": "run",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "The survey did not cover the northern sites.",
+                "gloss": "Those sites were left out of the work.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "did not",
+                    "role": "target"
+                  },
+                  {
+                    "span": "cover",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "I don't cycle in when it rains.",
+                "gloss": "Rain sends you on to the bus.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "don't",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The scheme does not apply to part-time students.",
+                "gloss": "Part-time students get nothing from it.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "does not",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "*Do*, *does* and *did* carry the time and the person, so the verb behind them is the plain form."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "When there is no helping verb to hang *not* on",
+            "anchor": "no-helper"
+          },
+          {
+            "type": "decision_tree",
+            "anchor": "which-helper-to-put-in",
+            "intro": "Three questions, in this order. Stop at the first one that answers.",
+            "steps": [
+              {
+                "id": "s1",
+                "ask": "Is there already a helping verb, or *is*, *are*, *was*, *were*?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "*not*, straight after that word",
+                      "example": "The office is not open on Fridays.",
+                      "why": "There is already a word to carry the *not*, so nothing is put in."
+                    }
+                  },
+                  {
+                    "answer": "No",
+                    "goto": "s2"
+                  }
+                ]
+              },
+              {
+                "id": "s2",
+                "ask": "Is the sentence about the past?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "*did not* + the plain verb",
+                      "example": "The panel did not meet in August.",
+                      "why": "*Did* takes the past, so the verb behind it loses its past shape."
+                    }
+                  },
+                  {
+                    "answer": "No",
+                    "goto": "s3"
+                  }
+                ]
+              },
+              {
+                "id": "s3",
+                "ask": "Is the subject *he*, *she*, *it*, or one thing?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "*does not* + the plain verb",
+                      "example": "The ferry does not run in January.",
+                      "why": "*Does* takes the *-s*, so the verb behind it drops it."
+                    }
+                  },
+                  {
+                    "answer": "No",
+                    "verdict": {
+                      "use": "*do not* + the plain verb",
+                      "example": "The gates do not open before eight.",
+                      "why": "*Do* carries the sentence and the verb stays in its plain form."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "past-on-both",
+            "code": "word_form_wrong",
+            "wrong": "The council didn't approved the plan.",
+            "right": "The council didn't approve the plan.",
+            "why_it_happens": "The positive sentence was *the council approved*, and that past shape feels welded to the verb. *Did* has taken the past, and one sentence cannot carry it twice.",
+            "smallest_fix": "Take the *-ed* off the main verb."
+          },
+          {
+            "type": "warning",
+            "anchor": "wrong-person-on-do",
+            "code": "agreement_subject_verb",
+            "wrong": "She don't work at the clinic any more.",
+            "right": "She doesn't work at the clinic any more.",
+            "why_it_happens": "*Don't* is the form you hear most, so it becomes the default. *Do* still has to match the subject, and with *he*, *she* or *it* the form is *does*.",
+            "smallest_fix": "Use *doesn't* with *he*, *she*, *it* or one thing."
+          },
+          {
+            "type": "warning",
+            "anchor": "no-helper-at-all",
+            "code": "word_form_wrong",
+            "wrong": "The report not includes the second site.",
+            "right": "The report does not include the second site.",
+            "why_it_happens": "Many languages put their negative word straight in front of the verb and need nothing else. English needs a helping verb to carry *not*, so when there is none it puts one in.",
+            "smallest_fix": "Add *does not* and put the verb back into its plain form."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Two places where *not* sits somewhere else, both common",
+            "items": [
+              {
+                "text": "In an instruction, *do* appears even with *be*: *Don't be late.*",
+                "example": "Do not lean on the barrier.",
+                "kind": "A",
+                "how_often": "very common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "In front of *to* and a verb, *not* comes first and no helping verb is used.",
+                "example": "The panel decided not to appeal.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this later"
+              }
+            ],
+            "stop_line": null
+          },
+          {
+            "type": "false_rule",
+            "heard": "*Not* goes in front of the verb.",
+            "also_known_as": [
+              "put not before the word you are cancelling"
+            ],
+            "truth": "It goes after the first helping verb, and the helping verb is the thing to look for. *The report not includes the site* follows the front-of-the-verb rule and is not English. *The report does not include the site* is.",
+            "what_to_do": "Find the first helping verb and put *not* behind it. If there is no helping verb, put *do*, *does* or *did* in first."
+          },
+          {
+            "type": "l1_note",
+            "collapsed": true,
+            "lang": "es",
+            "mechanism": "Spanish puts its negative word straight in front of the verb, and no helping verb is needed to carry it.",
+            "wrong": "The council not approved the plan.",
+            "right": "The council did not approve the plan.",
+            "fix": "Put *do*, *does* or *did* in when there is no other helping verb.",
+            "shared_with": [
+              "ru",
+              "ar"
+            ]
+          },
+          {
+            "type": "l1_note",
+            "collapsed": true,
+            "lang": "zh",
+            "mechanism": "Chinese puts a short negative word in front of the verb, and the verb itself never changes shape.",
+            "wrong": "She not go to the clinic last week.",
+            "right": "She did not go to the clinic last week.",
+            "fix": "Use *did not* for the past, and leave the verb in its plain form."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Find the first helping verb. *Not* goes behind it.",
+            "table": {
+              "caption": "One row per kind of sentence.",
+              "headers": [
+                "What the sentence has",
+                "What to write",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "*is*, *are*, *was*, *were*",
+                  "that word + *not*",
+                  "The lift is not working."
+                ],
+                [
+                  "*have*, *will*, *can*, *must*",
+                  "that word + *not*",
+                  "They have not replied."
+                ],
+                [
+                  "nothing, about now",
+                  "*do not* or *does not*",
+                  "The ferry does not run."
+                ],
+                [
+                  "nothing, about the past",
+                  "*did not* + plain verb",
+                  "The panel did not meet."
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Make this negative: *The second survey covered the coast road.*",
+                "answer": "*The second survey did not cover the coast road.*",
+                "why": "There was no helping verb, so *did* went in and *covered* became *cover*."
+              },
+              {
+                "prompt": "Why is *She don't work here* wrong in writing?",
+                "answer": "*Do* has to match the subject: *She doesn't work here.*",
+                "why": "With *he*, *she* or *it*, the helping verb is *does*."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "sentence",
+          "subject",
+          "verb",
+          "auxiliary (helping) verb",
+          "operator",
+          "modal verb",
+          "base form",
+          "contraction",
+          "agree (subject–verb)",
+          "tense",
+          "register"
+        ],
+        "related_points": [
+          "gr_aux_system",
+          "gr_past_aux_did"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_yes_no_questions",
+            "reason": "the same helping verb, moving instead of taking *not*"
+          },
+          {
+            "id": "th_no_not_and_any",
+            "reason": "the other ways to say that something is absent"
+          },
+          {
+            "id": "th_where_the_not_belongs",
+            "reason": "what happens to the meaning when *not* moves"
+          },
+          {
+            "id": "th_the_helper_system",
+            "reason": "the one mechanism behind questions, negatives and short answers"
+          }
+        ],
+        "fixes_errors": [
+          "word_form_wrong",
+          "agreement_subject_verb"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "how to make a negative",
+          "don't doesn't didn't",
+          "negative sentences",
+          "where does not go",
+          "negation"
+        ],
+        "intents": [
+          "say that something did not happen"
+        ],
+        "on_start_here_path": true,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 6,
+        "false_rule_absent_reason": null
+      }
+    }
+  ]
+}

@@ -12,7 +12,7 @@
     {
       "id": "gr_relative_defining",
       "unit_id": "u11",
-      "sequence_index": 106,
+      "sequence_index": 1100,
       "title": "Saying which person or thing I mean by hanging a clause on it",
       "cefr_level": "B1",
       "role": "form",
@@ -628,7 +628,7 @@
     {
       "id": "gr_relative_omission",
       "unit_id": "u11",
-      "sequence_index": 107,
+      "sequence_index": 1101,
       "title": "Leaving out who, which or that when the clause already has a subject",
       "cefr_level": "B1",
       "role": "form",
@@ -1231,7 +1231,7 @@
     {
       "id": "gr_relative_nondefining",
       "unit_id": "u11",
-      "sequence_index": 108,
+      "sequence_index": 1102,
       "title": "Deciding whether a clause picks something out or just adds news about it",
       "cefr_level": "B2",
       "role": "choice",
@@ -2141,7 +2141,7 @@
     {
       "id": "gr_relative_prepositions",
       "unit_id": "u11",
-      "sequence_index": 109,
+      "sequence_index": 1103,
       "title": "Putting the small word in the right place when a clause needs one",
       "cefr_level": "B2",
       "role": "form",
@@ -2752,7 +2752,7 @@
     {
       "id": "gr_relative_quantifier",
       "unit_id": "u11",
-      "sequence_index": 110,
+      "sequence_index": 1104,
       "title": "Saying how much of a group you mean without starting a new sentence",
       "cefr_level": "C1",
       "role": "form",
@@ -3356,7 +3356,7 @@
     {
       "id": "gr_relative_which_clause",
       "unit_id": "u11",
-      "sequence_index": 111,
+      "sequence_index": 1105,
       "title": "Commenting on the whole thing you just said, without starting again",
       "cefr_level": "C1",
       "role": "choice",
@@ -4251,7 +4251,7 @@
     {
       "id": "gr_participle_clause",
       "unit_id": "u11",
-      "sequence_index": 112,
+      "sequence_index": 1106,
       "title": "Shrinking a whole clause down to one word and hanging it on the subject",
       "cefr_level": "B2",
       "role": "form",
@@ -4925,7 +4925,7 @@
     {
       "id": "gr_embedded_question",
       "unit_id": "u11",
-      "sequence_index": 113,
+      "sequence_index": 1107,
       "title": "Putting a question inside a sentence without it behaving like a question",
       "cefr_level": "B1",
       "role": "accuracy",
@@ -5549,7 +5549,7 @@
     {
       "id": "gr_cleft",
       "unit_id": "u11",
-      "sequence_index": 114,
+      "sequence_index": 1108,
       "title": "Splitting a sentence in two so one part cannot be missed",
       "cefr_level": "C1",
       "role": "form",
@@ -6147,7 +6147,7 @@
     {
       "id": "gr_reference_pronoun",
       "unit_id": "u16",
-      "sequence_index": 128,
+      "sequence_index": 1109,
       "title": "Pointing back at something so the reader lands on the right thing",
       "cefr_level": "B1",
       "role": "accuracy",
@@ -6745,7 +6745,7 @@
     {
       "id": "gr_substitution_ellipsis",
       "unit_id": "u16",
-      "sequence_index": 129,
+      "sequence_index": 1110,
       "title": "Not saying the same words twice, and leaving out what the reader can rebuild",
       "cefr_level": "B2",
       "role": "form",
@@ -7345,7 +7345,7 @@
     {
       "id": "gr_linkers_by_function",
       "unit_id": "u16",
-      "sequence_index": 130,
+      "sequence_index": 1111,
       "title": "Choosing a linking word by what it means and by where it is allowed to stand",
       "cefr_level": "B1",
       "role": "form",
@@ -7956,7 +7956,7 @@
     {
       "id": "gr_linker_restraint",
       "unit_id": "u16",
-      "sequence_index": 131,
+      "sequence_index": 1112,
       "title": "Knowing when a linking word earns its place and when it costs you",
       "cefr_level": "B2",
       "role": "accuracy",
@@ -8569,7 +8569,7 @@
     {
       "id": "gr_given_new",
       "unit_id": "u16",
-      "sequence_index": 132,
+      "sequence_index": 1113,
       "title": "Starting a sentence with what the reader already has and ending with the news",
       "cefr_level": "B2",
       "role": "accuracy",
@@ -9178,7 +9178,7 @@
     {
       "id": "gr_topic_sentence_grammar",
       "unit_id": "u16",
-      "sequence_index": 133,
+      "sequence_index": 1114,
       "title": "Building the first sentence of a paragraph so the rest of it has a job",
       "cefr_level": "B2",
       "role": "form",
@@ -9787,7 +9787,7 @@
     {
       "id": "gr_nominalisation",
       "unit_id": "u16",
-      "sequence_index": 134,
+      "sequence_index": 1115,
       "title": "Turning something that happened into a thing you can then talk about",
       "cefr_level": "C1",
       "role": "form",
@@ -10391,7 +10391,7 @@
     {
       "id": "gr_noun_phrase_expansion",
       "unit_id": "u16",
-      "sequence_index": 135,
+      "sequence_index": 1116,
       "title": "Loading detail onto a noun instead of writing three short sentences",
       "cefr_level": "B2",
       "role": "form",
@@ -11029,7 +11029,7 @@
     {
       "id": "gr_parallel_structure",
       "unit_id": "u16",
-      "sequence_index": 136,
+      "sequence_index": 1117,
       "title": "Keeping everything in a list the same shape as everything else",
       "cefr_level": "B2",
       "role": "accuracy",
@@ -11632,7 +11632,7 @@
     {
       "id": "gr_complex_sentence_control",
       "unit_id": "u17",
-      "sequence_index": 149,
+      "sequence_index": 1118,
       "title": "Writing long sentences that hold together under time pressure",
       "cefr_level": "B2",
       "role": "accuracy",

@@ -18,14 +18,15 @@ import { GraduationCap, Play } from "lucide-react";
 import { Badge, Button, EmptyState, TabPanel, Tabs } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
+import { TheoryScreen } from "./components/theory/TheoryScreen";
 import { PathScreen } from "./components/PathScreen";
 import { PhrasesScreen } from "./components/PhrasesScreen";
 import { ProgressScreen } from "./components/ProgressScreen";
 import { useGrammarStore } from "./store";
 
-export type GrammarTab = "path" | "progress" | "phrases";
+export type GrammarTab = "path" | "theory" | "progress" | "phrases";
 
-const TAB_VALUES: GrammarTab[] = ["path", "progress", "phrases"];
+const TAB_VALUES: GrammarTab[] = ["path", "theory", "progress", "phrases"];
 
 /**
  * The honest screen for a build whose sidecar has no grammar routes, or whose
@@ -99,6 +100,9 @@ export function GrammarPage() {
             aria-label="Grammar sections"
             items={[
               { value: "path", label: "Path" },
+              // Reference sits next to the route through it: survey the language first,
+              // then practise. Nothing here is gated.
+              { value: "theory", label: "Theory" },
               {
                 value: "progress",
                 label: "Progress",
@@ -116,6 +120,9 @@ export function GrammarPage() {
         <>
           <TabPanel value="path" active={tab === "path"}>
             <PathScreen />
+          </TabPanel>
+          <TabPanel value="theory" active={tab === "theory"}>
+            <TheoryScreen />
           </TabPanel>
           <TabPanel value="progress" active={tab === "progress"}>
             <ProgressScreen />

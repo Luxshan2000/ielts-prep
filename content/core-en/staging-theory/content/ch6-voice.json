@@ -1,0 +1,2769 @@
+{
+  "staging_version": 1,
+  "block": "th-a6-voice",
+  "authored_by": "TH-A6",
+  "_readme": [
+    "Active and passive voice: the whole of coverage group L (L1-L16), five articles.",
+    "CHAPTER NUMBERING, RECONCILED. The task brief calls this 'Chapter 6, Active and passive voice' and names this file ch6-voice.json. DESIGN-THEORY.md 1.6 places the same five articles inside thc_04 ('Making the verb fit: agreement, attitude and voice') as articles 17-21, sequence_index 80-84, with fixed ids. The contract wins on ids and numbers, because the 4.3 term ledger, the 2.4.18 early-sighting table and other chapters' related_articles all point at th_the_passive_idea, th_passive_forms and th_causatives_and_get_passive by name, and C5 checks that every such id resolves. So: the file name is the brief's, and chapter_id / sequence_index / article ids are the contract's. Nothing else in the brief's scope changed - the five articles below cover exactly the sixteen areas the brief listed.",
+    "Written fresh. No sentence is taken from TEMPLATE-THEORY.json th_tm_02, which models th_passive_forms.",
+    "Claims: area_ids L1-L16, each exactly once. terms_introduced 57 voice, 58 agent, 59 causative. variation_refs [21]. myth_refs [6, 7], both in th_when_to_choose_the_passive. related_points cover all nine authored u08 voice points."
+  ],
+  "articles": [
+    {
+      "id": "th_the_passive_idea",
+      "chapter_id": "thc_06",
+      "sequence_index": 80,
+      "title": "Putting the thing done to first",
+      "kind": "standard",
+      "cefr_level": "A2",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Voice: the active and the passive",
+        "one_line": "This lets you build a sentence around the thing something was done to, instead of around the person who did it.",
+        "short_answer": "Put the thing done to first, then a form of *be*, then the third form: *the road was widened*.",
+        "question_in_learner_words": "How do I start a sentence with the thing, not the person?",
+        "area_ids": [
+          "L1"
+        ],
+        "prerequisites": [
+          "th_who_does_what_to_what",
+          "th_five_verb_forms"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Two ways to say the same event",
+            "anchor": "two-ways"
+          },
+          {
+            "type": "prose",
+            "text": "One event, two sentences. *The council widened the road.* *The road was widened.* Both are true and both are correct English. What differs is what the sentence is about."
+          },
+          {
+            "type": "prose",
+            "text": "English puts the thing a sentence is about in front of the verb. So this is not a choice about sounding formal. You pick the shape that starts with what you are talking about."
+          },
+          {
+            "type": "term_intro",
+            "term": "voice (active / passive)",
+            "also_called": "the active and the passive",
+            "gloss": "which one the sentence puts first: the doer, or the thing done to",
+            "show_first": [
+              {
+                "text": "The inspectors closed the pool.",
+                "mark": "The inspectors"
+              },
+              {
+                "text": "The pool was closed.",
+                "mark": "The pool"
+              },
+              {
+                "text": "Storm damage closed the pool.",
+                "mark": "Storm damage"
+              }
+            ],
+            "name_line": "The choice between those two shapes is called **voice**.",
+            "anchor_line": "Look at what stands in front of each verb. Two of them start with a doer, and one starts with the thing it happened to.",
+            "l1_hook": [
+              "zh"
+            ],
+            "ledger_position": 57
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "How to turn a doer-first sentence around",
+            "anchor": "how-to-turn-it-round"
+          },
+          {
+            "type": "table",
+            "anchor": "the-four-steps",
+            "caption": "Move the object to the front, add *be*, use the third form.",
+            "headers": [
+              "Step",
+              "What you do",
+              "The sentence so far"
+            ],
+            "rows": [
+              [
+                "start",
+                "Take a sentence with an object",
+                "Volunteers resurfaced the footpath."
+              ],
+              [
+                "1",
+                "Put the object at the front",
+                "The footpath …"
+              ],
+              [
+                "2",
+                "Add *be* in the same time as before",
+                "The footpath was …"
+              ],
+              [
+                "3",
+                "Put the main verb in its third form",
+                "The footpath was resurfaced."
+              ],
+              [
+                "4",
+                "Add *by* and the doer, if it is news",
+                "The footpath was resurfaced by volunteers."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "Step 1 needs an object, so only a verb that takes one can be turned round this way."
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "After step 3 the main verb never moves again. Only *be* changes, because *be* is carrying the time: *is resurfaced*, *was resurfaced*, *has been resurfaced*."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Three events, each written twice. Only the order of the parts changes.",
+            "dimension": "which part comes first",
+            "items": [
+              {
+                "text": "The bus company cancelled the evening service.",
+                "gloss": "There is no evening bus now.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "The bus company",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The evening service was cancelled.",
+                "gloss": "There is no evening bus now, and nobody is named.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "The evening service",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "A burst pipe flooded the basement.",
+                "gloss": "Water came out of a pipe and filled the basement.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "A burst pipe",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The basement was flooded by a burst pipe.",
+                "gloss": "The basement went under water because a pipe burst.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "The basement",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The university has reduced its entry requirements.",
+                "gloss": "It is easier to get a place than it was.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "The university",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Entry requirements have been reduced.",
+                "gloss": "It is easier to get a place, and no institution is named.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "Entry requirements",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Nothing changed about the world. What changed is what each sentence begins with."
+          },
+          {
+            "type": "visual",
+            "kind": "two_box",
+            "caption": "The object of one sentence becomes the subject of the other.",
+            "spec": {
+              "left": {
+                "role": "active",
+                "text": "The storm brought down two trees."
+              },
+              "right": {
+                "role": "passive",
+                "text": "Two trees were brought down."
+              },
+              "arrow": "left_to_right"
+            }
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Every passive has two parts, and the second never changes",
+            "anchor": "two-parts"
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule-line",
+            "text": "Build a passive with a form of *be* and the third form of the main verb. Only *be* changes."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Four different times, and only the *be* part moves.",
+            "dimension": "the form of *be*",
+            "items": [
+              {
+                "text": "The changing rooms are cleaned twice a day.",
+                "gloss": "Somebody cleans them every morning and every evening.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "are cleaned",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The changing rooms were cleaned before the match.",
+                "gloss": "They were clean by the time the match started.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "were cleaned",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The changing rooms have been cleaned already.",
+                "gloss": "They are clean now, so nobody needs to do it.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "have been cleaned",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The changing rooms will be cleaned on Friday.",
+                "gloss": "The cleaning is booked for Friday.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "will be cleaned",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Four different times, and *cleaned* stayed exactly where it was."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Which shape does this sentence need?",
+            "anchor": "which-shape"
+          },
+          {
+            "type": "prose",
+            "text": "Ask what the sentence is about. If it is about the person or group who acted, start there. If it is about the thing that was acted on, start there instead."
+          },
+          {
+            "type": "contrast",
+            "anchor": "active-or-passive",
+            "question": "Is this sentence about the doer, or about the thing it happened to?",
+            "options": [
+              {
+                "label": "doer first",
+                "use_it_when": "The doer is the point, or you are telling somebody what a person or a group did.",
+                "example": "Two engineers checked every bolt on the walkway."
+              },
+              {
+                "label": "thing first, with *be* and the third form",
+                "use_it_when": "The thing it happened to is the point, or the doer is unknown, obvious or beside the point.",
+                "example": "Every bolt on the walkway was checked.",
+                "point_id": "gr_passive_concept"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "A faulty sensor stopped the production line.",
+                  "means": "You are telling the reader about the sensor and what it did.",
+                  "span": "A faulty sensor"
+                },
+                "b": {
+                  "text": "The production line was stopped by a faulty sensor.",
+                  "means": "You are telling the reader about the line and what happened to it.",
+                  "span": "The production line"
+                },
+                "only_difference": "which part starts the sentence"
+              },
+              {
+                "a": {
+                  "text": "The committee rejected the funding bid.",
+                  "means": "You are saying what the committee did, and it sounds like their decision.",
+                  "span": "The committee rejected"
+                },
+                "b": {
+                  "text": "The funding bid was rejected.",
+                  "means": "You are saying what happened to the bid, and nobody is blamed.",
+                  "span": "was rejected"
+                },
+                "only_difference": "the doer named, or left out"
+              },
+              {
+                "a": {
+                  "text": "Somebody has moved the recycling bins again.",
+                  "means": "You do not know who moved them, so you fill the gap with *somebody*.",
+                  "span": "Somebody has moved"
+                },
+                "b": {
+                  "text": "The recycling bins have been moved again.",
+                  "means": "The same fact, with no empty word standing in for a doer.",
+                  "span": "have been moved"
+                },
+                "only_difference": "*somebody* kept, or dropped"
+              }
+            ],
+            "deciding_factor": "Whatever the sentence is about belongs in front of the verb. Choose the shape that puts it there.",
+            "trap": "You were told that the passive sounds academic, so you use it to lift the level of an essay instead of to decide what each sentence is about.",
+            "register_note": "Both belong in speech and in writing. The passive earns most in Task 1 process descriptions and in Task 2 background sentences."
+          },
+          {
+            "type": "prose",
+            "text": "A passive is not a higher-level sentence than a doer-first one. Reach for it because the thing done to is what you are talking about, and for no other reason."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "be-left-out",
+            "code": "passive_be_missing",
+            "wrong": "The forms checked by two members of staff.",
+            "right": "The forms were checked by two members of staff.",
+            "why_it_happens": "The third form already looks like a past verb, so the group of words feels finished. Nothing in it says when the checking happened, because the word that carries the time is missing.",
+            "smallest_fix": "Put *was* or *were* in front of the third form."
+          },
+          {
+            "type": "warning",
+            "anchor": "past-form-instead-of-third",
+            "code": "passive_participle_wrong",
+            "wrong": "The report was wrote by a panel of three.",
+            "right": "The report was written by a panel of three.",
+            "why_it_happens": "*Wrote* is the form you meet first and use most, so it comes out under pressure. After *be*, English wants the third form, and for *write* that is a different word.",
+            "smallest_fix": "After *be*, use the third form: *written*, *taken*, *chosen*."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Two cases where *be* plus a third form is not a passive at all",
+            "items": [
+              {
+                "text": "*Be* plus a third form can describe how something is, rather than what happened to it.",
+                "example": "The side gate was locked all weekend.",
+                "kind": "A",
+                "how_often": "very common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "Add *being* and only the event reading is left.",
+                "example": "The side gate was being locked when I arrived.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this later"
+              }
+            ]
+          },
+          {
+            "type": "false_rule",
+            "heard": "The passive is one of the English tenses, so you learn it after the twelve tenses.",
+            "also_known_as": [
+              "the passive tense"
+            ],
+            "truth": "The passive is not a tense. It is a choice about which part of the event goes first. The tense is still carried by *be*, which is why there is a passive for each one: *is checked*, *was checked*, *has been checked*.",
+            "what_to_do": "Settle the time first, the way you always do. Then settle which part of the event you want in front. Those are two separate decisions."
+          },
+          {
+            "type": "l1_note",
+            "collapsed": true,
+            "lang": "zh",
+            "mechanism": "Mandarin puts the topic first, and the topic does not have to be the subject.",
+            "wrong": "The old library, they demolished it last year.",
+            "right": "The old library was demolished last year.",
+            "fix": "Make the topic the subject. A passive is what lets you do that.",
+            "shared_with": [
+              "ta"
+            ]
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Decide what the sentence is about, then put it in front.",
+            "table": {
+              "caption": "One event, two orders.",
+              "headers": [
+                "If the sentence is about…",
+                "Use",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "the person or group who acted",
+                  "doer first",
+                  "The residents organised the repairs."
+                ],
+                [
+                  "the thing it happened to",
+                  "*be* + third form",
+                  "The repairs were organised quickly."
+                ],
+                [
+                  "something with no known doer",
+                  "*be* + third form",
+                  "Two signs were removed overnight."
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Which one is about the bridge? *A lorry struck the bridge.* / *The bridge was struck by a lorry.*",
+                "answer": "*The bridge was struck by a lorry.*",
+                "why": "Whatever stands in front of the verb is what the sentence is about."
+              },
+              {
+                "prompt": "Why is *The samples tested last week* not a finished sentence?",
+                "answer": "*Be* is missing: *The samples were tested last week.*",
+                "why": "A passive needs a form of *be* in front of the third form to carry the time."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [
+          {
+            "term": "voice (active / passive)",
+            "gloss": "which one the sentence puts first: the doer, or the thing done to",
+            "also_called": "the active and the passive",
+            "ledger_position": 57
+          }
+        ],
+        "term_refs": [
+          "sentence",
+          "verb",
+          "subject",
+          "object",
+          "tense",
+          "third form (past participle)",
+          "voice (active / passive)"
+        ],
+        "related_points": [
+          "gr_passive_concept"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_passive_forms",
+            "reason": "the same shape in every time, in one table"
+          },
+          {
+            "id": "th_when_to_choose_the_passive",
+            "reason": "the five reasons to pick it, and the three not to"
+          },
+          {
+            "id": "th_passive_special_cases",
+            "reason": "the verbs that have no passive, and the passives that behave oddly"
+          }
+        ],
+        "fixes_errors": [
+          "passive_be_missing",
+          "passive_participle_wrong"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "active and passive",
+          "what is the passive",
+          "passive voice",
+          "be plus past participle",
+          "voice in English"
+        ],
+        "intents": [
+          "say what happened to something without naming who did it"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 5,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_passive_forms",
+      "chapter_id": "thc_06",
+      "sequence_index": 81,
+      "title": "Building the passive in every tense",
+      "kind": "paradigm",
+      "cefr_level": "B1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Passive formation across the tenses, and the *by*-agent",
+        "one_line": "This lets you put a thing-first sentence into any time you need, from a standing arrangement to something finished by next year.",
+        "short_answer": "Choose the form of *be* that carries the time you want, then add the third form: *was sent*, *has been sent*.",
+        "question_in_learner_words": "What does a passive look like at each different time?",
+        "area_ids": [
+          "L2",
+          "L3"
+        ],
+        "prerequisites": [
+          "th_the_passive_idea",
+          "th_five_verb_forms",
+          "th_be_have_do"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "One word carries the time, and it is always *be*",
+            "anchor": "be-carries-the-time"
+          },
+          {
+            "type": "prose",
+            "text": "A passive is two words or more, and the last one never changes. The main verb sits in its third form and stays there. Every piece of time information is carried by *be*."
+          },
+          {
+            "type": "prose",
+            "text": "So there is only ever one thing to choose. The table below holds all of it, and you can come back to it."
+          },
+          {
+            "type": "paradigm",
+            "anchor": "passive-by-time",
+            "caption": "Find the row you need. Only *be* is different from one row to the next.",
+            "form_line": "a form of *be* + the third form of the main verb",
+            "model_verbs": [
+              "paint",
+              "write"
+            ],
+            "headers": [
+              "When",
+              "*paint* (regular)",
+              "*write* (irregular)",
+              "Negative (*paint*)",
+              "Short form (spoken)",
+              "Question (*paint*)"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "now, as a rule",
+                  "it is painted",
+                  "it is written",
+                  "it is not painted",
+                  "it isn't painted",
+                  "Is it painted?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "going on now",
+                  "it is being painted",
+                  "it is being written",
+                  "it is not being painted",
+                  "it isn't being painted",
+                  "Is it being painted?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "before now",
+                  "it has been painted",
+                  "it has been written",
+                  "it has not been painted",
+                  "it hasn't been painted",
+                  "Has it been painted?"
+                ],
+                "weight": "high",
+                "note": "*it's been painted* is *it has been painted*."
+              },
+              {
+                "cells": [
+                  "finished past",
+                  "it was painted",
+                  "it was written",
+                  "it was not painted",
+                  "it wasn't painted",
+                  "Was it painted?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "going on at a past moment",
+                  "it was being painted",
+                  "it was being written",
+                  "it was not being painted",
+                  "it wasn't being painted",
+                  "Was it being painted?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "before another past point",
+                  "it had been painted",
+                  "it had been written",
+                  "it had not been painted",
+                  "it hadn't been painted",
+                  "Had it been painted?"
+                ],
+                "weight": "medium",
+                "note": "*it'd been painted* is *it had been painted*, never *it would*."
+              },
+              {
+                "cells": [
+                  "later",
+                  "it will be painted",
+                  "it will be written",
+                  "it will not be painted",
+                  "it won't be painted",
+                  "Will it be painted?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "already arranged",
+                  "it is going to be painted",
+                  "it is going to be written",
+                  "it is not going to be painted",
+                  "it isn't going to be painted",
+                  "Is it going to be painted?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "finished by a later point",
+                  "it will have been painted",
+                  "it will have been written",
+                  "it will not have been painted",
+                  "it won't have been painted",
+                  "Will it have been painted?"
+                ],
+                "weight": "low"
+              },
+              {
+                "cells": [
+                  "going on up to now",
+                  "—",
+                  "—",
+                  "—",
+                  "—",
+                  "—"
+                ],
+                "weight": "low",
+                "note": "This one would need *been being*. English does not say it."
+              }
+            ],
+            "sub_tables": [
+              {
+                "caption": "What the passive adds, one shape at a time.",
+                "headers": [
+                  "Shape",
+                  "Doer first",
+                  "Thing first"
+                ],
+                "rows": [
+                  [
+                    "plain",
+                    "paints",
+                    "is painted"
+                  ],
+                  [
+                    "in progress",
+                    "is painting",
+                    "is being painted"
+                  ],
+                  [
+                    "linked back to now",
+                    "has painted",
+                    "has been painted"
+                  ],
+                  [
+                    "in progress, linked back",
+                    "has been painting",
+                    "—"
+                  ]
+                ]
+              },
+              {
+                "caption": "After a modal verb the passive always starts with *be*.",
+                "headers": [
+                  "In front",
+                  "Now or later",
+                  "Earlier"
+                ],
+                "rows": [
+                  [
+                    "*must*",
+                    "it must be checked",
+                    "it must have been checked"
+                  ],
+                  [
+                    "*should*",
+                    "it should be checked",
+                    "it should have been checked"
+                  ],
+                  [
+                    "*can* / *could*",
+                    "it can be checked",
+                    "it could have been checked"
+                  ],
+                  [
+                    "*have to*",
+                    "it has to be checked",
+                    "it had to be checked"
+                  ]
+                ]
+              }
+            ],
+            "gaps": [
+              {
+                "cell": "going on up to now, every column",
+                "note": "The form would be *has been being painted*. Three helping verbs in a row is not used. Say *has been painted*, or put the doer back in front."
+              },
+              {
+                "cell": "in progress, linked back, thing first",
+                "note": "Same reason. English will not put *been* and *being* side by side."
+              }
+            ],
+            "examples": [
+              {
+                "text": "The stairwells are repainted every second summer.",
+                "gloss": "It happens on a fixed cycle, whoever is contracted that year.",
+                "register": "neutral"
+              },
+              {
+                "text": "The east wing is being rewired this month.",
+                "gloss": "The work has started and it is not finished.",
+                "register": "neutral"
+              },
+              {
+                "text": "The findings have been written up in two languages.",
+                "gloss": "Both versions exist now.",
+                "register": "written_formal"
+              },
+              {
+                "text": "The old signs were taken down in April.",
+                "gloss": "They came down that month and they are gone.",
+                "register": "neutral"
+              },
+              {
+                "text": "The route had been agreed before the funding arrived.",
+                "gloss": "The agreement came first and the money came second.",
+                "register": "written_formal"
+              },
+              {
+                "text": "It'll be sorted out before term starts.",
+                "gloss": "Somebody will deal with it in time.",
+                "register": "spoken"
+              },
+              {
+                "text": "Three hundred trees will have been planted by March.",
+                "gloss": "The planting will be complete by then.",
+                "register": "written_formal"
+              }
+            ],
+            "notes": [
+              "Only two in-progress passives are in normal use: *is being painted* and *was being painted*.",
+              "The word behind *be* is always the third form. Never *it was wrote*.",
+              "*It's been painted* is *it has been painted*. The word *been* tells you which one you heard."
+            ]
+          },
+          {
+            "type": "visual",
+            "kind": "two_box",
+            "caption": "The object moves into the subject slot and *be* takes the time.",
+            "spec": {
+              "left": {
+                "role": "active",
+                "text": "The office posted the results on Friday."
+              },
+              "right": {
+                "role": "passive",
+                "text": "The results were posted on Friday."
+              },
+              "arrow": "left_to_right"
+            }
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Naming the doer after *by*",
+            "anchor": "the-by-part"
+          },
+          {
+            "type": "term_intro",
+            "term": "agent",
+            "also_called": "the *by*-phrase",
+            "gloss": "the doer, when a passive sentence names it after *by*",
+            "show_first": [
+              {
+                "text": "The survey was carried out by an outside firm.",
+                "mark": "by an outside firm"
+              },
+              {
+                "text": "The scheme was paid for by a single grant.",
+                "mark": "by a single grant"
+              },
+              {
+                "text": "The window was cracked by a falling branch.",
+                "mark": "by a falling branch"
+              }
+            ],
+            "name_line": "This closing part is called the **agent**.",
+            "anchor_line": "Each sentence starts with the thing, and *by* adds the doer at the end. Most passive sentences stop before they get there.",
+            "l1_hook": null,
+            "ledger_position": 58
+          },
+          {
+            "type": "prose",
+            "text": "Keep the agent only when the doer is news. If your reader would not care who did it, the sentence is already finished without it."
+          },
+          {
+            "type": "examples",
+            "lead_in": "The same kind of event, with and without the doer. Watch what *by* is worth.",
+            "dimension": "naming the doer",
+            "items": [
+              {
+                "text": "The footbridge was inspected last Tuesday.",
+                "gloss": "The inspection happened. Who carried it out is not the point.",
+                "register": "neutral"
+              },
+              {
+                "text": "The footbridge was inspected by an engineer from the county.",
+                "gloss": "The inspection happened, and it was a county engineer's job.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "by an engineer from the county",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Nine hundred leaflets were delivered across the estate.",
+                "gloss": "The leaflets reached the houses.",
+                "register": "written_formal"
+              },
+              {
+                "text": "The whole scheme was funded by a local business.",
+                "gloss": "One business paid for all of it, and that is the surprising part.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "by a local business",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "It was sorted out by the caretaker in ten minutes.",
+                "gloss": "The caretaker fixed it quickly.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "by the caretaker",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Where *by* adds something the reader did not know, keep it. Where it does not, the sentence reads better without it."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The four combinations English does not use",
+            "anchor": "the-missing-forms"
+          },
+          {
+            "type": "prose",
+            "text": "English avoids two forms of *be* in a row. That rules out four combinations, and every one of them is a long one. Where you need such a sentence, put the doer back in front."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Choose the form of *be*. The third form never moves.",
+            "table": {
+              "caption": "The five rows you will use most.",
+              "headers": [
+                "When",
+                "The *be* part",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "now, as a rule",
+                  "*is* / *are*",
+                  "the samples are tested"
+                ],
+                [
+                  "going on now",
+                  "*is being*",
+                  "the samples are being tested"
+                ],
+                [
+                  "before now",
+                  "*has been* / *have been*",
+                  "the samples have been tested"
+                ],
+                [
+                  "finished past",
+                  "*was* / *were*",
+                  "the samples were tested"
+                ],
+                [
+                  "later",
+                  "*will be*",
+                  "the samples will be tested"
+                ]
+              ]
+            },
+            "points": null
+          }
+        ],
+        "terms_introduced": [
+          {
+            "term": "agent",
+            "gloss": "the doer, when a passive sentence names it after *by*",
+            "also_called": "the *by*-phrase",
+            "ledger_position": 58
+          }
+        ],
+        "term_refs": [
+          "verb",
+          "subject",
+          "object",
+          "tense",
+          "third form (past participle)",
+          "regular / irregular",
+          "modal verb",
+          "auxiliary (helping) verb",
+          "voice (active / passive)",
+          "agent"
+        ],
+        "related_points": [
+          "gr_passive_forms",
+          "gr_passive_by_agent"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_the_passive_idea",
+            "reason": "what this shape is for, before you build one"
+          },
+          {
+            "id": "th_when_to_choose_the_passive",
+            "reason": "the five reasons to pick it, and the three not to"
+          },
+          {
+            "id": "th_passive_special_cases",
+            "reason": "the verbs with no passive, and the ones that keep a preposition"
+          },
+          {
+            "id": "th_five_verb_forms",
+            "reason": "where the third form comes from, for regular and irregular verbs"
+          }
+        ],
+        "fixes_errors": [
+          "passive_be_missing",
+          "passive_participle_wrong"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "passive in all tenses",
+          "how to make the passive",
+          "passive forms table",
+          "passive with modals",
+          "by agent"
+        ],
+        "intents": [
+          "put a thing-first sentence into the time I need"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 4,
+        "false_rule_absent_reason": "No false rule is in circulation about the shape of the passive. The ones learners have been taught concern the choice, and the article that owns the choice answers them."
+      }
+    },
+    {
+      "id": "th_when_to_choose_the_passive",
+      "chapter_id": "thc_06",
+      "sequence_index": 82,
+      "title": "Five reasons to choose the passive, and three not to",
+      "kind": "comparison",
+      "cefr_level": "B2",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Voice selection: active or passive",
+        "one_line": "This lets you decide, sentence by sentence, whether to start with the doer or with the thing that was done to.",
+        "short_answer": "Start each sentence with what the paragraph is about. When that is the thing done to, use the passive.",
+        "question_in_learner_words": "When should I use the passive instead of an ordinary sentence?",
+        "area_ids": [
+          "L4",
+          "L5",
+          "L16"
+        ],
+        "prerequisites": [
+          "th_the_passive_idea",
+          "th_passive_forms"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Both shapes are correct, so something else has to decide",
+            "anchor": "what-decides"
+          },
+          {
+            "type": "prose",
+            "text": "Nothing about a passive is more academic than a doer-first sentence. The choice between them is a choice about what the sentence is about, and a reader feels it straight away."
+          },
+          {
+            "type": "prose",
+            "text": "The strongest reason for using one is also the one least often taught. A passive lets the next sentence begin where the last one ended."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What should this sentence start with?",
+            "anchor": "what-should-it-start-with"
+          },
+          {
+            "type": "contrast",
+            "anchor": "active-or-passive-choice",
+            "question": "Is the doer the point of this sentence?",
+            "options": [
+              {
+                "label": "the ordinary doer-first sentence",
+                "use_it_when": "The doer is the point, or you are telling somebody what a person or a group actually did.",
+                "example": "The planning team rejected all four designs.",
+                "point_id": "gr_passive_when"
+              },
+              {
+                "label": "the passive",
+                "use_it_when": "The doer is unknown, obvious or beside the point, or the thing done to is what the paragraph is about.",
+                "example": "All four designs were rejected.",
+                "point_id": "gr_passive_when"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "A staffing shortage closed two wards.",
+                  "means": "You are telling the reader about the shortage and what it did.",
+                  "span": "A staffing shortage"
+                },
+                "b": {
+                  "text": "Two wards were closed by a staffing shortage.",
+                  "means": "You are telling the reader about the wards and what happened to them.",
+                  "span": "Two wards"
+                },
+                "only_difference": "which one starts the sentence"
+              },
+              {
+                "a": {
+                  "text": "They cancelled the consultation without any explanation.",
+                  "means": "You are pointing at the people who cancelled it.",
+                  "span": "They cancelled"
+                },
+                "b": {
+                  "text": "The consultation was cancelled without any explanation.",
+                  "means": "You are pointing at the cancellation, and you name nobody.",
+                  "span": "was cancelled"
+                },
+                "only_difference": "*they cancelled* against *was cancelled*"
+              },
+              {
+                "a": {
+                  "text": "Researchers collect the samples at dawn each day.",
+                  "means": "The sentence is about the people doing the work.",
+                  "span": "Researchers collect"
+                },
+                "b": {
+                  "text": "The samples are collected at dawn each day.",
+                  "means": "The sentence is about the samples and what happens to them.",
+                  "span": "The samples are collected"
+                },
+                "only_difference": "the researchers named, or left out"
+              },
+              {
+                "a": {
+                  "text": "The committee has not published the figures.",
+                  "means": "You are pointing at the committee, and it reads as a complaint.",
+                  "span": "The committee has not published"
+                },
+                "b": {
+                  "text": "The figures have not been published.",
+                  "means": "You are pointing at the figures, and you blame nobody.",
+                  "span": "The figures have not been published"
+                },
+                "only_difference": "the committee named, or left out"
+              }
+            ],
+            "deciding_factor": "Say what the paragraph is about out loud. Choose the shape that puts that thing in front of the verb.",
+            "trap": "You were taught that the passive is the formal one, so you use it to lift the level of an essay instead of to control what each sentence is about.",
+            "register_note": "Both belong everywhere. The passive earns most in Task 1 and in Task 2 background sentences; the doer-first shape earns most in Speaking."
+          },
+          {
+            "type": "prose",
+            "text": "Five situations call for the passive. Four of them are about the doer. The fifth is about the sentence before it, and it is the one that changes how a paragraph reads."
+          },
+          {
+            "type": "list",
+            "style": "number",
+            "lead_in": "Choose the passive in five situations:",
+            "items": [
+              "nobody knows who did it",
+              "the doer is obvious from the situation",
+              "the doer makes no difference to your point",
+              "what you are writing about is the thing done to",
+              "the sentence before you ended on that same thing"
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The strongest reason: keeping the same topic at the front",
+            "anchor": "topic-continuity"
+          },
+          {
+            "type": "prose",
+            "text": "Read the two versions below. The facts are identical and no word in the second one is harder. One version is easier to follow, and the passive is the reason."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Version one starts each sentence somewhere new.",
+            "dimension": "what each sentence starts with",
+            "items": [
+              {
+                "text": "Norland introduced a food-waste collection in 2021.",
+                "gloss": "The council started collecting food waste that year.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "Norland",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "Residents on the newer estates used it least.",
+                "gloss": "Take-up was lowest on those estates.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "Residents",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "Two council reviews have criticised its design.",
+                "gloss": "The scheme has been found fault with twice.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "Two council reviews",
+                    "role": "deciding"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Three sentences, three different starting points. The reader has to work out each time what the paragraph is still about."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Version two starts every sentence with the scheme itself.",
+            "dimension": "what each sentence starts with",
+            "items": [
+              {
+                "text": "A food-waste collection was introduced in Norland in 2021.",
+                "gloss": "The service began that year.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "A food-waste collection",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "It was used least by residents on the newer estates.",
+                "gloss": "Take-up was lowest there.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "It",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "It has since been criticised in two council reviews.",
+                "gloss": "Two reviews have found fault with it.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "It",
+                    "role": "deciding"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Nothing here is fancier. Each sentence begins with what the paragraph is about, and the passive is what allowed it."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The two shapes, side by side",
+            "anchor": "two-shapes"
+          },
+          {
+            "type": "table",
+            "anchor": "the-two-shapes",
+            "caption": "One event, two orders. The passive adds *be* and the third form.",
+            "headers": [
+              "Order",
+              "Shape",
+              "Example"
+            ],
+            "rows": [
+              [
+                "doer first",
+                "subject + verb + object",
+                "The trust bought the mill."
+              ],
+              [
+                "thing first",
+                "subject + *be* + third form",
+                "The mill was bought."
+              ],
+              [
+                "thing first, doer named",
+                "the same, plus *by* + doer",
+                "The mill was bought by the trust."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "The full set of forms, time by time, is in th_passive_forms."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "Four sentences where the doer was left out on purpose.",
+            "dimension": "why the doer is missing",
+            "items": [
+              {
+                "text": "The fire doors are checked every three months.",
+                "gloss": "Somebody checks them regularly, and who does not matter here.",
+                "register": "neutral"
+              },
+              {
+                "text": "Two laptops were taken from the staff room.",
+                "gloss": "They are gone and nobody knows who took them.",
+                "register": "spoken"
+              },
+              {
+                "text": "Applicants are told the result within ten working days.",
+                "gloss": "Everybody gets an answer inside that time.",
+                "register": "written_formal"
+              },
+              {
+                "text": "The results were delayed by a power cut.",
+                "gloss": "The results came late because the power went off.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "by a power cut",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "In three of them nobody is named and nothing is missing. In the fourth the cause was worth naming, so it stayed."
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule-line",
+            "text": "Put the thing the paragraph is about in front of the verb, and use whichever voice that requires."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Each of these follows a sentence about the same thing.",
+            "dimension": "the link back to the sentence before",
+            "items": [
+              {
+                "text": "It was rebuilt twice in thirty years.",
+                "gloss": "The same building went up again on two occasions.",
+                "register": "written_formal"
+              },
+              {
+                "text": "They have been replaced by shorter, more frequent services.",
+                "gloss": "Different services run on that route now.",
+                "register": "written_formal"
+              },
+              {
+                "text": "It's been cut twice since April.",
+                "gloss": "The amount is lower than it was in the spring.",
+                "register": "spoken"
+              }
+            ],
+            "so_what": "Every one begins with a word pointing back at the sentence before, and the passive is what put it there."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "hiding-your-own-view",
+            "code": "passive_unnecessary",
+            "wrong": "In my opinion, it is believed that traffic charges should be introduced.",
+            "right": "In my opinion, traffic charges should be introduced.",
+            "why_it_happens": "You were taught that impersonal openings sound academic, so one gets attached even to a sentence stating your own view. *It is believed* hands that view to somebody else.",
+            "smallest_fix": "When the view is yours, say so and drop the impersonal opening."
+          },
+          {
+            "type": "warning",
+            "anchor": "nobody-does-anything",
+            "code": "passive_agent_needed",
+            "wrong": "The scheme was criticised, and later the funding was withdrawn.",
+            "right": "Two councils criticised the scheme, and the government later withdrew the funding.",
+            "why_it_happens": "Leaving the doer out is comfortable, so it becomes a habit. Once several sentences in a row name nobody, the reader cannot tell who is doing anything.",
+            "smallest_fix": "Where the doer is new information, name it: with *by*, or by going back to the doer-first shape."
+          },
+          {
+            "type": "warning",
+            "anchor": "passive-in-a-personal-answer",
+            "code": "register_written_in_speech",
+            "wrong": "My holiday was spent in Sandmouth with my cousins.",
+            "right": "I spent my holiday in Sandmouth with my cousins.",
+            "why_it_happens": "You are trying to sound careful, and the passive feels careful. In a personal story you are the doer, and taking yourself out of it makes the answer sound evasive.",
+            "smallest_fix": "In Speaking, stay in the sentence: *I spent*, *we went*, *I chose*."
+          },
+          {
+            "type": "false_rule",
+            "heard": "Never use the passive. Good writing is always in the active voice.",
+            "also_known_as": [
+              "the passive is weak writing",
+              "always write in the active"
+            ],
+            "truth": "The passive is the ordinary choice whenever the doer is unknown, obvious or beside the point, and that covers most of a process description. It decides what a sentence is about; it is not a weakness.",
+            "what_to_do": "Use it on purpose. The advice was aimed at one real habit: a whole paragraph in which nobody does anything. Watch for that habit instead of avoiding the shape."
+          },
+          {
+            "type": "false_rule",
+            "heard": "Academic writing should be in the passive, so use it as often as you can.",
+            "also_known_as": [
+              "passive equals formal",
+              "the more passives, the higher the band"
+            ],
+            "truth": "Academic English uses both and chooses one per sentence. A page of passives hides every actor and reads as heavier, not better. The question of who did it decides, not the register.",
+            "what_to_do": "Decide sentence by sentence. Ask who did it and whether the reader needs to know. Keep the passive for process descriptions and for sentences whose topic is the thing done to."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Whatever the paragraph is about goes in front of the verb.",
+            "table": {
+              "caption": "Five reasons to use it, and two to leave it alone.",
+              "headers": [
+                "Situation",
+                "Voice",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "nobody knows who did it",
+                  "passive",
+                  "The files were deleted overnight."
+                ],
+                [
+                  "the doer is obvious or beside the point",
+                  "passive",
+                  "The samples are stored at four degrees."
+                ],
+                [
+                  "the topic carries on from the last sentence",
+                  "passive",
+                  "It was later widened to four lanes."
+                ],
+                [
+                  "you are telling a personal story",
+                  "doer first",
+                  "I applied twice and got in."
+                ],
+                [
+                  "the doer is your point",
+                  "doer first",
+                  "The government cut the grant."
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Your last sentence ended on *the reservoir*. Which comes next? *Engineers drained it in 2018.* / *It was drained in 2018.*",
+                "answer": "*It was drained in 2018.*",
+                "why": "Starting with *it* keeps the reservoir in front, so the reader stays on one topic."
+              },
+              {
+                "prompt": "Why is *It is thought that governments should act* a poor opening for an opinion paragraph?",
+                "answer": "It hands your own view to unnamed people. Write *Governments should act.*",
+                "why": "The passive here hides the one thing the task is asking you to state."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "sentence",
+          "verb",
+          "subject",
+          "object",
+          "third form (past participle)",
+          "voice (active / passive)",
+          "register"
+        ],
+        "related_points": [
+          "gr_passive_when",
+          "gr_passive_not"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_the_passive_idea",
+            "reason": "what the two shapes are, if you arrived here first"
+          },
+          {
+            "id": "th_passive_forms",
+            "reason": "the form you need once you have made the choice"
+          },
+          {
+            "id": "th_passive_special_cases",
+            "reason": "the verbs that give you no choice, because they have no passive"
+          },
+          {
+            "id": "th_given_and_new",
+            "reason": "the wider principle: old information first, new information last"
+          }
+        ],
+        "fixes_errors": [
+          "passive_unnecessary",
+          "passive_agent_needed",
+          "register_written_in_speech"
+        ],
+        "confusion_set": "cs_voice_choice",
+        "aliases": [
+          "when to use the passive",
+          "active or passive",
+          "should I use the passive",
+          "passive in academic writing",
+          "passive overuse"
+        ],
+        "intents": [
+          "decide whether a sentence should start with the doer",
+          "keep a paragraph on one topic"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [
+          6,
+          7
+        ],
+        "estimated_read_minutes": 7,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_causatives_and_get_passive",
+      "chapter_id": "thc_06",
+      "sequence_index": 83,
+      "title": "Having something done, and getting something done",
+      "kind": "standard",
+      "cefr_level": "B2",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "The causative with *have* and *get*, and the *get*-passive",
+        "one_line": "This lets you say that you arranged for somebody else to do a job, rather than saying that you did it yourself.",
+        "short_answer": "Put the thing in the middle: *have* or *get* + the thing + the third form. *We had the boiler serviced.*",
+        "question_in_learner_words": "How do I say that somebody else did the job for me?",
+        "area_ids": [
+          "L6",
+          "L8",
+          "L9"
+        ],
+        "prerequisites": [
+          "th_the_passive_idea",
+          "th_passive_forms"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 3,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Saying that you arranged it, not that you did it",
+            "anchor": "arranged-not-done"
+          },
+          {
+            "type": "prose",
+            "text": "*We repaired the roof* says you were up the ladder. Most of the time that is not what happened, and English has a separate shape for the other case."
+          },
+          {
+            "type": "prose",
+            "text": "That shape keeps *have* or *get* at the front and drops the thing into the middle. Nobody has to say who came out to do the work."
+          },
+          {
+            "type": "prose",
+            "text": "It matters most in Speaking. Almost everything that happens to a house, a car or a document is arranged rather than done."
+          },
+          {
+            "type": "term_intro",
+            "term": "causative",
+            "also_called": null,
+            "gloss": "having somebody else do something for you",
+            "show_first": [
+              {
+                "text": "We had the boiler serviced in September.",
+                "mark": "had the boiler serviced"
+              },
+              {
+                "text": "They are having the windows replaced this week.",
+                "mark": "having the windows replaced"
+              },
+              {
+                "text": "She got her results checked by a second marker.",
+                "mark": "got her results checked"
+              }
+            ],
+            "name_line": "This shape is called the **causative**.",
+            "anchor_line": "In each one you arranged the work and somebody else carried it out. The sentence says both of those things at once.",
+            "l1_hook": null,
+            "ledger_position": 59
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "How the three parts line up",
+            "anchor": "how-it-lines-up"
+          },
+          {
+            "type": "table",
+            "anchor": "causative-shape",
+            "caption": "The thing sits in the middle and the verb behind it is the third form.",
+            "headers": [
+              "Front word",
+              "The thing",
+              "What was done to it"
+            ],
+            "rows": [
+              [
+                "*have*",
+                "the boiler",
+                "serviced"
+              ],
+              [
+                "*get*",
+                "the windows",
+                "replaced"
+              ],
+              [
+                "*had*",
+                "her bicycle",
+                "stolen"
+              ],
+              [
+                "*is having*",
+                "the flat",
+                "rewired"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "Row three is something that happened to her, not something she arranged."
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "The last two parts are the same pair you already know from a passive: a thing, and a third form. All that is new is the word at the front."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Only the front word changes the time. The other two parts stay put.",
+            "dimension": "the form of *have*",
+            "items": [
+              {
+                "text": "We have the fire alarms tested every summer.",
+                "gloss": "A firm comes out once a year to test them.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "have the fire alarms tested",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "They had the whole floor rewired last winter.",
+                "gloss": "Electricians did the work in the winter.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "had the whole floor rewired",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "We're having the kitchen painted next week.",
+                "gloss": "A painter is booked for next week.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "having the kitchen painted",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The trust has had two roofs replaced this year.",
+                "gloss": "Two of its buildings have new roofs now.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "had two roofs replaced",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "None of them says who did the work, and nothing is missing from any of them."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Did you do it, or did you arrange it?",
+            "anchor": "did-you-do-it"
+          },
+          {
+            "type": "contrast",
+            "anchor": "do-it-or-arrange-it",
+            "question": "Were your own hands on the job?",
+            "options": [
+              {
+                "label": "the ordinary doer-first sentence",
+                "use_it_when": "You did the work yourself.",
+                "example": "We painted the back room over the weekend.",
+                "point_id": "gr_causative"
+              },
+              {
+                "label": "*have* or *get* + the thing + the third form",
+                "use_it_when": "You arranged it, you paid for it, or it simply happened to you.",
+                "example": "We had the back room painted over the weekend.",
+                "point_id": "gr_causative"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "They cut down the tree on Saturday.",
+                  "means": "They did the cutting themselves, with their own saw.",
+                  "span": "They cut down the tree"
+                },
+                "b": {
+                  "text": "They had the tree cut down on Saturday.",
+                  "means": "They arranged it and somebody came out to do it.",
+                  "span": "had the tree cut down"
+                },
+                "only_difference": "*had* plus the third form"
+              },
+              {
+                "a": {
+                  "text": "She checked her application twice.",
+                  "means": "She read it through herself, on two occasions.",
+                  "span": "She checked her application"
+                },
+                "b": {
+                  "text": "She had her application checked twice.",
+                  "means": "Two other people read it through for her.",
+                  "span": "had her application checked"
+                },
+                "only_difference": "*had* plus the third form"
+              },
+              {
+                "a": {
+                  "text": "He lost his passport in Marlow.",
+                  "means": "He mislaid it himself and could not find it.",
+                  "span": "He lost his passport"
+                },
+                "b": {
+                  "text": "He had his passport stolen in Marlow.",
+                  "means": "Somebody took it from him.",
+                  "span": "had his passport stolen"
+                },
+                "only_difference": "*lost* against *had … stolen*"
+              }
+            ],
+            "deciding_factor": "Ask whether you did the job. If you only arranged it, or it happened to you, put the thing in the middle.",
+            "trap": "The shape looks like a past perfect, so *we had the roof repaired* gets read as *we had repaired the roof*, and the meaning flips straight back.",
+            "register_note": "Both belong everywhere. *Have* is safe in writing and *get* leans spoken. Speaking Part 1 and Part 2 use this shape constantly."
+          },
+          {
+            "type": "prose",
+            "text": "Both sentences in each pair describe the same finished job. What changes is who was holding the brush, and a listener hears it at once."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Making somebody do something",
+            "anchor": "making-somebody"
+          },
+          {
+            "type": "table",
+            "anchor": "four-patterns",
+            "caption": "Four ways to say you got a person to act, and four different verb shapes.",
+            "headers": [
+              "Pattern",
+              "What it says",
+              "Example"
+            ],
+            "rows": [
+              [
+                "*have* + person + base form",
+                "you instructed them",
+                "We had the surveyor look again."
+              ],
+              [
+                "*get* + person + *to* + base form",
+                "you persuaded them",
+                "We got the surveyor to look again."
+              ],
+              [
+                "*make* + person + base form",
+                "you left them no choice",
+                "The rules make every driver stop here."
+              ],
+              [
+                "*let* + person + base form",
+                "you allowed it",
+                "The school lets pupils leave at three."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "Only *get* takes *to*. The other three take the base form on its own."
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "*Make* and *let* are about pressure and permission, so they never take *to*. *Get* is the only one of the four that does, because it means you had to persuade somebody."
+          },
+          {
+            "type": "examples",
+            "lead_in": "The same request, with four different amounts of pressure behind it.",
+            "dimension": "how much choice the other person had",
+            "items": [
+              {
+                "text": "The manager had the team redo the safety checks.",
+                "gloss": "The team was told to do them again.",
+                "register": "neutral"
+              },
+              {
+                "text": "We got the landlord to fix the heating.",
+                "gloss": "It took some persuading, and then he fixed it.",
+                "register": "spoken"
+              },
+              {
+                "text": "The new rule makes every visitor sign in.",
+                "gloss": "Nobody can get past the door without signing.",
+                "register": "written_formal"
+              },
+              {
+                "text": "The library lets students borrow twelve books.",
+                "gloss": "Twelve is the limit for a student card.",
+                "register": "written_formal"
+              }
+            ],
+            "so_what": "Same event, four different relationships between the two people involved."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "thing-in-the-wrong-place",
+            "code": "verb_pattern_wrong",
+            "wrong": "We had repaired the roof by a local builder.",
+            "right": "We had the roof repaired by a local builder.",
+            "why_it_happens": "*Had repaired* is a shape you know well, so your hand writes it first. The thing has to sit between *had* and the third form, or the sentence says you did the work yourself.",
+            "smallest_fix": "Move the thing in front of the third form: *had the roof repaired*."
+          },
+          {
+            "type": "warning",
+            "anchor": "base-form-after-the-thing",
+            "code": "passive_participle_wrong",
+            "wrong": "She had her laptop steal at the station.",
+            "right": "She had her laptop stolen at the station.",
+            "why_it_happens": "The middle word is a thing, so the verb behind it feels like a plain verb starting a new action. It is the third form here, for the same reason it is in a passive.",
+            "smallest_fix": "Use the third form after the thing: *stolen*, *taken*, *cut*."
+          },
+          {
+            "type": "warning",
+            "anchor": "got-in-an-essay",
+            "code": "register_spoken_in_writing",
+            "wrong": "My application got rejected, and my second one got turned down too.",
+            "right": "My application was rejected, and my second one was turned down too.",
+            "why_it_happens": "*Got* is what you say, so it is what comes out under time pressure. It is correct English and it reads as speech, which costs you in a formal essay.",
+            "smallest_fix": "In Task 1 and Task 2, use *was* or *were* in place of *got*."
+          },
+          {
+            "type": "variation",
+            "kind": "register",
+            "collapsed": true,
+            "variation_ref": 21,
+            "what_varies": "Whether the passive is built on *be* or on *get*.",
+            "option_a": {
+              "label": "*be* + third form",
+              "form": "neutral to formal",
+              "example": "The bid was turned down in June."
+            },
+            "option_b": {
+              "label": "*get* + third form",
+              "form": "spoken",
+              "example": "The bid got turned down in June."
+            },
+            "house_default": "*be*",
+            "why_this_default": "*Be* is right in speech and in writing, so it never costs anything. That is a house choice for our examples, not a rule of English.",
+            "costs_marks": "yes in Task 1 and Task 2 — it reads as speech"
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Two things that look like this shape and are not",
+            "items": [
+              {
+                "text": "*Get married*, *get dressed*, *get lost*, *get started* and *get involved* are fixed phrases with no spoken flavour.",
+                "example": "Two hundred residents got involved in the consultation.",
+                "kind": "C",
+                "how_often": "common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "*Get* plus a person plus *to* is a different pattern, and it is not a passive at all.",
+                "example": "We got the council to publish the figures.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this now"
+              }
+            ]
+          },
+          {
+            "type": "false_rule",
+            "heard": "*Got* is bad English. Never write *get* in a passive sentence.",
+            "also_known_as": [
+              "*get* is lazy English"
+            ],
+            "truth": "*Get* plus a third form is correct English and completely normal in speech. What is true is that it reads as speech, so it is the wrong choice in a formal essay, where *be* does the same job.",
+            "what_to_do": "Say it freely. Write *was* or *were* instead in Task 1 and Task 2. Keep the fixed phrases such as *get involved*, which are neutral anywhere."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Put the thing between the front word and the third form.",
+            "table": {
+              "caption": "Who did the work, and what the sentence looks like.",
+              "headers": [
+                "What happened",
+                "Shape",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "you did it",
+                  "doer first",
+                  "We rewired the flat."
+                ],
+                [
+                  "you arranged it",
+                  "*have* + thing + third form",
+                  "We had the flat rewired."
+                ],
+                [
+                  "you arranged it, informally",
+                  "*get* + thing + third form",
+                  "We got the flat rewired."
+                ],
+                [
+                  "it happened to you",
+                  "*have* + thing + third form",
+                  "She had her bag taken."
+                ],
+                [
+                  "you instructed a person",
+                  "*have* + person + base form",
+                  "We had the agent call back."
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "What is the difference between *We cleaned the carpets* and *We had the carpets cleaned*?",
+                "answer": "In the first you did it. In the second somebody came out and did it for you.",
+                "why": "The thing sits between *had* and the third form, and that is what says you arranged it."
+              },
+              {
+                "prompt": "Why is *He got his phone steal* wrong?",
+                "answer": "The verb after the thing has to be the third form: *He got his phone stolen.*",
+                "why": "The middle word is the thing it happened to, so the verb behind it behaves as it does in a passive."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [
+          {
+            "term": "causative",
+            "gloss": "having somebody else do something for you",
+            "also_called": null,
+            "ledger_position": 59
+          }
+        ],
+        "term_refs": [
+          "sentence",
+          "verb",
+          "third form (past participle)",
+          "base form",
+          "perfect",
+          "voice (active / passive)",
+          "causative"
+        ],
+        "related_points": [
+          "gr_causative"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_passive_forms",
+            "reason": "the plain passive, which shares its last two parts with this shape"
+          },
+          {
+            "id": "th_the_passive_idea",
+            "reason": "why English has a thing-first shape in the first place"
+          },
+          {
+            "id": "th_verb_object_verb",
+            "reason": "the other patterns where a verb is followed by a person and a second verb"
+          },
+          {
+            "id": "th_when_to_choose_the_passive",
+            "reason": "when a thing-first sentence is the right choice"
+          }
+        ],
+        "fixes_errors": [
+          "verb_pattern_wrong",
+          "passive_participle_wrong",
+          "register_spoken_in_writing"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "have something done",
+          "get something done",
+          "causative have",
+          "causative get",
+          "get passive"
+        ],
+        "intents": [
+          "say that somebody else did the work for me"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [
+          21
+        ],
+        "myth_refs": [],
+        "estimated_read_minutes": 6,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_passive_special_cases",
+      "chapter_id": "thc_06",
+      "sequence_index": 84,
+      "title": "The passives that behave differently",
+      "kind": "standard",
+      "cefr_level": "C1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Verbs with no passive, double objects, prepositional passives, reporting passives and non-finite passives",
+        "one_line": "This covers the passives that do not follow the plain pattern, and the verbs that have no passive at all.",
+        "short_answer": "Ask *…something?* after the verb. If you cannot, there is no passive: *the fault occurred*, never *was occurred*.",
+        "question_in_learner_words": "Which verbs have no passive, and what are the odd passive shapes?",
+        "area_ids": [
+          "L7",
+          "L10",
+          "L11",
+          "L12",
+          "L13",
+          "L14",
+          "L15"
+        ],
+        "prerequisites": [
+          "th_the_passive_idea",
+          "th_passive_forms",
+          "th_when_to_choose_the_passive"
+        ],
+        "register": "both",
+        "risk_note": "Two of these are recognition-first. Use *it is believed that* in writing, and leave *having been checked* until the rest of the passive is automatic.",
+        "error_surface": 3,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Where the plain pattern does not hold",
+            "anchor": "where-it-does-not-hold"
+          },
+          {
+            "type": "prose",
+            "text": "Everything so far has been one pattern: a form of *be* and the third form. Six situations behave differently, and each one has a common error attached to it."
+          },
+          {
+            "type": "prose",
+            "text": "Start with the largest. Some verbs have no passive at all, and the sentences learners build from them are among the most frequent errors in Task 1."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "If you cannot ask *…something?*, there is no passive",
+            "anchor": "the-object-test"
+          },
+          {
+            "type": "rule",
+            "anchor": "the-object-test-rule",
+            "text": "Only a verb that takes an object has a passive. If you cannot say *paint something*, there is nothing to move to the front."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Four verbs that take no object, in the shape they actually need.",
+            "dimension": "verbs with no object",
+            "items": [
+              {
+                "text": "The fault occurred during the night shift.",
+                "gloss": "Something went wrong overnight.",
+                "register": "neutral"
+              },
+              {
+                "text": "Rents rose by nine per cent last year.",
+                "gloss": "People paid nine per cent more than the year before.",
+                "register": "written_formal"
+              },
+              {
+                "text": "Two of the panels disappeared before the audit.",
+                "gloss": "Nobody could find them when the audit began.",
+                "register": "neutral"
+              },
+              {
+                "text": "The scaffolding stayed up all winter.",
+                "gloss": "It was still standing there in March.",
+                "register": "spoken"
+              }
+            ],
+            "so_what": "None of these verbs takes an object, so none of them has anything to build a passive out of."
+          },
+          {
+            "type": "table",
+            "anchor": "no-passive-verbs",
+            "caption": "These verbs have no passive. The right-hand column is what to write.",
+            "headers": [
+              "Verb",
+              "What learners write",
+              "What to write"
+            ],
+            "rows": [
+              [
+                "*happen*",
+                "*was happened*",
+                "The delay happened twice."
+              ],
+              [
+                "*occur*",
+                "*was occurred*",
+                "A fault occurred at noon."
+              ],
+              [
+                "*rise*",
+                "*was risen*",
+                "Prices rose sharply."
+              ],
+              [
+                "*fall*",
+                "*was fallen*",
+                "Output fell after 2019."
+              ],
+              [
+                "*arrive*",
+                "*was arrived*",
+                "The parts arrived late."
+              ],
+              [
+                "*die*",
+                "*was died*",
+                "Two of the trees died."
+              ],
+              [
+                "*belong*",
+                "*was belonged*",
+                "The land belongs to the trust."
+              ],
+              [
+                "*resemble*",
+                "*is resembled*",
+                "The plan resembles the old one."
+              ],
+              [
+                "*lack*",
+                "*is lacked*",
+                "The scheme lacks funding."
+              ],
+              [
+                "*suit*",
+                "*is suited*",
+                "The role suits her."
+              ],
+              [
+                "*have*, meaning own",
+                "*is had*",
+                "The trust has a permit."
+              ],
+              [
+                "*cost*",
+                "*was cost*",
+                "The works cost forty thousand pounds."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "*She is suited to the role* is a different structure, and it is correct.",
+              "Only a transitive verb has a passive, and none of these twelve is one in the sense the passive needs."
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "Two groups sit in that table. The first takes no object at all. The second is made of state verbs, which describe how something is rather than something being done to it."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Two objects, and a small word that stays put",
+            "anchor": "two-objects"
+          },
+          {
+            "type": "prose",
+            "text": "*Give*, *send*, *offer*, *show*, *tell*, *teach*, *lend*, *pay* and *award* can be followed by a person and a thing. Either one can move to the front, so these verbs give you two passives."
+          },
+          {
+            "type": "table",
+            "anchor": "double-object-passive",
+            "caption": "English puts the person in front far more often than the thing.",
+            "headers": [
+              "Doer first",
+              "Person in front",
+              "Thing in front"
+            ],
+            "rows": [
+              [
+                "The trust gave the school a grant.",
+                "The school was given a grant.",
+                "A grant was given to the school."
+              ],
+              [
+                "They offered Verdon the contract.",
+                "Verdon was offered the contract.",
+                "The contract was offered to Verdon."
+              ],
+              [
+                "The tutor sent every student a link.",
+                "Every student was sent a link.",
+                "A link was sent to every student."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "The thing-in-front version needs *to* in front of the person."
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "Other verbs reach their object through a preposition: *look into*, *deal with*, *account for*, *pay for*. In the passive the preposition stays directly behind the verb, with nothing after it."
+          },
+          {
+            "type": "table",
+            "anchor": "prepositional-passive",
+            "caption": "The small word does not move and it is never dropped.",
+            "headers": [
+              "Doer first",
+              "Thing first"
+            ],
+            "rows": [
+              [
+                "A panel looked into the complaint.",
+                "The complaint was looked into."
+              ],
+              [
+                "Staff deal with refunds on Fridays.",
+                "Refunds are dealt with on Fridays."
+              ],
+              [
+                "Nobody accounted for the missing hours.",
+                "The missing hours were not accounted for."
+              ],
+              [
+                "Two councils paid for the survey.",
+                "The survey was paid for by two councils."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "*Look* and *look into* are two different verbs with two different meanings."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "Three sentences where the person went to the front.",
+            "dimension": "which object moved",
+            "items": [
+              {
+                "text": "Applicants are told the outcome within two weeks.",
+                "gloss": "Everybody hears back inside a fortnight.",
+                "register": "written_formal"
+              },
+              {
+                "text": "We were shown the drawings before the meeting.",
+                "gloss": "The drawings came out beforehand.",
+                "register": "spoken"
+              },
+              {
+                "text": "Staff were offered a place on the training.",
+                "gloss": "The training was open to them if they wanted it.",
+                "register": "neutral"
+              }
+            ],
+            "so_what": "In each one the person is what the sentence is about, and that is the usual choice."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Reporting what people think, without naming them",
+            "anchor": "it-is-believed"
+          },
+          {
+            "type": "prose",
+            "text": "Academic writing often has to state a widely held view before arguing with it. Two shapes do that, and both of them are passives."
+          },
+          {
+            "type": "table",
+            "anchor": "reporting-passive",
+            "caption": "Two ways to report a view that belongs to nobody in particular.",
+            "headers": [
+              "Shape",
+              "Example",
+              "Use it for"
+            ],
+            "rows": [
+              [
+                "*It is* + third form + *that*",
+                "It is widely believed that costs will fall.",
+                "stating the view plainly"
+              ],
+              [
+                "thing + *is* + third form + *to be*",
+                "Costs are believed to be falling.",
+                "the same view, more compact"
+              ],
+              [
+                "thing + *is* + third form + *to have*",
+                "Emissions are estimated to have fallen.",
+                "a view about the past"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "Both shapes come from the same doer-first sentence: *people believe that costs will fall*."
+            ]
+          },
+          {
+            "type": "list",
+            "style": "bullet",
+            "lead_in": "These verbs fit both shapes:",
+            "items": [
+              "*say*, *think* and *believe*",
+              "*know*, *report* and *claim*",
+              "*expect*, *consider* and *assume*",
+              "*estimate*, *understand* and *find*"
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "One view, reported three ways.",
+            "dimension": "the reporting shape",
+            "items": [
+              {
+                "text": "It is often said that rail fares deter younger travellers.",
+                "gloss": "Many people hold that view about fares.",
+                "register": "written_formal"
+              },
+              {
+                "text": "Rail fares are said to deter younger travellers.",
+                "gloss": "The same view, in fewer words.",
+                "register": "written_formal"
+              },
+              {
+                "text": "Fares are thought to have risen faster than wages.",
+                "gloss": "People believe that fares went up faster than pay did.",
+                "register": "written_formal"
+              }
+            ],
+            "so_what": "Nobody is named in any of them, and that is exactly what the shape is for."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Passive shapes with no time on them",
+            "anchor": "no-time-passives"
+          },
+          {
+            "type": "prose",
+            "text": "A non-finite verb has a passive too. You need these to fit a second event into a sentence without starting a new clause with its own subject."
+          },
+          {
+            "type": "table",
+            "anchor": "nonfinite-passive",
+            "caption": "Three shapes, and the position each one takes.",
+            "headers": [
+              "Shape",
+              "Example",
+              "Where it goes"
+            ],
+            "rows": [
+              [
+                "*to be* + third form",
+                "The wiring needs to be checked.",
+                "after another verb"
+              ],
+              [
+                "*being* + third form",
+                "She hated being interrupted.",
+                "after a verb or a preposition"
+              ],
+              [
+                "*having been* + third form",
+                "Having been repaired, the lift reopened.",
+                "at the front of a sentence"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "The third shape is worth recognising long before it is worth producing."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "The same three shapes in ordinary sentences.",
+            "dimension": "the shape with no time on it",
+            "items": [
+              {
+                "text": "The roof still has to be inspected before winter.",
+                "gloss": "The inspection has not happened yet.",
+                "register": "neutral"
+              },
+              {
+                "text": "Nobody enjoys being told what to do.",
+                "gloss": "People dislike taking orders.",
+                "register": "spoken"
+              },
+              {
+                "text": "Having been closed for two years, the pool reopened in May.",
+                "gloss": "It was shut for two years and then it opened again.",
+                "register": "written_formal"
+              }
+            ],
+            "so_what": "Each one packs a second event into a sentence without a second full stop."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "When the thing seems to do it itself",
+            "anchor": "seems-to-do-itself"
+          },
+          {
+            "type": "prose",
+            "text": "*Sales rose.* *The door opened.* Nobody is named, and there is no passive either. A group of English verbs describe a change as though the thing brought it about on its own."
+          },
+          {
+            "type": "contrast",
+            "anchor": "rose-or-was-raised",
+            "question": "Is somebody making it change, or is it just changing?",
+            "options": [
+              {
+                "label": "the plain verb: *rose*, *fell*, *opened*",
+                "use_it_when": "You are describing what a figure or a thing did, and no doer is in the picture at all.",
+                "example": "Attendance fell steadily after 2018.",
+                "point_id": "gr_passive_not"
+              },
+              {
+                "label": "the passive: *was raised*, *was reduced*",
+                "use_it_when": "Somebody made the change happen, and you want the sentence to be about the thing rather than about them.",
+                "example": "The entry fee was reduced twice.",
+                "point_id": "gr_passive_not"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "Rents rose by twelve per cent.",
+                  "means": "Rents went up. Nothing is said about anyone pushing them up.",
+                  "span": "rose"
+                },
+                "b": {
+                  "text": "Rents were raised by twelve per cent.",
+                  "means": "Somebody put them up on purpose.",
+                  "span": "were raised"
+                },
+                "only_difference": "*rose* against *were raised*"
+              },
+              {
+                "a": {
+                  "text": "The waiting list shortened over the winter.",
+                  "means": "It got shorter. Why, the sentence does not say.",
+                  "span": "shortened"
+                },
+                "b": {
+                  "text": "The waiting list was shortened over the winter.",
+                  "means": "Somebody took names off it deliberately.",
+                  "span": "was shortened"
+                },
+                "only_difference": "*shortened* against *was shortened*"
+              },
+              {
+                "a": {
+                  "text": "The main gate opened at six.",
+                  "means": "The gate came open at that time.",
+                  "span": "opened"
+                },
+                "b": {
+                  "text": "The main gate was opened at six.",
+                  "means": "Somebody unlocked it and pushed it open.",
+                  "span": "was opened"
+                },
+                "only_difference": "*opened* against *was opened*"
+              }
+            ],
+            "deciding_factor": "In Task 1 the figures rise and fall by themselves. Use the plain verb for the numbers and the passive for the process.",
+            "trap": "You were told that Task 1 is formal writing and the passive is the formal shape, so the figures end up in a passive that English does not allow.",
+            "register_note": "Both are written and spoken English. The distinction earns most in Task 1, where most sentences are about a figure going up or down."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Why a process description is almost all passive",
+            "anchor": "process-descriptions"
+          },
+          {
+            "type": "prose",
+            "text": "In a process the same people carry out every stage, so naming them in each sentence tells the reader nothing new. Each stage starts with the material instead."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Four stages of one process, each starting with the material.",
+            "dimension": "what each stage starts with",
+            "items": [
+              {
+                "text": "The waste is sorted by hand on a moving belt.",
+                "gloss": "Workers pick out whatever does not belong.",
+                "register": "written_formal"
+              },
+              {
+                "text": "It is then washed and cut into flakes.",
+                "gloss": "The clean material comes out in small pieces.",
+                "register": "written_formal"
+              },
+              {
+                "text": "The flakes are dried in a heated drum.",
+                "gloss": "The water is taken out of them.",
+                "register": "neutral"
+              },
+              {
+                "text": "They're finally melted down and pressed into pellets.",
+                "gloss": "The material leaves as small hard pellets.",
+                "register": "spoken"
+              }
+            ],
+            "so_what": "Every sentence starts where the last one ended, and the doer never has to be named at all."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "passive-on-a-figure",
+            "code": "passive_on_intransitive",
+            "wrong": "The population was risen sharply between 2005 and 2015.",
+            "right": "The population rose sharply between 2005 and 2015.",
+            "why_it_happens": "Task 1 feels formal, and the passive is what you were told formal writing uses. *Rise* takes no object, so there is nothing to move to the front and no passive to build.",
+            "smallest_fix": "Ask *rise something?* You cannot, so write *rose*."
+          },
+          {
+            "type": "warning",
+            "anchor": "preposition-dropped",
+            "code": "verb_pattern_wrong",
+            "wrong": "The complaint was looked by a panel of three.",
+            "right": "The complaint was looked into by a panel of three.",
+            "why_it_happens": "The preposition ends up a long way from its object in a passive, so it is easy to lose. Without it the verb means something else entirely.",
+            "smallest_fix": "Keep the small word directly behind the verb: *dealt with*, *looked into*, *paid for*."
+          },
+          {
+            "type": "warning",
+            "anchor": "reporting-passive-without-be",
+            "code": "passive_be_missing",
+            "wrong": "It believed that fees will rise again next year.",
+            "right": "It is believed that fees will rise again next year.",
+            "why_it_happens": "The shape gets memorised as one phrase, and the small word in the middle carries no meaning you can hear. Without *is* the sentence has no verb holding it together.",
+            "smallest_fix": "Put *is* or *was* between *it* and the third form."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Two places where a passive looks impossible and is not",
+            "items": [
+              {
+                "text": "*Be suited to* and *be lacking* look like passives. They describe how something is.",
+                "example": "The site is not suited to heavy vehicles.",
+                "kind": "B",
+                "how_often": "common",
+                "verdict": "recognise only"
+              },
+              {
+                "text": "A verb with no object of its own can borrow one through a preposition, and then it does have a passive.",
+                "example": "The proposal has been objected to twice.",
+                "kind": "A",
+                "how_often": "uncommon",
+                "verdict": "recognise only"
+              }
+            ]
+          },
+          {
+            "type": "false_rule",
+            "heard": "Task 1 is formal writing, so describe the changes in the passive.",
+            "also_known_as": [
+              "put the trends in the passive to raise your band"
+            ],
+            "truth": "The figures in a chart rise, fall, peak and level off by themselves. Those verbs take no object, so they have no passive. The passive belongs to the process diagram, where a material really is being worked on.",
+            "what_to_do": "Use plain verbs for the numbers: *rose*, *fell*, *peaked*. Save the passive for process and map tasks, where somebody is doing something to something."
+          },
+          {
+            "type": "l1_note",
+            "collapsed": true,
+            "lang": "ar",
+            "mechanism": "Arabic marks the passive by a regular change inside the verb, and the pattern fits a wide range of verbs.",
+            "wrong": "Three of the deliveries were arrived late.",
+            "right": "Three of the deliveries arrived late.",
+            "fix": "Check that the verb can take an object before you make it passive.",
+            "shared_with": [
+              "ru"
+            ]
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Ask *…something?* after the verb before you build any passive.",
+            "table": {
+              "caption": "Five shapes, and the one thing to remember about each.",
+              "headers": [
+                "Shape",
+                "What to remember",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "a verb with no object",
+                  "there is no passive",
+                  "Two faults occurred."
+                ],
+                [
+                  "two objects",
+                  "the person usually goes first",
+                  "Staff were sent a notice."
+                ],
+                [
+                  "a verb with a small word",
+                  "the small word stays",
+                  "The claim was looked into."
+                ],
+                [
+                  "reporting a common view",
+                  "*it is* or *is said to*",
+                  "It is believed that costs fell."
+                ],
+                [
+                  "a shape with no time on it",
+                  "*to be*, *being*, *having been*",
+                  "The wiring needs to be checked."
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Why is *A serious fault was occurred during testing* wrong?",
+                "answer": "You cannot *occur something*, so *occur* has no passive: *A serious fault occurred during testing.*",
+                "why": "Only a verb that takes an object has anything to move to the front."
+              },
+              {
+                "prompt": "Which is more usual? *A refund was sent to her.* / *She was sent a refund.*",
+                "answer": "*She was sent a refund.*",
+                "why": "When a verb has a person and a thing after it, English usually puts the person in front."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "sentence",
+          "verb",
+          "subject",
+          "object",
+          "clause",
+          "preposition",
+          "third form (past participle)",
+          "state verb",
+          "transitive / intransitive",
+          "non-finite verb",
+          "voice (active / passive)"
+        ],
+        "related_points": [
+          "gr_passive_reporting",
+          "gr_passive_nonfinite",
+          "gr_passive_process",
+          "gr_passive_not"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_passive_forms",
+            "reason": "the plain pattern that these six cases depart from"
+          },
+          {
+            "id": "th_when_to_choose_the_passive",
+            "reason": "the decision behind every passive, including the ones here"
+          },
+          {
+            "id": "th_transitivity_and_linking_verbs",
+            "reason": "which verbs take an object, which is what decides the whole article"
+          },
+          {
+            "id": "th_multi_word_verbs",
+            "reason": "verbs like *look into* and *deal with*, and why they behave as one word"
+          }
+        ],
+        "fixes_errors": [
+          "passive_on_intransitive",
+          "verb_pattern_wrong",
+          "passive_be_missing"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "verbs with no passive",
+          "it is said that",
+          "passive with two objects",
+          "passive of phrasal verbs",
+          "was happened"
+        ],
+        "intents": [
+          "describe a process in Task 1",
+          "report a common view without naming anyone"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 8,
+        "false_rule_absent_reason": null
+      }
+    }
+  ]
+}

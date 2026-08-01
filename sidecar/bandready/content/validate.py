@@ -46,6 +46,10 @@ DATA_FILES: dict[str, str] = {
     # validates as "not a recognised pack file", imports nothing, and the pack still
     # reports OK — which is the silent failure the module design calls out by name.
     "grammar.jsonl": "grammar_points",
+    # Theory reference (staging-theory/DESIGN-THEORY.md). Same reason as grammar above: an
+    # unlisted file validates as "not a recognised pack file", imports nothing, and still
+    # reports the pack OK.
+    "theory.jsonl": "theory_articles",
 }
 
 #: The closed structure-detector slug set (grammar DESIGN §2.8, D4). A point naming a slug
@@ -275,6 +279,25 @@ class VocabRow(_Row):
     entry_json: dict[str, Any] | str
 
 
+class TheoryArticleRow(_Row):
+    """One reference article (theory DESIGN-THEORY §2).
+
+    Theory is the map, not the walking route: a browsable explanation of a structure, always
+    readable and never gated behind a prerequisite, because its whole purpose is to let a
+    learner survey the language before starting to practise. Exactly seven columns; every
+    piece of teaching lives inside ``article_json``, since ``loader.TABLE_COLUMNS`` copies
+    only the columns it names and drops any extra top-level key without saying so.
+    """
+
+    id: str
+    chapter_id: str
+    sequence_index: int
+    title: str
+    kind: str = "explainer"
+    cefr_level: str = "A1"
+    article_json: dict[str, Any] | str
+
+
 class GrammarPointRow(_Row):
     """One grammar point (grammar DESIGN §2.1).
 
@@ -329,6 +352,7 @@ ROW_SCHEMAS: dict[str, type[_Row]] = {
     "vocab.jsonl": VocabRow,
     "pron_pairs.jsonl": PronPairRow,
     "grammar.jsonl": GrammarPointRow,
+    "theory.jsonl": TheoryArticleRow,
 }
 
 

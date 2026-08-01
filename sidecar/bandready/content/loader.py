@@ -179,6 +179,12 @@ TABLE_COLUMNS: dict[str, tuple[tuple[str, bool], ...]] = {
     ),
     # Grammar: eight columns, and the whole teaching payload inside point_json. Adding a
     # ninth top-level key to the authored row without adding it here drops it silently.
+    # Theory: seven columns, the whole article inside article_json. Same rule as grammar —
+    # an eighth top-level key added by an author is dropped here in silence.
+    "theory_articles": (
+        ("id", False), ("chapter_id", False), ("sequence_index", False), ("title", False),
+        ("kind", False), ("cefr_level", False), ("article_json", True),
+    ),
     "grammar_points": (
         ("id", False), ("unit_id", False), ("sequence_index", False), ("title", False),
         ("cefr_level", False), ("role", False), ("topic_id", False), ("point_json", True),
@@ -198,6 +204,8 @@ IMPORT_ORDER: tuple[str, ...] = (
     "vocab.jsonl",
     # After topics.jsonl because grammar_points.topic_id is an FK; position otherwise free.
     "grammar.jsonl",
+    # Theory has no FKs at all — it is reference text keyed only by its own ids.
+    "theory.jsonl",
 )
 
 PACKED_TABLES: tuple[str, ...] = tuple(

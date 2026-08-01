@@ -10,12 +10,11 @@
     "Every grammatical label is defined in plain words at the point that introduces it. The reader is",
     "assumed to know no grammar vocabulary at all: not 'noun', not 'verb', not 'subject'."
   ],
-
   "points": [
     {
       "id": "gr_clause_svo",
       "unit_id": "u01",
-      "sequence_index": 1000,
+      "sequence_index": 1300,
       "title": "Putting a sentence together so that it says who does what",
       "cefr_level": "A1",
       "role": "form",
@@ -33,11 +32,19 @@
         "gravity": "global",
         "confusion_set": null,
         "structure_slug": null,
-        "signal_blocklist": ["and then", "which is why", "in addition"],
-        "fixes_errors": ["fragment_no_main_verb", "run_on_fused", "agreement_subject_verb", "word_order_adverb"],
+        "signal_blocklist": [
+          "and then",
+          "which is why",
+          "in addition"
+        ],
+        "fixes_errors": [
+          "fragment_no_main_verb",
+          "run_on_fused",
+          "agreement_subject_verb",
+          "word_order_adverb"
+        ],
         "estimated_minutes": 16,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can put a sentence together so that it says who is involved and what happens.",
           "why_it_matters": "Everything taught later is this shape with something added to it. Get it wrong and a reader cannot read your sentence, only guess at it.",
@@ -55,8 +62,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "who or what the sentence is about", "text": "The night bus" },
-              "right": { "role": "what it does, and what that lands on", "text": "leaves the old market at eleven" },
+              "left": {
+                "role": "who or what the sentence is about",
+                "text": "The night bus"
+              },
+              "right": {
+                "role": "what it does, and what that lands on",
+                "text": "leaves the old market at eleven"
+              },
               "arrow": "left_to_right",
               "caption": "Two boxes, always in this order. No English sentence gets to skip the first one."
             }
@@ -70,35 +83,55 @@
             {
               "sentence": "The new ferry carries eighty passengers.",
               "question": "What is this sentence giving you news about?",
-              "options": ["The ferry", "The passengers", "Neither of them"],
+              "options": [
+                "The ferry",
+                "The passengers",
+                "Neither of them"
+              ],
               "key": 0,
               "why": "The sentence opens with the ferry, and everything after it is news about the ferry."
             },
             {
               "sentence": "The storm damaged the harbour wall.",
               "question": "Which one took the damage?",
-              "options": ["The storm", "The harbour wall", "Both of them"],
+              "options": [
+                "The storm",
+                "The harbour wall",
+                "Both of them"
+              ],
               "key": 1,
               "why": "Whatever comes after the action word is what the action reached, and here it reached the wall."
             },
             {
               "sentence": "The harbour wall damaged the storm.",
               "question": "Could this really happen?",
-              "options": ["Yes", "No", "You cannot tell"],
+              "options": [
+                "Yes",
+                "No",
+                "You cannot tell"
+              ],
               "key": 1,
               "why": "Every word is fine. The order has simply given the wall the job of wrecking a storm."
             },
             {
               "sentence": "Rain all week in the Verdon valley.",
               "question": "Does this say what the rain did?",
-              "options": ["Yes", "No", "It doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "It doesn't say"
+              ],
               "key": 1,
               "why": "There is nothing here saying what happened, so this is a heap of words rather than a piece of news."
             },
             {
               "sentence": "Halim repairs bicycles in a shed behind the station.",
               "question": "What does Halim do?",
-              "options": ["He repairs bicycles", "He builds sheds", "It doesn't say"],
+              "options": [
+                "He repairs bicycles",
+                "He builds sheds",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "The word straight after Halim says what he does, and the words after that say what he does it to."
             }
@@ -106,7 +139,6 @@
           "rule_line": "Name who it is about, then say what they do. Anything less is not yet a sentence.",
           "false_rule": "That a long string of words counts as a sentence because it is long. Length proves nothing. Four words with someone doing something beat fifteen without."
         },
-
         "errors": [
           {
             "code": "fragment_no_main_verb",
@@ -149,7 +181,6 @@
             "l1_note": "Common for speakers of Japanese, Korean, Turkish and Hindi-Urdu."
           }
         ],
-
         "pays_in": [
           {
             "surface": "speaking_p1",
@@ -170,7 +201,9 @@
             "model": "The survey team recorded the damage before the second storm arrived."
           }
         ],
-        "criteria": ["gra"],
+        "criteria": [
+          "gra"
+        ],
         "used_in": [
           {
             "module": "speaking",
@@ -178,7 +211,6 @@
             "quote": "Every answer on this card is a short run of these: something is named, and then something is said about it."
           }
         ],
-
         "items": [
           {
             "id": "gi_clause_svo_01",
@@ -187,7 +219,9 @@
             "register": "spoken",
             "topic_id": "topic_transport",
             "skill_hook": "speaking_p1",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -196,7 +230,11 @@
             "payload": {
               "sentence": "The last bus from Marlow leaves at ten past eleven.",
               "question": "What does this tell you about the last bus?",
-              "options": ["When it goes", "Where it starts", "What it costs"],
+              "options": [
+                "When it goes",
+                "Where it starts",
+                "What it costs"
+              ],
               "key": 0
             },
             "expected": null,
@@ -212,7 +250,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "reading",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -221,7 +261,11 @@
             "payload": {
               "sentence": "The rain flooded the car park behind the clinic.",
               "question": "What went under water?",
-              "options": ["The rain", "The car park", "Both of them"],
+              "options": [
+                "The rain",
+                "The car park",
+                "Both of them"
+              ],
               "key": 1
             },
             "expected": null,
@@ -237,7 +281,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -268,7 +314,9 @@
             "register": "written",
             "topic_id": "topic_transport",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -278,9 +326,13 @@
               "context": "From a note about the Ashfield line.",
               "stem": "The morning trains ___ (leave) Ashfield before six.",
               "blanks": 1,
-              "lemma_hints": ["leave"]
+              "lemma_hints": [
+                "leave"
+              ]
             },
-            "expected": ["leave"],
+            "expected": [
+              "leave"
+            ],
             "feedback": {
               "why_key": "Without this word the sentence names some trains and then stops, telling the reader nothing about them.",
               "feed_forward": "Add the word that says what happens before you stop."
@@ -293,7 +345,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p1",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -303,9 +357,13 @@
               "context": "Two drivers talking at the depot gate.",
               "stem": "The night shifts ___ (finish) before the first buses run.",
               "blanks": 1,
-              "lemma_hints": ["finish"]
+              "lemma_hints": [
+                "finish"
+              ]
             },
-            "expected": ["finish"],
+            "expected": [
+              "finish"
+            ],
             "feedback": {
               "why_key": "Say the words without it and you have named the shifts without saying a single thing about them.",
               "feed_forward": "Say the sentence aloud and listen for the missing action."
@@ -318,15 +376,50 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["the", "survey", "team", "measured", "the", "water", "level", "every", "morning"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8], [7, 8, 0, 1, 2, 3, 4, 5, 6]],
+              "tokens": [
+                "the",
+                "survey",
+                "team",
+                "measured",
+                "the",
+                "water",
+                "level",
+                "every",
+                "morning"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ],
+                [
+                  7,
+                  8,
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6
+                ]
+              ],
               "context": "Build one sentence about the fieldwork on the Verdon."
             },
             "expected": [
@@ -345,7 +438,9 @@
             "register": "written",
             "topic_id": "topic_transport",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -373,7 +468,9 @@
             "register": "spoken",
             "topic_id": "topic_family",
             "skill_hook": "listening",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -381,12 +478,17 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "My brother mends bikes in a shed behind the flats.",
-              "scored_tokens": ["brother", "mends"],
+              "scored_tokens": [
+                "brother",
+                "mends"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
             },
-            "expected": ["my brother mends bikes in a shed behind the flats"],
+            "expected": [
+              "my brother mends bikes in a shed behind the flats"
+            ],
             "feedback": {
               "why_key": "In quick speech the word doing the work is short and unstressed, and it is the first thing a listener drops.",
               "feed_forward": "Listen for the word straight after the person named."
@@ -399,7 +501,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["run_on_fused"],
+            "error_codes": [
+              "run_on_fused"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -410,7 +514,10 @@
               "error_span": "in June the old site",
               "accept_overlap_tokens": 1
             },
-            "expected": ["in june. the old site", "in June. The old site"],
+            "expected": [
+              "in june. the old site",
+              "in June. The old site"
+            ],
             "feedback": {
               "why_key": "Two pieces of news are sharing one breath. The full stop is the wall telling the reader where the first one ends.",
               "feed_forward": "Put a full stop where the first piece of news ends."
@@ -423,7 +530,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -454,7 +563,9 @@
             "register": "written",
             "topic_id": "topic_transport",
             "skill_hook": "reading",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -462,12 +573,18 @@
             "decision_cue": "The lorry hit",
             "payload": {
               "context": "Two lines taken from different reports on the same night.",
-              "sentences": ["The lorry hit the barrier.", "The barrier hit the lorry."],
+              "sentences": [
+                "The lorry hit the barrier.",
+                "The barrier hit the lorry."
+              ],
               "meanings": [
                 "The barrier is the thing that took the blow.",
                 "The lorry is the thing that took the blow."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -482,7 +599,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -510,7 +629,9 @@
             "register": "spoken",
             "topic_id": "topic_family",
             "skill_hook": "speaking_p1",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -537,7 +658,7 @@
     {
       "id": "gr_be_present",
       "unit_id": "u01",
-      "sequence_index": 1001,
+      "sequence_index": 1301,
       "title": "Saying what someone or something is, with am, is and are",
       "cefr_level": "A1",
       "role": "form",
@@ -545,7 +666,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "The present of be: am, is, are",
-        "prerequisites": ["gr_clause_svo"],
+        "prerequisites": [
+          "gr_clause_svo"
+        ],
         "unlocks_hint": "gr_there_is",
         "priority": 1,
         "insertable": false,
@@ -555,11 +678,19 @@
         "gravity": "global",
         "confusion_set": null,
         "structure_slug": "present_simple",
-        "signal_blocklist": ["right now", "at the moment", "these days"],
-        "fixes_errors": ["fragment_no_main_verb", "agreement_subject_verb", "agreement_across_distance", "register_written_in_speech"],
+        "signal_blocklist": [
+          "right now",
+          "at the moment",
+          "these days"
+        ],
+        "fixes_errors": [
+          "fragment_no_main_verb",
+          "agreement_subject_verb",
+          "agreement_across_distance",
+          "register_written_in_speech"
+        ],
         "estimated_minutes": 18,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can say what someone or something is, and what it is like, right now.",
           "why_it_matters": "This is what English uses when nothing is happening and you are only saying what is so. Leave it out and the sentence has no engine.",
@@ -578,10 +709,22 @@
             "kind": "ladder",
             "spec": {
               "rungs": [
-                { "text": "I'm on the late shift.", "register": "spoken" },
-                { "text": "She's not in today.", "register": "spoken" },
-                { "text": "The office is not open on Sunday.", "register": "written" },
-                { "text": "The figures are set out below.", "register": "written" }
+                {
+                  "text": "I'm on the late shift.",
+                  "register": "spoken"
+                },
+                {
+                  "text": "She's not in today.",
+                  "register": "spoken"
+                },
+                {
+                  "text": "The office is not open on Sunday.",
+                  "register": "written"
+                },
+                {
+                  "text": "The figures are set out below.",
+                  "register": "written"
+                }
               ],
               "top_label": "written out in full",
               "bottom_label": "said out loud and squeezed"
@@ -596,35 +739,55 @@
             {
               "sentence": "My cousins are at the technical college on Norland Road.",
               "question": "How many cousins is this about?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 1,
               "why": "are is the word English uses when more than one thing stands in front of it."
             },
             {
               "sentence": "The flat above the bakery is empty.",
               "question": "How many homes is this about?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "is goes with a single thing, and the single thing here is the flat rather than the bakery."
             },
             {
               "sentence": "I'm the one who locks up on Fridays.",
               "question": "Who locks up?",
-              "options": ["The speaker", "Somebody else", "It doesn't say"],
+              "options": [
+                "The speaker",
+                "Somebody else",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "I'm is I am squeezed into one word, so the speaker is talking about themselves."
             },
             {
               "sentence": "The keys to the side gate are in the top drawer.",
               "question": "Where would you look for the keys?",
-              "options": ["The top drawer", "The side gate", "It doesn't say"],
+              "options": [
+                "The top drawer",
+                "The side gate",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "are points back to the keys, so the rest of the sentence is telling you where they sit."
             },
             {
               "sentence": "Elif is not at the depot on Mondays.",
               "question": "Could you find Elif at the depot on a Monday?",
-              "options": ["Yes", "No", "It doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "It doesn't say"
+              ],
               "key": 1,
               "why": "not sits straight after is and turns the whole report the other way round."
             }
@@ -632,7 +795,6 @@
           "rule_line": "Look left. One thing takes is, more than one takes are, and I takes am.",
           "false_rule": "That is and are are noise you can drop because the meaning survives without them. The meaning does survive. English still refuses the gap."
         },
-
         "errors": [
           {
             "code": "fragment_no_main_verb",
@@ -675,7 +837,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "speaking_p1",
@@ -696,7 +857,9 @@
             "model": "She's on the late shift and they're both off tomorrow."
           }
         ],
-        "criteria": ["gra"],
+        "criteria": [
+          "gra"
+        ],
         "used_in": [
           {
             "module": "speaking",
@@ -704,7 +867,6 @@
             "quote": "Describing a home means saying what rooms are like, which is this word again and again."
           }
         ],
-
         "items": [
           {
             "id": "gi_be_present_01",
@@ -713,7 +875,9 @@
             "register": "spoken",
             "topic_id": "topic_family",
             "skill_hook": "speaking_p1",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -722,7 +886,11 @@
             "payload": {
               "sentence": "My brothers are out at work by seven.",
               "question": "How many brothers is the speaker talking about?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -738,7 +906,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "reading",
-            "error_codes": ["agreement_across_distance"],
+            "error_codes": [
+              "agreement_across_distance"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -747,7 +917,11 @@
             "payload": {
               "sentence": "The window in the two upstairs rooms is painted shut.",
               "question": "How many windows is this about?",
-              "options": ["One", "Two", "It doesn't say"],
+              "options": [
+                "One",
+                "Two",
+                "It doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -763,7 +937,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -794,7 +970,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -806,7 +984,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["are"],
+            "expected": [
+              "are"
+            ],
             "feedback": {
               "why_key": "Two rooms stand in front of the gap, and more than one thing always pulls are.",
               "feed_forward": "Count what stands in front of the gap before you fill it."
@@ -819,7 +999,9 @@
             "register": "spoken",
             "topic_id": "topic_housing",
             "skill_hook": "speaking_p1",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -829,9 +1011,15 @@
               "context": "A tenant on the phone about the block she lives in.",
               "stem": "The lift ___ (not be) working again this week.",
               "blanks": 1,
-              "lemma_hints": ["be"]
+              "lemma_hints": [
+                "be"
+              ]
             },
-            "expected": ["is not", "isn't", "isnt"],
+            "expected": [
+              "is not",
+              "isn't",
+              "isnt"
+            ],
             "feedback": {
               "why_key": "not sits straight after the word carrying the sentence, and out loud the two squeeze into one.",
               "feed_forward": "Put not straight after is, are or am."
@@ -844,18 +1032,42 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["the", "staff", "room", "is", "not", "open", "before", "eight"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7]],
+              "tokens": [
+                "the",
+                "staff",
+                "room",
+                "is",
+                "not",
+                "open",
+                "before",
+                "eight"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7
+                ]
+              ],
               "context": "Build one sentence for a notice on the door."
             },
-            "expected": ["the staff room is not open before eight"],
+            "expected": [
+              "the staff room is not open before eight"
+            ],
             "feedback": {
               "why_key": "The word carrying the sentence comes straight after the room, and not comes straight after that.",
               "feed_forward": "Place is, then not, then the description."
@@ -868,7 +1080,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -896,7 +1110,9 @@
             "register": "spoken",
             "topic_id": "topic_family",
             "skill_hook": "listening",
-            "error_codes": ["register_written_in_speech"],
+            "error_codes": [
+              "register_written_in_speech"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -904,7 +1120,10 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "They're both at the college and she's on the late bus.",
-              "scored_tokens": ["They're", "she's"],
+              "scored_tokens": [
+                "They're",
+                "she's"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -926,7 +1145,9 @@
             "register": "written",
             "topic_id": "topic_money",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_across_distance"],
+            "error_codes": [
+              "agreement_across_distance"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -937,7 +1158,9 @@
               "error_span": "of the two new ferries are",
               "accept_overlap_tokens": 1
             },
-            "expected": ["of the two new ferries is"],
+            "expected": [
+              "of the two new ferries is"
+            ],
             "feedback": {
               "why_key": "The sentence is about one cost. Two ferries sit next to the gap and pull the wrong word out of the writer.",
               "feed_forward": "Look past the words in between to the thing the sentence is about."
@@ -950,7 +1173,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p1",
-            "error_codes": ["register_written_in_speech"],
+            "error_codes": [
+              "register_written_in_speech"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -981,7 +1206,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "reading",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -989,9 +1216,18 @@
             "decision_cue": "The flat above the surgery",
             "payload": {
               "context": "Two lines from a housing report on the same street.",
-              "sentences": ["The flat above the surgery is empty.", "The flats above the surgery are empty."],
-              "meanings": ["One home is standing unused.", "Several homes are standing unused."],
-              "key": [0, 1]
+              "sentences": [
+                "The flat above the surgery is empty.",
+                "The flats above the surgery are empty."
+              ],
+              "meanings": [
+                "One home is standing unused.",
+                "Several homes are standing unused."
+              ],
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -1006,7 +1242,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1034,7 +1272,9 @@
             "register": "spoken",
             "topic_id": "topic_family",
             "skill_hook": "speaking_p1",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -1061,7 +1301,7 @@
     {
       "id": "gr_pronoun_subject",
       "unit_id": "u01",
-      "sequence_index": 1002,
+      "sequence_index": 1302,
       "title": "Never leaving the front of a sentence empty: I, you, he, she, it, we, they",
       "cefr_level": "A1",
       "role": "accuracy",
@@ -1069,7 +1309,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Subject pronouns, and the rule that English never drops the subject",
-        "prerequisites": ["gr_clause_svo"],
+        "prerequisites": [
+          "gr_clause_svo"
+        ],
         "unlocks_hint": "gr_possessive",
         "priority": 1,
         "insertable": false,
@@ -1079,11 +1321,18 @@
         "gravity": "global",
         "confusion_set": null,
         "structure_slug": null,
-        "signal_blocklist": ["as mentioned", "the same person", "obviously"],
-        "fixes_errors": ["fragment_no_main_verb", "reference_ambiguous", "word_form_wrong"],
+        "signal_blocklist": [
+          "as mentioned",
+          "the same person",
+          "obviously"
+        ],
+        "fixes_errors": [
+          "fragment_no_main_verb",
+          "reference_ambiguous",
+          "word_form_wrong"
+        ],
         "estimated_minutes": 15,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can keep the front of every sentence filled, even when the meaning would survive without it.",
           "why_it_matters": "Whole languages leave this out and English never does. It is the most visible mark of a beginner, and it costs one short word to fix.",
@@ -1101,8 +1350,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "the seat English never leaves empty", "text": "It" },
-              "right": { "role": "the rest of the news", "text": "is raining hard on the coast road" },
+              "left": {
+                "role": "the seat English never leaves empty",
+                "text": "It"
+              },
+              "right": {
+                "role": "the rest of the news",
+                "text": "is raining hard on the coast road"
+              },
               "arrow": "left_to_right",
               "caption": "Nothing real is doing the raining. English fills the seat anyway, every single time."
             }
@@ -1116,35 +1371,55 @@
             {
               "sentence": "It is raining again on the coast road.",
               "question": "Who or what is doing the raining?",
-              "options": ["The road", "Nobody in particular", "The rain itself"],
+              "options": [
+                "The road",
+                "Nobody in particular",
+                "The rain itself"
+              ],
               "key": 1,
               "why": "Nothing real is doing it. English puts a word in the seat because the seat is never allowed to stand empty."
             },
             {
               "sentence": "Ines drives the early bus. She starts at half past four.",
               "question": "Who starts at half past four?",
-              "options": ["Ines", "Somebody else", "It doesn't say"],
+              "options": [
+                "Ines",
+                "Somebody else",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "She points straight back to the last person named, so the second sentence is still about Ines."
             },
             {
               "sentence": "The two porters unlocked the hall. They left the side door open.",
               "question": "Who left the door open?",
-              "options": ["The porters", "Somebody else", "It doesn't say"],
+              "options": [
+                "The porters",
+                "Somebody else",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "They points back to the two porters, so the news carries on being about the same two people."
             },
             {
               "sentence": "It gets dark by four here in December.",
               "question": "What is this sentence about?",
-              "options": ["The time of year", "One particular object", "One particular person"],
+              "options": [
+                "The time of year",
+                "One particular object",
+                "One particular person"
+              ],
               "key": 0,
               "why": "The word in the seat points at nothing you could touch. The news is about how early the dark comes."
             },
             {
               "sentence": "Rafi and I share the shift on Saturdays.",
               "question": "How many people work that shift?",
-              "options": ["One", "Two", "It doesn't say"],
+              "options": [
+                "One",
+                "Two",
+                "It doesn't say"
+              ],
               "key": 1,
               "why": "Two people are sitting in the seat together, so the news covers both of them at once."
             }
@@ -1152,7 +1427,6 @@
           "rule_line": "Every English sentence needs somebody or something in the front seat, even when nobody is there.",
           "false_rule": "That you may drop the stand-in word when the person is obvious from the sentence before. It is obvious to you. English still insists on the word."
         },
-
         "errors": [
           {
             "code": "fragment_no_main_verb",
@@ -1185,7 +1459,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "speaking_p1",
@@ -1206,7 +1479,10 @@
             "model": "They said they would ring when it was ready to collect."
           }
         ],
-        "criteria": ["gra", "cohesion"],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
         "used_in": [
           {
             "module": "speaking",
@@ -1214,7 +1490,6 @@
             "quote": "Answers on this card run on I and it, and an empty front seat is audible in the first ten seconds."
           }
         ],
-
         "items": [
           {
             "id": "gi_pronoun_subject_01",
@@ -1223,7 +1498,9 @@
             "register": "spoken",
             "topic_id": "topic_communication",
             "skill_hook": "speaking_p1",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1232,7 +1509,11 @@
             "payload": {
               "sentence": "Ines drives the early bus. She knows every stop by heart.",
               "question": "Who knows every stop?",
-              "options": ["Ines", "Somebody else", "It doesn't say"],
+              "options": [
+                "Ines",
+                "Somebody else",
+                "It doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -1248,7 +1529,9 @@
             "register": "written",
             "topic_id": "topic_environment",
             "skill_hook": "reading",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1257,7 +1540,11 @@
             "payload": {
               "sentence": "It rains on the Verdon nearly every day in March.",
               "question": "What is this sentence about?",
-              "options": ["The weather", "One particular object", "One particular person"],
+              "options": [
+                "The weather",
+                "One particular object",
+                "One particular person"
+              ],
               "key": 0
             },
             "expected": null,
@@ -1273,7 +1560,9 @@
             "register": "written",
             "topic_id": "topic_communication",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1304,7 +1593,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1316,7 +1607,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["it"],
+            "expected": [
+              "it"
+            ],
             "feedback": {
               "why_key": "Nobody is doing the being cheaper, so English parks its placeholder in the seat and gets on with the sentence.",
               "feed_forward": "Fill an empty front seat with It before anything else."
@@ -1329,7 +1622,9 @@
             "register": "spoken",
             "topic_id": "topic_family",
             "skill_hook": "speaking_p1",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -1341,7 +1636,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["they"],
+            "expected": [
+              "they"
+            ],
             "feedback": {
               "why_key": "Two people were named a moment ago, so the second half swaps the name for the word that covers both of them.",
               "feed_forward": "Swap the name for a short word rather than repeating it."
@@ -1354,18 +1651,46 @@
             "register": "written",
             "topic_id": "topic_communication",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["it", "takes", "forty", "minutes", "to", "reach", "the", "depot", "on", "foot"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]],
+              "tokens": [
+                "it",
+                "takes",
+                "forty",
+                "minutes",
+                "to",
+                "reach",
+                "the",
+                "depot",
+                "on",
+                "foot"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9
+                ]
+              ],
               "context": "Build one sentence about the walk up from the station."
             },
-            "expected": ["it takes forty minutes to reach the depot on foot"],
+            "expected": [
+              "it takes forty minutes to reach the depot on foot"
+            ],
             "feedback": {
               "why_key": "Nothing is doing the taking. The placeholder goes first and the real news follows behind it.",
               "feed_forward": "Open with It when the sentence has no real doer."
@@ -1378,7 +1703,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1405,7 +1732,9 @@
             "register": "spoken",
             "topic_id": "topic_family",
             "skill_hook": "listening",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1413,7 +1742,10 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "They're late again and it isn't even half past six.",
-              "scored_tokens": ["They're", "it"],
+              "scored_tokens": [
+                "They're",
+                "it"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -1435,7 +1767,9 @@
             "register": "written",
             "topic_id": "topic_communication",
             "skill_hook": "writing_t2",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -1446,7 +1780,10 @@
               "error_span": "My neighbour she complains",
               "accept_overlap_tokens": 1
             },
-            "expected": ["my neighbour complains", "she complains"],
+            "expected": [
+              "my neighbour complains",
+              "she complains"
+            ],
             "feedback": {
               "why_key": "The seat has two people in it and only one of them is needed. Keep the name or keep the short word, never both.",
               "feed_forward": "Delete whichever of the two says the person twice."
@@ -1459,7 +1796,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p1",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -1490,7 +1829,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "reading",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1498,12 +1839,18 @@
             "decision_cue": "It is quiet",
             "payload": {
               "context": "Two lines from a report on the same estate.",
-              "sentences": ["It is quiet after the market closes.", "They are quiet after the market closes."],
+              "sentences": [
+                "It is quiet after the market closes.",
+                "They are quiet after the market closes."
+              ],
               "meanings": [
                 "The writer means the place in general, and nothing has been named.",
                 "The writer means particular things that were named just before."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -1518,7 +1865,9 @@
             "register": "written",
             "topic_id": "topic_communication",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1546,7 +1895,9 @@
             "register": "spoken",
             "topic_id": "topic_work",
             "skill_hook": "speaking_p1",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -1573,7 +1924,7 @@
     {
       "id": "gr_noun_plural",
       "unit_id": "u01",
-      "sequence_index": 1003,
+      "sequence_index": 1303,
       "title": "Saying whether you mean one of something or more than one",
       "cefr_level": "A1",
       "role": "form",
@@ -1581,7 +1932,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Regular and irregular plurals",
-        "prerequisites": ["gr_clause_svo"],
+        "prerequisites": [
+          "gr_clause_svo"
+        ],
         "unlocks_hint": "gr_article_a_an",
         "priority": 1,
         "insertable": false,
@@ -1591,11 +1944,19 @@
         "gravity": "local",
         "confusion_set": null,
         "structure_slug": null,
-        "signal_blocklist": ["several", "a few", "many", "both"],
-        "fixes_errors": ["countable_uncountable", "word_form_wrong", "agreement_subject_verb"],
+        "signal_blocklist": [
+          "several",
+          "a few",
+          "many",
+          "both"
+        ],
+        "fixes_errors": [
+          "countable_uncountable",
+          "word_form_wrong",
+          "agreement_subject_verb"
+        ],
         "estimated_minutes": 16,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can say whether I mean one of something or more than one, and spell it correctly.",
           "why_it_matters": "The word for a thing changes shape when there is more than one, and every later rule about matching and about a and the is built on that change.",
@@ -1614,8 +1975,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "one of them", "text": "one ticket · one class · one city · one child" },
-              "right": { "role": "more than one", "text": "two tickets · two classes · two cities · two children" },
+              "left": {
+                "role": "one of them",
+                "text": "one ticket · one class · one city · one child"
+              },
+              "right": {
+                "role": "more than one",
+                "text": "two tickets · two classes · two cities · two children"
+              },
               "arrow": "left_to_right",
               "caption": "The mark goes on the naming word itself, never on the words standing around it."
             }
@@ -1629,35 +1996,55 @@
             {
               "sentence": "The lifts in the college are out of order.",
               "question": "How many lifts are broken?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 1,
               "why": "The mark on the end of the naming word does the counting, so no number is needed anywhere."
             },
             {
               "sentence": "The lift in the college is out of order.",
               "question": "How many lifts are broken?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "No mark, one thing. The reader pictures a single lift and the rest of the sentence agrees with that."
             },
             {
               "sentence": "Halim bought new equipment for the workshop.",
               "question": "How much did he buy?",
-              "options": ["One item", "More than one item", "It doesn't say"],
+              "options": [
+                "One item",
+                "More than one item",
+                "It doesn't say"
+              ],
               "key": 2,
               "why": "This naming word covers a whole heap at once and never splits into pieces, so the amount stays open."
             },
             {
               "sentence": "The children left their coats in the hall.",
               "question": "How many children were there?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 1,
               "why": "This word changes in the older way, and children is already the more-than-one shape."
             },
             {
               "sentence": "Marta asked her tutor for advice about the two courses.",
               "question": "How many separate suggestions did she ask for?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 2,
               "why": "Advice never breaks into countable suggestions, so the sentence leaves the number entirely open."
             }
@@ -1665,7 +2052,6 @@
           "rule_line": "Ask how many. More than one puts an s on the end of the naming word.",
           "false_rule": "That every naming word can take an s. Information, advice, equipment and research never do, and adding one is among the most visible errors there is."
         },
-
         "errors": [
           {
             "code": "countable_uncountable",
@@ -1708,7 +2094,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t1_academic",
@@ -1729,7 +2114,9 @@
             "model": "The reports describe the same failure at three separate stations."
           }
         ],
-        "criteria": ["gra"],
+        "criteria": [
+          "gra"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -1737,7 +2124,6 @@
             "quote": "Every sentence in this description counts something, so every naming word in it has to declare how many."
           }
         ],
-
         "items": [
           {
             "id": "gi_noun_plural_01",
@@ -1746,7 +2132,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "reading",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1755,7 +2143,11 @@
             "payload": {
               "sentence": "The tutors marked the papers over the weekend.",
               "question": "How many people did the marking?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -1771,7 +2163,9 @@
             "register": "spoken",
             "topic_id": "topic_education",
             "skill_hook": "speaking_p1",
-            "error_codes": ["countable_uncountable"],
+            "error_codes": [
+              "countable_uncountable"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1780,7 +2174,11 @@
             "payload": {
               "sentence": "Marta got some good advice from the careers office.",
               "question": "How many separate suggestions did she get?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 2
             },
             "expected": null,
@@ -1796,7 +2194,9 @@
             "register": "written",
             "topic_id": "topic_science",
             "skill_hook": "writing_t2",
-            "error_codes": ["countable_uncountable"],
+            "error_codes": [
+              "countable_uncountable"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1827,7 +2227,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1837,9 +2239,13 @@
               "context": "From a description of a chart about schools.",
               "stem": "Numbers fell in three of the four ___ (city) shown.",
               "blanks": 1,
-              "lemma_hints": ["city"]
+              "lemma_hints": [
+                "city"
+              ]
             },
-            "expected": ["cities"],
+            "expected": [
+              "cities"
+            ],
             "feedback": {
               "why_key": "A consonant in front of the y means the y goes and ies takes its place, which is a spelling habit rather than a rule about meaning.",
               "feed_forward": "Check the letter before a final y before adding the mark."
@@ -1852,7 +2258,9 @@
             "register": "spoken",
             "topic_id": "topic_family",
             "skill_hook": "speaking_p2",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -1862,9 +2270,13 @@
               "context": "Describing a family photograph to a friend.",
               "stem": "The two ___ (child) are standing at the front, next to my aunt.",
               "blanks": 1,
-              "lemma_hints": ["child"]
+              "lemma_hints": [
+                "child"
+              ]
             },
-            "expected": ["children"],
+            "expected": [
+              "children"
+            ],
             "feedback": {
               "why_key": "This one changes in the older way, so there is nothing to work out and everything to remember.",
               "feed_forward": "Store the old changes as separate words to recall."
@@ -1877,18 +2289,44 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["the", "evening", "classes", "fill", "up", "before", "the", "daytime", "ones"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8]],
+              "tokens": [
+                "the",
+                "evening",
+                "classes",
+                "fill",
+                "up",
+                "before",
+                "the",
+                "daytime",
+                "ones"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ]
+              ],
               "context": "Build one sentence about how a college timetable fills."
             },
-            "expected": ["the evening classes fill up before the daytime ones"],
+            "expected": [
+              "the evening classes fill up before the daytime ones"
+            ],
             "feedback": {
               "why_key": "The mark on classes decides the shape of the word that follows it, so the two have to be built together.",
               "feed_forward": "Set the number on the naming word first, then match the rest."
@@ -1901,7 +2339,9 @@
             "register": "written",
             "topic_id": "topic_science",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["countable_uncountable"],
+            "error_codes": [
+              "countable_uncountable"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1929,7 +2369,9 @@
             "register": "spoken",
             "topic_id": "topic_education",
             "skill_hook": "listening",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -1937,12 +2379,17 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "The women at the desk keep the spare keys.",
-              "scored_tokens": ["women", "keys"],
+              "scored_tokens": [
+                "women",
+                "keys"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
             },
-            "expected": ["the women at the desk keep the spare keys"],
+            "expected": [
+              "the women at the desk keep the spare keys"
+            ],
             "feedback": {
               "why_key": "One word shows more than one by changing its middle and the other by adding a sound at the end. You have to catch both.",
               "feed_forward": "Listen to the end of every naming word for the mark."
@@ -1955,7 +2402,9 @@
             "register": "written",
             "topic_id": "topic_science",
             "skill_hook": "writing_t2",
-            "error_codes": ["countable_uncountable"],
+            "error_codes": [
+              "countable_uncountable"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -1966,7 +2415,9 @@
               "error_span": "new equipments",
               "accept_overlap_tokens": 1
             },
-            "expected": ["new equipment"],
+            "expected": [
+              "new equipment"
+            ],
             "feedback": {
               "why_key": "Plenty of separate machines arrived, but this word describes the whole delivery at once and cannot be counted out.",
               "feed_forward": "Strip the mark from equipment, however many arrived."
@@ -1979,7 +2430,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2010,7 +2463,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "reading",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2018,9 +2473,18 @@
             "decision_cue": "The exam paper is",
             "payload": {
               "context": "Two lines pinned to a college noticeboard.",
-              "sentences": ["The exam paper is in the office.", "The exam papers are in the office."],
-              "meanings": ["One document is waiting there.", "More than one document is waiting there."],
-              "key": [0, 1]
+              "sentences": [
+                "The exam paper is in the office.",
+                "The exam papers are in the office."
+              ],
+              "meanings": [
+                "One document is waiting there.",
+                "More than one document is waiting there."
+              ],
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -2035,7 +2499,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2063,7 +2529,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["countable_uncountable"],
+            "error_codes": [
+              "countable_uncountable"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2090,7 +2558,7 @@
     {
       "id": "gr_article_a_an",
       "unit_id": "u01",
-      "sequence_index": 1004,
+      "sequence_index": 1304,
       "title": "Using a and an the first time you mention one of something",
       "cefr_level": "A1",
       "role": "form",
@@ -2098,7 +2566,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "The indefinite article: a and an",
-        "prerequisites": ["gr_noun_plural"],
+        "prerequisites": [
+          "gr_noun_plural"
+        ],
         "unlocks_hint": "gr_article_the",
         "priority": 2,
         "insertable": false,
@@ -2108,11 +2578,18 @@
         "gravity": "local",
         "confusion_set": null,
         "structure_slug": null,
-        "signal_blocklist": ["for the first time", "one of", "a single"],
-        "fixes_errors": ["article_missing_singular", "countable_uncountable", "word_form_wrong"],
+        "signal_blocklist": [
+          "for the first time",
+          "one of",
+          "a single"
+        ],
+        "fixes_errors": [
+          "article_missing_singular",
+          "countable_uncountable",
+          "word_form_wrong"
+        ],
         "estimated_minutes": 16,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can put a or an in front of a thing I am mentioning for the first time.",
           "why_it_matters": "English will not let a single countable thing stand bare. Leaving the small word out is quiet and constant, and a reader notices it in every sentence.",
@@ -2130,8 +2607,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "the next sound is a consonant", "text": "a ticket · a hostel · a university" },
-              "right": { "role": "the next sound is a vowel", "text": "an hour · an office · an umbrella" },
+              "left": {
+                "role": "the next sound is a consonant",
+                "text": "a ticket · a hostel · a university"
+              },
+              "right": {
+                "role": "the next sound is a vowel",
+                "text": "an hour · an office · an umbrella"
+              },
               "arrow": "left_to_right",
               "caption": "Say the two words out loud. Your mouth chooses this one, not your eyes."
             }
@@ -2145,35 +2628,55 @@
             {
               "sentence": "Kwame ordered a coffee and a slice of toast.",
               "question": "How many drinks did he order?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "This small word always means one of them, so the number is settled the moment it appears."
             },
             {
               "sentence": "There is an hour between the two trains.",
               "question": "How long is the wait?",
-              "options": ["An hour", "Less than an hour", "It doesn't say"],
+              "options": [
+                "An hour",
+                "Less than an hour",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "Hour opens on a vowel sound even though it starts with an h on the page, so the mouth wants an."
             },
             {
               "sentence": "Lena wants a flat near the college.",
               "question": "Does she already have one?",
-              "options": ["Yes", "No", "It doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "It doesn't say"
+              ],
               "key": 2,
               "why": "The small word introduces something nobody has met yet, so whether she has found it is left open."
             },
             {
               "sentence": "Kwame asked for information about the evening menu.",
               "question": "How many separate facts did he ask for?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 2,
               "why": "This word cannot be counted, so nothing counts it and no number is being claimed."
             },
             {
               "sentence": "Bea works as a chef in a hotel kitchen.",
               "question": "What is her job?",
-              "options": ["Cooking", "Cleaning", "It doesn't say"],
+              "options": [
+                "Cooking",
+                "Cleaning",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "English puts the small word in front of a job when it names one, and the job named here is chef."
             }
@@ -2181,7 +2684,6 @@
           "rule_line": "One of them, and new to your listener? Put a in front, or an before a vowel sound.",
           "false_rule": "That an goes before the letters a, e, i, o and u. It goes before vowel sounds: a university, an hour. Say the word and listen to it."
         },
-
         "errors": [
           {
             "code": "article_missing_singular",
@@ -2214,7 +2716,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "speaking_p1",
@@ -2235,7 +2736,10 @@
             "model": "The team built a shelter above the tideline before the survey began."
           }
         ],
-        "criteria": ["gra", "lexis"],
+        "criteria": [
+          "gra",
+          "lexis"
+        ],
         "used_in": [
           {
             "module": "speaking",
@@ -2243,7 +2747,6 @@
             "quote": "Talking about what you cook and where you buy it introduces a new thing in almost every sentence."
           }
         ],
-
         "items": [
           {
             "id": "gi_article_a_an_01",
@@ -2252,7 +2755,9 @@
             "register": "spoken",
             "topic_id": "topic_food",
             "skill_hook": "speaking_p1",
-            "error_codes": ["article_missing_singular"],
+            "error_codes": [
+              "article_missing_singular"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2261,7 +2766,11 @@
             "payload": {
               "sentence": "Gethin ordered a soup and a bread roll.",
               "question": "How many bowls of soup did he order?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -2277,7 +2786,9 @@
             "register": "written",
             "topic_id": "topic_food",
             "skill_hook": "reading",
-            "error_codes": ["countable_uncountable"],
+            "error_codes": [
+              "countable_uncountable"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2286,7 +2797,11 @@
             "payload": {
               "sentence": "The café sells bread from the bakery next door.",
               "question": "How many loaves does this tell you about?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 2
             },
             "expected": null,
@@ -2302,7 +2817,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["article_missing_singular"],
+            "error_codes": [
+              "article_missing_singular"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2333,7 +2850,9 @@
             "register": "written",
             "topic_id": "topic_food",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2345,7 +2864,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["an"],
+            "expected": [
+              "an"
+            ],
             "feedback": {
               "why_key": "The h makes no sound here, so the next thing the mouth meets is a vowel and the longer form is needed.",
               "feed_forward": "Say the next word aloud before you choose."
@@ -2358,7 +2879,9 @@
             "register": "spoken",
             "topic_id": "topic_tourism",
             "skill_hook": "speaking_p1",
-            "error_codes": ["article_missing_singular"],
+            "error_codes": [
+              "article_missing_singular"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2370,7 +2893,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["a"],
+            "expected": [
+              "a"
+            ],
             "feedback": {
               "why_key": "One hostel, and the listener is hearing about it for the first time, so the shorter form goes in front of the describing word.",
               "feed_forward": "Place the small word ahead of any describing word."
@@ -2383,18 +2908,48 @@
             "register": "written",
             "topic_id": "topic_food",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["article_missing_singular"],
+            "error_codes": [
+              "article_missing_singular"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["there", "is", "an", "oven", "and", "a", "fridge", "in", "the", "back", "room"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
+              "tokens": [
+                "there",
+                "is",
+                "an",
+                "oven",
+                "and",
+                "a",
+                "fridge",
+                "in",
+                "the",
+                "back",
+                "room"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10
+                ]
+              ],
               "context": "Build one sentence describing the kitchen at the back of the café."
             },
-            "expected": ["there is an oven and a fridge in the back room"],
+            "expected": [
+              "there is an oven and a fridge in the back room"
+            ],
             "feedback": {
               "why_key": "Two new things, two small words, and each one is chosen by the sound that comes straight after it.",
               "feed_forward": "Give every newly named thing its own small word."
@@ -2407,7 +2962,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["article_missing_singular"],
+            "error_codes": [
+              "article_missing_singular"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2418,7 +2975,12 @@
               "instruction": "Write one sentence naming the job she does.",
               "starter": "Bea works ___"
             },
-            "expected": ["as a chef", "as a cook", "as a chef at the hotel", "as a cook at the hotel"],
+            "expected": [
+              "as a chef",
+              "as a cook",
+              "as a chef at the hotel",
+              "as a cook at the hotel"
+            ],
             "feedback": {
               "why_key": "English names a job with a small word in front of it, even though only one person is being talked about.",
               "feed_forward": "Say as a before the name of any job."
@@ -2431,7 +2993,9 @@
             "register": "spoken",
             "topic_id": "topic_food",
             "skill_hook": "listening",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2439,12 +3003,18 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "We waited an hour for a table by the window.",
-              "scored_tokens": ["an", "hour", "a"],
+              "scored_tokens": [
+                "an",
+                "hour",
+                "a"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
             },
-            "expected": ["we waited an hour for a table by the window"],
+            "expected": [
+              "we waited an hour for a table by the window"
+            ],
             "feedback": {
               "why_key": "Both small words are unstressed and almost swallowed, and both change the count of what the speaker is describing.",
               "feed_forward": "Listen for the tiny word in front of each thing."
@@ -2457,7 +3027,9 @@
             "register": "written",
             "topic_id": "topic_education",
             "skill_hook": "writing_t2",
-            "error_codes": ["countable_uncountable"],
+            "error_codes": [
+              "countable_uncountable"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2468,7 +3040,10 @@
               "error_span": "an advice",
               "accept_overlap_tokens": 1
             },
-            "expected": ["advice", "some advice"],
+            "expected": [
+              "advice",
+              "some advice"
+            ],
             "feedback": {
               "why_key": "It was one piece of guidance, which is why the counting word feels honest. This word simply cannot be counted in English.",
               "feed_forward": "Delete the counting word in front of advice."
@@ -2481,7 +3056,9 @@
             "register": "written",
             "topic_id": "topic_transport",
             "skill_hook": "writing_t2",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2512,7 +3089,9 @@
             "register": "written",
             "topic_id": "topic_food",
             "skill_hook": "reading",
-            "error_codes": ["countable_uncountable"],
+            "error_codes": [
+              "countable_uncountable"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2520,12 +3099,18 @@
             "decision_cue": "We need a coffee",
             "payload": {
               "context": "Two lines from a note left on the counter.",
-              "sentences": ["We need a coffee for table four.", "We need coffee for the whole week."],
+              "sentences": [
+                "We need a coffee for table four.",
+                "We need coffee for the whole week."
+              ],
               "meanings": [
                 "One cup is wanted, and it is wanted now.",
                 "A supply of it is wanted, and no number is being given."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -2540,7 +3125,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["article_missing_singular"],
+            "error_codes": [
+              "article_missing_singular"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2568,7 +3155,9 @@
             "register": "spoken",
             "topic_id": "topic_food",
             "skill_hook": "speaking_p1",
-            "error_codes": ["article_missing_singular"],
+            "error_codes": [
+              "article_missing_singular"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2595,7 +3184,7 @@
     {
       "id": "gr_adjective_position",
       "unit_id": "u01",
-      "sequence_index": 1005,
+      "sequence_index": 1305,
       "title": "Putting describing words in front of the thing, and never adding an s to them",
       "cefr_level": "A1",
       "role": "accuracy",
@@ -2603,7 +3192,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Adjective position and invariability",
-        "prerequisites": ["gr_noun_plural"],
+        "prerequisites": [
+          "gr_noun_plural"
+        ],
         "unlocks_hint": "gr_comparatives",
         "priority": 2,
         "insertable": false,
@@ -2613,11 +3204,18 @@
         "gravity": "local",
         "confusion_set": null,
         "structure_slug": null,
-        "signal_blocklist": ["in English", "the usual order", "the right order"],
-        "fixes_errors": ["word_form_wrong", "word_order_adverb", "article_missing_singular"],
+        "signal_blocklist": [
+          "in English",
+          "the usual order",
+          "the right order"
+        ],
+        "fixes_errors": [
+          "word_form_wrong",
+          "word_order_adverb",
+          "article_missing_singular"
+        ],
         "estimated_minutes": 14,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can put a describing word in the right place and keep it the same shape however many things there are.",
           "why_it_matters": "Two reds cars is a first-week slip that survives to a high level if nobody names it. It is cheap to fix now and expensive to leave alone.",
@@ -2636,8 +3234,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "what it is like", "text": "cold · empty · expensive" },
-              "right": { "role": "the thing itself", "text": "room · rooms · flat · flats" },
+              "left": {
+                "role": "what it is like",
+                "text": "cold · empty · expensive"
+              },
+              "right": {
+                "role": "the thing itself",
+                "text": "room · rooms · flat · flats"
+              },
               "arrow": "left_to_right",
               "caption": "The left box never changes, however much the right box does."
             }
@@ -2651,35 +3255,55 @@
             {
               "sentence": "Ottoline rents two small rooms above the bakery.",
               "question": "How many rooms does she rent?",
-              "options": ["One", "Two", "It doesn't say"],
+              "options": [
+                "One",
+                "Two",
+                "It doesn't say"
+              ],
               "key": 1,
               "why": "The number is carried by the thing itself, so the word describing it has nothing to do and does not change."
             },
             {
               "sentence": "The old lifts in the north block are slow.",
               "question": "What are the lifts like?",
-              "options": ["Old and slow", "New and fast", "It doesn't say"],
+              "options": [
+                "Old and slow",
+                "New and fast",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "One describing word comes in front of the lifts and the other comes after are, and both describe the same lifts."
             },
             {
               "sentence": "Gethin bought an expensive coat for the winter.",
               "question": "How many coats did he buy?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "The counting is done by the small word at the front. Expensive says nothing at all about number."
             },
             {
               "sentence": "The tall man in the blue coat runs the stall.",
               "question": "What is the man wearing?",
-              "options": ["A blue coat", "A red coat", "It doesn't say"],
+              "options": [
+                "A blue coat",
+                "A red coat",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "Two describing words, each in front of the thing it describes, and neither changed for the man."
             },
             {
               "sentence": "The rooms upstairs are cold in winter.",
               "question": "What are those rooms like in winter?",
-              "options": ["Cold", "Warm", "It doesn't say"],
+              "options": [
+                "Cold",
+                "Warm",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "Here the describing word arrives after are instead of in front, and it still keeps exactly the same shape."
             }
@@ -2687,7 +3311,6 @@
           "rule_line": "Describing words go in front of the thing and never change shape, however many things there are.",
           "false_rule": "That a describing word has to match the thing it describes, the way it does in Spanish, French or Arabic. English describing words never move and never change."
         },
-
         "errors": [
           {
             "code": "word_form_wrong",
@@ -2720,7 +3343,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "speaking_p2",
@@ -2741,7 +3363,10 @@
             "model": "The report describes a modest rise and a sharp fall in the same year."
           }
         ],
-        "criteria": ["gra", "lexis"],
+        "criteria": [
+          "gra",
+          "lexis"
+        ],
         "used_in": [
           {
             "module": "speaking",
@@ -2749,7 +3374,6 @@
             "quote": "Answering this card means describing rooms, and every description hangs on one of these words sitting in the right place."
           }
         ],
-
         "items": [
           {
             "id": "gi_adjective_position_01",
@@ -2758,7 +3382,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "reading",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2767,7 +3393,11 @@
             "payload": {
               "sentence": "The three empty flats face the yard.",
               "question": "How many flats are empty?",
-              "options": ["One", "Three", "It doesn't say"],
+              "options": [
+                "One",
+                "Three",
+                "It doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -2783,7 +3413,9 @@
             "register": "spoken",
             "topic_id": "topic_housing",
             "skill_hook": "speaking_p2",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2792,7 +3424,11 @@
             "payload": {
               "sentence": "Imre rents two narrow rooms over the workshop.",
               "question": "What are the rooms like?",
-              "options": ["Narrow", "Wide", "It doesn't say"],
+              "options": [
+                "Narrow",
+                "Wide",
+                "It doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -2808,7 +3444,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2839,7 +3477,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2849,9 +3489,13 @@
               "context": "From a description of a flat above a shop.",
               "stem": "The flat has four ___ (cold) rooms on the north side.",
               "blanks": 1,
-              "lemma_hints": ["cold"]
+              "lemma_hints": [
+                "cold"
+              ]
             },
-            "expected": ["cold"],
+            "expected": [
+              "cold"
+            ],
             "feedback": {
               "why_key": "Four rooms sit right after it and it still does not move a letter. That is the whole habit being built here.",
               "feed_forward": "Type the describing word exactly as it was given."
@@ -2864,7 +3508,9 @@
             "register": "spoken",
             "topic_id": "topic_tourism",
             "skill_hook": "speaking_p2",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2874,9 +3520,13 @@
               "context": "Describing a street you remember from a trip.",
               "stem": "There were two ___ (old) cafés at the far end.",
               "blanks": 1,
-              "lemma_hints": ["old"]
+              "lemma_hints": [
+                "old"
+              ]
             },
-            "expected": ["old"],
+            "expected": [
+              "old"
+            ],
             "feedback": {
               "why_key": "Two cafés, one unchanged describing word. The number has already been announced twice and does not need announcing again.",
               "feed_forward": "Leave the describing word untouched after a number."
@@ -2889,18 +3539,44 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["the", "landlord", "replaced", "the", "two", "broken", "locks", "last", "week"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8]],
+              "tokens": [
+                "the",
+                "landlord",
+                "replaced",
+                "the",
+                "two",
+                "broken",
+                "locks",
+                "last",
+                "week"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ]
+              ],
               "context": "Build one sentence about a repair that has been done."
             },
-            "expected": ["the landlord replaced the two broken locks last week"],
+            "expected": [
+              "the landlord replaced the two broken locks last week"
+            ],
             "feedback": {
               "why_key": "The describing word slots in between the number and the thing, and there is nowhere else in the sentence it can legally sit.",
               "feed_forward": "Slide the describing word in just before the thing."
@@ -2913,7 +3589,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2941,7 +3619,9 @@
             "register": "spoken",
             "topic_id": "topic_housing",
             "skill_hook": "listening",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -2949,12 +3629,17 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "There are two old radiators and a cracked tile.",
-              "scored_tokens": ["old", "cracked"],
+              "scored_tokens": [
+                "old",
+                "cracked"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
             },
-            "expected": ["there are two old radiators and a cracked tile"],
+            "expected": [
+              "there are two old radiators and a cracked tile"
+            ],
             "feedback": {
               "why_key": "You will hear an s on radiators and none on old, and that difference is the entire lesson in one short line.",
               "feed_forward": "Listen for which word in the group carries the s."
@@ -2967,7 +3652,9 @@
             "register": "written",
             "topic_id": "topic_tourism",
             "skill_hook": "writing_t2",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -2978,7 +3665,9 @@
               "error_span": "three olds hotels",
               "accept_overlap_tokens": 1
             },
-            "expected": ["three old hotels"],
+            "expected": [
+              "three old hotels"
+            ],
             "feedback": {
               "why_key": "The second half of the sentence got it right, which shows the writer knows the rule and lost it under speed.",
               "feed_forward": "Strip any s from a word that is only describing."
@@ -2991,7 +3680,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t2",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3022,7 +3713,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "reading",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3030,12 +3723,18 @@
             "decision_cue": "The flat has a small kitchen",
             "payload": {
               "context": "Two lines taken from different advertisements.",
-              "sentences": ["The flat has a small kitchen.", "The flat has small kitchens."],
+              "sentences": [
+                "The flat has a small kitchen.",
+                "The flat has small kitchens."
+              ],
               "meanings": [
                 "There is one kitchen, and it is not large.",
                 "There is more than one kitchen, and none of them is large."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -3050,7 +3749,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3078,7 +3779,9 @@
             "register": "spoken",
             "topic_id": "topic_housing",
             "skill_hook": "speaking_p1",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3105,7 +3808,7 @@
     {
       "id": "gr_there_is",
       "unit_id": "u01",
-      "sequence_index": 1006,
+      "sequence_index": 1306,
       "title": "Saying that something exists somewhere: there is and there are",
       "cefr_level": "A1",
       "role": "form",
@@ -3113,7 +3816,10 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Existential there",
-        "prerequisites": ["gr_be_present", "gr_noun_plural"],
+        "prerequisites": [
+          "gr_be_present",
+          "gr_noun_plural"
+        ],
         "unlocks_hint": "gr_dummy_subjects",
         "priority": 2,
         "insertable": false,
@@ -3123,11 +3829,18 @@
         "gravity": "local",
         "confusion_set": null,
         "structure_slug": "present_simple",
-        "signal_blocklist": ["how many", "in total", "altogether"],
-        "fixes_errors": ["agreement_subject_verb", "agreement_across_distance", "reference_ambiguous"],
+        "signal_blocklist": [
+          "how many",
+          "in total",
+          "altogether"
+        ],
+        "fixes_errors": [
+          "agreement_subject_verb",
+          "agreement_across_distance",
+          "reference_ambiguous"
+        ],
         "estimated_minutes": 15,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can say that something exists somewhere, and match the small word to how many there are.",
           "why_it_matters": "It is how English announces that something exists at all, and the word after there is decided by what comes next, which is the opposite of every other sentence.",
@@ -3145,8 +3858,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "the word that opens the door and means nothing at all", "text": "There" },
-              "right": { "role": "the thing that actually exists, and the word it chose", "text": "is a night bus · are two night buses" },
+              "left": {
+                "role": "the word that opens the door and means nothing at all",
+                "text": "There"
+              },
+              "right": {
+                "role": "the thing that actually exists, and the word it chose",
+                "text": "is a night bus · are two night buses"
+              },
               "arrow": "right_to_left",
               "caption": "The thing on the right decides the word on its left. Read forward, then go back."
             }
@@ -3160,35 +3879,55 @@
             {
               "sentence": "There are three cafés on the square.",
               "question": "How many cafés does the square have?",
-              "options": ["One", "Three", "It doesn't say"],
+              "options": [
+                "One",
+                "Three",
+                "It doesn't say"
+              ],
               "key": 1,
               "why": "The small word before the number had already told you to expect more than one."
             },
             {
               "sentence": "There is a chemist at the end of the street.",
               "question": "How many chemists is this about?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "The small word announces a single thing, and a single chemist duly arrives after it."
             },
             {
               "sentence": "There are no seats left on the early train.",
               "question": "Could you sit down on that train?",
-              "options": ["Yes", "No", "It doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "It doesn't say"
+              ],
               "key": 1,
               "why": "The word no wipes the seats out entirely, so the sentence says they do not exist."
             },
             {
               "sentence": "It is a long walk from the station to the depot.",
               "question": "What is this sentence telling you?",
-              "options": ["How far it is", "That a walk exists somewhere", "Neither of those"],
+              "options": [
+                "How far it is",
+                "That a walk exists somewhere",
+                "Neither of those"
+              ],
               "key": 0,
               "why": "This opening describes something. The other opening would have announced that the walk was there at all."
             },
             {
               "sentence": "There is a lift in the north block, but it is out of order.",
               "question": "Can you use the lift?",
-              "options": ["Yes", "No", "It doesn't say"],
+              "options": [
+                "Yes",
+                "No",
+                "It doesn't say"
+              ],
               "key": 1,
               "why": "The first half says the lift is there and the second says it does not work. Being there and working are two claims."
             }
@@ -3196,7 +3935,6 @@
           "rule_line": "Open with there, look forward at the thing, and let the thing choose is or are.",
           "false_rule": "That there is and it is do the same job. There is announces that something exists. It is describes something the listener has already got."
         },
-
         "errors": [
           {
             "code": "agreement_subject_verb",
@@ -3229,7 +3967,6 @@
             "l1_note": "Common where the first language uses one verb, often have, for both jobs."
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t1_academic",
@@ -3250,7 +3987,10 @@
             "model": "There's a form to fill in and there are two people to see first."
           }
         ],
-        "criteria": ["gra", "cohesion"],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -3258,7 +3998,6 @@
             "quote": "A map description opens by announcing what the place contains, and every one of those sentences is this shape."
           }
         ],
-
         "items": [
           {
             "id": "gi_there_is_01",
@@ -3267,7 +4006,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "reading",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3276,7 +4017,11 @@
             "payload": {
               "sentence": "There are four benches along the harbour path.",
               "question": "How many benches does the path have?",
-              "options": ["One", "Four", "It doesn't say"],
+              "options": [
+                "One",
+                "Four",
+                "It doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -3292,7 +4037,9 @@
             "register": "spoken",
             "topic_id": "topic_urbanisation",
             "skill_hook": "speaking_p1",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3301,7 +4048,11 @@
             "payload": {
               "sentence": "There's a chemist at the end of our street.",
               "question": "How many chemists is the speaker describing?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -3317,7 +4068,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3348,7 +4101,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3360,7 +4115,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["are"],
+            "expected": [
+              "are"
+            ],
             "feedback": {
               "why_key": "Two car parks arrive first in the list, so they are what the gap has to match.",
               "feed_forward": "Match the gap to the first thing in the list."
@@ -3373,7 +4130,9 @@
             "register": "spoken",
             "topic_id": "topic_housing",
             "skill_hook": "speaking_p1",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3385,7 +4144,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["is"],
+            "expected": [
+              "is"
+            ],
             "feedback": {
               "why_key": "One lift follows the gap, so the gap takes the word that goes with a single thing.",
               "feed_forward": "Count the thing after the gap before filling it."
@@ -3398,18 +4159,50 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["there", "are", "two", "markets", "in", "the", "town", "and", "one", "closes", "in", "winter"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]],
+              "tokens": [
+                "there",
+                "are",
+                "two",
+                "markets",
+                "in",
+                "the",
+                "town",
+                "and",
+                "one",
+                "closes",
+                "in",
+                "winter"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10,
+                  11
+                ]
+              ],
               "context": "Build one sentence describing what the town has."
             },
-            "expected": ["there are two markets in the town and one closes in winter"],
+            "expected": [
+              "there are two markets in the town and one closes in winter"
+            ],
             "feedback": {
               "why_key": "The opening word comes first and carries nothing. Everything the sentence is really about arrives behind it.",
               "feed_forward": "Start with there, then let the thing follow."
@@ -3422,7 +4215,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3433,7 +4228,10 @@
               "instruction": "Rewrite it so that the sentence announces that the benches are there.",
               "starter": "There ___"
             },
-            "expected": ["are four benches in the square", "are four benches on the square"],
+            "expected": [
+              "are four benches in the square",
+              "are four benches on the square"
+            ],
             "feedback": {
               "why_key": "The same fact can be told as something the square owns or as something that simply exists, and the second is how a description opens.",
               "feed_forward": "Open a description by announcing what is there."
@@ -3446,7 +4244,9 @@
             "register": "spoken",
             "topic_id": "topic_urbanisation",
             "skill_hook": "listening",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3454,7 +4254,10 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "There's a market on Saturdays and there are two parks.",
-              "scored_tokens": ["There's", "are"],
+              "scored_tokens": [
+                "There's",
+                "are"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -3476,7 +4279,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["agreement_across_distance"],
+            "error_codes": [
+              "agreement_across_distance"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3487,7 +4292,9 @@
               "error_span": "There is",
               "accept_overlap_tokens": 1
             },
-            "expected": ["there are"],
+            "expected": [
+              "there are"
+            ],
             "feedback": {
               "why_key": "Seven words separate the decision from the thing that decides it, and nothing in between offers a warning.",
               "feed_forward": "Read to the end of the sentence before fixing the opening."
@@ -3500,7 +4307,9 @@
             "register": "written",
             "topic_id": "topic_housing",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3531,7 +4340,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "reading",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3539,12 +4350,18 @@
             "decision_cue": "There is a bus stop",
             "payload": {
               "context": "Two lines from different reports on the same street.",
-              "sentences": ["There is a bus stop outside the college.", "It is a bus stop outside the college."],
+              "sentences": [
+                "There is a bus stop outside the college.",
+                "It is a bus stop outside the college."
+              ],
               "meanings": [
                 "The writer is telling you that a stop is there at all.",
                 "The writer is telling you what a thing already mentioned turns out to be."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -3559,7 +4376,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3587,7 +4406,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t1_academic",
-            "error_codes": ["agreement_subject_verb"],
+            "error_codes": [
+              "agreement_subject_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3614,7 +4435,7 @@
     {
       "id": "gr_possessive",
       "unit_id": "u01",
-      "sequence_index": 1007,
+      "sequence_index": 1307,
       "title": "Saying who something belongs to, with my, your, her and the added 's",
       "cefr_level": "A1",
       "role": "form",
@@ -3622,7 +4443,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Possessive determiners and possessive 's",
-        "prerequisites": ["gr_pronoun_subject"],
+        "prerequisites": [
+          "gr_pronoun_subject"
+        ],
         "unlocks_hint": "gr_punctuation_rest",
         "priority": 2,
         "insertable": false,
@@ -3632,11 +4455,18 @@
         "gravity": "local",
         "confusion_set": null,
         "structure_slug": null,
-        "signal_blocklist": ["belongs to", "owned by", "his or her"],
-        "fixes_errors": ["word_form_wrong", "preposition_dependent", "reference_ambiguous"],
+        "signal_blocklist": [
+          "belongs to",
+          "owned by",
+          "his or her"
+        ],
+        "fixes_errors": [
+          "word_form_wrong",
+          "preposition_dependent",
+          "reference_ambiguous"
+        ],
         "estimated_minutes": 15,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can say who something belongs to, with a short word in front of it or with an added 's.",
           "why_it_matters": "English marks ownership in front of the thing and never after it, and the word is chosen by the owner rather than by the thing owned.",
@@ -3655,8 +4485,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "the owner", "text": "Nils · the team · she" },
-              "right": { "role": "the thing owned", "text": "Nils's boots · the team's kit · her boots" },
+              "left": {
+                "role": "the owner",
+                "text": "Nils · the team · she"
+              },
+              "right": {
+                "role": "the thing owned",
+                "text": "Nils's boots · the team's kit · her boots"
+              },
               "arrow": "left_to_right",
               "caption": "The owner always comes first, and the thing owned never gets a vote."
             }
@@ -3670,35 +4506,55 @@
             {
               "sentence": "Nils cleaned his boots after the match.",
               "question": "Whose boots did he clean?",
-              "options": ["His own", "Somebody else's", "It doesn't say"],
+              "options": [
+                "His own",
+                "Somebody else's",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "The short word points back to Nils, who is the last person named."
             },
             {
               "sentence": "Marta borrowed her sister's bike for the race.",
               "question": "Who owns the bike?",
-              "options": ["Marta", "Her sister", "It doesn't say"],
+              "options": [
+                "Marta",
+                "Her sister",
+                "It doesn't say"
+              ],
               "key": 1,
               "why": "The added 's sits on the sister, so the sister owns it and Marta only borrowed it."
             },
             {
               "sentence": "The club's changing rooms are locked at nine.",
               "question": "Who do the changing rooms belong to?",
-              "options": ["The club", "The players", "It doesn't say"],
+              "options": [
+                "The club",
+                "The players",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "The added 's marks the club as the owner of whatever follows it."
             },
             {
               "sentence": "Their coach lives on the far side of town.",
               "question": "How many people share this coach?",
-              "options": ["One", "More than one", "It doesn't say"],
+              "options": [
+                "One",
+                "More than one",
+                "It doesn't say"
+              ],
               "key": 1,
               "why": "This short word is the one English uses when more than one person is the owner."
             },
             {
               "sentence": "Its front wheel is buckled and the frame is bent.",
               "question": "What is this sentence about?",
-              "options": ["Part of something already mentioned", "A person", "Nothing in particular"],
+              "options": [
+                "Part of something already mentioned",
+                "A person",
+                "Nothing in particular"
+              ],
               "key": 0,
               "why": "Without a mark between the two letters the word means belonging to it, so something was named just before."
             }
@@ -3706,7 +4562,6 @@
           "rule_line": "Ask whose, then put the answer in front of the thing, as a short word or with 's.",
           "false_rule": "That the word changes to match the thing owned, the way it does in French or Spanish. The owner alone decides it: her brothers, his sisters."
         },
-
         "errors": [
           {
             "code": "word_form_wrong",
@@ -3749,7 +4604,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "speaking_p2",
@@ -3770,7 +4624,10 @@
             "model": "The captain's decision was overruled by the committee that ran the club."
           }
         ],
-        "criteria": ["gra", "cohesion"],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
         "used_in": [
           {
             "module": "speaking",
@@ -3778,7 +4635,6 @@
             "quote": "A long turn about a sport is full of other people's equipment, other people's coaching and your own gaps."
           }
         ],
-
         "items": [
           {
             "id": "gi_possessive_01",
@@ -3787,7 +4643,9 @@
             "register": "spoken",
             "topic_id": "topic_sport",
             "skill_hook": "speaking_p2",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3796,7 +4654,11 @@
             "payload": {
               "sentence": "Nils cleaned his boots after the match.",
               "question": "Whose boots did he clean?",
-              "options": ["His own", "Somebody else's", "It doesn't say"],
+              "options": [
+                "His own",
+                "Somebody else's",
+                "It doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -3812,7 +4674,9 @@
             "register": "written",
             "topic_id": "topic_sport",
             "skill_hook": "reading",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3821,7 +4685,11 @@
             "payload": {
               "sentence": "Marta borrowed her sister's bike for the race.",
               "question": "Who owns the bike?",
-              "options": ["Marta", "Her sister", "It doesn't say"],
+              "options": [
+                "Marta",
+                "Her sister",
+                "It doesn't say"
+              ],
               "key": 1
             },
             "expected": null,
@@ -3837,7 +4705,9 @@
             "register": "written",
             "topic_id": "topic_sport",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3868,7 +4738,9 @@
             "register": "written",
             "topic_id": "topic_sport",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3878,9 +4750,13 @@
               "context": "From a note about something left behind at the ground.",
               "stem": "Marta cannot find ___ (she) training shoes.",
               "blanks": 1,
-              "lemma_hints": ["she"]
+              "lemma_hints": [
+                "she"
+              ]
             },
-            "expected": ["her"],
+            "expected": [
+              "her"
+            ],
             "feedback": {
               "why_key": "The owner is Marta, so the word is chosen from her and not from the shoes standing next to it.",
               "feed_forward": "Pick the word from the owner, not from the thing."
@@ -3893,7 +4769,9 @@
             "register": "spoken",
             "topic_id": "topic_sport",
             "skill_hook": "speaking_p2",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -3903,9 +4781,14 @@
               "context": "Talking about a team you used to play for.",
               "stem": "We trained at ___ (the club) old ground by the river.",
               "blanks": 1,
-              "lemma_hints": ["the club"]
+              "lemma_hints": [
+                "the club"
+              ]
             },
-            "expected": ["the club's", "the clubs"],
+            "expected": [
+              "the club's",
+              "the clubs"
+            ],
             "feedback": {
               "why_key": "A group owns things the same way a person does, so the added mark goes straight onto it.",
               "feed_forward": "Add 's to a group exactly as you would to a person."
@@ -3918,18 +4801,46 @@
             "register": "written",
             "topic_id": "topic_sport",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["the", "roof", "of", "the", "clubhouse", "leaks", "above", "the", "kit", "room"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]],
+              "tokens": [
+                "the",
+                "roof",
+                "of",
+                "the",
+                "clubhouse",
+                "leaks",
+                "above",
+                "the",
+                "kit",
+                "room"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9
+                ]
+              ],
               "context": "Build one sentence about a repair the club needs."
             },
-            "expected": ["the roof of the clubhouse leaks above the kit room"],
+            "expected": [
+              "the roof of the clubhouse leaks above the kit room"
+            ],
             "feedback": {
               "why_key": "A building is not a person, so the part it owns is joined on with of rather than with an added mark.",
               "feed_forward": "Use of when the owner is a thing, not a person."
@@ -3942,7 +4853,9 @@
             "register": "written",
             "topic_id": "topic_sport",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3953,7 +4866,10 @@
               "instruction": "Write one sentence saying whose bike Marta rode.",
               "starter": "Marta rode ___"
             },
-            "expected": ["her sister's bike", "her sisters bike"],
+            "expected": [
+              "her sister's bike",
+              "her sisters bike"
+            ],
             "feedback": {
               "why_key": "Two owners stack up in front of one bike, and each of them is chosen by who owns what comes next.",
               "feed_forward": "Build the group from the owner inwards to the thing."
@@ -3966,7 +4882,9 @@
             "register": "spoken",
             "topic_id": "topic_sport",
             "skill_hook": "listening",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -3974,7 +4892,11 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "Their coach kept his notes in the team's old bag.",
-              "scored_tokens": ["Their", "his", "team's"],
+              "scored_tokens": [
+                "Their",
+                "his",
+                "team's"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
@@ -3995,7 +4917,9 @@
             "register": "written",
             "topic_id": "topic_sport",
             "skill_hook": "writing_t2",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4006,7 +4930,11 @@
               "error_span": "The gates from the ground",
               "accept_overlap_tokens": 1
             },
-            "expected": ["the gates of the ground", "the ground's gates", "the grounds gates"],
+            "expected": [
+              "the gates of the ground",
+              "the ground's gates",
+              "the grounds gates"
+            ],
             "feedback": {
               "why_key": "Coming from a place and belonging to a place are different claims, and only one of them is true of a gate.",
               "feed_forward": "Change from to of when you mean belonging."
@@ -4019,7 +4947,9 @@
             "register": "written",
             "topic_id": "topic_sport",
             "skill_hook": "writing_t2",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4050,7 +4980,9 @@
             "register": "written",
             "topic_id": "topic_sport",
             "skill_hook": "reading",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4058,12 +4990,18 @@
             "decision_cue": "Nils took his sister's bike",
             "payload": {
               "context": "Two lines from a report on the same afternoon.",
-              "sentences": ["Nils took his sister's bike.", "Nils took her sister's bike."],
+              "sentences": [
+                "Nils took his sister's bike.",
+                "Nils took her sister's bike."
+              ],
               "meanings": [
                 "The bike belongs to a sister of Nils.",
                 "The bike belongs to the sister of some other woman already named."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -4078,7 +5016,9 @@
             "register": "written",
             "topic_id": "topic_sport",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_form_wrong"],
+            "error_codes": [
+              "word_form_wrong"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4106,7 +5046,9 @@
             "register": "spoken",
             "topic_id": "topic_sport",
             "skill_hook": "speaking_p2",
-            "error_codes": ["reference_ambiguous"],
+            "error_codes": [
+              "reference_ambiguous"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4133,7 +5075,7 @@
     {
       "id": "gr_word_order_place_time",
       "unit_id": "u01",
-      "sequence_index": 1008,
+      "sequence_index": 1308,
       "title": "Putting where and when in the order English expects",
       "cefr_level": "A1",
       "role": "accuracy",
@@ -4141,7 +5083,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Adverbial order: manner, place, time",
-        "prerequisites": ["gr_clause_svo"],
+        "prerequisites": [
+          "gr_clause_svo"
+        ],
         "unlocks_hint": "gr_prepositions_core",
         "priority": 2,
         "insertable": false,
@@ -4151,11 +5095,17 @@
         "gravity": "local",
         "confusion_set": null,
         "structure_slug": null,
-        "signal_blocklist": ["where and when", "the usual place", "at the very end"],
-        "fixes_errors": ["word_order_adverb", "preposition_dependent"],
+        "signal_blocklist": [
+          "where and when",
+          "the usual place",
+          "at the very end"
+        ],
+        "fixes_errors": [
+          "word_order_adverb",
+          "preposition_dependent"
+        ],
         "estimated_minutes": 14,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can put where and when at the end of a sentence in the order English expects.",
           "why_it_matters": "English is rigid here and most languages are not. Getting it wrong never stops a reader understanding you, which is exactly why nobody corrects it and it lasts for years.",
@@ -4176,10 +5126,22 @@
             "spec": {
               "label": "the order things go in after the action",
               "steps": [
-                { "text": "what", "gloss": "the thing the action lands on" },
-                { "text": "how", "gloss": "the way it was done, if you say it at all" },
-                { "text": "where", "gloss": "the place it happened" },
-                { "text": "when", "gloss": "the time it happened" }
+                {
+                  "text": "what",
+                  "gloss": "the thing the action lands on"
+                },
+                {
+                  "text": "how",
+                  "gloss": "the way it was done, if you say it at all"
+                },
+                {
+                  "text": "where",
+                  "gloss": "the place it happened"
+                },
+                {
+                  "text": "when",
+                  "gloss": "the time it happened"
+                }
               ]
             }
           },
@@ -4192,35 +5154,55 @@
             {
               "sentence": "Sana met the others at the hostel on Tuesday.",
               "question": "Where did they meet?",
-              "options": ["At the hostel", "On Tuesday", "It doesn't say"],
+              "options": [
+                "At the hostel",
+                "On Tuesday",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "The place comes first after the action, so the words nearest the action are the ones telling you where."
             },
             {
               "sentence": "On Tuesday Sana met the others by the harbour gate.",
               "question": "Where did they meet this time?",
-              "options": ["By the harbour gate", "On Tuesday", "It doesn't say"],
+              "options": [
+                "By the harbour gate",
+                "On Tuesday",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "Moving the time to the front changes what the sentence leans on, not what actually happened."
             },
             {
               "sentence": "The coach leaves the terminal at six.",
               "question": "What time does the coach go?",
-              "options": ["Six", "It doesn't say", "When it reaches the terminal"],
+              "options": [
+                "Six",
+                "It doesn't say",
+                "When it reaches the terminal"
+              ],
               "key": 0,
               "why": "The last thing in the sentence is the time, which is where English always parks it."
             },
             {
               "sentence": "Imre works quietly in the back office all week.",
               "question": "What does this tell you about the way he works?",
-              "options": ["Quietly", "Slowly", "It doesn't say"],
+              "options": [
+                "Quietly",
+                "Slowly",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "How comes before where, so the word nearest the action is describing the working itself."
             },
             {
               "sentence": "We ate at the hostel every evening.",
               "question": "How often did they eat there?",
-              "options": ["Every evening", "Once", "It doesn't say"],
+              "options": [
+                "Every evening",
+                "Once",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "Place first and time second, so the last piece answers how often rather than where."
             }
@@ -4228,7 +5210,6 @@
           "rule_line": "Where before when, and neither of them between the action and what it lands on.",
           "false_rule": "That the end of a sentence is free space where extra details can go in any order at all. English fixes the order, and a swap is heard immediately."
         },
-
         "errors": [
           {
             "code": "word_order_adverb",
@@ -4261,7 +5242,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "speaking_p2",
@@ -4282,7 +5262,10 @@
             "model": "The tour starts outside the museum at half past nine."
           }
         ],
-        "criteria": ["gra", "cohesion"],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
         "used_in": [
           {
             "module": "speaking",
@@ -4290,7 +5273,6 @@
             "quote": "Every sentence in this turn says where something happened and when, and the order is audible."
           }
         ],
-
         "items": [
           {
             "id": "gi_word_order_place_time_01",
@@ -4299,7 +5281,9 @@
             "register": "spoken",
             "topic_id": "topic_tourism",
             "skill_hook": "speaking_p2",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4308,7 +5292,11 @@
             "payload": {
               "sentence": "Sana met the others at the hostel on Tuesday.",
               "question": "Where did they meet?",
-              "options": ["At the hostel", "On Tuesday", "It doesn't say"],
+              "options": [
+                "At the hostel",
+                "On Tuesday",
+                "It doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -4324,7 +5312,9 @@
             "register": "written",
             "topic_id": "topic_transport",
             "skill_hook": "reading",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4333,7 +5323,11 @@
             "payload": {
               "sentence": "The coach leaves the terminal at six.",
               "question": "What time does the coach go?",
-              "options": ["Six", "It doesn't say", "When it reaches the terminal"],
+              "options": [
+                "Six",
+                "It doesn't say",
+                "When it reaches the terminal"
+              ],
               "key": 0
             },
             "expected": null,
@@ -4349,7 +5343,9 @@
             "register": "written",
             "topic_id": "topic_tourism",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4380,7 +5376,9 @@
             "register": "written",
             "topic_id": "topic_tourism",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4392,7 +5390,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["at"],
+            "expected": [
+              "at"
+            ],
             "feedback": {
               "why_key": "A clock time takes its own small word, and there is nothing in the meaning to work it out from.",
               "feed_forward": "Learn one small word per kind of time."
@@ -4405,7 +5405,9 @@
             "register": "spoken",
             "topic_id": "topic_tourism",
             "skill_hook": "speaking_p2",
-            "error_codes": ["preposition_dependent"],
+            "error_codes": [
+              "preposition_dependent"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4417,7 +5419,9 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["on"],
+            "expected": [
+              "on"
+            ],
             "feedback": {
               "why_key": "A named day takes a different small word from a clock time, and the two sit in the same sentence here.",
               "feed_forward": "Match the small word to the kind of time named."
@@ -4430,17 +5434,55 @@
             "register": "written",
             "topic_id": "topic_tourism",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["we", "left", "our", "cases", "at", "the", "hostel", "on", "the", "first", "morning"],
+              "tokens": [
+                "we",
+                "left",
+                "our",
+                "cases",
+                "at",
+                "the",
+                "hostel",
+                "on",
+                "the",
+                "first",
+                "morning"
+              ],
               "accepted_orders": [
-                [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                [7, 8, 9, 10, 0, 1, 2, 3, 4, 5, 6]
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10
+                ],
+                [
+                  7,
+                  8,
+                  9,
+                  10,
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6
+                ]
               ],
               "context": "Build one sentence about the start of a trip."
             },
@@ -4460,7 +5502,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4471,7 +5515,9 @@
               "instruction": "Write one sentence putting the place and the time in the order English expects.",
               "starter": "Imre works ___"
             },
-            "expected": ["at the depot on saturdays"],
+            "expected": [
+              "at the depot on saturdays"
+            ],
             "feedback": {
               "why_key": "Two facts, one order, and the order is decided by what kind of fact each one is rather than by which matters more.",
               "feed_forward": "Write the place down first, then the time."
@@ -4484,7 +5530,9 @@
             "register": "spoken",
             "topic_id": "topic_tourism",
             "skill_hook": "listening",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4492,12 +5540,18 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "We ate at the little place by the harbour every evening.",
-              "scored_tokens": ["harbour", "every", "evening"],
+              "scored_tokens": [
+                "harbour",
+                "every",
+                "evening"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
             },
-            "expected": ["we ate at the little place by the harbour every evening"],
+            "expected": [
+              "we ate at the little place by the harbour every evening"
+            ],
             "feedback": {
               "why_key": "The place runs on for six words before the time arrives, and the last two words are the ones that get lost.",
               "feed_forward": "Hold on for the time after a long place."
@@ -4510,7 +5564,9 @@
             "register": "written",
             "topic_id": "topic_tourism",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4521,7 +5577,9 @@
               "error_span": "booked on Tuesday two rooms at the hostel",
               "accept_overlap_tokens": 1
             },
-            "expected": ["booked two rooms at the hostel on tuesday"],
+            "expected": [
+              "booked two rooms at the hostel on tuesday"
+            ],
             "feedback": {
               "why_key": "Everything the sentence says is already there. Only the order of the last three pieces has to move.",
               "feed_forward": "Rebuild the tail as what, then where, then when."
@@ -4534,7 +5592,9 @@
             "register": "written",
             "topic_id": "topic_work",
             "skill_hook": "writing_t2",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4565,7 +5625,9 @@
             "register": "written",
             "topic_id": "topic_tourism",
             "skill_hook": "reading",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4573,12 +5635,18 @@
             "decision_cue": "On Fridays the market moves",
             "payload": {
               "context": "Two lines from different parts of the same guide.",
-              "sentences": ["On Fridays the market moves to the square.", "The market moves to the square on Fridays."],
+              "sentences": [
+                "On Fridays the market moves to the square.",
+                "The market moves to the square on Fridays."
+              ],
               "meanings": [
                 "Fridays are what the writer is talking about, and this is what happens on them.",
                 "The market is what the writer is talking about, and this is when it happens."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -4593,7 +5661,9 @@
             "register": "written",
             "topic_id": "topic_tourism",
             "skill_hook": "writing_t1_gt",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4621,7 +5691,9 @@
             "register": "spoken",
             "topic_id": "topic_tourism",
             "skill_hook": "speaking_p2",
-            "error_codes": ["word_order_adverb"],
+            "error_codes": [
+              "word_order_adverb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4648,7 +5720,7 @@
     {
       "id": "gr_capital_fullstop",
       "unit_id": "u01",
-      "sequence_index": 1009,
+      "sequence_index": 1309,
       "title": "Showing a reader where a sentence starts and where it stops",
       "cefr_level": "A1",
       "role": "accuracy",
@@ -4656,7 +5728,9 @@
       "point_json": {
         "schema_version": 1,
         "grammar_name": "Sentence boundaries: the capital letter and the full stop",
-        "prerequisites": ["gr_clause_svo"],
+        "prerequisites": [
+          "gr_clause_svo"
+        ],
         "unlocks_hint": "gr_coordination",
         "priority": 1,
         "insertable": false,
@@ -4666,11 +5740,18 @@
         "gravity": "global",
         "confusion_set": null,
         "structure_slug": null,
-        "signal_blocklist": ["two sentences", "one sentence", "punctuation"],
-        "fixes_errors": ["run_on_fused", "comma_splice", "fragment_no_main_verb"],
+        "signal_blocklist": [
+          "two sentences",
+          "one sentence",
+          "punctuation"
+        ],
+        "fixes_errors": [
+          "run_on_fused",
+          "comma_splice",
+          "fragment_no_main_verb"
+        ],
         "estimated_minutes": 16,
         "tool_surface": null,
-
         "teach": {
           "can_do": "I can show a reader exactly where each sentence starts and where it stops.",
           "why_it_matters": "A reader who cannot see where one sentence ends has to read it twice. Nothing on the page is cheaper to fix or more expensive to leave.",
@@ -4689,8 +5770,14 @@
           "visual": {
             "kind": "two_box",
             "spec": {
-              "left": { "role": "one piece of news, from capital to full stop", "text": "The market closed at four." },
-              "right": { "role": "the next piece of news, with its own pair of marks", "text": "The stalls stayed empty." },
+              "left": {
+                "role": "one piece of news, from capital to full stop",
+                "text": "The market closed at four."
+              },
+              "right": {
+                "role": "the next piece of news, with its own pair of marks",
+                "text": "The stalls stayed empty."
+              },
               "arrow": "left_to_right",
               "caption": "The full stop is a wall. A comma is a curtain, and it will not hold these apart."
             }
@@ -4704,35 +5791,55 @@
             {
               "sentence": "The paper printed the story on Monday. Nobody at the council replied.",
               "question": "How many separate pieces of news are here?",
-              "options": ["One", "Two", "You cannot tell"],
+              "options": [
+                "One",
+                "Two",
+                "You cannot tell"
+              ],
               "key": 1,
               "why": "Two full stops mark out two, and either half would still make sense standing on its own."
             },
             {
               "sentence": "The council met on Thursday, nobody mentioned the harbour road.",
               "question": "Would a reader have to go back and read this again?",
-              "options": ["Yes", "No", "It makes no difference"],
+              "options": [
+                "Yes",
+                "No",
+                "It makes no difference"
+              ],
               "key": 0,
               "why": "The comma is too weak to hold two whole pieces of news apart, so they run together and the reader untangles them."
             },
             {
               "sentence": "The reporter waiting outside the town hall in the rain.",
               "question": "Does this tell you a whole piece of news?",
-              "options": ["Yes", "No", "You cannot tell"],
+              "options": [
+                "Yes",
+                "No",
+                "You cannot tell"
+              ],
               "key": 1,
               "why": "It names somebody and describes them, and then it stops without ever saying what happened."
             },
             {
               "sentence": "Ines writes for the Marlow paper. She covers the harbour.",
               "question": "How many people are being talked about?",
-              "options": ["One", "Two", "It doesn't say"],
+              "options": [
+                "One",
+                "Two",
+                "It doesn't say"
+              ],
               "key": 0,
               "why": "The second sentence opens a fresh pair of marks but carries on about the same person."
             },
             {
               "sentence": "Did the council answer the letter?",
               "question": "Is the writer asking or telling?",
-              "options": ["Asking", "Telling", "Neither"],
+              "options": [
+                "Asking",
+                "Telling",
+                "Neither"
+              ],
               "key": 0,
               "why": "The mark at the end is a question mark, and the capital letter at the front does exactly the same job as always."
             }
@@ -4740,7 +5847,6 @@
           "rule_line": "One capital, one piece of news with one action word, one full stop. Then start again.",
           "false_rule": "That a comma is enough to hold two pieces of news apart when the sentence would otherwise be long. Length has nothing to do with it."
         },
-
         "errors": [
           {
             "code": "run_on_fused",
@@ -4773,7 +5879,6 @@
             "l1_note": null
           }
         ],
-
         "pays_in": [
           {
             "surface": "writing_t2",
@@ -4794,7 +5899,10 @@
             "model": "The scheme was abandoned in its second year. Nothing replaced it."
           }
         ],
-        "criteria": ["gra", "cohesion"],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
         "used_in": [
           {
             "module": "writing",
@@ -4802,7 +5910,6 @@
             "quote": "Answers on this prompt stack short claims one after another, which is where the boundaries between them start dissolving."
           }
         ],
-
         "items": [
           {
             "id": "gi_capital_fullstop_01",
@@ -4811,7 +5918,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "reading",
-            "error_codes": ["run_on_fused"],
+            "error_codes": [
+              "run_on_fused"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4820,7 +5929,11 @@
             "payload": {
               "sentence": "The paper ran the story on Monday. The council replied on Friday.",
               "question": "How many separate pieces of news are here?",
-              "options": ["One", "Two", "You cannot tell"],
+              "options": [
+                "One",
+                "Two",
+                "You cannot tell"
+              ],
               "key": 1
             },
             "expected": null,
@@ -4836,7 +5949,9 @@
             "register": "spoken",
             "topic_id": "topic_media",
             "skill_hook": "listening",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4845,7 +5960,11 @@
             "payload": {
               "sentence": "Ines writes for the Marlow paper. She covers the harbour.",
               "question": "How many people are being talked about?",
-              "options": ["One", "Two", "It doesn't say"],
+              "options": [
+                "One",
+                "Two",
+                "It doesn't say"
+              ],
               "key": 0
             },
             "expected": null,
@@ -4861,7 +5980,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t2",
-            "error_codes": ["comma_splice"],
+            "error_codes": [
+              "comma_splice"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4892,7 +6013,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t2",
-            "error_codes": ["run_on_fused"],
+            "error_codes": [
+              "run_on_fused"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4904,7 +6027,11 @@
               "blanks": 1,
               "lemma_hints": []
             },
-            "expected": ["but", "and", "yet"],
+            "expected": [
+              "but",
+              "and",
+              "yet"
+            ],
             "feedback": {
               "why_key": "A joining word is the other way of keeping two pieces of news in one sentence without asking a comma to do it alone.",
               "feed_forward": "Join two halves with a word, not with a comma."
@@ -4917,7 +6044,9 @@
             "register": "spoken",
             "topic_id": "topic_communication",
             "skill_hook": "speaking_p3",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -4927,9 +6056,13 @@
               "context": "Talking about how you follow the news.",
               "stem": "The reporter ___ (wait) outside the hall all morning.",
               "blanks": 1,
-              "lemma_hints": ["wait"]
+              "lemma_hints": [
+                "wait"
+              ]
             },
-            "expected": ["waited"],
+            "expected": [
+              "waited"
+            ],
             "feedback": {
               "why_key": "One word turns a description of somebody into a piece of news, and only news is allowed its own pair of marks.",
               "feed_forward": "Give every stretch between two stops an action word."
@@ -4942,18 +6075,44 @@
             "register": "written",
             "topic_id": "topic_transport",
             "skill_hook": "writing_t2",
-            "error_codes": ["run_on_fused"],
+            "error_codes": [
+              "run_on_fused"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
             "difficulty": 2,
             "decision_cue": null,
             "payload": {
-              "tokens": ["the", "scheme", "ended", "in", "March", "and", "nothing", "replaced", "it"],
-              "accepted_orders": [[0, 1, 2, 3, 4, 5, 6, 7, 8]],
+              "tokens": [
+                "the",
+                "scheme",
+                "ended",
+                "in",
+                "March",
+                "and",
+                "nothing",
+                "replaced",
+                "it"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ]
+              ],
               "context": "Build one sentence that holds two pieces of news together."
             },
-            "expected": ["the scheme ended in march and nothing replaced it"],
+            "expected": [
+              "the scheme ended in march and nothing replaced it"
+            ],
             "feedback": {
               "why_key": "The joining word in the middle is what lets both pieces of news live between the same capital letter and the same full stop.",
               "feed_forward": "Place the joining word between the two halves."
@@ -4966,7 +6125,9 @@
             "register": "written",
             "topic_id": "topic_transport",
             "skill_hook": "writing_t2",
-            "error_codes": ["comma_splice"],
+            "error_codes": [
+              "comma_splice"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -4994,7 +6155,9 @@
             "register": "spoken",
             "topic_id": "topic_media",
             "skill_hook": "listening",
-            "error_codes": ["run_on_fused"],
+            "error_codes": [
+              "run_on_fused"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -5002,12 +6165,17 @@
             "decision_cue": null,
             "payload": {
               "audio_text": "The story broke on Monday and the council replied on Friday.",
-              "scored_tokens": ["and", "replied"],
+              "scored_tokens": [
+                "and",
+                "replied"
+              ],
               "mode": "dictation",
               "speed": 1.0,
               "replay_slow": 0.8
             },
-            "expected": ["the story broke on monday and the council replied on friday"],
+            "expected": [
+              "the story broke on monday and the council replied on friday"
+            ],
             "feedback": {
               "why_key": "The joining word is a single unstressed sound, and it is the only thing holding the two halves in one sentence.",
               "feed_forward": "Listen for the small joining word between two halves."
@@ -5020,7 +6188,9 @@
             "register": "written",
             "topic_id": "topic_urbanisation",
             "skill_hook": "writing_t2",
-            "error_codes": ["comma_splice"],
+            "error_codes": [
+              "comma_splice"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -5031,7 +6201,11 @@
               "error_span": "second year, nothing",
               "accept_overlap_tokens": 1
             },
-            "expected": ["second year and nothing", "second year but nothing", "second year. nothing"],
+            "expected": [
+              "second year and nothing",
+              "second year but nothing",
+              "second year. nothing"
+            ],
             "feedback": {
               "why_key": "Both halves are whole pieces of news, so the comma is being asked to do work that only a stop or a joining word can do.",
               "feed_forward": "Replace the comma with a stop or a joining word."
@@ -5044,7 +6218,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t2",
-            "error_codes": ["fragment_no_main_verb"],
+            "error_codes": [
+              "fragment_no_main_verb"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,
@@ -5075,7 +6251,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "reading",
-            "error_codes": ["comma_splice"],
+            "error_codes": [
+              "comma_splice"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -5083,12 +6261,18 @@
             "decision_cue": "The council met and",
             "payload": {
               "context": "Two lines from different drafts of the same report.",
-              "sentences": ["The council met and the harbour was discussed.", "The council met. The harbour was discussed."],
+              "sentences": [
+                "The council met and the harbour was discussed.",
+                "The council met. The harbour was discussed."
+              ],
               "meanings": [
                 "The two facts are offered as one connected piece of news.",
                 "The two facts are offered as two separate pieces of news."
               ],
-              "key": [0, 1]
+              "key": [
+                0,
+                1
+              ]
             },
             "expected": null,
             "feedback": {
@@ -5103,7 +6287,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t2",
-            "error_codes": ["comma_splice"],
+            "error_codes": [
+              "comma_splice"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": false,
@@ -5131,7 +6317,9 @@
             "register": "written",
             "topic_id": "topic_media",
             "skill_hook": "writing_t2",
-            "error_codes": ["run_on_fused"],
+            "error_codes": [
+              "run_on_fused"
+            ],
             "confusion_set": null,
             "twin_id": null,
             "review_only": true,

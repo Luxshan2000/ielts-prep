@@ -1,0 +1,3451 @@
+{
+  "staging_version": 1,
+  "block": "th-a5-conditionals",
+  "authored_by": "TH-A5",
+  "_notes": [
+    "Six articles: the unreal past, the real conditionals, the unreal conditionals, the alternatives to if, the deciding article, and the rest of the unreal-past family.",
+    "CHAPTER NUMBERING. The task brief calls this Chapter 5 and names the file ch5-conditionals.json. DESIGN-THEORY.md section 1.8 places every one of these areas in chapter thc_06 (articles 14-19, sequence_index 120-125) and the section 4.3 term ledger names th_real_and_unreal and th_conditionals_real as the sole introducers of terms 74 and 75. The article ids, chapter_id and sequence_index below follow DESIGN-THEORY.md, because those three fields are corpus-wide join keys. The file name follows the brief. If the build uses a different chapter plan, chapter_id and sequence_index are the only two fields that need renumbering.",
+    "Areas claimed: Q1-Q21 and P24. That is exactly the union of DESIGN-THEORY.md section 1.8 rows 14-19, with nothing added and nothing dropped.",
+    "Terms introduced: 74 unreal past (th_real_and_unreal), 75 conditional (th_conditionals_real). Glosses are byte-identical to the section 4.3 ledger. No term is used whose ledger introducer sits later than the article using it; hedging (87) is therefore avoided in article 6 and Q20 is written as a careful claim instead.",
+    "variation_refs claimed: 25 (Q18, if I was / if I were), once, in th_other_ways_to_say_if, which owns Q18 per section 1.8. myth_refs claimed: none. The three TH-R4 8.3 rows allocated to thc_06 (1, 2, 14) belong to th_hanging_a_clause_on, th_joining_equal_clauses and th_relative_details, which are not in this file."
+  ],
+  "articles": [
+    {
+      "id": "th_real_and_unreal",
+      "chapter_id": "thc_05",
+      "sequence_index": 120,
+      "title": "The past form that is not about the past",
+      "kind": "standard",
+      "cefr_level": "B1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "The unreal past",
+        "one_line": "This lets you see why English steps a verb back in time to say that something is not true.",
+        "short_answer": "Move the verb one step back in time and it stops meaning *earlier*. It means *not true*: *If the trust owned the wharf...*",
+        "question_in_learner_words": "Why does English use a past verb for something that is happening now?",
+        "area_ids": [
+          "Q1"
+        ],
+        "prerequisites": [
+          "th_past_simple",
+          "th_past_perfect"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "A past form does two different jobs",
+            "anchor": "two-jobs"
+          },
+          {
+            "type": "prose",
+            "text": "English uses its past forms for two different jobs. One is time: the thing happened, and it is over. The other is truth: the thing is not the case, and the past form is what says so."
+          },
+          {
+            "type": "prose",
+            "text": "That second job is why *If the council owned the depot* is about today. Nothing in it happened last year. The step back marks the sentence as imaginary."
+          },
+          {
+            "type": "term_intro",
+            "term": "unreal past",
+            "also_called": null,
+            "gloss": "a past form used for something that is not true, not for past time",
+            "show_first": [
+              {
+                "text": "If the ferry ran on Sundays, the island would gain visitors.",
+                "mark": "ran"
+              },
+              {
+                "text": "I wish the archive opened at weekends.",
+                "mark": "opened"
+              },
+              {
+                "text": "She talks about the depot as if she managed it.",
+                "mark": "managed"
+              }
+            ],
+            "name_line": "That step back is called the **unreal past**.",
+            "anchor_line": "Not one of those three verbs is about yesterday. Each one marks its sentence as something that is not the case.",
+            "l1_hook": [
+              "zh"
+            ],
+            "ledger_position": 74
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "One device, and the eight places it turns up",
+            "anchor": "the-eight-places"
+          },
+          {
+            "type": "table",
+            "anchor": "unreal-past-family",
+            "caption": "One device, eight wrappers. Every row uses a past form for something untrue.",
+            "headers": [
+              "What you want to say",
+              "The wrapper",
+              "Example"
+            ],
+            "rows": [
+              [
+                "imagine a different present",
+                "*if* + past form",
+                "If the lift reached the top floor..."
+              ],
+              [
+                "imagine a different past",
+                "*if* + *had* + third form",
+                "If the survey had arrived in March..."
+              ],
+              [
+                "want the present to be different",
+                "*I wish* + past form",
+                "I wish the clinic opened on Saturdays."
+              ],
+              [
+                "regret something in the past",
+                "*I wish* + *had* + third form",
+                "I wish we had asked for a receipt."
+              ],
+              [
+                "prefer that somebody else acts",
+                "*I'd rather* + past form",
+                "I'd rather you rang the warden."
+              ],
+              [
+                "say something is overdue",
+                "*it's time* + past form",
+                "It's time the trust replaced the gates."
+              ],
+              [
+                "compare with something untrue",
+                "*as if* + past form",
+                "He writes as if the plan were approved."
+              ],
+              [
+                "ask or claim carefully",
+                "past form for distance",
+                "I was wondering about the closing date."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "Every wrapper in the middle column takes a past form, and not one of these rows is about the past.",
+              "The full treatment of the last six rows is in [th_wish_and_the_unreal_family]."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "Three pairs. The first of each pair is true, the second is not, and only the verb changes.",
+            "dimension": "true or not true",
+            "items": [
+              {
+                "text": "The Sandmouth ferry runs on Sundays.",
+                "gloss": "It does run. That is the timetable.",
+                "register": "neutral"
+              },
+              {
+                "text": "If the Sandmouth ferry ran on Sundays, the island would fill up.",
+                "gloss": "There is no Sunday service, so the island stays quiet.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "ran",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I know the code for the side gate.",
+                "gloss": "I can get in whenever I need to.",
+                "register": "spoken"
+              },
+              {
+                "text": "I wish I knew the code for the side gate.",
+                "gloss": "I cannot get in, and it is holding me up.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "knew",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The trust repairs the wharf buildings each spring.",
+                "gloss": "The work happens every year without fail.",
+                "register": "written_formal"
+              },
+              {
+                "text": "It is time the trust repaired the wharf buildings.",
+                "gloss": "The buildings are still in poor condition, and the work is overdue.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "repaired",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "The second sentence of each pair uses a past form, and not one of them is about the past."
+          },
+          {
+            "type": "visual",
+            "kind": "axis",
+            "caption": "Stepping the verb back moves the sentence away from what is real.",
+            "spec": {
+              "ends": [
+                "what is real",
+                "what is not real"
+              ],
+              "marks": [
+                {
+                  "pos": 1,
+                  "label": "the ferry runs"
+                },
+                {
+                  "pos": 9,
+                  "label": "if the ferry ran"
+                }
+              ]
+            }
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Step the verb back to say it is not true",
+            "anchor": "the-rule"
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule-line",
+            "text": "To say that something is not true, put the verb one step further back in time than the meaning needs."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Three sentences about today. Every verb is a past form, and none of them looks backwards.",
+            "dimension": "the step back",
+            "items": [
+              {
+                "text": "If the bus lane opened at six, the morning queue would clear.",
+                "gloss": "The lane opens later than that, so the queue builds up.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "opened",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I'd rather you sent the figures by email.",
+                "gloss": "Please use email. The post is too slow.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "sent",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The report reads as if the funding were already agreed.",
+                "gloss": "The funding is not agreed, and the report gives the wrong impression.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "were",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Each verb has stepped back one form, and each sentence is about the situation right now."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Is this past form about time, or about truth?",
+            "anchor": "time-or-truth"
+          },
+          {
+            "type": "decision_tree",
+            "anchor": "time-or-not-true",
+            "intro": "Two questions. Ask them about any past form you meet.",
+            "steps": [
+              {
+                "id": "s1",
+                "ask": "Does the sentence point at a moment that has already gone?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "the ordinary past",
+                      "example": "The Marlow depot closed three years ago.",
+                      "why": "The event really happened, and it happened before now."
+                    }
+                  },
+                  {
+                    "answer": "No",
+                    "goto": "s2"
+                  }
+                ]
+              },
+              {
+                "id": "s2",
+                "ask": "Is there an *if*, a *wish*, an *as if*, an *I'd rather* or an *it's time*?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "the unreal past",
+                      "example": "I wish the depot were still open.",
+                      "why": "The past form marks the sentence as untrue, not as earlier."
+                    }
+                  },
+                  {
+                    "answer": "No, and the sentence is a request",
+                    "verdict": {
+                      "use": "the unreal past for politeness",
+                      "example": "I was hoping to look at the site plans.",
+                      "why": "The step back softens the request. It says nothing about the past."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "So a past form is a signal, and what it signals depends on the words in front of it. A time expression makes it about the past. *If*, *wish* or *as if* makes it about something untrue."
+          },
+          {
+            "type": "prose",
+            "text": "That is worth learning once, because it is one idea and not eight. The second conditional, the third conditional, *wish*, *if only*, *I'd rather*, *it's time*, *as if* and polite requests all run on it."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "present-after-wish",
+            "code": "unreal_past_missing",
+            "wrong": "I wish I have more time before the deadline.",
+            "right": "I wish I had more time before the deadline.",
+            "why_it_happens": "The sentence is about now, so a present form feels right. After *wish*, English marks the sentence as untrue by stepping the verb back one form.",
+            "smallest_fix": "Change *have* to *had*. The step back is what turns it into a wish."
+          },
+          {
+            "type": "warning",
+            "anchor": "present-after-its-time",
+            "code": "unreal_past_missing",
+            "wrong": "It's time the council repairs the footbridge.",
+            "right": "It's time the council repaired the footbridge.",
+            "why_it_happens": "*It's time* is a present phrase, so a present verb looks natural after it. The verb steps back because the repair has not happened yet.",
+            "smallest_fix": "Change *repairs* to *repaired*."
+          },
+          {
+            "type": "warning",
+            "anchor": "would-in-both-halves",
+            "code": "conditional_wrong_system",
+            "wrong": "If I would have the figures, I would send them now.",
+            "right": "If I had the figures, I would send them now.",
+            "why_it_happens": "*Would* carries the imaginary meaning in the result, so it feels as though both halves need it. The *if* half shows the same thing with a past form on its own.",
+            "smallest_fix": "Delete *would* from the *if* half and step the verb back instead."
+          },
+          {
+            "type": "false_rule",
+            "heard": "A past tense always talks about the past.",
+            "also_known_as": [
+              "past tense equals past time"
+            ],
+            "truth": "It usually does. It has a second job as well: after *if*, *wish*, *as if*, *I'd rather* and *it's time*, a past form says that something is not true. *I wish I knew* is about this minute.",
+            "what_to_do": "When you meet a past form, look at the word in front of it. After those five, read the form as *not true* rather than as *earlier*."
+          },
+          {
+            "type": "l1_note",
+            "collapsed": true,
+            "lang": "zh",
+            "mechanism": "Chinese verbs keep one shape whatever the time. Separate words say when something happens and whether it is real.",
+            "wrong": "If the council owns the site, it would restore the wharf.",
+            "right": "If the council owned the site, it would restore the wharf.",
+            "fix": "Change the verb itself."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "A past form has two jobs: earlier, and not true.",
+            "table": {
+              "caption": "One row per job.",
+              "headers": [
+                "What the past form does",
+                "What is in front of it",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "says a real event is over",
+                  "a time expression",
+                  "The depot closed three years ago."
+                ],
+                [
+                  "says the sentence is untrue",
+                  "*if*, *wish*, *as if*",
+                  "If the depot stayed open..."
+                ],
+                [
+                  "softens a request or a claim",
+                  "nothing, just politeness",
+                  "I was hoping to ask you."
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Is *knew* about the past here? *I wish I knew who owns the yard.*",
+                "answer": "No.",
+                "why": "It is about now. The step back says you do not know, not that you knew earlier."
+              },
+              {
+                "prompt": "Why is *It's time we go home* not standard?",
+                "answer": "*It's time* takes a past form: *It's time we went home.*",
+                "why": "The step back is what says the going home is already overdue."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [
+          {
+            "term": "unreal past",
+            "gloss": "a past form used for something that is not true, not for past time",
+            "also_called": null,
+            "ledger_position": 74
+          }
+        ],
+        "term_refs": [
+          "verb",
+          "subject",
+          "clause",
+          "tense",
+          "past form",
+          "third form (past participle)",
+          "unreal past"
+        ],
+        "related_points": [
+          "gr_unreal_past"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_conditionals_unreal",
+            "reason": "the two *if*-sentences that run on this device"
+          },
+          {
+            "id": "th_wish_and_the_unreal_family",
+            "reason": "*wish*, *it's time*, *I'd rather* and *as if*, in full"
+          },
+          {
+            "id": "th_past_simple",
+            "reason": "the same forms doing their ordinary job, which is time"
+          }
+        ],
+        "fixes_errors": [
+          "unreal_past_missing",
+          "conditional_wrong_system"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "unreal past",
+          "past tense not past time",
+          "why if uses a past verb",
+          "hypothetical past form",
+          "distance in tense"
+        ],
+        "intents": [
+          "talk about something that is not true"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 5,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_conditionals_real",
+      "chapter_id": "thc_05",
+      "sequence_index": 121,
+      "title": "*If* about things that can happen",
+      "kind": "standard",
+      "cefr_level": "A2",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "The zero and first conditionals",
+        "one_line": "This lets you say what happens, or what will happen, when a condition is really met.",
+        "short_answer": "Put a present form after *if*, never *will*: *If the survey confirms the fault, the trust will close the span.*",
+        "question_in_learner_words": "Which verb do I use after *if* when the thing can really happen?",
+        "area_ids": [
+          "Q2",
+          "Q3",
+          "P24"
+        ],
+        "prerequisites": [
+          "th_present_simple",
+          "th_the_futures"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "An *if*-sentence has two halves",
+            "anchor": "two-halves"
+          },
+          {
+            "type": "prose",
+            "text": "An *if*-sentence has two halves. One sets a condition, and the other says what follows from it. Either half can come first, and the meaning does not change."
+          },
+          {
+            "type": "prose",
+            "text": "Two of these sentences are about the real world. One is for what happens every time, and one is for what will happen on a particular occasion."
+          },
+          {
+            "type": "term_intro",
+            "term": "conditional",
+            "also_called": null,
+            "gloss": "a sentence about an *if*-situation",
+            "show_first": [
+              {
+                "text": "If the ferry is cancelled, the coast road fills up.",
+                "mark": "If the ferry is cancelled"
+              },
+              {
+                "text": "If the grant arrives, the trust will repair the wharf.",
+                "mark": "If the grant arrives"
+              },
+              {
+                "text": "The gate stays locked if the warden is off site.",
+                "mark": "if the warden is off site"
+              }
+            ],
+            "name_line": "A sentence built that way is called a **conditional**.",
+            "anchor_line": "The word does not mean *not certain*. It only means there is a condition in the sentence, and the marked half is where the condition sits.",
+            "l1_hook": null,
+            "ledger_position": 75
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Both real patterns keep a present form after *if*",
+            "anchor": "how-to-build-them"
+          },
+          {
+            "type": "table",
+            "anchor": "the-two-real-patterns",
+            "caption": "The *if* half takes a present form in every row. The choice happens opposite.",
+            "headers": [
+              "What you mean",
+              "The *if* half",
+              "The other half",
+              "Example"
+            ],
+            "rows": [
+              [
+                "it happens every time",
+                "present form",
+                "present form",
+                "If the tide rises, the gate closes."
+              ],
+              [
+                "it will happen this time",
+                "present form",
+                "*will* + base form",
+                "If the tide rises, the gate will close."
+              ],
+              [
+                "do this when it happens",
+                "present form",
+                "an instruction",
+                "If the alarm sounds, leave by the north door."
+              ],
+              [
+                "it might happen",
+                "present form",
+                "*may*, *might*, *could*",
+                "If funding arrives, the work may start."
+              ],
+              [
+                "it is a duty or a rule",
+                "present form",
+                "*must*, *should*",
+                "If a beam shows rust, it must be replaced."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "The *if* half never takes *will*, in any of these rows.",
+              "Put a comma after the *if* half only when it comes first."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "Only the second half changes here. The *if* half is the same one every time.",
+            "dimension": "the result half",
+            "items": [
+              {
+                "text": "If the council approves the plan, work starts in June.",
+                "gloss": "June is fixed already. Approval is the last thing missing.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "starts",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If the council approves the plan, work will start in June.",
+                "gloss": "June is the likely start, once the approval comes through.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "will start",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If the council approves the plan, tell the site office.",
+                "gloss": "Somebody needs to pass the news on.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "tell",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If the council approves the plan, the trust must publish it.",
+                "gloss": "Publishing is a duty, not a choice.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "must publish",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "The *if* half never moved. Everything you choose happens in the other half."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "*Will* goes in the other half, never after *if*",
+            "anchor": "the-rule"
+          },
+          {
+            "type": "rule",
+            "anchor": "present-after-if",
+            "text": "Use a present form after *if*, and keep *will* for the other half."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Three sentences about the future. The verb after *if* changes shape, and not one of them uses *will*.",
+            "dimension": "the verb after *if*",
+            "items": [
+              {
+                "text": "If the survey finds damp, the sale will fall through.",
+                "gloss": "Damp would end the sale.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "finds",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If you are travelling on Friday, book the earlier train.",
+                "gloss": "Friday is busy, so the early train is the safer one.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "are travelling",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If the team has finished the survey, the panel will meet on Monday.",
+                "gloss": "The meeting depends on the survey being ready.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "has finished",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "The *if* half can be any present form at all, and the sentence is still about the future."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Does *if* mean *whenever*, or *on this occasion*?",
+            "anchor": "whenever-or-this-occasion"
+          },
+          {
+            "type": "contrast",
+            "anchor": "zero-or-first",
+            "question": "Does *if* here mean *whenever*, or *on this one occasion*?",
+            "options": [
+              {
+                "label": "every time (the zero conditional)",
+                "use_it_when": "*If* means *whenever*. The result follows automatically, so both halves take a present form.",
+                "example": "If the reservoir drops below the mark, the pumps switch on.",
+                "point_id": "gr_cond_zero"
+              },
+              {
+                "label": "one occasion (the first conditional)",
+                "use_it_when": "*If* means *on that occasion*. You are talking about one particular time, so the other half takes *will*.",
+                "example": "If the reservoir drops again this summer, the town will face a ban.",
+                "point_id": "gr_cond_first"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "If the sensor detects smoke, the shutters close.",
+                  "means": "That is what the system does, every single time.",
+                  "span": "close"
+                },
+                "b": {
+                  "text": "If the sensor detects smoke, the shutters will close.",
+                  "means": "You are talking about one alarm that may go off.",
+                  "span": "will close"
+                },
+                "only_difference": "close / will close"
+              },
+              {
+                "a": {
+                  "text": "If a student misses three classes, the tutor sends a warning.",
+                  "means": "That is the standing rule of the department.",
+                  "span": "sends"
+                },
+                "b": {
+                  "text": "If a student misses three classes, the tutor will send a warning.",
+                  "means": "You have one student in mind this term.",
+                  "span": "will send"
+                },
+                "only_difference": "sends / will send"
+              },
+              {
+                "a": {
+                  "text": "If the trains run late, the buses wait.",
+                  "means": "The buses always wait. The timetable is built that way.",
+                  "span": "wait"
+                },
+                "b": {
+                  "text": "If the trains run late, the buses will wait.",
+                  "means": "Tonight, if the trains are late, the buses are going to wait.",
+                  "span": "will wait"
+                },
+                "only_difference": "wait / will wait"
+              }
+            ],
+            "deciding_factor": "Swap *if* for *whenever*. If the sentence still says what you mean, use a present form in both halves.",
+            "trap": "You were taught that the first pattern is the future one, so *will* goes in wherever the sentence feels future, including in standing rules.",
+            "register_note": "Both belong everywhere. The every-time pattern carries process writing in Task 1, and the one-occasion pattern carries predictions in Task 2 and Speaking Part 3."
+          },
+          {
+            "type": "prose",
+            "text": "*When* can replace *if* in the every-time pattern, because the thing really does happen. Put *when* into the one-occasion pattern and you have promised something you only meant as a possibility."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "will-after-if",
+            "code": "future_will_in_time_clause",
+            "wrong": "If it will rain on Saturday, the fair will move indoors.",
+            "right": "If it rains on Saturday, the fair will move indoors.",
+            "why_it_happens": "The whole sentence is about the future, so a future form feels right in both halves. English marks the future once, in the result half.",
+            "smallest_fix": "Change *will rain* to *rains*. The same goes after *when*, *until*, *as soon as* and *unless*."
+          },
+          {
+            "type": "warning",
+            "anchor": "halves-disagree",
+            "code": "conditional_wrong_system",
+            "wrong": "If the council approved the plan, work will start in June.",
+            "right": "If the council approves the plan, work will start in June.",
+            "why_it_happens": "The two halves get written a few seconds apart, so they end up in different systems. A past form after *if* says the thing is imaginary, and *will* says it is real.",
+            "smallest_fix": "Pick one. Real: *approves ... will start*. Imaginary: *approved ... would start*."
+          },
+          {
+            "type": "warning",
+            "anchor": "would-as-a-soft-will",
+            "code": "conditional_wrong_system",
+            "wrong": "If the grant arrives, the trust would repair the wharf.",
+            "right": "If the grant arrives, the trust will repair the wharf.",
+            "why_it_happens": "*Would* sounds more careful than *will*, so it gets used as a polite version of it. Next to a present *if* half it says the grant both can and cannot arrive.",
+            "smallest_fix": "Use *will* when the condition is real, and keep *would* for the imaginary version."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Four places where *will* or *would* really does follow *if*",
+            "items": [
+              {
+                "text": "*Will* after *if* can mean *are willing to*. It is a polite formula, not a future.",
+                "example": "If you will sign at the bottom, I'll send it today.",
+                "kind": "A",
+                "how_often": "uncommon",
+                "verdict": "recognise only"
+              },
+              {
+                "text": "Stressed *will* after *if* means *insist on doing*. It carries mild complaint.",
+                "example": "If you will leave the gate open, expect the sheep to wander.",
+                "kind": "A",
+                "how_often": "uncommon",
+                "verdict": "recognise only"
+              },
+              {
+                "text": "*Would* after *if* is a polite request in service language.",
+                "example": "If you would take a seat, somebody will come through.",
+                "kind": "B",
+                "how_often": "common",
+                "verdict": "recognise only"
+              },
+              {
+                "text": "In *if it will help*, the *if* half points at the result rather than the condition.",
+                "example": "If it will help, I can bring the older maps.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "recognise only"
+              }
+            ],
+            "stop_line": "That is the whole list. Everywhere else, a present form goes after *if*."
+          },
+          {
+            "type": "false_rule",
+            "heard": "The zero conditional is for scientific facts, and the first conditional is for the future.",
+            "also_known_as": [
+              "zero equals science, first equals future"
+            ],
+            "truth": "The every-time pattern covers any automatic result: office rules, machines, prices, timetables. The one-occasion pattern is not tied to *will* either, because its result half takes *may*, *must* or an instruction just as readily.",
+            "what_to_do": "Ask whether *if* means *whenever*. If it does, use a present form in both halves. If it does not, the result half is yours to choose."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Present form after *if*. The choice happens in the other half.",
+            "table": {
+              "caption": "One row per meaning.",
+              "headers": [
+                "If you mean...",
+                "The other half takes",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "it happens every time",
+                  "a present form",
+                  "If the tide rises, the gate closes."
+                ],
+                [
+                  "it will happen this time",
+                  "*will*",
+                  "If the tide rises, the gate will close."
+                ],
+                [
+                  "do this when it happens",
+                  "an instruction",
+                  "If the tide rises, close the gate."
+                ],
+                [
+                  "it might happen",
+                  "*may*, *might*, *could*",
+                  "If the tide rises, the road may flood."
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Which is right? *If the app will crash, restart it.* / *If the app crashes, restart it.*",
+                "answer": "*If the app crashes, restart it.*",
+                "why": "The *if* half takes a present form even when the crash has not happened yet."
+              },
+              {
+                "prompt": "*If water reaches the sensor, the alarm sounds.* Why not *will sound*?",
+                "answer": "Because *if* here means *whenever*. Both halves stay in a present form.",
+                "why": "The result is automatic, so nothing in the sentence points at one occasion."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [
+          {
+            "term": "conditional",
+            "gloss": "a sentence about an *if*-situation",
+            "also_called": null,
+            "ledger_position": 75
+          }
+        ],
+        "term_refs": [
+          "conditional",
+          "verb",
+          "subject",
+          "clause",
+          "main clause",
+          "subordinate clause",
+          "base form",
+          "modal verb",
+          "past form"
+        ],
+        "related_points": [
+          "gr_cond_zero",
+          "gr_cond_first",
+          "gr_cond_first_uses"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_conditionals_unreal",
+            "reason": "the same two halves, once the situation is imaginary"
+          },
+          {
+            "id": "th_which_conditional",
+            "reason": "the deciding table, when you cannot tell which pattern you need"
+          },
+          {
+            "id": "th_other_ways_to_say_if",
+            "reason": "*unless*, *provided that* and *in case*, which follow the same verb rule"
+          },
+          {
+            "id": "th_the_futures",
+            "reason": "where *will* fits among the other ways of talking about later"
+          }
+        ],
+        "fixes_errors": [
+          "future_will_in_time_clause",
+          "conditional_wrong_system"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "zero conditional",
+          "first conditional",
+          "if plus present",
+          "will after if",
+          "real conditional"
+        ],
+        "intents": [
+          "say what will happen if something happens",
+          "describe a rule or a process"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 6,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_conditionals_unreal",
+      "chapter_id": "thc_05",
+      "sequence_index": 122,
+      "title": "*If* about things that are not the case",
+      "kind": "standard",
+      "cefr_level": "B2",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "The second, third and mixed conditionals",
+        "one_line": "This lets you talk about a present that is not real and a past that did not happen, and say what follows from each.",
+        "short_answer": "Imagining now? *If the trust owned the wharf, it would restore it.* Imagining the past? *If the grant had arrived, the crew would have finished.*",
+        "question_in_learner_words": "How do I say what would happen if something were different?",
+        "area_ids": [
+          "Q4",
+          "Q5",
+          "Q6"
+        ],
+        "prerequisites": [
+          "th_real_and_unreal",
+          "th_conditionals_real",
+          "th_past_perfect"
+        ],
+        "register": "both",
+        "risk_note": "Mixed conditionals are correct and useful, and the two halves are easy to muddle under pressure. If you are unsure, write the plain second or third pattern instead. It costs you nothing.",
+        "error_surface": 3,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "These sentences say what is not the case",
+            "anchor": "what-they-are-for"
+          },
+          {
+            "type": "prose",
+            "text": "Sometimes the condition cannot be met, or you do not expect it to be. The trust does not own the wharf. The grant never arrived. You still want to say what would follow, so English steps the verb back."
+          },
+          {
+            "type": "prose",
+            "text": "The step back is the whole system. A past form after *if* says the cause is not true. *Had* plus the third form says it did not happen. *Would* carries the result."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Both halves, in full, for all three shapes",
+            "anchor": "the-shapes"
+          },
+          {
+            "type": "paradigm",
+            "anchor": "unreal-conditional-forms",
+            "caption": "The *if* half tells you which shape you are reading. *Would* never appears in it.",
+            "form_line": "*if* + past form, then *would* + base form -- or *if* + *had* + third form, then *would have* + third form",
+            "model_verbs": [
+              "paint",
+              "write"
+            ],
+            "headers": [
+              "What you mean",
+              "The *if* half",
+              "Result: positive",
+              "Result: short form (spoken)",
+              "Result: negative",
+              "Result: question"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "imagined now, regular verb",
+                  "if the crew painted it",
+                  "they would paint it",
+                  "they'd paint it",
+                  "they would not paint it",
+                  "Would they paint it?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "imagined now, irregular verb",
+                  "if the crew wrote it",
+                  "they would write it",
+                  "they'd write it",
+                  "they would not write it",
+                  "Would they write it?"
+                ],
+                "weight": "high",
+                "note": "The *if* half is the past form: *wrote*, not *written*."
+              },
+              {
+                "cells": [
+                  "imagined past, regular verb",
+                  "if the crew had painted it",
+                  "they would have painted it",
+                  "they'd have painted it",
+                  "they would not have painted it",
+                  "Would they have painted it?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "imagined past, irregular verb",
+                  "if the crew had written it",
+                  "they would have written it",
+                  "they'd have written it",
+                  "they would not have written it",
+                  "Would they have written it?"
+                ],
+                "weight": "high",
+                "note": "Both halves take the third form here: *written*, never *wrote*."
+              },
+              {
+                "cells": [
+                  "past cause, result today",
+                  "if the crew had painted it",
+                  "they would be ahead now",
+                  "they'd be ahead now",
+                  "they would not be ahead now",
+                  "Would they be ahead now?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "cause now, result in the past",
+                  "if the crew were quicker",
+                  "they would have painted it",
+                  "they'd have painted it",
+                  "they would not have painted it",
+                  "Would they have painted it?"
+                ],
+                "weight": "medium"
+              }
+            ],
+            "sub_tables": [
+              {
+                "caption": "*Were* covers every subject in the *if* half of an imagined-now sentence.",
+                "headers": [
+                  "Subject",
+                  "Formal writing",
+                  "Common in speech"
+                ],
+                "rows": [
+                  [
+                    "I",
+                    "if I were",
+                    "if I was"
+                  ],
+                  [
+                    "the site",
+                    "if the site were",
+                    "if the site was"
+                  ],
+                  [
+                    "the crew",
+                    "if the crew were",
+                    "if the crew were"
+                  ]
+                ]
+              },
+              {
+                "caption": "The result half can soften from *would* to *could* or *might*.",
+                "headers": [
+                  "Result word",
+                  "What it adds",
+                  "Example"
+                ],
+                "rows": [
+                  [
+                    "*would*",
+                    "the plain result",
+                    "the trust would restore the wharf"
+                  ],
+                  [
+                    "*could*",
+                    "would be able to",
+                    "the trust could restore the wharf"
+                  ],
+                  [
+                    "*might*",
+                    "would perhaps",
+                    "the trust might restore the wharf"
+                  ]
+                ]
+              },
+              {
+                "caption": "The *if* half holds more than a plain past form.",
+                "headers": [
+                  "Form in the *if* half",
+                  "Example"
+                ],
+                "rows": [
+                  [
+                    "past continuous",
+                    "if the crew were working nights"
+                  ],
+                  [
+                    "*were to* + base form",
+                    "if the council were to sell the site"
+                  ],
+                  [
+                    "past perfect continuous",
+                    "if the crew had been working nights"
+                  ]
+                ]
+              }
+            ],
+            "examples": [
+              {
+                "text": "If the trust owned the wharf, it would open the yard to the public.",
+                "gloss": "The trust does not own it, so the yard stays shut.",
+                "register": "neutral"
+              },
+              {
+                "text": "If I were on the panel, I would ask about the drainage.",
+                "gloss": "You are not on the panel, and the question is not being asked.",
+                "register": "written_formal"
+              },
+              {
+                "text": "If the grant had arrived in March, the crew would have finished the span.",
+                "gloss": "The grant came late and the span was left unfinished.",
+                "register": "neutral"
+              },
+              {
+                "text": "If the bypass had opened in 2011, Verdon would be a quieter town.",
+                "gloss": "The bypass was never opened, and the traffic still runs through the middle.",
+                "register": "written_formal"
+              },
+              {
+                "text": "If she weren't so careful, she'd have signed it months ago.",
+                "gloss": "She is a careful person, and that is why she has not signed.",
+                "register": "spoken"
+              }
+            ],
+            "notes": [
+              "*they'd have painted it* is *they would have painted it*. Never write *they'd of*.",
+              "*They'd painted it* with no *have* is *they had painted it*, which is an ordinary past sentence.",
+              "The *if* half never takes *would*, in any row of this table."
+            ]
+          },
+          {
+            "type": "visual",
+            "kind": "two_box",
+            "caption": "A cause in the past can leave a result you can see today.",
+            "spec": {
+              "left": {
+                "role": "past cause",
+                "text": "The bypass was never built."
+              },
+              "right": {
+                "role": "result now",
+                "text": "Verdon is still a bottleneck."
+              },
+              "arrow": "left_to_right"
+            }
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Step the *if* half back and put *would* opposite",
+            "anchor": "the-rule"
+          },
+          {
+            "type": "rule",
+            "anchor": "one-step-back",
+            "text": "Step the *if* half one form back from the meaning, and put *would* in the other half."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Only the *if* half moves here. The result half stays exactly where it is.",
+            "dimension": "the *if* half",
+            "items": [
+              {
+                "text": "If the college kept the evening classes, more people would enrol.",
+                "gloss": "The evening classes are being dropped, and enrolment is falling.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "kept",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If the college had kept the evening classes, more people would enrol.",
+                "gloss": "The classes were dropped some time ago, and enrolment is low today.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "had kept",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If the college were to reopen them, the numbers would recover.",
+                "gloss": "Reopening is a remote idea, and nobody is expecting it.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "were to reopen",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If they'd asked me, I'd have said yes.",
+                "gloss": "Nobody asked, so nothing came of it.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "they'd asked",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "One word in the *if* half decides whether you are imagining today or rewriting something finished."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Is the thing you are imagining still open?",
+            "anchor": "open-or-over"
+          },
+          {
+            "type": "contrast",
+            "anchor": "second-or-third",
+            "question": "Is the thing you are imagining still open, or already over?",
+            "options": [
+              {
+                "label": "imagined now (the second conditional)",
+                "use_it_when": "The situation is not true today, and it could still change or be chosen.",
+                "example": "If the yard had a slipway, the sailing club would use it.",
+                "point_id": "gr_cond_second"
+              },
+              {
+                "label": "imagined past (the third conditional)",
+                "use_it_when": "The moment has gone. You are rewriting something that is already settled.",
+                "example": "If the yard had kept its slipway, the club would have stayed.",
+                "point_id": "gr_cond_third"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "If the bypass existed, the town would be quieter.",
+                  "means": "There is no bypass, and the town is noisy today.",
+                  "span": "existed"
+                },
+                "b": {
+                  "text": "If the bypass had existed, the town would be quieter.",
+                  "means": "It was never built, and that is why the town is noisy today.",
+                  "span": "had existed"
+                },
+                "only_difference": "existed / had existed"
+              },
+              {
+                "a": {
+                  "text": "If the survey were clear, the sale would go ahead.",
+                  "means": "The survey found problems, so the sale is stuck.",
+                  "span": "were"
+                },
+                "b": {
+                  "text": "If the survey had been clear, the sale would go ahead.",
+                  "means": "The survey found problems back then, and the sale is still stuck.",
+                  "span": "had been"
+                },
+                "only_difference": "were / had been"
+              },
+              {
+                "a": {
+                  "text": "If I knew the warden's number, I would ring him.",
+                  "means": "I do not have his number, so I am not ringing him.",
+                  "span": "would ring"
+                },
+                "b": {
+                  "text": "If I knew the warden's number, I would have rung him.",
+                  "means": "I do not have his number, and that is why I never rang.",
+                  "span": "would have rung"
+                },
+                "only_difference": "would ring / would have rung"
+              },
+              {
+                "a": {
+                  "text": "If the grant had arrived, the crew would have finished the span.",
+                  "means": "The grant never came, and the work stopped half done.",
+                  "span": "would have finished"
+                },
+                "b": {
+                  "text": "If the grant had arrived, the crew would be finishing the span.",
+                  "means": "The grant never came, and the site is empty this week.",
+                  "span": "would be finishing"
+                },
+                "only_difference": "would have finished / would be finishing"
+              }
+            ],
+            "deciding_factor": "Choose each half on its own. Ask when the cause sits, then ask when the result sits.",
+            "trap": "You were taught four fixed types, so the two halves feel locked together. They are chosen one at a time, and that is what a mixed sentence is.",
+            "register_note": "Both belong in speech and in writing. The imagined-past pattern carries regret in Speaking Part 2, and the imagined-now pattern carries proposals in Task 2."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The two halves can point at different times",
+            "anchor": "mixed"
+          },
+          {
+            "type": "prose",
+            "text": "Nothing forces the halves to match. A cause in the past can leave a result you can see today, and a fact that is true now can explain something that happened years ago."
+          },
+          {
+            "type": "table",
+            "anchor": "mixed-both-ways",
+            "caption": "Each half is chosen on its own, so the two can point at different times.",
+            "headers": [
+              "Cause sits",
+              "Result sits",
+              "The shape",
+              "Example"
+            ],
+            "rows": [
+              [
+                "in the past",
+                "now",
+                "*had* + third form, then *would* + base form",
+                "If the bypass had opened, Verdon would be quieter."
+              ],
+              [
+                "now",
+                "in the past",
+                "past form, then *would have* + third form",
+                "If she were less cautious, she would have signed."
+              ],
+              [
+                "in the past",
+                "generally now",
+                "*had* + third form, then *would* + base form",
+                "If they had moved earlier, they would live nearer."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "These are the two mixed patterns. They are ordinary English, not an advanced trick.",
+              "If you are not sure which half goes where, write two plain sentences instead."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "Two halves, two different times. Read the cause first, then the result.",
+            "dimension": "where each half sits",
+            "items": [
+              {
+                "text": "If the line had been electrified, the journey would take forty minutes.",
+                "gloss": "The line still runs on diesel, and the journey is slow today.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "had been electrified",
+                    "role": "target"
+                  },
+                  {
+                    "span": "would take",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "If I were a stronger swimmer, I would have joined the harbour race.",
+                "gloss": "I am a weak swimmer, and I stayed at home in June.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "were",
+                    "role": "target"
+                  },
+                  {
+                    "span": "would have joined",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "If the trust had bought the yard, it would own the whole quay now.",
+                "gloss": "The trust did not buy it, so the quay is in two hands.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "had bought",
+                    "role": "target"
+                  },
+                  {
+                    "span": "would own",
+                    "role": "deciding"
+                  }
+                ]
+              }
+            ],
+            "so_what": "In each one the cause is finished and the result is not, or the other way round."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "would-in-the-if-half",
+            "code": "conditional_would_in_if",
+            "wrong": "If the council would reduce the fares, more people would use the buses.",
+            "right": "If the council reduced the fares, more people would use the buses.",
+            "why_it_happens": "*Would* carries the imaginary meaning, so it feels as though both halves need it. One *would* covers the whole sentence, and it lives in the result half.",
+            "smallest_fix": "Delete *would* from the *if* half and use the past form: *reduced*."
+          },
+          {
+            "type": "warning",
+            "anchor": "would-have-in-the-if-half",
+            "code": "conditional_would_in_if",
+            "wrong": "If I would have known about the closure, I would have taken the coast road.",
+            "right": "If I had known about the closure, I would have taken the coast road.",
+            "why_it_happens": "The result half has *would have* in it, so the *if* half gets copied to match. The *if* half of an imagined-past sentence takes *had* plus the third form.",
+            "smallest_fix": "Change *would have known* to *had known*."
+          },
+          {
+            "type": "warning",
+            "anchor": "result-slips-back-to-real",
+            "code": "conditional_wrong_system",
+            "wrong": "If the grant had arrived, the crew will finish the span.",
+            "right": "If the grant had arrived, the crew would have finished the span.",
+            "why_it_happens": "The halves are written a few seconds apart, so the result slips back into the real pattern. *Will* says it can still happen, and *had arrived* says it did not.",
+            "smallest_fix": "Use *would have* in the result half when the *if* half has *had* plus the third form."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Two things about these sentences that look broken and are not",
+            "items": [
+              {
+                "text": "*If I were you* is fixed. It is the advice formula, and *was* is not used in it.",
+                "example": "If I were you, I would ask for the figures in writing.",
+                "kind": "C",
+                "how_often": "very common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "The result half can be in the middle of happening, with *would be* and an *-ing* form.",
+                "example": "If the ferry had run, we would be crossing now.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this later"
+              }
+            ],
+            "stop_line": "Those are the two. Everything else in these sentences follows the table above."
+          },
+          {
+            "type": "false_rule",
+            "heard": "The third conditional is *if* + past perfect + *would have*, and both halves have to match.",
+            "also_known_as": [
+              "the four types are fixed shapes"
+            ],
+            "truth": "Each half is chosen for its own time. *If the bypass had opened, Verdon would be quieter today* has a cause in the past and a result you can see now, and it is ordinary English.",
+            "what_to_do": "Choose the *if* half for when the cause sits, and the result half for when the result sits. They do not have to match, and a mixed sentence is not a mistake."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Choose each half for its own time. *Would* stays out of the *if* half.",
+            "table": {
+              "caption": "One row per combination.",
+              "headers": [
+                "Cause is...",
+                "Result is...",
+                "The shape"
+              ],
+              "rows": [
+                [
+                  "imagined now",
+                  "now or later",
+                  "past form, then *would* + base form"
+                ],
+                [
+                  "imagined past",
+                  "in the past",
+                  "*had* + third form, then *would have* + third form"
+                ],
+                [
+                  "imagined past",
+                  "now",
+                  "*had* + third form, then *would* + base form"
+                ],
+                [
+                  "imagined now",
+                  "in the past",
+                  "past form, then *would have* + third form"
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Repair this: *If the tunnel would be wider, the queues would clear.*",
+                "answer": "*If the tunnel were wider, the queues would clear.*",
+                "why": "*Would* belongs in the result half only. The *if* half steps back on its own."
+              },
+              {
+                "prompt": "*If the port had closed, the town would be smaller today.* Which half is in the past?",
+                "answer": "The *if* half. The result is about the town now.",
+                "why": "The two halves are chosen separately, so one can be finished and the other open."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "unreal past",
+          "conditional",
+          "verb",
+          "subject",
+          "clause",
+          "past form",
+          "third form (past participle)",
+          "base form",
+          "modal verb",
+          "continuous (progressive)",
+          "perfect",
+          "contraction"
+        ],
+        "related_points": [
+          "gr_cond_second",
+          "gr_cond_second_uses",
+          "gr_cond_third",
+          "gr_cond_mixed"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_real_and_unreal",
+            "reason": "why a past form means *not true* here"
+          },
+          {
+            "id": "th_conditionals_real",
+            "reason": "the same two halves when the condition can really be met"
+          },
+          {
+            "id": "th_which_conditional",
+            "reason": "the deciding table, when you cannot tell which pattern you need"
+          },
+          {
+            "id": "th_other_ways_to_say_if",
+            "reason": "*had we known* and the other formal sentences that drop *if*"
+          }
+        ],
+        "fixes_errors": [
+          "conditional_would_in_if",
+          "conditional_wrong_system",
+          "unreal_past_missing"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "second conditional",
+          "third conditional",
+          "mixed conditionals",
+          "would have plus past participle",
+          "unreal if sentences",
+          "if I were"
+        ],
+        "intents": [
+          "imagine a different present",
+          "talk about what did not happen"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 7,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_other_ways_to_say_if",
+      "chapter_id": "thc_05",
+      "sequence_index": 123,
+      "title": "*Unless*, *provided that*, *in case*, *had we known*",
+      "kind": "standard",
+      "cefr_level": "B2",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "The *if*-family, modals in *if*-sentences, and conditional inversion",
+        "one_line": "This lets you set a condition without the word *if*, and read the formal sentences that drop *if* altogether.",
+        "short_answer": "*Unless* means *except if*, so it never takes a second negative. *In case* means *in advance*, not *if*.",
+        "question_in_learner_words": "What can I use instead of *if*, and what does each one change?",
+        "area_ids": [
+          "Q7",
+          "Q8",
+          "Q9",
+          "Q10",
+          "Q18"
+        ],
+        "prerequisites": [
+          "th_conditionals_real",
+          "th_conditionals_unreal"
+        ],
+        "register": "both",
+        "risk_note": "Dropping *if* -- *Had we known*, *Were I to*, *Should you need* -- is formal writing only, and four things must be right at once. A plain *if* sentence costs you nothing.",
+        "error_surface": 4,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "You can set a condition without the word *if*",
+            "anchor": "without-if"
+          },
+          {
+            "type": "prose",
+            "text": "*If* is the plain way to set a condition. A dozen other words do the same job, and each one adds something. Some name an exception, some tighten the condition, and one is not a condition at all."
+          },
+          {
+            "type": "prose",
+            "text": "The verb rule does not change. Whatever word you use, the condition half takes a present form for future meaning, exactly as it does after *if*."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Each word adds something *if* does not",
+            "anchor": "the-if-family"
+          },
+          {
+            "type": "table",
+            "anchor": "the-if-family-table",
+            "caption": "Each word sets a condition, and each one adds something *if* leaves out.",
+            "headers": [
+              "Word",
+              "What it adds",
+              "The verb after it",
+              "Example"
+            ],
+            "rows": [
+              [
+                "*unless*",
+                "except if",
+                "present form",
+                "The gate stays locked unless the warden is there."
+              ],
+              [
+                "*provided that*",
+                "on this strict condition",
+                "present form",
+                "Access is granted provided that a permit is shown."
+              ],
+              [
+                "*as long as*",
+                "only while this holds",
+                "present form",
+                "The offer stands as long as the survey is valid."
+              ],
+              [
+                "*in case*",
+                "as a precaution, in advance",
+                "present form",
+                "Take a printed map in case the signal drops."
+              ],
+              [
+                "*even if*",
+                "this changes nothing",
+                "as for that pattern",
+                "Even if the appeal succeeds, the site stays closed."
+              ],
+              [
+                "*otherwise*",
+                "if you do not",
+                "an ordinary clause",
+                "Book by Friday. Otherwise the fare goes up."
+              ],
+              [
+                "*supposing*",
+                "invites you to imagine it",
+                "present or past form",
+                "Supposing the grant fell through, what would you cut?"
+              ],
+              [
+                "*on condition that*",
+                "only if this is agreed",
+                "present form or *should*",
+                "Funding was released on condition that the trust reported."
+              ],
+              [
+                "*in the event that*",
+                "if this happens",
+                "present form or *should*",
+                "In the event that the ferry stops, use the bridge."
+              ],
+              [
+                "*but for*",
+                "if it were not for",
+                "a noun, not a clause",
+                "But for the delay, the scheme would have finished."
+              ],
+              [
+                "*whether ... or not*",
+                "in both cases",
+                "present form",
+                "The survey goes ahead whether the weather improves or not."
+              ],
+              [
+                "*only if*",
+                "this and nothing less",
+                "present form",
+                "The pumps run only if the level drops."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "*Providing that*, *so long as* and *assuming that* behave exactly like their neighbours in the table.",
+              "When *only if* opens the sentence, the other half turns round: *Only if the council agrees will the work start.*"
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "One situation, five words for the condition. Watch how far each one narrows it.",
+            "dimension": "the conditional word",
+            "items": [
+              {
+                "text": "The yard opens to visitors if a steward is on duty.",
+                "gloss": "A steward on duty is what makes the visit possible.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "if",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The yard stays shut unless a steward is on duty.",
+                "gloss": "Nothing else will open it. A steward is the one exception.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "unless",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The yard opens provided that a steward is on duty.",
+                "gloss": "The steward is a firm requirement, and it is being stated formally.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "provided that",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The yard stays open as long as a steward is on duty.",
+                "gloss": "It is open for the whole time the steward is there, and no longer.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "as long as",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "We keep a spare key in the office in case a steward is late.",
+                "gloss": "The key is in the office now, before anybody is late.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "in case",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Every one of them takes a present form, and each one draws the line in a different place."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "None of these words takes *will* after it",
+            "anchor": "the-rule"
+          },
+          {
+            "type": "rule",
+            "anchor": "present-after-these",
+            "text": "After *unless*, *provided that*, *as long as* and *in case*, use a present form for future meaning, never *will*."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Three sentences about later. The condition half is in a present form in all three.",
+            "dimension": "the verb in the condition half",
+            "items": [
+              {
+                "text": "The scheme stops in March unless the council extends the grant.",
+                "gloss": "March is the end date, and only an extension changes it.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "extends",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Take a torch in case the lights fail on the towpath.",
+                "gloss": "Put a torch in your bag now, before you set out.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "fail",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The trial runs all summer as long as the funding holds.",
+                "gloss": "The trial lasts exactly as long as the money does.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "holds",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Not one of the three uses *will*, and all three are about time that has not come yet."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Do you act now, or only when it happens?",
+            "anchor": "in-case-or-if"
+          },
+          {
+            "type": "contrast",
+            "anchor": "in-case-against-if",
+            "question": "Do you act in advance, or only at the moment the thing happens?",
+            "options": [
+              {
+                "label": "*in case*",
+                "use_it_when": "You act now, as a precaution, because the thing might happen later.",
+                "example": "Keep the old timetable in case the app stops working.",
+                "point_id": "gr_cond_alternatives"
+              },
+              {
+                "label": "*if*",
+                "use_it_when": "You act only at the moment the thing actually happens, and not before.",
+                "example": "Use the old timetable if the app stops working.",
+                "point_id": "gr_cond_first"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "Take a spare battery in case the meter fails.",
+                  "means": "Put it in your bag now, before anything goes wrong.",
+                  "span": "in case"
+                },
+                "b": {
+                  "text": "Take a spare battery if the meter fails.",
+                  "means": "Go and fetch one only after the meter has failed.",
+                  "span": "if"
+                },
+                "only_difference": "in case / if"
+              },
+              {
+                "a": {
+                  "text": "I will print the slides in case the projector fails.",
+                  "means": "The slides get printed today, well before the talk.",
+                  "span": "in case"
+                },
+                "b": {
+                  "text": "I will print the slides if the projector fails.",
+                  "means": "The printing only happens once the projector has died.",
+                  "span": "if"
+                },
+                "only_difference": "in case / if"
+              },
+              {
+                "a": {
+                  "text": "Keep the receipt in case the office queries the fare.",
+                  "means": "Hold on to it from now on, as a precaution.",
+                  "span": "in case"
+                },
+                "b": {
+                  "text": "Keep the receipt if the office queries the fare.",
+                  "means": "Only start keeping it once a question has come in.",
+                  "span": "if"
+                },
+                "only_difference": "in case / if"
+              }
+            ],
+            "deciding_factor": "Ask when you act. Before the thing happens, *in case*. At the moment it happens, *if*.",
+            "trap": "*In case* is translated as *if* in many languages, so the two feel interchangeable. The difference is when you act, and it changes the instruction.",
+            "register_note": "Both belong everywhere. *In case* is common in speech and in instructions, and the difference matters most in Task 1 process writing."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Formal writing can drop *if* and turn the verb round",
+            "anchor": "dropping-if"
+          },
+          {
+            "type": "prose",
+            "text": "In formal writing *if* can disappear, and the helping verb moves in front of the subject instead. Only three verbs do this, and no other word can replace them."
+          },
+          {
+            "type": "table",
+            "anchor": "inverted-conditionals",
+            "caption": "Three verbs only, and every row belongs in formal writing.",
+            "headers": [
+              "The *if* version",
+              "With *if* dropped",
+              "Which pattern"
+            ],
+            "rows": [
+              [
+                "If the site were larger",
+                "Were the site larger",
+                "imagined now"
+              ],
+              [
+                "If the council were to sell it",
+                "Were the council to sell it",
+                "imagined now, remote"
+              ],
+              [
+                "If the survey had been done earlier",
+                "Had the survey been done earlier",
+                "imagined past"
+              ],
+              [
+                "If you should need the raw data",
+                "Should you need the raw data",
+                "real, but less likely"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "*Not* never joins the verb here: *Had the survey not been done...*, never *Hadn't the survey been done...*",
+              "*Did the council own the site...* is a question, not a condition. English has no version of this with *do*."
+            ]
+          },
+          {
+            "type": "visual",
+            "kind": "slot_frame",
+            "caption": "Drop *if*, and the helping verb moves to the front.",
+            "spec": {
+              "slots": [
+                {
+                  "label": "helping verb",
+                  "filler": "Had"
+                },
+                {
+                  "label": "subject",
+                  "filler": "the survey"
+                },
+                {
+                  "label": "rest of the verb",
+                  "filler": "been done earlier"
+                },
+                {
+                  "label": "the other half",
+                  "filler": "the closure would have been avoided"
+                }
+              ],
+              "caption": "No *if*, and the helper comes first."
+            }
+          },
+          {
+            "type": "examples",
+            "lead_in": "The same three sentences, formal first and plain second. Only the opening changes.",
+            "dimension": "with *if* and without it",
+            "items": [
+              {
+                "text": "Had the trust acted sooner, the slipway would still be standing.",
+                "gloss": "The trust waited, and the slipway has gone.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "Had the trust acted",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If the trust had acted sooner, the slipway would still be standing.",
+                "gloss": "The trust waited, and the slipway has gone.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "If the trust had acted",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Should you need the older figures, the office holds a copy.",
+                "gloss": "The office has them, if it turns out that you want them.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "Should you need",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Were the harbour deeper, larger boats could use it.",
+                "gloss": "The harbour is shallow, so only small boats come in.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "Were the harbour deeper",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "The formal version says the same thing. It buys register, and nothing else."
+          },
+          {
+            "type": "list",
+            "style": "bullet",
+            "lead_in": "The result half is free, and each choice changes how sure you sound:",
+            "items": [
+              "*will* -- the plain real result",
+              "*may*, *might*, *could* -- less certain",
+              "*must*, *should* -- a duty or a piece of advice",
+              "an instruction -- *send the file to Ashfield*",
+              "*would*, *could*, *might* -- the imagined result"
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "*Should* can go into the condition half too, where it means *if it happens to*. *If you should need the archive key, the porter keeps a copy* is a shade less likely than the plain version."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "unless-with-a-negative",
+            "code": "unless_misused",
+            "wrong": "The gate stays locked unless the warden is not on site.",
+            "right": "The gate stays locked unless the warden is on site.",
+            "why_it_happens": "*Unless* is learned as *if not*, so the *not* gets written twice. *Unless* already carries the negative, because it means *except if*.",
+            "smallest_fix": "Take the *not* out. *Unless* never sits with a negative verb."
+          },
+          {
+            "type": "warning",
+            "anchor": "unless-in-an-imagined-judgement",
+            "code": "unless_misused",
+            "wrong": "I would be surprised unless the trust appealed.",
+            "right": "I would be surprised if the trust did not appeal.",
+            "why_it_happens": "*Unless* looks like a tidy swap for *if not*. It only works where the half names the one exception that would change the result, not where you are giving your reaction to an imagined case.",
+            "smallest_fix": "Where the sentence has *would* in it and you are judging, write *if ... not*."
+          },
+          {
+            "type": "warning",
+            "anchor": "will-after-in-case",
+            "code": "future_will_in_time_clause",
+            "wrong": "Take a torch in case the lights will fail.",
+            "right": "Take a torch in case the lights fail.",
+            "why_it_happens": "The failure is in the future, so a future form feels right. *In case*, *unless* and *provided that* all take a present form for future meaning, exactly as *if* does.",
+            "smallest_fix": "Change *will fail* to *fail*."
+          },
+          {
+            "type": "warning",
+            "anchor": "inversion-with-do",
+            "code": "conditional_wrong_system",
+            "wrong": "Did the council own the site, the covenant would lapse.",
+            "right": "If the council owned the site, the covenant would lapse.",
+            "why_it_happens": "*Do* is the helper that makes questions, so it looks like the right one for turning the verb round. Only *were*, *had* and *should* can open a condition this way.",
+            "smallest_fix": "Put *if* back and use the past form, or start with *Were the council the owner*."
+          },
+          {
+            "type": "variation",
+            "kind": "register",
+            "collapsed": true,
+            "variation_ref": 25,
+            "what_varies": "*If I was* or *If I were* in an imagined sentence.",
+            "option_a": {
+              "label": "Everyday speech",
+              "form": "*was*",
+              "example": "If I was in charge, I'd move the depot out of town."
+            },
+            "option_b": {
+              "label": "Formal writing",
+              "form": "*were*",
+              "example": "If I were in charge, I would move the depot out of town."
+            },
+            "house_default": "*were*",
+            "why_this_default": "*Were* is accepted everywhere and never sounds wrong in writing. That is a house choice for our examples, not a rule of English.",
+            "costs_marks": "Not an error in speech. In formal writing *were* is the safe choice."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Three edges worth knowing before you meet them",
+            "items": [
+              {
+                "text": "*If I were you* is fixed. Nobody uses *was* in the advice formula, in speech or in writing.",
+                "example": "If I were you, I would keep the paper copy.",
+                "kind": "C",
+                "how_often": "very common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "American English also uses *in case* where British English uses *if*. Both readings exist, and the precaution one is our default.",
+                "example": "In case you need help, the office is open until six.",
+                "kind": "B",
+                "how_often": "common",
+                "verdict": "recognise only"
+              },
+              {
+                "text": "Before *to* and after a preposition, English uses *whether*, not *if*.",
+                "example": "The panel is still deciding whether to appeal.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this now"
+              }
+            ],
+            "stop_line": "Those are the three."
+          },
+          {
+            "type": "false_rule",
+            "heard": "*Unless* means *if not*, so you can always swap one for the other.",
+            "also_known_as": [
+              "unless equals if not"
+            ],
+            "truth": "*Unless* means *except if*. It names the one thing that would stop the result. Where you are judging an imagined case, only *if ... not* works: *I would be surprised if the trust did not appeal.*",
+            "what_to_do": "Use *unless* when the sentence names the single exception. Keep *if ... not* for imagined cases and for any sentence with *would* in the other half."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "*Unless* is *except if*. *In case* is *in advance*. Drop *if* only in formal writing.",
+            "table": {
+              "caption": "One row per meaning.",
+              "headers": [
+                "If you mean...",
+                "Use",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "except if",
+                  "*unless*",
+                  "The gate stays locked unless the warden arrives."
+                ],
+                [
+                  "only on this condition",
+                  "*provided that*, *as long as*",
+                  "Access is granted provided that a permit is shown."
+                ],
+                [
+                  "as a precaution, in advance",
+                  "*in case*",
+                  "Take a printed map in case the signal drops."
+                ],
+                [
+                  "this makes no difference",
+                  "*even if*",
+                  "Even if the appeal succeeds, the site stays closed."
+                ],
+                [
+                  "formal, with no *if* at all",
+                  "*Had*, *Were*, *Should*",
+                  "Should you need the data, ask the office."
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Repair this: *The bus runs all week unless there isn't enough demand.*",
+                "answer": "*The bus runs all week unless there is enough demand.* -- no, reverse it: *unless demand falls*.",
+                "why": "*Unless* already means *except if*, so the half after it stays positive."
+              },
+              {
+                "prompt": "*Carry a card in case the machine rejects your phone.* When do you get the card?",
+                "answer": "Before you go. *In case* means you act in advance.",
+                "why": "With *if*, you would only fetch the card after the machine had rejected the phone."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "conditional",
+          "clause",
+          "main clause",
+          "subordinate clause",
+          "verb",
+          "subject",
+          "noun",
+          "past form",
+          "third form (past participle)",
+          "base form",
+          "modal verb",
+          "inversion",
+          "auxiliary (helping) verb",
+          "preposition",
+          "register"
+        ],
+        "related_points": [
+          "gr_cond_alternatives",
+          "gr_inversion_conditional"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_conditionals_real",
+            "reason": "the plain *if* patterns these words replace"
+          },
+          {
+            "id": "th_conditionals_unreal",
+            "reason": "the imagined patterns that *Were* and *Had* open"
+          },
+          {
+            "id": "th_which_conditional",
+            "reason": "the deciding table for the pattern underneath the word"
+          },
+          {
+            "id": "th_real_and_unreal",
+            "reason": "why *Were I to* uses a past form at all"
+          }
+        ],
+        "fixes_errors": [
+          "unless_misused",
+          "future_will_in_time_clause",
+          "conditional_wrong_system"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "unless",
+          "in case or if",
+          "provided that",
+          "inverted conditional",
+          "had I known",
+          "as long as"
+        ],
+        "intents": [
+          "set a condition without using if",
+          "write a formal conditional sentence"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [
+          25
+        ],
+        "myth_refs": [],
+        "estimated_read_minutes": 7,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_which_conditional",
+      "chapter_id": "thc_05",
+      "sequence_index": 124,
+      "title": "Which *if*-sentence does this need?",
+      "kind": "comparison",
+      "cefr_level": "B2",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Choosing between the conditional patterns",
+        "one_line": "This lets you pick the right *if*-pattern in one move, instead of running through four numbered types.",
+        "short_answer": "Two questions. Is the cause already over? Then *had* + third form. If not: automatic, likely, or imagined?",
+        "question_in_learner_words": "Which *if*-sentence do I need here?",
+        "area_ids": [
+          "Q21"
+        ],
+        "prerequisites": [
+          "th_conditionals_real",
+          "th_conditionals_unreal"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The four numbers are labels, not the decision",
+            "anchor": "labels-not-decision"
+          },
+          {
+            "type": "prose",
+            "text": "You were probably taught four types, numbered zero to three. The numbers are useful for talking about the patterns, and they are useless for choosing one, because you cannot see a number in the situation in front of you."
+          },
+          {
+            "type": "prose",
+            "text": "What you can see is two things: whether the cause is over, and how real you think it is. Answer those two, and the pattern falls out."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Two questions settle every *if*-sentence",
+            "anchor": "two-questions"
+          },
+          {
+            "type": "contrast",
+            "anchor": "real-or-imagined",
+            "question": "Could this really happen, or are you imagining it?",
+            "options": [
+              {
+                "label": "it happens every time",
+                "use_it_when": "The result is automatic. *If* means *whenever*, so both halves take a present form.",
+                "example": "If fares fall, ridership rises.",
+                "point_id": "gr_cond_zero"
+              },
+              {
+                "label": "it may really happen",
+                "use_it_when": "You have one occasion in mind and you think it can happen, so the result half takes *will*.",
+                "example": "If fares fall next spring, ridership will rise.",
+                "point_id": "gr_cond_first"
+              },
+              {
+                "label": "you are imagining it now",
+                "use_it_when": "It is not true today. Step the *if* half back, and put *would* opposite.",
+                "example": "If fares fell by a third, ridership would rise sharply.",
+                "point_id": "gr_cond_second"
+              },
+              {
+                "label": "you are rewriting the past",
+                "use_it_when": "The moment is gone and it did not happen, so use *had* plus the third form.",
+                "example": "If fares had fallen, ridership would have risen.",
+                "point_id": "gr_cond_third"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "If the council reduces fares, ridership rises.",
+                  "means": "That is what happens every time fares come down.",
+                  "span": "rises"
+                },
+                "b": {
+                  "text": "If the council reduces fares, ridership will rise.",
+                  "means": "You are predicting one particular change that may be coming.",
+                  "span": "will rise"
+                },
+                "only_difference": "rises / will rise"
+              },
+              {
+                "a": {
+                  "text": "If the college opened a second site, the waiting list would shrink.",
+                  "means": "There is one site, and the waiting list is long today.",
+                  "span": "opened"
+                },
+                "b": {
+                  "text": "If the college had opened a second site, the waiting list would shrink.",
+                  "means": "A second site was ruled out years ago, and the list is long today.",
+                  "span": "had opened"
+                },
+                "only_difference": "opened / had opened"
+              },
+              {
+                "a": {
+                  "text": "If the college had opened a second site, the waiting list would shrink.",
+                  "means": "A second site was ruled out years ago, and the list is long today.",
+                  "span": "would shrink"
+                },
+                "b": {
+                  "text": "If the college had opened a second site, the waiting list would have shrunk.",
+                  "means": "A second site was ruled out, and the queues of that year never cleared.",
+                  "span": "would have shrunk"
+                },
+                "only_difference": "would shrink / would have shrunk"
+              }
+            ],
+            "deciding_factor": "Ask two things: is the cause already over, and do you think it can really happen?",
+            "trap": "You were taught four numbered types, so you try to match the sentence to a type. The type is the answer, not the question.",
+            "register_note": "The choice pays in Speaking Part 3, where the examiner asks what would happen if something changed, and in Task 2, where a careful claim needs the imagined pattern."
+          },
+          {
+            "type": "decision_tree",
+            "anchor": "two-question-test",
+            "intro": "Two questions, in this order. Stop at the first one that answers.",
+            "steps": [
+              {
+                "id": "s1",
+                "ask": "Is the cause already over, so nothing can change it?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "goto": "s2"
+                  },
+                  {
+                    "answer": "No",
+                    "goto": "s3"
+                  }
+                ]
+              },
+              {
+                "id": "s2",
+                "ask": "Is the result also finished, or is it something you can see today?",
+                "branches": [
+                  {
+                    "answer": "Also finished",
+                    "verdict": {
+                      "use": "*if* + *had* + third form, then *would have* + third form",
+                      "example": "If the college had cut the fee, more students would have applied.",
+                      "why": "The cause and the result both sit in a past that is settled."
+                    }
+                  },
+                  {
+                    "answer": "I can see it today",
+                    "verdict": {
+                      "use": "*if* + *had* + third form, then *would* + base form",
+                      "example": "If the college had opened a second site, the list would be shorter.",
+                      "why": "The cause is over, and the result is what you can point at now."
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "s3",
+                "ask": "Does this happen every time, could it really happen, or are you imagining it?",
+                "branches": [
+                  {
+                    "answer": "Every time",
+                    "verdict": {
+                      "use": "a present form in both halves",
+                      "example": "If the tunnel floods, traffic uses the old bridge.",
+                      "why": "The result follows automatically, so nothing marks it as special."
+                    }
+                  },
+                  {
+                    "answer": "It could really happen",
+                    "verdict": {
+                      "use": "*if* + present form, then *will* + base form",
+                      "example": "If the tunnel floods again, traffic will use the old bridge.",
+                      "why": "You have one occasion in mind and you think it is real."
+                    }
+                  },
+                  {
+                    "answer": "I am imagining it",
+                    "verdict": {
+                      "use": "*if* + past form, then *would* + base form",
+                      "example": "If the tunnel had two lanes, the queues would shorten.",
+                      "why": "The past form marks the cause as untrue, and *would* carries the result."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "Most sentences stop at the second question, because most conditions you write about have not happened yet. The first question is the one people skip, and skipping it is what produces a past cause with a *will* result."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "All five patterns, side by side",
+            "anchor": "all-five"
+          },
+          {
+            "type": "table",
+            "anchor": "all-five-patterns",
+            "caption": "Five patterns. The *if* half alone tells you which one you are reading.",
+            "headers": [
+              "What you mean",
+              "The *if* half",
+              "The other half",
+              "Example"
+            ],
+            "rows": [
+              [
+                "it happens every time",
+                "present form",
+                "present form",
+                "If the tunnel floods, traffic uses the bridge."
+              ],
+              [
+                "it may really happen",
+                "present form",
+                "*will* + base form",
+                "If the tunnel floods, traffic will use the bridge."
+              ],
+              [
+                "you are imagining now",
+                "past form",
+                "*would* + base form",
+                "If the tunnel had two lanes, queues would shorten."
+              ],
+              [
+                "you are rewriting the past",
+                "*had* + third form",
+                "*would have* + third form",
+                "If the tunnel had been widened, queues would have gone."
+              ],
+              [
+                "past cause, result today",
+                "*had* + third form",
+                "*would* + base form",
+                "If the tunnel had been widened, queues would be shorter."
+              ],
+              [
+                "cause now, result in the past",
+                "past form",
+                "*would have* + third form",
+                "If the tunnel were wider, the queues would have gone."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "Zero, first, second and third are names for the first four rows. They are labels, not extra rules.",
+              "*Would* never appears in the *if* half, in any row."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "One situation, four patterns. Only your view of the situation changes.",
+            "dimension": "how real the cause is",
+            "items": [
+              {
+                "text": "If a ward closes, the waiting list grows.",
+                "gloss": "That is what happens whenever a ward shuts.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "grows",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If the ward closes in April, the waiting list will grow.",
+                "gloss": "A closure is on the table, and you expect the list to lengthen.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "will grow",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If the ward closed, the waiting list would grow.",
+                "gloss": "Nobody is closing it. You are showing what a closure would cost.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "closed",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If the ward had closed, the waiting list would have grown.",
+                "gloss": "The ward stayed open, and the list held steady.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "had closed",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "The ward is the same ward in all four. What moved is how real you are treating the closure."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Choose each half for its own job",
+            "anchor": "the-rule"
+          },
+          {
+            "type": "rule",
+            "anchor": "the-two-questions",
+            "text": "Choose the *if* half for how real the cause is, and the result half for when the result sits."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Three sentences where the two halves were chosen separately. Read each half on its own.",
+            "dimension": "the two halves, chosen apart",
+            "items": [
+              {
+                "text": "If the depot had moved in 2019, the lorries would use the ring road.",
+                "gloss": "The depot stayed put, and the lorries still come through the centre.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "had moved",
+                    "role": "target"
+                  },
+                  {
+                    "span": "would use",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "If I were better organised, I would have booked the room already.",
+                "gloss": "I am disorganised, and the room is still not booked.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "were",
+                    "role": "target"
+                  },
+                  {
+                    "span": "would have booked",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "If the rain keeps up, the match will move to Sunday.",
+                "gloss": "It is raining now, and Sunday is the likely new date.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "keeps",
+                    "role": "target"
+                  },
+                  {
+                    "span": "will move",
+                    "role": "deciding"
+                  }
+                ]
+              }
+            ],
+            "so_what": "In each one the two halves answer different questions, and neither half copies the other."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "halves-in-two-systems",
+            "code": "conditional_wrong_system",
+            "wrong": "If the level dropped again, the pumps will switch on.",
+            "right": "If the level dropped again, the pumps would switch on.",
+            "why_it_happens": "The two halves are written moments apart, so the second one drifts back to the real pattern. A past form after *if* commits the whole sentence to the imagined version.",
+            "smallest_fix": "Change *will* to *would*, or put *dropped* back to *drops*."
+          },
+          {
+            "type": "warning",
+            "anchor": "would-after-if",
+            "code": "conditional_would_in_if",
+            "wrong": "If the trust would sell the yard, the town would lose the slipway.",
+            "right": "If the trust sold the yard, the town would lose the slipway.",
+            "why_it_happens": "The sentence is imagined all the way through, so *would* feels as though it belongs in both halves. One *would* covers the whole sentence.",
+            "smallest_fix": "Delete *would* from the *if* half and use the past form: *sold*."
+          },
+          {
+            "type": "false_rule",
+            "heard": "There are four conditionals, and every *if*-sentence is one of them.",
+            "also_known_as": [
+              "the four types",
+              "zero, first, second and third"
+            ],
+            "truth": "The numbers name four common combinations. Each half is chosen on its own, so real English also uses the two mixed patterns, and it puts *may*, *must* or an instruction in the result half.",
+            "what_to_do": "Stop matching your sentence to a type. Ask how real the cause is, then ask when the result sits, and build the two halves from those two answers."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Real cause, present form. Imagined cause, step it back.",
+            "table": null,
+            "points": [
+              "A present form after *if* says the thing can really happen.",
+              "A past form after *if* says you are imagining it.",
+              "*Had* plus the third form after *if* says it did not happen.",
+              "*Would* stays in the other half, always.",
+              "The two halves are chosen one at a time."
+            ]
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Which pattern? *The road flooded in January, and the shops lost a week of trade.*",
+                "answer": "None. There is no condition in it, so no *if*-pattern applies.",
+                "why": "A conditional needs a condition. A pair of past events is just a pair of past events."
+              },
+              {
+                "prompt": "Repair this: *If the ferry had kept running, the island will have more visitors.*",
+                "answer": "*...the island would have more visitors.*",
+                "why": "The cause is over, and the result is about the island today, so the result half takes *would*."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "conditional",
+          "unreal past",
+          "verb",
+          "clause",
+          "past form",
+          "third form (past participle)",
+          "base form",
+          "modal verb"
+        ],
+        "related_points": [
+          "gr_cond_zero",
+          "gr_cond_first",
+          "gr_cond_second",
+          "gr_cond_third",
+          "gr_cond_mixed"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_conditionals_real",
+            "reason": "the two real patterns, built out in full"
+          },
+          {
+            "id": "th_conditionals_unreal",
+            "reason": "the imagined patterns, including both mixed ones"
+          },
+          {
+            "id": "th_other_ways_to_say_if",
+            "reason": "what changes when the word is not *if*"
+          }
+        ],
+        "fixes_errors": [
+          "conditional_wrong_system",
+          "conditional_would_in_if"
+        ],
+        "confusion_set": "cs_conditional_system",
+        "aliases": [
+          "which conditional",
+          "conditional types",
+          "zero first second third",
+          "conditionals compared",
+          "if sentence chart"
+        ],
+        "intents": [
+          "choose the right if-sentence"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 6,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_wish_and_the_unreal_family",
+      "chapter_id": "thc_05",
+      "sequence_index": 125,
+      "title": "*I wish*, *it's time*, *I'd rather* and *as if*",
+      "kind": "standard",
+      "cefr_level": "B2",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "The rest of the unreal-past family, and polite distancing",
+        "one_line": "This lets you say what you wish were different, what is overdue, and what you would prefer, with one device.",
+        "short_answer": "All of these take a past form: *I wish I knew*, *it's time we left*, *I'd rather you waited*, *as if he owned it*.",
+        "question_in_learner_words": "How do I use *I wish*, *it's time* and *I'd rather* correctly?",
+        "area_ids": [
+          "Q11",
+          "Q12",
+          "Q13",
+          "Q14",
+          "Q15",
+          "Q16",
+          "Q17",
+          "Q19",
+          "Q20"
+        ],
+        "prerequisites": [
+          "th_real_and_unreal",
+          "th_conditionals_unreal"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 3,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Six more wrappers, one past-form device",
+            "anchor": "six-more-wrappers"
+          },
+          {
+            "type": "prose",
+            "text": "*If* is not the only word that opens an untrue sentence. *Wish*, *if only*, *I'd rather*, *it's time*, *as if* and a polite request all do the same thing, and they all do it the same way."
+          },
+          {
+            "type": "prose",
+            "text": "Learn them as six unrelated facts and they are six things to forget. Learn them as one step back with six wrappers around it, and there is only the step back to remember."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Each wrapper takes its own form",
+            "anchor": "the-wrappers"
+          },
+          {
+            "type": "table",
+            "anchor": "wrapper-table",
+            "caption": "Every wrapper takes a past form, and not one of these rows is about the past.",
+            "headers": [
+              "What you want to say",
+              "The wrapper",
+              "The form after it",
+              "Example"
+            ],
+            "rows": [
+              [
+                "I want now to be different",
+                "*I wish*, *if only*",
+                "past form",
+                "I wish the clinic opened on Saturdays."
+              ],
+              [
+                "I regret something in the past",
+                "*I wish*, *if only*",
+                "*had* + third form",
+                "I wish we had asked for the figures."
+              ],
+              [
+                "I cannot do it, and I mind",
+                "*I wish* + *could*",
+                "*could* + base form",
+                "I wish I could take the earlier train."
+              ],
+              [
+                "somebody keeps doing something",
+                "*I wish* + *would*",
+                "*would* + base form",
+                "I wish the contractor would answer his messages."
+              ],
+              [
+                "I prefer that you do it",
+                "*I'd rather* + a person",
+                "past form",
+                "I'd rather you rang the site office."
+              ],
+              [
+                "I prefer to do it myself",
+                "*I'd rather*",
+                "base form",
+                "I'd rather ring the site office myself."
+              ],
+              [
+                "it should have happened already",
+                "*it's time*",
+                "past form",
+                "It's time the trust replaced the gates."
+              ],
+              [
+                "you ought to, and I am warning you",
+                "*you'd better*",
+                "base form",
+                "You'd better keep a copy of the receipt."
+              ],
+              [
+                "the comparison is not true",
+                "*as if*, *as though*",
+                "past form",
+                "He talks as if he owned the whole yard."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "*I'd* is *I would* in every row except *you'd better*, where *you'd* is *you had*.",
+              "The negative of *you'd better* is *you'd better not*, never *you hadn't better*.",
+              "*It's high time* and *it's about time* work the same way, with more impatience in them."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "Four wishes about the same course. Only the time being wished about changes.",
+            "dimension": "the time being wished about",
+            "items": [
+              {
+                "text": "I wish the course ran in the evening.",
+                "gloss": "It runs in the afternoon, and I cannot get there.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "ran",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I wish I had chosen the evening course.",
+                "gloss": "I picked the afternoon one, and I regret it now.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "had chosen",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I wish I could get to the afternoon session.",
+                "gloss": "My shifts stop me, so I miss it every week.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "could get",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I wish the department would publish the timetable earlier.",
+                "gloss": "They publish it late every term, and it causes trouble.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "would publish",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "The first is about now, the second about a decision that is over, the third about what you cannot do, and the fourth is a complaint."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "A past form follows every one of these",
+            "anchor": "the-rule"
+          },
+          {
+            "type": "rule",
+            "anchor": "past-form-after-these",
+            "text": "After *wish*, *if only*, *it's time*, *I'd rather* plus a person, and *as if*, use a past form."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Three wrappers, three past forms, and all three sentences are about this week.",
+            "dimension": "the wrapper",
+            "items": [
+              {
+                "text": "It's time the college published the reading lists.",
+                "gloss": "Term starts soon and the lists are still not out.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "published",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I'd rather you left the boxes in the corridor.",
+                "gloss": "The store room is full, so the corridor is better.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "left",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "She writes as if the decision were hers to make.",
+                "gloss": "The decision is not hers, and the tone is wrong.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "were",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Every verb is a past form, and every sentence is about the situation this week."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Do you mean now, or a finished moment?",
+            "anchor": "now-or-finished"
+          },
+          {
+            "type": "contrast",
+            "anchor": "which-wish",
+            "question": "Do you want now to be different, or are you looking back at something finished?",
+            "options": [
+              {
+                "label": "*wish* + past form",
+                "use_it_when": "You want the present to be different. Nothing went wrong; it is simply not how you want it.",
+                "example": "I wish the campus library stayed open until midnight.",
+                "point_id": "gr_wish_family"
+              },
+              {
+                "label": "*wish* + *had* + third form",
+                "use_it_when": "You are looking back at something that is over, and you regret how it went.",
+                "example": "I wish I had applied for the Norland placement.",
+                "point_id": "gr_wish_family"
+              },
+              {
+                "label": "*wish* + *would*",
+                "use_it_when": "Somebody else keeps doing something and you want them to change. Never about yourself.",
+                "example": "I wish the neighbours would move their bins on time.",
+                "point_id": "gr_wish_family"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "I wish I knew who signed the form.",
+                  "means": "I do not know, and I need to find out.",
+                  "span": "knew"
+                },
+                "b": {
+                  "text": "I wish I had known who signed the form.",
+                  "means": "I did not know at the time, and it caused trouble then.",
+                  "span": "had known"
+                },
+                "only_difference": "knew / had known"
+              },
+              {
+                "a": {
+                  "text": "I wish the office answered the phone.",
+                  "means": "The office rarely picks up, and that is how things are.",
+                  "span": "answered"
+                },
+                "b": {
+                  "text": "I wish the office would answer the phone.",
+                  "means": "You are complaining, and you want them to start picking up.",
+                  "span": "would answer"
+                },
+                "only_difference": "answered / would answer"
+              },
+              {
+                "a": {
+                  "text": "I'd rather take the coast road.",
+                  "means": "You are saying which way you want to drive yourself.",
+                  "span": "take"
+                },
+                "b": {
+                  "text": "I'd rather you took the coast road.",
+                  "means": "You are asking somebody else to go that way.",
+                  "span": "you took"
+                },
+                "only_difference": "take / you took"
+              },
+              {
+                "a": {
+                  "text": "It's time we left.",
+                  "means": "We should already be on our way.",
+                  "span": "left"
+                },
+                "b": {
+                  "text": "It's time to leave.",
+                  "means": "The moment to go has arrived.",
+                  "span": "to leave"
+                },
+                "only_difference": "we left / to leave"
+              }
+            ],
+            "deciding_factor": "Ask what you are looking at. Now takes a past form. A finished moment takes *had* plus the third form.",
+            "trap": "*Wish* feels like *want*, so a *to*-form follows it. *Want* takes *to*; *wish* takes a whole clause with a past form inside it.",
+            "register_note": "All of these belong in speech. *I wish* and *if only* are strong Speaking Part 2 moves, and *it's time* and *I'd rather* suit Part 3."
+          },
+          {
+            "type": "prose",
+            "text": "*I wish I was* and *I wish I were* are both in use, and *were* is the safe one in writing. [th_other_ways_to_say_if] has the detail on that choice."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The same step back makes you sound careful",
+            "anchor": "the-careful-step-back"
+          },
+          {
+            "type": "prose",
+            "text": "The step back also softens. Move a present verb into the past and a request stops sounding like a demand. Do it to a claim, and the claim stops sounding like a fact you are daring anyone to argue with."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Five sentences that have stepped back to be careful. Nothing here is about the past.",
+            "dimension": "how hard the sentence pushes",
+            "items": [
+              {
+                "text": "I was wondering whether you had a spare copy.",
+                "gloss": "You are asking for a copy and leaving room for a no.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "was wondering",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Would you mind moving the boxes into the store?",
+                "gloss": "You are asking somebody to move them.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Would you mind",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I was hoping to see the site plans before Friday.",
+                "gloss": "You want the plans, and you are not demanding them.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "was hoping",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If this trend continued, the shortage would reach the smaller towns.",
+                "gloss": "You are reasoning about what may follow, without saying it will.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "continued",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "It would seem that the older figures were counted twice.",
+                "gloss": "The figures look wrong, and you are leaving room to be corrected.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "would seem",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Each verb has stepped back, and each sentence has gone softer without losing its point."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "present-after-wish",
+            "code": "unreal_past_missing",
+            "wrong": "I wish I have more time to revise before the exam.",
+            "right": "I wish I had more time to revise before the exam.",
+            "why_it_happens": "*Wish* is about now, so a present form feels right after it. English marks the sentence as untrue by stepping the verb back one form.",
+            "smallest_fix": "Change *have* to *had*."
+          },
+          {
+            "type": "warning",
+            "anchor": "wish-would-about-yourself",
+            "code": "conditional_wrong_system",
+            "wrong": "I wish I would stop worrying about the deadline.",
+            "right": "I wish I could stop worrying about the deadline.",
+            "why_it_happens": "*Wish* plus *would* is a complaint about somebody else's behaviour, so it cannot point back at you. About your own actions, English uses *could*.",
+            "smallest_fix": "Use *could* whenever the wish is about something you do."
+          },
+          {
+            "type": "warning",
+            "anchor": "present-after-id-rather",
+            "code": "unreal_past_missing",
+            "wrong": "I'd rather you don't move the boxes yet.",
+            "right": "I'd rather you didn't move the boxes yet.",
+            "why_it_happens": "*I'd rather* looks like a present phrase, so the verb after it stays in the present. Once another person follows *I'd rather*, the verb steps back.",
+            "smallest_fix": "Change *don't* to *didn't*."
+          },
+          {
+            "type": "warning",
+            "anchor": "present-after-its-time",
+            "code": "unreal_past_missing",
+            "wrong": "It's time we book the room for the seminar.",
+            "right": "It's time we booked the room for the seminar.",
+            "why_it_happens": "*It's time* is a present phrase, so the verb after it feels present too. The step back is what says the booking is already overdue.",
+            "smallest_fix": "Change *book* to *booked*, or write *It's time to book the room*."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Four edges, all worth knowing now",
+            "items": [
+              {
+                "text": "*It's time* also takes *to* plus the base form when you name nobody.",
+                "example": "It's time to shut the gates for the night.",
+                "kind": "A",
+                "how_often": "very common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "*Wish* plus *would* cannot describe a state, only a changeable action.",
+                "example": "I wish the hall were bigger, not I wish the hall would be bigger.",
+                "kind": "C",
+                "how_often": "common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "*As if* takes a present form when the comparison may actually be true.",
+                "example": "It looks as if the ferry is running after all.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "*I'd rather* takes *had* plus the third form when the preference is about the past.",
+                "example": "I'd rather they hadn't published the draft.",
+                "kind": "A",
+                "how_often": "uncommon",
+                "verdict": "learn this later"
+              }
+            ],
+            "stop_line": "That is the whole list. Everything else in this family follows the table above."
+          },
+          {
+            "type": "false_rule",
+            "heard": "*I wish* is the polite way of saying *I want*.",
+            "also_known_as": [
+              "wish equals want"
+            ],
+            "truth": "*Want* asks for something that can still happen. *Wish* says the opposite: this is not how things are. *I wish I had a car* means you have not got one, and that is why the verb steps back.",
+            "what_to_do": "Use *want* for what you are asking for, and *wish* for what you know is not the case. *Wish* takes a clause with a past form in it, never *to*."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Every wrapper takes a past form, and the step back means *not true*.",
+            "table": {
+              "caption": "One row per wrapper.",
+              "headers": [
+                "Wrapper",
+                "The form after it",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "*I wish* about now",
+                  "past form",
+                  "I wish the library opened earlier."
+                ],
+                [
+                  "*I wish* about the past",
+                  "*had* + third form",
+                  "I wish I had applied sooner."
+                ],
+                [
+                  "*I'd rather* + a person",
+                  "past form",
+                  "I'd rather you waited outside."
+                ],
+                [
+                  "*it's time*",
+                  "past form",
+                  "It's time the council acted."
+                ],
+                [
+                  "*as if*, *as though*",
+                  "past form",
+                  "He writes as if the site were his."
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Repair this: *I wish I would remember people's names.*",
+                "answer": "*I wish I could remember people's names.*",
+                "why": "*Wish* plus *would* is a complaint about somebody else, so it cannot be about you."
+              },
+              {
+                "prompt": "What is the difference between *I'd rather walk* and *I'd rather you walked*?",
+                "answer": "The first is about what you do. The second is about what somebody else does.",
+                "why": "Once another person comes after *I'd rather*, the verb steps back to a past form."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "unreal past",
+          "conditional",
+          "verb",
+          "subject",
+          "clause",
+          "past form",
+          "third form (past participle)",
+          "base form",
+          "modal verb",
+          "infinitive",
+          "contraction",
+          "register"
+        ],
+        "related_points": [
+          "gr_wish_family",
+          "gr_unreal_past"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_real_and_unreal",
+            "reason": "the one device all nine wrappers run on"
+          },
+          {
+            "id": "th_conditionals_unreal",
+            "reason": "the *if*-sentences built from the same step back"
+          },
+          {
+            "id": "th_other_ways_to_say_if",
+            "reason": "*if I was* against *if I were*, and where each belongs"
+          }
+        ],
+        "fixes_errors": [
+          "unreal_past_missing",
+          "conditional_wrong_system"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "I wish",
+          "if only",
+          "it's time we left",
+          "would rather",
+          "as if as though",
+          "had better"
+        ],
+        "intents": [
+          "say what you wish were different",
+          "say what somebody else should do",
+          "make a request sound polite"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 7,
+        "false_rule_absent_reason": null
+      }
+    }
+  ]
+}

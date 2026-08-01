@@ -1,17 +1,21 @@
 /**
- * A short, self-stopping recorder for one drill attempt.
+ * A short, self-stopping recorder for one spoken attempt.
  *
- * Drills are 8-30 seconds, so this deliberately does not stream: it collects chunks and
- * hands back one blob. The microphone track is stopped after every take rather than held
- * open, because a permanently lit recording indicator while someone reads a cue card is
- * both alarming and unnecessary.
+ * Takes are 8-30 seconds, so this deliberately does not stream: it collects chunks and hands
+ * back one blob, which is exactly the shape `POST /api/v1/pron/read-aloud` wants. The
+ * microphone track is stopped after every take rather than held open, because a permanently
+ * lit recording indicator while somebody reads a sentence is both alarming and unnecessary.
+ *
+ * Lives here rather than under `speaking/` because Grammar and Vocabulary need the same
+ * thing: neither module could record the learner at all, which is why the pronunciation
+ * backend has been sitting unreachable behind ten routes nothing calls.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export type RecorderState = "idle" | "recording" | "stopping" | "denied" | "unsupported";
 
-export interface DrillRecorder {
+export interface Recorder {
   state: RecorderState;
   /** Seconds remaining in the current take, or null when not recording. */
   remaining: number | null;
@@ -25,7 +29,7 @@ export interface DrillRecorder {
 function describe(err: unknown): string {
   const name = (err as { name?: string } | null)?.name ?? "";
   if (name === "NotAllowedError" || name === "SecurityError") {
-    return "Microphone access is blocked. Allow it for this app, then try the drill again.";
+    return "Microphone access is blocked. Allow it for this app, then try again.";
   }
   if (name === "NotFoundError" || name === "DevicesNotFoundError") {
     return "No microphone was found. Plug one in or pick another input in Settings.";
@@ -36,7 +40,7 @@ function describe(err: unknown): string {
   return "The microphone could not be started.";
 }
 
-export function useDrillRecorder(): DrillRecorder {
+export function useRecorder(): Recorder {
   const [state, setState] = useState<RecorderState>("idle");
   const [remaining, setRemaining] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);

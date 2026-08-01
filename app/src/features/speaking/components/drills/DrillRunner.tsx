@@ -25,7 +25,7 @@ import {
 import { Badge, Button, Card, CardContent, EmptyState, Skeleton } from "@/components/ui";
 import { cn } from "@/lib/cn";
 import { MockInProgressError, fetchCardDrills, fetchItemAudio, submitAttempt } from "./api";
-import { useDrillRecorder } from "./useDrillRecorder";
+import { useRecorder } from "@/components/practice/useRecorder";
 import type { CardDrills, DrillItem, DrillResult } from "./types";
 
 const KIND_LABEL: Record<string, string> = {
@@ -54,7 +54,7 @@ export function DrillRunner({ cardId, attempted, onPractise }: DrillRunnerProps)
   const [results, setResults] = useState<Record<string, DrillResult>>({});
   const [grading, setGrading] = useState(false);
 
-  const recorder = useDrillRecorder();
+  const recorder = useRecorder();
 
   useEffect(() => {
     let active = true;
@@ -281,7 +281,7 @@ interface DrillCardProps {
   total: number;
   result?: DrillResult;
   grading: boolean;
-  recorder: ReturnType<typeof useDrillRecorder>;
+  recorder: ReturnType<typeof useRecorder>;
   cardId: string;
   attempted: boolean;
   onGrade: (item: DrillItem, payload: { wav?: Blob; choice?: string }) => Promise<void>;

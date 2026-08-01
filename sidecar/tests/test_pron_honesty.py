@@ -145,3 +145,23 @@ def test_the_stored_column_is_still_populated_for_ranking() -> None:
     be recorded.
     """
     assert pron.score_from_confidence(0.31) == 31
+
+
+# ======================================================================================
+# Why the recogniser cannot simply be swapped for a faster one
+# ======================================================================================
+
+
+def test_the_proxy_depends_on_a_per_word_probability() -> None:
+    """This is the constraint that decides which ASR the app can use at all.
+
+    `score_from_confidence` reads faster-whisper's per-word `probability`. Parakeet and the
+    other TDT transducers that beat Whisper on clean-English leaderboards do not emit one —
+    swapping to them would leave this returning None for every word and quietly disable the
+    only pronunciation signal the app has, while every test about *scores* still passed.
+
+    Pinned here so the dependency is visible from the pronunciation side, not just implied by
+    the STT preset list.
+    """
+    assert pron.score_from_confidence(0.5) == 50
+    assert pron.score_from_confidence(None) is None

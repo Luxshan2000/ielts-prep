@@ -144,7 +144,7 @@ PRESETS: list[dict[str, Any]] = [
         "platforms": ALL_PLATFORMS,
         "docs_url": "https://platform.openai.com/docs",
         "suggested_models": ["gpt-4o-mini", "gpt-4o"],
-        "notes": "The only preset covering all three modalities.",
+        "notes": "Covers all three modalities.",
         "config_spec": [
             _base_url("https://api.openai.com/v1", locked=True),
             _api_key("OPENAI_API_KEY", "sk-…"),
@@ -156,7 +156,10 @@ PRESETS: list[dict[str, Any]] = [
     {
         "id": "openrouter",
         "label": "OpenRouter",
-        "modalities": ["llm"],
+        # OpenRouter shipped /audio/transcriptions and /audio/speech, so one key now covers
+        # all three modalities. Its base URL is already an OpenAI-shaped /v1, so the existing
+        # OpenAI-compatible client reaches both without a new transport.
+        "modalities": ["llm", "stt", "tts"],
         "kind": "cloud",
         "base_url": "https://openrouter.ai/api/v1",
         "base_url_locked": True,
@@ -168,7 +171,7 @@ PRESETS: list[dict[str, Any]] = [
             "anthropic/claude-sonnet-4.5",
             "meta-llama/llama-3.3-70b-instruct",
         ],
-        "notes": "One key, every frontier model.",
+        "notes": "One key for the examiner, speech-to-text and the voice.",
         "config_spec": [
             _base_url("https://openrouter.ai/api/v1", locked=True),
             _api_key("OPENROUTER_API_KEY", "sk-or-…"),

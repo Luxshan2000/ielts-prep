@@ -1,0 +1,2889 @@
+{
+  "staging_version": 1,
+  "block": "ch2-futures",
+  "authored_by": "TG-3:theory-future",
+  "_readme": [
+    "The FUTURE run of Chapter 2 of the Theory reference. Six articles, authored against DESIGN-THEORY.md section 2 (the article schema), section 5 (the writing standard) and section 6 (the quantity targets), and matched to the voice, depth and block usage of content/ch2-tenses.json.",
+    "WHY THIS FILE EXISTS. Before it, the whole Theory reference contained not one article about the future in any form. The practice Path teaches will, going to, the present continuous for the future, the present simple for timetables, the future continuous, the future perfect, the future-form choice and the no-will-after-when rule. A reader who read Theory first and then walked the Path met eight practice points the reference had never mentioned.",
+    "CHAPTER ID and SEQUENCE INDEX. chapter_id is thc_02, matching ch2-tenses.json. sequence_index runs 34..39 on the brief's instruction that the two past-perfect articles take the slots immediately after the existing eleven (21..31 authored, 32..33 past perfect). Both fields are provisional in exactly the way ch2-tenses.json declares them provisional; the build agent re-bases them once the eight-chapter split is fixed, and nothing else in this file depends on them.",
+    "THREE DECLARED DEVIATIONS FROM DESIGN-THEORY.md section 1.5. (1) Section 1.5 gives the future two articles, th_the_futures (paradigm, I14-I23, I26) and th_future_choice (comparison, I24, I25). One paradigm article cannot carry will, going to, the two present forms doing future work, the future continuous and the future perfect and still obey section 2.3's 350-prose-word cap or section 6.4's one-question test. The run is therefore split into six. th_the_futures is KEPT, with its id and its kind unchanged, because four articles in three already-authored chapters link to it (ch2-tenses.json x3, ch3-modals.json x1, ch5-conditionals.json x2); it becomes the all-at-once table it was always meant to be, and the four teaching articles feed it. (2) th_the_futures is kind: paradigm, and section 2.5 restricts a paradigm article to parts 2, 3 and 11. It additionally carries a variation block and a false_rule block, because it is the only article that owns I23 (shall), and section 5's W32 and section 2.4.12 forbid resolving a variation silently to keep an article tidy. (3) th_future_choice is kind: comparison, and section 2.5's comparison order drops part 7 (exceptions). It carries one exceptions block anyway, because section 1.5's own chapter note requires the no-will-after-when rule to ship WITH its exception, and the exception needs the A/B/C, frequency and verdict labelling that only that block provides.",
+    "AREAS OWNED HERE: I14, I15, I16, I17, I18, I19, I20, I21, I22, I23, I24, I25, I26. All thirteen. No area is claimed twice, and none of them is claimed anywhere in ch2-tenses.json or in any other authored chapter.",
+    "VARIATION POINTS CLAIMED: TH-R1 section 5 row 6 (shall), in th_the_futures, which owns I23. MYTHS CLAIMED: TH-R4 section 8.3 row 8 (shall is the correct future for I and we), in th_the_futures; row 19 (will is the future tense and going to is informal), in th_future_choice. ch2-tenses.json already claims rows 17 and 18 and variation row 1.",
+    "PARADIGMS. Every positive, negative and question pattern in this file is copied from docs/source-material/oxford-tense-forms.txt, rows 'future simple', 'future continuous', 'future perfect' and 'future perfect continuous', and then re-expressed with the two model verbs paint and write that PAR-1 requires. The source example sentences are not reused; every example sentence here is authored fresh in the house world.",
+    "related_points[] ids are taken from the closed 154 in staging-grammar/DESIGN.md section 4.2, unit u04: gr_future_will, gr_future_going_to, gr_future_pres_cont, gr_future_pres_simple, gr_future_choice, gr_future_time_clause, gr_future_continuous, gr_future_perfect. All eight are linked, and none is invented. Error codes come from the 53-slug closed enum in section 2.8; the two future-specific slugs, future_will_in_time_clause and future_evidence_vs_intention, are both used.",
+    "TERM LEDGER. No article here introduces a term, so terms_introduced is empty in all six. TERM-1 was checked against ledger positions: nothing later than position 54 is used anywhere in this file, which rules out semi-modal, conditional, infinitive, embedded question and question word. The no-will-after-when exception is therefore written as 'a question folded inside a longer sentence', not as an embedded question."
+  ],
+  "articles": [
+    {
+      "id": "th_future_will",
+      "chapter_id": "thc_02",
+      "sequence_index": 34,
+      "title": "Deciding now, and saying what you expect",
+      "kind": "standard",
+      "cefr_level": "A2",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "The future simple (*will*)",
+        "one_line": "This is the form for a decision you make as you speak, and for what you think happens later.",
+        "short_answer": "Use *will* and the base form. *I'll ring the depot.* It fits a decision made now and a guess about later.",
+        "question_in_learner_words": "When do I use *will*?",
+        "area_ids": [
+          "I14"
+        ],
+        "prerequisites": [
+          "th_five_verb_forms",
+          "th_helper_and_modal_verbs"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "*Will* settles something at the moment you speak",
+            "anchor": "what-it-does"
+          },
+          {
+            "type": "prose",
+            "text": "You have not decided yet. Then you decide, and the decision comes out of your mouth in the same breath. *Will* is the form that carries it."
+          },
+          {
+            "type": "prose",
+            "text": "It does the same job for a guess. Nothing in front of you proves it, so you say what you think, and *will* marks it as your view."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Build it from *will* and the base form",
+            "anchor": "how-to-build"
+          },
+          {
+            "type": "paradigm",
+            "anchor": "will-forms",
+            "caption": "*Will* never changes shape, whoever the subject is.",
+            "form_line": "*will* plus the base form of the main verb",
+            "model_verbs": [
+              "paint",
+              "write"
+            ],
+            "headers": [
+              "Who",
+              "Positive",
+              "Short form (spoken)",
+              "Negative",
+              "Short form (spoken)",
+              "Question"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "I",
+                  "I will paint",
+                  "I'll paint",
+                  "I will not paint",
+                  "I won't paint",
+                  "Will I paint?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "you",
+                  "you will write",
+                  "you'll write",
+                  "you will not write",
+                  "you won't write",
+                  "Will you write?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "he / she / it",
+                  "he will paint",
+                  "he'll paint",
+                  "he will not paint",
+                  "he won't paint",
+                  "Will he paint?"
+                ],
+                "weight": "high",
+                "note": "No ending on *will*, and none on the verb after it."
+              },
+              {
+                "cells": [
+                  "we",
+                  "we will write",
+                  "we'll write",
+                  "we will not write",
+                  "we won't write",
+                  "Will we write?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "they",
+                  "they will paint",
+                  "they'll paint",
+                  "they will not paint",
+                  "they won't paint",
+                  "Will they paint?"
+                ],
+                "weight": "high"
+              }
+            ],
+            "sub_tables": [
+              {
+                "caption": "A short answer repeats *will* and stops there.",
+                "headers": [
+                  "Question",
+                  "Yes",
+                  "No"
+                ],
+                "rows": [
+                  [
+                    "Will you paint it?",
+                    "Yes, I will.",
+                    "No, I won't."
+                  ],
+                  [
+                    "Will she write back?",
+                    "Yes, she will.",
+                    "No, she won't."
+                  ]
+                ]
+              },
+              {
+                "caption": "Two ways to shorten the negative, and both are correct.",
+                "headers": [
+                  "Full form",
+                  "The commoner short form",
+                  "Also correct"
+                ],
+                "rows": [
+                  [
+                    "I will not paint",
+                    "I won't paint",
+                    "I'll not paint"
+                  ],
+                  [
+                    "we will not write",
+                    "we won't write",
+                    "we'll not write"
+                  ]
+                ]
+              }
+            ],
+            "examples": [
+              {
+                "text": "I'll paint the back gate at the weekend.",
+                "gloss": "The speaker settles it while speaking.",
+                "register": "spoken"
+              },
+              {
+                "text": "The council will write to every household on the route.",
+                "gloss": "Letters are on the way.",
+                "register": "written_formal"
+              },
+              {
+                "text": "They won't paint the railings until the frost goes.",
+                "gloss": "The work waits for warmer weather.",
+                "register": "neutral"
+              },
+              {
+                "text": "Will she write the report herself?",
+                "gloss": "The question is who does the writing.",
+                "register": "spoken"
+              }
+            ],
+            "notes": [
+              "*He'll* is *he will*. The base form after it is the clue.",
+              "Never *Yes, I'll.* A short answer cannot end on a short form.",
+              "*'ll not* is heard in British English. *Won't* is commoner everywhere."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The four jobs *will* does",
+            "anchor": "four-jobs"
+          },
+          {
+            "type": "table",
+            "anchor": "what-will-is-for",
+            "caption": "Four situations, and none of them was settled in advance.",
+            "headers": [
+              "What you want to say",
+              "What it sounds like",
+              "Example"
+            ],
+            "rows": [
+              [
+                "you decide while speaking",
+                "an instant decision",
+                "Fine, I'll collect the keys."
+              ],
+              [
+                "you think this is what happens",
+                "a guess with no proof",
+                "Prices will rise again next winter."
+              ],
+              [
+                "you promise something to somebody",
+                "a commitment",
+                "I'll have the figures ready by Friday."
+              ],
+              [
+                "you offer to help",
+                "an offer",
+                "I'll carry that box for you."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "Not one of these was decided before the sentence started."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "One example per row above, in the same order.",
+            "dimension": "the job *will* is doing",
+            "items": [
+              {
+                "text": "That bell has gone again. I'll go and check it.",
+                "gloss": "The speaker chooses on the spot.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "I'll go",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Traffic on the Marlow road will get worse after the works.",
+                "gloss": "That is what the speaker expects.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "will get",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I'll email the timetable to you tonight.",
+                "gloss": "A promise the listener can hold the speaker to.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "I'll email",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "We will refund every ticket bought before Tuesday.",
+                "gloss": "The money goes back to the people who paid.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "will refund",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "Each one settles something at the moment of speaking."
+          },
+          {
+            "type": "visual",
+            "kind": "timeline",
+            "caption": "You decide at this end; the event sits at the other.",
+            "spec": {
+              "now_label": "now",
+              "marks": [
+                {
+                  "at": 0,
+                  "label": "you decide",
+                  "style": "point"
+                },
+                {
+                  "at": 0,
+                  "label": "nothing arranged in between",
+                  "span_to": 6,
+                  "style": "arrow"
+                },
+                {
+                  "at": 6,
+                  "label": "it happens",
+                  "style": "point"
+                }
+              ],
+              "caption": "Decided now, done later"
+            }
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Use *will* when nothing was settled before you spoke",
+            "anchor": "when-to-use-will"
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Use *will* when you decide as you speak, or when you say what you think happens later."
+          },
+          {
+            "type": "examples",
+            "lead_in": "No plan sits behind any of these. The speaker decides or guesses in the moment.",
+            "dimension": "nothing arranged in advance",
+            "items": [
+              {
+                "text": "The hall is cold. I'll turn the heating on.",
+                "gloss": "The speaker acts on what has been noticed.",
+                "register": "spoken"
+              },
+              {
+                "text": "Fewer students will apply if the fee goes up.",
+                "gloss": "That is the writer's expectation.",
+                "register": "written_formal"
+              },
+              {
+                "text": "I'll wait outside the library for you.",
+                "gloss": "The speaker offers to wait.",
+                "register": "spoken"
+              }
+            ],
+            "so_what": "Nothing was settled before the sentence started."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "to-after-will",
+            "code": "modal_bare_infinitive",
+            "wrong": "The engineer will to check the pump on Monday.",
+            "right": "The engineer will check the pump on Monday.",
+            "why_it_happens": "Most verbs in front of another verb take *to*: *want to check*, *need to check*. *Will* is a helping verb, and a helping verb is followed by the base form on its own.",
+            "smallest_fix": "Take out *to*. After *will*, use the base form: *will check*."
+          },
+          {
+            "type": "warning",
+            "anchor": "s-ending-after-will",
+            "code": "word_form_wrong",
+            "wrong": "The new timetable will comes into force in April.",
+            "right": "The new timetable will come into force in April.",
+            "why_it_happens": "The subject is one thing, so the *-s* ending feels owed. *Will* has already dealt with the subject, and the verb after it keeps the base form.",
+            "smallest_fix": "Drop the *-s*. Nothing after *will* ever takes an ending."
+          },
+          {
+            "type": "warning",
+            "anchor": "will-inside-a-when-part",
+            "code": "future_will_in_time_clause",
+            "wrong": "I will send the form when I will get home.",
+            "right": "I will send the form when I get home.",
+            "why_it_happens": "Both halves are about later, so both halves seem to need *will*. English marks the future once, in the main clause, and leaves the *when* clause in the present form.",
+            "smallest_fix": "Take *will* out of the *when* clause: *when I get home*."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Two other jobs *will* does that are not about later",
+            "items": [
+              {
+                "text": "*Will* can guess about this minute rather than about later.",
+                "example": "That'll be the delivery at the door.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this later"
+              },
+              {
+                "text": "*Will* can say what typically happens.",
+                "example": "The old lift will stick if you press two buttons.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "recognise only"
+              }
+            ],
+            "stop_line": null
+          },
+          {
+            "type": "false_rule",
+            "heard": "*Will* is the future tense, so every *will* in a sentence is about the future.",
+            "also_known_as": [
+              "will equals future",
+              "the future tense is will"
+            ],
+            "truth": "*Will* is a helping verb, not an ending on the verb, and it has two other jobs. *That'll be the postman* guesses about this minute. *The heater will cut out if the door is open* says what typically happens.",
+            "what_to_do": "Read *will* as *I am sure enough to say so*. Most of the time that lands in the future. Sometimes it lands on now."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "*Will* plus the base form. Decided now, or guessed now.",
+            "table": {
+              "caption": "One row per job.",
+              "headers": [
+                "If you are…",
+                "Use",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "deciding as you speak",
+                  "*will*",
+                  "I'll ring them back"
+                ],
+                [
+                  "saying what you expect",
+                  "*will*",
+                  "fares will rise"
+                ],
+                [
+                  "promising or offering",
+                  "*will*",
+                  "I'll send it tonight"
+                ],
+                [
+                  "reporting a plan made earlier",
+                  "*going to*",
+                  "we're going to repaint it"
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Which one is right? *She will to send the file.* / *She will send the file.*",
+                "answer": "*She will send the file.*",
+                "why": "*Will* is a helping verb, and a helping verb is followed by the base form."
+              },
+              {
+                "prompt": "Why does *I will call you when I will arrive* need changing?",
+                "answer": "Take *will* out of the *when* clause: *when I arrive*.",
+                "why": "English marks the future once, and the *when* clause keeps the present form."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "verb",
+          "subject",
+          "base form",
+          "the *-s* form",
+          "auxiliary (helping) verb",
+          "clause",
+          "main clause",
+          "tense"
+        ],
+        "related_points": [
+          "gr_future_will"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_future_going_to",
+            "reason": "the form for a decision that was made earlier"
+          },
+          {
+            "id": "th_future_choice",
+            "reason": "which of the four common future forms this sentence needs"
+          },
+          {
+            "id": "th_the_futures",
+            "reason": "all eight ways of pointing forward, in one table"
+          },
+          {
+            "id": "th_will_and_would_for_habit",
+            "reason": "*will* for what typically happens"
+          }
+        ],
+        "fixes_errors": [
+          "modal_bare_infinitive",
+          "word_form_wrong",
+          "future_will_in_time_clause"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "will",
+          "future simple",
+          "future tense",
+          "will plus base form",
+          "won't"
+        ],
+        "intents": [
+          "say what I think will happen",
+          "offer to do something"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 6,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_future_going_to",
+      "chapter_id": "thc_02",
+      "sequence_index": 35,
+      "title": "Saying what you had already decided",
+      "kind": "standard",
+      "cefr_level": "A2",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "*Be going to* for the future",
+        "one_line": "This is the form for a plan you already made, and for what the evidence in front of you points to.",
+        "short_answer": "Use *am*, *is* or *are* with *going to* and the base form. *We're going to repaint the gates.* The decision came first.",
+        "question_in_learner_words": "When do I use *going to*?",
+        "area_ids": [
+          "I18"
+        ],
+        "prerequisites": [
+          "th_present_continuous",
+          "th_five_verb_forms"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The decision was made before you spoke",
+            "anchor": "what-it-does"
+          },
+          {
+            "type": "prose",
+            "text": "Somebody has already settled this. You are reporting a plan, not making one. That is the whole difference between *going to* and *will*."
+          },
+          {
+            "type": "prose",
+            "text": "It has a second job, and it is not about plans at all. When something in front of you points one way, *going to* says so."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Build it from *be*, *going to* and the base form",
+            "anchor": "how-to-build"
+          },
+          {
+            "type": "paradigm",
+            "anchor": "going-to-forms",
+            "caption": "Only *be* changes. *Going to* and the verb never move.",
+            "form_line": "*am*, *is* or *are* plus *going to* plus the base form",
+            "model_verbs": [
+              "paint",
+              "write"
+            ],
+            "headers": [
+              "Who",
+              "Positive",
+              "Short form (spoken)",
+              "Negative",
+              "Short form (spoken)",
+              "Question"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "I",
+                  "I am going to paint",
+                  "I'm going to paint",
+                  "I am not going to paint",
+                  "I'm not going to paint",
+                  "Am I going to paint?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "you",
+                  "you are going to write",
+                  "you're going to write",
+                  "you are not going to write",
+                  "you aren't going to write",
+                  "Are you going to write?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "he / she / it",
+                  "he is going to paint",
+                  "he's going to paint",
+                  "he is not going to paint",
+                  "he isn't going to paint",
+                  "Is he going to paint?"
+                ],
+                "weight": "high",
+                "note": "The only row that uses *is*."
+              },
+              {
+                "cells": [
+                  "we",
+                  "we are going to write",
+                  "we're going to write",
+                  "we are not going to write",
+                  "we aren't going to write",
+                  "Are we going to write?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "they",
+                  "they are going to paint",
+                  "they're going to paint",
+                  "they are not going to paint",
+                  "they aren't going to paint",
+                  "Are they going to paint?"
+                ],
+                "weight": "high"
+              }
+            ],
+            "sub_tables": [
+              {
+                "caption": "A short answer repeats *be* and stops there.",
+                "headers": [
+                  "Question",
+                  "Yes",
+                  "No"
+                ],
+                "rows": [
+                  [
+                    "Are you going to paint it?",
+                    "Yes, I am.",
+                    "No, I'm not."
+                  ],
+                  [
+                    "Is she going to write back?",
+                    "Yes, she is.",
+                    "No, she isn't."
+                  ]
+                ]
+              },
+              {
+                "caption": "Two ways to shorten the negative, and both are correct.",
+                "headers": [
+                  "Full form",
+                  "The commoner short form",
+                  "Also correct"
+                ],
+                "rows": [
+                  [
+                    "you are not",
+                    "you aren't",
+                    "you're not"
+                  ],
+                  [
+                    "he is not",
+                    "he isn't",
+                    "he's not"
+                  ]
+                ]
+              }
+            ],
+            "examples": [
+              {
+                "text": "We're going to paint the community hall in August.",
+                "gloss": "The date and the job are settled.",
+                "register": "spoken"
+              },
+              {
+                "text": "The trust is going to write to every allotment holder.",
+                "gloss": "The letters are planned.",
+                "register": "written_formal"
+              },
+              {
+                "text": "They aren't going to paint the upstairs rooms.",
+                "gloss": "That part has been dropped from the plan.",
+                "register": "neutral"
+              },
+              {
+                "text": "Are you going to write back to the landlord?",
+                "gloss": "The question is whether a reply is coming.",
+                "register": "spoken"
+              }
+            ],
+            "notes": [
+              "*He's going to paint* is *he is going to paint*, never *he has*.",
+              "In fast speech *going to* runs together and sounds like *gonna*. Do not write it that way.",
+              "Never *Yes, I'm.* A short answer cannot end on a short form."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The two jobs *going to* does",
+            "anchor": "two-jobs"
+          },
+          {
+            "type": "table",
+            "anchor": "what-going-to-is-for",
+            "caption": "A decision made earlier, or evidence you can point at.",
+            "headers": [
+              "What you have",
+              "What it sounds like",
+              "Example"
+            ],
+            "rows": [
+              [
+                "a decision made before now",
+                "a plan",
+                "We're going to move the depot."
+              ],
+              [
+                "a date already in your head",
+                "an intention",
+                "I'm going to apply in October."
+              ],
+              [
+                "something you can see or hear",
+                "a prediction from evidence",
+                "Look at that sky. It's going to pour."
+              ],
+              [
+                "a change already under way",
+                "a prediction from evidence",
+                "Fares are going to rise again."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "The first two look forward from a decision. The last two look at what is already there."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "One example per row above, in the same order.",
+            "dimension": "what the speaker is going on",
+            "items": [
+              {
+                "text": "We're going to move the records into the new office.",
+                "gloss": "The move is decided and being organised.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "going to move",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I'm going to apply for the Ashfield course in October.",
+                "gloss": "The speaker has settled on it.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "going to apply",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The queue is out of the door. We're going to be late.",
+                "gloss": "The speaker can see the reason.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "The queue is out of the door",
+                    "role": "deciding"
+                  }
+                ]
+              },
+              {
+                "text": "Repairs have stopped, so the bridge is going to close.",
+                "gloss": "The evidence points one way.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "Repairs have stopped",
+                    "role": "deciding"
+                  }
+                ]
+              }
+            ],
+            "so_what": "The first two came from a decision. The last two came from something visible."
+          },
+          {
+            "type": "visual",
+            "kind": "timeline",
+            "caption": "The decision is behind you; the event is ahead of you.",
+            "spec": {
+              "now_label": "now",
+              "marks": [
+                {
+                  "at": -5,
+                  "label": "you decided",
+                  "style": "point"
+                },
+                {
+                  "at": -5,
+                  "label": "the plan holds",
+                  "span_to": 5,
+                  "style": "bar"
+                },
+                {
+                  "at": 5,
+                  "label": "it happens",
+                  "style": "point"
+                }
+              ],
+              "caption": "Decided earlier, done later"
+            }
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Use *going to* when a decision or evidence came first",
+            "anchor": "when-to-use-going-to"
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Use *going to* when the decision was already made, or when something in front of you points to it."
+          },
+          {
+            "type": "examples",
+            "lead_in": "No time word decides any of these. The verb carries the meaning alone.",
+            "dimension": "no time named",
+            "items": [
+              {
+                "text": "The Norland site is going to be sold.",
+                "gloss": "The sale has been agreed.",
+                "register": "written_formal"
+              },
+              {
+                "text": "I'm going to speak to the ward manager.",
+                "gloss": "The speaker settled on this earlier.",
+                "register": "spoken"
+              },
+              {
+                "text": "That crack is going to get worse.",
+                "gloss": "You can see the crack, and it is spreading.",
+                "register": "neutral"
+              }
+            ],
+            "so_what": "Each one rests on something already decided or already visible."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "will-for-an-older-decision",
+            "code": "future_evidence_vs_intention",
+            "wrong": "I have already booked the room. I will run the session on Friday.",
+            "right": "I have already booked the room. I'm going to run the session on Friday.",
+            "why_it_happens": "*Will* was taught as the future, so it comes out for anything ahead. *Will* announces a decision made at this moment, and the booking says the decision came earlier. The two halves then fight.",
+            "smallest_fix": "If the decision came before the sentence, use *going to*."
+          },
+          {
+            "type": "warning",
+            "anchor": "be-missing-before-going-to",
+            "code": "word_form_wrong",
+            "wrong": "The tenants going to meet the landlord on Thursday.",
+            "right": "The tenants are going to meet the landlord on Thursday.",
+            "why_it_happens": "*Going* already looks like a verb, so the sentence feels finished without *are*. *Going to* cannot stand on its own; it needs *am*, *is* or *are* in front of it.",
+            "smallest_fix": "Put *am*, *is* or *are* in, matched to the subject."
+          },
+          {
+            "type": "warning",
+            "anchor": "be-not-matching-the-subject",
+            "code": "agreement_subject_verb",
+            "wrong": "The two shops is going to close in March.",
+            "right": "The two shops are going to close in March.",
+            "why_it_happens": "A shop closing is one event, so *is* sounds right. The helping verb matches the subject, and the subject here is two shops.",
+            "smallest_fix": "Find the subject, count it, and pick *am*, *is* or *are* from that."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Two places where *going to* gives way to something else",
+            "items": [
+              {
+                "text": "With *go* and *come*, the plain *-ing* form is commoner than *going to go*.",
+                "example": "We're going to Sandmouth on Saturday.",
+                "kind": "B",
+                "how_often": "very common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "In an *if* clause, a different rule takes over and both *will* and *going to* stay out.",
+                "example": "If the grant comes through, we're going to expand.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this now"
+              }
+            ],
+            "stop_line": null
+          },
+          {
+            "type": "false_rule",
+            "heard": "*Going to* is for plans, and *will* is for everything else in the future.",
+            "also_known_as": [
+              "going to means intention",
+              "going to equals plan"
+            ],
+            "truth": "*Going to* has a second job that has nothing to do with planning. *The tide is going to turn* is read off something in front of you, and no plan is involved anywhere in it.",
+            "what_to_do": "Ask two questions. Was the decision already made? Can you point at the evidence? A yes to either one takes *going to*."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "*Be* plus *going to* plus the base form. Decided earlier, or visible now.",
+            "table": {
+              "caption": "One row per situation.",
+              "headers": [
+                "If the decision or evidence is…",
+                "Use",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "already made before you spoke",
+                  "*going to*",
+                  "we're going to repaint it"
+                ],
+                [
+                  "made as you speak",
+                  "*will*",
+                  "I'll do it now"
+                ],
+                [
+                  "in front of you, visible",
+                  "*going to*",
+                  "it's going to rain"
+                ],
+                [
+                  "a guess with nothing behind it",
+                  "*will*",
+                  "prices will rise"
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Which one is right? *He going to phone the office.* / *He is going to phone the office.*",
+                "answer": "*He is going to phone the office.*",
+                "why": "*Going to* needs *am*, *is* or *are* in front of it."
+              },
+              {
+                "prompt": "Why is *Watch out, the shelf will fall* odd if you can see it tipping?",
+                "answer": "The evidence is in front of you, so write *the shelf is going to fall*.",
+                "why": "Something you can point at takes *going to*, not *will*."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "verb",
+          "subject",
+          "base form",
+          "the *-ing* form",
+          "auxiliary (helping) verb",
+          "agree (subject–verb)",
+          "clause"
+        ],
+        "related_points": [
+          "gr_future_going_to"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_future_will",
+            "reason": "the form for a decision you make as you speak"
+          },
+          {
+            "id": "th_future_choice",
+            "reason": "which of the four common future forms this sentence needs"
+          },
+          {
+            "id": "th_present_continuous",
+            "reason": "the *be* plus *-ing* machinery this form is built on"
+          },
+          {
+            "id": "th_the_futures",
+            "reason": "all eight ways of pointing forward, in one table"
+          }
+        ],
+        "fixes_errors": [
+          "future_evidence_vs_intention",
+          "word_form_wrong",
+          "agreement_subject_verb"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "going to",
+          "be going to",
+          "gonna",
+          "future plans",
+          "going to or will"
+        ],
+        "intents": [
+          "talk about a plan I already made",
+          "predict from something I can see"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 6,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_future_arrangements",
+      "chapter_id": "thc_02",
+      "sequence_index": 36,
+      "title": "Saying what is already in the diary",
+      "kind": "standard",
+      "cefr_level": "A2",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "The present continuous and the present simple used for the future",
+        "one_line": "These are the two present forms that point forward, for something already fixed with people or already printed in a timetable.",
+        "short_answer": "Fixed with other people, write *We're meeting the contractor on Thursday*. Printed in a timetable, write *The ferry leaves at six*.",
+        "question_in_learner_words": "How do I talk about something already fixed for later?",
+        "area_ids": [
+          "I19",
+          "I20"
+        ],
+        "prerequisites": [
+          "th_present_continuous",
+          "th_present_simple"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Two present forms that point forward",
+            "anchor": "what-it-does"
+          },
+          {
+            "type": "prose",
+            "text": "There is nothing new to build here. You already have both forms. What changes is that the sentence is about later, and the verb stays in the present."
+          },
+          {
+            "type": "prose",
+            "text": "So the sentence needs a time word, or a situation that makes the time obvious to the listener. Without one, it lands on now."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Who fixed it decides which form you use",
+            "anchor": "who-fixed-it"
+          },
+          {
+            "type": "table",
+            "anchor": "which-present-form-forward",
+            "caption": "A person agreed it, or a timetable set it. Those take different forms.",
+            "headers": [
+              "What is fixed",
+              "Who fixed it",
+              "Form"
+            ],
+            "rows": [
+              [
+                "a meeting, a visit, an appointment",
+                "you and somebody else",
+                "*We're meeting them at ten.*"
+              ],
+              [
+                "a train, a flight, a lesson slot",
+                "a timetable or an organisation",
+                "*The train leaves at ten.*"
+              ],
+              [
+                "an opening time, a film showing",
+                "a published schedule",
+                "*The gallery opens at nine.*"
+              ],
+              [
+                "a shift you have taken on",
+                "you, with somebody expecting it",
+                "*I'm covering the desk tomorrow.*"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "If one person could change it by ringing another person, it is an arrangement."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "One example per row above, in the same order.",
+            "dimension": "who fixed it",
+            "items": [
+              {
+                "text": "We're meeting the site manager at the Verdon depot on Thursday.",
+                "gloss": "Both sides have agreed the day.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "We're meeting",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The last train to Ashfield leaves at eleven twenty.",
+                "gloss": "That is the printed time.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "leaves",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The clinic opens at half past seven on Mondays.",
+                "gloss": "That is the published opening time.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "opens",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I'm covering the front desk on Friday morning.",
+                "gloss": "The speaker has taken the shift on.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "I'm covering",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "A person agreed the first and the last. A timetable settled the middle two."
+          },
+          {
+            "type": "visual",
+            "kind": "timeline",
+            "caption": "The arrangement is already made; the event sits ahead of now.",
+            "spec": {
+              "now_label": "now",
+              "marks": [
+                {
+                  "at": -4,
+                  "label": "you agreed it",
+                  "style": "point"
+                },
+                {
+                  "at": -4,
+                  "label": "it stays fixed",
+                  "span_to": 5,
+                  "style": "bar"
+                },
+                {
+                  "at": 5,
+                  "label": "Thursday",
+                  "style": "point"
+                }
+              ],
+              "caption": "Agreed already, happening later"
+            }
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Both forms need a time word, or the sentence means now",
+            "anchor": "needs-a-time-word"
+          },
+          {
+            "type": "prose",
+            "text": "*We're meeting the contractor* on its own is happening this minute. Add *on Thursday* and the same three words move forward by a week."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The test is whether a person could change it",
+            "anchor": "the-person-test"
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Use the *-ing* form for an arrangement with other people. Use the plain present form for a timetable."
+          },
+          {
+            "type": "examples",
+            "lead_in": "The same speaker, the same week, and only the kind of fixing changes.",
+            "dimension": "arrangement or timetable",
+            "items": [
+              {
+                "text": "I'm seeing the dentist on Tuesday afternoon.",
+                "gloss": "The surgery gave the speaker that slot.",
+                "register": "spoken"
+              },
+              {
+                "text": "The bus to Brackenfield goes every twenty minutes.",
+                "gloss": "That is the service pattern.",
+                "register": "neutral"
+              },
+              {
+                "text": "The examiners are visiting the college next term.",
+                "gloss": "The visit has been agreed with the college.",
+                "register": "written_formal"
+              },
+              {
+                "text": "Term starts on the eighth of September.",
+                "gloss": "That is the date in the college calendar.",
+                "register": "neutral"
+              }
+            ],
+            "so_what": "The two that a person agreed take the *-ing* form."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "will-for-an-arrangement",
+            "code": "future_evidence_vs_intention",
+            "wrong": "I will meet the site manager on Thursday at ten.",
+            "right": "I'm meeting the site manager on Thursday at ten.",
+            "why_it_happens": "Thursday is ahead, so *will* looks like the marker the sentence needs. *Will* announces a decision made at this moment, and this one was agreed with somebody else days ago.",
+            "smallest_fix": "If it is in the diary and somebody else knows, use *am*, *is* or *are* plus the *-ing* form."
+          },
+          {
+            "type": "warning",
+            "anchor": "will-for-a-timetable",
+            "code": "future_evidence_vs_intention",
+            "wrong": "The ferry will leave at six, so be there by half past five.",
+            "right": "The ferry leaves at six, so be there by half past five.",
+            "why_it_happens": "Six o'clock has not happened yet, so a future marker feels owed. A time somebody else printed is treated as a fact about now, and the plain present form states it.",
+            "smallest_fix": "For a timetable, use the plain present form: *leaves*, *opens*, *starts*."
+          },
+          {
+            "type": "warning",
+            "anchor": "s-dropped-from-a-timetable-verb",
+            "code": "agreement_subject_verb",
+            "wrong": "The Sandmouth ferry leave at six on weekdays.",
+            "right": "The Sandmouth ferry leaves at six on weekdays.",
+            "why_it_happens": "The sentence is about later, and future forms take no endings, so the *-s* gets dropped. This is a present form doing a future job, and it keeps every present ending.",
+            "smallest_fix": "One ferry, so add the *-s*: *leaves*."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Two cases where the plain present form is the only choice",
+            "items": [
+              {
+                "text": "A clause starting with *when*, *before* or *after* takes the present form, whatever time it points at.",
+                "example": "Ring me when the delivery arrives.",
+                "kind": "A",
+                "how_often": "very common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "A personal plan with no timetable behind it does not take the plain form.",
+                "example": "I'm starting the course in September.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this now"
+              }
+            ],
+            "stop_line": null
+          },
+          {
+            "type": "false_rule",
+            "heard": "The *-ing* form is the now tense, so it cannot talk about the future.",
+            "also_known_as": [
+              "present continuous means right now",
+              "use will for anything in the future"
+            ],
+            "truth": "It talks about later whenever the arrangement is already made. *We're moving the office in March* is normal English, and nobody is moving anything at the moment of speaking.",
+            "what_to_do": "Keep *now* as the commonest use, and add the second one: something agreed with other people, with the day named in the sentence."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Agreed with people, use *-ing*. Set by a timetable, use the plain form.",
+            "table": {
+              "caption": "One row per kind of fixing.",
+              "headers": [
+                "If it was fixed by…",
+                "Use",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "you and another person",
+                  "the *-ing* form",
+                  "we're meeting on Thursday"
+                ],
+                [
+                  "a timetable or a schedule",
+                  "the plain present form",
+                  "the train leaves at six"
+                ],
+                [
+                  "you alone, earlier",
+                  "*going to*",
+                  "I'm going to apply"
+                ],
+                [
+                  "nobody yet",
+                  "*will*",
+                  "I'll ring them later"
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Which one is right? *The gallery is opening at nine every day.* / *The gallery opens at nine every day.*",
+                "answer": "*The gallery opens at nine every day.*",
+                "why": "Opening times are a timetable, and a timetable takes the plain present form."
+              },
+              {
+                "prompt": "Why is *I will see the dentist on Tuesday* odd once the slot is booked?",
+                "answer": "It is agreed with the surgery, so write *I'm seeing the dentist on Tuesday*.",
+                "why": "An arrangement with somebody else takes the *-ing* form."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "verb",
+          "subject",
+          "tense",
+          "simple",
+          "continuous (progressive)",
+          "the *-ing* form",
+          "the *-s* form",
+          "clause",
+          "auxiliary (helping) verb"
+        ],
+        "related_points": [
+          "gr_future_pres_cont",
+          "gr_future_pres_simple"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_future_choice",
+            "reason": "which of the four common future forms this sentence needs"
+          },
+          {
+            "id": "th_future_going_to",
+            "reason": "the form for a plan you made on your own"
+          },
+          {
+            "id": "th_present_continuous",
+            "reason": "how the *-ing* form is built, in full"
+          },
+          {
+            "id": "th_present_simple",
+            "reason": "how the plain present form is built, in full"
+          }
+        ],
+        "fixes_errors": [
+          "future_evidence_vs_intention",
+          "agreement_subject_verb"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "present continuous for the future",
+          "future arrangements",
+          "timetable future",
+          "present simple for the future",
+          "meeting on Thursday"
+        ],
+        "intents": [
+          "talk about something already in my diary",
+          "give a departure or an opening time"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 6,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_future_continuous_and_perfect",
+      "chapter_id": "thc_02",
+      "sequence_index": 37,
+      "title": "Saying what will be going on, and what will be over",
+      "kind": "standard",
+      "cefr_level": "B1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "The future continuous and the future perfect",
+        "one_line": "These two put a second time into the sentence: what is in the middle of happening then, and what is over by then.",
+        "short_answer": "*Will be* plus *-ing* for what is under way at that time. *Will have* plus the third form for what is finished by then.",
+        "question_in_learner_words": "How do I talk about a point ahead of now?",
+        "area_ids": [
+          "I15",
+          "I16"
+        ],
+        "prerequisites": [
+          "th_future_will",
+          "th_present_continuous",
+          "th_the_perfect_idea"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Both forms need a second time in the sentence",
+            "anchor": "what-it-does"
+          },
+          {
+            "type": "prose",
+            "text": "Plain *will* needs one time: later. These two need a second one. You name a point ahead, and then you say where the event sits against that point."
+          },
+          {
+            "type": "prose",
+            "text": "One of them says the event is in the middle of happening then. The other says it is over by then. That is the whole difference."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Build them from *will be* and *will have*",
+            "anchor": "how-to-build"
+          },
+          {
+            "type": "paradigm",
+            "anchor": "future-continuous-and-perfect-forms",
+            "caption": "*Will* never changes. What follows it decides which of the two you have.",
+            "form_line": "*will be* plus the *-ing* form, or *will have* plus the third form",
+            "model_verbs": [
+              "paint",
+              "write"
+            ],
+            "headers": [
+              "Form",
+              "Positive",
+              "Short form (spoken)",
+              "Negative",
+              "Short form (spoken)",
+              "Question"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "future continuous, *paint*",
+                  "I will be painting",
+                  "I'll be painting",
+                  "I will not be painting",
+                  "I won't be painting",
+                  "Will I be painting?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "future continuous, *write*",
+                  "she will be writing",
+                  "she'll be writing",
+                  "she will not be writing",
+                  "she won't be writing",
+                  "Will she be writing?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "future perfect, *paint*",
+                  "I will have painted",
+                  "I'll have painted",
+                  "I will not have painted",
+                  "I won't have painted",
+                  "Will I have painted?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "future perfect, *write*",
+                  "she will have written",
+                  "she'll have written",
+                  "she will not have written",
+                  "she won't have written",
+                  "Will she have written?"
+                ],
+                "weight": "medium",
+                "note": "*Written*, not *wrote*. After *have*, the third form."
+              }
+            ],
+            "sub_tables": [
+              {
+                "caption": "*Will* is the same for every subject in both forms.",
+                "headers": [
+                  "Subject",
+                  "Future continuous",
+                  "Future perfect"
+                ],
+                "rows": [
+                  [
+                    "I",
+                    "I will be painting",
+                    "I will have painted"
+                  ],
+                  [
+                    "he / she / it",
+                    "he will be painting",
+                    "he will have painted"
+                  ],
+                  [
+                    "they",
+                    "they will be writing",
+                    "they will have written"
+                  ]
+                ]
+              },
+              {
+                "caption": "A short answer repeats *will* and stops there.",
+                "headers": [
+                  "Question",
+                  "Yes",
+                  "No"
+                ],
+                "rows": [
+                  [
+                    "Will you be painting on Friday?",
+                    "Yes, I will.",
+                    "No, I won't."
+                  ],
+                  [
+                    "Will they have written by then?",
+                    "Yes, they will.",
+                    "No, they won't."
+                  ]
+                ]
+              }
+            ],
+            "examples": [
+              {
+                "text": "At nine tomorrow I'll be painting the back stairwell.",
+                "gloss": "That is what the speaker will have in hand then.",
+                "register": "spoken"
+              },
+              {
+                "text": "The panel will be writing up its findings all week.",
+                "gloss": "The writing runs across the whole week.",
+                "register": "written_formal"
+              },
+              {
+                "text": "By Friday the crew will have painted every landing.",
+                "gloss": "The job is over before Friday ends.",
+                "register": "neutral"
+              },
+              {
+                "text": "She will have written to all four suppliers by then.",
+                "gloss": "The letters go out before that point.",
+                "register": "written_formal"
+              }
+            ],
+            "notes": [
+              "Nothing after *will* takes an ending. *Will be*, never *will is*.",
+              "After *have*, use the third form: *written*, not *wrote*.",
+              "There is a fourth form, *will have been painting*. Recognise it; you do not need to produce it."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Where the event sits against the point decides the form",
+            "anchor": "against-the-point"
+          },
+          {
+            "type": "table",
+            "anchor": "which-form-against-the-point",
+            "caption": "Ask whether the event runs across the point or stops before it.",
+            "headers": [
+              "Where the event sits",
+              "Use",
+              "Example"
+            ],
+            "rows": [
+              [
+                "running across that point",
+                "future continuous",
+                "At six we'll be crossing the moor."
+              ],
+              [
+                "over before that point",
+                "future perfect",
+                "By six we'll have crossed the moor."
+              ],
+              [
+                "starting at that point",
+                "plain *will*",
+                "At six we'll leave the depot."
+              ],
+              [
+                "asking about somebody's plans, gently",
+                "future continuous",
+                "Will you be using the hall on Friday?"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "The last row is not about time at all. It is a way of asking without pressing."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "One example per row above, in the same order.",
+            "dimension": "where the event sits against the point",
+            "items": [
+              {
+                "text": "At ten on Monday the auditors will be going through the accounts.",
+                "gloss": "They will be in the middle of it then.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "will be going",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "By the end of March the council will have replaced every meter.",
+                "gloss": "The work is finished before April.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "will have replaced",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The gates will close at eight.",
+                "gloss": "That is when the closing happens.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "will close",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Will you be using the minibus on Saturday?",
+                "gloss": "The speaker wants to know without asking for a favour.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "Will you be using",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "The first runs through the point, the second stops before it, the third starts at it."
+          },
+          {
+            "type": "visual",
+            "kind": "timeline",
+            "caption": "One point ahead, and two ways of sitting against it.",
+            "spec": {
+              "now_label": "now",
+              "marks": [
+                {
+                  "at": 6,
+                  "label": "the point you name",
+                  "style": "point"
+                },
+                {
+                  "at": 3,
+                  "label": "will be painting",
+                  "span_to": 9,
+                  "style": "bar"
+                },
+                {
+                  "at": 1,
+                  "label": "will have painted",
+                  "span_to": 5,
+                  "style": "arrow"
+                }
+              ],
+              "caption": "Across the point, or done before it"
+            }
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Name the point first, then place the event against it",
+            "anchor": "name-the-point"
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Use *will be* plus *-ing* for what is under way at that point. Use *will have* plus the third form for what is over."
+          },
+          {
+            "type": "examples",
+            "lead_in": "The same point in time, and only the position of the event changes.",
+            "dimension": "under way, or finished",
+            "items": [
+              {
+                "text": "This time next week I'll be sitting the speaking test.",
+                "gloss": "The test will be under way then.",
+                "register": "spoken"
+              },
+              {
+                "text": "This time next week I'll have sat the speaking test.",
+                "gloss": "It will be behind the speaker by then.",
+                "register": "spoken"
+              },
+              {
+                "text": "By 2035 the Norland depot will have closed.",
+                "gloss": "The closure comes before that year ends.",
+                "register": "written_formal"
+              }
+            ],
+            "so_what": "Same week and same test, and only the verb says whether it is over."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "past-form-after-will-have",
+            "code": "word_form_wrong",
+            "wrong": "By Friday the team will have wrote the report.",
+            "right": "By Friday the team will have written the report.",
+            "why_it_happens": "*Wrote* is the form you reach for when you talk about the past, and this sentence feels past because the job is done in it. After *have*, English always uses the third form.",
+            "smallest_fix": "After *have*, use the third form: *written*, *painted*, *taken*."
+          },
+          {
+            "type": "warning",
+            "anchor": "will-inside-a-by-the-time-clause",
+            "code": "future_will_in_time_clause",
+            "wrong": "By the time the grant will arrive, the site will have closed.",
+            "right": "By the time the grant arrives, the site will have closed.",
+            "why_it_happens": "Both halves point ahead, so both seem to need a future marker. A clause starting with *by the time* keeps the present form, and the main clause carries the future on its own.",
+            "smallest_fix": "Take *will* out after *by the time*: *by the time the grant arrives*."
+          },
+          {
+            "type": "warning",
+            "anchor": "state-verb-in-the-future-continuous",
+            "code": "aspect_state_verb_continuous",
+            "wrong": "At this time tomorrow I will be knowing the result.",
+            "right": "At this time tomorrow I will know the result.",
+            "why_it_happens": "*At this time tomorrow* looks like a signal for the *-ing* form, so it drags the verb with it. Knowing is a state, and a state stays out of the *-ing* form whatever the time words say.",
+            "smallest_fix": "Leave the time words alone and use plain *will* with a state verb."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Two things these forms do that are not about position in time",
+            "items": [
+              {
+                "text": "The future continuous asks about somebody's plans without pressing them for a favour.",
+                "example": "Will you be driving past the station later?",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "*Will have been* plus *-ing* measures a stretch up to a future point.",
+                "example": "By June they will have been running the scheme for a decade.",
+                "kind": "B",
+                "how_often": "uncommon",
+                "verdict": "recognise only"
+              }
+            ],
+            "stop_line": null
+          },
+          {
+            "type": "false_rule",
+            "heard": "The future continuous is a politer, more advanced way of saying *will*.",
+            "also_known_as": [
+              "will be doing is the formal will",
+              "use will be plus -ing to sound higher level"
+            ],
+            "truth": "It is not a dressed-up *will*. *I'll speak to the landlord* and *I'll be speaking to the landlord* say different things. The first is a decision; the second is something already in hand.",
+            "what_to_do": "Use it when the event runs across a point you have named, or when you are asking about a plan. Never use it to lift the level of a sentence."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Under way at that point? *Will be* plus *-ing*. Over by then? *Will have*.",
+            "table": {
+              "caption": "One row per position against the point.",
+              "headers": [
+                "If at that point it is…",
+                "Use",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "in the middle of happening",
+                  "*will be* plus *-ing*",
+                  "we'll be crossing the moor"
+                ],
+                [
+                  "already over",
+                  "*will have* plus third form",
+                  "we'll have crossed the moor"
+                ],
+                [
+                  "about to start",
+                  "plain *will*",
+                  "we'll leave the depot"
+                ],
+                [
+                  "a state rather than an action",
+                  "plain *will*",
+                  "I'll know the result"
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Which one is right? *By Friday they will finish the survey.* / *By Friday they will have finished the survey.*",
+                "answer": "*By Friday they will have finished the survey.*",
+                "why": "*By Friday* names a point, and the survey is over before it."
+              },
+              {
+                "prompt": "How is *At eight I'll have dinner with my cousin* different from *At eight I'll be having dinner*?",
+                "answer": "The first starts at eight. The second is already under way at eight.",
+                "why": "The *-ing* form spreads the event across the point you named."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "verb",
+          "subject",
+          "base form",
+          "past form",
+          "third form (past participle)",
+          "the *-ing* form",
+          "auxiliary (helping) verb",
+          "perfect",
+          "continuous (progressive)",
+          "state verb",
+          "clause",
+          "main clause"
+        ],
+        "related_points": [
+          "gr_future_continuous",
+          "gr_future_perfect"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_future_will",
+            "reason": "the plain *will* form these two are built on"
+          },
+          {
+            "id": "th_the_perfect_idea",
+            "reason": "why every *have* plus third form behaves the same way"
+          },
+          {
+            "id": "th_the_futures",
+            "reason": "all eight ways of pointing forward, in one table"
+          },
+          {
+            "id": "th_future_choice",
+            "reason": "which of the four common future forms this sentence needs"
+          }
+        ],
+        "fixes_errors": [
+          "word_form_wrong",
+          "future_will_in_time_clause",
+          "aspect_state_verb_continuous"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "future continuous",
+          "future perfect",
+          "will be doing",
+          "will have done",
+          "by then"
+        ],
+        "intents": [
+          "say what will be going on at a certain time",
+          "say what will be finished by a deadline"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 7,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_the_futures",
+      "chapter_id": "thc_02",
+      "sequence_index": 38,
+      "title": "The eight ways English talks about the future",
+      "kind": "paradigm",
+      "cefr_level": "B1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "The future forms",
+        "one_line": "English puts no future ending on the verb. It has eight ways of pointing forward instead, and this is all of them.",
+        "short_answer": "There is no future tense. Use *will*, *going to*, the *-ing* form, the plain present form, or one of four more.",
+        "question_in_learner_words": "What are all the ways of talking about the future?",
+        "area_ids": [
+          "I17",
+          "I21",
+          "I22",
+          "I23",
+          "I26"
+        ],
+        "prerequisites": [
+          "th_time_and_tense",
+          "th_future_will",
+          "th_future_going_to",
+          "th_future_arrangements"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 1,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "English marks no future on the verb itself",
+            "anchor": "no-future-ending"
+          },
+          {
+            "type": "prose",
+            "text": "*Paint* has a past form, *painted*. It has no future form at all. Every row below adds a helping verb or borrows a present form, and each one says something different about how you see the event."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "All eight forms, with how often you need them",
+            "anchor": "all-eight"
+          },
+          {
+            "type": "paradigm",
+            "anchor": "every-future-form",
+            "caption": "The top four carry almost all of it. The bottom four are mainly for reading.",
+            "form_line": "each row is a different way of pointing forward, not a different tense",
+            "model_verbs": [
+              "paint",
+              "write"
+            ],
+            "headers": [
+              "Way of pointing forward",
+              "Positive",
+              "Negative",
+              "Question",
+              "What it says"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "*will*",
+                  "she will paint",
+                  "she will not paint",
+                  "Will she paint?",
+                  "a decision made now, or a guess"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "*going to*",
+                  "she is going to write",
+                  "she is not going to write",
+                  "Is she going to write?",
+                  "a decision made earlier, or visible evidence"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "the *-ing* form",
+                  "she is painting on Friday",
+                  "she is not painting on Friday",
+                  "Is she painting on Friday?",
+                  "an arrangement with other people"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "the plain present form",
+                  "the gallery opens at nine",
+                  "the gallery does not open until ten",
+                  "Does the gallery open at nine?",
+                  "a time somebody else set"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "future continuous",
+                  "she will be painting",
+                  "she will not be painting",
+                  "Will she be painting?",
+                  "under way at a point you name"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "future perfect",
+                  "she will have written",
+                  "she will not have written",
+                  "Will she have written?",
+                  "over before a point you name"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "*be about to*",
+                  "she is about to paint",
+                  "she is not about to paint",
+                  "Is she about to paint?",
+                  "starting in a moment"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "*be to*, *be due to*, *be set to*",
+                  "the depot is due to close",
+                  "the depot is not due to close",
+                  "Is the depot due to close?",
+                  "scheduled, in formal writing"
+                ],
+                "weight": "low",
+                "note": "Common in news reports. Rare in speech."
+              }
+            ],
+            "sub_tables": [
+              {
+                "caption": "Four of the eight are built on *will*, and *will* never changes shape.",
+                "headers": [
+                  "Form",
+                  "*paint*",
+                  "*write*"
+                ],
+                "rows": [
+                  [
+                    "*will*",
+                    "will paint",
+                    "will write"
+                  ],
+                  [
+                    "future continuous",
+                    "will be painting",
+                    "will be writing"
+                  ],
+                  [
+                    "future perfect",
+                    "will have painted",
+                    "will have written"
+                  ],
+                  [
+                    "future perfect continuous",
+                    "will have been painting",
+                    "will have been writing"
+                  ]
+                ]
+              }
+            ],
+            "examples": [
+              {
+                "text": "I'll paint over that graffiti before the weekend.",
+                "gloss": "The speaker settles it while speaking.",
+                "register": "spoken"
+              },
+              {
+                "text": "We're going to write to every household on the estate.",
+                "gloss": "The letters were decided on earlier.",
+                "register": "written_formal"
+              },
+              {
+                "text": "The surveyors are coming on Wednesday morning.",
+                "gloss": "The visit is agreed with them.",
+                "register": "neutral"
+              },
+              {
+                "text": "The last bus to Norland leaves at ten past eleven.",
+                "gloss": "That is the printed time.",
+                "register": "neutral"
+              },
+              {
+                "text": "By August the trust will have replaced the whole roof.",
+                "gloss": "The work ends before August is out.",
+                "register": "written_formal"
+              },
+              {
+                "text": "The bridge is due to reopen in the spring.",
+                "gloss": "That is the scheduled date.",
+                "register": "written_formal"
+              }
+            ],
+            "notes": [
+              "Nothing after *will* takes an ending. *Will be*, never *will is*.",
+              "Rows five to eight are worth recognising before they are worth producing.",
+              "*Going to* is not more informal than *will*. The two say different things.",
+              "*Be about to* has no *not* form in ordinary use beyond *is not about to*, which usually means a refusal."
+            ]
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Three more you will meet in reading",
+            "anchor": "three-more"
+          },
+          {
+            "type": "table",
+            "anchor": "three-more-forms",
+            "caption": "You need to read these. You rarely need to write them.",
+            "headers": [
+              "Form",
+              "What it looks like",
+              "What it says"
+            ],
+            "rows": [
+              [
+                "*shall*",
+                "Shall I open a window?",
+                "an offer or a suggestion"
+              ],
+              [
+                "the future seen from a past moment",
+                "She was going to write, then stopped.",
+                "a plan that sat ahead of a past moment"
+              ],
+              [
+                "*will have been* plus *-ing*",
+                "They will have been waiting a year.",
+                "how long, counted up to a future point"
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "*Shall* for a plain future is rare now, and *will* covers it.",
+              "*Was going to* and *would* both carry the future seen from a past moment."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "One example per row above, in the same order.",
+            "dimension": "the three forms you mainly read",
+            "items": [
+              {
+                "text": "Shall I ring the Marlow office and check?",
+                "gloss": "The speaker offers to make the call.",
+                "register": "spoken"
+              },
+              {
+                "text": "The council was going to sell the site, then withdrew it.",
+                "gloss": "The plan existed, and then it stopped.",
+                "register": "written_formal"
+              },
+              {
+                "text": "By September the scheme will have been running for two years.",
+                "gloss": "Two years of running, counted up to September.",
+                "register": "written_formal"
+              }
+            ],
+            "so_what": "The first offers, the second reports a dropped plan, the third measures a stretch."
+          },
+          {
+            "type": "variation",
+            "kind": "bre_ame",
+            "collapsed": true,
+            "variation_ref": 6,
+            "what_varies": "How much work *shall* still does.",
+            "option_a": {
+              "label": "British English",
+              "form": "*shall* for offers and suggestions, and in legal writing",
+              "example": "Shall we take the earlier train?"
+            },
+            "option_b": {
+              "label": "American English",
+              "form": "*shall* is rare outside legal writing",
+              "example": "Should we take the earlier train?"
+            },
+            "house_default": "British",
+            "why_this_default": "Our examples keep *shall* for offers and suggestions and use *will* everywhere else. That is a house choice for this pack, not a rule of English.",
+            "costs_marks": "no"
+          },
+          {
+            "type": "false_rule",
+            "heard": "*Shall* is the correct future for *I* and *we*, and *will* is for everybody else.",
+            "also_known_as": [
+              "I shall, you will",
+              "shall with the first person"
+            ],
+            "truth": "*Will* is standard for every subject now. *Shall* is alive in two places: offers and suggestions, as in *Shall I carry that?*, and legal writing, as in *The tenant shall keep the property in repair*.",
+            "what_to_do": "Write *will*. Keep *shall* for an offer or a suggestion, where it is the natural word and *will* would sound odd."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "No future ending on the verb. Eight ways of pointing forward instead.",
+            "table": {
+              "caption": "The four you need first.",
+              "headers": [
+                "If the future was settled…",
+                "Use",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "as you speak",
+                  "*will*",
+                  "I'll ring them"
+                ],
+                [
+                  "earlier, by you",
+                  "*going to*",
+                  "we're going to move"
+                ],
+                [
+                  "with other people",
+                  "the *-ing* form",
+                  "we're meeting at ten"
+                ],
+                [
+                  "by a timetable",
+                  "the plain present form",
+                  "the train leaves at six"
+                ]
+              ]
+            },
+            "points": null
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "verb",
+          "subject",
+          "tense",
+          "past form",
+          "third form (past participle)",
+          "the *-ing* form",
+          "auxiliary (helping) verb",
+          "modal verb",
+          "simple",
+          "continuous (progressive)",
+          "perfect"
+        ],
+        "related_points": [],
+        "no_practice_reason": "This is the complete set of forms, and four of the eight are for recognition rather than production.",
+        "related_articles": [
+          {
+            "id": "th_future_choice",
+            "reason": "which of these the sentence in front of you needs"
+          },
+          {
+            "id": "th_future_will",
+            "reason": "the *will* row in full, with its negatives and questions"
+          },
+          {
+            "id": "th_future_going_to",
+            "reason": "the *going to* row in full"
+          },
+          {
+            "id": "th_time_and_tense",
+            "reason": "why English marks only two tenses on the verb"
+          }
+        ],
+        "fixes_errors": [],
+        "confusion_set": null,
+        "aliases": [
+          "future forms",
+          "all the futures",
+          "ways to talk about the future",
+          "shall",
+          "be about to"
+        ],
+        "intents": [
+          "see every future form in one place"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [
+          6
+        ],
+        "myth_refs": [
+          8
+        ],
+        "estimated_read_minutes": 5,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_future_choice",
+      "chapter_id": "thc_02",
+      "sequence_index": 39,
+      "title": "Which future form does this sentence need?",
+      "kind": "comparison",
+      "cefr_level": "B1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "Choosing a future form",
+        "one_line": "This settles the choice between the four common future forms, so the sentence says how the event came about.",
+        "short_answer": "Ask where the future came from. Decided now, *will*. Decided earlier, *going to*. Agreed with people, *-ing*. Set by a timetable, plain form.",
+        "question_in_learner_words": "How do I choose between *will*, *going to* and *I'm meeting*?",
+        "area_ids": [
+          "I24",
+          "I25"
+        ],
+        "prerequisites": [
+          "th_future_will",
+          "th_future_going_to",
+          "th_future_arrangements"
+        ],
+        "register": "both",
+        "risk_note": null,
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "All four are correct, and they say different things",
+            "anchor": "what-you-are-choosing"
+          },
+          {
+            "type": "prose",
+            "text": "*I'll see the surveyor on Thursday* and *I'm seeing the surveyor on Thursday* are both good English. A listener hears a real difference. One sounds like a decision taken this second, and the other sounds like something already in the diary."
+          },
+          {
+            "type": "prose",
+            "text": "So the choice is not about the time. Thursday is Thursday in all four forms. It is about where the future came from."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Where did this future come from?",
+            "anchor": "where-did-it-come-from"
+          },
+          {
+            "type": "contrast",
+            "anchor": "which-future-form",
+            "question": "Where did this future come from?",
+            "options": [
+              {
+                "label": "*will*",
+                "use_it_when": "You decide as you speak, or you are guessing with nothing in front of you.",
+                "example": "Fine, I'll collect the parts on my way.",
+                "point_id": "gr_future_will"
+              },
+              {
+                "label": "*going to*",
+                "use_it_when": "The decision was made before you opened your mouth, or the evidence is in front of you.",
+                "example": "We're going to move the office in March.",
+                "point_id": "gr_future_going_to"
+              },
+              {
+                "label": "the *-ing* form",
+                "use_it_when": "It is arranged with somebody else, and both of you know the day.",
+                "example": "I'm seeing the surveyor on Thursday.",
+                "point_id": "gr_future_pres_cont"
+              },
+              {
+                "label": "the plain present form",
+                "use_it_when": "A timetable or a schedule set it, and you are reading the time off.",
+                "example": "The last ferry leaves at eleven.",
+                "point_id": "gr_future_pres_simple"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "I'll speak to the landlord about the damp.",
+                  "means": "The speaker settles on it while speaking.",
+                  "span": "'ll speak"
+                },
+                "b": {
+                  "text": "I'm speaking to the landlord about the damp.",
+                  "means": "The meeting with him is already arranged.",
+                  "span": "'m speaking"
+                },
+                "only_difference": "'ll speak / 'm speaking"
+              },
+              {
+                "a": {
+                  "text": "The team will finish the survey next week.",
+                  "means": "The speaker expects it, and nothing is settled.",
+                  "span": "will finish"
+                },
+                "b": {
+                  "text": "The team is going to finish the survey next week.",
+                  "means": "The team has already fixed on next week.",
+                  "span": "is going to finish"
+                },
+                "only_difference": "will finish / is going to finish"
+              },
+              {
+                "a": {
+                  "text": "The gallery is opening at nine tomorrow.",
+                  "means": "Somebody has arranged an early opening for tomorrow.",
+                  "span": "is opening"
+                },
+                "b": {
+                  "text": "The gallery opens at nine tomorrow.",
+                  "means": "That is the time the schedule gives for tomorrow.",
+                  "span": "opens"
+                },
+                "only_difference": "is opening / opens"
+              },
+              {
+                "a": {
+                  "text": "Careful, you'll drop that tray.",
+                  "means": "The speaker is guessing at what might happen.",
+                  "span": "'ll drop"
+                },
+                "b": {
+                  "text": "Careful, you're going to drop that tray.",
+                  "means": "The tray is tipping in front of them as they speak.",
+                  "span": "'re going to drop"
+                },
+                "only_difference": "'ll drop / 're going to drop"
+              }
+            ],
+            "deciding_factor": "Ask when the future was settled: as you speak, earlier by you, earlier with somebody else, or by a timetable.",
+            "trap": "You were taught that *will* is the future tense, so it comes out for anything ahead. Three of the four common futures do not use *will* at all.",
+            "register_note": "All four belong in speech and in writing. The choice pays hardest in Speaking Part 2, where a plan and a guess have to sound different."
+          },
+          {
+            "type": "decision_tree",
+            "anchor": "three-question-test",
+            "intro": "Three questions, in this order. Stop at the first one that answers.",
+            "steps": [
+              {
+                "id": "s1",
+                "ask": "Did a timetable or another person fix this time?",
+                "branches": [
+                  {
+                    "answer": "A timetable or a schedule did",
+                    "verdict": {
+                      "use": "the plain present form",
+                      "example": "The coach leaves at half past six.",
+                      "why": "You are reading a time off a schedule, so the present form states it."
+                    }
+                  },
+                  {
+                    "answer": "Another person did, and you both know the day",
+                    "verdict": {
+                      "use": "the *-ing* form",
+                      "example": "We're meeting the auditors on Tuesday.",
+                      "why": "Both sides know, so the arrangement is already a fact about now."
+                    }
+                  },
+                  {
+                    "answer": "Neither",
+                    "goto": "s2"
+                  }
+                ]
+              },
+              {
+                "id": "s2",
+                "ask": "Was the decision made before you started speaking?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "*going to*",
+                      "example": "I'm going to apply for the Ashfield post.",
+                      "why": "The decision came first, and *going to* reports it."
+                    }
+                  },
+                  {
+                    "answer": "No",
+                    "goto": "s3"
+                  }
+                ]
+              },
+              {
+                "id": "s3",
+                "ask": "Can you point at evidence in front of you?",
+                "branches": [
+                  {
+                    "answer": "Yes",
+                    "verdict": {
+                      "use": "*going to*",
+                      "example": "The sky has gone black. It's going to pour.",
+                      "why": "Evidence you can point at takes *going to*, not *will*."
+                    }
+                  },
+                  {
+                    "answer": "No, you are deciding or guessing now",
+                    "verdict": {
+                      "use": "*will*",
+                      "example": "I think the fares will go up again.",
+                      "why": "A decision made this second, or a guess with nothing behind it."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "prose",
+            "text": "Most sentences stop at the first question. The other two exist because a plan and a guess both fail it, and they fail it for different reasons."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "*Will* stays out of a *when* clause and an *if* clause",
+            "anchor": "no-will-after-when"
+          },
+          {
+            "type": "prose",
+            "text": "*When the results come out, I'll ring you* holds one *will*, not two. English marks the future once, in the main clause, and the *when* clause keeps the present form."
+          },
+          {
+            "type": "table",
+            "anchor": "present-form-after-the-joining-word",
+            "caption": "The future is marked once, and never in the *when* part.",
+            "headers": [
+              "The joining word",
+              "The verb after it",
+              "Example"
+            ],
+            "rows": [
+              [
+                "*when*",
+                "present form",
+                "When the survey ends, we'll publish it."
+              ],
+              [
+                "*if*",
+                "present form",
+                "If the grant arrives, we'll start in May."
+              ],
+              [
+                "*as soon as*",
+                "present form",
+                "We'll ring as soon as the parts land."
+              ],
+              [
+                "*until*, *before*, *after*",
+                "present form",
+                "Wait until the light turns green."
+              ]
+            ],
+            "weight_column": false,
+            "footnotes": [
+              "The main clause keeps *will*. The clause after the joining word gives it up."
+            ]
+          },
+          {
+            "type": "examples",
+            "lead_in": "One example per row above, in the same order.",
+            "dimension": "the joining word",
+            "items": [
+              {
+                "text": "When the results come out, I'll ring you straight away.",
+                "gloss": "The call follows the results.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "come out",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "If the grant arrives, the trust will start work in May.",
+                "gloss": "The work depends on the money.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "arrives",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "We'll email you as soon as the parts reach the depot.",
+                "gloss": "The email follows the delivery.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "reach",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Wait until the barrier lifts before you drive on.",
+                "gloss": "Driving on comes after the barrier moves.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "lifts",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "One *will* in each sentence at most, and never after the joining word."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "One place where *will* does belong after *when*",
+            "items": [
+              {
+                "text": "When *when* starts a question folded inside a longer sentence, *will* stays in.",
+                "example": "Nobody knows when the line will reopen.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "The same holds for *if* used to mean *whether*.",
+                "example": "Ask the office if the hall will be free.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this now"
+              }
+            ],
+            "stop_line": null
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Choose the future form by where the future came from. Keep *will* out of a *when* clause and an *if* clause."
+          },
+          {
+            "type": "examples",
+            "lead_in": "The same move, and only the way it was settled changes.",
+            "dimension": "how it was settled",
+            "items": [
+              {
+                "text": "The clinic is moving to the new health centre in June.",
+                "gloss": "The move is agreed and dated.",
+                "register": "written_formal"
+              },
+              {
+                "text": "The clinic is going to move once the funding clears.",
+                "gloss": "The decision is made, and the date is not.",
+                "register": "neutral"
+              },
+              {
+                "text": "I expect the clinic will move within a year or two.",
+                "gloss": "The speaker is guessing.",
+                "register": "spoken"
+              }
+            ],
+            "so_what": "Same clinic and same move, and each verb says how firm it is."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "will-after-when",
+            "code": "future_will_in_time_clause",
+            "wrong": "I'll send the photographs when I will get back to the office.",
+            "right": "I'll send the photographs when I get back to the office.",
+            "why_it_happens": "The *when* clause points ahead too, so a second future marker feels owed. English marks the future once and lets the *when* clause sit in the present form.",
+            "smallest_fix": "Delete *will* after *when*. The main clause keeps it."
+          },
+          {
+            "type": "warning",
+            "anchor": "will-for-something-already-booked",
+            "code": "future_evidence_vs_intention",
+            "wrong": "I have booked the flights. I will travel out on the ninth.",
+            "right": "I have booked the flights. I'm travelling out on the ninth.",
+            "why_it_happens": "The trip is ahead, so *will* looks safe. The booking has already made it an arrangement, and *will* announces something settled at this moment instead.",
+            "smallest_fix": "If it is booked or agreed, use *am*, *is* or *are* plus the *-ing* form."
+          },
+          {
+            "type": "false_rule",
+            "heard": "*Will* is the future tense, and *going to* is the informal spoken version of it.",
+            "also_known_as": [
+              "going to is for speaking, will is for writing",
+              "write will in an essay"
+            ],
+            "truth": "Neither is more formal. They carry different information. *We will publish the findings* announces a decision; *We are going to publish the findings* reports one already taken. Both belong in an essay.",
+            "what_to_do": "Choose on evidence and timing, not on formality. Use *going to* for a decision already made or evidence you can see, and *will* for a decision made now."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "Ask where the future came from, not when the event happens.",
+            "table": {
+              "caption": "One row per source of the future.",
+              "headers": [
+                "If it was settled…",
+                "Use",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "by a timetable",
+                  "the plain present form",
+                  "the ferry leaves at eleven"
+                ],
+                [
+                  "with another person",
+                  "the *-ing* form",
+                  "we're meeting on Tuesday"
+                ],
+                [
+                  "by you, before speaking",
+                  "*going to*",
+                  "I'm going to apply"
+                ],
+                [
+                  "as you speak, or not at all",
+                  "*will*",
+                  "I'll ring them back"
+                ],
+                [
+                  "inside a *when* or *if* clause",
+                  "present form, no *will*",
+                  "when the survey ends"
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Which one is right? *Ring me when you will arrive.* / *Ring me when you arrive.*",
+                "answer": "*Ring me when you arrive.*",
+                "why": "A *when* clause takes the present form, whatever time it points at."
+              },
+              {
+                "prompt": "Your friend has already booked the tickets. *I'll go* or *I'm going*?",
+                "answer": "*I'm going.* The booking makes it an arrangement.",
+                "why": "Something already agreed takes the *-ing* form, not *will*."
+              },
+              {
+                "prompt": "Which one fits a printed timetable? *The market will start at seven.* / *The market starts at seven.*",
+                "answer": "*The market starts at seven.*",
+                "why": "A time somebody else set is stated with the plain present form."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "verb",
+          "subject",
+          "tense",
+          "clause",
+          "main clause",
+          "conjunction",
+          "the *-ing* form",
+          "simple",
+          "continuous (progressive)",
+          "auxiliary (helping) verb"
+        ],
+        "related_points": [
+          "gr_future_choice",
+          "gr_future_time_clause"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_future_will",
+            "reason": "the *will* form in full, with its negatives and questions"
+          },
+          {
+            "id": "th_future_going_to",
+            "reason": "the *going to* form in full"
+          },
+          {
+            "id": "th_future_arrangements",
+            "reason": "the two present forms doing future work"
+          },
+          {
+            "id": "th_the_futures",
+            "reason": "all eight ways of pointing forward, in one table"
+          }
+        ],
+        "fixes_errors": [
+          "future_will_in_time_clause",
+          "future_evidence_vs_intention"
+        ],
+        "confusion_set": "cs_future_selection",
+        "aliases": [
+          "will or going to",
+          "which future form",
+          "future choice",
+          "no will after when",
+          "will and going to difference"
+        ],
+        "intents": [
+          "choose between will and going to",
+          "write a when clause about the future"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [
+          19
+        ],
+        "estimated_read_minutes": 7,
+        "false_rule_absent_reason": null
+      }
+    }
+  ]
+}

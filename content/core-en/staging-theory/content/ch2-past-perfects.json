@@ -1,0 +1,1098 @@
+{
+  "staging_version": 1,
+  "block": "ch2-past-perfects",
+  "authored_by": "TG-2:theory-past",
+  "_readme": [
+    "The two missing past perfect articles for Chapter 2 of the Theory reference, authored against DESIGN-THEORY.md section 2 (the article schema), section 5 (the writing standard) and section 6 (the quantity targets). They continue ch2-tenses.json, which stops at the present perfect continuous, and they are written to sit in the same file at merge time.",
+    "ARTICLE IDS come from DESIGN-THEORY.md section 1.5: th_past_perfect is its article 20 in chapter thc_03. th_past_perfect_continuous is a new id. Section 1.5 folds area I13 (past perfect continuous) into th_past_perfect alongside I12 and I31; it is split out here because a duration form with its own paradigm, its own state-verb ban and its own contrast against the plain past perfect cannot share one question with the ordering article, and DESIGN-THEORY.md section 6.4 splits rather than compresses. Coverage still holds: I12 and I31 are owned by th_past_perfect, I13 by th_past_perfect_continuous, and no area is claimed twice.",
+    "CHAPTER ID and SEQUENCE INDEX follow ch2-tenses.json: chapter_id thc_02, sequence_index 32 and 33, continuing after its eleven articles (21 to 31). Both fields are provisional in exactly the way that file records; the build agent re-bases them once the final eight-chapter split is fixed, and nothing else here depends on them.",
+    "AREAS OWNED HERE: I12, I31 (th_past_perfect) and I13 (th_past_perfect_continuous).",
+    "VARIATION POINTS CLAIMED: none. TH-R1 section 5 lists no British/American, register or prescriptive variation for either form, so neither article ships a variation block and variation_refs is empty in both. MYTHS CLAIMED: none from the TH-R4 section 8.3 ledger; the twenty ledger myths have no past perfect entry. Both articles still carry a false_rule block, because a false rule is in wide circulation for each form: 'the earlier of two past events must take had', and 'if the sentence says how long, it has to be a continuous form'.",
+    "PARADIGMS: the positive, negative and question patterns in both paradigm blocks are taken from docs/source-material/oxford-tense-forms.txt, rows 'past perfect' and 'past perfect continuous'.",
+    "related_points[] ids are taken from the closed 154 in staging-grammar/DESIGN.md section 4.2. gr_past_perfect and gr_past_perfect_choice are authored in staging-grammar/content/perfect-verb-gaps.json. There is no practice point for the past perfect continuous anywhere in the closed 154, so th_past_perfect_continuous ships related_points: [] with a no_practice_reason, which is the case DESIGN-THEORY.md section 2.2 describes."
+  ],
+  "articles": [
+    {
+      "id": "th_past_perfect",
+      "chapter_id": "thc_02",
+      "sequence_index": 32,
+      "title": "The past before the past, and when you do not need it",
+      "kind": "standard",
+      "cefr_level": "B1",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "The past perfect (pluperfect)",
+        "one_line": "This is the form for the earlier of two past events, so your reader can tell which one came first.",
+        "short_answer": "Use *had* plus the third form, and only when the order is not already clear. *When we arrived, the meeting had finished.*",
+        "question_in_learner_words": "When do I need *had done* instead of the plain past form?",
+        "area_ids": [
+          "I12",
+          "I31"
+        ],
+        "prerequisites": [
+          "th_past_simple",
+          "th_the_perfect_idea"
+        ],
+        "register": "both",
+        "risk_note": "Over-used more than any other past form. When the order is already clear, the plain past form is the better sentence.",
+        "error_surface": 2,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "This form puts one past event behind another",
+            "anchor": "what-it-does"
+          },
+          {
+            "type": "prose",
+            "text": "You are already talking about the past. Then you need something that happened before that. *Had* plus the third form is how you step back one more time."
+          },
+          {
+            "type": "prose",
+            "text": "So the sentence holds two past moments. The plain past form keeps the one you are standing at, and *had* marks the one behind it."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Build it from *had* and the third form",
+            "anchor": "how-to-build"
+          },
+          {
+            "type": "paradigm",
+            "anchor": "past-perfect-forms",
+            "caption": "*Had* is the same for every subject. Nothing in this form changes.",
+            "form_line": "*had* plus the third form of the main verb",
+            "model_verbs": [
+              "paint",
+              "write"
+            ],
+            "headers": [
+              "Who",
+              "Positive",
+              "Short form (spoken)",
+              "Negative",
+              "Short form (spoken)",
+              "Question"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "I",
+                  "I had painted",
+                  "I'd painted",
+                  "I had not painted",
+                  "I hadn't painted",
+                  "Had I painted?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "you",
+                  "you had written",
+                  "you'd written",
+                  "you had not written",
+                  "you hadn't written",
+                  "Had you written?"
+                ],
+                "weight": "high"
+              },
+              {
+                "cells": [
+                  "he / she / it",
+                  "he had painted",
+                  "he'd painted",
+                  "he had not painted",
+                  "he hadn't painted",
+                  "Had he painted?"
+                ],
+                "weight": "high",
+                "note": "Even here the helping verb holds still. There is no *hads*."
+              },
+              {
+                "cells": [
+                  "we",
+                  "we had written",
+                  "we'd written",
+                  "we had not written",
+                  "we hadn't written",
+                  "Had we written?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "they",
+                  "they had painted",
+                  "they'd painted",
+                  "they had not painted",
+                  "they hadn't painted",
+                  "Had they painted?"
+                ],
+                "weight": "medium"
+              }
+            ],
+            "sub_tables": [
+              {
+                "caption": "A short answer repeats *had* and stops.",
+                "headers": [
+                  "Question",
+                  "Yes",
+                  "No"
+                ],
+                "rows": [
+                  [
+                    "Had they finished the survey?",
+                    "Yes, they had.",
+                    "No, they hadn't."
+                  ],
+                  [
+                    "Had she written it up?",
+                    "Yes, she had.",
+                    "No, she hadn't."
+                  ]
+                ]
+              },
+              {
+                "caption": "*Why* or *what* goes in front, and *had* still comes before the subject.",
+                "headers": [
+                  "The word in front",
+                  "Question",
+                  "Answer"
+                ],
+                "rows": [
+                  [
+                    "why",
+                    "Why had the office closed early?",
+                    "A pipe had burst upstairs."
+                  ],
+                  [
+                    "what",
+                    "What had the survey found?",
+                    "Damp in both stairwells."
+                  ]
+                ]
+              }
+            ],
+            "examples": [
+              {
+                "text": "The crew had painted the stairwell before the new tenants moved in.",
+                "gloss": "The painting was finished first. Then the tenants arrived.",
+                "register": "neutral"
+              },
+              {
+                "text": "She'd written the whole report before the figures changed.",
+                "gloss": "The report was already done when the new figures came in.",
+                "register": "spoken"
+              },
+              {
+                "text": "The office had not written to the residents, so nobody knew.",
+                "gloss": "No letter went out, and that is why the news was a surprise.",
+                "register": "written_formal"
+              },
+              {
+                "text": "Had they painted the ward before it reopened?",
+                "gloss": "The question is whether the work was done in time.",
+                "register": "spoken"
+              }
+            ],
+            "notes": [
+              "*I'd painted* is *I had painted*. The third form behind it is the clue.",
+              "*Had* never moves. The subject makes no difference to it at all.",
+              "State verbs are welcome here: *had known*, *had owned*, *had wanted*."
+            ]
+          },
+          {
+            "type": "visual",
+            "kind": "timeline",
+            "caption": "The earlier event sits behind the past moment you are talking about.",
+            "spec": {
+              "now_label": "now",
+              "marks": [
+                {
+                  "at": -8,
+                  "label": "the meeting had finished",
+                  "style": "x"
+                },
+                {
+                  "at": -4,
+                  "label": "we arrived",
+                  "style": "point"
+                }
+              ],
+              "caption": "Two past moments, and *had* marks the earlier one"
+            }
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Ask whether the order is already obvious",
+            "anchor": "is-the-order-obvious"
+          },
+          {
+            "type": "prose",
+            "text": "*Had* is not the price of mentioning two past events. It is a repair, and you reach for it when the order would otherwise be lost."
+          },
+          {
+            "type": "list",
+            "style": "bullet",
+            "lead_in": "Three things fix the order on their own, and then you need no *had*:",
+            "items": [
+              "*before* between the two events",
+              "*after* between the two events",
+              "events told in the order they happened"
+            ]
+          },
+          {
+            "type": "contrast",
+            "anchor": "which-past-form",
+            "question": "Would the reader get the order wrong without *had*?",
+            "options": [
+              {
+                "label": "past simple",
+                "use_it_when": "The order is already clear, from *before*, from *after*, or from telling the events in order.",
+                "example": "The council sold the depot and then built flats on the site.",
+                "point_id": "gr_past_simple_regular"
+              },
+              {
+                "label": "past perfect",
+                "use_it_when": "You are jumping back to something earlier, and nothing else in the sentence shows it.",
+                "example": "By the time the flats went up, the council had sold the depot.",
+                "point_id": "gr_past_perfect"
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "When she opened the file, somebody deleted the figures.",
+                  "means": "She opened it, and the figures went afterwards.",
+                  "span": "deleted"
+                },
+                "b": {
+                  "text": "When she opened the file, somebody had deleted the figures.",
+                  "means": "The figures were already gone when she opened it.",
+                  "span": "had deleted"
+                },
+                "only_difference": "deleted / had deleted"
+              },
+              {
+                "a": {
+                  "text": "The lift broke down. The engineers fitted a new motor.",
+                  "means": "The lift failed, and the repair came after it.",
+                  "span": "fitted"
+                },
+                "b": {
+                  "text": "The lift broke down. The engineers had fitted a new motor.",
+                  "means": "The new motor went in first, and the lift failed anyway.",
+                  "span": "had fitted"
+                },
+                "only_difference": "fitted / had fitted"
+              },
+              {
+                "a": {
+                  "text": "The alarm rang and the guard checked the doors.",
+                  "means": "The bell came first. Then he went round the doors.",
+                  "span": "checked"
+                },
+                "b": {
+                  "text": "The alarm rang and the guard had checked the doors.",
+                  "means": "He had been round the doors already, before the bell went.",
+                  "span": "had checked"
+                },
+                "only_difference": "checked / had checked"
+              },
+              {
+                "a": {
+                  "text": "The pitch was unplayable because it rained all night.",
+                  "means": "The rain and the state of the pitch belong to one night.",
+                  "span": "rained"
+                },
+                "b": {
+                  "text": "The pitch was unplayable because it had rained all night.",
+                  "means": "The rain came first, and the ground was still soaked next morning.",
+                  "span": "had rained"
+                },
+                "only_difference": "rained / had rained"
+              }
+            ],
+            "deciding_factor": "Read the sentence without *had*. If the events still land in the right order, leave it out.",
+            "trap": "You have been told that the earlier of two past events takes *had*, so every second verb in a story collects one.",
+            "register_note": "Both belong everywhere. The choice pays most in Speaking Part 2 and in a Task 2 background sentence, where one *had* keeps the order straight."
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Use *had* plus the third form for the earlier past event, and only when nothing else in the sentence shows the order."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Take *had* out of each one and the sentence says something else.",
+            "dimension": "what *had* is doing",
+            "items": [
+              {
+                "text": "The ferry had sailed by the time the coach reached the port.",
+                "gloss": "They missed it. The boat was already gone.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "had sailed",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I could not pay because I had left my card at home.",
+                "gloss": "The card was at home, and that is why the payment failed.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "had left",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "The committee approved a plan the residents had rejected in March.",
+                "gloss": "The residents said no first, and the committee said yes later.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "had rejected",
+                    "role": "target"
+                  },
+                  {
+                    "span": "approved",
+                    "role": "deciding"
+                  }
+                ]
+              }
+            ],
+            "so_what": "In all three the earlier event is the reason the later one turned out as it did."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "had-on-every-verb",
+            "code": "past_perfect_decorative",
+            "wrong": "Last winter I had moved to Marlow and I had started a new course.",
+            "right": "Last winter I moved to Marlow and I started a new course.",
+            "why_it_happens": "The whole story sits in the past, and *had* feels like the more careful past form. Nothing here is out of order, so the step back points at nothing.",
+            "smallest_fix": "Keep *had* for the one event you jump back to. Everything else stays in the plain past form."
+          },
+          {
+            "type": "warning",
+            "anchor": "order-lost-without-had",
+            "code": "tense_sequence_lost",
+            "wrong": "By the time the surveyor came back, the tide covered the steps.",
+            "right": "By the time the surveyor came back, the tide had covered the steps.",
+            "why_it_happens": "Both events are past, so both verbs come out in the plain past form. A reader then takes them in the order they are written, and the tide arrives after the surveyor.",
+            "smallest_fix": "After *by the time*, put *had* on the event that was already finished."
+          },
+          {
+            "type": "warning",
+            "anchor": "past-form-after-had",
+            "code": "word_form_wrong",
+            "wrong": "The team had wrote the summary before the meeting started.",
+            "right": "The team had written the summary before the meeting started.",
+            "why_it_happens": "For a regular verb the past form and the third form look the same, so *had painted* teaches you nothing. An irregular verb has two different shapes, and the past form is the one you know better.",
+            "smallest_fix": "After *had*, use the third form: *written*, *broken*, *begun*, *known*."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Three cases where the rule looks broken and is not",
+            "items": [
+              {
+                "text": "After *before* and *after*, both forms are correct, because the joining word has already fixed the order.",
+                "example": "They cleared the room before the engineers arrived.",
+                "kind": "A",
+                "how_often": "very common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "Once one *had* has taken you back, the rest of the jump back can stay in the plain past form.",
+                "example": "He had started at the depot in 2009. He drove nights for six years.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "*Before* plus *had* can say that the earlier thing never got finished.",
+                "example": "The bell rang before she had finished her answer.",
+                "kind": "A",
+                "how_often": "uncommon",
+                "verdict": "recognise only"
+              }
+            ],
+            "stop_line": "That is the whole list. Everywhere else the question is the one above: is the order already clear?"
+          },
+          {
+            "type": "false_rule",
+            "heard": "If two things happened in the past, the earlier one goes in the past perfect.",
+            "also_known_as": [
+              "the past before the past rule",
+              "the earlier event always takes had"
+            ],
+            "truth": "*Had* marks an order that would otherwise be lost. Most of the time the order is in no danger, because *before*, *after* or the order of telling has settled it already. Then *had* adds nothing to the sentence.",
+            "what_to_do": "Keep the rule for the case it was built for: a jump back that nothing else signals. Read the sentence without *had* first, and see whether it still comes out in the right order."
+          },
+          {
+            "type": "l1_note",
+            "collapsed": true,
+            "lang": "zh",
+            "mechanism": "Chinese shows time with words like *already* and *before* rather than on the verb, so one shape of the verb covers both past events.",
+            "wrong": "When the engineers arrived, the water already reached the second floor.",
+            "right": "When the engineers arrived, the water had already reached the second floor.",
+            "fix": "Keep the time word if you want it, and still put *had* in front of the third form.",
+            "shared_with": [
+              "ru"
+            ]
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "*Had* plus the third form, and only when the order needs it.",
+            "table": {
+              "caption": "One row per situation, and two of the four need no *had*.",
+              "headers": [
+                "What the sentence has",
+                "Use",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "*before* or *after* between the events",
+                  "plain past form",
+                  "she checked it before she signed"
+                ],
+                [
+                  "events told in the order they happened",
+                  "plain past form",
+                  "the alarm rang and the guard came"
+                ],
+                [
+                  "a jump back to something earlier",
+                  "*had* + third form",
+                  "the guard had already gone home"
+                ],
+                [
+                  "*by the time* plus a later moment",
+                  "*had* + third form",
+                  "by the time we called, they had shut"
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Does this sentence need *had*? *She locked the office after the last student left.*",
+                "answer": "No. *After* has already fixed the order, so the plain past form is right.",
+                "why": "*Had* is for an order that nothing else in the sentence shows."
+              },
+              {
+                "prompt": "Why does *had* earn its place in *By the time the letter came, the flat had gone*?",
+                "answer": "Without it the flat looks as if it went after the letter arrived.",
+                "why": "*By the time* names the later moment, so the earlier event has to step back."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "verb",
+          "subject",
+          "simple",
+          "perfect",
+          "past form",
+          "third form (past participle)",
+          "regular / irregular",
+          "auxiliary (helping) verb",
+          "state verb"
+        ],
+        "related_points": [
+          "gr_past_perfect",
+          "gr_past_perfect_choice"
+        ],
+        "no_practice_reason": null,
+        "related_articles": [
+          {
+            "id": "th_past_simple",
+            "reason": "the form the rest of the story stays in"
+          },
+          {
+            "id": "th_the_perfect_idea",
+            "reason": "why *have*, *has* and *had* all behave the same way"
+          },
+          {
+            "id": "th_past_perfect_continuous",
+            "reason": "the same step back, with the length of the activity added"
+          },
+          {
+            "id": "th_past_continuous",
+            "reason": "the other past form, for what was going on at the time"
+          }
+        ],
+        "fixes_errors": [
+          "past_perfect_decorative",
+          "tense_sequence_lost",
+          "word_form_wrong"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "past perfect",
+          "pluperfect",
+          "had plus third form",
+          "had done",
+          "the past before the past"
+        ],
+        "intents": [
+          "say which of two past events happened first",
+          "tell a story that jumps back in time"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 7,
+        "false_rule_absent_reason": null
+      }
+    },
+    {
+      "id": "th_past_perfect_continuous",
+      "chapter_id": "thc_02",
+      "sequence_index": 33,
+      "title": "Saying how long something had been going on",
+      "kind": "standard",
+      "cefr_level": "B2",
+      "article_json": {
+        "schema_version": 1,
+        "also_called": "The past perfect continuous (past perfect progressive)",
+        "one_line": "This is the form for measuring how long an activity had run when a past moment arrived, so the length is the point.",
+        "short_answer": "Use *had been* with the *-ing* form. *The heating had been running for two hours when the fault showed.*",
+        "question_in_learner_words": "How do I say how long something had been going on?",
+        "area_ids": [
+          "I13"
+        ],
+        "prerequisites": [
+          "th_past_perfect",
+          "th_present_perfect_continuous",
+          "th_past_continuous"
+        ],
+        "register": "both",
+        "risk_note": "Easy to overbuild. If the length is not the point, *had* plus the third form says the same thing in fewer words.",
+        "error_surface": 3,
+        "body": [
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "This form measures the run-up to a past moment",
+            "anchor": "what-it-does"
+          },
+          {
+            "type": "prose",
+            "text": "Something had been going on for a while, and then the moment you are talking about arrived. The sentence is about the stretch before that moment, not about the moment itself."
+          },
+          {
+            "type": "prose",
+            "text": "It also explains how things looked when you got there. The traces of the activity were still in front of you, so the activity is the reason."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "Build it from *had been* and the *-ing* form",
+            "anchor": "how-to-build"
+          },
+          {
+            "type": "paradigm",
+            "anchor": "past-perfect-continuous-forms",
+            "caption": "*Had been* is the same for every subject. Only the main verb changes.",
+            "form_line": "*had been* plus the *-ing* form of the main verb",
+            "model_verbs": [
+              "paint",
+              "write"
+            ],
+            "headers": [
+              "Who",
+              "Positive",
+              "Short form (spoken)",
+              "Negative",
+              "Short form (spoken)",
+              "Question"
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "I",
+                  "I had been painting",
+                  "I'd been painting",
+                  "I had not been painting",
+                  "I hadn't been painting",
+                  "Had I been painting?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "you",
+                  "you had been writing",
+                  "you'd been writing",
+                  "you had not been writing",
+                  "you hadn't been writing",
+                  "Had you been writing?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "he / she / it",
+                  "he had been painting",
+                  "he'd been painting",
+                  "he had not been painting",
+                  "he hadn't been painting",
+                  "Had he been painting?"
+                ],
+                "weight": "high",
+                "note": "Nothing changes here either. *Had* has no *-s* form."
+              },
+              {
+                "cells": [
+                  "we",
+                  "we had been writing",
+                  "we'd been writing",
+                  "we had not been writing",
+                  "we hadn't been writing",
+                  "Had we been writing?"
+                ],
+                "weight": "medium"
+              },
+              {
+                "cells": [
+                  "they",
+                  "they had been painting",
+                  "they'd been painting",
+                  "they had not been painting",
+                  "they hadn't been painting",
+                  "Had they been painting?"
+                ],
+                "weight": "high"
+              }
+            ],
+            "sub_tables": [
+              {
+                "caption": "The short answer keeps *had* and drops the rest.",
+                "headers": [
+                  "Question",
+                  "Yes",
+                  "No"
+                ],
+                "rows": [
+                  [
+                    "Had they been waiting long?",
+                    "Yes, they had.",
+                    "No, they hadn't."
+                  ],
+                  [
+                    "Had she been writing all night?",
+                    "Yes, she had.",
+                    "No, she hadn't."
+                  ]
+                ]
+              },
+              {
+                "caption": "*How long* is the question this form was built to answer.",
+                "headers": [
+                  "Question",
+                  "Answer with *for*",
+                  "Answer with *since*"
+                ],
+                "rows": [
+                  [
+                    "How long had the pipes been leaking?",
+                    "For most of the winter.",
+                    "Since the cold snap."
+                  ],
+                  [
+                    "How long had he been writing it?",
+                    "For nine months.",
+                    "Since the funding came through."
+                  ]
+                ]
+              }
+            ],
+            "examples": [
+              {
+                "text": "The crew had been painting the footbridge for a week when the frost came.",
+                "gloss": "The work ran for a week, and then it stopped.",
+                "register": "neutral"
+              },
+              {
+                "text": "She'd been writing the funding bid since the summer.",
+                "gloss": "The bid took her from the summer up to that point.",
+                "register": "spoken"
+              },
+              {
+                "text": "The ward had not been writing anything down, so the trail went cold.",
+                "gloss": "Nothing went on paper, and later nobody could check.",
+                "register": "written_formal"
+              },
+              {
+                "text": "Had they been painting in the rain all afternoon?",
+                "gloss": "The question is what the crew did while the weather was bad.",
+                "register": "spoken"
+              }
+            ],
+            "notes": [
+              "*I'd been painting* is *I had been painting*. Here *'d* is *had*, not *would*.",
+              "All three words are needed, in this order: *had*, then *been*, then the *-ing* form.",
+              "State verbs stay out of this form. Write *had known*, never *had been knowing*."
+            ]
+          },
+          {
+            "type": "visual",
+            "kind": "timeline",
+            "caption": "A bar that runs up to the past moment and stops there.",
+            "spec": {
+              "now_label": "now",
+              "marks": [
+                {
+                  "at": -9,
+                  "label": "had been running",
+                  "span_to": -3,
+                  "style": "bar"
+                },
+                {
+                  "at": -3,
+                  "label": "the fault showed",
+                  "style": "x"
+                }
+              ],
+              "caption": "The bar stops at the past moment, not at now"
+            }
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "The length of it, or the result of it?",
+            "anchor": "length-or-result"
+          },
+          {
+            "type": "prose",
+            "text": "Both forms step back to the same place. One of them counts up what was finished by then, and the other measures the stretch of time that led to it."
+          },
+          {
+            "type": "contrast",
+            "anchor": "which-past-perfect",
+            "question": "Is the point how long it ran, or what was finished?",
+            "options": [
+              {
+                "label": "past perfect",
+                "use_it_when": "The earlier activity is finished and you want the result of it.",
+                "example": "The auditors had checked every invoice before the meeting.",
+                "point_id": "gr_past_perfect"
+              },
+              {
+                "label": "past perfect continuous",
+                "use_it_when": "You want the length of the activity, or the state it left the place in.",
+                "example": "The auditors had been checking invoices since eight that morning."
+              }
+            ],
+            "minimal_pairs": [
+              {
+                "a": {
+                  "text": "When the funding stopped, the trust had repaired the roof.",
+                  "means": "The roof was done. The job was over.",
+                  "span": "had repaired"
+                },
+                "b": {
+                  "text": "When the funding stopped, the trust had been repairing the roof.",
+                  "means": "Work was under way, and the roof was not finished.",
+                  "span": "had been repairing"
+                },
+                "only_difference": "had repaired / had been repairing"
+              },
+              {
+                "a": {
+                  "text": "He was out of breath because he had climbed the stairs.",
+                  "means": "He got to the top, and that is why.",
+                  "span": "had climbed"
+                },
+                "b": {
+                  "text": "He was out of breath because he had been climbing the stairs.",
+                  "means": "He had been going up and down for a while.",
+                  "span": "had been climbing"
+                },
+                "only_difference": "had climbed / had been climbing"
+              },
+              {
+                "a": {
+                  "text": "The tenants had complained about the damp.",
+                  "means": "A complaint went in, and it is on record.",
+                  "span": "had complained"
+                },
+                "b": {
+                  "text": "The tenants had been complaining about the damp.",
+                  "means": "The complaints went on and on, over a stretch of time.",
+                  "span": "had been complaining"
+                },
+                "only_difference": "had complained / had been complaining"
+              },
+              {
+                "a": {
+                  "text": "When we took over, the shop had lost money.",
+                  "means": "There was a loss on the books.",
+                  "span": "had lost"
+                },
+                "b": {
+                  "text": "When we took over, the shop had been losing money.",
+                  "means": "The losses had been running for a while and were still running.",
+                  "span": "had been losing"
+                },
+                "only_difference": "had lost / had been losing"
+              }
+            ],
+            "deciding_factor": "If the sentence carries a number or a finished result, use *had* plus the third form. If it carries a length of time, use *had been* plus *-ing*.",
+            "trap": "Anything that went on for hours feels as if it needs the longer form, so *for* and *since* pull it in even when the sentence is counting finished work.",
+            "register_note": "Both belong in speech and in writing, and both are rarer than the plain past form. This one pays most in a Speaking Part 2 story that needs a run-up."
+          },
+          {
+            "type": "rule",
+            "anchor": "the-rule",
+            "text": "Use *had been* plus the *-ing* form when the length of an activity before a past moment is the point."
+          },
+          {
+            "type": "examples",
+            "lead_in": "Each one answers *how long*, and each one stops at a past moment.",
+            "dimension": "how long before the moment",
+            "items": [
+              {
+                "text": "The village had been running its own bus for eight years when the grant ended.",
+                "gloss": "The service lasted eight years, and then the money stopped.",
+                "register": "written_formal",
+                "marks": [
+                  {
+                    "span": "had been running",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "I'd been queuing for twenty minutes before anyone opened a second till.",
+                "gloss": "The wait was twenty minutes long, and then it got easier.",
+                "register": "spoken",
+                "marks": [
+                  {
+                    "span": "been queuing",
+                    "role": "target"
+                  }
+                ]
+              },
+              {
+                "text": "Rents had been climbing steadily before the new blocks were finished.",
+                "gloss": "The rise started well before the building work ended.",
+                "register": "neutral",
+                "marks": [
+                  {
+                    "span": "had been climbing",
+                    "role": "target"
+                  }
+                ]
+              }
+            ],
+            "so_what": "In each one the stretch of time is the message, not the moment it stopped at."
+          },
+          {
+            "type": "heading",
+            "level": 2,
+            "text": "What goes wrong",
+            "anchor": "what-goes-wrong"
+          },
+          {
+            "type": "warning",
+            "anchor": "counting-with-been",
+            "code": "aspect_result_vs_activity",
+            "wrong": "By lunchtime he had been writing six pages.",
+            "right": "By lunchtime he had written six pages.",
+            "why_it_happens": "The writing filled the whole morning, so the form for a long activity arrives first. A counted amount is a finished result, and a result takes the third form on its own.",
+            "smallest_fix": "When the sentence counts something, use *had* plus the third form."
+          },
+          {
+            "type": "warning",
+            "anchor": "state-verb-with-had-been",
+            "code": "aspect_state_verb_continuous",
+            "wrong": "The two firms had been owning the site since 1990.",
+            "right": "The two firms had owned the site since 1990.",
+            "why_it_happens": "The owning lasted for decades, and this is the form for something that lasts. Owning is a state, and a state has no middle for you to stand in.",
+            "smallest_fix": "Put the state verb in *had* plus the third form: *had owned*, *had known*, *had wanted*."
+          },
+          {
+            "type": "warning",
+            "anchor": "been-missing",
+            "code": "word_form_wrong",
+            "wrong": "The alarm had ringing for an hour before anyone came.",
+            "right": "The alarm had been ringing for an hour before anyone came.",
+            "why_it_happens": "*Been* carries no meaning of its own and takes no stress in speech, so it drops out of the sentence without being missed.",
+            "smallest_fix": "Put *been* between *had* and the *-ing* form."
+          },
+          {
+            "type": "warning",
+            "anchor": "before-the-moment-not-at-it",
+            "code": "tense_sequence_lost",
+            "wrong": "When I walked in, the students had been writing in silence.",
+            "right": "When I walked in, the students were writing in silence.",
+            "why_it_happens": "The writing was going on at the moment you walked in. This form measures the stretch before that moment, so it puts the writing behind the door rather than in front of you.",
+            "smallest_fix": "For what was going on at the moment itself, use *was* or *were* plus the *-ing* form."
+          },
+          {
+            "type": "exceptions",
+            "collapsed": true,
+            "label": "Two cases where the plain past perfect does the same job",
+            "items": [
+              {
+                "text": "With *live*, *work*, *study* and *wait*, the two forms say much the same thing.",
+                "example": "He had worked there for a decade before the merger.",
+                "kind": "A",
+                "how_often": "common",
+                "verdict": "learn this now"
+              },
+              {
+                "text": "A state verb takes the plain past perfect, however long the state lasted.",
+                "example": "They had known about the fault since the first survey.",
+                "kind": "A",
+                "how_often": "very common",
+                "verdict": "learn this now"
+              }
+            ],
+            "stop_line": null
+          },
+          {
+            "type": "false_rule",
+            "heard": "If the sentence says how long, it has to be a continuous form.",
+            "also_known_as": [
+              "the how long rule",
+              "for and since mean been plus -ing"
+            ],
+            "truth": "*How long* pulls this form with an activity you could be in the middle of. It cannot pull it with a state: *They had known each other for years* is the only way to say that, and a counted result behaves the same way.",
+            "what_to_do": "Ask whether the verb names something you could be in the middle of. If it does, use *had been* plus the *-ing* form. If it does not, use *had* plus the third form."
+          },
+          {
+            "type": "summary",
+            "anchor": "summary",
+            "headline": "*Had been* plus *-ing* measures the run-up. *Had* plus the third form names the result.",
+            "table": {
+              "caption": "One row per job, and only the first one is this form.",
+              "headers": [
+                "What you want to say",
+                "Use",
+                "Example"
+              ],
+              "rows": [
+                [
+                  "how long it ran before that moment",
+                  "*had been* + *-ing*",
+                  "had been waiting for an hour"
+                ],
+                [
+                  "what was finished by that moment",
+                  "*had* + third form",
+                  "had finished the report"
+                ],
+                [
+                  "how many, or how much",
+                  "*had* + third form",
+                  "had made four visits"
+                ],
+                [
+                  "what was going on at that moment",
+                  "*was* / *were* + *-ing*",
+                  "was waiting at the gate"
+                ]
+              ]
+            },
+            "points": null
+          },
+          {
+            "type": "quick_check",
+            "anchor": "check",
+            "collapsed": true,
+            "note": "Answers are shown. Nothing here is recorded and nothing is marked.",
+            "items": [
+              {
+                "prompt": "Why is *We had been knowing the family for years* wrong?",
+                "answer": "*Know* is a state, so it takes *had*: *We had known the family for years.*",
+                "why": "A state has no middle for you to stand in, so it takes no *-ing* form."
+              },
+              {
+                "prompt": "What is the difference between *had cleaned the office* and *had been cleaning the office*?",
+                "answer": "The first says the office was clean. The second says the cleaning had gone on for a stretch.",
+                "why": "One form names the finished result. The other measures the activity."
+              }
+            ]
+          }
+        ],
+        "terms_introduced": [],
+        "term_refs": [
+          "verb",
+          "subject",
+          "perfect",
+          "continuous (progressive)",
+          "the *-ing* form",
+          "past form",
+          "third form (past participle)",
+          "state verb"
+        ],
+        "related_points": [],
+        "no_practice_reason": "The practice ladder has no past perfect continuous point. Its two past perfect points drill the *had* half of this form.",
+        "related_articles": [
+          {
+            "id": "th_past_perfect",
+            "reason": "the form that names the finished result instead of the length"
+          },
+          {
+            "id": "th_present_perfect_continuous",
+            "reason": "the same measurement, taken up to now instead of a past moment"
+          },
+          {
+            "id": "th_past_continuous",
+            "reason": "what was going on at the past moment itself"
+          },
+          {
+            "id": "th_state_action_and_objects",
+            "reason": "why some verbs never take this form at all"
+          }
+        ],
+        "fixes_errors": [
+          "aspect_result_vs_activity",
+          "aspect_state_verb_continuous",
+          "word_form_wrong",
+          "tense_sequence_lost"
+        ],
+        "confusion_set": null,
+        "aliases": [
+          "past perfect continuous",
+          "past perfect progressive",
+          "had been doing",
+          "how long before a past moment"
+        ],
+        "intents": [
+          "say how long something had been going on before something else happened",
+          "explain why a past scene looked the way it did"
+        ],
+        "on_start_here_path": false,
+        "variation_refs": [],
+        "myth_refs": [],
+        "estimated_read_minutes": 7,
+        "false_rule_absent_reason": null
+      }
+    }
+  ]
+}

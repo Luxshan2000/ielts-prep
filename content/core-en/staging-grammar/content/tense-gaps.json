@@ -1,0 +1,1399 @@
+{
+  "staging_version": 1,
+  "block": "tense-gaps",
+  "authored_by": "TG-1:practice-points",
+  "_readme": [
+    "The two verb forms the 154-point syllabus was missing: the past perfect continuous and the future perfect continuous. Measured against the fourteen forms in docs/source-material/oxford-tense-forms.txt, everything else in the pack is covered.",
+    "Both points are role 'form' and therefore carry no contrast block (validate.py rejects a contrast block on a non-choice point). The contrast that matters in each case - run-up versus finished thing - is carried by teach.worked_example.what_the_other_would_mean, by the notice_set, and by the S3 contrast_pair, judge and error_fix items.",
+    "gr_past_perfect_continuous declares structure_slug 'past_perfect_continuous', which is in GRAMMAR_STRUCTURE_SLUGS in sidecar/bandready/content/validate.py. gr_future_perfect_continuous declares null: 'future_perfect_continuous' is NOT in that closed set, so there is no detector. Its produce items name the target in payload.required_structure as free text, matching the existing precedent on other null-slug points, and S4/S5 grading will fall back to the LLM check. A detector is the one sidecar addition these two points want.",
+    "sequence_index values 5000 and 5001 encode order only: gr_past_perfect_continuous sits after gr_past_perfect and gr_pp_continuous, gr_future_perfect_continuous after gr_future_perfect and gr_pp_continuous. The topological renumbering pass reseats both.",
+    "No vocabulary is authored here. This block was never allocated a deck, and the sibling file vocabulary-expansion.json already owns that push."
+  ],
+  "points": [
+    {
+      "id": "gr_past_perfect_continuous",
+      "unit_id": "u06",
+      "sequence_index": 2700,
+      "title": "Saying how long something had already been going on when something else happened",
+      "cefr_level": "B2",
+      "role": "form",
+      "topic_id": "topic_work",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "Past perfect continuous: had been + the -ing form",
+        "prerequisites": [
+          "gr_past_perfect",
+          "gr_pp_continuous"
+        ],
+        "unlocks_hint": null,
+        "priority": 2,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "B",
+        "error_surface": 3,
+        "gravity": "local",
+        "confusion_set": "cs_perfect_aspect",
+        "structure_slug": "past_perfect_continuous",
+        "signal_blocklist": [
+          "all morning",
+          "all afternoon",
+          "the whole time",
+          "non-stop",
+          "how long"
+        ],
+        "fixes_errors": [
+          "tense_sequence_lost",
+          "aspect_result_vs_activity",
+          "aspect_state_verb_continuous",
+          "tense_drift_in_paragraph"
+        ],
+        "estimated_minutes": 20,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can say how long something had been going on before another thing happened in the past.",
+          "why_it_matters": "Part 2 stories live on this. It is the difference between reporting what had finished and showing the listener how long the run-up lasted.",
+          "meaning": "Take the step back that the past perfect makes, and then draw it as a stretch instead of a dot. The plain past perfect drops an event behind the moment your telling has reached. This one runs an activity along the ground up to that moment: it says how long the thing went on, whether it was still going when the moment arrived, and what state it had left everything in. That is why these sentences nearly always carry a length: for an hour, since dawn.",
+          "form": {
+            "pattern": "had been + the -ing form",
+            "notes": [
+              "had never changes for the subject and been never changes at all: I had been waiting, she had been waiting",
+              "'d been in speech and in a letter: she'd been waiting since six",
+              "States rather than activities refuse it outright: know, own, belong, mean"
+            ],
+            "negative": "hadn't been + the -ing form: the pumps hadn't been running long when the power went.",
+            "question": "had + subject + been + the -ing form: Had they been waiting long? Why had she been standing outside?"
+          },
+          "visual": {
+            "kind": "timeline",
+            "spec": {
+              "now_label": "now",
+              "marks": [
+                {
+                  "at": -9,
+                  "label": "the activity starts",
+                  "style": "point"
+                },
+                {
+                  "at": -9,
+                  "label": "and runs along here",
+                  "span_to": -4,
+                  "style": "arrow"
+                },
+                {
+                  "at": -4,
+                  "label": "the moment the story has reached",
+                  "style": "point"
+                },
+                {
+                  "at": 0,
+                  "label": "now, which this shape says nothing about",
+                  "style": "point"
+                }
+              ],
+              "caption": "The arrow stops at the earlier moment, not at now. How long the arrow is, is what the sentence is for."
+            }
+          },
+          "worked_example": {
+            "sentence": "The night crew had been de-icing the platforms for three hours when the first train was cancelled.",
+            "why_this_form": "The telling stops at the cancellation. The sentence has to say how long the crew had already been out there before that news reached them.",
+            "what_the_other_would_mean": "Had de-iced would report a job finished before the cancellation, and would turn the three hours into a total rather than a wait."
+          },
+          "notice_set": [
+            {
+              "sentence": "When the manager finally called me in, I had been sitting in the corridor for an hour.",
+              "question": "Was I still in the corridor when he called me in?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "The hour is measured backwards from the call, so it runs right up to the moment the door opened."
+            },
+            {
+              "sentence": "Her hands were shaking because she had been carrying boxes since seven.",
+              "question": "What explains the shaking?",
+              "options": [
+                "A long stretch of carrying",
+                "One box that was too heavy",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "The stretch from seven onwards is what the sentence offers as the reason for something anybody could see."
+            },
+            {
+              "sentence": "The rain had been falling steadily for two days when the river came over the wall.",
+              "question": "Was it raining at the moment the river rose?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "The stretch is drawn right up to the later moment and nothing stops it, so the rain is still coming down when the wall goes."
+            },
+            {
+              "sentence": "Rasheed had been driving the Ashfield route for eleven years before they moved him to the depot.",
+              "question": "Is he still on that route?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1,
+              "why": "The eleven years are shut off by the move, and the move is where the sentence stops measuring."
+            },
+            {
+              "sentence": "The council had been repairing the sea wall, and the beach stayed closed off until August.",
+              "question": "Was the wall finished?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 2,
+              "why": "This shape points at the work going on, so whether the repairs ever got done is simply left open."
+            },
+            {
+              "sentence": "By the time the inspector arrived, the crew had repaired the pump.",
+              "question": "Was the pump working when he arrived?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "This one hands over a finished job, and says nothing at all about the hours that went into it."
+            }
+          ],
+          "rule_line": "Ask: how long had it been going on before the moment my story has reached?",
+          "false_rule": "That it is just a longer past perfect. Length is not the test. The test is whether you are pointing at the run-up or at the finished thing."
+        },
+        "errors": [
+          {
+            "code": "tense_sequence_lost",
+            "wrong": "When the inspector walked in, the crew was repairing the pump for three hours.",
+            "right": "When the inspector walked in, the crew had been repairing the pump for three hours.",
+            "why_it_happens": "The activity really was in progress at that moment, which is what the past continuous is for. What it cannot do is measure a stretch that had already run before he walked in.",
+            "smallest_fix": "Swap one form: was repairing becomes had been repairing.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "aspect_result_vs_activity",
+            "wrong": "Marta's eyes were sore because she had stared at the screen since eight.",
+            "right": "Marta's eyes were sore because she had been staring at the screen since eight.",
+            "why_it_happens": "The simple shape gets used everywhere because it feels safe. Here the sentence is explaining a state somebody can see, and only the stretch behind it explains anything.",
+            "smallest_fix": "Swap one form: had stared becomes had been staring.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "aspect_state_verb_continuous",
+            "wrong": "We had been owning the flat for six years when the roof gave way.",
+            "right": "We had owned the flat for six years when the roof gave way.",
+            "why_it_happens": "The six years really are a stretch reaching the later moment, so drawing them as one looks sensible. Nothing about owning is done minute by minute, and English will not stretch what nobody does.",
+            "smallest_fix": "Swap one form: had been owning becomes had owned.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "tense_drift_in_paragraph",
+            "wrong": "The crossing closed in June. Passengers had been complaining for years, and the ferry company had been losing money ever since.",
+            "right": "The crossing closed in June. Passengers had been complaining for years, and the ferry company has been losing money ever since.",
+            "why_it_happens": "The backward step gets switched on for the first clause and then nobody switches it off. The complaints belong behind the closure; the losses run from it up to today, which is a different measurement.",
+            "smallest_fix": "Change one word: had becomes has.",
+            "gravity": "local",
+            "frequency": "medium",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "speaking_p2",
+            "mode": "productive",
+            "note": "Every Part 2 story about a wait or a struggle needs the length of the run-up.",
+            "model": "I'd been queuing at the wrong desk for forty minutes before anybody told me."
+          },
+          {
+            "surface": "writing_t2",
+            "mode": "productive",
+            "note": "Explaining why something gave way means naming how long the pressure had been building.",
+            "model": "Rents had been climbing for a decade before the council took any interest in them."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "Passages use it to show which pressure was already running when the event happened.",
+            "model": "The mills had been shedding workers for years when the last of them closed."
+          }
+        ],
+        "criteria": [
+          "gra",
+          "cohesion"
+        ],
+        "used_in": [
+          {
+            "module": "speaking",
+            "ref_id": "card_p2_a_long_wait_507",
+            "quote": "The card asks how long the wait went on, and that bullet is exactly what this shape was built to answer."
+          },
+          {
+            "module": "writing",
+            "ref_id": "wp_t2pa05_problem_solution_new_teachers_leaving",
+            "quote": "The problem paragraph has to say what had been going wrong for years before anybody handed in a resignation."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_past_perfect_continuous_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_health",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "I'd been coughing for a fortnight before I finally rang the surgery.",
+              "question": "Had the cough only just started when I rang?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 1
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The fortnight is counted back from the phone call, so it was already well under way by the time I dialled.",
+              "feed_forward": "Read the length as ending at the later event, not starting there."
+            }
+          },
+          {
+            "id": "gi_past_perfect_continuous_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "reading",
+            "error_codes": [
+              "aspect_result_vs_activity"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "The gutters were overflowing because the rain had been coming down since midnight.",
+              "question": "What put the water over the gutters?",
+              "options": [
+                "A long stretch of rain",
+                "One heavy shower at midnight",
+                "The sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The stretch from midnight onwards is the explanation the sentence offers for what anybody standing there could see.",
+              "feed_forward": "Look for the visible state the stretch has been building towards."
+            }
+          },
+          {
+            "id": "gi_past_perfect_continuous_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "aspect_state_verb_continuous"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "had been owning the unit",
+            "payload": {
+              "context": "From a draft paragraph about a small business.",
+              "sentence": "The family had been owning the unit for twelve years when the rent doubled.",
+              "acceptable": false,
+              "reasons": [
+                "the verb is not something anybody does",
+                "the earlier of the two has not been marked as earlier",
+                "the length is missing from the sentence",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Nobody spends the day owning something, so there is no activity to run along the twelve years. The years are real; the shape around them is not.",
+              "feed_forward": "Ask whether the verb names something somebody actually does."
+            }
+          },
+          {
+            "id": "gi_past_perfect_continuous_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_transport",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a report on a level crossing.",
+              "stem": "The barrier ___ (fail) intermittently for weeks before the accident happened.",
+              "blanks": 1,
+              "lemma_hints": [
+                "fail"
+              ]
+            },
+            "expected": [
+              "had been failing"
+            ],
+            "feedback": {
+              "why_key": "The weeks run up to the accident and stop there, and that is the stretch the report has to show.",
+              "feed_forward": "Build it in three pieces: had, been, then the -ing form."
+            }
+          },
+          {
+            "id": "gi_past_perfect_continuous_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_education",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "aspect_result_vs_activity"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A student explaining a late submission.",
+              "stem": "I ___ (work) on it since Thursday, so I asked for two more days.",
+              "blanks": 1,
+              "lemma_hints": [
+                "work"
+              ]
+            },
+            "expected": [
+              "had been working",
+              "'d been working",
+              "d been working"
+            ],
+            "feedback": {
+              "why_key": "The stretch from Thursday runs up to the moment you asked, and it is the stretch that makes the request reasonable.",
+              "feed_forward": "Anchor the stretch to the past moment you are telling about."
+            }
+          },
+          {
+            "id": "gi_past_perfect_continuous_06",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_housing",
+            "skill_hook": "writing_t1_gt",
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "The tenants started reporting the damp in October. The landlord replied in March.",
+              "instruction": "Write one sentence that says how long the reporting had gone on before the reply came.",
+              "starter": "The tenants ___"
+            },
+            "expected": [
+              "had been reporting the damp for five months before the landlord replied",
+              "had been reporting the damp for five months when the landlord replied"
+            ],
+            "feedback": {
+              "why_key": "One sentence now carries both the length of the wait and the moment that closed it.",
+              "feed_forward": "Put the stretch first, then name the moment that ended it."
+            }
+          },
+          {
+            "id": "gi_past_perfect_continuous_07",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "the",
+                "gauges",
+                "had",
+                "been",
+                "recording",
+                "the",
+                "same",
+                "level",
+                "for",
+                "weeks"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9
+                ]
+              ],
+              "context": "Build one sentence about the survey equipment on the Verdon."
+            },
+            "expected": [
+              "the gauges had been recording the same level for weeks"
+            ],
+            "feedback": {
+              "why_key": "The three pieces stay glued in one order, had then been then the -ing form, and the length comes after what was being recorded.",
+              "feed_forward": "Keep had, been and the -ing form together in that order."
+            }
+          },
+          {
+            "id": "gi_past_perfect_continuous_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_transport",
+            "skill_hook": "listening",
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "We'd been standing on the platform for ages before anyone said anything.",
+              "scored_tokens": [
+                "We'd",
+                "been",
+                "standing"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "we'd been standing on the platform for ages before anyone said anything",
+              "we had been standing on the platform for ages before anyone said anything",
+              "wed been standing on the platform for ages before anyone said anything"
+            ],
+            "feedback": {
+              "why_key": "We'd been is squeezed into a single beat. Miss the d and you write we been standing, and the step back disappears.",
+              "feed_forward": "Listen for the tiny d riding on the pronoun."
+            }
+          },
+          {
+            "id": "gi_past_perfect_continuous_09",
+            "kind": "contrast_pair",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "reading",
+            "error_codes": [
+              "aspect_result_vs_activity"
+            ],
+            "confusion_set": "cs_perfect_aspect",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "had been going through the rotas",
+            "payload": {
+              "context": "Two lines from an account of an inspection at the depot.",
+              "sentences": [
+                "The auditors had been going through the rotas when the alarm sounded.",
+                "The auditors had gone through the rotas by the time the alarm sounded."
+              ],
+              "meanings": [
+                "The paperwork was still spread out in front of them.",
+                "The paperwork was finished and back in the cupboard."
+              ],
+              "key": [
+                0,
+                1
+              ]
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The stretch shape leaves the work in progress; the finished shape hands over a completed job. That is the only thing separating them.",
+              "feed_forward": "Decide whether you are pointing at the doing or at the done."
+            }
+          },
+          {
+            "id": "gi_past_perfect_continuous_10",
+            "kind": "contrast_pair",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_health",
+            "skill_hook": "reading",
+            "error_codes": [
+              "aspect_result_vs_activity",
+              "tense_sequence_lost"
+            ],
+            "confusion_set": "cs_perfect_aspect",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "for six hours straight",
+            "payload": {
+              "context": "Two lines from a handover note written at the end of a night shift.",
+              "sentences": [
+                "By nine the ward had been admitting patients for six hours straight.",
+                "By nine the ward had admitted forty-one patients."
+              ],
+              "meanings": [
+                "Six hours of it, with no sign of the queue thinning.",
+                "A total somebody could write down at the end of the shift."
+              ],
+              "key": [
+                0,
+                1
+              ]
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "A length points at the run of work. A number points at what the run produced. Both are true of the same night.",
+              "feed_forward": "Count what you are reporting: hours, or things done."
+            }
+          },
+          {
+            "id": "gi_past_perfect_continuous_11",
+            "kind": "judge",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_housing",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "aspect_state_verb_continuous"
+            ],
+            "confusion_set": "cs_perfect_aspect",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "had lived above the bakery for three years",
+            "payload": {
+              "context": "A candidate describing an old flat.",
+              "sentence": "We had lived above the bakery for three years when the lease ran out.",
+              "acceptable": true,
+              "reasons": [
+                "the stretch needs the -ing shape here",
+                "the later moment has been put first",
+                "the length has been left out",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 3
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Living somewhere is a state you sit in rather than an activity you perform, so the plain step back carries the three years without help.",
+              "feed_forward": "Leave the plain shape alone when the verb names a state."
+            }
+          },
+          {
+            "id": "gi_past_perfect_continuous_12",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "aspect_state_verb_continuous"
+            ],
+            "confusion_set": "cs_perfect_aspect",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "had been owning",
+            "payload": {
+              "sentence": "The trust had been owning the marshes for a decade before the flooding started.",
+              "error_span": "had been owning",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "had owned",
+              "owned"
+            ],
+            "feedback": {
+              "why_key": "There is no activity here to run along the ten years, so the stretch shape has nothing at all to draw.",
+              "feed_forward": "Drop the stretch shape when the verb names a state."
+            }
+          },
+          {
+            "id": "gi_past_perfect_continuous_13",
+            "kind": "produce",
+            "stage": 4,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "Think of a job or a course you left. Say in one sentence how long you had been doing it before the day you walked away.",
+              "required_structure": "past_perfect_continuous",
+              "seed_from_vocab_queue": true,
+              "min_words": 10,
+              "max_words": 30,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Naming the length of the run-up is what turns a bare fact into a story a listener can follow.",
+              "feed_forward": "Say the stretch first, then the moment that ended it."
+            }
+          },
+          {
+            "id": "gi_past_perfect_continuous_14",
+            "kind": "produce",
+            "stage": 5,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "tense_sequence_lost"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Take the long-wait card. Give the middle of your answer in one minute, and put in one sentence that measures how long you had been waiting before anything changed.",
+              "required_structure": "past_perfect_continuous",
+              "seed_from_vocab_queue": false,
+              "min_words": 25,
+              "max_words": 80,
+              "task_ref": "card_p2_a_long_wait_507"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Under time pressure the stretch is the first thing to go, and the story flattens into a list of events in the order they happened.",
+              "feed_forward": "Say how long it had been going on before you say what happened."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "gr_future_perfect_continuous",
+      "unit_id": "u04",
+      "sequence_index": 2701,
+      "title": "Standing at a future date and saying how long something will have been going on",
+      "cefr_level": "B2",
+      "role": "form",
+      "topic_id": "topic_education",
+      "point_json": {
+        "schema_version": 1,
+        "grammar_name": "Future perfect continuous: will have been + the -ing form",
+        "prerequisites": [
+          "gr_future_perfect",
+          "gr_pp_continuous"
+        ],
+        "unlocks_hint": null,
+        "priority": 3,
+        "insertable": false,
+        "register": "both",
+        "risk_tier": "C",
+        "error_surface": 4,
+        "gravity": "local",
+        "confusion_set": "cs_perfect_aspect",
+        "structure_slug": null,
+        "signal_blocklist": [
+          "by then",
+          "by that stage",
+          "how long",
+          "non-stop",
+          "solidly"
+        ],
+        "fixes_errors": [
+          "modal_perfect_form",
+          "aspect_result_vs_activity",
+          "aspect_state_verb_continuous",
+          "future_will_in_time_clause"
+        ],
+        "estimated_minutes": 18,
+        "tool_surface": null,
+        "teach": {
+          "can_do": "I can stand at a date in the future and say how long something will have been running by the time I get there.",
+          "why_it_matters": "Rarest of the twelve, and four pieces must all be right at once. Use it when a length at a future date is the point; otherwise will have is enough.",
+          "meaning": "Pick a date ahead of you and take up position in it, exactly as will have plus the past participle asks you to. Then look back and see, instead of a finished job, a stretch that is still running. By June I will have been teaching here for ten years says nothing about stopping in June; it says that when June arrives the run will be ten years long. The length is the whole reason the sentence exists.",
+          "form": {
+            "pattern": "will have been + the -ing form",
+            "notes": [
+              "Four pieces and all four are needed: will, have, been, and the -ing form",
+              "In speech it shrinks to I'll have been, and after a pronoun the have is barely audible",
+              "It nearly always carries both a future point and a length: by June, for ten years",
+              "Verbs about states refuse it: by June I will have known her for ten years, never been knowing"
+            ],
+            "negative": "won't have been + the -ing form: by March the crew won't have been working there a full year.",
+            "question": "will + subject + have been + the -ing form: Will you have been driving for six hours by lunchtime?"
+          },
+          "visual": {
+            "kind": "timeline",
+            "spec": {
+              "now_label": "now",
+              "marks": [
+                {
+                  "at": -2,
+                  "label": "the run starts",
+                  "style": "point"
+                },
+                {
+                  "at": -2,
+                  "label": "and is still going when you get there",
+                  "span_to": 7,
+                  "style": "arrow"
+                },
+                {
+                  "at": 0,
+                  "label": "now, somewhere inside the run",
+                  "style": "point"
+                },
+                {
+                  "at": 7,
+                  "label": "the future moment you stand in and measure from",
+                  "style": "point"
+                }
+              ],
+              "caption": "The arrow does not stop at the future point. It reaches it, and the sentence reports how long it has been."
+            }
+          },
+          "worked_example": {
+            "sentence": "By the end of next term Ines will have been teaching at the college for ten years.",
+            "why_this_form": "The sentence puts you at the end of next term and measures backwards. The ten years are the news, and she is still teaching when they are counted.",
+            "what_the_other_would_mean": "Will have taught for ten years closes the ten years off, as though the teaching were a job now behind her."
+          },
+          "notice_set": [
+            {
+              "sentence": "By August the crew will have been working on the sea wall for two years.",
+              "question": "Is the wall finished in August?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 2,
+              "why": "The two years are counted at August, and whether the job ends there is simply left open."
+            },
+            {
+              "sentence": "By August the crew will have finished the sea wall.",
+              "question": "Is the wall finished in August?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "This one hands over a completed wall. It says nothing about how long anybody was there."
+            },
+            {
+              "sentence": "When the survey closes in May, Rasheed will have been counting birds on the estuary since January.",
+              "question": "Will he still be counting in May?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "The stretch runs right up to the closing date and is still going when it arrives."
+            },
+            {
+              "sentence": "By the time the funding runs out, the trust will have been running the reserve for a decade.",
+              "question": "Which happens first, the decade or the funding running out?",
+              "options": [
+                "They arrive together",
+                "The funding runs out first",
+                "The sentence doesn't say"
+              ],
+              "key": 0,
+              "why": "The decade is measured up to the moment the money stops, so the two land on the same point."
+            },
+            {
+              "sentence": "By nine tomorrow the machines will have been washing the same load for eleven hours.",
+              "question": "Will the load be clean at nine?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 2,
+              "why": "The sentence counts the hours and says nothing whatever about the result at the end of them."
+            }
+          ],
+          "rule_line": "Stand at the future moment and ask how long the thing will have been running by then.",
+          "false_rule": "That it is the most advanced future and therefore the most impressive. Used without a length and a future point it is four words where one would have done."
+        },
+        "errors": [
+          {
+            "code": "modal_perfect_form",
+            "wrong": "By March the volunteers will have manning the helpline for a full year.",
+            "right": "By March the volunteers will have been manning the helpline for a full year.",
+            "why_it_happens": "Four pieces is one more than most writers have ever had to hold at once, and been is the piece you cannot hear a meaning in, which is why it is the one that vanishes.",
+            "smallest_fix": "Insert one word: been.",
+            "gravity": "local",
+            "frequency": "very_high",
+            "l1_note": null
+          },
+          {
+            "code": "aspect_result_vs_activity",
+            "wrong": "By March the team will have been building six shelters.",
+            "right": "By March the team will have built six shelters.",
+            "why_it_happens": "Six is a number you could write on a form, and a number is what an activity leaves behind once it stops. The stretch shape is not looking at that, so the number and the verb end up pointing in opposite directions.",
+            "smallest_fix": "Swap one form: will have been building becomes will have built.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "aspect_state_verb_continuous",
+            "wrong": "By next spring we will have been owning the boat for twenty years.",
+            "right": "By next spring we will have owned the boat for twenty years.",
+            "why_it_happens": "The twenty years really are a stretch reaching the spring, so the stretch shape looks right. Nobody performs owning, and there is nothing to run along the years.",
+            "smallest_fix": "Swap one form: will have been owning becomes will have owned.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          },
+          {
+            "code": "future_will_in_time_clause",
+            "wrong": "By the time the repairs will finish, the depot will have been losing money for two years.",
+            "right": "By the time the repairs finish, the depot will have been losing money for two years.",
+            "why_it_happens": "Both halves are about the future, so both feel as though they ought to be marked for it. English marks it once, in the main clause, and leaves the time clause bare.",
+            "smallest_fix": "Delete one word: will.",
+            "gravity": "local",
+            "frequency": "high",
+            "l1_note": null
+          }
+        ],
+        "pays_in": [
+          {
+            "surface": "speaking_p1",
+            "mode": "productive",
+            "note": "It answers a how-long question that lands on a date still ahead of you.",
+            "model": "By the summer I'll have been studying here for three years."
+          },
+          {
+            "surface": "writing_t1_academic",
+            "mode": "productive",
+            "note": "A projection sometimes needs the length of a trend at the end date, not the total.",
+            "model": "By 2040 the reservoir will have been falling for four decades."
+          },
+          {
+            "surface": "reading",
+            "mode": "receptive",
+            "note": "Recognising it matters more than producing it; projections in passages carry it.",
+            "model": "By the time the scheme is reviewed, the town will have been paying for it for twenty years."
+          }
+        ],
+        "criteria": [
+          "gra"
+        ],
+        "used_in": [
+          {
+            "module": "speaking",
+            "ref_id": "card_p2_long_running_hobby_807",
+            "quote": "A hobby kept up for years invites exactly one sentence that carries the count forward to a date still ahead."
+          },
+          {
+            "module": "writing",
+            "ref_id": "wp_a1_06_line_water_demand_projection",
+            "quote": "A line running on to a future date is the one place where the length of a trend at that date is worth a sentence."
+          }
+        ],
+        "items": [
+          {
+            "id": "gi_future_perfect_continuous_01",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "reading",
+            "error_codes": [
+              "aspect_result_vs_activity"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "By November the pumps will have been draining the marsh for a year.",
+              "question": "Will the marsh be dry in November?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 2
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The sentence counts a year of pumping. It makes no claim at all about the state of the marsh at the end of it.",
+              "feed_forward": "Read it as a measurement of time, not a promise about the outcome."
+            }
+          },
+          {
+            "id": "gi_future_perfect_continuous_02",
+            "kind": "interpret",
+            "stage": 1,
+            "register": "spoken",
+            "topic_id": "topic_education",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_perfect_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "sentence": "By the summer I'll have been sharing a flat with the same two people for four years.",
+              "question": "Am I sharing with them now?",
+              "options": [
+                "Yes",
+                "No",
+                "The sentence doesn't say"
+              ],
+              "key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "The four years are counted at the summer and they reach back through today, so the sharing is going on right now.",
+              "feed_forward": "Trace the stretch backwards through today before you answer."
+            }
+          },
+          {
+            "id": "gi_future_perfect_continuous_03",
+            "kind": "judge",
+            "stage": 1,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "aspect_state_verb_continuous"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "will have been owning the yard",
+            "payload": {
+              "context": "From a first draft about long service at a haulage firm.",
+              "sentence": "By December the manager will have been owning the yard for fifteen years.",
+              "acceptable": false,
+              "reasons": [
+                "the verb is not something anybody does",
+                "the future point is missing",
+                "the length is in the wrong place",
+                "nothing wrong, it's fine"
+              ],
+              "reason_key": 0
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "Nobody spends the day owning a yard. The fifteen years are real, but there is no activity for them to measure.",
+              "feed_forward": "Check the verb names a doing before you stretch it."
+            }
+          },
+          {
+            "id": "gi_future_perfect_continuous_04",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "modal_perfect_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 1,
+            "decision_cue": null,
+            "payload": {
+              "context": "From a college's anniversary leaflet.",
+              "stem": "By September the department ___ (run) evening classes for two decades.",
+              "blanks": 1,
+              "lemma_hints": [
+                "run"
+              ]
+            },
+            "expected": [
+              "will have been running"
+            ],
+            "feedback": {
+              "why_key": "Four pieces, in order: will, have, been, and the -ing form. The two decades are what the sentence is for.",
+              "feed_forward": "Build it in four pieces and check that been is one of them."
+            }
+          },
+          {
+            "id": "gi_future_perfect_continuous_05",
+            "kind": "gap_fill",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_health",
+            "skill_hook": "speaking_p1",
+            "error_codes": [
+              "modal_perfect_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "context": "A nurse talking about her shift pattern.",
+              "stem": "By the time I clock off I ___ (stand) up for thirteen hours.",
+              "blanks": 1,
+              "lemma_hints": [
+                "stand"
+              ]
+            },
+            "expected": [
+              "will have been standing",
+              "'ll have been standing",
+              "ll have been standing"
+            ],
+            "feedback": {
+              "why_key": "The stretch is measured at the moment you clock off, and it is the length, not the standing, that is the news.",
+              "feed_forward": "Fix the future moment first, then count backwards from it."
+            }
+          },
+          {
+            "id": "gi_future_perfect_continuous_06",
+            "kind": "transform",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_work",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "modal_perfect_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "given": "The trial started in 2019. It will still be going in 2029.",
+              "instruction": "Write one sentence that measures the trial at the later date.",
+              "starter": "By 2029 the trial ___"
+            },
+            "expected": [
+              "will have been running for ten years",
+              "will have been running for a decade"
+            ],
+            "feedback": {
+              "why_key": "Standing at 2029 and looking back turns two flat facts into a single measurement.",
+              "feed_forward": "Name the future date, then say how long by then."
+            }
+          },
+          {
+            "id": "gi_future_perfect_continuous_07",
+            "kind": "order",
+            "stage": 2,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "modal_perfect_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "tokens": [
+                "by",
+                "2040",
+                "the",
+                "glacier",
+                "will",
+                "have",
+                "been",
+                "retreating",
+                "for",
+                "a",
+                "century"
+              ],
+              "accepted_orders": [
+                [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10
+                ]
+              ],
+              "context": "Build one sentence for a projection that runs on to 2040."
+            },
+            "expected": [
+              "by 2040 the glacier will have been retreating for a century"
+            ],
+            "feedback": {
+              "why_key": "The four pieces stay welded in that order, and the length comes last, where the reader is waiting for it.",
+              "feed_forward": "Keep will, have, been and the -ing form in that order."
+            }
+          },
+          {
+            "id": "gi_future_perfect_continuous_08",
+            "kind": "dictation",
+            "stage": 2,
+            "register": "spoken",
+            "topic_id": "topic_transport",
+            "skill_hook": "listening",
+            "error_codes": [
+              "modal_perfect_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "audio_text": "By Friday I'll have been commuting on that line for six months.",
+              "scored_tokens": [
+                "I'll",
+                "have",
+                "been",
+                "commuting"
+              ],
+              "mode": "dictation",
+              "speed": 1.0,
+              "replay_slow": 0.8
+            },
+            "expected": [
+              "by friday i'll have been commuting on that line for six months",
+              "by friday i will have been commuting on that line for six months",
+              "by friday ill have been commuting on that line for six months"
+            ],
+            "feedback": {
+              "why_key": "I'll have been arrives as one beat and the have is barely there. Miss it and you write I'll been commuting.",
+              "feed_forward": "Listen for the flattened have between the 'll and the been."
+            }
+          },
+          {
+            "id": "gi_future_perfect_continuous_09",
+            "kind": "contrast_pair",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_education",
+            "skill_hook": "reading",
+            "error_codes": [
+              "aspect_result_vs_activity"
+            ],
+            "confusion_set": "cs_perfect_aspect",
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": "will have been marking scripts for six weeks",
+            "payload": {
+              "context": "Two lines from a memo about the examining season.",
+              "sentences": [
+                "By July the tutors will have been marking scripts for six weeks.",
+                "By July the tutors will have marked every script in the county."
+              ],
+              "meanings": [
+                "Six weeks of it, and the pile is not necessarily gone.",
+                "A finished pile, with nothing left to open."
+              ],
+              "key": [
+                0,
+                1
+              ]
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "One sentence measures a stretch of work; the other reports the work as done. The date is the same in both.",
+              "feed_forward": "Decide whether the length or the finished pile is your news."
+            }
+          },
+          {
+            "id": "gi_future_perfect_continuous_10",
+            "kind": "contrast_pair",
+            "stage": 3,
+            "register": "spoken",
+            "topic_id": "topic_work",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "aspect_state_verb_continuous",
+              "aspect_result_vs_activity"
+            ],
+            "confusion_set": "cs_perfect_aspect",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": "will have been running the bakery",
+            "payload": {
+              "context": "Two ways of introducing the same person at a village anniversary.",
+              "sentences": [
+                "By April Delia will have been running the bakery for eleven years.",
+                "By April Delia will have owned the bakery for eleven years."
+              ],
+              "meanings": [
+                "She is in there every morning with her sleeves rolled up.",
+                "Her name is on the deeds, whoever does the baking."
+              ],
+              "key": [
+                0,
+                1
+              ]
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "One is a job she performs, so it can be measured as a run. The other is a state she holds, and states take the plain shape.",
+              "feed_forward": "Sort the verb into doing or holding before you choose."
+            }
+          },
+          {
+            "id": "gi_future_perfect_continuous_11",
+            "kind": "error_fix",
+            "stage": 3,
+            "register": "written",
+            "topic_id": "topic_economy",
+            "skill_hook": "writing_t2",
+            "error_codes": [
+              "future_will_in_time_clause"
+            ],
+            "confusion_set": "cs_perfect_aspect",
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 2,
+            "decision_cue": "the subsidies will end",
+            "payload": {
+              "sentence": "By the time the subsidies will end, the port will have been losing money for three years.",
+              "error_span": "the subsidies will end",
+              "accept_overlap_tokens": 1
+            },
+            "expected": [
+              "the subsidies end",
+              "the subsidies have ended"
+            ],
+            "feedback": {
+              "why_key": "English marks the future once. The second half is already carrying it, so the half that names the moment goes bare.",
+              "feed_forward": "Strip will out of the clause that starts with by the time."
+            }
+          },
+          {
+            "id": "gi_future_perfect_continuous_12",
+            "kind": "produce",
+            "stage": 4,
+            "register": "written",
+            "topic_id": "topic_environment",
+            "skill_hook": "writing_t1_academic",
+            "error_codes": [
+              "modal_perfect_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": false,
+            "difficulty": 2,
+            "decision_cue": null,
+            "payload": {
+              "mode": "sentence",
+              "prompt_text": "A chart shows household water demand climbing every year from 2010 to 2040. Write one sentence that stands at 2040 and says how long the climb will have been going on.",
+              "required_structure": "future_perfect_continuous",
+              "seed_from_vocab_queue": true,
+              "min_words": 10,
+              "max_words": 30,
+              "task_ref": null
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "This is where the shape genuinely earns its keep: a rise still going on at the date the chart stops.",
+              "feed_forward": "Name the end date, then measure the run back from it."
+            }
+          },
+          {
+            "id": "gi_future_perfect_continuous_13",
+            "kind": "produce",
+            "stage": 5,
+            "register": "spoken",
+            "topic_id": "topic_sport",
+            "skill_hook": "speaking_p2",
+            "error_codes": [
+              "modal_perfect_form"
+            ],
+            "confusion_set": null,
+            "twin_id": null,
+            "review_only": true,
+            "difficulty": 3,
+            "decision_cue": null,
+            "payload": {
+              "mode": "apply_to_task",
+              "prompt_text": "Take the long-running hobby card. Round your answer off in thirty seconds with one sentence that pushes the total on to a date you have not reached yet. Use it once, then go back to plain shapes.",
+              "required_structure": "future_perfect_continuous",
+              "seed_from_vocab_queue": false,
+              "min_words": 20,
+              "max_words": 60,
+              "task_ref": "card_p2_long_running_hobby_807"
+            },
+            "expected": null,
+            "feedback": {
+              "why_key": "One well-placed sentence lands. A second one in the same minute reads as a shape being shown off rather than used.",
+              "feed_forward": "Use it once, at the end, and leave it there."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "vocab_new": [],
+  "vocab_updates": []
+}

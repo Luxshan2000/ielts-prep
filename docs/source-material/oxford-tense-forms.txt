@@ -1,0 +1,66 @@
+The basic forms of the English verb tenses:
+
+              positive                                   negative                                   question
+present       subject + verb (+ s )                      subject + do / does + not + verb           (question word +) do / does + subject +
+simple        I eat.                                     I don’t eat toast.                         verb?
+              She eats toast.                            She doesn’t eat fish.                      Do you eat breakfast every day?
+                                                                                                    When does she eat lunch?
+present       subject + am / is / are                    subject + am / is / are + not              (question word +) am / is / are +
+simple        I am hungry.                               I’m not hungry.                            subject…?
+with ‘be’     She is in a cafe.                          She isn’t happy.                           Is he at home?
+                                                                                                    Why are you hungry?
+present       subject + am / is / are + verb-ing         subject + am / is / are + not + verb-      (question word +) am / is / are +
+continuous    She’s eating toast.                        ing                                        subject + verb-ing?
+              They are eating lunch now.                 He isn’t eating.                           When are they eating?
+                                                         We are not eating at home.                 Is he eating now?
+present       subject + have / has + past                subject + have / has + not + past          (question word +) have / has + subject
+perfect       participle                                 participle                                 + past participle?
+              I’ve eaten breakfast.                      We haven’t eaten yet.                      What have you eaten today?
+              He has eaten lunch.                        She hasn’t eaten the chocolate.            Has she eaten lunch?
+present       subject + have / has + been + verb-        subject + have / has + not + been +        (question word +) have / has + subject
+perfect       ing                                        verb-ing                                   + been + verb-ing?
+continuous    I’ve been eating.                          They haven’t been eating.                  What has she been eating?
+              She’s been eating biscuits all day.        He has not been eating toast.              Have they been eating breakfast?
+past          subject + past simple (verb +ed)           subject + did + not + verb                 (question word +) did + subject + verb?
+simple        I ate an apple.                            She didn’t eat anything.                   Did you eat the chocolate?
+              She ate some rice.                         They did not eat breakfast.                What did they eat for lunch?
+past          subject + was / were                       subject + was / were + not                 (question word +) was / were +
+simple        I was hungry.                              We weren’t hungry.                         subject…?
+with ‘be’     They were in a restaurant.                 She wasn’t at home.                        Why was she hungry?
+                                                                                                    Were you hungry?
+past          subject + was / were + verb-ing            subject + was / were + not + verb-         (question word +) was / were + subject
+continuous    I was eating.                              ing                                        + verb-ing?
+              They were eating lunch.                    You weren’t eating.                        Where were you eating?
+                                                         She wasn’t eating a sandwich.              Was she eating an apple?
+past          subject + had + past participle            subject + had + not + past participle      (question word +) had + subject + past
+perfect       I had eaten.                               We hadn’t eaten.                           participle
+              She’d eaten lunch.                         He had not eaten an apple.                 Why had you eaten?
+                                                                                                    Had they eaten fish before?
+past          subject + had + been + verb-ing            subject + had + not + been + verb-         (question word +) had + subject + been
+perfect       I had been eating chocolate all day.       ing                                        + verb-ing?
+continuous    She’d been eating breakfast.               I hadn’t been eating.                      Why had he been eating?
+                                                         She hadn’t been eating an apple.           Had they been eating enough fruit?
+future        subject + will + verb                      subject + will + not + verb                (question word +) will + subject +
+simple        I will eat later.                          We won’t eat anything tonight.             verb?
+              She will eat at home.                      He will not eat fish.                      What will you eat for lunch?
+                                                                                                    Will she eat meat?
+future        subject + will + be + verb-ing             subject + will + not + be + verb-ing       (question word +) will + subject + be +
+continuous    I will be eating at 8pm.                   They won’t be eating.                      verb-ing?
+              She will be eating a sandwich.             He will not be eating anything.            What will you be eating?
+                                                                                                    Will they be eating at 6pm?
+future        subject + will + have + past               subject + will + not + have + past         (question word +) will + subject + have
+perfect       participle                                 participle                                 + past participle?
+              I will have eaten lunch by 3 o’clock.      He won’t have eaten lunch yet.             When will you have eaten?
+              She’ll have eaten all the chocolate.       They will not have eaten their             Will she have eaten dinner by nine?
+                                                         sandwiches.
+future        subject + will + have + been +             subject + will + not + have + been +       (question word +) will + subject + have
+perfect       verb-ing                                   verb-ing                                   + been + verb-ing?
+continuous    They will have been eating fruit.          I won’t have been eating fish.             What will she have been eating?
+              We’ll have been eating all day.            They will not have been eating             Will you have been eating chocolate?
+                                                         lunch.
+
+
+
+                                                 © www.perfect-english-grammar.com
+                                              May be freely copied for personal or classroom use.
+

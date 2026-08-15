@@ -113,52 +113,6 @@ async def _probe_ollama(client: httpx.AsyncClient) -> dict[str, Any]:
     return engine
 
 
-async def _probe_lm_studio(client: httpx.AsyncClient) -> dict[str, Any]:
-    data = await _get(client, "http://127.0.0.1:1234/v1/models")
-    engine: dict[str, Any] = {"id": "lm_studio", "state": "absent"}
-    if data is not None:
-        engine["state"] = "running"
-        engine["via"] = "port:1234"
-        engine["models"] = _model_ids(data)
-        engine["base_url"] = "http://127.0.0.1:1234/v1"
-    elif shutil.which("lms"):
-        engine["state"] = "installed"
-        engine["via"] = "binary:lms"
-    return engine
-
-
-async def _probe_port_8080(client: httpx.AsyncClient) -> list[dict[str, Any]]:
-    """mlx-lm and llama.cpp both default to :8080 — disambiguate by model id."""
-    data = await _get(client, "http://127.0.0.1:8080/v1/models")
-    models = _model_ids(data) if data else []
-    looks_mlx = any("mlx-community/" in (m or "") or m.startswith("mlx") for m in models)
-    llama_health = None
-    if data is not None and not looks_mlx:
-        llama_health = await _get(client, "http://127.0.0.1:8080/health")
-
-    mlx: dict[str, Any] = {"id": "mlx_lm", "state": "absent"}
-    llama: dict[str, Any] = {"id": "llama_cpp", "state": "absent"}
-
-    if data is not None and looks_mlx:
-        mlx.update({"state": "running", "via": "port:8080", "models": models,
-                    "base_url": "http://127.0.0.1:8080/v1"})
-    elif data is not None and llama_health is not None:
-        llama.update({"state": "running", "via": "port:8080", "models": models,
-                      "base_url": "http://127.0.0.1:8080/v1"})
-    elif data is not None:
-        # Something OpenAI-compatible is there, we just cannot name it.
-        mlx.update({"state": "unknown_server", "via": "port:8080", "models": models,
-                    "detail": "an OpenAI-compatible server is running on :8080",
-                    "base_url": "http://127.0.0.1:8080/v1"})
-
-    if mlx["state"] == "absent" and shutil.which("mlx_lm.server"):
-        mlx.update({"state": "installed", "via": "binary:mlx_lm.server"})
-    if llama["state"] == "absent" and shutil.which("llama-server"):
-        llama.update({"state": "installed", "via": "binary:llama-server"})
-
-    if platform.system() != "Darwin" or platform.machine() != "arm64":
-        mlx["unsupported_platform"] = True
-    return [mlx, llama]
 
 
 def _model_ids(data: dict[str, Any] | None) -> list[str]:
@@ -226,9 +180,11 @@ async def detect(fresh: bool = False) -> dict[str, Any]:
         try:
             results = await asyncio.wait_for(
                 asyncio.gather(
+                    # Ollama only. The provider list was cut to "OpenRouter or local", and
+                    # local means Ollama: LM Studio, mlx-lm and llama.cpp each added a probe,
+                    # a preset and a decision, for an audience that is here to practise
+                    # English rather than to choose an inference server.
                     _probe_ollama(client),
-                    _probe_lm_studio(client),
-                    _probe_port_8080(client),
                     return_exceptions=True,
                 ),
                 timeout=1.5,

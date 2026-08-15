@@ -14,7 +14,7 @@
 
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Play, Scale } from "lucide-react";
+import { Play, Scale } from "lucide-react";
 import { Badge, Button, ErrorState, Skeleton } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { useGrammarStore } from "../store";
@@ -59,15 +59,12 @@ export function BoardScreen() {
 
   return (
     <PageShell
+      back={{ to: "/grammar", label: "Grammar" }}
       title={board.question}
       description="Ask yourself this one question and the choice makes itself."
       maxWidth="max-w-3xl"
       actions={
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={() => navigate("/grammar")}>
-            <ArrowLeft className="h-4 w-4" />
-            Path
-          </Button>
           <Button
             size="sm"
             disabled={board.drillable === 0}

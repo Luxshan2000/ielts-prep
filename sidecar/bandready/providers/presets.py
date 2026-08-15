@@ -30,6 +30,11 @@ _MAX_TOKENS = {
 }
 #: Models we have actually pointed this app at, per modality.
 #:
+#: There is exactly one cloud provider now. OpenRouter serves chat, transcription and
+#: speech from a single key, so the branded alternatives — OpenAI, Groq, DeepSeek — bought
+#: nothing but a longer list and one more decision for somebody who is here to practise
+#: English. Anything OpenAI-compatible is still reachable through custom_openai.
+#:
 #: A preset whose model field falls back to free text is a trap: the learner types something
 #: plausible, the call 404s deep in a provider, and the failure surfaces as "the practice
 #: engine reported an error" three screens away. These lists keep the field a closed dropdown,
@@ -64,11 +69,6 @@ OPENROUTER_MODELS: dict[str, list[str]] = {
     ],
 }
 
-OPENAI_MODELS: dict[str, list[str]] = {
-    "llm": ["gpt-4o-mini", "gpt-4o"],
-    "stt": ["whisper-1", "gpt-4o-transcribe", "gpt-4o-mini-transcribe"],
-    "tts": ["tts-1", "tts-1-hd", "gpt-4o-mini-tts"],
-}
 
 _MODEL_FROM_VERIFY = {
     "key": "model", "label": "Model", "type": "select", "required": True,
@@ -95,29 +95,7 @@ def _api_key(env_hint: str, placeholder: str) -> dict[str, Any]:
 # --- the registry ---------------------------------------------------------------------
 
 PRESETS: list[dict[str, Any]] = [
-    {
-        "id": "mlx_lm",
-        "label": "MLX (mlx-lm server)",
-        "modalities": ["llm"],
-        "kind": "local-server",
-        "base_url": "http://127.0.0.1:8080/v1",
-        "base_url_locked": False,
-        "needs_key": False,
-        "platforms": MAC_ARM,
-        "docs_url": "https://github.com/ml-explore/mlx-examples/tree/main/llms",
-        "suggested_models": [
-            "mlx-community/Qwen3-14B-4bit",
-            "mlx-community/Qwen3-8B-4bit",
-        ],
-        "notes": "Fastest local LLM on Apple Silicon.",
-        "config_spec": [
-            _base_url("http://127.0.0.1:8080/v1"),
-            _MODEL_FROM_VERIFY,
-            _TEMPERATURE,
-            _MAX_TOKENS,
-        ],
-    },
-    {
+        {
         "id": "ollama",
         "label": "Ollama",
         "modalities": ["llm"],
@@ -136,67 +114,7 @@ PRESETS: list[dict[str, Any]] = [
             _MAX_TOKENS,
         ],
     },
-    {
-        "id": "lm_studio",
-        "label": "LM Studio",
-        "modalities": ["llm"],
-        "kind": "local-server",
-        "base_url": "http://127.0.0.1:1234/v1",
-        "base_url_locked": False,
-        "needs_key": False,
-        "platforms": ALL_PLATFORMS,
-        "docs_url": "https://lmstudio.ai",
-        "suggested_models": [],
-        "notes": "GUI-managed models — start the server from LM Studio's Developer tab.",
-        "config_spec": [
-            _base_url("http://127.0.0.1:1234/v1"),
-            _MODEL_FROM_VERIFY,
-            _TEMPERATURE,
-            _MAX_TOKENS,
-        ],
-    },
-    {
-        "id": "llama_cpp",
-        "label": "llama.cpp (llama-server)",
-        "modalities": ["llm"],
-        "kind": "local-server",
-        "base_url": "http://127.0.0.1:8080/v1",
-        "base_url_locked": False,
-        "needs_key": False,
-        "platforms": ALL_PLATFORMS,
-        "docs_url": "https://github.com/ggml-org/llama.cpp",
-        "suggested_models": [],
-        "notes": "Port 8080 collides with mlx-lm; detection disambiguates by model id.",
-        "config_spec": [
-            _base_url("http://127.0.0.1:8080/v1"),
-            _MODEL_FROM_VERIFY,
-            _TEMPERATURE,
-            _MAX_TOKENS,
-        ],
-    },
-    {
-        "id": "openai",
-        "label": "OpenAI",
-        "modalities": ["llm", "stt", "tts"],
-        "kind": "cloud",
-        "base_url": "https://api.openai.com/v1",
-        "base_url_locked": True,
-        "needs_key": True,
-        "key_env_hint": "OPENAI_API_KEY",
-        "platforms": ALL_PLATFORMS,
-        "docs_url": "https://platform.openai.com/docs",
-        "suggested_models": OPENAI_MODELS["llm"],
-        "models_by_modality": OPENAI_MODELS,
-        "notes": "Covers all three modalities.",
-        "config_spec": [
-            _base_url("https://api.openai.com/v1", locked=True),
-            _api_key("OPENAI_API_KEY", "sk-…"),
-            _MODEL_FROM_VERIFY,
-            _TEMPERATURE,
-            _MAX_TOKENS,
-        ],
-    },
-    {
+                {
         "id": "openrouter",
         "label": "OpenRouter",
         # OpenRouter shipped /audio/transcriptions and /audio/speech, so one key now covers
@@ -224,71 +142,7 @@ PRESETS: list[dict[str, Any]] = [
             _MAX_TOKENS,
         ],
     },
-    {
-        "id": "groq",
-        "label": "Groq",
-        "modalities": ["llm"],
-        "kind": "cloud",
-        "base_url": "https://api.groq.com/openai/v1",
-        "base_url_locked": True,
-        "needs_key": True,
-        "key_env_hint": "GROQ_API_KEY",
-        "platforms": ALL_PLATFORMS,
-        "docs_url": "https://console.groq.com/docs",
-        "suggested_models": ["llama-3.3-70b-versatile"],
-        "notes": "Lowest cloud latency.",
-        "config_spec": [
-            _base_url("https://api.groq.com/openai/v1", locked=True),
-            _api_key("GROQ_API_KEY", "gsk_…"),
-            _MODEL_FROM_VERIFY,
-            _TEMPERATURE,
-            _MAX_TOKENS,
-        ],
-    },
-    {
-        "id": "groq_whisper",
-        "label": "Groq Whisper (STT)",
-        "modalities": ["stt"],
-        "kind": "cloud",
-        "base_url": "https://api.groq.com/openai/v1",
-        "base_url_locked": True,
-        "needs_key": True,
-        "key_env_hint": "GROQ_API_KEY",
-        "platforms": ALL_PLATFORMS,
-        "docs_url": "https://console.groq.com/docs/speech-text",
-        "suggested_models": ["whisper-large-v3-turbo"],
-        "engine": "openai_compat",
-        "notes": "Same key as the Groq LLM preset.",
-        "config_spec": [
-            _base_url("https://api.groq.com/openai/v1", locked=True),
-            _api_key("GROQ_API_KEY", "gsk_…"),
-            {"key": "model", "label": "Model", "type": "select", "required": True,
-             "group": "connection", "default": "whisper-large-v3-turbo",
-             "options": ["whisper-large-v3-turbo", "whisper-large-v3"]},
-        ],
-    },
-    {
-        "id": "deepseek",
-        "label": "DeepSeek",
-        "modalities": ["llm"],
-        "kind": "cloud",
-        "base_url": "https://api.deepseek.com/v1",
-        "base_url_locked": True,
-        "needs_key": True,
-        "key_env_hint": "DEEPSEEK_API_KEY",
-        "platforms": ALL_PLATFORMS,
-        "docs_url": "https://api-docs.deepseek.com",
-        "suggested_models": ["deepseek-chat"],
-        "notes": "Cheap, strong at rubric scoring.",
-        "config_spec": [
-            _base_url("https://api.deepseek.com/v1", locked=True),
-            _api_key("DEEPSEEK_API_KEY", "sk-…"),
-            _MODEL_FROM_VERIFY,
-            _TEMPERATURE,
-            _MAX_TOKENS,
-        ],
-    },
-    {
+                {
         "id": "faster_whisper",
         "label": "Local Whisper",
         "modalities": ["stt"],

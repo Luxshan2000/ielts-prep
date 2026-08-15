@@ -198,7 +198,10 @@ async def test_reset_restores_defaults(client: httpx.AsyncClient) -> None:
 async def test_presets_include_mocks_when_enabled(client: httpx.AsyncClient) -> None:
     body = (await client.get("/api/v1/providers/presets")).json()
     ids = {p["id"] for p in body["presets"]}
-    assert {"ollama", "openai", "kokoro", "custom_openai"} <= ids
+    # One cloud provider and the local engines: OpenRouter covers chat, transcription
+    # and speech from a single key, so the branded alternatives were removed.
+    assert {"ollama", "openrouter", "kokoro", "custom_openai"} <= ids
+    assert {"openai", "groq", "deepseek"}.isdisjoint(ids)
     assert body["mock_enabled"] is True
     assert "mock_llm" in ids  # hidden preset, served because BANDREADY_ENABLE_MOCK=1
 

@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import pytest
 
-from bandready.providers.presets import OPENAI_MODELS, OPENROUTER_MODELS, PRESETS
+from bandready.providers.presets import OPENROUTER_MODELS, PRESETS
 
 MULTI_MODALITY = [p for p in PRESETS if len(p.get("modalities", [])) > 1 and p.get("kind") == "cloud"]
 
@@ -56,14 +56,13 @@ def test_a_cloud_preset_offers_models_for_each_modality_it_claims(preset: dict) 
 
 def test_the_three_lists_are_genuinely_different() -> None:
     """If they were the same list the per-modality machinery would be decoration."""
-    for lists in (OPENROUTER_MODELS, OPENAI_MODELS):
-        assert lists["llm"] != lists["stt"]
-        assert lists["stt"] != lists["tts"]
+    assert OPENROUTER_MODELS["llm"] != OPENROUTER_MODELS["stt"]
+    assert OPENROUTER_MODELS["stt"] != OPENROUTER_MODELS["tts"]
 
 
 def test_no_chat_model_leaks_into_the_speech_lists() -> None:
     """The specific mistake this exists to prevent."""
-    for lists in (OPENROUTER_MODELS, OPENAI_MODELS):
+    for lists in (OPENROUTER_MODELS,):
         chat = set(lists["llm"])
         assert chat.isdisjoint(lists["stt"])
         assert chat.isdisjoint(lists["tts"])
@@ -82,26 +81,43 @@ def test_openrouter_offers_whisper_and_the_qwen_recogniser() -> None:
 
 
 def test_openrouter_ids_carry_their_vendor_prefix() -> None:
-    """OpenRouter namespaces every id; a bare "whisper-1" 404s there and works on OpenAI."""
+    """OpenRouter namespaces every id, and a bare "whisper-1" 404s there.
+
+    This mattered more when OpenAI was also a preset and the two spellings sat side by side.
+    It still matters: anyone reading an OpenAI tutorial will copy the bare id.
+    """
     for models in OPENROUTER_MODELS.values():
         for model in models:
             assert "/" in model, f"{model} is missing its vendor prefix"
 
 
-def test_openai_ids_do_not_carry_a_vendor_prefix() -> None:
-    """And the mirror image: OpenAI's own API takes the bare id."""
-    for models in OPENAI_MODELS.values():
-        for model in models:
-            assert "/" not in model, f"{model} looks like an OpenRouter id"
 
 
 def test_every_curated_id_is_a_plausible_non_empty_string() -> None:
-    for lists in (OPENROUTER_MODELS, OPENAI_MODELS):
+    for lists in (OPENROUTER_MODELS,):
         for models in lists.values():
             assert models, "an empty list is the free-text trap again"
             assert len(set(models)) == len(models), "a duplicate would render twice"
             for model in models:
                 assert model.strip() == model and model
+
+
+def test_there_is_exactly_one_branded_cloud_provider() -> None:
+    """The simplification, pinned.
+
+    OpenRouter serves chat, transcription and speech from one key, so OpenAI, Groq and
+    DeepSeek bought nothing but a longer list and one more decision for somebody who is here
+    to practise English. custom_openai stays: it points at anything OpenAI-shaped, including
+    a self-hosted server, and it is the only reason removing the others costs nobody anything.
+    """
+    cloud = {p["id"] for p in PRESETS if p.get("kind") == "cloud"}
+    assert cloud == {"openrouter", "custom_openai"}
+
+
+def test_the_local_engines_all_survived() -> None:
+    """'OpenRouter or local' means local has to still be a real option."""
+    local = {p["id"] for p in PRESETS if str(p.get("kind", "")).startswith("local")}
+    assert {"ollama", "faster_whisper", "kokoro"} <= local
 
 
 # ======================================================================================

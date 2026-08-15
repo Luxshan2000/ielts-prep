@@ -22,7 +22,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  ArrowLeft,
   ArrowRight,
   BookmarkPlus,
   Check,
@@ -44,6 +43,7 @@ import {
   STAGES,
   codeLabel,
   errorSurfaceNote,
+  levelLabel,
   surfaceLabel,
 } from "../labels";
 import { useGrammarStore } from "../store";
@@ -143,7 +143,11 @@ function PointHeader({ detail }: { detail: PointDetail }) {
       <div className="flex flex-wrap items-center gap-2">
         <StateBadge state={detail.state} />
         <Badge tone="outline">{ROLE_LABEL[detail.role as keyof typeof ROLE_LABEL] ?? detail.role}</Badge>
-        {detail.cefr_level && <Badge tone="outline">{detail.cefr_level}</Badge>}
+        {levelLabel(detail.cefr_level) && (
+          <Badge tone="outline" title={`Common European Framework level ${detail.cefr_level}`}>
+            {levelLabel(detail.cefr_level)}
+          </Badge>
+        )}
         {detail.point_json.register && (
           <Badge tone="outline">
             {REGISTER_LABEL[detail.point_json.register] ?? detail.point_json.register}
@@ -232,15 +236,12 @@ export function PointScreen() {
 
   return (
     <PageShell
+      back={{ to: "/grammar", label: "Grammar" }}
       title={detail.title}
       description={pj.grammar_name ?? undefined}
       maxWidth="max-w-3xl"
       actions={
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" onClick={() => navigate("/grammar")}>
-            <ArrowLeft className="h-4 w-4" />
-            Path
-          </Button>
           <Button
             size="sm"
             disabled={locked || gated}

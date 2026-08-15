@@ -129,6 +129,18 @@ export interface VocabTile {
   retention_7d: number | null;
 }
 
+/**
+ * The one number the dashboard borrows from `GET /vocab/stats`.
+ *
+ * `progress/summary` counts every card whose due date has passed and ignores the
+ * daily new-card cap the review room actually applies — 151 against the room's
+ * 20 on a fresh install. The tile links straight into that room, so it has to
+ * promise the number the room will hand back.
+ */
+export interface VocabStats {
+  due_today: number;
+}
+
 export interface ProfileDoc {
   target_band: number;
   exam_date: string | null;

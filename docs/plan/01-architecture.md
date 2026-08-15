@@ -1,6 +1,10 @@
 # 01 — System architecture
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read [CONTRIBUTING.md §2](../../CONTRIBUTING.md#2-repository-map) and [REPOSITORY.md](../REPOSITORY.md). Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+
+_Status: draft v2 (2026-07-25)_
 
 BandReady is a three-process desktop app: an **Electron main process** that owns windows, app lifecycle, and the sidecar; a **React 18 SPA renderer** (Vite + TypeScript + Tailwind) that owns all UI; and a **Python FastAPI sidecar** that owns everything stateful and AI-shaped — the Pipecat 1.5.0 voice pipeline, SQLite, the content bank, and scoring orchestration. The renderer talks to the sidecar over loopback HTTP (bearer-token authenticated) and WebRTC, exactly as OpenVoiceUI's SPA talks to its server — which is the whole point: the proven LiveCall/WebRTC/design-system code transfers nearly verbatim. This doc records ADR-001 (Electron over React Native) and ADR-002 (Python sidecar over Node backend), and specifies the sidecar lifecycle, the security contract between processes, the repo layout, per-OS data directories, and the dev-mode workflow. Bundling of the Python runtime is owned by 13-packaging-distribution.md.
 

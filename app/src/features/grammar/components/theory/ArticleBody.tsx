@@ -29,7 +29,7 @@ export interface Block {
 const EMPHASIS = /(\*\*[^*]+\*\*|\*[^*\n]+\*)/g;
 
 /** Render a string with `**bold**` and `*italic*` resolved rather than printed. */
-function RichText({ text }: { text: string }) {
+export function RichText({ text }: { text: string }) {
   if (!text.includes("*")) return <>{text}</>;
   return (
     <>
@@ -217,10 +217,20 @@ function BlockView({ block }: { block: Block }) {
       );
     }
 
-    case "summary":
+    case "summary": {
+      // Authors write `headline` plus an optional recap `table`; `points` is almost always
+      // null and `text` is never written at all. Reading only those two rendered an empty
+      // green box at the end of nearly every article.
+      const headline = str("headline") || str("text");
+      const table = block.table as Block | undefined;
       return (
         <Callout tone="success" icon={Check} label={str("label") || "In short"}>
-          {arr("points").length > 0 ? (
+          {headline && (
+            <p>
+              <RichText text={headline} />
+            </p>
+          )}
+          {arr("points").length > 0 && (
             <ul className="ml-4 list-disc space-y-1">
               {arr("points").map((p, i) => (
                 <li key={i}>
@@ -228,13 +238,11 @@ function BlockView({ block }: { block: Block }) {
                 </li>
               ))}
             </ul>
-          ) : (
-            <p>
-              <RichText text={str("text")} />
-            </p>
           )}
+          {table && <TableBlock block={table} />}
         </Callout>
       );
+    }
 
     case "examples":
       return <Examples block={block} />;
@@ -378,9 +386,18 @@ function TermIntro({ block }: { block: Block }) {
 function Examples({ block }: { block: Block }) {
   const items = Array.isArray(block.items) ? (block.items as Block[]) : [];
   const label = block.label ? String(block.label) : null;
+  // `lead_in` sets the examples up and `so_what` draws the conclusion from them. Without
+  // the pair the list is a run of unexplained sentences.
+  const leadIn = block.lead_in != null ? String(block.lead_in) : null;
+  const soWhat = block.so_what != null ? String(block.so_what) : null;
   return (
     <div className="space-y-1.5">
       {label && <p className="text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">{label}</p>}
+      {leadIn && (
+        <p className="text-[14px] leading-relaxed text-foreground/90">
+          <RichText text={leadIn} />
+        </p>
+      )}
       <ul className="space-y-1.5">
         {items.map((item, i) => {
           const bad = item.correct === false || item.ok === false;
@@ -404,6 +421,11 @@ function Examples({ block }: { block: Block }) {
           );
         })}
       </ul>
+      {soWhat && (
+        <p className="text-[13px] leading-relaxed text-muted-foreground">
+          <RichText text={soWhat} />
+        </p>
+      )}
     </div>
   );
 }
@@ -415,11 +437,12 @@ function TableBlock({ block }: { block: Block }) {
     Array.isArray(row) ? row.map(String) : Object.values(row as object).map(String),
   );
   const caption = block.caption ?? block.label ?? block.title;
+  const footnotes = (Array.isArray(block.footnotes) ? block.footnotes : []).map(String);
   return (
     <figure className="space-y-1.5">
       {caption != null && (
         <figcaption className="text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
-          {String(caption)}
+          <RichText text={String(caption)} />
         </figcaption>
       )}
       {/* Paradigm tables are wide; the page must never scroll sideways because of one. */}
@@ -430,7 +453,7 @@ function TableBlock({ block }: { block: Block }) {
               <tr className="bg-muted/60">
                 {headers.map((cell, i) => (
                   <th key={i} scope="col" className="border-b border-border px-3 py-2 text-left font-semibold">
-                    {cell}
+                    <RichText text={cell} />
                   </th>
                 ))}
               </tr>
@@ -441,7 +464,7 @@ function TableBlock({ block }: { block: Block }) {
               <tr key={r} className="border-b border-border last:border-0">
                 {row.map((cell, c) => (
                   <td key={c} className={cn("px-3 py-2 align-top", c === 0 && "font-medium")}>
-                    {cell}
+                    <RichText text={cell} />
                   </td>
                 ))}
               </tr>
@@ -449,6 +472,15 @@ function TableBlock({ block }: { block: Block }) {
           </tbody>
         </table>
       </div>
+      {footnotes.length > 0 && (
+        <ul className="space-y-0.5 text-[12px] text-muted-foreground">
+          {footnotes.map((note, i) => (
+            <li key={i}>
+              <RichText text={note} />
+            </li>
+          ))}
+        </ul>
+      )}
     </figure>
   );
 }
@@ -468,12 +500,18 @@ function Contrast({ block }: { block: Block }) {
       <div className="grid gap-2 sm:grid-cols-2">
         {options.map((option, i) => (
           <div key={i} className="rounded-lg border border-border bg-card p-2.5">
-            <p className="text-[14px] font-semibold">{String(option.label ?? option.form ?? "")}</p>
+            <p className="text-[14px] font-semibold">
+              <RichText text={String(option.label ?? option.form ?? "")} />
+            </p>
             <p className="mt-0.5 text-[13px] text-muted-foreground">
-              {String(option.when ?? option.meaning ?? option.text ?? "")}
+              <RichText
+                text={String(option.use_it_when ?? option.when ?? option.meaning ?? option.text ?? "")}
+              />
             </p>
             {option.example != null && (
-              <p className="mt-1.5 text-[13px] italic">{String(option.example)}</p>
+              <p className="mt-1.5 text-[13px] italic">
+                <RichText text={String(option.example)} />
+              </p>
             )}
           </div>
         ))}
@@ -483,20 +521,65 @@ function Contrast({ block }: { block: Block }) {
           <p className="text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
             One word changes, and the meaning moves
           </p>
-          {pairs.map((pair, i) => (
-            <div key={i} className="rounded-lg bg-card p-2 text-[13px]">
-              <p>
-                <Marked text={String(pair.a ?? "")} mark={pair.a_mark ? String(pair.a_mark) : undefined} />
-              </p>
-              <p className="mt-0.5">
-                <Marked text={String(pair.b ?? "")} mark={pair.b_mark ? String(pair.b_mark) : undefined} />
-              </p>
-              {pair.difference != null && (
-                <p className="mt-1 text-muted-foreground">{String(pair.difference)}</p>
-              )}
-            </div>
-          ))}
+          {pairs.map((pair, i) => {
+            // Authors write each side as {text, means, span}; older drafts wrote a bare
+            // string. Reading only the string form printed "[object Object]" on the page
+            // and dropped `only_difference`, which is the line that does the teaching.
+            const side = (raw: unknown, markKey: string) => {
+              if (raw != null && typeof raw === "object") {
+                const s = raw as Record<string, unknown>;
+                return {
+                  text: String(s.text ?? ""),
+                  mark: s.span != null ? String(s.span) : undefined,
+                  means: s.means != null ? String(s.means) : null,
+                };
+              }
+              const mark = (pair as Record<string, unknown>)[markKey];
+              return {
+                text: String(raw ?? ""),
+                mark: mark != null ? String(mark) : undefined,
+                means: null,
+              };
+            };
+            const a = side(pair.a, "a_mark");
+            const b = side(pair.b, "b_mark");
+            const difference = pair.only_difference ?? pair.difference;
+            return (
+              <div key={i} className="rounded-lg bg-card p-2 text-[13px]">
+                <p>
+                  <Marked text={a.text} mark={a.mark} />
+                </p>
+                {a.means && <p className="text-muted-foreground">{a.means}</p>}
+                <p className="mt-0.5">
+                  <Marked text={b.text} mark={b.mark} />
+                </p>
+                {b.means && <p className="text-muted-foreground">{b.means}</p>}
+                {difference != null && (
+                  <p className="mt-1 text-muted-foreground">
+                    Only difference: <RichText text={String(difference)} />
+                  </p>
+                )}
+              </div>
+            );
+          })}
         </div>
+      )}
+      {block.deciding_factor != null && (
+        <p className="pt-1 text-[13px] text-foreground/90">
+          <span className="text-muted-foreground">How to decide: </span>
+          <RichText text={String(block.deciding_factor)} />
+        </p>
+      )}
+      {block.trap != null && (
+        <p className="text-[13px] text-foreground/90">
+          <span className="text-muted-foreground">Why it catches people out: </span>
+          <RichText text={String(block.trap)} />
+        </p>
+      )}
+      {block.register_note != null && (
+        <p className="text-[13px] text-muted-foreground">
+          <RichText text={String(block.register_note)} />
+        </p>
       )}
     </div>
   );

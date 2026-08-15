@@ -105,6 +105,12 @@ export interface SessionSlice {
   submitting: boolean;
   offline: boolean;
   emptyReason: string | null;
+  /**
+   * Vocabulary cards the sidecar interleaved and this screen handed back.
+   * Counted rather than dropped silently: the learner is owed the sentence
+   * "your words are due too, and they are reviewed over there".
+   */
+  vocabWaiting: number;
   attempt: AttemptState;
   outcomes: SessionOutcome[];
   finished: boolean;
@@ -124,6 +130,7 @@ function freshSession(): SessionSlice {
     submitting: false,
     offline: false,
     emptyReason: null,
+    vocabWaiting: 0,
     attempt: freshAttempt(),
     outcomes: [],
     finished: false,
@@ -245,19 +252,30 @@ export const useGrammarStore = create<GrammarState>((set, get) => ({
     set({ session: { ...freshSession(), loading: true, request } });
     try {
       const res = await startSession(request);
+
+      // A vocabulary card in a grammar sitting has no renderer on this screen, and
+      // `/grammar/answer` refuses it — it names its own route in `review_via`. An
+      // older sidecar ignores `include_vocabulary`, and one of these on the front
+      // of the queue is a session the learner cannot finish, so they are counted
+      // out here rather than trusted to the request flag alone.
+      const all = res.items ?? [];
+      const items = all.filter((item) => (item.family ?? "gram") !== "lex");
+      const dropped = all.length - items.length;
+
       set({
         session: {
           ...freshSession(),
           request,
           id: res.session_id ?? null,
-          items: res.items ?? [],
+          items,
           counts: res.counts ?? null,
           plan: res.plan ?? null,
-          emptyReason: res.empty_reason ?? null,
+          vocabWaiting: dropped,
+          emptyReason: items.length === 0 ? res.empty_reason ?? null : null,
           attempt: freshAttempt(),
         },
       });
-      return (res.items?.length ?? 0) > 0;
+      return items.length > 0;
     } catch (err) {
       set((s) => ({
         session: {

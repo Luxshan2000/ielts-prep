@@ -18,7 +18,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, GraduationCap, Lock, PencilLine } from "lucide-react";
+import { GraduationCap, Lock, PencilLine } from "lucide-react";
 import {
   Badge,
   Button,
@@ -103,7 +103,11 @@ export function ReadingCoach() {
 
   if (status === "idle" || status === "loading") {
     return (
-      <PageShell title="Reading coach" description="Opening this passage and its teaching payload.">
+      <PageShell
+        title="Reading coach"
+        description="Opening this passage and its teaching payload."
+        back={{ to: "/reading", label: "Reading" }}
+      >
         <div className="space-y-4">
           <Skeleton className="h-9 w-64 rounded-lg" />
           <div className="grid gap-4 lg:grid-cols-2">
@@ -119,7 +123,7 @@ export function ReadingCoach() {
 
   if (status === "error" || !passage) {
     return (
-      <PageShell title="Reading coach">
+      <PageShell title="Reading coach" back={{ to: "/reading", label: "Reading" }}>
         <Card>
           <CardContent className="pt-5">
             <ErrorState
@@ -127,12 +131,6 @@ export function ReadingCoach() {
               title="This passage could not be opened"
               onRetry={() => void loadPassage(passageId, { force: true })}
             />
-            <div className="mt-4 flex justify-center">
-              <Button variant="ghost" onClick={() => navigate("/reading")}>
-                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-                Back to Reading
-              </Button>
-            </div>
           </CardContent>
         </Card>
       </PageShell>
@@ -173,8 +171,9 @@ export function ReadingCoach() {
       maxWidth="max-w-none"
       title={passage.title ?? slot?.title ?? "Reading coach"}
       description="Study one passage: how to read it, how to attack each question type, and — once you have answered — exactly where every answer was."
-      actions={
-        <div className="flex items-center gap-2">
+      back={{ to: "/reading", label: "Reading" }}
+      status={
+        <div className="flex flex-wrap items-center gap-2">
           <Badge tone="outline">
             {slot?.format === "general_training" ? "General Training" : "Academic"}
           </Badge>
@@ -184,20 +183,18 @@ export function ReadingCoach() {
             </Badge>
           )}
           {examConditions && <Badge tone="warning">Mock in progress</Badge>}
-          <Button
-            size="sm"
-            loading={starting}
-            disabled={examConditions}
-            onClick={() => void practise()}
-          >
-            <PencilLine className="h-4 w-4" aria-hidden="true" />
-            {attempted ? "Sit it again" : "Answer this passage"}
-          </Button>
-          <Button variant="ghost" size="sm" onClick={() => navigate("/reading")}>
-            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            Reading
-          </Button>
         </div>
+      }
+      actions={
+        <Button
+          size="sm"
+          loading={starting}
+          disabled={examConditions}
+          onClick={() => void practise()}
+        >
+          <PencilLine className="h-4 w-4" aria-hidden="true" />
+          {attempted ? "Sit it again" : "Answer this passage"}
+        </Button>
       }
       toolbar={
         <Tabs

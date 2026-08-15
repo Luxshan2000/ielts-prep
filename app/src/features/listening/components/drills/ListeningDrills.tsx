@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { PageShell } from "@/components/shell/PageShell";
 import { DrillLauncher } from "./DrillLauncher";
 import { DrillRunner } from "./DrillRunner";
 import type { RunnerParams } from "./api";
@@ -21,27 +22,34 @@ export function ListeningDrills({ scriptId }: ListeningDrillsProps) {
   const [running, setRunning] = useState<RunnerParams | null>(null);
   const [generation, setGeneration] = useState(0);
 
-  if (!running) {
-    return (
-      <DrillLauncher
-        scriptId={scriptId}
-        onStart={(params) => {
-          setGeneration((n) => n + 1);
-          setRunning(params);
-        }}
-      />
-    );
-  }
-
+  // The route rendered this bare: no title, no description, and — in Electron, with no
+  // browser back button — no way out but the sidebar. The shell is the same one the
+  // reading drills use, so both drill rooms open and close the same way.
   return (
-    <DrillRunner
-      key={generation}
-      params={running}
-      onExit={() => setRunning(null)}
-      onRestart={(next) => {
-        setGeneration((n) => n + 1);
-        setRunning(next);
-      }}
-    />
+    <PageShell
+      title="Listening drills"
+      description="Short reps on one thing at a time, built from the recordings already in your content pack. Drills are marked, but they never produce a band."
+      back={{ to: "/listening", label: "Listening" }}
+    >
+      {running ? (
+        <DrillRunner
+          key={generation}
+          params={running}
+          onExit={() => setRunning(null)}
+          onRestart={(next) => {
+            setGeneration((n) => n + 1);
+            setRunning(next);
+          }}
+        />
+      ) : (
+        <DrillLauncher
+          scriptId={scriptId}
+          onStart={(params) => {
+            setGeneration((n) => n + 1);
+            setRunning(params);
+          }}
+        />
+      )}
+    </PageShell>
   );
 }

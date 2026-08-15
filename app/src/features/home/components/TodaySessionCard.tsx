@@ -52,7 +52,6 @@ const STATUS_LABEL = {
 interface Props {
   session: PlanSession | null;
   planId: string | null;
-  hint?: string;
   busy: boolean;
   generating: boolean;
   onGenerate: () => void;
@@ -140,7 +139,6 @@ function BlockRow({
 export function TodaySessionCard({
   session,
   planId,
-  hint,
   busy,
   generating,
   onGenerate,
@@ -162,10 +160,10 @@ export function TodaySessionCard({
           <EmptyState
             icon={ListChecks}
             title="No study plan yet"
-            description={
-              hint ??
-              "BandReady builds a day-by-day plan from your target band, exam date and weekly time budget. Set those up and the plan appears here."
-            }
+            // The sidecar's own hint for this state reads "Generate a plan
+            // from…", which is an instruction for something the learner cannot
+            // do directly; the button under it is how a plan gets built.
+            description="BandReady builds a day-by-day plan from your target band, your test date and how much time you have each week. Answer those three and today's session appears here."
             action={
               <Button onClick={() => navigate("/onboarding")}>
                 <Sparkles className="h-4 w-4" aria-hidden="true" />
@@ -294,7 +292,7 @@ export function TodaySessionCard({
               loading={generating}
               onClick={onGenerate}
             >
-              Regenerate plan
+              Rebuild my plan
             </Button>
           </div>
         ) : (
@@ -304,7 +302,7 @@ export function TodaySessionCard({
               scheduled.
             </p>
             <Button variant="ghost" size="sm" loading={generating} onClick={onGenerate}>
-              Regenerate plan
+              Rebuild my plan
             </Button>
           </div>
         )}

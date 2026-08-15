@@ -30,11 +30,12 @@ const STEP_TITLES: Record<(typeof WIZARD_STEPS)[number], { title: string; descri
     description: "An honest self-rating and a realistic time budget beat an ambitious one.",
   },
   engines: {
-    title: "What's already on this machine",
-    description: "BandReady scores with a model you control. Here is what it found.",
+    title: "Marking your writing and speaking",
+    description:
+      "This is the one thing BandReady cannot do on its own. You can also leave it for later.",
   },
   models: {
-    title: "Voice and speech weights",
+    title: "Speaking practice files",
     description: "Downloaded once, verified, and resumable. You can continue while they run.",
   },
   mic: {
@@ -89,10 +90,19 @@ export function OnboardingPage() {
   const canContinue =
     step === "exam" ? examStepValid(draft) : step === "level" ? levelStepValid(draft) : true;
 
+  // Two escape hatches with opposite consequences, so they must not sound alike:
+  // step 1's writes nothing at all, the later one commits the profile and builds
+  // a plan from the self-rating.
   const escapeHatch =
     stepIndex >= ESCAPE_HATCH_FROM_INDEX && !isLast ? (
-      <Button variant="ghost" size="sm" loading={busy} onClick={() => void skipPlacement()}>
-        Set up later
+      <Button
+        variant="ghost"
+        size="sm"
+        loading={busy}
+        disabled={!canContinue}
+        onClick={() => void skipPlacement()}
+      >
+        Finish now, skip the placement test
       </Button>
     ) : stepIndex === 0 ? (
       <Button
@@ -103,7 +113,7 @@ export function OnboardingPage() {
           navigate("/", { replace: true });
         }}
       >
-        Skip setup for now
+        Not now — take me to the app
       </Button>
     ) : null;
 

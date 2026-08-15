@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Mic } from "lucide-react";
 import { Badge } from "@/components/ui";
+import { levelLabel } from "../../labels";
 import { WordAudioButton } from "../WordAudioButton";
 import { ReadAloud } from "@/features/pron/components/ReadAloud";
 import { ChipList, Section, type ExerciseBodyProps } from "./shared";
@@ -95,9 +96,11 @@ export function SpeakingDrillExercise({ item, revealed, onCommit }: ExerciseBody
               </ul>
             </Section>
           )}
-          {item.entry.cefr_level && (
+          {levelLabel(item.entry.cefr_level) && (
             <div>
-              <Badge tone="outline">{item.entry.cefr_level}</Badge>
+              <Badge tone="outline" title={`Common European Framework level ${item.entry.cefr_level}`}>
+                {levelLabel(item.entry.cefr_level)}
+              </Badge>
             </div>
           )}
         </div>

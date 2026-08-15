@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { BandScore, Button, CircularTimer, QuestionPalette } from "@/components/ui";
+import { BandScore, Button, CircularTimer, Notice, QuestionPalette } from "@/components/ui";
 import { bandBucket, formatBand, formatDuration } from "@/lib/format";
 
 describe("Button", () => {
@@ -107,5 +107,38 @@ describe("QuestionPalette", () => {
 
     await userEvent.click(screen.getByLabelText("Question 3, flagged"));
     expect(onJump).toHaveBeenCalledWith(3);
+  });
+});
+
+describe("Notice", () => {
+  it("announces a failure but not a standing advisory", () => {
+    const { rerender } = render(
+      <Notice tone="danger">The audio for part 3 could not be generated.</Notice>,
+    );
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+
+    // "Spelling is marked" is part of the page, not a response to anything. Announcing it on
+    // every mount interrupts the learner mid-question for something they already knew.
+    rerender(
+      <Notice tone="warning" announce={false} title="Spelling is marked.">
+        A misspelled answer is wrong, exactly as in the real exam.
+      </Notice>,
+    );
+    expect(screen.queryByRole("alert")).toBeNull();
+    expect(screen.getByText("Spelling is marked.")).toBeInTheDocument();
+  });
+
+  it("keeps the way out beside the message and hides the icon from the reading order", async () => {
+    const onDismiss = vi.fn();
+    const { container } = render(
+      <Notice tone="warning" actions={<Button size="sm">Try again</Button>} onDismiss={onDismiss}>
+        The library could not be loaded.
+      </Notice>,
+    );
+    expect(screen.getByRole("button", { name: "Try again" })).toBeInTheDocument();
+    expect(container.querySelector("svg[aria-hidden='true']")).not.toBeNull();
+
+    await userEvent.click(screen.getByRole("button", { name: "Dismiss this notice" }));
+    expect(onDismiss).toHaveBeenCalledOnce();
   });
 });

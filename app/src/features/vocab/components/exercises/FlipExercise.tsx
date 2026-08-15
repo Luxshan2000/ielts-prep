@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { Badge } from "@/components/ui";
+import { levelLabel } from "../../labels";
 import { WordAudioButton } from "../WordAudioButton";
 import { ChipList, Headword, Section, type ExerciseBodyProps } from "./shared";
 import type { FlipPayload } from "../../types";
@@ -65,9 +66,11 @@ export function FlipExercise({ item, revealed, onCommit }: ExerciseBodyProps) {
             </Section>
           )}
 
-          {back.cefr_level && (
+          {levelLabel(back.cefr_level) && (
             <div>
-              <Badge tone="outline">{back.cefr_level}</Badge>
+              <Badge tone="outline" title={`Common European Framework level ${back.cefr_level}`}>
+                {levelLabel(back.cefr_level)}
+              </Badge>
             </div>
           )}
         </div>

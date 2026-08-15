@@ -24,6 +24,31 @@ const JOBS: { modality: Modality; label: string; what: string }[] = [
   { modality: "tts", label: "The voice", what: "reads questions and listening audio aloud" },
 ];
 
+/**
+ * What to tell the learner when a check comes back unhappy.
+ *
+ * The row used to have two states — "Working" or a bare Check button — so a failed check
+ * looked exactly like a check nobody had run yet: the button was pressed, the request went
+ * out, and the screen said nothing. Every sentence here ends in something to do next.
+ */
+function failureSentence(result: { state?: string; detail?: string } | undefined): string | null {
+  if (result === undefined) return null;
+  switch (result.state) {
+    case "unreachable":
+      return "Not answering. If it runs on this computer, start it first, then check again.";
+    case "timeout":
+      return "It took too long to reply — it may still be starting up. Wait a moment and check again.";
+    case "unauthorized":
+      return "The key was rejected. Open Advanced settings and paste it again.";
+    case "unconfigured":
+      return "Nothing is set up for this yet. Choose where the thinking should happen above.";
+    case "no_model":
+      return "It replied, but no usable model is chosen. Pick one in Advanced settings.";
+    default:
+      return "It could not be reached. Try again, or open Advanced settings to change it.";
+  }
+}
+
 export function SimpleSetup({ onAdvanced }: { onAdvanced: () => void }) {
   const drafts = useSettingsFeatureStore((s) => s.drafts);
   const recommended = useSettingsFeatureStore((s) => s.recommended);
@@ -127,12 +152,17 @@ export function SimpleSetup({ onAdvanced }: { onAdvanced: () => void }) {
         </CardHeader>
         <CardContent className="space-y-2">
           {JOBS.map((job) => {
-            const ok = verifyState?.[job.modality]?.ok === true;
+            const result = verifyState?.[job.modality];
+            const ok = result?.ok === true;
             const busy = verifying === job.modality;
+            const failure = busy || ok ? null : failureSentence(result);
             return (
               <div
                 key={job.modality}
-                className="flex flex-wrap items-center gap-3 rounded-lg border border-border p-3"
+                className={cn(
+                  "flex flex-wrap items-center gap-3 rounded-lg border p-3",
+                  failure ? "border-warning/50 bg-warning/[0.06]" : "border-border",
+                )}
               >
                 <span
                   className={cn(
@@ -152,6 +182,7 @@ export function SimpleSetup({ onAdvanced }: { onAdvanced: () => void }) {
                 <span className="min-w-0 flex-1">
                   <span className="block text-[14px] font-medium">{job.label}</span>
                   <span className="block text-[13px] text-muted-foreground">{job.what}</span>
+                  {failure && <span className="mt-1 block text-[13px] text-foreground">{failure}</span>}
                 </span>
                 {ok ? (
                   <Badge tone="success">Working</Badge>
@@ -162,7 +193,7 @@ export function SimpleSetup({ onAdvanced }: { onAdvanced: () => void }) {
                     disabled={busy}
                     onClick={() => void runVerify(job.modality)}
                   >
-                    {busy ? "Checking…" : "Check"}
+                    {busy ? "Checking…" : failure ? "Check again" : "Check"}
                   </Button>
                 )}
               </div>

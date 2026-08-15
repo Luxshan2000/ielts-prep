@@ -1,6 +1,10 @@
 # 04 — Speaking module
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read [SPEAKING-CONTENT.md](../SPEAKING-CONTENT.md) and `app/src/features/speaking/`. Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+
+_Status: draft v2 (2026-07-25)_
 
 The Speaking module is BandReady's flagship: a live voice conversation with an AI examiner over the Pipecat 1.5.0 WebRTC pipeline (02-voice-pipeline.md), faithful to the IELTS Speaking test format (three parts, 11–14 minutes), followed by rubric-based scoring against the four public criteria. It offers four session modes (Full Mock, Single Part, Topic Drill, Quick Chat), a server-side session state machine that drives part transitions and timers, verbatim examiner-persona prompts per part plus a friendly-coach persona for drills, and a structured evaluation prompt that consumes the timed transcript, fluency metrics (02-voice-pipeline.md), and pronunciation signals (09-pronunciation-assessment.md) to return strict JSON feedback. Extracted vocabulary feeds the SRS bank (08-vocabulary-srs.md). Question cards are original content per 15-content-authoring-licensing.md; persistence is defined with 11-data-model.md.
 

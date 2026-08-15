@@ -23,21 +23,38 @@ export function featureAvailable(name: string): boolean {
   return AVAILABLE_FEATURES.has(name);
 }
 
-const MODULE_ROUTES: Record<string, string> = {
-  vocab: "/vocab",
-  writing: "/writing",
-  speaking: "/speaking",
-  reading: "/reading",
-  listening: "/listening",
+/**
+ * Where each module is practised. `feature` is the directory under `features/`,
+ * which is not always the last segment of the path — the pronunciation room is
+ * `/pronunciation` but lives in `features/pron/`, so deriving one from the other
+ * would report a shipped screen as missing.
+ */
+const MODULE_ROUTES: Record<string, { path: string; feature: string }> = {
+  vocab: { path: "/vocab", feature: "vocab" },
+  writing: { path: "/writing", feature: "writing" },
+  speaking: { path: "/speaking", feature: "speaking" },
+  reading: { path: "/reading", feature: "reading" },
+  listening: { path: "/listening", feature: "listening" },
+  grammar: { path: "/grammar", feature: "grammar" },
+  pron: { path: "/pronunciation", feature: "pron" },
+  progress: { path: "/progress", feature: "progress" },
 };
 
-/** Mock blocks have no room of their own — they start inside a skill room. */
-const MOCK_ACTIVITY_ROUTES: Record<string, string> = {
-  full_mock: "/listening",
-  mock_speaking: "/speaking",
-  mock_review: "/writing",
-  mock_error_review: "/writing",
-  readiness_checklist: "/progress",
+/**
+ * Activities whose room is not their module's room.
+ *
+ * The planner files minimal pairs under `speaking` because that is the skill
+ * they serve, but the drill itself is in the pronunciation room — routing on the
+ * module alone opens a screen with no minimal pairs in it. Mock blocks have no
+ * room of their own either; they start inside a skill room.
+ */
+const ACTIVITY_ROUTES: Record<string, string> = {
+  minimal_pairs: "pron",
+  full_mock: "listening",
+  mock_speaking: "speaking",
+  mock_review: "writing",
+  mock_error_review: "writing",
+  readiness_checklist: "progress",
 };
 
 const ACTIVITY_LABELS: Record<string, string> = {
@@ -76,7 +93,33 @@ const MODULE_LABELS: Record<string, string> = {
   speaking: "Speaking",
   reading: "Reading",
   listening: "Listening",
+  grammar: "Grammar",
+  pron: "Pronunciation",
   mock: "Mock test",
+};
+
+/**
+ * The planner emits a bare criterion code (`GRA`, `MINIMAL`) as a block's focus.
+ * A learner has never seen those letters; the block says what it works on.
+ */
+const FOCUS_LABELS: Record<string, string> = {
+  TA: "task achievement",
+  TR: "task response",
+  CC: "coherence and cohesion",
+  LR: "vocabulary range and precision",
+  GRA: "grammar range and accuracy",
+  FC: "fluency and coherence",
+  P: "speaking clearly enough to be understood",
+  MINIMAL: "sounds that are easy to confuse",
+};
+
+/**
+ * Milestone ids as the sidecar stores them (`streak-7`, `first-session`). The id
+ * is a database key, not a sentence, and must never reach a badge as-is.
+ */
+const MILESTONE_LABELS: Record<string, string> = {
+  "first-session": "First practice session",
+  "first-confident-estimate": "First confident band estimate",
 };
 
 function humanize(value: string): string {
@@ -89,9 +132,21 @@ export function activityLabel(activity: string | null | undefined): string {
   return ACTIVITY_LABELS[activity] ?? humanize(activity);
 }
 
+/** A criterion code as the phrase it stands for — never the bare letters. */
+export function focusLabel(code: string): string {
+  return FOCUS_LABELS[code.toUpperCase()] ?? humanize(code).toLowerCase();
+}
+
 export function moduleLabel(module: string | null | undefined): string {
   if (!module) return "Practice";
   return MODULE_LABELS[module] ?? humanize(module);
+}
+
+/** "7-day streak", "First practice session" — never the raw milestone id. */
+export function milestoneLabel(id: string): string {
+  const streak = /^streak-(\d+)$/.exec(id);
+  if (streak) return `${streak[1]}-day streak`;
+  return MILESTONE_LABELS[id] ?? humanize(id);
 }
 
 export interface BlockTarget {
@@ -104,25 +159,26 @@ export interface BlockTarget {
 /** Where a Start button on this block should go. */
 export function blockTarget(block: PlanBlock): BlockTarget {
   const module = block.kind === "warmup_srs" ? "vocab" : (block.module ?? "");
-  const path =
-    module === "mock"
-      ? (MOCK_ACTIVITY_ROUTES[block.activity ?? ""] ?? "/listening")
-      : MODULE_ROUTES[module];
+  // The activity decides first: it knows which room actually runs the drill.
+  // A mock block with an activity nobody has mapped still starts at Listening,
+  // which is where every full mock begins.
+  const key =
+    ACTIVITY_ROUTES[block.activity ?? ""] ?? (module === "mock" ? "listening" : module);
+  const route = MODULE_ROUTES[key];
 
-  if (!path) {
+  if (!route) {
     return {
       path: null,
       unavailableReason: `${moduleLabel(module)} practice has no screen in this build yet.`,
     };
   }
-  const feature = path.replace("/", "");
-  if (!featureAvailable(feature)) {
+  if (!featureAvailable(route.feature)) {
     return {
       path: null,
-      unavailableReason: `The ${moduleLabel(module)} room is not available in this build yet.`,
+      unavailableReason: `The ${moduleLabel(key)} room is not available in this build yet.`,
     };
   }
-  return { path, unavailableReason: null };
+  return { path: route.path, unavailableReason: null };
 }
 
 /** "Warm-up — vocabulary review" / "Writing — Task 2 essay". */
@@ -146,7 +202,7 @@ export function blockSubtitle(block: PlanBlock): string | null {
   }
   if (params.timed || params.full_section) return "Timed, full exam length.";
   const focus = params.criterion_focus;
-  if (typeof focus === "string" && focus) return `Focus: ${focus}`;
+  if (typeof focus === "string" && focus) return `Works on ${focusLabel(focus)}`;
   return null;
 }
 

@@ -1,6 +1,12 @@
 # 18 — API contract (authoritative sidecar route inventory)
 
-Status: draft (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read `sidecar/bandready/server/routes/` — 33 modules, several route families newer than this doc. Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+>
+> **Do not trust this file for a route name.** It calls itself the authoritative inventory and predates the grammar, theory, coach, drills and mock route families. Two drifts are already recorded in IMPLEMENTATION-STATUS.md: `PUT /api/v1/settings` does not exist (it is `PATCH`), and `GET`/`PUT /api/v1/profile` from §4.13 do not exist at all. Read the route modules.
+
+_Status: draft (2026-07-25)_
 
 This doc is the single authoritative contract for the FastAPI sidecar's HTTP/WebSocket surface, created by ruling R2-1 (see `_context/decisions.md`, "Round-2 reconciliation rulings"). It fixes the conventions every route follows (prefix, auth, errors, pagination, ids), specs the two cross-cutting mechanisms — signed tickets for media/WebSocket auth (R2-2) and the one-shot job convention (R2-3) — and lists every route the module docs need, normalized to `/api/v1` and the round-2 rulings. Module docs (01–10, 13–14) reference this inventory instead of inventing routes; where their earlier route sketches disagreed with the rulings, this doc is the corrected form and wins. Owner-doc citations point at the doc that specs each route's behavior in depth; this doc owns method, path, auth, and wire shape.
 

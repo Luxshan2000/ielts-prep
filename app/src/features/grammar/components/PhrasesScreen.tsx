@@ -25,7 +25,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight, Layers, Library, Link2, Quote, Search } from "lucide-react";
 import { Badge, Button, EmptyState, ErrorState, Input, Skeleton } from "@/components/ui";
 import { cn } from "@/lib/cn";
-import { REGISTER_LABEL } from "../labels";
+import { REGISTER_LABEL, levelLabel, surfaceLabel } from "../labels";
 import { useGrammarStore } from "../store";
 import type { PatternEntry } from "../types";
 import { Cue, Section } from "./primitives";
@@ -85,7 +85,11 @@ function PatternCard({ entry }: { entry: PatternEntry }) {
           {entry.register && (
             <Badge tone="outline">{REGISTER_LABEL[entry.register] ?? entry.register}</Badge>
           )}
-          {entry.cefr_level && <Badge tone="outline">{entry.cefr_level}</Badge>}
+          {entry.cefr_level && levelLabel(entry.cefr_level) && (
+            <Badge tone="outline" title={`Common European Framework level ${entry.cefr_level}`}>
+              {levelLabel(entry.cefr_level)}
+            </Badge>
+          )}
           {entry.in_bank && <Badge tone="success">In your bank</Badge>}
         </div>
       </div>
@@ -120,7 +124,13 @@ function PatternCard({ entry }: { entry: PatternEntry }) {
               <Cue text={context.text} cue={context.gap_span} />
               {(context.register || context.skill_hook) && (
                 <span className="mt-1 block text-[11px] text-muted-foreground">
-                  {[context.register, context.skill_hook?.replace(/_/g, " ")].filter(Boolean).join(" · ")}
+                  {[
+                    context.register ? REGISTER_LABEL[context.register] ?? context.register : null,
+                    // "speaking_p3" is a join key, not something to show a learner.
+                    context.skill_hook ? surfaceLabel(context.skill_hook) : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ")}
                 </span>
               )}
             </p>

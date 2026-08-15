@@ -268,6 +268,43 @@ describe("progress screen", () => {
     );
   });
 
+  it("offers a way out when nothing has been scored yet", async () => {
+    // The audit's worst finding on this screen: four empty panels and no action.
+    get.mockImplementation((path: string) => {
+      if (path.startsWith("/api/v1/progress/summary")) {
+        return Promise.resolve({
+          ...summary,
+          estimates: {},
+          profile: { ...summary.profile, exam_date: null, exam_in_days: null },
+        });
+      }
+      if (path.startsWith("/api/v1/progress/heatmap")) {
+        return Promise.resolve({
+          ...heatmap,
+          cells: heatmap.cells.map((c) => ({ ...c, minutes: 0, level: 0, goal_met: false })),
+        });
+      }
+      if (path.startsWith("/api/v1/readiness")) {
+        return Promise.resolve({ ...readiness, unlocked: false, exam_date: null, days_out: null });
+      }
+      return mockGet(path);
+    });
+    renderProgress();
+
+    expect(await screen.findByText("Nothing has been scored yet")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Take the placement test/ })).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: /Add my test date/ }).length).toBeGreaterThan(0);
+
+    // No overall band, and the reason rather than a second em dash beside the first.
+    expect(screen.getByText("No overall band yet")).toBeInTheDocument();
+
+    // Nothing to recompute yet, so the header does not offer it.
+    expect(screen.queryByRole("button", { name: /Update my estimates/ })).toBeNull();
+
+    // 16 weeks of zero-minute squares is a blank panel, not a chart (rule 4).
+    expect(screen.getByText("No study minutes yet")).toBeInTheDocument();
+  });
+
   it("keeps one dead panel from blanking the page", async () => {
     const { ApiError } = await import("@/lib/api");
     get.mockImplementation((path: string) => {

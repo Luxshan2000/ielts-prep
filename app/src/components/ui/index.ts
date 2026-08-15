@@ -21,6 +21,8 @@ export { Tabs, TabPanel, type TabItem, type TabsProps } from "./Tabs";
 export { Tooltip, type TooltipProps } from "./Tooltip";
 export { ConfirmProvider, useConfirm, type ConfirmOptions, type ConfirmFn } from "./ConfirmProvider";
 export { EmptyState, type EmptyStateProps } from "./EmptyState";
+export { BackLink, type BackLinkProps } from "./BackLink";
+export { Notice, type NoticeProps, type NoticeTone } from "./Notice";
 export {
   ErrorState,
   classifyError,

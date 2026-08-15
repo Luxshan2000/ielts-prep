@@ -48,7 +48,7 @@ export function WizardChrome({
   return (
     <div className="flex h-full min-h-0 flex-col animate-fade-in">
       <header className="shrink-0 border-b border-border px-6 py-4">
-        <div className="mx-auto w-full max-w-2xl">
+        <div className="mx-auto w-full max-w-2xl space-y-2">
           <ol className="flex items-center justify-center gap-2" aria-label="Setup progress">
             {Array.from({ length: stepCount }, (_, i) => (
               <li key={i}>
@@ -70,6 +70,11 @@ export function WizardChrome({
               </li>
             ))}
           </ol>
+          {/* Seven anonymous dots tell a learner nothing about how long this is. */}
+          <p className="text-center text-[11px] text-muted-foreground">
+            Step {stepIndex + 1} of {stepCount}
+            {stepNames[stepIndex] ? ` · ${stepNames[stepIndex]}` : ""}
+          </p>
         </div>
       </header>
 

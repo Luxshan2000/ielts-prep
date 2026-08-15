@@ -1,6 +1,10 @@
 # 02 — Voice pipeline (speaking sessions)
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read `sidecar/bandready/voice/`. Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+
+_Status: draft v2 (2026-07-25)_
 
 This doc specifies the exact Pipecat 1.5.0 pipeline that powers BandReady speaking sessions: the
 processor chain and parameters (carried over verbatim from OpenVoiceUI's verified build, including

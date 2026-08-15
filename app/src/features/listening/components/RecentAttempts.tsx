@@ -4,6 +4,7 @@ import { History } from "lucide-react";
 import { Badge, Button, Skeleton } from "@/components/ui";
 import { api, ApiError } from "@/lib/api";
 import { formatBand, formatDuration } from "@/lib/format";
+import { modeLabel } from "../labels";
 import type { AttemptMode, Page } from "../types";
 
 interface AttemptRow {
@@ -83,21 +84,21 @@ export function RecentAttempts() {
             className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border px-3 py-2 text-[13px]"
           >
             <span className="flex min-w-0 items-center gap-2">
-              <Badge tone={row.mode === "exam" ? "warning" : "outline"}>
-                {row.mode.replace(/_/g, " ")}
-              </Badge>
-              <span className="truncate text-muted-foreground">
-                {row.submitted_at ? row.submitted_at.slice(0, 16).replace("T", " ") : "in progress"}
-              </span>
+              <Badge tone={row.mode === "exam" ? "warning" : "outline"}>{modeLabel(row.mode)}</Badge>
+              {row.submitted_at && (
+                <span className="truncate text-muted-foreground">
+                  {row.submitted_at.slice(0, 16).replace("T", " ")}
+                </span>
+              )}
             </span>
             <span className="flex items-center gap-3">
               {submitted ? (
                 <>
-                  <span className="tabular-nums">
+                  <span className="tabular">
                     {row.raw_score ?? 0}/{row.total_questions ?? 0}
                   </span>
-                  {row.band !== null && <Badge tone="primary">band {formatBand(row.band)}</Badge>}
-                  <span className="tabular-nums text-muted-foreground">
+                  {row.band !== null && <Badge tone="primary">Band {formatBand(row.band)}</Badge>}
+                  <span className="tabular text-muted-foreground">
                     {formatDuration(row.duration_s ?? 0)}
                   </span>
                   <Link
@@ -108,7 +109,11 @@ export function RecentAttempts() {
                   </Link>
                 </>
               ) : (
-                <Badge tone="default">{row.status.replace(/_/g, " ")}</Badge>
+                // A row that was never handed in has no score to show, so the status is
+                // the whole row — and it is said once, not twice.
+                <Badge tone="default">
+                  {row.status === "in_progress" ? "Not finished" : "Not marked"}
+                </Badge>
               )}
             </span>
           </li>

@@ -13,30 +13,31 @@ number falls short of what the design asks for, it says so.
 
 ### 1.1 Grammar
 
+**The syllabus is complete.** All 154 designed points are authored across all 17 units — an
+earlier version of this document reported 35 points across 5 units, which was true when it was
+written and has not been true for some time.
+
 | | Shipped | Designed target |
 |---|---|---|
-| Grammar points (`data/grammar.jsonl`) | **35** | 154 |
-| Units covered | **5** — u05, u08, u11, u16, u17 | 17 |
-| Practice items (`grammar_items`, derived) | **444** | ~1,840 |
-| Contrast boards | **4** | 19 |
-| Confusion sets in use | **4** | 19 |
-| Distinct error codes exercised | **34** of the closed 53 | 53 |
+| Grammar points (`data/grammar.jsonl`) | **154** | 154 |
+| Units covered | **17** — u01–u17 | 17 |
+| Practice items (`grammar_items`, derived) | **2,123** | ~1,840 |
+| Confusion sets in use | **19** | 19 |
+| Distinct error codes exercised | **52** of the closed 53 | 53 |
 
-**By CEFR level:** A1 1 · A2 4 · B1 9 · B2 15 · C1 6.
-**By role:** form 19 · choice 9 · accuracy 7.
-**By unit:** u05 (nouns, articles, quantifiers) 7 · u08 (the passive) 9 ·
-u11 (relative and participle clauses, clefts) 9 · u16 (cohesion) 9 · u17 (complex-sentence
-control) 1.
+**By CEFR level:** A1 28 · A2 33 · B1 40 · B2 43 · C1 10.
+**By role:** form 78 · choice 43 · accuracy 33.
+**By unit:** u01 10 · u02 10 · u03 9 · u04 8 · u05 7 · u06 11 · u07 12 · u08 9 · u09 9 ·
+u10 10 · u11 9 · u12 8 · u13 6 · u14 7 · u15 12 · u16 9 · u17 8.
 
-**Items by kind:** produce 70 · interpret 61 · judge 59 · gap_fill 57 · transform 46 ·
-choose_form 36 · dictation 35 · error_fix 28 · order 28 · contrast_pair 12 · both_ok 9 ·
-combine 3.
-**Items by ladder rung:** S1 96 · S2 166 · S3 109 · S4 38 · S5 35.
+**Items by kind:** gap_fill 316 · interpret 302 · produce 301 · judge 270 · choose_form 188 ·
+transform 171 · error_fix 158 · dictation 153 · order 128 · contrast_pair 85 · both_ok 40 ·
+combine 9 · speaking_drill 2.
+**Items by ladder stage:** S1 446 · S2 752 · S3 591 · S4 178 · S5 156.
 
-Dictation items sit on **every one of the 35 points** (35 items). 16 points carry
-`gravity: "global"`. The `pays_in[]` hooks land as: writing_t2 33 · reading 28 ·
-writing_t1_academic 18 · speaking_p3 13 · listening 7 · speaking_p2 7 · speaking_p1 5 ·
-writing_t1_gt 1.
+Dictation items sit on **153 of the 154 points**. 48 points carry `gravity: "global"`, 106
+`local`. The `pays_in[]` hooks land as: writing_t2 113 · reading 85 · listening 53 ·
+speaking_p1 49 · speaking_p3 46 · writing_t1_academic 43 · speaking_p2 37 · writing_t1_gt 29.
 
 ### 1.2 Vocabulary and phrases
 
@@ -347,6 +348,33 @@ mechanism in the app that can tell the difference between knowing a rule and usi
    byte-identical output, and `--check` exits non-zero if the pack is stale. It refuses to
    write a pack it knows to be broken; `--allow-lint-failures` overrides, and should not be
    used casually.
+
+### 6.1 The `final-seven` block, and why it is hand-authored
+
+`staging-grammar/content/final-seven.json` is an ordinary staging block now, but it was
+produced differently from its siblings, and the reason is worth keeping because it explains an
+irregularity a later author would otherwise try to "fix".
+
+The block was generated once by a script, `tools/content/_author_final_seven.py`, whose
+docstring recorded this:
+
+> Six agent runs reached 147 of the design's 154 points and lost the same two blocks each time
+> to a session limit part-way through. Seven points is a tractable amount of writing, so this
+> finishes them directly rather than paying for a seventh run to die in the same place.
+>
+> The four modal points close the certainty family (possibility, present deduction, the modal
+> perfect, and the *must not* / *do not have to* reversal). The three accuracy points are the
+> high-frequency local errors the block was cut off before reaching.
+>
+> Written as a script rather than hand-edited JSON so the repeated scaffolding is stated once
+> and the content stays readable. Run it once; the output is a normal staging block from then
+> on.
+
+The script itself was deleted on 2026-08-15 (see [`REPOSITORY.md` §4](REPOSITORY.md)). It had
+no caller and no test, it was not part of the merge pipeline, and it rewrote
+`final-seven.json` unconditionally — so anyone running it to see what it did would have
+silently destroyed every hand-edit made to those seven points since. **Edit
+`final-seven.json` directly, exactly like any other staging block.**
 
 ---
 

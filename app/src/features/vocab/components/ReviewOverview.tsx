@@ -3,7 +3,7 @@ import { AlertCircle, Flame, Inbox, Layers, Play } from "lucide-react";
 import { Badge, Button, Card, CardContent, EmptyState, Skeleton } from "@/components/ui";
 import { cn } from "@/lib/cn";
 import { pluralize } from "@/lib/format";
-import { percent } from "../labels";
+import { MATURITY_META, percent } from "../labels";
 import { useVocabStore } from "../store";
 import type { SrsStats } from "../types";
 
@@ -55,6 +55,44 @@ export function ReviewOverview({ onOpenTab }: ReviewOverviewProps) {
   const due = stats.due_today;
   const hasEntries = stats.counts.entries > 0;
 
+  /**
+   * A bank with nothing in it has nothing to count, and six tiles of zero beside a
+   * disabled button is the worst first screen this module can show. So the empty
+   * state says what fills it and offers the two ways in.
+   */
+  if (!hasEntries) {
+    return (
+      <div className="space-y-4">
+        <Card>
+          <CardContent className="space-y-3 p-6">
+            <h2 className="text-base font-semibold">Your word bank is empty — that is the normal start</h2>
+            <p className="max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
+              Nothing is added for you. Words arrive in one of three ways: you opt into a study deck
+              and take its words in a batch, you accept a word the other modules noticed you
+              struggling with, or you type one in yourself. Once a word is in, it comes back on a
+              schedule that stretches every time you get it right.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              <Button onClick={() => onOpenTab("decks")}>
+                <Layers className="h-4 w-4" />
+                Choose a study deck
+              </Button>
+              <Button variant="outline" onClick={() => onOpenTab("browse")}>
+                Add a word myself
+              </Button>
+              {stats.counts.suggested > 0 && (
+                <Button variant="outline" onClick={() => onOpenTab("inbox")}>
+                  <Inbox className="h-4 w-4" />
+                  {stats.counts.suggested} waiting in your inbox
+                </Button>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       <Card>
@@ -87,8 +125,16 @@ export function ReviewOverview({ onOpenTab }: ReviewOverviewProps) {
       <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
         <Tile label="New" value={stats.counts.new} hint={`${stats.limits.new_per_day}/day cap`} />
         <Tile label="Learning" value={stats.counts.learning} />
-        <Tile label="Young" value={stats.counts.young} hint="under 21 days" />
-        <Tile label="Mature" value={stats.counts.mature} hint="21 days or more" />
+        <Tile
+          label={MATURITY_META.young.label}
+          value={stats.counts.young}
+          hint="back within 3 weeks"
+        />
+        <Tile
+          label={MATURITY_META.mature.label}
+          value={stats.counts.mature}
+          hint="back less often than that"
+        />
         <Tile
           label="Retention"
           value={percent(stats.retention_30d)}

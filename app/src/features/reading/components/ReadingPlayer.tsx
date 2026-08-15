@@ -281,7 +281,11 @@ export function ReadingPlayer() {
 
   if (status === "loading" || status === "idle") {
     return (
-      <PageShell title="Reading" description="Opening your attempt…">
+      <PageShell
+        title="Reading"
+        description="Opening your attempt…"
+        back={{ to: "/reading", label: "Reading" }}
+      >
         <div className="space-y-3">
           <Skeleton className="h-8 w-64" />
           <div className="grid gap-4 lg:grid-cols-2">
@@ -295,12 +299,23 @@ export function ReadingPlayer() {
 
   if (status === "error" || !attempt) {
     return (
-      <PageShell title="Reading" description="This attempt could not be opened.">
+      <PageShell
+        title="Reading"
+        description="This attempt could not be opened."
+        back={{ to: "/reading", label: "Reading" }}
+      >
         <EmptyState
           icon={AlertTriangle}
           title="The attempt is not available"
-          description={error ?? "The sidecar did not return this attempt."}
-          action={<Button onClick={() => navigate("/reading")}>Back to the reading library</Button>}
+          description={
+            error ??
+            "BandReady has no record of this attempt. It may have been cleared from Settings, or the local service was restarted before it saved."
+          }
+          action={
+            <Button variant="outline" onClick={() => navigate("/reading")}>
+              Start a new attempt
+            </Button>
+          }
         />
       </PageShell>
     );
@@ -362,7 +377,7 @@ export function ReadingPlayer() {
             ? "Exam conditions: no pausing, dictionary off."
             : "Practice attempt — pause any time; everything autosaves."
       }
-      actions={
+      status={
         <div className="flex items-center gap-2">
           <SaveIndicator
             status={saveStatus}
@@ -383,6 +398,10 @@ export function ReadingPlayer() {
               Untimed · {formatDuration(elapsed)}
             </span>
           )}
+        </div>
+      }
+      actions={
+        <div className="flex items-center gap-2">
           {timed && !attempt.examConditions && (
             <Button
               variant="outline"

@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { AlertTriangle, CalendarCheck, Check, ChevronDown, Lock, X } from "lucide-react";
+import {
+  AlertTriangle,
+  CalendarCheck,
+  CalendarPlus,
+  Check,
+  ChevronDown,
+  Lock,
+  X,
+} from "lucide-react";
 import {
   Badge,
   Button,
@@ -8,6 +16,7 @@ import {
   CardHeader,
   CardTitle,
   EmptyState,
+  ErrorState,
   Progress,
   Skeleton,
 } from "@/components/ui";
@@ -20,8 +29,11 @@ interface Props {
   targetBand: number | null;
   loading: boolean;
   savingItem: string | null;
-  error?: string;
+  /** The thrown value, so the panel can name an offline service or a bad provider. */
+  error?: unknown;
   onToggle: (itemId: string, checked: boolean) => void;
+  /** Opens the one screen that can set a test date. */
+  onAddExamDate: () => void;
 }
 
 const VERDICT: Record<ReadinessDoc["verdict"], { label: string; tone: "success" | "warning" | "default"; copy: string }> = {
@@ -159,6 +171,7 @@ export function ReadinessChecklist({
   savingItem,
   error,
   onToggle,
+  onAddExamDate,
 }: Props) {
   if (error) {
     return (
@@ -167,10 +180,10 @@ export function ReadinessChecklist({
           <CardTitle>Exam readiness</CardTitle>
         </CardHeader>
         <CardContent>
-          <EmptyState
-            icon={AlertTriangle}
+          <ErrorState
+            error={error}
             title="The checklist could not be loaded"
-            description={error}
+            fallback="Your readiness checks could not be read. Anything you have ticked is still saved."
           />
         </CardContent>
       </Card>
@@ -202,9 +215,16 @@ export function ReadinessChecklist({
         </CardHeader>
         <CardContent>
           <EmptyState
+            size="sm"
             icon={Lock}
-            title="Add your exam date to unlock the checklist"
-            description="The readiness checks are paced against a real date — how many mocks you have sat, how close each skill is to target, and the practical test-day items."
+            title="Add your test date to unlock the checklist"
+            description="The checks are paced against a real date. BandReady works some out from your own practice — mocks sat, how close each skill is to target, whether you finished inside the time limits — and leaves the practical ones for you to tick, like the booking and the trip to the venue."
+            action={
+              <Button onClick={onAddExamDate}>
+                <CalendarPlus className="h-4 w-4" aria-hidden="true" />
+                Add my test date
+              </Button>
+            }
           />
         </CardContent>
       </Card>

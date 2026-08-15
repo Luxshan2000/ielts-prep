@@ -13,7 +13,7 @@
 
 import { create } from "zustand";
 import { api } from "@/lib/api";
-import { friendlyMessage } from "@/lib/errors";
+import { describeWritingFailure, modelFailure, type ModelFailure } from "./components/errors";
 // Type-only: the payload's shape is owned by the coach, which is its only reader.
 // `import type` is erased at build time, so this is a name, not a module cycle.
 import type { WritingTeaching } from "./components/coach/types";
@@ -357,11 +357,7 @@ export function countEssayWords(text: string): number {
 }
 
 export function message(err: unknown, fallback: string): string {
-  return friendlyMessage(
-    err,
-    fallback,
-    "Couldn't reach the BandReady engine. It may still be starting — wait a few seconds and retry.",
-  );
+  return describeWritingFailure(err, fallback);
 }
 
 const ATTEMPTS = "/api/v1/writing/attempts";
@@ -444,6 +440,11 @@ interface WritingState {
   submitPct: number | null;
   submitDetail: string | null;
   submitError: string | null;
+  /**
+   * Set when the last submission failed on the model rather than on the answer, so
+   * the failure card can offer Settings and drop a retry that cannot succeed.
+   */
+  submitFailure: ModelFailure | null;
   /** Save → submit → poll `writing_eval` → reload the scored attempt. */
   submit: (opts?: { acknowledgeWarnings?: boolean }) => Promise<WritingAttempt | null>;
   clearSubmitError: () => void;
@@ -731,6 +732,7 @@ export const useWritingStore = create<WritingState>((set, get) => ({
       submitPct: null,
       submitDetail: null,
       submitError: null,
+      submitFailure: null,
     }),
 
   // ----------------------------------------------------- pre-check/submit ---
@@ -746,7 +748,11 @@ export const useWritingStore = create<WritingState>((set, get) => ({
       set({ precheck: report, prechecking: false });
       return report;
     } catch (err) {
-      set({ prechecking: false, submitError: message(err, "Couldn't run the pre-checks.") });
+      set({
+        prechecking: false,
+        submitError: message(err, "Couldn't run the pre-checks."),
+        submitFailure: modelFailure(err),
+      });
       return null;
     }
   },
@@ -756,12 +762,19 @@ export const useWritingStore = create<WritingState>((set, get) => ({
   submitPct: null,
   submitDetail: null,
   submitError: null,
-  clearSubmitError: () => set({ submitError: null }),
+  submitFailure: null,
+  clearSubmitError: () => set({ submitError: null, submitFailure: null }),
 
   submit: async (opts = {}) => {
     const attempt = get().attempt;
     if (!attempt) return null;
-    set({ submitting: true, submitPct: 0, submitDetail: "sending your answer", submitError: null });
+    set({
+      submitting: true,
+      submitPct: 0,
+      submitDetail: "sending your answer",
+      submitError: null,
+      submitFailure: null,
+    });
     try {
       await get().save();
       const started = await api.post<{ job_id: string; attempt_id: string }>(
@@ -779,7 +792,8 @@ export const useWritingStore = create<WritingState>((set, get) => ({
         submitting: false,
         submitPct: null,
         submitDetail: null,
-        submitError: message(err, "The examiner model couldn't score this answer."),
+        submitError: message(err, "This answer couldn't be marked."),
+        submitFailure: modelFailure(err),
       });
       return null;
     }

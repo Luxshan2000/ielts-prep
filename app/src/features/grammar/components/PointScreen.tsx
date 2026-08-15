@@ -73,7 +73,9 @@ function MeetGate({
   return (
     <Section
       title="Meet it first"
-      hint="Six sentences. Say what each one tells you — about the situation, not about the grammar. The rule comes after."
+      /* Most points carry five of these, not six, and the button underneath already
+         counts them correctly — so a hardcoded "Six" made the section contradict itself. */
+      hint={`${notice.length === 1 ? "One sentence" : `${notice.length} sentences`}. Say what each one tells you — about the situation, not about the grammar. The rule comes after.`}
       emphasis
     >
       <ol className="space-y-4">

@@ -21,6 +21,7 @@ import {
   CardHeader,
   CardTitle,
   EmptyState,
+  ErrorState,
   Select,
   SkeletonChart,
   Tabs,
@@ -36,7 +37,8 @@ interface Props {
   weeks: number;
   targetBand: number;
   loading: boolean;
-  error?: string;
+  /** The thrown value, so the panel can name an offline service or a bad provider. */
+  error?: unknown;
   onWeeksChange: (weeks: number) => void;
 }
 
@@ -243,18 +245,23 @@ export function TrajectoryChart({
         />
 
         {error ? (
-          <EmptyState
-            icon={LineChartIcon}
+          <ErrorState
+            error={error}
             title="The trajectory could not be loaded"
-            description={error}
+            fallback="Your weekly band estimates could not be read."
           />
         ) : loading && rows.length === 0 ? (
           <SkeletonChart aspect="aspect-[16/7]" />
         ) : !hasData ? (
           <EmptyState
+            size="sm"
             icon={LineChartIcon}
             title="No band history yet"
-            description="Every scored attempt appends one estimate per skill. After your first week of practice this chart starts to show a direction."
+            description={
+              selection === "all"
+                ? "Each scored attempt adds one point per skill, one per week. Two weeks of practice is enough for this chart to show a direction."
+                : `Nothing scored in ${SKILL_LABELS[selection].toLowerCase()} yet. One scored attempt puts the first point on this line.`
+            }
           />
         ) : (
           <>

@@ -1,6 +1,10 @@
 # 15 — Content authoring & licensing
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read the five content-bank docs in [`docs/`](../). Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+
+_Status: draft v2 (2026-07-25)_
 
 This doc owns BandReady's legal ground rules (trademark, copyright, disclaimer placement), the licensing of all first-party practice content (decision: **CC0-1.0**), the LLM-assisted authoring pipeline with automated validation and human review, verbatim generation prompt templates for each content type, the content roadmap through v1.x (60 speaking sets, 240 writing prompts, 8 reading tests, 4 listening tests, 2 000 vocab entries, plus the placement pack — **the v1.0 content gate is 16-roadmap.md §9.1's cadence numbers**, per R2-13) with an effort plan, the content-tooling factoring (`tools/content/` in the main repo + the thin `bandready-content` PyPI package, per R2-8), the community contribution workflow (packs as separate repos with validation CI), and the AI-generated-content disclosure policy. The content-pack format is now specced canonically in 11-data-model.md §11 (the R2-8 merged `.brpack` spec — this doc's manifest keys survived inside it); §6 here is a pointer plus the authoring-side rules this doc still owns. Every other doc that touches content (04, 05, 06, 07, 08) defers to this one for authoring and licensing policy; this one defers to them for content *schemas*.
 

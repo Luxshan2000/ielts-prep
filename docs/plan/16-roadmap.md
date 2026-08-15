@@ -1,6 +1,10 @@
 # 16 — Roadmap & phased build plan
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read [IMPLEMENTATION-STATUS.md](../IMPLEMENTATION-STATUS.md). Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+
+_Status: draft v2 (2026-07-25)_
 
 This doc sequences BandReady from empty repo to v1.0 public OSS launch as six phases (P0–P5), each with concrete scope, testable exit criteria, and effort in **focused solo-dev weeks** (one unit = ~30 productive hours; calendar time will be longer). The ordering principle: de-risk the scariest integration first (Electron + Python sidecar + Pipecat voice = P0), then ship the differentiating module first (Speaking = P1), then widen to the other skills, then bind everything with vocabulary/curriculum, then polish to launch quality. Three workstreams — content authoring (15-content-authoring-licensing.md), scoring-quality evals (14-testing-strategy.md), and docs — run continuously alongside the phases. Headline decisions made here: **ship Academic-first; General Training variants land in a small P3.5 sub-phase**, and pronunciation GOP scoring is deliberately deferred to P5 so it never blocks the core loop. Total estimate: **~31 solo-dev weeks** to v1.0 (plus P3.5's +1.5), i.e. roughly 9–11 calendar months at sustainable solo pace.
 

@@ -12,7 +12,7 @@ import {
 } from "@/components/ui";
 import { pluralize } from "@/lib/format";
 import { WordAudioButton } from "./WordAudioButton";
-import { POS_LABELS, isPendingDefinition, sourceAttribution, topicLabel } from "../labels";
+import { POS_LABELS, isPendingDefinition, levelLabel, sourceAttribution, topicLabel } from "../labels";
 import { useVocabStore } from "../store";
 import type { VocabEntry } from "../types";
 
@@ -146,7 +146,11 @@ function SuggestionRow({
                 <span className="tabular text-[13px] text-muted-foreground">{entry.ipa}</span>
               )}
               <Badge tone="outline">{POS_LABELS[entry.pos] ?? entry.pos}</Badge>
-              {entry.cefr_level && <Badge tone="default">{entry.cefr_level}</Badge>}
+              {levelLabel(entry.cefr_level) && (
+                <Badge tone="default" title={`Common European Framework level ${entry.cefr_level}`}>
+                  {levelLabel(entry.cefr_level)}
+                </Badge>
+              )}
               <WordAudioButton mediaPath={entry.audio_url} text={entry.headword} variant="ghost" />
             </div>
 

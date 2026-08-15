@@ -1,17 +1,20 @@
 import { useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import { AlertCircle, PlugZap, RefreshCw, Sparkles, TrendingUp } from "lucide-react";
+import { AlertCircle, Sparkles } from "lucide-react";
 import {
   Badge,
   Button,
   Card,
   CardContent,
   EmptyState,
+  ErrorState,
   SkeletonCard,
+  classifyError,
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
 import { greeting } from "@/lib/format";
+import { milestoneLabel } from "./blocks";
 import { needsOnboarding } from "./firstRun";
 import { todaysSession, useHomeStore } from "./store";
 import { EstimateTiles } from "./components/EstimateTiles";
@@ -21,10 +24,10 @@ import { TodaySessionCard } from "./components/TodaySessionCard";
 
 function LoadingDashboard() {
   return (
-    <div className="grid gap-4 lg:grid-cols-3">
-      <SkeletonCard lines={4} className="lg:col-span-2" />
+    <div className="grid gap-4 xl:grid-cols-3">
+      <SkeletonCard lines={4} className="xl:col-span-2" />
       <SkeletonCard lines={5} />
-      <SkeletonCard lines={3} className="lg:col-span-2" />
+      <SkeletonCard lines={3} className="xl:col-span-2" />
       <SkeletonCard lines={3} />
     </div>
   );
@@ -34,12 +37,17 @@ function LoadingDashboard() {
  * The dashboard (10 §5/§7 + 12 §6.1). Entry route of the app, so it also owns
  * the first-run redirect into `/onboarding` — `App.tsx` is auto-discovery
  * territory and never hand-edited.
+ *
+ * The three-column split waits for `xl`. At exactly 1024 (`lg`) minus the
+ * sidebar there are ~250 px per column, which turned "Estimated band — not a
+ * guarantee" into three lines beside a single dash.
  */
 export function HomePage() {
   const navigate = useNavigate();
   const {
     summary,
     plan,
+    vocabDue,
     loading,
     initialized,
     error,
@@ -70,23 +78,15 @@ export function HomePage() {
 
   const session = todaysSession(summary, plan);
   const busy = busySession !== null;
+  const hasPlan = summary !== null && summary.plan_id !== null;
 
   return (
     <PageShell
       title={greeting()}
       description="Your plan for today, and where your bands stand."
-      actions={
-        <>
-          <Button variant="ghost" size="sm" onClick={() => void load()} loading={loading}>
-            <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />
-            Refresh
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => navigate("/progress")}>
-            <TrendingUp className="h-3.5 w-3.5" aria-hidden="true" />
-            Progress
-          </Button>
-        </>
-      }
+      onRefresh={() => void load()}
+      refreshing={loading}
+      refreshLabel="Reload your dashboard"
     >
       {actionError && (
         <Card className="mb-4 border-destructive/40 bg-destructive/[0.06]">
@@ -105,24 +105,17 @@ export function HomePage() {
       ) : error !== null ? (
         <Card>
           <CardContent className="p-0">
-            <EmptyState
-              icon={error.offline ? PlugZap : AlertCircle}
+            <ErrorState
+              error={error}
+              // The offline heading is the shared one; anything else is ours.
               title={
-                error.offline
-                  ? "The BandReady sidecar isn't responding"
+                classifyError(error) === "offline"
+                  ? undefined
                   : "Your dashboard could not be loaded"
               }
-              description={
-                error.offline
-                  ? "Your plan and progress live in the local sidecar process. Nothing is lost — it just needs to come back."
-                  : error.detail
-              }
-              action={
-                <Button onClick={() => void load()} loading={loading}>
-                  <RefreshCw className="h-4 w-4" aria-hidden="true" />
-                  Try again
-                </Button>
-              }
+              fallback="Your plan and your band estimates could not be read."
+              onRetry={() => void load()}
+              retrying={loading}
             />
           </CardContent>
         </Card>
@@ -139,7 +132,9 @@ export function HomePage() {
         </Card>
       ) : (
         <div className="space-y-4">
-          {summary.needs_placement && (
+          {/* Only once a plan exists. Before that "Set up my plan" below is the
+              one thing to do, and two setup prompts read as two chores. */}
+          {summary.needs_placement && hasPlan && (
             <Card className="border-primary/40 bg-primary/[0.05]">
               <CardContent className="flex flex-wrap items-center gap-3 p-4">
                 <Sparkles className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
@@ -165,19 +160,18 @@ export function HomePage() {
                 <span className="font-medium text-foreground">Milestone reached:</span>
                 {summary.milestones_earned.map((id) => (
                   <Badge key={id} tone="success">
-                    {id.replace(/-/g, " ")}
+                    {milestoneLabel(id)}
                   </Badge>
                 ))}
               </CardContent>
             </Card>
           )}
 
-          <div className="grid gap-4 lg:grid-cols-3">
-            <div className="space-y-4 lg:col-span-2">
+          <div className="grid gap-4 xl:grid-cols-3">
+            <div className="space-y-4 xl:col-span-2">
               <TodaySessionCard
                 session={session}
                 planId={summary.plan_id}
-                hint={plan?.hint}
                 busy={busy}
                 generating={generating}
                 onGenerate={() => void generatePlan()}
@@ -192,8 +186,8 @@ export function HomePage() {
                 onDismiss={(id) => void dismissCallout(id)}
               />
               <div className="grid gap-4 sm:grid-cols-2">
-                <VocabCard vocab={summary.vocab} />
-                <ExamCountdownCard profile={summary.profile} />
+                <VocabCard vocab={summary.vocab} due={vocabDue} />
+                <ExamCountdownCard profile={summary.profile} hasPlan={hasPlan} />
               </div>
             </div>
 

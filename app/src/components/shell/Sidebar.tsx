@@ -11,11 +11,30 @@ export interface SidebarItem {
   label: string;
   icon?: FeatureIcon;
   end?: boolean;
+  /**
+   * Which heading this route sits under. Items with no group render first, ungrouped —
+   * that is Home, and it is why an app with no groups at all still looks exactly as it
+   * does today.
+   */
+  group?: string;
+  /** Count or status chip on the right of the label (due cards, unread feedback). */
+  badge?: ReactNode;
+  /**
+   * The badge said in words — "20 cards due". Collapsed, the rail has no room for the chip and
+   * draws a dot instead; without this the dot is an unexplained mark to a sighted learner and
+   * nothing at all to a screen reader, which is the state the badge was invented to avoid.
+   */
+  badgeLabel?: string;
 }
 
 export interface SidebarProps {
   items: SidebarItem[];
-  /** Extra badge content per route path; overrides the built-in due-count badge. */
+  /**
+   * Heading order and copy for the groups used by `items`. Groups not named here still
+   * render, under a sentence-cased fallback, after the ones that are.
+   */
+  groups?: { id: string; label: string }[];
+  /** Extra badge content per route path; overrides `item.badge` and the due-count fallback. */
   badges?: Record<string, ReactNode>;
   mobileOpen?: boolean;
   onNavigate?: () => void;
@@ -27,6 +46,23 @@ const COLLAPSE_KEY = "br-sidebar-collapsed";
 // Routes that belong in the footer rather than the study list. Matched by exact path so a
 // future /settings/audio still lands in the main nav unless it is added here too.
 const PINNED_PATHS = new Set(["/settings"]);
+
+/**
+ * Copy for the two groups the app actually ships, so a feature only has to declare which
+ * side it is on. These are headings, not a nav list: the routes under them still come from
+ * the glob, and a group nobody uses renders nothing.
+ */
+const DEFAULT_GROUP_LABELS: Record<string, string> = {
+  skills: "Exam skills",
+  foundations: "Groundwork",
+};
+
+function groupLabel(id: string, groups: SidebarProps["groups"]): string {
+  const declared = groups?.find((g) => g.id === id);
+  if (declared) return declared.label;
+  if (DEFAULT_GROUP_LABELS[id]) return DEFAULT_GROUP_LABELS[id];
+  return id.charAt(0).toUpperCase() + id.slice(1).replace(/[_-]+/g, " ");
+}
 
 function readCollapsed(): boolean {
   try {
@@ -42,6 +78,7 @@ function readCollapsed(): boolean {
  */
 export function Sidebar({
   items,
+  groups,
   badges,
   mobileOpen = false,
   onNavigate,
@@ -62,12 +99,23 @@ export function Sidebar({
     }
   }, [collapsed]);
 
-  const badgeFor = (path: string): ReactNode => {
-    if (badges && path in badges) return badges[path];
-    if (path.startsWith("/vocab") && dueCount > 0) {
+  const badgeFor = (item: SidebarItem): ReactNode => {
+    if (badges && item.path in badges) return badges[item.path];
+    if (item.badge !== undefined && item.badge !== null) return item.badge;
+    // Fallback until every route carries its own badge: vocabulary is the one screen whose
+    // due count changes hour to hour, and hiding it hides the reason to open the app today.
+    if (item.path.startsWith("/vocab") && dueCount > 0) {
       return <Badge tone="primary">{dueCount}</Badge>;
     }
     return null;
+  };
+
+  const badgeLabelFor = (item: SidebarItem): string | undefined => {
+    if (item.badgeLabel) return item.badgeLabel;
+    if (!badges?.[item.path] && item.badge === undefined && item.path.startsWith("/vocab")) {
+      return dueCount > 0 ? `${dueCount} cards due` : undefined;
+    }
+    return undefined;
   };
 
   // Settings is a destination you reach occasionally, not part of the study run. It sits in
@@ -75,9 +123,24 @@ export function Sidebar({
   const pinned = items.filter((item) => PINNED_PATHS.has(item.path));
   const main = items.filter((item) => !PINNED_PATHS.has(item.path));
 
+  const ungrouped = main.filter((item) => !item.group);
+  // First-appearance order, then anything the caller named explicitly moves to the front in
+  // the order it declared — so the sidebar order stays a property of the routes, not of this file.
+  const seen: string[] = [];
+  for (const item of main) {
+    if (item.group && !seen.includes(item.group)) seen.push(item.group);
+  }
+  const declared = (groups ?? []).map((g) => g.id).filter((id) => seen.includes(id));
+  const groupIds = [...declared, ...seen.filter((id) => !declared.includes(id))];
+
   const renderItem = (item: SidebarItem) => {
     const Icon = item.icon;
-    const badge = badgeFor(item.path);
+    const badge = badgeFor(item);
+    const badgeLabel = badgeLabelFor(item);
+    // Collapsed, the badge shrinks to a dot, so the count has to survive in the name instead:
+    // "Vocabulary, 20 cards due" rather than an icon with a mark on it.
+    const collapsedName =
+      badge && badgeLabel ? `${item.label}, ${badgeLabel}` : item.label;
     const link = (
       <NavLink
         to={item.path}
@@ -85,8 +148,8 @@ export function Sidebar({
         onClick={onNavigate}
         // The label is the visible text when expanded; collapsed it becomes the accessible
         // name, so the rail keeps its nine named links instead of nine unnamed icons.
-        aria-label={collapsed ? item.label : undefined}
-        title={collapsed ? item.label : undefined}
+        aria-label={collapsed || (badge && badgeLabel) ? collapsedName : undefined}
+        title={collapsed ? collapsedName : undefined}
         className={({ isActive }) =>
           cn(
             "relative flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
@@ -111,7 +174,7 @@ export function Sidebar({
     return collapsed ? (
       <Tooltip
         key={item.path}
-        content={item.label}
+        content={collapsedName}
         side="right"
         className="whitespace-nowrap"
         wrapperClassName="w-full"
@@ -123,13 +186,38 @@ export function Sidebar({
     );
   };
 
+  /**
+   * A heading a 64px rail has no room for becomes a rule between the groups — the grouping
+   * survives the collapse instead of the rail flattening back into one undifferentiated list.
+   * `role="group"` carries the name either way, so a screen reader hears it in both states.
+   */
+  const renderGroup = (id: string) => {
+    const label = groupLabel(id, groups);
+    return (
+      <div key={id} role="group" aria-label={label} className="space-y-1 pt-3 first:pt-0">
+        {collapsed ? (
+          <div className="mx-3 border-t border-border" aria-hidden="true" />
+        ) : (
+          <p className="px-3 pb-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+            {label}
+          </p>
+        )}
+        {main.filter((item) => item.group === id).map((item) => renderItem(item))}
+      </div>
+    );
+  };
+
   return (
     <aside
       className={cn(
         "z-40 flex h-full shrink-0 flex-col border-r border-border bg-sidebar text-sidebar-foreground",
-        "fixed inset-y-0 left-0 transition-[transform,width] duration-200 md:static md:translate-x-0",
+        "fixed inset-y-0 left-0 transition-[transform,width,visibility] duration-200 md:static md:translate-x-0",
         collapsed ? "w-16" : "w-56",
-        mobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0",
+        // A closed drawer is only translated off-screen, so below `md` its ten links stayed in
+        // the tab order: a keyboard learner pressing Tab from the page title fell into a nav
+        // they could not see. `invisible` takes them out; it is a discrete transition, so it
+        // still waits for the slide to finish, and `md:visible` keeps the docked rail intact.
+        mobileOpen ? "translate-x-0" : "invisible -translate-x-full md:visible md:translate-x-0",
         className,
       )}
     >
@@ -145,12 +233,16 @@ export function Sidebar({
         {!collapsed && <span className="font-semibold">BandReady</span>}
       </div>
 
-      <nav className="scrollbar-thin min-h-0 flex-1 space-y-1 overflow-y-auto overflow-x-hidden px-2 py-2">
-        {main.map((item) => renderItem(item))}
+      <nav
+        aria-label="Study"
+        className="scrollbar-thin min-h-0 flex-1 space-y-1 overflow-y-auto overflow-x-hidden px-2 py-2"
+      >
+        {ungrouped.map((item) => renderItem(item))}
+        {groupIds.map((id) => renderGroup(id))}
       </nav>
 
       <div className="shrink-0 space-y-1 border-t border-border p-2">
-        {pinned.map((item) => renderItem(item))}
+        <nav aria-label="App">{pinned.map((item) => renderItem(item))}</nav>
         <div className={cn("flex items-center gap-1", collapsed && "flex-col")}>
           <Button
             variant="ghost"

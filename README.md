@@ -15,8 +15,10 @@ own AI models, with no account and no telemetry.
 
 **Status: alpha, pre-1.0.** The app runs end to end and the API is feature-complete, but
 formats, the on-disk database and the content pack schema may still change between releases,
-and there is no migration promise yet. Treat band estimates as directional. See
-[the roadmap](docs/plan/16-roadmap.md) for what lands next.
+and there is no migration promise yet. Treat band estimates as directional — they are estimates
+from a model you chose, not marks. [docs/IMPLEMENTATION-STATUS.md](docs/IMPLEMENTATION-STATUS.md)
+is the honest inventory of what is built, what is not, and what has never been independently
+checked.
 
 ---
 
@@ -37,18 +39,14 @@ timers, per-criterion band descriptors, and longitudinal progress tracking.
 
 ## Screenshots
 
-_Placeholders until the first tagged release. Drop the real captures into
-`docs/screenshots/` under these filenames and they appear here._
-
-| | |
-|---|---|
-| ![Dashboard](docs/screenshots/dashboard.png)<br>**Dashboard** — band trend, streak, what to do today | ![Speaking](docs/screenshots/speaking.png)<br>**Speaking** — live voice examiner, Parts 1–3 |
-| ![Writing](docs/screenshots/writing.png)<br>**Writing desk** — timed editor with inline annotations | ![Reading](docs/screenshots/reading.png)<br>**Reading** — timed test player with question palette |
-| ![Listening](docs/screenshots/listening.png)<br>**Listening** — 4-part test, audio generated locally | ![Vocabulary](docs/screenshots/vocab.png)<br>**Vocabulary** — FSRS spaced repetition fed by your own errors |
+**Not captured yet.** They land with the first tagged release rather than sitting here as six
+broken image links. [`docs/screenshots/README.md`](docs/screenshots/README.md) holds the capture
+contract — the six filenames, dark theme at 1440×900 @2×, shipped content only, sidebar visible
+in every shot — so the set reads as one product rather than six unrelated screenshots.
 
 ## Features
 
-### Speaking — [`04-speaking-module.md`](docs/plan/04-speaking-module.md)
+### Speaking — [`SPEAKING-CONTENT.md`](docs/SPEAKING-CONTENT.md)
 Real-time voice conversation with an AI examiner over WebRTC (pipecat 1.5 +
 SmallWebRTCTransport + Silero VAD), with sub-second turn-taking. Full 3-part mock interviews,
 single-part drills, topic drills and quick chats. Every session produces a timed transcript,
@@ -62,29 +60,51 @@ word count, paste detection, and a pre-check that catches an off-topic or too-sh
 *before* you spend a model call on it. Feedback is per-criterion with character-anchored inline
 annotations, evidence quotes, a rewrite loop, and an on-demand band-8/9 model answer.
 
-### Reading — [`06-reading-module.md`](docs/plan/06-reading-module.md)
+### Reading — [`READING-CONTENT.md`](docs/READING-CONTENT.md)
 Full Academic and General Training tests (3 passages, 40 questions, 60 minutes) plus
 single-passage practice and question-type drills. Every IELTS question type is implemented and
 auto-marked with the real answer-matching rules (case folding, abbreviations, thousands
 separators, hyphen/space equivalence, word limits). Review mode shows the answer key, the
 anchoring paragraph, an explanation, the trap you fell for, and a "why was I wrong?" analysis.
 
-### Listening — [`07-listening-module.md`](docs/plan/07-listening-module.md)
+### Listening — [`LISTENING-CONTENT.md`](docs/LISTENING-CONTENT.md)
 Four-part tests whose audio is synthesised locally by Kokoro TTS per role and per accent and
 then cached, so a test ships as a few kilobytes of script rather than a large audio download.
 Exam-faithful playback rules (plays once, no seeking), a transfer window, per-part practice with
 transcript reveal, and the same auto-marking engine as Reading.
 
-### Vocabulary + SRS — [`08-vocabulary-srs.md`](docs/plan/08-vocabulary-srs.md)
+### Vocabulary + SRS — [`GRAMMAR-VOCAB.md`](docs/GRAMMAR-VOCAB.md)
 An FSRS-scheduled bank fed automatically by your own writing and speaking errors, plus curated
 topic decks and band-7 upgrade pairs from the content pack. Six exercise types (flip, cloze,
 use-in-sentence with LLM checking, collocation, audio recall, speaking drill), an inbox of
 suggestions you accept or dismiss, and an offline WordNet dictionary for double-click lookups.
 
-### Pronunciation — [`09-pronunciation-assessment.md`](docs/plan/09-pronunciation-assessment.md)
+### Pronunciation — [the research behind it](docs/research/pronunciation/)
 Word-timing analysis over your speaking audio: fluency signals (speech rate, pause profile,
 filled pauses), low-confidence word flagging, minimal-pair perception drills and word-stress
 tapping, with reference audio rendered on demand.
+
+**BandReady does not score your accent, and does not pretend to.** IELTS marks
+*intelligibility* — whether a listener understands you — not how close you sound to any
+particular English. The signals here are inferred from speech-recognition confidence, which can
+tell you that a word was hard to make out; it cannot tell you a sound was wrong. So you get
+flags and drills, never a pronunciation band and never the word "mispronounced". Every response
+carries that caveat and the app shows it.
+
+### Grammar & Usage — [`GRAMMAR-VOCAB.md`](docs/GRAMMAR-VOCAB.md)
+A grammar syllabus rather than a quiz bank. Each point teaches what the form *does to a
+sentence*, names the false rule learners are usually taught, and drills it up a six-rung mastery
+ladder that will not schedule anything until you have shown you understand it. Choice points make
+you pick between two correct forms and say what the other one would have meant. Mistakes from
+your writing and speaking feed back in as error codes, so the grammar you practise is the grammar
+you actually get wrong.
+
+### Theory — the reference, always open — [`THEORY-CONTENT.md`](docs/THEORY-CONTENT.md)
+Around a hundred plain-English articles across 8 chapters, from "what a sentence is made of" to conditionals
+and the passive. **Unlike every practice screen, Theory is never locked.** A learner who does not
+yet know what a modal *is* has to be able to look it up before being asked to practise it, so it
+needs no attempt, no prerequisite and no unlock. Weighted towards A1/A2, because the reader who
+most needs a reference is the one who cannot yet read the explanations in other books.
 
 ### Curriculum & progress — [`10-curriculum-progress.md`](docs/plan/10-curriculum-progress.md)
 An adaptive placement test seeds four band estimates, which generate a dated study plan with
@@ -203,16 +223,10 @@ Only variables whose names end in `_API_KEY` are forwarded to the sidecar — th
 environment is not inherited. If the variable is missing you get a precise error naming it
 (`OPENROUTER_API_KEY is not set in your environment`), never a silent auth failure.
 
-> **macOS caveat:** an app launched from Finder or Spotlight does not inherit your shell's
-> environment, so a `${VAR}` reference will not resolve there. Either launch it from a terminal
-> as above, or paste the key into Settings, where it is stored encrypted.
-
-> **If you use a `${VAR}` reference, start BandReady from a shell that has the variable.** The
-> app forwards only variables named `*_API_KEY` to the sidecar, and a macOS app launched from
-> Finder or Spotlight inherits nothing, so the reference cannot resolve there — you will get
-> `OPENROUTER_API_KEY is not set in your environment`. Either launch it as
-> `OPENROUTER_API_KEY=sk-or-… open -a BandReady`, or just paste the key into Settings and let it
-> be encrypted at rest.
+> **macOS caveat:** an app launched from Finder or Spotlight inherits nothing from your shell,
+> so a `${VAR}` reference cannot resolve there and you get
+> `OPENROUTER_API_KEY is not set in your environment`. Either launch it from a terminal as
+> above, or paste the key into Settings and let it be encrypted at rest.
 
 > Speaking sessions are latency-sensitive. A cloud LLM works, but a local one on the same
 > machine is what makes the examiner feel like a conversation rather than a form.
@@ -272,15 +286,135 @@ One SQLite database, your settings, downloaded models, generated audio and insta
 packs all live under that single directory. Deleting it resets the app completely.
 [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) has the full layout and the safe way to reset.
 
+## What ships in the box
+
+One content pack, `core-en`, imported on first run. It is first-party and CC0, so you can reuse
+or fork it. The bank is still growing, so these counts are a snapshot taken on **2026-08-15**
+rather than a promise:
+
+| Bank | What is in it |
+|---|---|
+| Reading | 12 tests (8 Academic, 4 General Training) over 36 passages — 480 questions, 15 question types |
+| Listening | 7 tests over 43 scripts — 415 questions, 8 question types, including map labelling |
+| Writing | 102 prompts across Academic Task 1, General Training Task 1 and Task 2, with chart specs |
+| Speaking | 496 cue cards across Parts 1–3 |
+| Vocabulary | 1,246 entries with contexts, collocations and band-7 upgrade pairs |
+| Grammar | 156 points with worked contrasts and graded item banks |
+| Theory | 99 reference articles across 8 chapters |
+| Pronunciation | 20 minimal-pair contrasts, plus the built-in set |
+
+For today's numbers rather than that snapshot, ask the pack itself — it prints a count per bank
+and verifies its own checksums:
+
+```bash
+uv run --project sidecar python -m tools.content.validate content/core-en
+```
+
+No audio is shipped: listening audio is synthesised locally by Kokoro on first play and cached,
+which is why a test costs kilobytes rather than megabytes.
+
+## How the repository is laid out
+
+```
+bandready/
+├── app/              Electron shell + React renderer (pnpm workspace "bandready-app")
+│   ├── electron/     main, preload, sidecar spawn/health/teardown — the Node side
+│   ├── src/features/ one directory per screen; route.tsx, page.tsx, store.ts, components/
+│   ├── src/components/ui/        the shared design-system kit
+│   └── build/        electron-builder buildResources (entitlements, icon) — NOT build output
+├── sidecar/bandready/            the Python backend
+│   ├── server/routes/            one module per API family, auto-discovered
+│   ├── scoring/ srs/ curriculum/ voice/ audio/ pron/ providers/
+│   ├── db/ migrations/           SQLAlchemy models + Alembic
+│   └── content/                  pack validation and import
+├── content/core-en/  the shipped content pack, plus per-module authoring trees
+├── tools/content/    the pack pipeline CLIs (merge → validate → build)
+├── scripts/          dev.mjs (dev orchestrator), build-electron.mjs, stage-sidecar.mjs
+├── e2e/              Playwright specs, driven against a real sidecar in browser mode
+└── docs/             see below
+```
+
+**Two seams are auto-discovered, and you never edit a registry to use them.** A new sidecar route
+is a new file in `sidecar/bandready/server/routes/` that exposes a module-level `router`. A new
+screen is a new `app/src/features/<name>/route.tsx` that default-exports
+`defineFeatureRoute(...)`. Editing `server/app.py`, `App.tsx` or `Sidebar.tsx` to register
+something is a mistake, not a shortcut. [CONTRIBUTING.md](CONTRIBUTING.md) §3 and §4 walk through
+both.
+
+Two directory names collide, and the collision has bitten people: repository-root `build/` is
+packaging output and is gitignored, while `app/build/` is tracked electron-builder resources.
+Likewise root `dist-electron/` holds installers, `app/dist-electron/` holds compiled bundles.
+[docs/REPOSITORY.md](docs/REPOSITORY.md) explains why the `.gitignore` rule is anchored.
+
+## Working on it
+
+```bash
+# Typecheck and unit-test the renderer
+cd app && npx tsc --noEmit && npx vitest run
+
+# Sidecar tests and lint
+uv run --project sidecar pytest sidecar/tests/ -q
+uv run --project sidecar ruff check sidecar/bandready sidecar/tests
+
+# End to end (needs the app running in browser mode)
+node scripts/dev.mjs --browser        # in one terminal
+cd app && npx playwright test         # in another
+```
+
+CI runs the two halves as independent jobs, so a broken renderer still tells you whether the
+sidecar is green. The Playwright suite runs in its own workflow.
+
+## Building an installer
+
+The installer bundles a relocatable CPython plus the sidecar's venv, because the app has to run
+on a machine with no Python. Model weights are deliberately **not** bundled — that keeps the
+download small and redistributes nobody's model licence.
+
+```bash
+# 1. Stage the Python runtime and the sidecar venv into build/
+#    --voice adds pipecat + faster-whisper (~2-3 GB, required for live speaking)
+node scripts/stage-sidecar.mjs --arch arm64 --voice
+
+# 2. Build the renderer and the main/preload bundles
+pnpm --filter bandready-app build
+node scripts/build-electron.mjs
+
+# 3. Package
+cd app && pnpm exec electron-builder --config electron-builder.yml --mac dmg --arm64
+```
+
+Installers land in the repository-root `dist-electron/`. A macOS arm64 DMG comes to roughly
+156 MB without the voice extra.
+
+**Builds are unsigned.** There is no Developer ID or Windows certificate for this project, so
+macOS shows a Gatekeeper warning and Windows shows SmartScreen. `stage-sidecar.mjs` also builds
+the venv for the *host* platform, so a Windows installer cannot be produced from a Mac — that is
+what [`.github/workflows/release.yml`](.github/workflows/release.yml) is for. It builds on each
+platform and attaches the results to a GitHub **pre-release**, with notarization explicitly
+disabled and every build labelled so nobody mistakes a test build for a shipped one.
+
 ## Documentation
 
-- **[docs/plan/README.md](docs/plan/README.md)** — the complete design: vision, architecture,
-  every module, the data model, the API contract, the testing and packaging strategy. Read it
-  before changing anything non-trivial.
+**Start here.**
+
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** — dev setup, the module map, and how to add a route or
-  a screen (both are auto-discovered; you never edit a registry).
+  a screen. The one document to read before your first change.
 - **[docs/DEVELOPMENT.md](docs/DEVELOPMENT.md)** — dev-mode architecture, debugging, log and
   data locations, resetting local state.
+- **[docs/REPOSITORY.md](docs/REPOSITORY.md)** — the tree around the code: what is tracked, what
+  is generated, and which docs to trust.
+- **[docs/IMPLEMENTATION-STATUS.md](docs/IMPLEMENTATION-STATUS.md)** — what is built, what is
+  not, and the evidence for each claim.
+
+**The content banks**, one document each — what ships, the schema, and how to author more:
+[reading](docs/READING-CONTENT.md) · [listening](docs/LISTENING-CONTENT.md) ·
+[speaking](docs/SPEAKING-CONTENT.md) · [grammar & vocabulary](docs/GRAMMAR-VOCAB.md) ·
+[theory](docs/THEORY-CONTENT.md). *(Writing has no such document yet.)*
+
+**[docs/plan/](docs/plan/README.md) is design intent, not status.** Twenty-two documents written
+before implementation began, kept because the reasoning behind each decision is recorded nowhere
+else. Much of it shipped differently. Where the plan and the code disagree, the code is right —
+each document says so in its own header.
 
 ## License
 

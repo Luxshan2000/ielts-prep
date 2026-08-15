@@ -140,6 +140,9 @@ export function ErrorState({
         role="alert"
         className={cn(
           "flex flex-wrap items-start gap-x-3 gap-y-2 rounded-xl border p-3",
+          // `/8` is the house wash for an inline panel — `Notice` and reading's callouts use
+          // the same one. An inline failure and an inline advisory sit in the same column on
+          // the same screen, and two tints of one colour read as two unrelated systems.
           kind === "offline"
             ? "border-warning/40 bg-warning/8"
             : "border-destructive/40 bg-destructive/8",

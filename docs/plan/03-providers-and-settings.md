@@ -1,6 +1,10 @@
 # 03 — Providers & settings
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read `sidecar/bandready/providers/` and `app/src/features/settings/`. Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+
+_Status: draft v2 (2026-07-25)_
 
 BandReady radically simplifies OpenVoiceUI's multi-agent/multi-connection provider system down to
 exactly **one LLM + one STT + one TTS (+ VAD tunables)**, configured on a single Settings page.

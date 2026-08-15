@@ -1,6 +1,25 @@
 # BandReady — Planning Docs Index
 
-Status: planning complete (2026-07-25) — pre-implementation. Docs are at **v2** after the round-2 reconciliation pass (rulings R2-1..R2-24 in `_context/decisions.md`; resolution log in `17-review-findings.md`).
+> **These are design documents, not status. The app is built.** Everything in this directory
+> was written on 2026-07-25, before implementation began. BandReady now runs end to end,
+> packages into a macOS DMG, and passes roughly 1,800 tests. Much of the plan shipped
+> differently, and several docs describe things that were never built or were built another way.
+>
+> **If you want to know what exists, do not read this directory.** Read
+> [IMPLEMENTATION-STATUS.md](../IMPLEMENTATION-STATUS.md) for what is built,
+> [REPOSITORY.md](../REPOSITORY.md) for how the tree is laid out, and
+> [CONTRIBUTING.md](../../CONTRIBUTING.md) for how to change it. Where a plan doc and the code
+> disagree, **the code is right**.
+>
+> These docs are kept, not archived, because the *reasoning* behind each decision is recorded
+> nowhere else, and because two pieces of them are still binding law rather than intent:
+> **`09 §0`** (pronunciation measures intelligibility, never accent proximity) and the
+> **`R2-*` rulings** in [_context/decisions.md](_context/decisions.md), which are cited by name
+> from code comments. Every numbered doc carries this warning in its own header.
+
+_Status when written: planning complete (2026-07-25) — pre-implementation. Docs are at **v2**
+after the round-2 reconciliation pass (rulings R2-1..R2-24 in `_context/decisions.md`;
+resolution log in `17-review-findings.md`)._
 
 ## What is BandReady?
 
@@ -70,6 +89,7 @@ Read top to bottom; each doc cross-references siblings by filename.
 | [14-testing-strategy.md](14-testing-strategy.md) | Full test pyramid: table-driven matchers, headless voice E2E, the golden-set scoring-quality eval framework with accuracy gates, Playwright-on-Electron, CI matrix. |
 | [15-content-authoring-licensing.md](15-content-authoring-licensing.md) | IELTS trademark fair use, copyright policy, CC0 content, generation-and-validation pipeline with human review, launch content targets, pack format. |
 | [16-roadmap.md](16-roadmap.md) | Six phases from empty repo to v1.0 (~31 solo-dev weeks), cross-cutting workstreams, dependency graph, OSS launch checklist, risk register. |
+| [17-review-findings.md](17-review-findings.md) | The round-2 cross-doc review: every conflict found between the docs above and how each was resolved. Read it when two docs disagree and you need to know which ruling settled it. |
 
 ## How these docs relate
 

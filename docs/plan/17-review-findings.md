@@ -1,6 +1,10 @@
 # 17 — Consistency & completeness review findings
 
-Status: draft (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read [_context/decisions.md](_context/decisions.md). Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+
+_Status: draft (2026-07-25)_
 
 Cross-review of `_context/decisions.md` and docs 00–16. Overall the set is unusually concrete and most reconciliations 11-data-model.md claims are real — but several domains (vocabulary, curriculum/progress, pronunciation storage, API routing, repo layout, content targets) have two or more incompatible specifications, and the roadmap (16) contradicts locked module decisions in at least four places. Findings are grouped as Conflicts (two docs disagree, or a doc violates a locked decision), Gaps (a week-one implementer is blocked or must guess), and Risks, each with citations and suggested resolutions.
 

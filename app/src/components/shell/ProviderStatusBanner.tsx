@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Settings2, X, Zap } from "lucide-react";
 import { Button } from "@/components/ui";
 import { api, type ApiError } from "@/lib/api";
+import { StatusStrip } from "./StatusStrip";
 
 /**
  * The one global answer to "you have no working model provider".
@@ -33,40 +34,41 @@ export function ProviderStatusBanner() {
   if (!failure) return null;
 
   return (
-    <div
-      role="status"
-      aria-live="polite"
-      className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 border-b border-warning/40 bg-warning/10 px-4 py-2"
-    >
-      <Zap className="h-4 w-4 shrink-0 text-warning" aria-hidden="true" />
-      <p className="text-[13px] font-medium text-foreground">
-        BandReady couldn&apos;t reach a model provider
-      </p>
-      <p className="min-w-0 flex-1 break-words text-xs text-muted-foreground">
-        {failure.detail} Scoring, generated prompts, word lookups and listening audio need
-        one; everything else keeps working.
-      </p>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => {
-          setFailure(null);
-          navigate("/settings");
-        }}
-      >
-        <Settings2 className="h-3.5 w-3.5" aria-hidden="true" />
-        Open Settings
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="h-7 w-7"
-        aria-label="Dismiss the provider notice"
-        onClick={() => setFailure(null)}
-      >
-        <X className="h-3.5 w-3.5" aria-hidden="true" />
-      </Button>
-    </div>
+    <StatusStrip
+      tone="warning"
+      icon={Zap}
+      title="BandReady couldn't reach a model provider"
+      detail={
+        <>
+          {failure.detail} Scoring, generated prompts, word lookups and listening audio need
+          one; everything else keeps working.
+        </>
+      }
+      actions={
+        <>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              setFailure(null);
+              navigate("/settings");
+            }}
+          >
+            <Settings2 className="h-3.5 w-3.5" aria-hidden="true" />
+            Open Settings
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7"
+            aria-label="Dismiss the provider notice"
+            onClick={() => setFailure(null)}
+          >
+            <X className="h-3.5 w-3.5" aria-hidden="true" />
+          </Button>
+        </>
+      }
+    />
   );
 }
 

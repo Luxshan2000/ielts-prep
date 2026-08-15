@@ -15,6 +15,7 @@ import {
   POS_LABELS,
   STATUS_META,
   formatDue,
+  levelLabel,
   percent,
   shortDate,
   sourceAttribution,
@@ -135,7 +136,11 @@ export function EntryDetailDrawer() {
               <p className="flex flex-wrap items-center gap-2 text-[13px] text-muted-foreground">
                 {entry.ipa && <span className="tabular">{entry.ipa}</span>}
                 <span className="italic">{POS_LABELS[entry.pos] ?? entry.pos}</span>
-                {entry.cefr_level && <Badge tone="default">{entry.cefr_level}</Badge>}
+                {levelLabel(entry.cefr_level) && (
+                  <Badge tone="default" title={`Common European Framework level ${entry.cefr_level}`}>
+                    {levelLabel(entry.cefr_level)}
+                  </Badge>
+                )}
                 <Badge tone={STATUS_META[entry.status].tone}>
                   {STATUS_META[entry.status].label}
                 </Badge>

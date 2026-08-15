@@ -13,7 +13,7 @@ import {
 } from "@/components/ui";
 import { useSettingsStore } from "@/stores";
 import { cn } from "@/lib/cn";
-import { MODULE_LABELS, percent, shortDate } from "../labels";
+import { MATURITY_META, MODULE_LABELS, percent, shortDate } from "../labels";
 import { useVocabStore } from "../store";
 import type { SrsStats } from "../types";
 
@@ -101,8 +101,8 @@ function MaturityCard({ stats }: { stats: SrsStats }) {
   const rows = [
     { label: "New", value: stats.counts.new, className: "bg-muted-foreground/40" },
     { label: "Learning", value: stats.counts.learning, className: "bg-warning" },
-    { label: "Young", value: stats.counts.young, className: "bg-primary/70" },
-    { label: "Mature", value: stats.counts.mature, className: "bg-success" },
+    { label: MATURITY_META.young.label, value: stats.counts.young, className: "bg-primary/70" },
+    { label: MATURITY_META.mature.label, value: stats.counts.mature, className: "bg-success" },
     { label: "Suspended", value: stats.counts.suspended, className: "bg-border" },
     { label: "Known", value: stats.counts.known, className: "bg-primary/30" },
   ];

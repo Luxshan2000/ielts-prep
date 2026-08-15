@@ -1,5 +1,13 @@
 import { ClipboardList, Info } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, EmptyState, Skeleton } from "@/components/ui";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  EmptyState,
+  ErrorState,
+  Skeleton,
+} from "@/components/ui";
 import { formatBand, formatDate } from "@/lib/format";
 import { useChartTheme } from "../chartTheme";
 import { SKILL_KEYS, SKILL_LABELS, type MockSitting } from "../types";
@@ -8,7 +16,8 @@ interface Props {
   mocks: MockSitting[];
   loading: boolean;
   supported: boolean;
-  error?: string;
+  /** The thrown value, so the panel can name an offline service or a bad provider. */
+  error?: unknown;
 }
 
 /** Mean of the recorded skill bands, rounded the IELTS way (.25 and .75 round up). */
@@ -45,12 +54,10 @@ export function MockHistory({ mocks, loading, supported, error }: Props) {
       </CardHeader>
       <CardContent className="space-y-3">
         {error || !supported ? (
-          <EmptyState
-            icon={ClipboardList}
-            title="Mock history could not be loaded"
-            description={
-              error ?? "The attempt-history routes did not respond, so no sittings can be listed."
-            }
+          <ErrorState
+            error={error}
+            title="Your mock history could not be loaded"
+            fallback="BandReady could not read your past sittings. Your results are still saved — this list is built from them, so nothing is lost."
           />
         ) : loading && mocks.length === 0 ? (
           <div className="space-y-2">
@@ -60,9 +67,10 @@ export function MockHistory({ mocks, loading, supported, error }: Props) {
           </div>
         ) : mocks.length === 0 ? (
           <EmptyState
+            size="sm"
             icon={ClipboardList}
-            title="No mocks completed yet"
-            description="Two full mocks are one of the readiness checks. They are scheduled automatically in the final two weeks, and you can insert one earlier from your plan."
+            title="No mocks sat yet"
+            description="Sitting two full mocks is one of the readiness checks. Your plan schedules them in the final two weeks, and you can start one earlier from the Listening, Reading, Writing or Speaking room."
           />
         ) : (
           <div className="scrollbar-thin overflow-x-auto rounded-lg border border-border">
@@ -120,12 +128,16 @@ export function MockHistory({ mocks, loading, supported, error }: Props) {
           </div>
         )}
 
-        <p className="flex items-start gap-1.5 text-[11px] text-muted-foreground">
-          <Info className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
-          Assembled from your Listening, Writing and Speaking attempt history. Reading mock
-          results are not listed here yet — the sidecar has no reading attempt-history route —
-          so the overall column is the mean of the skills shown.
-        </p>
+        {/* Only alongside the table it explains. Before the first sitting it
+            described columns that are not on screen. */}
+        {mocks.length > 0 && !error && supported && (
+          <p className="flex items-start gap-1.5 text-[11px] text-muted-foreground">
+            <Info className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
+            Built from your Listening, Writing and Speaking results. Reading mocks are not
+            listed here yet, so the overall column averages only the skills shown — it is not
+            a full four-skill band.
+          </p>
+        )}
       </CardContent>
     </Card>
   );

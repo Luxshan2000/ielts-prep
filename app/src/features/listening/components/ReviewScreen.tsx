@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   AlertTriangle,
-  ArrowLeft,
   BookmarkPlus,
   Check,
   Play,
+  RotateCcw,
   SpellCheck,
   X,
 } from "lucide-react";
@@ -28,6 +28,7 @@ import { cn } from "@/lib/cn";
 import { playAudio } from "../media";
 import { useListeningStore } from "../store";
 import { promptLineFor, typeLabel } from "../qtypes";
+import { modeLabel } from "../labels";
 import type { ReviewPart, ReviewQuestion } from "../types";
 import { TranscriptPanel } from "./TranscriptPanel";
 
@@ -36,7 +37,6 @@ type SaveState = "idle" | "saving" | "added" | "error";
 /** Post-attempt review: answers, transcript, timestamp replay and vocabulary capture. */
 export function ReviewScreen() {
   const { attemptId } = useParams<{ attemptId: string }>();
-  const navigate = useNavigate();
 
   const review = useListeningStore((s) => s.review);
   const loading = useListeningStore((s) => s.reviewLoading);
@@ -118,7 +118,11 @@ export function ReviewScreen() {
 
   if (loading && !review) {
     return (
-      <PageShell title="Listening review" description="Loading your marked answers…">
+      <PageShell
+        title="Listening review"
+        description="Loading your marked answers…"
+        back={{ to: "/listening", label: "Listening" }}
+      >
         <SkeletonCard lines={6} />
       </PageShell>
     );
@@ -126,13 +130,20 @@ export function ReviewScreen() {
 
   if (error && !review) {
     return (
-      <PageShell title="Listening review">
+      <PageShell
+        title="Listening review"
+        description="This attempt could not be reviewed."
+        back={{ to: "/listening", label: "Listening" }}
+      >
         <EmptyState
           icon={AlertTriangle}
-          title="This review could not be loaded"
+          title="Review is not available"
           description={error}
           action={
-            <Button onClick={() => attemptId && void loadReview(attemptId)}>Try again</Button>
+            <Button variant="outline" onClick={() => attemptId && void loadReview(attemptId)}>
+              <RotateCcw className="h-4 w-4" />
+              Try again
+            </Button>
           }
         />
       </PageShell>
@@ -141,11 +152,10 @@ export function ReviewScreen() {
 
   if (!review || !part) {
     return (
-      <PageShell title="Listening review">
+      <PageShell title="Listening review" back={{ to: "/listening", label: "Listening" }}>
         <EmptyState
           title="Nothing to review yet"
           description="Finish a listening attempt and its marked answers appear here."
-          action={<Button onClick={() => navigate("/listening")}>Back to Listening</Button>}
         />
       </PageShell>
     );
@@ -162,12 +172,7 @@ export function ReviewScreen() {
         review.submitted_at ? ` · submitted ${review.submitted_at.slice(0, 10)}` : ""
       }`}
       maxWidth="max-w-7xl"
-      actions={
-        <Button variant="ghost" onClick={() => navigate("/listening")}>
-          <ArrowLeft className="h-4 w-4" />
-          Library
-        </Button>
-      }
+      back={{ to: "/listening", label: "Listening" }}
       toolbar={
         parts.length > 1 ? (
           <Tabs
@@ -210,7 +215,7 @@ export function ReviewScreen() {
               <Stat label="Correct">
                 {raw} / {total}
               </Stat>
-              <Stat label="Mode">{review.mode.replace(/_/g, " ")}</Stat>
+              <Stat label="Mode">{modeLabel(review.mode)}</Stat>
               <Stat label="Time taken">{formatDuration(review.duration_s ?? 0)}</Stat>
               <Stat label="Plays used">{review.play_count}</Stat>
             </dl>

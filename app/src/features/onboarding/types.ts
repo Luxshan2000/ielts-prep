@@ -221,6 +221,12 @@ export interface ArtifactState {
   files: ArtifactFile[];
 }
 
+/** `kind` is a wire slug; a learner reads the job the weights do. */
+export const ARTIFACT_KIND_LABELS: Record<string, string> = {
+  stt: "Speech to text — turns your recording into words",
+  tts: "Examiner voice — reads the questions aloud",
+};
+
 export interface RecommendedDoc {
   platform: { os: string; arch: string; apple_silicon: boolean; ram_gb: number | null; tier: string };
   tier: string;
@@ -235,6 +241,74 @@ export interface RecommendedDoc {
   };
   cloud_alternative: { label: string; advice: string };
   required_artifacts: ArtifactState[];
+}
+
+/** `GET /providers/presets` — the closed list the model dropdowns come from (03 §4). */
+export interface ProviderPreset {
+  id: string;
+  label: string;
+  modalities: string[];
+  kind: "local-server" | "cloud" | "local-inproc" | "mock" | string;
+  base_url?: string;
+  base_url_locked?: boolean;
+  needs_key?: boolean;
+  key_env_hint?: string;
+  docs_url?: string;
+  notes?: string;
+  hidden?: boolean;
+  suggested_models?: string[];
+  models_by_modality?: Partial<Record<"llm" | "stt" | "tts", string[]>>;
+}
+
+/** `POST /providers/verify` — the only thing that knows whether scoring works. */
+export interface VerifyResult {
+  ok: boolean;
+  state?: string;
+  detail?: string;
+  models?: string[];
+  warnings?: string[];
+  latency_ms?: number;
+}
+
+/** Per-engine guided setup the detect route attaches (03 §6). */
+export interface SetupFlow {
+  runnable: boolean;
+  kind: "download" | "command" | "manual" | "none" | string;
+  command?: string;
+  artifact?: string;
+  reason?: string;
+  url?: string;
+  /** A command BandReady will never run for you — copy-to-clipboard only. */
+  copy?: string;
+  instructions?: string;
+}
+
+export interface SetupJobView {
+  state: "queued" | "running" | "done" | "error";
+  pct: number | null;
+  detail: string | null;
+  error: string | null;
+}
+
+/** What the learner decided about marking on step 4. */
+export type ScoringChoice = "local" | "cloud" | "later";
+
+/**
+ * The `llm` slot of the settings document, as the wizard writes it.
+ * `PATCH /settings` deep-merges, so only the keys below are ever sent — the
+ * learner's temperature, timeouts and every other slot survive untouched.
+ */
+export interface LlmSlotPatch {
+  preset: string;
+  base_url?: string;
+  model?: string;
+  api_key?: string;
+}
+
+/** The two settings fields step 5 needs to know which weights are actually in use. */
+export interface EngineSettingsView {
+  stt?: { engine?: string; preset?: string; model?: string };
+  tts?: { engine?: string; preset?: string };
 }
 
 export interface DownloadState {
@@ -253,11 +327,13 @@ export interface EngineEntry {
   models?: string[];
   base_url?: string;
   detail?: string;
+  download_mb?: number;
 }
 
 export interface DetectDoc {
   platform: { os: string; arch: string; apple_silicon: boolean; ram_gb: number | null; tier: string };
   engines: EngineEntry[];
+  setup?: Record<string, SetupFlow>;
 }
 
 export const ENGINE_LABELS: Record<string, string> = {

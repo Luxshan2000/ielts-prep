@@ -203,6 +203,12 @@ export interface PointJson {
 // --------------------------------------------------------------- the path ----
 
 /** One row on the path. The server joins the authored row to this learner's card. */
+/** A point named from somewhere else — a prerequisite, an unlock. */
+export interface PathPointRef {
+  id: string;
+  title: string;
+}
+
 export interface PathPoint {
   id: string;
   unit_id: string;
@@ -218,10 +224,22 @@ export interface PathPoint {
   confusion_set?: string | null;
   board_id?: string | null;
   prerequisites?: string[] | null;
-  /** Prerequisite ids that are NOT yet at stage 3 — why this row is locked. */
-  blocked_by?: string[] | null;
+  /**
+   * Prerequisites not yet at Choose — why this row is locked. The server resolves
+   * each to `{id, title}` so a locked row can name what it is waiting for without
+   * a second lookup; it is NOT a list of ids.
+   */
+  blocked_by?: PathPointRef[] | null;
+  /**
+   * The deepest unmet prerequisite — the lesson that actually opens this one, which
+   * is usually not the same as the nearest blocker.
+   */
+  start_here?: string | null;
+  /** True on the single row the path is pointing at right now. */
+  is_next_up?: boolean | null;
   state: PointState;
-  stage: Stage;
+  /** Null until a card exists: the point has never been met. */
+  stage: Stage | null;
   mastered?: boolean | null;
   due_at?: string | null;
   /** True when a real writing/speaking submission re-broke this point (§1.6). */
@@ -232,9 +250,13 @@ export interface PathPoint {
 export interface PathUnit {
   unit_id: string;
   title: string;
+  /** A = the foundation, B = the main stretch, C = high-risk material (syllabus §). */
   track?: string | null;
   summary?: string | null;
   point_ids: string[];
+  /** Server rollups. The screen recomputes from the rows it is actually showing. */
+  done?: number | null;
+  total?: number | null;
 }
 
 export interface PathSummary {
@@ -310,6 +332,15 @@ export interface SessionItem {
   point_id: string;
   point_title?: string | null;
   card_id?: string | null;
+  /**
+   * `gram` is a grammar item this module owns end to end. `lex` is a vocabulary
+   * card the daily queue can interleave; it carries `review_via` because its
+   * answer belongs to the SRS route, and `/api/v1/grammar/answer` rejects it.
+   * Nothing in this feature can render or submit one yet.
+   */
+  family?: "gram" | "lex" | string | null;
+  /** Where this item's answer has to be sent, when it is not the grammar route. */
+  review_via?: string | null;
   kind: ItemKind;
   stage: Stage;
   register?: Register | string | null;

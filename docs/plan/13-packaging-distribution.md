@@ -1,6 +1,12 @@
 # 13 — Packaging & distribution
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read [`.github/workflows/release.yml`](../../.github/workflows/release.yml) and `app/electron-builder.yml`. Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+>
+> **This doc contradicts the shipped workflow.** It describes Developer-ID signing and notarization as part of the flow. `release.yml` explicitly disables notarization and marks every build a pre-release, because no Developer ID exists for this project. The workflow is right; this doc records what a real release would need.
+
+_Status: draft v2 (2026-07-25)_
 
 BandReady ships as a double-click installer per OS: macOS arm64 (primary), macOS x64 (best-effort), Windows x64 (primary), Linux AppImage/deb (bonus). The app is built with **electron-builder**; the Python sidecar (01-architecture.md, ADR-002) is bundled as a **python-build-standalone interpreter + a uv-built wheel-only venv** inside `resources/` — chosen over PyInstaller because our dependency set (onnxruntime, CTranslate2, av/ffmpeg, optional MLX/torch) is exactly the kind of native-lib zoo PyInstaller's import-graph freezing breaks on, and a plain venv stays pip-debuggable in the field. Model weights are never shipped in the bundle; a model-download step inside 10-curriculum-progress.md's onboarding wizard fetches them (resumable, sha256-verified) into the data dir. Updates go through electron-updater against GitHub Releases, full-app in v1. macOS builds are Developer-ID signed + notarized with a mic entitlement; Windows ships unsigned in v1 (SmartScreen warning acknowledged). No telemetry — local logs only.
 

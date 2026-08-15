@@ -254,6 +254,7 @@ export function DrillRunner({
         index={cursor}
         total={items.length}
         correct={Object.values(results).filter((r) => r.correct).length}
+        onExit={onExit}
       />
 
       <section className="space-y-3 rounded-xl border border-border bg-card p-4">
@@ -343,11 +344,14 @@ function Progress({
   index,
   total,
   correct,
+  onExit,
 }: {
   set: DrillSet;
   index: number;
   total: number;
   correct: number;
+  /** A drill mid-flight had no way out but the sidebar; Listening's runner has had one. */
+  onExit?: () => void;
 }) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border bg-muted/20 px-4 py-2.5">
@@ -359,9 +363,16 @@ function Progress({
         {set.bounded && <Badge tone="outline">Bounded search</Badge>}
         {set.two_stage && <Badge tone="outline">Two-stage</Badge>}
       </div>
-      <span className="text-[11px] text-muted-foreground tabular">
-        {index + 1} of {total} · {correct} right so far
-      </span>
+      <div className="flex items-center gap-2">
+        <span className="text-[11px] text-muted-foreground tabular">
+          {index + 1} of {total} · {correct} right so far
+        </span>
+        {onExit && (
+          <Button variant="ghost" size="sm" onClick={onExit}>
+            Stop
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

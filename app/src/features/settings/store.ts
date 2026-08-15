@@ -160,6 +160,8 @@ export interface RecommendedResponse {
     scoring_quality?: string;
     llm_preset?: string;
     llm_model?: string;
+    /** The tier's pick per engine, e.g. `{ollama: "qwen3:14b", mlx: "…"}`. */
+    llm?: Record<string, string>;
     stt?: { preset?: string; model?: string; artifact_id?: string; optional?: boolean };
     tts?: { preset?: string; voice?: string; artifact_id?: string };
   };
@@ -353,6 +355,12 @@ export function normalizeRecommended(
       recommended: true,
     });
   }
+  // The tier document also names the model for each *engine* it knows. Keeping the
+  // Ollama one means the local route can offer Ollama with a model sized for this
+  // machine, instead of falling back to the preset's first suggestion on every tier.
+  if (rec.llm?.ollama && rec.llm.ollama !== rec.llm_model) {
+    out.push({ modality: "llm", model: rec.llm.ollama, preset: "ollama" });
+  }
   if (rec.stt?.model) {
     out.push({
       modality: "stt",
@@ -420,13 +428,18 @@ export function fallbackRecommendations(platform: PlatformInfo | undefined): Rec
               note: "Good chat — band scoring is marginal below ~14B.",
               recommended: true,
             },
-            {
-              modality: "llm",
-              model: "anthropic/claude-sonnet-4.5",
-              preset: "openrouter",
-              note: "Add a cloud key for reliable scoring runs.",
-            },
           ];
+
+  // The cloud alternative is not tier-specific and must exist in every branch: the setup
+  // screen offers "use an online service" from this row, and a tier that omitted it
+  // rendered a card with three selling points and no button.
+  llm.push({
+    modality: "llm",
+    model: "anthropic/claude-sonnet-4.5",
+    preset: "openrouter",
+    note: "Add a cloud key for the most consistent band scores.",
+    preset_only: true,
+  });
 
   const stt: RecommendedEntry[] = mac
     ? [
@@ -571,15 +584,26 @@ export const useSettingsFeatureStore = create<SettingsFeatureState>((set, get) =
 
   applyPreset: (modality, preset) => {
     const drafts = get().drafts;
+    const previous = drafts[modality];
+    // Re-selecting the provider that is already configured is a no-op, not a reset.
+    // Otherwise: try local → it doesn't work → go back to the cloud service you had a
+    // working key for → the key field is empty, Verify says the key was refused, and
+    // nothing ever said BandReady had thrown it away.
+    const samePreset = previous.preset === preset.id;
+    if (samePreset) {
+      set({ verify: { ...get().verify, [modality]: undefined }, savedAt: null });
+      return;
+    }
+
     let slot: SlotDraft = { preset: preset.id };
     if (preset.base_url !== undefined) slot.base_url = preset.base_url;
     if (preset.engine) slot.engine = preset.engine;
-    // A new provider means a new key — never carry the previous one over.
+    // A different provider means a different key — never carry the previous one over.
     slot.api_key = "";
     for (const spec of preset.config_spec) {
       if (spec.default !== undefined) slot = setPath(slot, spec.key, spec.default);
     }
-    const previousModel = drafts[modality].model;
+    const previousModel = previous.model;
     if (
       typeof previousModel === "string" &&
       preset.suggested_models?.includes(previousModel)

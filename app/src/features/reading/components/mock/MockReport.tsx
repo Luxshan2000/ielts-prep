@@ -76,7 +76,11 @@ export function MockReport() {
 
   if (status === "loading" || status === "idle") {
     return (
-      <PageShell title="Mock reading report" description="Collecting the marked paper.">
+      <PageShell
+        title="Mock reading report"
+        description="Collecting the marked paper."
+        back={{ to: "/reading", label: "Reading" }}
+      >
         <div className="space-y-4">
           <Skeleton className="h-32 w-full rounded-xl" />
           <Skeleton className="h-24 w-full rounded-xl" />
@@ -88,17 +92,12 @@ export function MockReport() {
 
   if (status === "error" || !review) {
     return (
-      <PageShell title="Mock reading report">
+      <PageShell title="Mock reading report" back={{ to: "/reading/mock", label: "the mock room" }}>
         <ErrorState
           error={error}
           title="This report could not be opened"
           onRetry={() => void loadReview(attemptId)}
         />
-        <div className="mt-4 flex justify-center">
-          <Button variant="ghost" onClick={() => navigate("/reading/mock")}>
-            Back to the mock room
-          </Button>
-        </div>
       </PageShell>
     );
   }
@@ -114,13 +113,12 @@ export function MockReport() {
     <PageShell
       title="Mock reading report"
       description="How you spent the hour, then what the paper scored."
+      back={{ to: "/reading", label: "Reading" }}
+      status={<Badge tone="outline">{FORMAT_LABEL[format]}</Badge>}
       actions={
-        <div className="flex items-center gap-2">
-          <Badge tone="outline">{FORMAT_LABEL[format]}</Badge>
-          <Button variant="outline" size="sm" onClick={() => navigate("/reading/mock")}>
-            Sit another
-          </Button>
-        </div>
+        <Button variant="outline" size="sm" onClick={() => navigate("/reading/mock")}>
+          Sit another
+        </Button>
       }
     >
       <div className="space-y-6">

@@ -1,6 +1,10 @@
 # 12 — Design system
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read `app/src/components/ui/` and `app/src/styles/`. Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+
+_Status: draft v2 (2026-07-25)_
 
 BandReady replicates OpenVoiceUI's proven design language — Inter Variable at 14px, a 240°-neutral HSL token palette with dark as the default theme, rounded-xl cards, shadcn-style CSS-custom-property tokens consumed through Tailwind — with one deliberate brand divergence: the primary shifts from OpenVoiceUI's indigo to a **teal at ~170°** so the two sibling apps are visually distinct at a glance. This doc pins every token value for both themes (verified against OpenVoiceUI's `index.css` / `tailwind.config.js` on 2026-07-25), specs the Electron window chrome, gives ASCII wireframes for the 9 core screens, inventories reused and new components (including a CVD-validated band-score color scale), and defines motion, interaction states, accessibility rules, voice-UI states, and copy tone. Architecture context: 01-architecture.md; the screens map to modules 04–10; provider forms follow 03-providers-and-settings.md.
 

@@ -65,9 +65,12 @@ export function VocabPage() {
   return (
     <PageShell
       title="Vocabulary"
-      description="Your own words, scheduled by FSRS — nothing is added to the queue without you."
+      description="Your own words, brought back just before you would have forgotten them — and nothing joins the queue without you."
       actions={
-        due > 0 ? (
+        // The Review tab already leads with this button, 200 px lower and twice the
+        // size. Two of the same control on one screen teaches a learner that the app
+        // has two of everything.
+        due > 0 && tab !== "review" ? (
           <Button onClick={() => void start()} loading={sessionLoading}>
             <Play className="h-4 w-4" />
             Review {due}

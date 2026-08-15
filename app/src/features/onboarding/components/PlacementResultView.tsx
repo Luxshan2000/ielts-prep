@@ -10,7 +10,13 @@ import {
   CardTitle,
 } from "@/components/ui";
 import { formatBand, formatDate } from "@/lib/format";
-import { SKILL_LABELS, type PlacementResult, type SkillKey } from "../types";
+import { useOnboardingStore } from "../store";
+import {
+  SKILL_LABELS,
+  type PlacementEstimate,
+  type PlacementResult,
+  type SkillKey,
+} from "../types";
 
 const SKILLS: SkillKey[] = ["listening", "reading", "writing", "speaking"];
 
@@ -57,9 +63,41 @@ function blockLabel(kind: string, module?: string | null, activity?: string | nu
   return kind === "micro_drill" ? `Micro-drill: ${name}` : name;
 }
 
+/**
+ * Where a band came from, in one short line.
+ *
+ * `/placement/complete` reports a section whose marking call failed exactly like
+ * a section the learner skipped: `skipped: true`, band from the self-rating. So
+ * a learner who typed a 150-word essay would be told it came "from your
+ * self-rating", which is the app knowing one thing and saying another. Until the
+ * sidecar carries that third state, the wizard remembers which sections were
+ * actually worked and says the truer thing here.
+ */
+function provenance(
+  estimate: PlacementEstimate | undefined,
+  worked: boolean,
+  skill: SkillKey,
+  markingWasDown: boolean,
+): string {
+  if (estimate === undefined) return "Not measured";
+  if (estimate.skipped !== true) {
+    return skill === "speaking" ? "From your typed sample" : "From the sampler";
+  }
+  if (worked) {
+    return markingWasDown
+      ? "You answered this — it could not be marked, so your self-rating stands"
+      : "You answered this — it could not be marked this time";
+  }
+  return "From your self-rating";
+}
+
 /** The wizard's final screen: starting bands plus the plan they produced. */
 export function PlacementResultView({ result }: { result: PlacementResult }) {
   const navigate = useNavigate();
+  const answered = useOnboardingStore((s) => s.answered);
+  const scoringAtStart = useOnboardingStore((s) => s.scoringAtStart);
+  const scoring = useOnboardingStore((s) => s.scoring);
+  const markingUnset = scoring !== null && scoring.ok !== true;
   const plan = result.plan;
   const preview = (plan?.sessions ?? []).slice(0, 5);
 
@@ -100,7 +138,12 @@ export function PlacementResultView({ result }: { result: PlacementResult }) {
                         {SKILL_LABELS[skill]}
                       </p>
                       <p className="text-[11px] text-muted-foreground">
-                        {estimate?.skipped ? "From your self-rating" : "From the sampler"}
+                        {provenance(
+                          estimate,
+                          answered.includes(skill),
+                          skill,
+                          scoringAtStart === false,
+                        )}
                       </p>
                     </div>
                     {estimate ? (
@@ -119,6 +162,19 @@ export function PlacementResultView({ result }: { result: PlacementResult }) {
           </CardContent>
         </Card>
 
+        {markingUnset && (
+          <Card className="border-border">
+            <CardContent className="space-y-1 p-4 text-[13px]">
+              <p className="font-medium text-foreground">Start with Reading or Vocabulary</p>
+              <p className="text-muted-foreground">
+                They are ready now and marked on this machine. Writing and Speaking still need a
+                marking model — you can write and record without one, but nothing there gets a
+                band until it is set up in Settings.
+              </p>
+            </CardContent>
+          </Card>
+        )}
+
         {plan && (
           <Card>
             <CardHeader>
@@ -126,7 +182,8 @@ export function PlacementResultView({ result }: { result: PlacementResult }) {
               <p className="mt-1 text-[13px] text-muted-foreground">
                 {plan.horizon_weeks} week{plan.horizon_weeks === 1 ? "" : "s"} to target band{" "}
                 {formatBand(plan.goal_band)}
-                {plan.exam_date ? ` · exam ${plan.exam_date}` : " · no exam date set"}. Skills
+                {plan.exam_date ? ` · exam ${formatDate(plan.exam_date)}` : " · no exam date set"}
+                . Skills
                 further from target get more of your weekly minutes, recomputed every week.
               </p>
             </CardHeader>

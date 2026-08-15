@@ -276,7 +276,7 @@ export function MockSitting() {
         <EmptyState
           icon={AlertTriangle}
           title="The paper is not available"
-          description={error ?? "The sidecar did not return this attempt."}
+          description={error ?? "BandReady has no record of this attempt. It may have been cleared from Settings, or the local service was restarted before it saved."}
           action={<Button onClick={() => navigate("/reading/mock")}>Back to the mock room</Button>}
         />
       </PageShell>
@@ -289,14 +289,16 @@ export function MockSitting() {
       maxWidth="max-w-none"
       title={record?.testTitle ?? attempt.title}
       description="Exam conditions. No dictionary, no coaching, no pause — 60 minutes including writing your answers down."
+      status={
+        <CircularTimer
+          totalSec={MOCK_SECONDS}
+          remainingSec={timerRemaining}
+          warnAtSec={300}
+          label="Mock reading paper"
+        />
+      }
       actions={
         <div className="flex items-center gap-2">
-          <CircularTimer
-            totalSec={MOCK_SECONDS}
-            remainingSec={timerRemaining}
-            warnAtSec={300}
-            label="Mock reading paper"
-          />
           <Button variant="outline" size="sm" onClick={() => setDrawerOpen(true)}>
             <Flag className="h-3.5 w-3.5" aria-hidden="true" />
             {flags.length > 0 ? `${flags.length} flagged` : "Flags"}

@@ -1,5 +1,15 @@
-import { AlertTriangle, HelpCircle } from "lucide-react";
-import { Badge, BandScore, Card, CardContent, CardHeader, CardTitle, Tooltip } from "@/components/ui";
+import { useNavigate } from "react-router-dom";
+import { AlertTriangle, ArrowRight, HelpCircle } from "lucide-react";
+import {
+  Badge,
+  BandScore,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  Tooltip,
+} from "@/components/ui";
 import { formatBand } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import { SKILL_KEYS, SKILL_LABELS, type ProgressSummary, type SkillEstimate } from "../types";
@@ -63,6 +73,7 @@ function SkillTile({
  * evidence shows "—" rather than a made-up number.
  */
 export function EstimateTiles({ summary }: { summary: ProgressSummary }) {
+  const navigate = useNavigate();
   const overall = summary.estimates.overall;
   const stale = new Set(summary.stale_skills);
 
@@ -106,8 +117,12 @@ export function EstimateTiles({ summary }: { summary: ProgressSummary }) {
               <div className="min-w-0">
                 <p className="text-sm font-medium tabular text-foreground">{overall.display}</p>
                 <p className="mt-0.5 text-[13px] text-muted-foreground">
+                  {/* The confidence words describe a number of attempts, so with zero
+                      attempts they contradicted the very clause beside them — "Low
+                      confidence — one or two attempts · starting point, no scored
+                      attempts yet". With nothing scored, only the honest half is true. */}
                   {overall.attempts_used === 0
-                    ? `${CONFIDENCE_COPY[overall.confidence]} · starting point, no scored attempts yet`
+                    ? "Starting point — no scored attempts yet"
                     : `${CONFIDENCE_COPY[overall.confidence]} · from ${overall.attempts_used} scored ${
                         overall.attempts_used === 1 ? "attempt" : "attempts"
                       }`}
@@ -127,6 +142,13 @@ export function EstimateTiles({ summary }: { summary: ProgressSummary }) {
             />
           ))}
         </div>
+
+        {/* The header's second nav button is gone; the way to the longer view
+            belongs beside the numbers it expands on. */}
+        <Button variant="ghost" size="sm" onClick={() => navigate("/progress")}>
+          See my full progress
+          <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+        </Button>
       </CardContent>
     </Card>
   );

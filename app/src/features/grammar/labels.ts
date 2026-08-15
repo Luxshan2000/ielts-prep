@@ -71,7 +71,10 @@ export function stageName(stage: Stage | number | null | undefined): string {
 
 export const POINT_STATE_LABEL: Record<PointState, string> = {
   locked: "Locked",
-  next: "Start here",
+  // Several points are open at once past the first week, so this names the state
+  // rather than pointing at one row. The row the path is actually pointing at
+  // carries its own "Next up" badge.
+  next: "Ready to start",
   in_progress: "In progress",
   practised: "Practised",
   mastered: "Mastered",
@@ -94,6 +97,55 @@ export const ROLE_LABEL: Record<PointRole, string> = {
   choice: "A choice to make",
   accuracy: "An accuracy habit",
 };
+
+// -------------------------------------------------------------- the path ----
+
+/**
+ * The three tracks the syllabus divides into, said out loud.
+ *
+ * The unit list is seventeen items long and a learner scrolling it has no way to
+ * tell that unit 1 and unit 17 are different kinds of work. The server knows —
+ * `UNIT_TRACKS`, A/B/C — and these are its own definitions in a learner's words.
+ */
+export const TRACK_LABEL: Record<string, string> = {
+  A: "Foundations",
+  B: "The main stretch",
+  C: "The last few",
+};
+
+export const TRACK_NOTE: Record<string, string> = {
+  A: "The sentence everything else is built on. Start here if you are starting.",
+  B: "The bulk of the work, and where most marks are won or lost.",
+  C: "High-risk under time pressure. Worth it only once the rest is secure.",
+};
+
+/**
+ * CEFR in plain words. A learner who has never taken a European language course
+ * reads "A1" as a seat number, so the code is never shown on its own — this is
+ * what stands in for it (audit A2 §2.6).
+ */
+export const LEVEL_LABEL: Record<string, string> = {
+  A1: "beginner",
+  A2: "elementary",
+  B1: "intermediate",
+  B2: "upper intermediate",
+  C1: "advanced",
+  C2: "advanced",
+};
+
+export function levelLabel(level: string | null | undefined): string | null {
+  if (!level) return null;
+  return LEVEL_LABEL[level.toUpperCase()] ?? null;
+}
+
+/** "3 h 20 m" / "45 min" — an honest budget for a unit, never a bare minute count. */
+export function formatStudyTime(minutes: number): string {
+  if (minutes < 1) return "under a minute";
+  if (minutes < 60) return `${Math.round(minutes)} min`;
+  const hours = Math.floor(minutes / 60);
+  const rest = Math.round(minutes % 60);
+  return rest === 0 ? `${hours} h` : `${hours} h ${rest} m`;
+}
 
 // ------------------------------------------------------------- item kinds ----
 

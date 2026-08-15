@@ -47,6 +47,7 @@ import {
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { cn } from "@/lib/cn";
+import { accentLabel } from "../../labels";
 import { BAND_NOTE, PART_DIAGNOSIS } from "./script";
 import { useMockStore, type MockReportDoc } from "./store";
 
@@ -68,7 +69,11 @@ export function MockReport() {
 
   if (loading && !doc) {
     return (
-      <PageShell title="Mock listening report" description="Reading the marked paper.">
+      <PageShell
+        title="Mock listening report"
+        description="Collecting the marked paper."
+        back={{ to: "/listening", label: "Listening" }}
+      >
         <SkeletonCard lines={6} />
       </PageShell>
     );
@@ -76,7 +81,10 @@ export function MockReport() {
 
   if (error || !doc) {
     return (
-      <PageShell title="Mock listening report">
+      <PageShell
+        title="Mock listening report"
+        back={{ to: "/listening/mock", label: "the mock room" }}
+      >
         <Card>
           <CardContent className="pt-5">
             <EmptyState
@@ -86,7 +94,9 @@ export function MockReport() {
                 error ??
                 "This paper has not been marked. An abandoned sitting is never marked, because a partial paper does not measure anything."
               }
-              action={<Button onClick={() => navigate("/listening/mock")}>The mock room</Button>}
+              action={
+                <Button onClick={() => navigate("/listening/mock")}>Back to the mock room</Button>
+              }
             />
           </CardContent>
         </Card>
@@ -104,15 +114,11 @@ export function MockReport() {
       maxWidth="max-w-5xl"
       title={doc.title}
       description={doc.modelled}
+      back={{ to: "/listening", label: "Listening" }}
       actions={
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" onClick={() => navigate("/listening/mock")}>
-            Sit another
-          </Button>
-          <Button variant="ghost" onClick={() => navigate("/listening")}>
-            Listening
-          </Button>
-        </div>
+        <Button variant="outline" size="sm" onClick={() => navigate("/listening/mock")}>
+          Sit another
+        </Button>
       }
     >
       <div className="space-y-5">
@@ -182,7 +188,7 @@ export function MockReport() {
                     </span>
                     <span className="flex items-center gap-2">
                       {part.accent_set && (
-                        <Badge tone="outline">{part.accent_set.toUpperCase()}</Badge>
+                        <Badge tone="outline">{accentLabel(part.accent_set)}</Badge>
                       )}
                       <span className="text-[13px] font-semibold tabular-nums">
                         {part.correct}/{part.total}

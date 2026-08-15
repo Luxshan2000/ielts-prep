@@ -246,12 +246,12 @@ export function MockSitting() {
             <EmptyState
               icon={AlertTriangle}
               title="This sitting could not be opened"
-              description={error ?? "The sidecar has no record of this paper."}
+              description={error ?? "BandReady has no record of this paper. It may have been started on another install, or the local service was restarted before it saved."}
               action={
                 <div className="flex flex-wrap justify-center gap-2">
                   <Button onClick={() => void load(mockId)}>Try again</Button>
                   <Button variant="outline" onClick={() => navigate("/listening/mock")}>
-                    The mock room
+                    Back to the mock room
                   </Button>
                 </div>
               }
@@ -303,9 +303,9 @@ export function MockSitting() {
             <EmptyState
               icon={Headphones}
               title="This paper has not been started"
-              description="The clock starts on the preflight screen, once every recording has been synthesized."
+              description="The clock starts in the mock room, once every recording for the paper has been generated on this machine."
               action={
-                <Button onClick={() => navigate("/listening/mock")}>Back to the preflight</Button>
+                <Button onClick={() => navigate("/listening/mock")}>Back to the mock room</Button>
               }
             />
           </CardContent>
@@ -348,19 +348,21 @@ export function MockSitting() {
           ? `${session.delivery_label} — the ${windowLabel} at the end of the paper.`
           : "Exam conditions. Each recording plays once, and nothing here explains anything."
       }
-      actions={
+      status={
         <div className="flex items-center gap-2">
           <Badge tone="warning" className="gap-1">
             <Lock className="h-3 w-3" aria-hidden="true" />
             Mock in progress
           </Badge>
-          <span className="tabular-nums text-[12px] text-muted-foreground" aria-live="off">
+          <span className="tabular text-[12px] text-muted-foreground" aria-live="off">
             {formatDuration(elapsed)}
           </span>
-          <Button variant="ghost" size="sm" onClick={() => void onLeave()}>
-            Abandon
-          </Button>
         </div>
+      }
+      actions={
+        <Button variant="ghost" size="sm" onClick={() => void onLeave()}>
+          Abandon
+        </Button>
       }
       toolbar={
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -456,8 +458,8 @@ export function MockSitting() {
 
                     <p className="text-[13px] leading-6 text-muted-foreground">
                       This recording plays once. There is no pause, no rewind, no replay and no
-                      speed control, and the refusal is the sidecar&rsquo;s rather than this
-                      screen&rsquo;s — once you press play, a second play is impossible even after
+                      speed control, and that is recorded outside this screen — once you press
+                      play, a second play is impossible even after
                       a reload. The read-ahead pauses are inside the recording, so it will stop and
                       give you about thirty seconds before each set on its own.
                     </p>

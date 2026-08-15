@@ -1,8 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  AlertCircle,
+  Check,
   CheckCircle2,
   Cloud,
+  Copy,
   Download,
+  ExternalLink,
   HardDrive,
   Mic,
   MicOff,
@@ -29,17 +33,37 @@ import { cn } from "@/lib/cn";
 import { formatBand } from "@/lib/format";
 import { useSettingsStore } from "@/stores";
 import { ChoiceCard } from "./WizardChrome";
-import { useOnboardingStore } from "../store";
+import { scoringStateSentence, useOnboardingStore } from "../store";
 import {
+  ARTIFACT_KIND_LABELS,
   ENGINE_LABELS,
   LLM_ENGINE_IDS,
   SELF_LEVELS,
   WEEKDAYS,
   type EngineEntry,
+  type EngineSettingsView,
   type ExamFormat,
   type ProfileDraft,
+  type ProviderPreset,
   type SelfLevel,
+  type SetupFlow,
 } from "../types";
+
+/**
+ * One sentence about what works, used verbatim on both the marking step and the
+ * speech step. They used to disagree — step 4 said Writing was fine without a
+ * model and step 5 said the opposite — which is the single most confusing thing
+ * a first-run learner can read.
+ */
+export const WHAT_WORKS_NOW =
+  "Reading, Listening, Vocabulary and Grammar work right now, with nothing to set up. " +
+  "Writing and Speaking need a marking model before anything you do there is scored.";
+
+function openExternal(url: string): void {
+  const bridge = typeof window !== "undefined" ? window.bandready : undefined;
+  if (bridge?.openExternal) bridge.openExternal(url);
+  else window.open(url, "_blank", "noopener,noreferrer");
+}
 
 // ------------------------------------------------------------------ 1 welcome ---
 
@@ -175,7 +199,13 @@ export function StepExam({
         {booked && (
           <Field
             label="Exam date"
-            error={dateInvalid ? "That date has already passed." : undefined}
+            error={
+              dateInvalid
+                ? "That date has already passed."
+                : draft.exam_date === null
+                  ? "Add your date, or choose “Not booked yet” — otherwise the plan is paced on a rolling 8 weeks."
+                  : undefined
+            }
           >
             {({ id }) => (
               <Input
@@ -194,10 +224,17 @@ export function StepExam({
   );
 }
 
-/** True when step 2's answers are usable. */
+/**
+ * True when step 2's answers are usable.
+ *
+ * The step renders "That date has already passed." for a date in the past, but this
+ * returned true anyway, so Continue stayed live and the wizard carried a date the plan
+ * cannot be built back from. A visible error has to block the button that ignores it.
+ */
 export function examStepValid(draft: ProfileDraft): boolean {
   if (draft.exam_date === null) return true;
-  return /^\d{4}-\d{2}-\d{2}$/.test(draft.exam_date);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(draft.exam_date)) return false;
+  return draft.exam_date >= new Date().toISOString().slice(0, 10);
 }
 
 // -------------------------------------------------------------------- 3 level ---
@@ -305,9 +342,9 @@ export function levelStepValid(draft: ProfileDraft): boolean {
   return draft.study_days.length >= 3;
 }
 
-// ------------------------------------------------------------------ 4 engines ---
+// ------------------------------------------------------------------ 4 marking ---
 
-const STATE_TONE: Record<string, "success" | "warning" | "default"> = {
+const ENGINE_STATE_TONE: Record<string, "success" | "warning" | "default"> = {
   running: "success",
   ready: "success",
   installed: "warning",
@@ -316,63 +353,233 @@ const STATE_TONE: Record<string, "success" | "warning" | "default"> = {
   absent: "default",
 };
 
-const STATE_LABEL: Record<string, string> = {
-  running: "Running",
-  ready: "Weights installed",
-  installed: "Installed, not running",
-  unknown_server: "Unrecognised server",
-  needs_download: "Weights not downloaded yet",
-  absent: "Not found",
+/** Detection states, in the words of somebody who has never run a model server. */
+const ENGINE_STATE_LABEL: Record<string, string> = {
+  running: "Ready to use",
+  ready: "Ready to use",
+  installed: "Installed, but not started",
+  unknown_server: "Something is answering, but BandReady doesn't recognise it",
+  needs_download: "Installed, needs its files",
+  absent: "Not on this machine",
 };
 
-function EngineRow({ engine }: { engine: EngineEntry }) {
+/**
+ * A step BandReady will not run for you — an installer, a GUI app, or a piped
+ * shell script. Show the exact command and a copy button; never execute it.
+ */
+function ManualSetup({ flow }: { flow: SetupFlow }) {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    if (!flow.copy) return;
+    try {
+      await navigator.clipboard.writeText(flow.copy);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      /* clipboard blocked — the command is on screen to be typed */
+    }
+  };
+
   return (
-    <li className="flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-lg border border-border px-3 py-2.5">
-      <ServerCog className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-      <span className="text-sm font-medium text-foreground">
-        {ENGINE_LABELS[engine.id] ?? engine.id}
-      </span>
-      <Badge tone={STATE_TONE[engine.state] ?? "default"}>
-        {STATE_LABEL[engine.state] ?? engine.state.replace(/_/g, " ")}
-      </Badge>
-      {engine.models && engine.models.length > 0 && (
-        <span className="min-w-0 truncate text-[11px] text-muted-foreground">
-          {engine.models.slice(0, 3).join(", ")}
-          {engine.models.length > 3 ? ` +${engine.models.length - 3} more` : ""}
+    <div className="mt-2 space-y-2 rounded-lg border border-border bg-muted/40 px-3 py-2.5">
+      {flow.instructions && (
+        <p className="text-[13px] text-muted-foreground">{flow.instructions}</p>
+      )}
+      {flow.copy && (
+        <div className="flex items-center gap-2">
+          <code className="scrollbar-thin flex h-8 min-w-0 flex-1 items-center overflow-x-auto whitespace-nowrap rounded-md border border-input bg-background px-2 font-mono text-xs text-foreground">
+            {flow.copy}
+          </code>
+          <Button size="sm" variant="ghost" onClick={() => void copy()}>
+            {copied ? (
+              <Check className="h-3.5 w-3.5" aria-hidden="true" />
+            ) : (
+              <Copy className="h-3.5 w-3.5" aria-hidden="true" />
+            )}
+            {copied ? "Copied" : "Copy"}
+          </Button>
+        </div>
+      )}
+      {flow.url && (
+        <Button size="sm" variant="outline" onClick={() => openExternal(flow.url as string)}>
+          <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+          Open the download page
+        </Button>
+      )}
+    </div>
+  );
+}
+
+/**
+ * One local engine, with the action that moves it forward attached. The old
+ * version printed four "Not found" rows and no buttons, which left the learner
+ * reading provider slugs with nothing to do about them.
+ */
+function EngineRow({ engine }: { engine: EngineEntry }) {
+  const { detect, setupJobs, manualSetup, savingScoring, runEngineSetup, useLocalEngine } =
+    useOnboardingStore();
+  const flow = manualSetup[engine.id] ?? detect?.setup?.[engine.id];
+  const job = setupJobs[engine.id];
+  const busy = job?.state === "queued" || job?.state === "running";
+  const usable = engine.state === "running";
+  const showManual = flow !== undefined && !flow.runnable && !usable;
+
+  return (
+    <li className="rounded-lg border border-border px-3 py-2.5">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+        <ServerCog className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+        <span className="text-sm font-medium text-foreground">
+          {ENGINE_LABELS[engine.id] ?? engine.id}
         </span>
+        <Badge tone={ENGINE_STATE_TONE[engine.state] ?? "default"}>
+          {ENGINE_STATE_LABEL[engine.state] ?? engine.state.replace(/_/g, " ")}
+        </Badge>
+        <span className="ml-auto flex items-center gap-2">
+          {usable ? (
+            <Button
+              size="sm"
+              loading={savingScoring}
+              onClick={() => void useLocalEngine(engine)}
+            >
+              Use this one
+            </Button>
+          ) : flow?.runnable ? (
+            <Button
+              size="sm"
+              variant="outline"
+              loading={busy}
+              onClick={() => void runEngineSetup(engine.id)}
+            >
+              <Download className="h-3.5 w-3.5" aria-hidden="true" />
+              Install it for me
+            </Button>
+          ) : null}
+        </span>
+      </div>
+      {busy && (
+        <Progress className="mt-2" value={job?.pct ?? null} detail={job?.detail ?? "working…"} />
       )}
-      {engine.detail && (
-        <span className="text-[11px] text-muted-foreground">{engine.detail}</span>
+      {job?.state === "error" && job.error && (
+        <p className="mt-2 text-xs text-destructive">{job.error}</p>
       )}
+      {showManual && flow && <ManualSetup flow={flow} />}
     </li>
   );
 }
 
-export function StepEngines() {
-  const { detect, detecting, detectError, runDetect } = useOnboardingStore();
+/** Cloud providers the wizard can finish on its own: a key, and a closed model list. */
+function cloudLlmPresets(presets: ProviderPreset[]): ProviderPreset[] {
+  return presets.filter(
+    (p) =>
+      !p.hidden &&
+      p.needs_key === true &&
+      p.modalities.includes("llm") &&
+      cloudModels(p).length > 0,
+  );
+}
 
-  useEffect(() => {
-    if (detect === null && !detecting) void runDetect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+/** 03 §4: never a free-text model field — only `custom_openai` gets one, in Settings. */
+function cloudModels(preset: ProviderPreset): string[] {
+  return preset.models_by_modality?.llm ?? preset.suggested_models ?? [];
+}
 
-  const engines = detect?.engines ?? [];
-  const llm = engines.filter((e) => LLM_ENGINE_IDS.includes(e.id));
-  const speech = engines.filter((e) => !LLM_ENGINE_IDS.includes(e.id));
-  const running = llm.filter((e) => e.state === "running");
+function CloudSetup() {
+  const { presets, savingScoring, scoringError, saveCloudProvider } = useOnboardingStore();
+  const options = useMemo(() => cloudLlmPresets(presets), [presets]);
+  const [presetId, setPresetId] = useState("");
+  const [key, setKey] = useState("");
+
+  const preset = options.find((p) => p.id === presetId) ?? options[0];
+  const chosenModel = preset ? (cloudModels(preset)[0] ?? "") : "";
+
+  if (options.length === 0) {
+    return (
+      <p className="text-[13px] text-muted-foreground">
+        No cloud providers are listed in this build. You can still add one from Settings.
+      </p>
+    );
+  }
 
   return (
-    <div className="space-y-4">
-      <p className="text-sm leading-relaxed text-muted-foreground">
-        BandReady needs a language model to score your writing and speaking. It looks for one
-        already running on this machine; if there is none, you can point it at a cloud key in
-        Settings later. Nothing here blocks Reading or Listening practice.
+    <div className="space-y-3">
+      <p className="text-[13px] text-muted-foreground">
+        You sign up with the provider and paste the key they give you. Only your essay text and
+        the marking instructions are sent — your recordings never leave this machine. The key is
+        stored encrypted and you can remove it in Settings.
+      </p>
+
+      <Field label="Provider">
+        {({ id }) => (
+          <Select
+            key={id}
+            aria-label="Marking provider"
+            value={preset?.id ?? ""}
+            options={options.map((p) => ({ value: p.id, label: p.label }))}
+            onChange={setPresetId}
+          />
+        )}
+      </Field>
+
+      {preset?.notes && <p className="text-[13px] text-muted-foreground">{preset.notes}</p>}
+
+      <Field label="API key" hint="Pasted once, kept encrypted on this machine.">
+        {({ id }) => (
+          <Input
+            id={id}
+            type="password"
+            autoComplete="off"
+            placeholder="Paste the key from your provider"
+            value={key}
+            onChange={(e) => setKey(e.target.value)}
+          />
+        )}
+      </Field>
+
+      {/* Which model marks the essay is a question a first-run learner cannot
+          answer. The preset's first entry is a sensible default and Settings has
+          the full closed list (03 §4) for anyone who wants to change it. */}
+      <p className="text-[13px] text-muted-foreground">
+        BandReady picks a suitable model for you. Settings has the full list if you want a
+        different one.
+      </p>
+
+      {scoringError && <p className="text-[13px] text-destructive">{scoringError}</p>}
+
+      <div className="flex flex-wrap items-center gap-2">
+        <Button
+          size="sm"
+          loading={savingScoring}
+          disabled={key.trim().length === 0 || !preset}
+          onClick={() => void saveCloudProvider(preset!.id, key, chosenModel)}
+        >
+          Save and check
+        </Button>
+        {preset?.docs_url && (
+          <Button size="sm" variant="ghost" onClick={() => openExternal(preset.docs_url!)}>
+            <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+            Where do I get a key?
+          </Button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function LocalSetup() {
+  const { detect, detecting, detectError, runDetect } = useOnboardingStore();
+  const llm = (detect?.engines ?? []).filter((e) => LLM_ENGINE_IDS.includes(e.id));
+
+  return (
+    <div className="space-y-3">
+      <p className="text-[13px] text-muted-foreground">
+        A model server runs alongside BandReady and keeps every essay on this machine. It needs
+        several gigabytes of disk and is slower than a cloud service on a modest laptop.
       </p>
 
       {detectError && (
-        <Card className="border-warning/40 bg-warning/[0.06]">
-          <CardContent className="p-4 text-[13px] text-foreground">{detectError}</CardContent>
-        </Card>
+        <p className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-[13px] text-muted-foreground">
+          {detectError}
+        </p>
       )}
 
       {detecting && detect === null ? (
@@ -381,57 +588,137 @@ export function StepEngines() {
           <Skeleton className="h-14 w-full" />
         </div>
       ) : (
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
-              Language models — scoring and feedback
-            </p>
-            <ul className="space-y-2">
-              {llm.map((engine) => (
-                <EngineRow key={engine.id} engine={engine} />
-              ))}
-              {llm.length === 0 && (
-                <li className="rounded-lg border border-border px-3 py-2.5 text-[13px] text-muted-foreground">
-                  No local engine responded. Reading and Listening still work in full; add a
-                  provider from Settings whenever you like.
-                </li>
-              )}
-            </ul>
-            {running.length === 0 && llm.length > 0 && (
-              <p className="text-[13px] text-muted-foreground">
-                Nothing is serving a model right now. Start one of these, or add a cloud key in
-                Settings, and scored writing and speaking switch on.
-              </p>
-            )}
-          </div>
+        <ul className="space-y-2">
+          {llm.map((engine) => (
+            <EngineRow key={engine.id} engine={engine} />
+          ))}
+          {llm.length === 0 && (
+            <li className="rounded-lg border border-border px-3 py-2.5 text-[13px] text-muted-foreground">
+              Nothing to list — this build knows of no local model servers.
+            </li>
+          )}
+        </ul>
+      )}
 
-          {speech.length > 0 && (
-            <div className="space-y-2">
-              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
-                Speech — handled on the next step
-              </p>
-              <ul className="space-y-2">
-                {speech.map((engine) => (
-                  <EngineRow key={engine.id} engine={engine} />
-                ))}
-              </ul>
-            </div>
+      <Button variant="outline" size="sm" loading={detecting} onClick={() => void runDetect(true)}>
+        <RotateCw className="h-3.5 w-3.5" aria-hidden="true" />
+        Look again
+      </Button>
+    </div>
+  );
+}
+
+export function StepEngines() {
+  const {
+    detect,
+    detecting,
+    scoring,
+    scoringChecking,
+    scoringChoice,
+    runDetect,
+    loadPresets,
+    checkScoring,
+    setScoringChoice,
+  } = useOnboardingStore();
+
+  useEffect(() => {
+    if (detect === null && !detecting) void runDetect();
+    void loadPresets();
+    void checkScoring();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const working = scoring?.ok === true;
+
+  return (
+    <div className="space-y-4">
+      <p className="text-sm leading-relaxed text-muted-foreground">{WHAT_WORKS_NOW}</p>
+
+      <Card
+        className={
+          working
+            ? "border-success/40 bg-success/[0.06]"
+            : "border-border"
+        }
+      >
+        <CardContent className="flex flex-wrap items-center gap-3 p-4">
+          {scoringChecking ? (
+            <Spinner />
+          ) : working ? (
+            <CheckCircle2 className="h-4 w-4 shrink-0 text-success" aria-hidden="true" />
+          ) : (
+            <AlertCircle className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+          )}
+          <p className="min-w-0 flex-1 text-[13px] text-foreground">
+            {scoringChecking ? "Checking your marking model…" : scoringStateSentence(scoring)}
+          </p>
+          <Button
+            variant="ghost"
+            size="sm"
+            loading={scoringChecking}
+            onClick={() => void checkScoring()}
+          >
+            Check again
+          </Button>
+        </CardContent>
+      </Card>
+
+      {working ? (
+        <p className="text-[13px] text-muted-foreground">
+          Nothing else to do here. You can change this any time in Settings.
+        </p>
+      ) : (
+        <div className="space-y-3">
+          <p className="text-[13px] font-medium text-foreground">
+            How would you like your writing and speaking marked?
+          </p>
+
+          <ChoiceCard
+            name="scoring_choice"
+            selected={scoringChoice === "later"}
+            title="Not now — I'll start with the modules that already work"
+            description="Reading, Listening, Vocabulary and Grammar are fully available. Settings has this screen again whenever you want it."
+            onSelect={() => setScoringChoice("later")}
+          />
+          <ChoiceCard
+            name="scoring_choice"
+            selected={scoringChoice === "cloud"}
+            title="Use an online marking service"
+            description="Needs an account and a key from the provider. The most reliable option on a modest laptop."
+            onSelect={() => setScoringChoice("cloud")}
+          />
+          <ChoiceCard
+            name="scoring_choice"
+            selected={scoringChoice === "local"}
+            title="Run a model on this machine"
+            description="Everything stays offline. Needs a few gigabytes of disk and a capable machine."
+            onSelect={() => setScoringChoice("local")}
+          />
+
+          {scoringChoice === "cloud" && (
+            <Card>
+              <CardContent className="p-4">
+                <p className="mb-3 flex items-center gap-2 text-[13px] font-medium text-foreground">
+                  <Cloud className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  Online marking service
+                </p>
+                <CloudSetup />
+              </CardContent>
+            </Card>
+          )}
+          {scoringChoice === "local" && (
+            <Card>
+              <CardContent className="p-4">
+                <p className="mb-3 flex items-center gap-2 text-[13px] font-medium text-foreground">
+                  <ServerCog className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  A model on this machine
+                </p>
+                <LocalSetup />
+              </CardContent>
+            </Card>
           )}
         </div>
       )}
-
-      <div className="flex flex-wrap items-center gap-2">
-        <Button variant="outline" size="sm" loading={detecting} onClick={() => void runDetect(true)}>
-          <RotateCw className="h-3.5 w-3.5" aria-hidden="true" />
-          Detect again
-        </Button>
-        {running.length > 0 && (
-          <span className="flex items-center gap-1.5 text-[13px] text-success">
-            <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
-            {running.length} engine{running.length === 1 ? "" : "s"} ready
-          </span>
-        )}
-      </div>
     </div>
   );
 }
@@ -442,6 +729,29 @@ function sizeLabel(mb: number | null | undefined): string | null {
   if (!mb) return null;
   return mb >= 1024 ? `${(mb / 1024).toFixed(1)} GB` : `${mb} MB`;
 }
+
+/**
+ * True when the current settings would actually load these weights.
+ *
+ * The wizard used to offer the recommended STT artifact — 1.5 GB — as the one
+ * "required" download, while the configured engine was a small Whisper that was
+ * already installed. On a slow connection that is the most expensive thing the
+ * app asks for, and it changes nothing.
+ */
+function artifactInUse(
+  artifact: { kind: string | null; engine: string | null },
+  settings: EngineSettingsView | null,
+): boolean {
+  if (!artifact.kind || !artifact.engine || !settings) return false;
+  const slot = artifact.kind === "stt" ? settings.stt : artifact.kind === "tts" ? settings.tts : undefined;
+  if (!slot) return false;
+  return artifact.engine === slot.engine || artifact.engine === slot.preset;
+}
+
+const OPTIONAL_BENEFIT: Record<string, string> = {
+  stt: "Optional — a more accurate speech model. The one you already have works.",
+  tts: "Optional — an alternative examiner voice.",
+};
 
 export function StepModels() {
   const {
@@ -454,55 +764,43 @@ export function StepModels() {
     startDownload,
     cancelDownload,
   } = useOnboardingStore();
+  const settingsDoc = useSettingsStore((s) => s.doc);
+  const loadSettings = useSettingsStore((s) => s.load);
 
   useEffect(() => {
     if (recommended === null && !loadingModels) void loadModels();
+    if (settingsDoc === null) void loadSettings();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const missing = artifacts.filter((a) => a.state !== "installed");
+  const settings = settingsDoc as EngineSettingsView | null;
+  // Weights the app will actually load come first; anything else is an upgrade
+  // the learner can decline without losing a feature.
+  const ordered = useMemo(
+    () =>
+      [...artifacts].sort(
+        (a, b) => Number(artifactInUse(b, settings)) - Number(artifactInUse(a, settings)),
+      ),
+    [artifacts, settings],
+  );
+  const missingInUse = ordered.filter((a) => artifactInUse(a, settings) && a.state !== "installed");
 
   return (
     <div className="space-y-4">
       <p className="text-sm leading-relaxed text-muted-foreground">
-        Speech recognition and the examiner voice run from local weights. They are downloaded
-        once into your data folder, checksum-verified, and resumed if interrupted. Downloads
-        continue in the background — Reading and Writing work immediately; the Speaking room
-        waits for its weights.
+        Speaking practice turns your recording into words and reads the examiner&apos;s
+        questions aloud. Both run from files on this machine, downloaded once and resumed if
+        interrupted. {WHAT_WORKS_NOW}
       </p>
 
-      {recommended?.recommended && (
+      {recommended?.cloud_alternative?.advice && (
         <Card>
           <CardContent className="space-y-1.5 p-4 text-[13px]">
-            <p className="font-medium text-foreground">
-              Detected:{" "}
-              {[
-                recommended.platform?.ram_gb
-                  ? `${Math.round(recommended.platform.ram_gb)} GB RAM`
-                  : null,
-                recommended.platform?.apple_silicon ? "Apple silicon" : null,
-              ]
-                .filter(Boolean)
-                .join(" · ") || "this machine"}
+            <p className="flex items-center gap-1.5 font-medium text-foreground">
+              <Cloud className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              {recommended.cloud_alternative.label ?? "Using an online service instead"}
             </p>
-            {recommended.recommended.llm_model && (
-              <p className="text-muted-foreground">
-                Suggested scoring model: {recommended.recommended.llm_model}
-                {recommended.recommended.llm_engine
-                  ? ` via ${recommended.recommended.llm_engine}`
-                  : ""}
-                .
-              </p>
-            )}
-            {recommended.recommended.advice && (
-              <p className="text-muted-foreground">{recommended.recommended.advice}</p>
-            )}
-            {recommended.cloud_alternative?.advice && (
-              <p className="flex items-start gap-1.5 text-muted-foreground">
-                <Cloud className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                {recommended.cloud_alternative.advice}
-              </p>
-            )}
+            <p className="text-muted-foreground">{recommended.cloud_alternative.advice}</p>
           </CardContent>
         </Card>
       )}
@@ -521,7 +819,7 @@ export function StepModels() {
         </p>
       ) : (
         <ul className="space-y-2">
-          {artifacts.map((artifact) => {
+          {ordered.map((artifact) => {
             const job = downloads[artifact.artifact_id];
             const installed = artifact.state === "installed" || job?.state === "done";
             const busy = job?.state === "queued" || job?.state === "running";
@@ -530,6 +828,8 @@ export function StepModels() {
               (artifact.state === "partial" ||
                 job?.state === "cancelled" ||
                 job?.state === "error");
+            const inUse = artifactInUse(artifact, settings);
+            const jobName = artifact.kind ? ARTIFACT_KIND_LABELS[artifact.kind] : undefined;
 
             return (
               <li key={artifact.artifact_id} className="rounded-lg border border-border px-3 py-2.5">
@@ -538,12 +838,9 @@ export function StepModels() {
                     className="h-4 w-4 shrink-0 text-muted-foreground"
                     aria-hidden="true"
                   />
-                  <span className="text-sm font-medium text-foreground">{artifact.label}</span>
-                  {artifact.kind && (
-                    <span className="text-xs uppercase tracking-wide text-muted-foreground">
-                      {artifact.kind}
-                    </span>
-                  )}
+                  <span className="min-w-0 text-sm font-medium text-foreground">
+                    {jobName ?? artifact.label}
+                  </span>
                   {sizeLabel(artifact.approx_mb) && (
                     <span className="tabular text-xs text-muted-foreground">
                       {sizeLabel(artifact.approx_mb)}
@@ -556,7 +853,11 @@ export function StepModels() {
                     </Badge>
                   ) : resumable ? (
                     <Badge tone="warning">Incomplete</Badge>
-                  ) : null}
+                  ) : inUse ? (
+                    <Badge tone="warning">Needed for Speaking</Badge>
+                  ) : (
+                    <Badge tone="outline">Optional</Badge>
+                  )}
                   <span className="ml-auto flex items-center gap-2">
                     {busy && (
                       <Button
@@ -571,7 +872,7 @@ export function StepModels() {
                     {!busy && !installed && (
                       <Button
                         size="sm"
-                        variant={resumable ? "secondary" : "outline"}
+                        variant={resumable || inUse ? "secondary" : "ghost"}
                         onClick={() => void startDownload(artifact.artifact_id)}
                       >
                         <Download className="h-3.5 w-3.5" aria-hidden="true" />
@@ -580,6 +881,11 @@ export function StepModels() {
                     )}
                   </span>
                 </div>
+                {!installed && !inUse && artifact.kind && OPTIONAL_BENEFIT[artifact.kind] && (
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {OPTIONAL_BENEFIT[artifact.kind]}
+                  </p>
+                )}
                 {busy && (
                   <Progress
                     className="mt-2"
@@ -601,11 +907,11 @@ export function StepModels() {
         </ul>
       )}
 
-      {missing.length > 0 && (
-        <p className="text-[13px] text-muted-foreground">
-          You can continue now and let these finish in the background.
-        </p>
-      )}
+      <p className="text-[13px] text-muted-foreground">
+        {missingInUse.length > 0
+          ? "You can continue now and let these finish in the background."
+          : "Nothing here is required to continue — downloads can wait until you first open the Speaking room."}
+      </p>
     </div>
   );
 }
@@ -764,19 +1070,46 @@ export function StepMic() {
 // --------------------------------------------------------- 7 placement offer ---
 
 export function StepPlacementOffer({ draft }: { draft: ProfileDraft }) {
+  const scoring = useOnboardingStore((s) => s.scoring);
+  const checkScoring = useOnboardingStore((s) => s.checkScoring);
   const selfLevel = useMemo(
     () => SELF_LEVELS.find((l) => l.value === draft.self_level),
     [draft.self_level],
   );
+  const markingReady = scoring?.ok === true;
+
+  // A restored draft can land straight on this step without step 4 ever having
+  // mounted, and warning about marking that actually works would be a lie.
+  useEffect(() => {
+    if (scoring === null) void checkScoring();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="space-y-4">
       <p className="text-sm leading-relaxed text-muted-foreground">
         The placement test is a short sampler — one reading passage, one listening part, a
-        100–150 word writing task and four speaking questions. It takes about 30 minutes and
-        gives every skill a starting band within about ±1.0, which is what the plan needs to
-        weight your week.
+        100–150 word writing task and four short written answers to speaking questions, typed
+        the way you would say them. It takes about 30 minutes and gives every skill a starting
+        band within about ±1.0, which is what the plan needs to weight your week.
       </p>
+
+      {scoring !== null && !markingReady && (
+        <Card className="border-warning/40 bg-warning/[0.06]">
+          <CardContent className="space-y-1 p-4 text-[13px]">
+            <p className="font-medium text-foreground">
+              The Writing and Speaking sections can&apos;t be marked yet
+            </p>
+            <p className="text-muted-foreground">
+              Those two halves are read by a marking model, and none is set up. Reading and
+              Listening are marked here on this machine and will give you real starting bands;
+              Writing and Speaking would fall back to the self-rating you gave earlier. You can
+              go back a few steps to set marking up, skip those two sections, or place now and
+              retake them later — nothing is lost either way.
+            </p>
+          </CardContent>
+        </Card>
+      )}
 
       <ul className="space-y-2 text-[13px]">
         {[

@@ -101,11 +101,7 @@ export function CoachPicker() {
     <PageShell
       title="Listening coach"
       description="One part at a time: what it is, what to predict before it plays, and where every mark went."
-      actions={
-        <Button variant="ghost" size="sm" onClick={() => navigate("/listening")}>
-          Listening library
-        </Button>
-      }
+      back={{ to: "/listening", label: "Listening" }}
       toolbar={
         <div className="flex flex-wrap items-center gap-2">
           <Select
@@ -115,7 +111,7 @@ export function CoachPicker() {
             onChange={setPart}
             options={PART_OPTIONS}
           />
-          <span className="text-[11px] tabular-nums text-muted-foreground">
+          <span className="text-[11px] tabular text-muted-foreground">
             {visible.length} of {scripts?.length ?? 0} parts · {sat.size} sat
           </span>
         </div>
@@ -181,7 +177,7 @@ export function CoachPicker() {
                   </p>
                 </CardHeader>
                 <CardContent className="flex items-center justify-between gap-3 pt-2">
-                  <span className="text-[11px] tabular-nums text-muted-foreground">
+                  <span className="text-[11px] tabular text-muted-foreground">
                     {script.questions} questions
                     {script.target_band ? ` · aimed at band ${script.target_band}` : ""}
                   </span>

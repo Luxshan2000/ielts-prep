@@ -11,6 +11,13 @@ export interface EmptyStateProps {
   description?: string;
   /** Exactly one primary CTA (12 §9). */
   action?: ReactNode;
+  /**
+   * `md` fills a screen or a whole tab. `sm` is for an empty panel inside a screen that has
+   * other content — a chart with no history, one card in a grid of four. Panels were writing
+   * their own two-paragraph version of this, which is why an empty Progress reads as four
+   * different components; same copy, same shape, less vertical space.
+   */
+  size?: "sm" | "md";
   className?: string;
 }
 
@@ -19,20 +26,33 @@ export function EmptyState({
   title,
   description,
   action,
+  size = "md",
   className,
 }: EmptyStateProps) {
+  const sm = size === "sm";
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center gap-3 px-6 py-14 text-center animate-fade-in",
+        "flex flex-col items-center justify-center gap-3 text-center animate-fade-in",
+        sm ? "px-4 py-8" : "px-6 py-14",
         className,
       )}
     >
-      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
-        <Icon className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
+      <span
+        className={cn(
+          "flex items-center justify-center rounded-full bg-muted",
+          sm ? "h-9 w-9" : "h-12 w-12",
+        )}
+      >
+        <Icon
+          className={cn("text-muted-foreground", sm ? "h-4 w-4" : "h-5 w-5")}
+          aria-hidden="true"
+        />
       </span>
       <div className="space-y-1">
-        <p className="text-sm font-semibold text-foreground">{title}</p>
+        <p className={cn("font-semibold text-foreground", sm ? "text-[13px]" : "text-sm")}>
+          {title}
+        </p>
         {description && (
           <p className="max-w-sm text-[13px] text-muted-foreground">{description}</p>
         )}

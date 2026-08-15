@@ -93,9 +93,17 @@ export interface SessionRequest {
   code?: string;
   /** Drill one contrast, from every member point's stage-3 bank (F6). */
   board_id?: string;
-  /** The mixed daily queue: grammar and vocabulary interleaved (F9). */
+  /** Which queue to build. `placement` is the twenty-item "find where to start". */
   mode?: "point" | "daily" | "code" | "board" | "placement";
   limit?: number;
+  /**
+   * The daily queue can interleave vocabulary cards (F9), and the sidecar defaults
+   * to doing so. This module has no renderer for one and `/grammar/answer` returns
+   * 404 for one, so the screens ask for grammar only and `/vocab` — which has a
+   * player, a rating scale and the intervals — keeps the words. The flag is left
+   * on the wire so the day a renderer lands, one call site changes.
+   */
+  include_vocabulary?: boolean;
 }
 
 export function startSession(request: SessionRequest): Promise<SessionResponse> {

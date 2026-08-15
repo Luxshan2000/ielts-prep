@@ -1,8 +1,22 @@
 # BandReady — Implementation Status
 
-**Verified on 2026-07-25** on macOS 25.4.0 (Apple Silicon), by running every command below and
-reading its output. Nothing in this document is carried over from a previous report; where an
-earlier claim turned out to be wrong, the correction is stated explicitly.
+**Two dates, and the difference matters.**
+
+- **The runtime evidence below was gathered on 2026-07-25/26** on macOS 25.4.0 (Apple Silicon),
+  by running every command in [Verified commands](#verified-commands) and reading its output.
+- **The content-pack and packaging figures were re-measured on 2026-08-15** against the working
+  tree and a running sidecar. The bank has roughly quintupled since July and every count in the
+  original report was wrong by the time anyone read it.
+
+Where a July claim has since been re-measured, the row says so. Where it has not, treat it as
+three weeks old rather than as today's truth — a claim about a *route* that existed in July
+almost certainly still holds, a claim about *how much content exists* almost certainly does not.
+
+> **Corrected on 2026-08-15.** Six claims in the 2026-07-25 edition of this file contradicted the
+> code: zero General Training passages, no dictation mode, no `map_labelling` questions, no media
+> files, no release workflow, and the content-row counts. Each is fixed in place below and
+> flagged **[corrected 08-15]**. The module table also gained the two rows it never had —
+> Grammar and Theory, roughly 10,000 lines of shipped app code that this file did not mention.
 
 ---
 
@@ -40,16 +54,18 @@ its band scores are not yet calibrated against expert-marked samples.**
 
 | Module | Status | What works | What is missing | How it was verified |
 |---|---|---|---|---|
-| **Reading** | **Working** | Library, player, timer, flags, highlights, autosave, submit, scored review with per-question keys. Full test = 40 questions numbered 1–40 across 3 passages. Drills by question type. | No `GET /api/v1/reading/attempts` list route (listening/writing/speaking all have one), so the progress screen footnotes a missing Reading column. Zero General Training passages. Drills can't resume after reload. `GET /reading/tests` reports one passage's `band_target` for a mixed-difficulty test. | `POST /reading/attempts {test_id:"rt_academic_1",mode:"full"}` → 201, 40 questions; `POST .../submit` → 200 `raw_score 2, band 2.0` (all-"true" answers); `GET .../review` → 200. Playwright `reading.spec.ts`. |
-| **Listening** | **Working** | Library, 4-part player, exam lockdown (no seek/replay), transfer-and-check, submit, scored review. **Audio is really generated**: Kokoro rendered all 3 tested scripts. | Only **one** listening test exists (the placement sampler wants two). No `map_labelling` question (needs an SVG asset; pack ships no media). No dictation mode (sidecar exposes no endpoints). Exam lockdown is client-side only. | `POST /listening/scripts/ls_t1_p1/render` → 202 → job succeeded → 15.4 MB WAV, 24 kHz, 321.6 s, 47 lines, with per-line timing JSON. Acoustic check: RMS 0.070, spectral centroid 2.8 kHz (real speech). Attempt create/submit/review → 200. Playwright `listening.spec.ts`. |
+| **Reading** | **Working** | Library, player, timer, flags, highlights, autosave, submit, scored review with per-question keys. Full test = 40 questions numbered 1–40 across 3 passages. Drills by question type. **Both formats ship**: 12 tests (8 Academic, 4 General Training) over 36 passages, 480 questions across 15 question types. **[corrected 08-15 — the July edition said "zero General Training passages"]** | No `GET /api/v1/reading/attempts` list route (listening/writing/speaking all have one), so the progress screen footnotes a missing Reading column. Drills can't resume after reload. `GET /reading/tests` reports one passage's `band_target` for a mixed-difficulty test. | `POST /reading/attempts {test_id:"rt_academic_1",mode:"full"}` → 201, 40 questions; `POST .../submit` → 200 `raw_score 2, band 2.0` (all-"true" answers); `GET .../review` → 200. Playwright `reading.spec.ts`. |
+| **Listening** | **Working** | Library, 4-part player, exam lockdown (no seek/replay), transfer-and-check, submit, scored review. **Audio is really generated**: Kokoro rendered all 3 tested scripts. **7 tests over 43 scripts, 415 questions across 8 question types, including 20 `map_labelling`** rendered from 9 shipped map SVGs by `MapAsset.tsx`. Dictation is a real mode: `routes/listening.py` lists it in `MODES`, `routes/listening_drills.py` serves the drills, `DictationItem.tsx` renders them. **[corrected 08-15 — the July edition said 1 test, no map_labelling, no dictation, no media]** | Exam lockdown is client-side only. | `POST /listening/scripts/ls_t1_p1/render` → 202 → job succeeded → 15.4 MB WAV, 24 kHz, 321.6 s, 47 lines, with per-line timing JSON. Acoustic check: RMS 0.070, spectral centroid 2.8 kHz (real speech). Attempt create/submit/review → 200. Playwright `listening.spec.ts`. |
 | **Writing** | **Working** | Prompt bank with filters, Task 1 chart rendering as SVG, draft workspace, autosave, word count, pre-check, submit, scored report with all four IELTS criteria, character-anchored inline annotations and vocabulary suggestions. Needs an LLM (none is bundled). | Scoring is spot-checked against a real model, not calibrated against a golden set. Evidence-quote highlight flash (05 §7) not implemented. | Against real `qwen/qwen3-30b-a3b-instruct-2507`: a strong essay scored **8.0** in 14 s; a weak one scored **5.0** in 38 s with **10 offset-anchored annotations** and **13 vocabulary suggestions**. ~$0.0002 per essay. Playwright `writing.spec.ts` covers the mock path. |
 | **Speaking** | **Working** | Hub, mode picker, mic pre-call check, session lifecycle, state machine (`IDLE → CONNECTING → P1_INTRO → …`), live WebRTC call, scored report with bands/criteria/transcript. **The full live pipeline was confirmed working by the project owner at a real microphone** (2026-07-26). | Scoring quality against a real model is only spot-checked, not calibrated against a golden set. Live call not covered by an automated test — headless Chromium cannot establish the peer connection, so this remains a manual check. | Examiner turn driven by the real LLM: asked "What's your hometown like?", then followed up "What do you enjoy most about living there?", staying in examiner register. Card injection held at exactly 1 marked message across turns. All three services construct against real config (`WhisperSTTService`, `KokoroTTSService`, `OpenAILLMService`). **Live WebRTC call verified manually by the owner.** |
-| **Vocabulary / SRS** | **Working** | 21 decks / 343 entries seed from the pack. Deck opt-in, suggestion inbox (opt-in only), review queue, six exercise types, real FSRS scheduling, stats, entry browser. | No headword audio (`/api/v1/media/vocab/<id>.wav` 404s — no producer exists); falls back to platform speech synthesis. No endpoint exposing `srs_review_logs`, so "review history" shows schedule facts, not a timeline. Bulk actions loop one request per item. | Deck opt-in → queue went 0 → 10 items; `POST /srs/review` → 200 with a real FSRS card (`state "learning"`, `stability 2.3065`, `difficulty 2.118`, computed `due`). `GET /vocab/stats` → 200. Playwright `vocab.spec.ts`. |
+| **Vocabulary / SRS** | **Working** | **24 decks / 1,246 entries** seed from the pack **[corrected 08-15 — the July edition said 21 decks / 343 entries]**. Deck opt-in, suggestion inbox (opt-in only), review queue, six exercise types, real FSRS scheduling, stats, entry browser. | No headword audio (`/api/v1/media/vocab/<id>.wav` 404s — no producer exists); falls back to platform speech synthesis. No endpoint exposing `srs_review_logs`, so "review history" shows schedule facts, not a timeline. Bulk actions loop one request per item. | Deck opt-in → queue went 0 → 10 items; `POST /srs/review` → 200 with a real FSRS card (`state "learning"`, `stability 2.3065`, `difficulty 2.118`, computed `due`). `GET /vocab/stats` → 200. Playwright `vocab.spec.ts`. |
+| **Grammar & Usage** | **Working** | A whole module the July edition never mentioned: board, point, session, path, progress and phrases screens, 14 item renderers, a six-rung mastery ladder with an entry gate, a prerequisite graph, and error codes fed from the four skills. `routes/grammar.py`; migration `0003_grammar_tables`; ~27 files in `app/src/features/grammar/`. | Authored coverage is below the design's full point set and is changing week to week — **[GRAMMAR-VOCAB.md](GRAMMAR-VOCAB.md) §7 is the current gap list and this row deliberately does not duplicate its numbers.** The writing and speaking scorers still emit no error codes, so two of the four feed-in paths are inert. | `data/grammar.jsonl` held 156 rows and `data/vocab.jsonl` 1,246 when the validator was last run (2026-08-15); both grew during that day's work. Behaviour and coverage are documented in [GRAMMAR-VOCAB.md](GRAMMAR-VOCAB.md), measured against the merged pack. |
+| **Theory** (grammar reference) | **Working** | The browsable reference: 99 articles across 8 chapters, `routes/theory.py`, migration `0004_theory_articles`, `TheoryScreen.tsx` + `ArticleBody.tsx`. **It is the deliberate exception to the gate — always readable, no attempt required, no learner state consulted.** Never "fix" it to respect the gate; see [THEORY-CONTENT.md](THEORY-CONTENT.md) §1 before touching it. | Reachable only from inside the grammar route rather than owning a sidebar entry of its own, so a learner who wants to look something up has to know it lives under Grammar. | `GET /api/v1/theory/chapters` on the running sidecar returns all 8 chapters with their articles; `data/theory.jsonl` held 99 rows at the last validator run. |
 | **Curriculum / Progress** | **Working** | Study plan generation, daily sessions, progress summary, band estimates, trajectory, heatmap, readiness, streaks, activity log. Onboarding wizard and placement sitting. | `GET /placement/next` returns adaptive reading via a fallback: no two passages share a `topic_id` at different band targets, so the R2-22 pivot uses cross-topic extremes. Placement speaking is answered by typing, not voice. `app/src/stores/progress.ts` still models an obsolete summary shape (features bypass it and call the API directly). | `GET /progress/summary`, `/estimates`, `/trajectory`, `/heatmap`, `/criteria`, `/plan`, `/readiness` → all 200 on a fresh DB. `POST /placement/start` → 200, `GET /placement/next` → 200 with a real reading step. Playwright `onboarding.spec.ts`, `progress.spec.ts`. |
 | **Pronunciation** | **Partial** | 46 minimal-pair drill items (26 built-in + 20 from the pack), contrast list, scores, accent-neutral framing copy. faster-whisper transcription works. | `POST /pron/read-aloud` needs a multipart WAV upload and was never exercised end-to-end. No accent-drill or read-aloud E2E coverage. | `GET /pron/drills` → 200, 10 items / 22 contrasts; `/contrasts`, `/scores` → 200. STT proven separately (below). |
 | **Settings / Providers** | **Working** | Full settings screen, `GET`/`PATCH /settings`, 16 provider presets, detection, verification, TTS preview, model download/adopt. Local models auto-adopted from existing caches (942 MB linked, not re-downloaded). | `PUT /api/v1/settings` does not exist (it is `PATCH`) — worth pinning in the contract doc. `GET`/`PUT /api/v1/profile` from doc 18 §4.13 **do not exist** on the server. First-run users must pick a provider manually; `BANDREADY_ENABLE_MOCK=1` exposes mock presets but does not select them. | `PATCH /settings` → 200, presets switched to `mock_llm/mock_stt/mock_tts` and read back. `GET /providers/presets` → 16 presets. `GET /providers/detect` → 200. |
-| **Content pack** | **Working but thin** | `core-en` v1.0.0 validates **with checksums** and imports cleanly on a fresh DB with **zero** auto-created topics (the topic-id fork reported earlier is fixed). 472 rows across 10 files. | Below the v1.0 content gate. **1** listening test, **2** reading tests, **0** General Training reading passages, **0** media files, no map-labelling. The LLM-backed content validators (blind answer-key agreement, chart solvability) and human review from doc 15 §3.3/§3.5 are not implemented. | `validate_pack(verify_checksums=True)` → **OK**. Fresh import: `topics=20, card_sets=12, speaking_cards=48, writing_prompts=16, reading_passages=6, reading_tests=2, listening_scripts=4, listening_tests=1, vocab_pack_entries=343, reading_questions=80, listening_questions=40, media_files=0, created_topics=[]`. |
-| **Packaging / distribution** | **Working (unsigned)** | `app/electron-builder.yml` + `scripts/stage-sidecar.mjs` produce a real installer. **A 156 MB `BandReady-0.1.0-arm64.dmg` was built and the installed app was launched and verified**: it spawns the bundled Python, runs migrations, seeds the content pack and answers `/health`. Auto-update wiring present and disabled in dev. | No code signing or notarization (no Developer ID available here, so the DMG was built with `identity=null`; users get a Gatekeeper warning). No app icon. No release workflow. Windows and Linux targets are configured but were never built on their platforms. | `node scripts/stage-sidecar.mjs` → staged `build/python` (78 MB) + `build/sidecar-venv` (87 MB), bundled sidecar imports with 148 routes. `electron-builder --mac dmg --arm64` → `dist-electron/BandReady-0.1.0-arm64.dmg`. Launched the installed `.app`: sidecar child process spawned, `/health` → `{"status":"ok","db":"ok","migrations":"0001"}`, and the content routes returned 2 reading tests / 16 writing prompts / 48 speaking cards / 21 vocab decks. |
+| **Content pack** | **Working** | `core-en` v1.0.0 validates **with checksums** and imports cleanly on a fresh DB with **zero** auto-created topics (the topic-id fork reported earlier is fixed). **2,345 rows across 12 data files (2026-08-15, and still growing), plus 10 tracked SVGs** under `content/core-en/media/` (9 listening maps + 1 reading diagram). **[corrected 08-15 — the July edition said 472 rows across 10 files and 0 media]** | The LLM-backed content validators (blind answer-key agreement, chart solvability) and the human review from doc 15 §3.3/§3.5 are not implemented — nothing has independently checked an answer key. Writing is the only bank with no `docs/*-CONTENT.md` authoring guide. | **July (import run):** `validate_pack(verify_checksums=True)` → **OK**; fresh import created `topics=20 … created_topics=[]` with no auto-created topic. **August:** `python -m tools.content.validate content/core-en` → **OK — pack is valid**, with `topics 20, card_sets 108, speaking_cards 496, writing_prompts 102, reading_passages 36, reading_tests 12, listening_scripts 43, listening_tests 7, vocab_pack_entries 1246, pron_pairs 20, grammar_points 156, theory_articles 99` = **2,345 rows**. 480 reading and 415 listening questions counted out of the nested `passage_json` / `script_json`; `media/` holds 10 SVGs. The live sidecar serves all 12 reading and 7 listening tests. **These counts move week to week — run the validator rather than quoting this row.** |
+| **Packaging / distribution** | **Working (unsigned)** | `app/electron-builder.yml` + `scripts/stage-sidecar.mjs` produce a real installer. **A 156 MB `BandReady-0.1.0-arm64.dmg` was built and the installed app was launched and verified**: it spawns the bundled Python, runs migrations, seeds the content pack and answers `/health`. Auto-update wiring present and disabled in dev. | No code signing or notarization (no Developer ID available here, so the DMG was built with `identity=null`; users get a Gatekeeper warning). **No app icon** — `app/build/` holds only `entitlements.mac.plist`, so every build ships the stock Electron icon. Windows and Linux targets are configured but were never built on their platforms. **[corrected 08-15 — the July edition said "no release workflow"; `.github/workflows/release.yml` exists and builds installers on each platform, attaching them to a GitHub pre-release with notarization explicitly disabled]** | `node scripts/stage-sidecar.mjs` → staged `build/python` (78 MB) + `build/sidecar-venv` (87 MB), bundled sidecar imports with 148 routes. `electron-builder --mac dmg --arm64` → `dist-electron/BandReady-0.1.0-arm64.dmg`. Launched the installed `.app`: sidecar child process spawned, `/health` → `{"status":"ok","db":"ok","migrations":"0001"}`, and the content routes returned 2 reading tests / 16 writing prompts / 48 speaking cards / 21 vocab decks. |
 
 ---
 
@@ -277,25 +293,39 @@ tsc clean (renderer + electron), 174 vitest, and 4 consecutive 14/14 Playwright 
 
 ## Known gaps and next steps
 
+> **[corrected 08-15]** Three items in this list were **done** between 07-25 and 08-15 and are
+> struck through below rather than deleted, because a list that quietly loses entries teaches
+> nobody. The rest still stand.
+
 **P0 — blocks shipping to a single real user**
 
-1. **There is no packaging.** Write the electron-builder config (appId, `files`, icons,
-   `extraResources`), and build the step that produces `<resources>/sidecar-venv` — a relocatable
-   Python environment with the sidecar and its dependencies. `electron/main.ts` already expects
-   this exact layout; nothing produces it. Until then the app runs only from a source checkout.
-2. **No code signing or notarization**, and no release workflow. On macOS an unsigned app is
-   quarantined; `electron-updater` is wired but has nothing to update from.
-3. **Complete one real live speaking call** with a real LLM + Whisper + Kokoro, on a real machine,
-   with a human listening. Fix (1) above removed the import blocker, but the full loop has never
-   run. This is the app's flagship feature and it is the single largest unverified claim.
+1. ~~**There is no packaging.**~~ **Done.** `app/electron-builder.yml` and
+   `scripts/stage-sidecar.mjs` exist and produce a relocatable CPython + sidecar venv under
+   `build/`; a 156 MB arm64 DMG was built and the installed app was launched and verified.
+2. **No code signing or notarization.** Still open, and it is now the *only* packaging blocker.
+   On macOS an unsigned app is quarantined and the user must right-click → Open past Gatekeeper;
+   on Windows SmartScreen warns. Both need a paid certificate that this project does not have.
+   ~~and no release workflow~~ — `.github/workflows/release.yml` now builds per-platform
+   installers and attaches them to a GitHub **pre-release**, with notarization explicitly
+   disabled and every build marked pre-release so nobody mistakes it for a shipped one.
+   `electron-updater` is wired and has a pre-release feed to update from.
+3. ~~**Complete one real live speaking call.**~~ **Done 2026-07-26**, verified by the project
+   owner at a real microphone with a real LLM + Whisper + Kokoro. It remains uncovered by any
+   automated test — headless Chromium cannot establish the peer connection — so a regression in
+   the voice pipeline will not be caught by CI. That is now the risk, not the capability.
 
 **P1 — the product is thin or misleading without these**
 
-4. **Content volume.** 1 listening test, 2 reading tests, 0 General Training reading passages. A
-   General Training user gets *no* reading practice at all and the placement reading section is
-   skipped entirely for them. The placement sampler wants 2 listening tests and gets 1.
+4. ~~**Content volume.**~~ **Largely done.** The bank went from 472 rows to 2,345: 12 reading
+   tests across both formats (8 Academic, 4 General Training), 7 listening tests, 102 writing
+   prompts, 496 speaking cards, 1,246 vocabulary entries, 156 grammar points, 99 theory articles.
+   A General Training user now has reading practice and the placement sampler has the two
+   listening tests it wanted. **What is still missing is verification, not volume**: no
+   independent check has ever been run over an answer key (see the content-pack row).
 5. **Add one same-topic reading passage pair** at ~5.5–6.0 and ~7.5–8.0 so placement's adaptive
-   pivot stops falling back to cross-topic extremes.
+   pivot stops falling back to cross-topic extremes. *(Still open — 36 passages exist but the
+   pivot needs two at the same `topic_id` and different band targets, which is a shape
+   requirement volume alone does not satisfy.)*
 6. **First-run provider experience.** A brand-new user with no Ollama gets a `502 provider_error`
    the first time they submit an essay. It degrades honestly (the detail is surfaced), but
    onboarding should detect the absence and either guide the install or offer a clearly-labelled
@@ -322,8 +352,32 @@ tsc clean (renderer + electron), 174 vitest, and 4 consecutive 14/14 Playwright 
 13. **E2E isolation.** The suite runs `workers:1, fullyParallel:false` against one shared database;
     specs tolerate warm state but are not isolated. Sharding will need per-worker sidecars. The one
     flake found was root-caused and fixed (§6), but the shared-state design will produce more.
-14. **Screenshots.** `README.md` links `docs/screenshots/*.png`, which do not exist — they render
-    as alt text.
+14. ~~**Screenshots.**~~ **No longer broken.** `README.md` no longer embeds the six missing
+    images; it links to [`docs/screenshots/README.md`](screenshots/README.md), which holds the
+    capture contract (filenames, dark theme, 1440×900 @2×, shipped content only). The images
+    themselves are still uncaptured and land with the first tagged release.
+
+**Found on 2026-08-15, not in the July pass**
+
+15. **`app/src/features/settings/` has no unit tests** — 17 files, ~3,250 lines, and the one
+    screen a new install must survive before anything else works. It also owns the
+    closed-dropdown rule, so nothing currently fails if `models_by_modality` is turned back into
+    a free-text field and a learner picks a model that 404s three screens later.
+    `e2e/settings.spec.ts` exists but E2E does not run in `ci.yml`. Grammar and pronunciation
+    have no E2E spec at all.
+16. **The content staging trees are tracked inconsistently** — four ignored, three committed,
+    about 13 MB of intermediate JSON whose merged output is also committed. Nobody chose this;
+    each new bank inherits whichever behaviour nobody decided. The decision and the exact
+    commands for either answer are written up in [REPOSITORY.md §3](REPOSITORY.md).
+17. **No `docs/WRITING-CONTENT.md`.** Listening, reading, speaking, grammar and theory each have
+    a content-bank document; writing has a staging tree, a `DESIGN.md`, four research files and
+    102 prompt rows, and no authoring guide. The asymmetry is invisible until an author needs to
+    add a prompt.
+18. **`pnpm lint` fails at the repository root.** The root `package.json` forwards to
+    `bandready-app`, which has no `lint` script, no ESLint config and no `eslint` dependency.
+    `CONTRIBUTING.md` is honest that ruff is the only linter opinion that counts, but the root
+    script advertises a TypeScript linter that was never installed, and `ci.yml` does not lint
+    the app either. Either add ESLint or delete the script.
 
 ---
 

@@ -8,33 +8,30 @@
  */
 
 import { create } from "zustand";
-import { api, ApiError } from "@/lib/api";
-import type { PlanResponse, PlanSession, ProgressSummary, SessionMarkResult } from "./types";
+import { api } from "@/lib/api";
+import { friendlyMessage } from "@/lib/errors";
+import type {
+  PlanResponse,
+  PlanSession,
+  ProgressSummary,
+  SessionMarkResult,
+  VocabStats,
+} from "./types";
 
-export interface LoadFailure {
-  detail: string;
-  code: string;
-  offline: boolean;
-}
-
-function toFailure(err: unknown): LoadFailure {
-  if (err instanceof ApiError) {
-    return { detail: err.detail, code: err.code, offline: err.isOffline };
-  }
-  return {
-    detail: err instanceof Error ? err.message : "the dashboard could not be loaded",
-    code: "internal",
-    offline: false,
-  };
+function actionDetail(err: unknown): string {
+  return friendlyMessage(err, "that did not go through — try again in a moment");
 }
 
 interface HomeState {
   summary: ProgressSummary | null;
   plan: PlanResponse | null;
+  /** Cards the review room will actually serve today — see `VocabStats`. */
+  vocabDue: number | null;
   loading: boolean;
   /** True only for the very first load, so refreshes never flash a skeleton. */
   initialized: boolean;
-  error: LoadFailure | null;
+  /** The thrown value itself, so `ErrorState` can classify it (offline vs provider). */
+  error: unknown;
   /** Ids of callouts dismissed in this session (optimistic hide). */
   dismissing: string[];
   /** Set while POST /plan/generate is in flight. */
@@ -63,6 +60,7 @@ interface HomeState {
 export const useHomeStore = create<HomeState>((set, get) => ({
   summary: null,
   plan: null,
+  vocabDue: null,
   loading: false,
   initialized: false,
   error: null,
@@ -73,32 +71,43 @@ export const useHomeStore = create<HomeState>((set, get) => ({
 
   load: async () => {
     set({ loading: true, error: null });
-    const [summary, plan] = await Promise.allSettled([
+    const [summary, plan, vocab] = await Promise.allSettled([
       api.get<ProgressSummary>("/api/v1/progress/summary"),
       api.get<PlanResponse>("/api/v1/plan"),
+      api.get<VocabStats>("/api/v1/vocab/stats"),
     ]);
+
+    // A vocabulary count the room disagrees with is worse than no count, so a
+    // failed stats call falls back to the summary's own number rather than 0.
+    const vocabDue =
+      vocab.status === "fulfilled" && typeof vocab.value?.due_today === "number"
+        ? vocab.value.due_today
+        : null;
 
     // The summary is the screen; a plan failure alone is an empty state, not an error.
     if (summary.status === "rejected") {
       set({
         loading: false,
         initialized: true,
-        error: toFailure(summary.reason),
+        error: summary.reason,
         summary: null,
         plan: plan.status === "fulfilled" ? plan.value : null,
+        vocabDue,
       });
       return;
     }
     set({
       summary: summary.value,
       plan: plan.status === "fulfilled" ? plan.value : null,
+      vocabDue,
       loading: false,
       initialized: true,
       error: null,
     });
   },
 
-  invalidate: () => set({ summary: null, plan: null, initialized: false, error: null }),
+  invalidate: () =>
+    set({ summary: null, plan: null, vocabDue: null, initialized: false, error: null }),
 
   generatePlan: async () => {
     set({ generating: true, actionError: null });
@@ -106,7 +115,7 @@ export const useHomeStore = create<HomeState>((set, get) => ({
       await api.post<{ plan: unknown }>("/api/v1/plan/generate", {});
       await get().load();
     } catch (err) {
-      set({ actionError: toFailure(err).detail });
+      set({ actionError: actionDetail(err) });
     } finally {
       set({ generating: false });
     }
@@ -120,7 +129,7 @@ export const useHomeStore = create<HomeState>((set, get) => ({
       // Put it back — a failed dismiss must not silently hide the callout.
       set((s) => ({
         dismissing: s.dismissing.filter((id) => id !== eventId),
-        actionError: toFailure(err).detail,
+        actionError: actionDetail(err),
       }));
     }
   },
@@ -132,7 +141,7 @@ export const useHomeStore = create<HomeState>((set, get) => ({
       const summary = await api.get<ProgressSummary>("/api/v1/progress/summary");
       set({ summary });
     } catch (err) {
-      set({ actionError: toFailure(err).detail });
+      set({ actionError: actionDetail(err) });
     } finally {
       set({ busySession: null });
     }
@@ -148,7 +157,7 @@ export const useHomeStore = create<HomeState>((set, get) => ({
       await get().load();
       return result;
     } catch (err) {
-      set({ actionError: toFailure(err).detail });
+      set({ actionError: actionDetail(err) });
       return null;
     } finally {
       set({ busySession: null });
@@ -161,7 +170,7 @@ export const useHomeStore = create<HomeState>((set, get) => ({
       await api.post(`/api/v1/plan/sessions/${encodeURIComponent(sessionId)}/skip`);
       await get().load();
     } catch (err) {
-      set({ actionError: toFailure(err).detail });
+      set({ actionError: actionDetail(err) });
     } finally {
       set({ busySession: null });
     }

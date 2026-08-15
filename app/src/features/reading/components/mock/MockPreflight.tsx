@@ -78,11 +78,7 @@ export function MockPreflight() {
     <PageShell
       title="Mock reading paper"
       description="Three passages, forty questions, sixty minutes, one clock. No help of any kind while it runs."
-      actions={
-        <Button variant="ghost" size="sm" onClick={() => navigate("/reading")}>
-          Reading library
-        </Button>
-      }
+      back={{ to: "/reading", label: "Reading" }}
     >
       <div className="space-y-6">
         {offline && (

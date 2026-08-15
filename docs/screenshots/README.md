@@ -1,11 +1,11 @@
 # Screenshots
 
-The root [`README.md`](../../README.md) links to six images from this directory. They do not
-exist yet, so those links currently render as their alt text — that is deliberate until the
-first tagged release.
+The root [`README.md`](../../README.md) points here instead of embedding six images that do not
+exist yet — a README full of broken image icons is a worse first impression than an honest
+sentence. The captures land with the first tagged release.
 
-Drop the real captures here under exactly these filenames and the README table fills in with no
-further edits:
+Drop the real captures here under exactly these filenames, then replace the "Screenshots"
+section of the root README with the embed table (one edit, and the paths already match):
 
 | File | Screen |
 |---|---|

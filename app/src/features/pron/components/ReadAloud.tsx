@@ -69,6 +69,20 @@ export function ReadAloud({ sentence, source, className }: ReadAloudProps) {
           {sentence}
         </p>
 
+        {/* Said before the learner speaks, not after. A learner who records first and
+            reads the caveat afterwards has already spent the thirty seconds believing
+            they were about to be marked. */}
+        {!result && (
+          <p className="flex items-start gap-1.5 rounded-lg bg-muted/50 p-2.5 text-[12px] leading-relaxed text-muted-foreground">
+            <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+            <span>
+              Say it in your own accent, up to fifteen seconds. All this can tell you afterwards is
+              which words the speech recogniser hesitated over — it does not score your
+              pronunciation, and an accent is not a mistake.
+            </span>
+          </p>
+        )}
+
         <div className="flex flex-wrap items-center gap-2">
           <Button
             onClick={() => (recording ? recorder.stop() : void run())}

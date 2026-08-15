@@ -97,7 +97,13 @@ function summaryFixture(overrides: Partial<ProgressSummary> = {}): ProgressSumma
       blocks: [
         { kind: "warmup_srs", minutes: 10, params: { max_cards: 20 } },
         { kind: "main", minutes: 40, module: "writing", activity: "task2_essay", params: {} },
-        { kind: "micro_drill", minutes: 10, module: "writing", activity: "gra_complex_sentences" },
+        {
+          kind: "micro_drill",
+          minutes: 10,
+          module: "writing",
+          activity: "gra_complex_sentences",
+          params: { criterion_focus: "GRA" },
+        },
       ],
       status: "scheduled",
       minutes_logged: 0,
@@ -131,6 +137,7 @@ beforeEach(() => {
   useHomeStore.setState({
     summary: null,
     plan: null,
+    vocabDue: null,
     loading: false,
     initialized: false,
     error: null,
@@ -156,6 +163,9 @@ describe("dashboard", () => {
     expect(screen.getByText("Warm-up — vocabulary review")).toBeInTheDocument();
     expect(screen.getByText("Writing — Task 2 essay")).toBeInTheDocument();
     expect(screen.getByText("Micro-drill — Complex sentences")).toBeInTheDocument();
+    // The planner's criterion code is a database key, never a learner-facing word.
+    expect(screen.getByText("Works on grammar range and accuracy")).toBeInTheDocument();
+    expect(screen.queryByText(/Focus: GRA/)).toBeNull();
 
     // 10 §6.4: never a band without its range, and never without the disclaimer.
     expect(screen.getByText("Estimated band — not a guarantee")).toBeInTheDocument();
@@ -207,13 +217,61 @@ describe("dashboard", () => {
     expect(screen.queryByRole("button", { name: /Dismiss callout/ })).toBeNull();
   });
 
-  it("shows an honest, retryable error when the sidecar is unreachable", async () => {
+  it("shows an honest, retryable error when the local service is unreachable", async () => {
     const { ApiError } = await import("@/lib/api");
     get.mockRejectedValue(new ApiError(0, "sidecar_unreachable", "connection refused"));
     renderHome();
+    // "Sidecar" is the process's name in the codebase, not a word a learner has
+    // ever seen; the shared ErrorState owns the wording for all ten screens.
     expect(
-      await screen.findByText("The BandReady sidecar isn't responding"),
+      await screen.findByText("BandReady's local service isn't responding"),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Try again/ })).toBeInTheDocument();
+  });
+
+  it("promises the number of cards the review room will actually serve", async () => {
+    // `progress/summary` counts every overdue card and ignores the daily new-card
+    // cap; `/vocab/stats` is what the room and the sidebar badge both read.
+    get.mockImplementation((path: string) => {
+      if (path.startsWith("/api/v1/progress/summary")) {
+        return Promise.resolve(
+          summaryFixture({ vocab: { cards: 151, due_today: 151, reviews_7d: 0, retention_7d: null } }),
+        );
+      }
+      if (path.startsWith("/api/v1/vocab/stats")) return Promise.resolve({ due_today: 20 });
+      return Promise.resolve(planFixture);
+    });
+    renderHome();
+
+    expect(await screen.findByRole("button", { name: "Review 20 cards" })).toBeInTheDocument();
+    expect(screen.queryByText("151")).not.toBeNull(); // the deck size is still 151
+    expect(screen.queryByRole("button", { name: /Review 151/ })).toBeNull();
+  });
+
+  it("explains an unstarted streak instead of drawing three zeroes", async () => {
+    get.mockImplementation((path: string) =>
+      path.startsWith("/api/v1/progress/summary")
+        ? Promise.resolve(
+            summaryFixture({
+              streak: {
+                current: 0,
+                longest: 0,
+                repaired_dates: [],
+                total_minutes_400d: 0,
+                today_minutes: 0,
+                today_goal_met: false,
+                daily_goal_min: 60,
+                next_milestone: 7,
+              },
+            }),
+          )
+        : Promise.resolve(planFixture),
+    );
+    renderHome();
+
+    expect(
+      await screen.findByText("Your streak starts with your first session"),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("Longest")).toBeNull();
   });
 });

@@ -112,13 +112,13 @@ export function MockPreflight() {
 
   if (offline) {
     return (
-      <PageShell title="Mock listening paper">
+      <PageShell title="Mock listening paper" back={{ to: "/listening", label: "Listening" }}>
         <Card>
           <CardContent className="pt-5">
             <EmptyState
               icon={AlertTriangle}
-              title="The sidecar is not running"
-              description="A mock needs the local sidecar to render the audio, hold the clock and mark the paper. Start it and this screen will pick up by itself."
+              title="BandReady's local service isn't responding"
+              description="A mock needs it to generate the audio, hold the clock and mark the paper. It may still be starting up — this screen picks up on its own once it answers."
             />
           </CardContent>
         </Card>
@@ -131,11 +131,7 @@ export function MockPreflight() {
       maxWidth="max-w-4xl"
       title="Mock listening paper"
       description="Four parts, forty questions, one clock. Each recording plays once and nothing here explains anything until it is over."
-      actions={
-        <Button variant="ghost" onClick={() => navigate("/listening")}>
-          Back to Listening
-        </Button>
-      }
+      back={{ to: "/listening", label: "Listening" }}
     >
       <div className="space-y-5">
         {/* ------------------------------------------------ a sitting already open --- */}

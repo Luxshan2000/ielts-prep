@@ -43,24 +43,67 @@ export interface DrillItem {
   contrast?: string | null;
   sentence_a?: string | null;
   sentence_b?: string | null;
-  key?: string | null;
   prompt?: string | null;
+}
+
+/** One sound pair the bank has items for: the IPA contrast and how many. */
+export interface DrillContrast {
+  contrast: string;
+  items?: number | null;
+  /** Only some packs name a contrast; the UI falls back to its own example words. */
+  id?: string | null;
+  label?: string | null;
+}
+
+/**
+ * How often a learner has matched one sound pair, over every set they have done.
+ *
+ * A perception record, not a verdict on their speech: it counts which written word
+ * they picked after hearing one. It exists to choose what to drill next.
+ */
+export interface ContrastAccuracy {
+  contrast: string;
+  attempts: number;
+  correct: number;
+  accuracy: number;
+  last_at?: string | null;
 }
 
 export interface DrillSet {
   drill_type: string;
   contrast: string | null;
   items: DrillItem[];
-  contrasts: { id: string; label?: string; contrast?: string }[];
-  accuracy: Record<string, unknown>;
+  contrasts: DrillContrast[];
+  accuracy: ContrastAccuracy[];
   accent_notice: string;
   empty_reason: string | null;
 }
 
-export function getDrills(type = "minimal_pair_ab", contrast?: string) {
-  const query = new URLSearchParams({ type, limit: "10" });
+export function getDrills(type = "minimal_pair_ab", contrast?: string, limit = 10) {
+  const query = new URLSearchParams({ type, limit: String(limit) });
   if (contrast) query.set("contrast", contrast);
   return api.get<DrillSet>(`${BASE}/drills?${query}`);
+}
+
+/**
+ * Record one perception answer.
+ *
+ * This is a listening result — which of two written words the learner matched to
+ * a sound — and never a statement about their voice. It exists so the bank can
+ * put the pairs somebody keeps missing in front of them again.
+ */
+export function recordDrillAttempt(input: {
+  itemId: string;
+  correct: boolean;
+  contrast?: string | null;
+  responseMs?: number | null;
+}) {
+  return api.post(`${BASE}/drills/${encodeURIComponent(input.itemId)}/attempt`, {
+    correct: input.correct,
+    drill_type: "minimal_pair_ab",
+    contrast: input.contrast ?? null,
+    response_ms: input.responseMs ?? null,
+  });
 }
 
 /** Send one read-aloud take with the sentence the learner was asked to say. */

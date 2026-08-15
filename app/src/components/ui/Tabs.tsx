@@ -79,21 +79,39 @@ export function Tabs<T extends string = string>({
   );
 }
 
+/**
+ * Turn a tab value into something speakable, for panels that have not been given a `label`.
+ * `value` is a slug — "review", "minimal_pairs", "ac_task1" — and a screen reader was
+ * announcing it verbatim. Sentence case is not the tab's own wording, but it is a word
+ * rather than an identifier; pass `label` to say it properly.
+ */
+function humanize(value: string): string {
+  const words = value.replace(/[_-]+/g, " ").trim();
+  return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
 /** Content panel paired with a `Tabs` strip. */
 export function TabPanel({
   value,
+  label,
   active,
   children,
   className,
 }: {
   value: string;
+  /** The panel's accessible name — pass the matching `TabItem.label`, e.g. "Model answer". */
+  label?: string;
   active: boolean;
   children: ReactNode;
   className?: string;
 }) {
   if (!active) return null;
   return (
-    <div role="tabpanel" aria-label={value} className={cn("animate-fade-in pt-4", className)}>
+    <div
+      role="tabpanel"
+      aria-label={label ?? humanize(value)}
+      className={cn("animate-fade-in pt-4", className)}
+    >
       {children}
     </div>
   );

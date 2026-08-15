@@ -226,7 +226,7 @@ export function DrillRunner({
           </Button>
           {onExit && (
             <Button variant="ghost" onClick={onExit}>
-              Choose a different drill
+              Back to drills
             </Button>
           )}
           <Button

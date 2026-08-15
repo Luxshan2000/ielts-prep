@@ -1,6 +1,10 @@
 # 06 — Reading Module
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read [READING-CONTENT.md](../READING-CONTENT.md). Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+
+_Status: draft v2 (2026-07-25)_
 
 The Reading module delivers IELTS-style reading practice for both Academic and General Training formats: full timed tests (3 passages/sections, 40 questions, 60 minutes, auto-submit), single-passage practice, and question-type drills. All 14 IELTS reading question types are supported with faithful answer-format rules (word limits, letter answers, TFNG semantics). Scoring is fully deterministic and offline — no LLM needed to mark a test — via a normalization pipeline (case/article/hyphen tolerance, keyed acceptable variants) and the published approximate raw-score→band tables. The LLM (single configured provider, see 03-providers-and-settings.md) is used for three optional enrichments: infinite passage+question generation with a blind self-validation pass, "why was I wrong" trap analysis in review mode, and skimming/scanning coaching. Content lives in the FastAPI sidecar's SQLite content bank as JSON documents conforming to the schema below (storage detail in 11-data-model.md; authoring/licensing rules in 15-content-authoring-licensing.md). Double-click vocabulary lookups feed the SRS deck (08-vocabulary-srs.md).
 

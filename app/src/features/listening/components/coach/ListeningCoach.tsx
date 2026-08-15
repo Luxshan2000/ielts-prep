@@ -31,7 +31,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, GraduationCap, Headphones, Lock } from "lucide-react";
+import { GraduationCap, Headphones, Lock } from "lucide-react";
 import {
   Badge,
   Button,
@@ -52,6 +52,7 @@ import { PredictionPanel } from "./PredictionPanel";
 import { SignpostPanel } from "./SignpostPanel";
 import { GATE_REASON, TranscriptGate, TranscriptStudy } from "./TranscriptStudy";
 import { VocabPanel } from "./VocabPanel";
+import { accentLabel } from "../../labels";
 import { useCoachStore } from "./store";
 import { hasTeaching } from "./types";
 
@@ -110,6 +111,7 @@ export function ListeningCoach() {
       <PageShell
         title="Listening coach"
         description="Opening this part and whatever it has to teach with."
+        back={{ to: "/listening", label: "Listening" }}
       >
         <div className="space-y-4" role="status" aria-live="polite">
           <span className="sr-only">Loading this part.</span>
@@ -125,7 +127,7 @@ export function ListeningCoach() {
 
   if (status === "error" || !doc) {
     return (
-      <PageShell title="Listening coach">
+      <PageShell title="Listening coach" back={{ to: "/listening", label: "Listening" }}>
         <Card>
           <CardContent className="pt-5">
             <ErrorState
@@ -133,12 +135,6 @@ export function ListeningCoach() {
               title="This part could not be opened"
               onRetry={() => void loadScript(scriptId, { force: true })}
             />
-            <div className="mt-4 flex justify-center">
-              <Button variant="ghost" onClick={() => navigate("/listening")}>
-                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-                Back to Listening
-              </Button>
-            </div>
           </CardContent>
         </Card>
       </PageShell>
@@ -154,22 +150,21 @@ export function ListeningCoach() {
       maxWidth="max-w-7xl"
       title={`Part ${doc.part} — ${doc.title}`}
       description="What to predict before it plays, what this part is, and — once you have answered it — exactly where every mark was won and lost."
-      actions={
+      back={{ to: "/listening", label: "Listening" }}
+      status={
         <div className="flex flex-wrap items-center gap-2">
-          <Badge tone="outline">{doc.accent_set.toUpperCase()}</Badge>
+          <Badge tone="outline">{accentLabel(doc.accent_set)}</Badge>
           {unlocked && doc.gate.last_raw_score !== null && (
             <Badge tone="success">{doc.gate.last_raw_score} when you sat it</Badge>
           )}
           {examConditions && <Badge tone="warning">Mock in progress</Badge>}
-          <Button size="sm" disabled={examConditions || !doc.audio.ready} onClick={practise}>
-            <Headphones className="h-4 w-4" aria-hidden="true" />
-            {unlocked ? "Sit it again" : "Sit this part"}
-          </Button>
-          <Button variant="ghost" size="sm" onClick={() => navigate("/listening")}>
-            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            Listening
-          </Button>
         </div>
+      }
+      actions={
+        <Button size="sm" disabled={examConditions || !doc.audio.ready} onClick={practise}>
+          <Headphones className="h-4 w-4" aria-hidden="true" />
+          {unlocked ? "Sit it again" : "Sit this part"}
+        </Button>
       }
       toolbar={
         <Tabs

@@ -129,7 +129,7 @@ export function DrillReportView({
         )}
         {onExit && (
           <Button variant="ghost" onClick={onExit}>
-            Choose a different drill
+            Back to drills
           </Button>
         )}
       </div>

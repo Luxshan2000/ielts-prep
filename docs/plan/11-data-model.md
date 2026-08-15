@@ -1,6 +1,10 @@
 # 11 — Data model
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read `sidecar/bandready/db/models.py` and `sidecar/bandready/migrations/versions/` (head is `0004`). Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+
+_Status: draft v2 (2026-07-25)_
 
 This document is the **canonical schema** for BandReady's single SQLite database (WAL,
 `foreign_keys=ON`, SQLAlchemy 2.0 + Alembic — see 01-architecture.md). This v2 is the round-2

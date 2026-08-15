@@ -18,7 +18,7 @@ import { ArrowLeft, GraduationCap, Layers, RefreshCw } from "lucide-react";
 import { Badge, Button, EmptyState, ErrorState, Spinner } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { cn } from "@/lib/cn";
-import { KIND_INSTRUCTION, KIND_LABEL, stageName } from "../labels";
+import { KIND_INSTRUCTION, KIND_LABEL, REGISTER_LABEL, stageName } from "../labels";
 import { useGrammarStore } from "../store";
 import type { SessionRequest } from "../api";
 import { FeedbackPanel, SignalPanel } from "./FeedbackPanel";
@@ -26,21 +26,34 @@ import { ItemView } from "./items";
 import { StageChip } from "./primitives";
 import { SessionSummary } from "./SessionSummary";
 
-/** The four ways in, read off the query string so every entry point is a link. */
+/**
+ * The five ways in, read off the query string so every entry point is a link.
+ *
+ * `?mode=placement` is one of them and used to be dropped on the floor: the path
+ * screen's "Find where to start" links to it, and without this it fell through to
+ * the daily queue — a different set of questions than the one the button promised.
+ *
+ * Every request asks for grammar only. See `SessionRequest.include_vocabulary`:
+ * the sidecar will interleave vocabulary cards into the daily queue, and this
+ * screen can neither render one nor send its answer anywhere that accepts it.
+ */
 function requestFromParams(params: URLSearchParams): SessionRequest {
   const point = params.get("point");
   const code = params.get("code");
   const board = params.get("board");
-  if (point) return { point_id: point, mode: "point" };
-  if (code) return { code, mode: "code" };
-  if (board) return { board_id: board, mode: "board" };
-  return { mode: "daily" };
+  const base = { include_vocabulary: false } as const;
+  if (point) return { ...base, point_id: point, mode: "point" };
+  if (code) return { ...base, code, mode: "code" };
+  if (board) return { ...base, board_id: board, mode: "board" };
+  if (params.get("mode") === "placement") return { ...base, mode: "placement", limit: 20 };
+  return { ...base, mode: "daily" };
 }
 
 function sessionTitle(request: SessionRequest, pointTitle?: string | null): string {
   if (request.point_id) return pointTitle || "Lesson practice";
   if (request.code) return "Fixing one mistake";
   if (request.board_id) return "Practising one contrast";
+  if (request.mode === "placement") return "Finding where to start";
   return "Today's practice";
 }
 
@@ -50,6 +63,8 @@ export function SessionScreen() {
   const request = useMemo(() => requestFromParams(params), [params]);
 
   const session = useGrammarStore((s) => s.session);
+  const path = useGrammarStore((s) => s.path);
+  const loadPath = useGrammarStore((s) => s.loadPath);
   const beginSession = useGrammarStore((s) => s.beginSession);
   const answer = useGrammarStore((s) => s.answer);
   const retryAfterSignal = useGrammarStore((s) => s.retryAfterSignal);
@@ -58,6 +73,12 @@ export function SessionScreen() {
   const resetSession = useGrammarStore((s) => s.resetSession);
 
   const key = `${request.mode}:${request.point_id ?? request.code ?? request.board_id ?? ""}`;
+
+  // The empty state needs to know whether this learner has met any lesson at all,
+  // and the path is cached — a second call costs nothing.
+  useEffect(() => {
+    void loadPath();
+  }, [loadPath]);
 
   useEffect(() => {
     void beginSession(request);
@@ -126,16 +147,40 @@ export function SessionScreen() {
   }
 
   if (!item) {
+    // Practice is assembled from lessons that have been met. Telling a learner who
+    // has met none of them that "nothing is due" is technically true and useless.
+    // Only claimed once the path has actually answered — a cold store must not
+    // tell a learner of six weeks that they have never started.
+    const neverStarted = !!path && (path.summary?.started ?? 0) === 0;
     return (
       <PageShell title="Practice" maxWidth="max-w-3xl">
         <EmptyState
           icon={GraduationCap}
-          title="Nothing is due right now"
+          title={neverStarted ? "There is nothing to practise yet" : "Nothing is due right now"}
           description={
-            session.emptyReason ??
-            "Everything you have started is scheduled for a later day. Starting a new lesson is the useful thing to do next."
+            neverStarted
+              ? "Practice is built from lessons you have already met, so the first lesson comes before the first practice set. It takes about a quarter of an hour."
+              : session.emptyReason ??
+                "Everything you have started is scheduled for a later day. Starting a new lesson is the useful thing to do next."
           }
-          action={<Button onClick={leave}>Back to the path</Button>}
+          action={
+            <div className="flex flex-wrap justify-center gap-2">
+              <Button
+                onClick={() => {
+                  const next = neverStarted ? path?.summary?.next_point_id : null;
+                  if (next) navigate(`/grammar/point/${encodeURIComponent(next)}`);
+                  else leave();
+                }}
+              >
+                {neverStarted ? "Take me to the first lesson" : "Back to the path"}
+              </Button>
+              {session.vocabWaiting > 0 && (
+                <Button variant="outline" onClick={() => navigate("/vocab")}>
+                  Review {session.vocabWaiting} words instead
+                </Button>
+              )}
+            </div>
+          }
         />
       </PageShell>
     );
@@ -160,8 +205,11 @@ export function SessionScreen() {
             <span>
               {Math.min(done + (attempt.revealed ? 0 : 1), total)} of {total}
             </span>
+            {/* A kind this build has never met falls back to the rung's name alone,
+                never to the slug the pack spells it with. */}
             <span>
-              {stageName(item.stage)} · {KIND_LABEL[item.kind] ?? item.kind}
+              {stageName(item.stage)}
+              {KIND_LABEL[item.kind] ? ` · ${KIND_LABEL[item.kind]}` : ""}
             </span>
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Progress through this set">
@@ -207,7 +255,9 @@ export function SessionScreen() {
                 {item.point_title}
               </button>
             )}
-            {item.register && <Badge tone="outline">{item.register}</Badge>}
+            {item.register && (
+              <Badge tone="outline">{REGISTER_LABEL[item.register] ?? item.register}</Badge>
+            )}
           </div>
 
           <p className="mb-4 text-[13px] text-muted-foreground">

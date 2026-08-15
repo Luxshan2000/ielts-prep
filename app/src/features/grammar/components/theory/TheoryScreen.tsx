@@ -3,7 +3,23 @@ import { ArrowLeft, ArrowRight, BookOpen, Clock, Search } from "lucide-react";
 import { Badge, Button, EmptyState, ErrorState, Input, SkeletonCard } from "@/components/ui";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/cn";
-import { ArticleBody, type Block } from "./ArticleBody";
+import { levelLabel } from "../../labels";
+import { ArticleBody, RichText, type Block } from "./ArticleBody";
+
+/**
+ * A CEFR code is a seat number to most people preparing for IELTS, so the words go
+ * on the chip and the code stays only where somebody who knows it would look for
+ * it — the title attribute.
+ */
+function LevelBadge({ level }: { level: string }) {
+  const words = levelLabel(level);
+  if (!words) return null;
+  return (
+    <Badge tone="outline" title={`Common European Framework level ${level}`}>
+      {words}
+    </Badge>
+  );
+}
 
 // The api client takes a full path; every other feature spells out /api/v1 the same way.
 const BASE = "/api/v1/theory";
@@ -137,9 +153,13 @@ export function TheoryScreen() {
         shown.map((chapter) => (
           <section key={chapter.id} className="rounded-xl border border-border bg-card">
             <header className="border-b border-border px-4 py-3">
-              <h2 className="text-[15px] font-semibold">{chapter.title}</h2>
+              <h2 className="text-[15px] font-semibold">
+                <RichText text={chapter.title} />
+              </h2>
               {chapter.blurb && (
-                <p className="mt-0.5 text-[13px] text-muted-foreground">{chapter.blurb}</p>
+                <p className="mt-0.5 text-[13px] text-muted-foreground">
+                  <RichText text={chapter.blurb} />
+                </p>
               )}
             </header>
             <ul className="divide-y divide-border">
@@ -154,15 +174,17 @@ export function TheoryScreen() {
                     )}
                   >
                     <span className="min-w-0 flex-1">
-                      <span className="block text-[14px] font-medium">{article.title}</span>
+                      <span className="block text-[14px] font-medium">
+                        <RichText text={article.title} />
+                      </span>
                       {article.one_line && (
                         <span className="mt-0.5 block text-[13px] text-muted-foreground">
-                          {article.one_line}
+                          <RichText text={article.one_line} />
                         </span>
                       )}
                       {article.also_called && (
                         <span className="mt-0.5 block text-[12px] text-muted-foreground">
-                          also called {article.also_called}
+                          also called <RichText text={article.also_called} />
                         </span>
                       )}
                     </span>
@@ -173,7 +195,7 @@ export function TheoryScreen() {
                           {article.estimated_read_minutes} min
                         </span>
                       ) : null}
-                      <Badge tone="outline">{article.cefr_level}</Badge>
+                      <LevelBadge level={article.cefr_level} />
                     </span>
                   </button>
                 </li>
@@ -237,13 +259,21 @@ function ArticleView({
 
       <header className="space-y-1">
         <div className="flex flex-wrap items-baseline gap-2">
-          <h1 className="text-xl font-semibold tracking-tight">{article.title}</h1>
-          <Badge tone="outline">{article.cefr_level}</Badge>
+          <h1 className="text-xl font-semibold tracking-tight">
+            <RichText text={article.title} />
+          </h1>
+          <LevelBadge level={article.cefr_level} />
         </div>
         {article.also_called && (
-          <p className="text-[13px] text-muted-foreground">also called {article.also_called}</p>
+          <p className="text-[13px] text-muted-foreground">
+            also called <RichText text={article.also_called} />
+          </p>
         )}
-        {article.one_line && <p className="text-[14px] text-foreground/90">{article.one_line}</p>}
+        {article.one_line && (
+          <p className="text-[14px] text-foreground/90">
+            <RichText text={article.one_line} />
+          </p>
+        )}
       </header>
 
       {article.short_answer && (
@@ -251,7 +281,9 @@ function ArticleView({
           <p className="text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
             The short answer
           </p>
-          <p className="mt-1 text-[14px] leading-relaxed">{article.short_answer}</p>
+          <p className="mt-1 text-[14px] leading-relaxed">
+            <RichText text={article.short_answer} />
+          </p>
         </div>
       )}
 
@@ -261,14 +293,18 @@ function ArticleView({
         {article.previous ? (
           <Button variant="outline" size="sm" onClick={() => go(article.previous!.id)}>
             <ArrowLeft className="h-4 w-4" />
-            <span className="max-w-[16rem] truncate">{article.previous.title}</span>
+            <span className="max-w-[16rem] truncate">
+              <RichText text={article.previous.title} />
+            </span>
           </Button>
         ) : (
           <span />
         )}
         {article.next && (
           <Button variant="outline" size="sm" onClick={() => go(article.next!.id)}>
-            <span className="max-w-[16rem] truncate">{article.next.title}</span>
+            <span className="max-w-[16rem] truncate">
+              <RichText text={article.next.title} />
+            </span>
             <ArrowRight className="h-4 w-4" />
           </Button>
         )}

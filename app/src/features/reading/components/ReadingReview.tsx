@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AlertTriangle, BookmarkPlus, Check, RotateCcw } from "lucide-react";
 import {
-  Badge,
   Button,
   Card,
   CardContent,
@@ -147,7 +146,11 @@ export function ReadingReview() {
 
   if (status === "loading" || status === "idle") {
     return (
-      <PageShell title="Reading review" description="Loading your marked attempt…">
+      <PageShell
+        title="Reading review"
+        description="Loading your marked attempt…"
+        back={{ to: "/reading", label: "Reading" }}
+      >
         <div className="space-y-4">
           <Skeleton className="h-32 w-full" />
           <Skeleton className="h-24 w-full" />
@@ -159,7 +162,11 @@ export function ReadingReview() {
 
   if (status === "error" || !review) {
     return (
-      <PageShell title="Reading review" description="This attempt could not be reviewed.">
+      <PageShell
+        title="Reading review"
+        description="This attempt could not be reviewed."
+        back={{ to: "/reading", label: "Reading" }}
+      >
         <EmptyState
           icon={AlertTriangle}
           title="Review is not available"
@@ -168,13 +175,10 @@ export function ReadingReview() {
             "Review only exists once an attempt has been submitted. Start a fresh attempt from the reading library."
           }
           action={
-            <div className="flex gap-2">
-              <Button variant="outline" onClick={() => void loadReview(attemptId)}>
-                <RotateCcw className="h-4 w-4" />
-                Try again
-              </Button>
-              <Button onClick={() => navigate("/reading")}>Reading library</Button>
-            </div>
+            <Button variant="outline" onClick={() => void loadReview(attemptId)}>
+              <RotateCcw className="h-4 w-4" />
+              Try again
+            </Button>
           }
         />
       </PageShell>
@@ -261,12 +265,8 @@ export function ReadingReview() {
       <PageShell
         title="Reading review"
         description={`${review.raw_score} of ${review.total_questions} correct.`}
-        actions={
-          <Button variant="outline" onClick={() => navigate("/reading")}>
-            Reading library
-          </Button>
-        }
-      >
+        back={{ to: "/reading", label: "Reading" }}
+        >
         {rightColumn}
       </PageShell>
     );
@@ -278,14 +278,7 @@ export function ReadingReview() {
       maxWidth="max-w-none"
       title={`Review — ${passage.title}`}
       description="Select any word in the passage to look it up; use “Locate in passage” to jump to the evidence."
-      actions={
-        <div className="flex items-center gap-2">
-          {review.band !== null && <Badge tone="primary">Band {review.band.toFixed(1)}</Badge>}
-          <Button variant="outline" size="sm" onClick={() => navigate("/reading")}>
-            Reading library
-          </Button>
-        </div>
-      }
+      back={{ to: "/reading", label: "Reading" }}
       toolbar={
         passages.length > 1 ? (
           <div className="flex items-center gap-1.5">

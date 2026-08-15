@@ -1,6 +1,10 @@
 # 14 — Testing strategy
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) and the suites themselves. Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+
+_Status: draft v2 (2026-07-25)_
 
 BandReady's correctness splits into two very different problems: **deterministic logic** (answer matching, band tables, FSRS scheduling, state machines, lockfile I/O) which gets a classic pytest/vitest pyramid with exhaustive table-driven tests, and **LLM-judged scoring quality** (writing/speaking band prediction) which cannot be unit-tested and instead gets a **golden-set evaluation framework**: ~50 expert-annotated samples across bands 4–8.5, run through the real evaluation prompts, with hard accuracy gates (|predicted − expected| ≤ 0.5 for ≥ 80% of samples, ≤ 1.0 for 100%) and drift tracking per `prompt_version` and per model (the `llm_evaluations.prompt_version` column in 11-data-model.md exists for exactly this). Between those poles sit FastAPI TestClient API tests on a temp data dir, a headless WebRTC speaking-session E2E harness adapted from OpenVoiceUI's proven `eval/` package, blind re-answer validation tests for generated content (06-reading-module.md, 07-listening-module.md), Playwright driving the real Electron app against a mock-LLM sidecar, and packaging smoke tests in CI. This doc specs each layer, the eval runner CLI, the model-swap calibration workflow, what is deliberately NOT automated, and the CI matrix.
 

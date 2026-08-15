@@ -1,6 +1,10 @@
 # 08 — Vocabulary & Spaced Repetition
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read [GRAMMAR-VOCAB.md](../GRAMMAR-VOCAB.md). Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+
+_Status: draft v2 (2026-07-25)_
 
 BandReady's vocabulary bank is *dynamic*: words and phrases flow in from every module (speaking
 evaluations, writing feedback, reading lookups, listening misses) into a consent-gated

@@ -44,6 +44,24 @@ export const POS_VALUES: VocabPos[] = [
 
 export const CEFR_VALUES = ["A1", "A2", "B1", "B2", "C1", "C2"] as const;
 
+/**
+ * CEFR in words. The codes are fine in a column under a heading that explains
+ * them; a bare "C1" floating beside a word is a code the learner has to look up.
+ */
+export const LEVEL_LABEL: Record<string, string> = {
+  A1: "beginner",
+  A2: "elementary",
+  B1: "intermediate",
+  B2: "upper intermediate",
+  C1: "advanced",
+  C2: "advanced",
+};
+
+export function levelLabel(level: string | null | undefined): string | null {
+  if (!level) return null;
+  return LEVEL_LABEL[level.toUpperCase()] ?? null;
+}
+
 /** The 20 IELTS topic tags the sidecar accepts (`routes/vocab.py::TOPIC_TAGS`). */
 export const TOPIC_TAGS = [
   "environment",
@@ -94,11 +112,16 @@ export const STATUS_META: Record<VocabStatus, { label: string; tone: BadgeTone; 
   known: { label: "Known", tone: "success", hint: "Marked as learned; only misuse brings it back." },
 };
 
+/**
+ * "Young" and "Mature" are Anki's names for a card whose interval is under and
+ * over three weeks. A learner reads them as a verdict on the word rather than a
+ * fact about the schedule, so the schedule is what these say instead.
+ */
 export const MATURITY_META: Record<CardMaturity, { label: string; tone: BadgeTone }> = {
   new: { label: "New", tone: "default" },
   learning: { label: "Learning", tone: "warning" },
-  young: { label: "Young", tone: "primary" },
-  mature: { label: "Mature", tone: "success" },
+  young: { label: "Settling in", tone: "primary" },
+  mature: { label: "Well settled", tone: "success" },
 };
 
 export const MODULE_LABELS: Record<string, string> = {

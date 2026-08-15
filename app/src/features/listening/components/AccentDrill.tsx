@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Globe2, Headphones, Repeat } from "lucide-react";
+import { Globe2, Headphones, Repeat } from "lucide-react";
 import {
   Badge,
   Button,
@@ -27,6 +27,9 @@ import { playAudio } from "../media";
 import { useListeningStore } from "../store";
 import type { ScriptSummary } from "../types";
 import { PrepareAudioPanel } from "./PrepareAudioPanel";
+
+/** Up-navigation, in the one slot and the one wording every listening screen uses. */
+const BACK = { to: "/listening", label: "Listening" } as const;
 
 /**
  * Accent labels as the sidecar reports them (`bandready/audio/tts_render.py`
@@ -158,27 +161,20 @@ export function AccentDrill() {
     );
   };
 
-  const header = (
-    <Button variant="ghost" onClick={() => navigate("/listening")}>
-      <ArrowLeft className="h-4 w-4" />
-      Library
-    </Button>
-  );
-
   if (loading && !scripts) {
     return (
-      <PageShell title="Accent training" description="Loading the script library…">
+      <PageShell title="Accent training" description="Loading the script library…" back={BACK}>
         <SkeletonCard lines={4} />
       </PageShell>
     );
   }
 
-  // Honest gate: without scripts (or without a sidecar that reports accents)
+  // Honest gate: without scripts (or without a local service that reports accents)
   // there is nothing to re-render, so no control is offered.
   const accentsSupported = (scripts ?? []).some((s) => Boolean(s.audio.accent_label));
   if (error && !scripts) {
     return (
-      <PageShell title="Accent training" actions={header}>
+      <PageShell title="Accent training" back={BACK}>
         <EmptyState
           title="The script library could not be loaded"
           description={error}
@@ -189,24 +185,22 @@ export function AccentDrill() {
   }
   if (!scripts || scripts.length === 0 || !accentsSupported) {
     return (
-      <PageShell title="Accent training" actions={header}>
+      <PageShell title="Accent training" back={BACK}>
         <EmptyState
           icon={Globe2}
           title="Accent training needs listening scripts"
           description="Install a content pack with listening parts. Each script can then be re-voiced in another accent — the questions stay the same."
-          action={<Button onClick={() => navigate("/listening")}>Back to Listening</Button>}
         />
       </PageShell>
     );
   }
   if (rendered.length === 0) {
     return (
-      <PageShell title="Accent training" actions={header}>
+      <PageShell title="Accent training" back={BACK}>
         <EmptyState
           icon={Headphones}
           title="Nothing is rendered yet"
           description="Prepare the audio for a listening part first — accent training compares that recording against the same script in another accent."
-          action={<Button onClick={() => navigate("/listening")}>Choose a part</Button>}
         />
       </PageShell>
     );
@@ -219,7 +213,7 @@ export function AccentDrill() {
     <PageShell
       title="Accent training"
       description="The same script, re-voiced. IELTS uses several accents, so train your ear on all of them."
-      actions={header}
+      back={BACK}
     >
       <div className="space-y-5">
         <Card>

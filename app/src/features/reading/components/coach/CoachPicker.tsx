@@ -64,11 +64,7 @@ export function CoachPicker() {
     <PageShell
       title="Reading coach"
       description="One passage at a time: how to read it, how to attack its question types, and where every answer was."
-      actions={
-        <Button variant="ghost" size="sm" onClick={() => navigate("/reading")}>
-          Reading library
-        </Button>
-      }
+      back={{ to: "/reading", label: "Reading" }}
       toolbar={
         <div className="flex flex-wrap items-center gap-2">
           <Select

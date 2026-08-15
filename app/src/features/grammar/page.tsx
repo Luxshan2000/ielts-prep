@@ -80,9 +80,12 @@ export function GrammarPage() {
   const due = path?.summary?.due_now ?? 0;
   const costing = path?.summary?.harvested_codes ?? 0;
 
+  // The title matches the sidebar item the learner just clicked, and the third tab
+  // is named for what it holds rather than "Progress", which is already a sidebar
+  // destination showing entirely different data.
   return (
     <PageShell
-      title="Grammar & Usage"
+      title="Grammar"
       description="The language underneath the four skills — taught in an order where nothing depends on something you have not met yet."
       actions={
         !missing && due > 0 ? (
@@ -105,7 +108,7 @@ export function GrammarPage() {
               { value: "theory", label: "Theory" },
               {
                 value: "progress",
-                label: "Progress",
+                label: "Your points",
                 badge: costing > 0 ? <Badge tone="warning">{costing}</Badge> : undefined,
               },
               { value: "phrases", label: "Phrases" },

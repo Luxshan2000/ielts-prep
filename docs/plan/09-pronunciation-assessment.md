@@ -1,6 +1,12 @@
 # 09 — Pronunciation assessment
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read [research/pronunciation/](../research/pronunciation/) and `sidecar/bandready/pron/`. Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+>
+> **§0 of this doc is still binding law, not intent.** Pronunciation measures intelligibility and never proximity to an accent; `SCORE_IS_PRONUNCIATION` is `False` and stays `False`. Nothing in this banner softens that.
+
+_Status: draft v2 (2026-07-25)_
 
 This doc specifies how BandReady turns the per-turn WAVs captured by 02-voice-pipeline.md into
 per-word and per-phoneme pronunciation feedback and into the Pronunciation-criterion signal

@@ -2,13 +2,13 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   AlertTriangle,
-  ArrowLeft,
   BookOpen,
   Clock,
   Eye,
   Headphones,
   Lock,
   Play,
+  RotateCcw,
 } from "lucide-react";
 import {
   Badge,
@@ -272,7 +272,7 @@ export function TestRunner() {
   // ------------------------------------------------------------------ views --
   if (!targetId) {
     return (
-      <PageShell title="Listening">
+      <PageShell title="Listening" back={{ to: "/listening", label: "Listening" }}>
         <EmptyState title="No test selected" description="Pick a test from the listening library." />
       </PageShell>
     );
@@ -280,7 +280,11 @@ export function TestRunner() {
 
   if (detailLoading && !detail) {
     return (
-      <PageShell title="Listening" description="Loading the test…">
+      <PageShell
+        title="Listening"
+        description="Loading the test…"
+        back={{ to: "/listening", label: "Listening" }}
+      >
         <SkeletonCard lines={5} />
       </PageShell>
     );
@@ -288,13 +292,21 @@ export function TestRunner() {
 
   if (detailError && !detail) {
     return (
-      <PageShell title="Listening">
+      <PageShell
+        title="Listening"
+        description="This test could not be opened."
+        back={{ to: "/listening", label: "Listening" }}
+      >
         <EmptyState
           icon={AlertTriangle}
-          title="This test could not be opened"
+          title="The test is not available"
           description={detailError}
           action={
-            <Button onClick={() => void (isTest ? loadTest(targetId) : loadScript(targetId))}>
+            <Button
+              variant="outline"
+              onClick={() => void (isTest ? loadTest(targetId) : loadScript(targetId))}
+            >
+              <RotateCcw className="h-4 w-4" aria-hidden="true" />
               Try again
             </Button>
           }
@@ -305,11 +317,10 @@ export function TestRunner() {
 
   if (!detail || parts.length === 0) {
     return (
-      <PageShell title="Listening">
+      <PageShell title="Listening" back={{ to: "/listening", label: "Listening" }}>
         <EmptyState
           title="This test has no parts"
           description="The installed content pack does not contain any scripts for it."
-          action={<Button onClick={() => navigate("/listening")}>Back to Listening</Button>}
         />
       </PageShell>
     );
@@ -332,12 +343,7 @@ export function TestRunner() {
             ? "Exam conditions — the recording plays once."
             : "Practice mode — replay, slow down and check the transcript."
         }
-        actions={
-          <Button variant="ghost" onClick={() => navigate("/listening")}>
-            <ArrowLeft className="h-4 w-4" />
-            Library
-          </Button>
-        }
+        back={{ to: "/listening", label: "Listening" }}
       >
         <div className="space-y-5">
           <Card>
@@ -447,7 +453,7 @@ export function TestRunner() {
         title="Check your answers"
         description={`${answeredCount} of ${allNumbers.length} answered`}
         actions={
-          <Button variant="ghost" onClick={() => void onLeave()}>
+          <Button variant="ghost" size="sm" onClick={() => void onLeave()}>
             Leave
           </Button>
         }
@@ -486,14 +492,35 @@ export function TestRunner() {
         exam ? "Exam conditions — one play, no rewind." : "Practice — replay and slow down freely."
       }
       maxWidth="max-w-7xl"
-      actions={
+      status={
         <div className="flex items-center gap-2">
-          <Badge tone={exam ? "warning" : "primary"}>{exam ? "Exam mode" : "Practice mode"}</Badge>
-          <span className="text-[12px] tabular-nums text-muted-foreground">
+          <Badge tone={exam ? "warning" : "primary"}>
+            {exam ? "Exam conditions" : "Practice"}
+          </Badge>
+          <span className="text-[12px] tabular text-muted-foreground">
             {formatDuration(attempt?.seconds ?? 0)}
           </span>
-          <Button variant="ghost" onClick={() => void onLeave()}>
+        </div>
+      }
+      /*
+        The control that ends the sitting sits top-right, where Reading puts "Submit".
+        It used to live in the palette footer, so the two players asked for the same
+        thing in two different corners.
+      */
+      actions={
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" size="sm" onClick={() => void onLeave()}>
             Leave
+          </Button>
+          <Button
+            variant={exam ? "outline" : "primary"}
+            size="sm"
+            onClick={() => {
+              void flush();
+              setPhase("check");
+            }}
+          >
+            {exam ? "Go to the check step" : "Finish and check"}
           </Button>
         </div>
       }
@@ -616,18 +643,6 @@ export function TestRunner() {
             <span className="text-[11px] text-muted-foreground">
               {answeredCount} of {allNumbers.length} answered
             </span>
-          }
-          actions={
-            <Button
-              variant={exam ? "outline" : "primary"}
-              size="sm"
-              onClick={() => {
-                void flush();
-                setPhase("check");
-              }}
-            >
-              {exam ? "Go to the check step" : "Finish and check"}
-            </Button>
           }
         />
       )}

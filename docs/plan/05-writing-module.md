@@ -1,6 +1,10 @@
 # 05 — Writing Module
 
-Status: draft v2 (2026-07-25)
+> **Design intent as of 2026-07-25 — not a description of what exists.** This is a planning document, written before implementation began. Much of it shipped differently. For what actually ships, read `app/src/features/writing/` — there is no `WRITING-CONTENT.md` yet. Where this doc and the code disagree, the code is right.
+>
+> Kept because the reasoning behind each decision is not recorded anywhere else, and the `R2-*` rulings in [_context/decisions.md](_context/decisions.md) are cited from code comments.
+
+_Status: draft v2 (2026-07-25)_
 
 The Writing module gives a BandReady learner unlimited IELTS-style writing practice with examiner-grade feedback: Academic Task 1 (chart/graph/table/process/map description), General Training Task 1 (letters), and Task 2 essays (all five common types). Prompts come from an original, locally-stored bank; Academic Task 1 visuals are stored as JSON chart specs rendered client-side to SVG, which makes prompts infinitely generatable by the configured LLM. The learner writes in a distraction-free editor (exam or practice mode, autosaved every 10 s), passes cheap local pre-checks, and then a single structured LLM call scores the four official criteria, annotates errors with offset-based inline highlights, suggests vocabulary upgrades (fed into 08-vocabulary-srs.md), and drives a rewrite-diff-rescore improvement loop. Architecture, provider selection, and canonical DDL live in 01-architecture.md, 03-providers-and-settings.md, and 11-data-model.md.
 

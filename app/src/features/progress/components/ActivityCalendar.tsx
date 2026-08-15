@@ -5,6 +5,7 @@ import {
   CardHeader,
   CardTitle,
   EmptyState,
+  ErrorState,
   Heatmap,
   Skeleton,
   type HeatmapDay,
@@ -14,7 +15,8 @@ import type { HeatmapDoc } from "../types";
 interface Props {
   heatmap: HeatmapDoc | null;
   loading: boolean;
-  error?: string;
+  /** The thrown value, so the panel can name an offline service or a bad provider. */
+  error?: unknown;
 }
 
 /**
@@ -33,6 +35,11 @@ export function ActivityCalendar({ heatmap, loading, error }: Props) {
 
   const studied = days.filter((d) => d.minutes > 0).length;
   const total = days.reduce((sum, d) => sum + d.minutes, 0);
+  // The sidecar returns a cell for every past day, so `days` is never empty on a
+  // fresh install — it is 16 weeks of zeroes under "Days studied 0 · Total 0".
+  // A grid that can only say "nothing, everywhere" is the blank panel rule 4 is
+  // about, so it waits until there is one minute to draw.
+  const nothingLogged = total === 0;
 
   return (
     <Card>
@@ -40,24 +47,25 @@ export function ActivityCalendar({ heatmap, loading, error }: Props) {
         <CardTitle>Activity calendar</CardTitle>
         <p className="mt-1 text-[13px] text-muted-foreground">
           {heatmap
-            ? `Minutes studied per day over the last ${heatmap.weeks} weeks, against your ${heatmap.daily_goal_min}-minute daily goal. Rest days you configured are never counted against you.`
+            ? `Minutes studied per day over the last ${heatmap.weeks} weeks, against your ${heatmap.daily_goal_min}-minute daily goal. Rest days in your plan are never counted against you.`
             : "Minutes studied per day, against your daily goal."}
         </p>
       </CardHeader>
       <CardContent className="space-y-3">
         {error ? (
-          <EmptyState
-            icon={CalendarDays}
+          <ErrorState
+            error={error}
             title="The activity calendar could not be loaded"
-            description={error}
+            fallback="Your study minutes could not be read."
           />
         ) : loading && heatmap === null ? (
           <Skeleton className="h-[130px] w-full" />
-        ) : days.length === 0 ? (
+        ) : nothingLogged ? (
           <EmptyState
+            size="sm"
             icon={CalendarDays}
-            title="Nothing logged yet"
-            description="Finish a session — or log minutes from any room — and the calendar starts filling in."
+            title="No study minutes yet"
+            description="Every minute you spend in a room is counted here — one square per day, darker as the day gets longer. Finish a block from today's session and the first square appears."
           />
         ) : (
           <>

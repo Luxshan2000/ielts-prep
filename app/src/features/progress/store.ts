@@ -8,7 +8,6 @@
 
 import { create } from "zustand";
 import { api } from "@/lib/api";
-import { friendlyMessage } from "@/lib/errors";
 import type {
   CriteriaDoc,
   HeatmapDoc,
@@ -27,13 +26,16 @@ export type SeriesKey = SkillKey | "overall";
 
 const SERIES_KEYS: readonly SeriesKey[] = [...SKILL_KEYS, "overall"] as const;
 
-function detailOf(err: unknown): string {
-  return friendlyMessage(
-    err,
-    "the request failed",
-    "The BandReady sidecar isn't responding, so nothing can be loaded right now.",
-  );
-}
+/**
+ * Panel failures, keyed by panel.
+ *
+ * The thrown value is kept as thrown so `ErrorState` can tell "the local service
+ * is down" from "your model provider is unreachable" from everything else. The
+ * page used to flatten these to strings and then sniff the string for the word
+ * "sidecar" to decide whether it was offline — a test the flattened text never
+ * actually contained.
+ */
+type PanelKey = "summary" | "trajectory" | "criteria" | "heatmap" | "readiness" | "mocks";
 
 interface ProgressFeatureState {
   summary: SummaryDoc | null;
@@ -46,7 +48,7 @@ interface ProgressFeatureState {
   initialized: boolean;
   loading: boolean;
   weeks: number;
-  errors: Partial<Record<"summary" | "trajectory" | "criteria" | "heatmap" | "readiness" | "mocks", string>>;
+  errors: Partial<Record<PanelKey, unknown>>;
   recomputing: boolean;
   savingItem: string | null;
   mocksSupported: boolean;
@@ -151,10 +153,10 @@ export const useProgressFeatureStore = create<ProgressFeatureState>((set, get) =
     ]);
 
     const errors: ProgressFeatureState["errors"] = {};
-    if (summary.status === "rejected") errors.summary = detailOf(summary.reason);
-    if (heatmap.status === "rejected") errors.heatmap = detailOf(heatmap.reason);
-    if (readiness.status === "rejected") errors.readiness = detailOf(readiness.reason);
-    if (mocks.status === "rejected") errors.mocks = detailOf(mocks.reason);
+    if (summary.status === "rejected") errors.summary = summary.reason;
+    if (heatmap.status === "rejected") errors.heatmap = heatmap.reason;
+    if (readiness.status === "rejected") errors.readiness = readiness.reason;
+    if (mocks.status === "rejected") errors.mocks = mocks.reason;
 
     set({
       summary: summary.status === "fulfilled" ? summary.value : null,
@@ -184,7 +186,7 @@ export const useProgressFeatureStore = create<ProgressFeatureState>((set, get) =
         errors: { ...s.errors, trajectory: undefined },
       }));
     } catch (err) {
-      set((s) => ({ errors: { ...s.errors, trajectory: detailOf(err) } }));
+      set((s) => ({ errors: { ...s.errors, trajectory: err } }));
     }
   },
 
@@ -199,7 +201,7 @@ export const useProgressFeatureStore = create<ProgressFeatureState>((set, get) =
         errors: { ...s.errors, criteria: undefined },
       }));
     } catch (err) {
-      set((s) => ({ errors: { ...s.errors, criteria: detailOf(err) } }));
+      set((s) => ({ errors: { ...s.errors, criteria: err } }));
     }
   },
 
@@ -214,7 +216,7 @@ export const useProgressFeatureStore = create<ProgressFeatureState>((set, get) =
       await api.post("/api/v1/progress/estimates/recompute", {});
       await get().load();
     } catch (err) {
-      set((s) => ({ errors: { ...s.errors, summary: detailOf(err) } }));
+      set((s) => ({ errors: { ...s.errors, summary: err } }));
     } finally {
       set({ recomputing: false });
     }
@@ -239,7 +241,7 @@ export const useProgressFeatureStore = create<ProgressFeatureState>((set, get) =
     } catch (err) {
       set((s) => ({
         readiness: previous,
-        errors: { ...s.errors, readiness: detailOf(err) },
+        errors: { ...s.errors, readiness: err },
       }));
     } finally {
       set({ savingItem: null });

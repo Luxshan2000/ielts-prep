@@ -13,6 +13,12 @@ import { UseInSentenceExercise } from "./exercises/UseInSentenceExercise";
 import { RatingBar } from "./RatingBar";
 import type { CommitResult, ExerciseBodyProps } from "./exercises/shared";
 
+/** "due now" / "due 14 days ago" / "due in 3 days", never "due due now". */
+function dueLabel(iso: string): string {
+  const phrase = formatDue(iso);
+  return phrase === "—" || phrase.startsWith("due") ? phrase : `due ${phrase}`;
+}
+
 const BODIES: Record<ExerciseKind, (props: ExerciseBodyProps) => JSX.Element> = {
   flip: FlipExercise,
   cloze: ClozeExercise,
@@ -37,6 +43,21 @@ export interface ExerciseCardProps {
   submitting: boolean;
   /** Sidecar error from the last review POST — the rating buttons stay live to retry. */
   error?: string | null;
+}
+
+/**
+ * What the learner is being asked to do, in one line.
+ *
+ * Most exercise kinds author a real instruction. The recall card sends the
+ * headword as its prompt, and the card underneath already prints that headword at
+ * twice the size — so a prompt that is only the word again is dropped in favour of
+ * the kind's own instruction.
+ */
+function instruction(item: QueueItem, fallback: string): string {
+  const prompt = (item.exercise.prompt ?? "").trim();
+  if (!prompt) return fallback;
+  const headword = (item.entry.headword ?? "").trim();
+  return prompt.toLowerCase() === headword.toLowerCase() ? fallback : prompt;
 }
 
 function isTypingTarget(target: EventTarget | null): boolean {
@@ -116,9 +137,10 @@ export function ExerciseCard({ item, onRate, submitting, error }: ExerciseCardPr
           </Badge>
           <Badge tone={maturityMeta.tone}>{maturityMeta.label}</Badge>
           {item.entry.srs?.due && (
-            <span className="text-[11px] text-muted-foreground">
-              was {formatDue(item.entry.srs.due)}
-            </span>
+            /* `formatDue` returns a whole phrase — "due now", "14 days ago", "in 3 days".
+               Prefixing it with a bare "was" produced "was 14 days ago" (missing "due")
+               and, for a card not yet overdue, the nonsense "was in 3 days". */
+            <span className="text-[11px] text-muted-foreground">{dueLabel(item.entry.srs.due)}</span>
           )}
           {item.entry.srs && item.entry.srs.lapses > 0 && (
             <span className="text-[11px] text-muted-foreground">
@@ -127,8 +149,11 @@ export function ExerciseCard({ item, onRate, submitting, error }: ExerciseCardPr
           )}
         </div>
 
+        {/* The recall card's `prompt` is the headword itself, which the card below
+            then prints twice its size. An instruction is what belongs here, so the
+            kind's own line stands in whenever the prompt is only the word again. */}
         <p className="text-[13px] text-muted-foreground">
-          {renderEmphasis(item.exercise.prompt || meta.hint)}
+          {renderEmphasis(instruction(item, meta.hint))}
         </p>
 
         <Body item={item} revealed={revealed} onCommit={onCommit} autoFocus />

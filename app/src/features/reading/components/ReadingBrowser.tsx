@@ -1,6 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { AlertTriangle, BookOpen, FileText, Layers, Sparkles, Target } from "lucide-react";
+import {
+  AlertTriangle,
+  BookOpen,
+  FileText,
+  GraduationCap,
+  Layers,
+  Sparkles,
+  Target,
+  Timer,
+} from "lucide-react";
 import {
   Badge,
   Button,
@@ -17,7 +26,7 @@ import {
 import { PageShell } from "@/components/shell/PageShell";
 import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
 import { cn } from "@/lib/cn";
-import { formatDuration } from "@/lib/format";
+import { formatMinutes } from "@/lib/format";
 import { DRILLABLE_TYPES, qtypeLabel } from "../qtypes";
 import { useReadingStore } from "../store";
 import type { PassageSummary, TestSummary } from "../types";
@@ -90,8 +99,10 @@ function TestCard({ test, onStart }: { test: TestSummary; onStart: () => void })
         </ul>
       </CardHeader>
       <CardContent className="flex items-center justify-between gap-3 pt-2">
+        {/* A paper is 60 minutes long; `formatDuration` would print it as "1:00:00", which
+            reads as a stopwatch already running rather than as how long this will take. */}
         <span className="text-[11px] text-muted-foreground tabular">
-          {test.total_questions} questions · {formatDuration(3600)}
+          {test.total_questions} questions · {formatMinutes(60)}
         </span>
         <Button size="sm" onClick={onStart}>
           Start test
@@ -244,6 +255,27 @@ export function ReadingBrowser() {
     <PageShell
       title="Reading"
       description="Full Academic and General Training tests, single-passage practice, and question-type drills."
+      /*
+        The two rooms either side of the library, in the slot every skill uses for them.
+        They are rendered here rather than in the feature layout so that they exist on
+        the library screen only: during an attempt — and above all during a mock — a
+        visible link to the coach is a visible link to the answers.
+      */
+      onRefresh={() => void loadCatalog(true)}
+      refreshing={status === "loading"}
+      refreshLabel="Reload the reading library"
+      actions={
+        <>
+          <Button variant="outline" size="sm" onClick={() => navigate("/reading/coach")}>
+            <GraduationCap className="h-4 w-4" aria-hidden="true" />
+            Coach
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => navigate("/reading/mock")}>
+            <Timer className="h-4 w-4" aria-hidden="true" />
+            Mock paper
+          </Button>
+        </>
+      }
       toolbar={
         <Tabs
           aria-label="Reading practice"
@@ -262,6 +294,15 @@ export function ReadingBrowser() {
       ) : (
         <>
           <TabPanel value="Full tests" active={tab === "tests"}>
+            {/*
+              "Full test" and "mock paper" are the same 40 questions, so the difference has
+              to be said out loud or a learner picks whichever button is nearer.
+            */}
+            <p className="mb-3 text-[13px] text-muted-foreground">
+              A test here is yours to set up: choose the clock or turn it off, and the coach
+              opens the moment you submit. The mock paper is the same length with none of that
+              — one fixed hour, no help, and a report on how you spent the time.
+            </p>
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <FormatFilter value={format} onChange={setFormat} />
               <span className="text-[11px] text-muted-foreground tabular">
@@ -374,6 +415,23 @@ export function ReadingBrowser() {
           </TabPanel>
 
           <TabPanel value="Question drills" active={tab === "drills"}>
+            {/*
+              `/reading/drills` had nothing pointing at it. It is a different drill from the
+              type drills below — it selects by the mistake you keep making rather than by
+              question type — so it needs its own door, and saying which is which is the
+              whole point of putting them on one screen.
+            */}
+            <div className="mb-5 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-card p-3">
+              <p className="min-w-0 flex-1 text-[13px] text-muted-foreground">
+                Short reps on the four things that actually lose marks: judging what the writer
+                really claimed, matching a paraphrase to the sentence it came from, finding the
+                paragraph fast, and keeping the answer inside the word limit.
+              </p>
+              <Button variant="outline" onClick={() => navigate("/reading/drills")}>
+                Open drills
+              </Button>
+            </div>
+
             {loading ? (
               <SkeletonCard lines={5} />
             ) : availableTypes.length === 0 ? (
@@ -455,7 +513,7 @@ export function ReadingBrowser() {
                           </button>
                         ))}
                         <span className="text-[11px] text-muted-foreground tabular">
-                          about {formatDuration((probe?.secondsPerQuestion ?? 90) * drillSize)}
+                          about {formatMinutes(((probe?.secondsPerQuestion ?? 90) * drillSize) / 60)}
                         </span>
                       </div>
                       {startError && <p className="text-[13px] text-destructive">{startError}</p>}

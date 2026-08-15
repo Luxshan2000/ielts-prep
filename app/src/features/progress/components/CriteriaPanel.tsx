@@ -14,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
   EmptyState,
+  ErrorState,
   SkeletonChart,
   Tabs,
 } from "@/components/ui";
@@ -21,6 +22,7 @@ import { formatBand } from "@/lib/format";
 import { useChartTheme } from "../chartTheme";
 import {
   CRITERION_LABELS,
+  PRODUCTIVE_SKILLS,
   QTYPE_LABELS,
   SKILL_KEYS,
   SKILL_LABELS,
@@ -31,7 +33,8 @@ import {
 interface Props {
   criteria: Partial<Record<SkillKey, CriteriaDoc>>;
   loading: boolean;
-  error?: string;
+  /** The thrown value, so the panel can name an offline service or a bad provider. */
+  error?: unknown;
   onSelect: (skill: SkillKey) => void;
 }
 
@@ -73,18 +76,23 @@ export function CriteriaPanel({ criteria, loading, error, onSelect }: Props) {
         />
 
         {error ? (
-          <EmptyState
-            icon={RadarIcon}
+          <ErrorState
+            error={error}
             title="The breakdown could not be loaded"
-            description={error}
+            fallback="Your criterion scores could not be read."
           />
         ) : loading && !doc ? (
           <SkeletonChart aspect="aspect-square" />
         ) : !doc ? (
           <EmptyState
+            size="sm"
             icon={RadarIcon}
-            title={`No ${SKILL_LABELS[skill].toLowerCase()} evidence yet`}
-            description="Finish one scored attempt in this skill and the breakdown appears here."
+            title={`Nothing scored in ${SKILL_LABELS[skill].toLowerCase()} yet`}
+            description={
+              PRODUCTIVE_SKILLS.includes(skill)
+                ? "One marked attempt shows you which of the four criteria is costing you the most marks."
+                : "Answer one set of questions and this shows which question types you are losing marks on."
+            }
           />
         ) : doc.kind === "criteria_radar" ? (
           <RadarPanel doc={doc} color={theme.series[skill]} theme={theme} skill={skill} />
@@ -111,6 +119,7 @@ function RadarPanel({
   if (entries.length === 0) {
     return (
       <EmptyState
+        size="sm"
         icon={RadarIcon}
         title={`No ${SKILL_LABELS[skill].toLowerCase()} criterion bands yet`}
         description="Criterion bands come from your scored attempts. One scored attempt is enough to draw the first shape."
@@ -194,6 +203,7 @@ function QtypePanel({
   if (doc.items.length === 0) {
     return (
       <EmptyState
+        size="sm"
         icon={RadarIcon}
         title="No answered questions yet"
         description="Question-type accuracy appears once you have submitted a passage or a listening part."

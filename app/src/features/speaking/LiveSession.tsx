@@ -46,6 +46,7 @@ import {
   Card,
   CardContent,
   EmptyState,
+  Notice,
   Progress,
   Skeleton,
   useConfirm,
@@ -95,6 +96,54 @@ function messageMs(message: ConversationMessage, originMs: number): number {
 // -------------------------------------------------------------------- helpers ---
 
 type CallState = "idle" | "connecting" | "live" | "ending";
+
+/**
+ * Is this remembered microphone still a real device on this origin?
+ *
+ * Returns false rather than throwing when devices cannot be enumerated at all: the caller's
+ * fallback is the system default, which is the right answer either way.
+ */
+async function micStillExists(micId: string): Promise<boolean> {
+  try {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    return devices.some((d) => d.kind === "audioinput" && d.deviceId === micId);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * True once a live call has gone long enough with an open microphone and no signal at all.
+ *
+ * Six seconds, and it resets the moment anything is heard, because a learner pausing to think
+ * is normal and must never be accused of a broken microphone. This measures the LOCAL track,
+ * so it is about capture rather than about the network.
+ */
+function useSilentMic(level: number, listening: boolean): boolean {
+  const [silent, setSilent] = useState(false);
+  const lastSound = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!listening) {
+      lastSound.current = null;
+      setSilent(false);
+      return;
+    }
+    if (lastSound.current === null) lastSound.current = Date.now();
+    if (level > 0.01) {
+      lastSound.current = Date.now();
+      setSilent(false);
+      return;
+    }
+    const started = lastSound.current;
+    const timer = window.setTimeout(() => {
+      if (Date.now() - started >= 6000) setSilent(true);
+    }, 6000);
+    return () => window.clearTimeout(timer);
+  }, [level, listening]);
+
+  return silent;
+}
 
 function callStateOf(transport: TransportState, ending: boolean): CallState {
   if (ending) return "ending";
@@ -153,6 +202,7 @@ function CallStage({ activity, onEnded }: CallStageProps) {
   const callState = callStateOf(transportState, ending);
   const isLive = callState === "live";
   const userLevel = useTrackLevel(localTrack, isLive && micEnabled);
+  const micIsSilent = useSilentMic(userLevel, isLive && micEnabled);
   const botLevel = useTrackLevel(botTrack, isLive);
 
   // ------------------------------------------------------------- rtvi events ---
@@ -202,12 +252,19 @@ function CallStage({ activity, onEnded }: CallStageProps) {
       // the microphone is silently never published — the examiner hears nothing and
       // there is no error anywhere to tell you why.
       await client.initDevices();
-      if (micId) {
-        try {
-          client.updateMic(micId);
-        } catch {
-          // The remembered device is gone; the system default is the right fallback.
-        }
+      // Only pass a remembered microphone if it still exists.
+      //
+      // `deviceId` values are per-origin and Chrome rotates them whenever microphone
+      // permission is reset, so a value saved on one port is meaningless on another and a
+      // value saved before a permission change is meaningless now. Handing a stale one to
+      // `updateMic` makes getUserMedia throw OverconstrainedError inside the transport's
+      // WavMediaManager, whose catch discards the error and carries on: the AudioWorklet
+      // recorder is left dead, the peer connection publishes silence, the sidecar logs
+      // "no audio frame received" for the whole call, and the only thing the learner sees is
+      // "Session ended: please call .begin() first" from the next method to touch the
+      // recorder. Checking first costs one enumerateDevices call.
+      if (micId && (await micStillExists(micId))) {
+        client.updateMic(micId);
       }
       await client.connect();
       setMicEnabled(client.isMicEnabled);
@@ -324,6 +381,20 @@ function CallStage({ activity, onEnded }: CallStageProps) {
         socket={live?.socket ?? "connecting"}
         recording={isLive && micEnabled}
       />
+
+      {/* Silence that nobody reports is the worst failure this screen has. The transport's
+          media manager discards the error when microphone capture fails to start, so the call
+          looks connected, the examiner waits, and the learner talks into nothing for a full
+          minute before anything at all appears on screen. The level meter already knows; it
+          just never said so. */}
+      {micIsSilent && (
+        <Notice tone="warning" title="Nothing is reaching the examiner from your microphone">
+          The call is connected but no sound is coming through. Check that the right microphone
+          is selected and that nothing else has taken it, then reconnect. If you changed the
+          address of this page recently, the browser treats it as a new site and asks for
+          microphone permission again.
+        </Notice>
+      )}
 
       {serverError && (
         <div

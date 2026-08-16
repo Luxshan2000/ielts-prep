@@ -1,0 +1,1006 @@
+{
+ "kind": "band-word",
+ "count": 250,
+ "items": [
+  {
+   "headword": "convert",
+   "cefr": "B2"
+  },
+  {
+   "headword": "convince",
+   "cefr": "B1"
+  },
+  {
+   "headword": "convinced",
+   "cefr": "B2"
+  },
+  {
+   "headword": "core",
+   "cefr": "B2"
+  },
+  {
+   "headword": "corporate",
+   "cefr": "B2"
+  },
+  {
+   "headword": "costume",
+   "cefr": "B1"
+  },
+  {
+   "headword": "cottage",
+   "cefr": "B1"
+  },
+  {
+   "headword": "cotton",
+   "cefr": "B1"
+  },
+  {
+   "headword": "council",
+   "cefr": "B2"
+  },
+  {
+   "headword": "countryside",
+   "cefr": "B1"
+  },
+  {
+   "headword": "county",
+   "cefr": "B2"
+  },
+  {
+   "headword": "courage",
+   "cefr": "B2"
+  },
+  {
+   "headword": "court",
+   "cefr": "B1"
+  },
+  {
+   "headword": "covered",
+   "cefr": "B1"
+  },
+  {
+   "headword": "crash",
+   "cefr": "B2"
+  },
+  {
+   "headword": "creation",
+   "cefr": "B2"
+  },
+  {
+   "headword": "creature",
+   "cefr": "B2"
+  },
+  {
+   "headword": "crew",
+   "cefr": "B2"
+  },
+  {
+   "headword": "crisis",
+   "cefr": "B2"
+  },
+  {
+   "headword": "critic",
+   "cefr": "B2"
+  },
+  {
+   "headword": "critical",
+   "cefr": "B2"
+  },
+  {
+   "headword": "criticism",
+   "cefr": "B2"
+  },
+  {
+   "headword": "criticize",
+   "cefr": "B2"
+  },
+  {
+   "headword": "crop",
+   "cefr": "B2"
+  },
+  {
+   "headword": "crucial",
+   "cefr": "B2"
+  },
+  {
+   "headword": "cruel",
+   "cefr": "B1"
+  },
+  {
+   "headword": "cultural",
+   "cefr": "B1"
+  },
+  {
+   "headword": "cure",
+   "cefr": "B2"
+  },
+  {
+   "headword": "currency",
+   "cefr": "B1"
+  },
+  {
+   "headword": "current",
+   "cefr": "B1"
+  },
+  {
+   "headword": "currently",
+   "cefr": "B1"
+  },
+  {
+   "headword": "curtain",
+   "cefr": "B1"
+  },
+  {
+   "headword": "curve",
+   "cefr": "B2"
+  },
+  {
+   "headword": "curved",
+   "cefr": "B2"
+  },
+  {
+   "headword": "custom",
+   "cefr": "B1"
+  },
+  {
+   "headword": "damage",
+   "cefr": "B1"
+  },
+  {
+   "headword": "debate",
+   "cefr": "B2"
+  },
+  {
+   "headword": "decade",
+   "cefr": "B1"
+  },
+  {
+   "headword": "decent",
+   "cefr": "B2"
+  },
+  {
+   "headword": "declare",
+   "cefr": "B2"
+  },
+  {
+   "headword": "decline",
+   "cefr": "B2"
+  },
+  {
+   "headword": "decorate",
+   "cefr": "B1"
+  },
+  {
+   "headword": "decoration",
+   "cefr": "B2"
+  },
+  {
+   "headword": "decrease",
+   "cefr": "B2"
+  },
+  {
+   "headword": "deeply",
+   "cefr": "B2"
+  },
+  {
+   "headword": "defeat",
+   "cefr": "B2"
+  },
+  {
+   "headword": "defence",
+   "cefr": "B2"
+  },
+  {
+   "headword": "defend",
+   "cefr": "B2"
+  },
+  {
+   "headword": "define",
+   "cefr": "B1"
+  },
+  {
+   "headword": "definite",
+   "cefr": "B1"
+  },
+  {
+   "headword": "definition",
+   "cefr": "B1"
+  },
+  {
+   "headword": "delay",
+   "cefr": "B2"
+  },
+  {
+   "headword": "deliberate",
+   "cefr": "B2"
+  },
+  {
+   "headword": "deliberately",
+   "cefr": "B2"
+  },
+  {
+   "headword": "delight",
+   "cefr": "B2"
+  },
+  {
+   "headword": "delighted",
+   "cefr": "B2"
+  },
+  {
+   "headword": "deliver",
+   "cefr": "B1"
+  },
+  {
+   "headword": "delivery",
+   "cefr": "B2"
+  },
+  {
+   "headword": "deny",
+   "cefr": "B2"
+  },
+  {
+   "headword": "departure",
+   "cefr": "B1"
+  },
+  {
+   "headword": "depressed",
+   "cefr": "B2"
+  },
+  {
+   "headword": "depressing",
+   "cefr": "B2"
+  },
+  {
+   "headword": "depth",
+   "cefr": "B2"
+  },
+  {
+   "headword": "deserve",
+   "cefr": "B2"
+  },
+  {
+   "headword": "desire",
+   "cefr": "B2"
+  },
+  {
+   "headword": "desperate",
+   "cefr": "B2"
+  },
+  {
+   "headword": "despite",
+   "cefr": "B1"
+  },
+  {
+   "headword": "detailed",
+   "cefr": "B2"
+  },
+  {
+   "headword": "detect",
+   "cefr": "B2"
+  },
+  {
+   "headword": "determine",
+   "cefr": "B1"
+  },
+  {
+   "headword": "determined",
+   "cefr": "B1"
+  },
+  {
+   "headword": "development",
+   "cefr": "B1"
+  },
+  {
+   "headword": "diagram",
+   "cefr": "B1"
+  },
+  {
+   "headword": "diamond",
+   "cefr": "B1"
+  },
+  {
+   "headword": "difficulty",
+   "cefr": "B1"
+  },
+  {
+   "headword": "dig",
+   "cefr": "B2"
+  },
+  {
+   "headword": "directly",
+   "cefr": "B1"
+  },
+  {
+   "headword": "dirt",
+   "cefr": "B1"
+  },
+  {
+   "headword": "disadvantage",
+   "cefr": "B1"
+  },
+  {
+   "headword": "disappointed",
+   "cefr": "B1"
+  },
+  {
+   "headword": "disappointing",
+   "cefr": "B1"
+  },
+  {
+   "headword": "disc",
+   "cefr": "B2"
+  },
+  {
+   "headword": "discount",
+   "cefr": "B1"
+  },
+  {
+   "headword": "dishonest",
+   "cefr": "B2"
+  },
+  {
+   "headword": "dislike",
+   "cefr": "B1"
+  },
+  {
+   "headword": "dismiss",
+   "cefr": "B2"
+  },
+  {
+   "headword": "display",
+   "cefr": "B2"
+  },
+  {
+   "headword": "distribute",
+   "cefr": "B2"
+  },
+  {
+   "headword": "distribution",
+   "cefr": "B2"
+  },
+  {
+   "headword": "district",
+   "cefr": "B2"
+  },
+  {
+   "headword": "divide",
+   "cefr": "B1"
+  },
+  {
+   "headword": "division",
+   "cefr": "B2"
+  },
+  {
+   "headword": "documentary",
+   "cefr": "B1"
+  },
+  {
+   "headword": "domestic",
+   "cefr": "B2"
+  },
+  {
+   "headword": "dominate",
+   "cefr": "B2"
+  },
+  {
+   "headword": "donate",
+   "cefr": "B1"
+  },
+  {
+   "headword": "doubt",
+   "cefr": "B1"
+  },
+  {
+   "headword": "downwards",
+   "cefr": "B2"
+  },
+  {
+   "headword": "dozen",
+   "cefr": "B2"
+  },
+  {
+   "headword": "draft",
+   "cefr": "B2"
+  },
+  {
+   "headword": "drag",
+   "cefr": "B2"
+  },
+  {
+   "headword": "dramatic",
+   "cefr": "B2"
+  },
+  {
+   "headword": "dressed",
+   "cefr": "B1"
+  },
+  {
+   "headword": "drum",
+   "cefr": "B1"
+  },
+  {
+   "headword": "drunk",
+   "cefr": "B1"
+  },
+  {
+   "headword": "due",
+   "cefr": "B1"
+  },
+  {
+   "headword": "dust",
+   "cefr": "B1"
+  },
+  {
+   "headword": "duty",
+   "cefr": "B1"
+  },
+  {
+   "headword": "earthquake",
+   "cefr": "B1"
+  },
+  {
+   "headword": "eastern",
+   "cefr": "B1"
+  },
+  {
+   "headword": "economic",
+   "cefr": "B1"
+  },
+  {
+   "headword": "economy",
+   "cefr": "B1"
+  },
+  {
+   "headword": "edge",
+   "cefr": "B1"
+  },
+  {
+   "headword": "edit",
+   "cefr": "B2"
+  },
+  {
+   "headword": "edition",
+   "cefr": "B2"
+  },
+  {
+   "headword": "editor",
+   "cefr": "B1"
+  },
+  {
+   "headword": "educate",
+   "cefr": "B1"
+  },
+  {
+   "headword": "educated",
+   "cefr": "B1"
+  },
+  {
+   "headword": "educational",
+   "cefr": "B1"
+  },
+  {
+   "headword": "effective",
+   "cefr": "B1"
+  },
+  {
+   "headword": "effectively",
+   "cefr": "B1"
+  },
+  {
+   "headword": "efficient",
+   "cefr": "B2"
+  },
+  {
+   "headword": "effort",
+   "cefr": "B1"
+  },
+  {
+   "headword": "elderly",
+   "cefr": "B2"
+  },
+  {
+   "headword": "elect",
+   "cefr": "B2"
+  },
+  {
+   "headword": "election",
+   "cefr": "B1"
+  },
+  {
+   "headword": "element",
+   "cefr": "B1"
+  },
+  {
+   "headword": "elsewhere",
+   "cefr": "B2"
+  },
+  {
+   "headword": "embarrassed",
+   "cefr": "B1"
+  },
+  {
+   "headword": "embarrassing",
+   "cefr": "B1"
+  },
+  {
+   "headword": "emerge",
+   "cefr": "B2"
+  },
+  {
+   "headword": "emergency",
+   "cefr": "B1"
+  },
+  {
+   "headword": "emotion",
+   "cefr": "B1"
+  },
+  {
+   "headword": "emotional",
+   "cefr": "B2"
+  },
+  {
+   "headword": "emphasis",
+   "cefr": "B2"
+  },
+  {
+   "headword": "emphasize",
+   "cefr": "B2"
+  },
+  {
+   "headword": "employment",
+   "cefr": "B1"
+  },
+  {
+   "headword": "enable",
+   "cefr": "B2"
+  },
+  {
+   "headword": "encounter",
+   "cefr": "B2"
+  },
+  {
+   "headword": "encourage",
+   "cefr": "B1"
+  },
+  {
+   "headword": "enemy",
+   "cefr": "B1"
+  },
+  {
+   "headword": "engage",
+   "cefr": "B2"
+  },
+  {
+   "headword": "engaged",
+   "cefr": "B1"
+  },
+  {
+   "headword": "engineering",
+   "cefr": "B1"
+  },
+  {
+   "headword": "enquiry",
+   "cefr": "B2"
+  },
+  {
+   "headword": "ensure",
+   "cefr": "B2"
+  },
+  {
+   "headword": "entertain",
+   "cefr": "B1"
+  },
+  {
+   "headword": "entertainment",
+   "cefr": "B1"
+  },
+  {
+   "headword": "enthusiasm",
+   "cefr": "B2"
+  },
+  {
+   "headword": "enthusiastic",
+   "cefr": "B2"
+  },
+  {
+   "headword": "entire",
+   "cefr": "B2"
+  },
+  {
+   "headword": "entirely",
+   "cefr": "B2"
+  },
+  {
+   "headword": "entrance",
+   "cefr": "B1"
+  },
+  {
+   "headword": "entry",
+   "cefr": "B1"
+  },
+  {
+   "headword": "environmental",
+   "cefr": "B1"
+  },
+  {
+   "headword": "episode",
+   "cefr": "B1"
+  },
+  {
+   "headword": "equal",
+   "cefr": "B1"
+  },
+  {
+   "headword": "equally",
+   "cefr": "B1"
+  },
+  {
+   "headword": "escape",
+   "cefr": "B1"
+  },
+  {
+   "headword": "essential",
+   "cefr": "B1"
+  },
+  {
+   "headword": "establish",
+   "cefr": "B2"
+  },
+  {
+   "headword": "estate",
+   "cefr": "B2"
+  },
+  {
+   "headword": "estimate",
+   "cefr": "B2"
+  },
+  {
+   "headword": "evaluate",
+   "cefr": "B2"
+  },
+  {
+   "headword": "eventually",
+   "cefr": "B1"
+  },
+  {
+   "headword": "evil",
+   "cefr": "B2"
+  },
+  {
+   "headword": "examination",
+   "cefr": "B2"
+  },
+  {
+   "headword": "examine",
+   "cefr": "B1"
+  },
+  {
+   "headword": "exchange",
+   "cefr": "B1"
+  },
+  {
+   "headword": "excitement",
+   "cefr": "B1"
+  },
+  {
+   "headword": "excuse",
+   "cefr": "B2"
+  },
+  {
+   "headword": "executive",
+   "cefr": "B2"
+  },
+  {
+   "headword": "exhibition",
+   "cefr": "B1"
+  },
+  {
+   "headword": "existence",
+   "cefr": "B2"
+  },
+  {
+   "headword": "expand",
+   "cefr": "B1"
+  },
+  {
+   "headword": "expectation",
+   "cefr": "B2"
+  },
+  {
+   "headword": "expected",
+   "cefr": "B1"
+  },
+  {
+   "headword": "expedition",
+   "cefr": "B1"
+  },
+  {
+   "headword": "expense",
+   "cefr": "B2"
+  },
+  {
+   "headword": "experienced",
+   "cefr": "B1"
+  },
+  {
+   "headword": "explode",
+   "cefr": "B1"
+  },
+  {
+   "headword": "exploration",
+   "cefr": "B2"
+  },
+  {
+   "headword": "explore",
+   "cefr": "B1"
+  },
+  {
+   "headword": "explosion",
+   "cefr": "B1"
+  },
+  {
+   "headword": "export",
+   "cefr": "B1"
+  },
+  {
+   "headword": "expose",
+   "cefr": "B2"
+  },
+  {
+   "headword": "extend",
+   "cefr": "B2"
+  },
+  {
+   "headword": "extent",
+   "cefr": "B2"
+  },
+  {
+   "headword": "external",
+   "cefr": "B2"
+  },
+  {
+   "headword": "extraordinary",
+   "cefr": "B2"
+  },
+  {
+   "headword": "facility",
+   "cefr": "B2"
+  },
+  {
+   "headword": "failure",
+   "cefr": "B2"
+  },
+  {
+   "headword": "fairly",
+   "cefr": "B1"
+  },
+  {
+   "headword": "faith",
+   "cefr": "B2"
+  },
+  {
+   "headword": "familiar",
+   "cefr": "B1"
+  },
+  {
+   "headword": "fancy",
+   "cefr": "B1"
+  },
+  {
+   "headword": "fascinating",
+   "cefr": "B1"
+  },
+  {
+   "headword": "fashionable",
+   "cefr": "B1"
+  },
+  {
+   "headword": "fasten",
+   "cefr": "B1"
+  },
+  {
+   "headword": "fault",
+   "cefr": "B2"
+  },
+  {
+   "headword": "favour",
+   "cefr": "B1"
+  },
+  {
+   "headword": "feather",
+   "cefr": "B2"
+  },
+  {
+   "headword": "fee",
+   "cefr": "B2"
+  },
+  {
+   "headword": "feedback",
+   "cefr": "B2"
+  },
+  {
+   "headword": "fellow",
+   "cefr": "B2"
+  },
+  {
+   "headword": "fence",
+   "cefr": "B1"
+  },
+  {
+   "headword": "fighting",
+   "cefr": "B1"
+  },
+  {
+   "headword": "file",
+   "cefr": "B1"
+  },
+  {
+   "headword": "finance",
+   "cefr": "B2"
+  },
+  {
+   "headword": "financial",
+   "cefr": "B1"
+  },
+  {
+   "headword": "finding",
+   "cefr": "B2"
+  },
+  {
+   "headword": "firm",
+   "cefr": "B2"
+  },
+  {
+   "headword": "fitness",
+   "cefr": "B1"
+  },
+  {
+   "headword": "fixed",
+   "cefr": "B1"
+  },
+  {
+   "headword": "flag",
+   "cefr": "B1"
+  },
+  {
+   "headword": "flame",
+   "cefr": "B2"
+  },
+  {
+   "headword": "flash",
+   "cefr": "B2"
+  },
+  {
+   "headword": "flexible",
+   "cefr": "B2"
+  },
+  {
+   "headword": "float",
+   "cefr": "B2"
+  },
+  {
+   "headword": "flood",
+   "cefr": "B1"
+  },
+  {
+   "headword": "flour",
+   "cefr": "B1"
+  },
+  {
+   "headword": "flow",
+   "cefr": "B1"
+  },
+  {
+   "headword": "fold",
+   "cefr": "B1"
+  },
+  {
+   "headword": "folding",
+   "cefr": "B2"
+  },
+  {
+   "headword": "force",
+   "cefr": "B1"
+  },
+  {
+   "headword": "forever",
+   "cefr": "B1"
+  },
+  {
+   "headword": "forgive",
+   "cefr": "B2"
+  },
+  {
+   "headword": "former",
+   "cefr": "B2"
+  },
+  {
+   "headword": "fortune",
+   "cefr": "B2"
+  },
+  {
+   "headword": "found",
+   "cefr": "B2"
+  },
+  {
+   "headword": "frame",
+   "cefr": "B1"
+  },
+  {
+   "headword": "freedom",
+   "cefr": "B2"
+  },
+  {
+   "headword": "freeze",
+   "cefr": "B1"
+  },
+  {
+   "headword": "frequency",
+   "cefr": "B2"
+  },
+  {
+   "headword": "frequently",
+   "cefr": "B1"
+  },
+  {
+   "headword": "friendship",
+   "cefr": "B1"
+  },
+  {
+   "headword": "frighten",
+   "cefr": "B1"
+  },
+  {
+   "headword": "frightened",
+   "cefr": "B1"
+  },
+  {
+   "headword": "frightening",
+   "cefr": "B1"
+  },
+  {
+   "headword": "frozen",
+   "cefr": "B1"
+  },
+  {
+   "headword": "fry",
+   "cefr": "B1"
+  },
+  {
+   "headword": "fuel",
+   "cefr": "B1"
+  },
+  {
+   "headword": "fully",
+   "cefr": "B2"
+  },
+  {
+   "headword": "function",
+   "cefr": "B1"
+  },
+  {
+   "headword": "fund",
+   "cefr": "B2"
+  },
+  {
+   "headword": "fundamental",
+   "cefr": "B2"
+  },
+  {
+   "headword": "funding",
+   "cefr": "B2"
+  },
+  {
+   "headword": "fur",
+   "cefr": "B1"
+  },
+  {
+   "headword": "gain",
+   "cefr": "B2"
+  },
+  {
+   "headword": "gang",
+   "cefr": "B2"
+  }
+ ]
+}

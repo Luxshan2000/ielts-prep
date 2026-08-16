@@ -1,0 +1,927 @@
+{
+ "kind": "phrase",
+ "count": 307,
+ "items": [
+  {
+   "headword": "Are you getting on?"
+  },
+  {
+   "headword": "Have you ever…?"
+  },
+  {
+   "headword": "How about…?"
+  },
+  {
+   "headword": "How are you?"
+  },
+  {
+   "headword": "How long…?"
+  },
+  {
+   "headword": "How many…?"
+  },
+  {
+   "headword": "How much…?"
+  },
+  {
+   "headword": "How often…?"
+  },
+  {
+   "headword": "How shall I put it?"
+  },
+  {
+   "headword": "What about…?"
+  },
+  {
+   "headword": "What’s going on?"
+  },
+  {
+   "headword": "Why not…?"
+  },
+  {
+   "headword": "Would you like…?"
+  },
+  {
+   "headword": "a bit"
+  },
+  {
+   "headword": "a bit more"
+  },
+  {
+   "headword": "a bit of a…"
+  },
+  {
+   "headword": "a bit of sth"
+  },
+  {
+   "headword": "a couple of sth"
+  },
+  {
+   "headword": "a day or two"
+  },
+  {
+   "headword": "a decline in student numbers"
+  },
+  {
+   "headword": "a dream come true"
+  },
+  {
+   "headword": "a few"
+  },
+  {
+   "headword": "a few minutes"
+  },
+  {
+   "headword": "a few times"
+  },
+  {
+   "headword": "a few years"
+  },
+  {
+   "headword": "a good idea"
+  },
+  {
+   "headword": "a great deal"
+  },
+  {
+   "headword": "a great deal better"
+  },
+  {
+   "headword": "a great deal of sth"
+  },
+  {
+   "headword": "a job for life"
+  },
+  {
+   "headword": "a kind of…"
+  },
+  {
+   "headword": "a large number of sth"
+  },
+  {
+   "headword": "a little"
+  },
+  {
+   "headword": "a little bit"
+  },
+  {
+   "headword": "a little help"
+  },
+  {
+   "headword": "a little money"
+  },
+  {
+   "headword": "a little more"
+  },
+  {
+   "headword": "a little sugar"
+  },
+  {
+   "headword": "a long time"
+  },
+  {
+   "headword": "a long time ago"
+  },
+  {
+   "headword": "a long way"
+  },
+  {
+   "headword": "a lot"
+  },
+  {
+   "headword": "a lot more"
+  },
+  {
+   "headword": "a lot of sth"
+  },
+  {
+   "headword": "a lot to do"
+  },
+  {
+   "headword": "a means of communication"
+  },
+  {
+   "headword": "a means of sth"
+  },
+  {
+   "headword": "a means of transport"
+  },
+  {
+   "headword": "a moment or two"
+  },
+  {
+   "headword": "a number of sth"
+  },
+  {
+   "headword": "a period of time"
+  },
+  {
+   "headword": "a pound or two"
+  },
+  {
+   "headword": "a range of sth"
+  },
+  {
+   "headword": "a rise in the number of visitors"
+  },
+  {
+   "headword": "a variety of sth"
+  },
+  {
+   "headword": "a wide range of sth"
+  },
+  {
+   "headword": "able to do sth"
+  },
+  {
+   "headword": "above all"
+  },
+  {
+   "headword": "access to sth"
+  },
+  {
+   "headword": "account for sth"
+  },
+  {
+   "headword": "accused of sth"
+  },
+  {
+   "headword": "act as sth"
+  },
+  {
+   "headword": "add to sth"
+  },
+  {
+   "headword": "after all"
+  },
+  {
+   "headword": "again and again"
+  },
+  {
+   "headword": "agree with sb"
+  },
+  {
+   "headword": "aim to do sth"
+  },
+  {
+   "headword": "aimed at doing sth"
+  },
+  {
+   "headword": "aimed at sb"
+  },
+  {
+   "headword": "all about…"
+  },
+  {
+   "headword": "all but"
+  },
+  {
+   "headword": "all day"
+  },
+  {
+   "headword": "all kinds of…"
+  },
+  {
+   "headword": "all night"
+  },
+  {
+   "headword": "all over the world"
+  },
+  {
+   "headword": "all over…"
+  },
+  {
+   "headword": "all sorts of…"
+  },
+  {
+   "headword": "all the more"
+  },
+  {
+   "headword": "all the time"
+  },
+  {
+   "headword": "all the way"
+  },
+  {
+   "headword": "along with sb/sth"
+  },
+  {
+   "headword": "alternative to sth"
+  },
+  {
+   "headword": "and so on"
+  },
+  {
+   "headword": "anyone else"
+  },
+  {
+   "headword": "anything else"
+  },
+  {
+   "headword": "apart from"
+  },
+  {
+   "headword": "appeal to sb"
+  },
+  {
+   "headword": "apply for sth"
+  },
+  {
+   "headword": "apply to sb/sth"
+  },
+  {
+   "headword": "around the world"
+  },
+  {
+   "headword": "arrive at…"
+  },
+  {
+   "headword": "arrive in…"
+  },
+  {
+   "headword": "art gallery"
+  },
+  {
+   "headword": "as a result"
+  },
+  {
+   "headword": "as a result of sth"
+  },
+  {
+   "headword": "as a whole"
+  },
+  {
+   "headword": "as far as I am concerned"
+  },
+  {
+   "headword": "as far as sb/sth is concerned"
+  },
+  {
+   "headword": "as follows…"
+  },
+  {
+   "headword": "as for sb/sth"
+  },
+  {
+   "headword": "as if nothing had happened"
+  },
+  {
+   "headword": "as if…"
+  },
+  {
+   "headword": "as long as…"
+  },
+  {
+   "headword": "as much as"
+  },
+  {
+   "headword": "as of…"
+  },
+  {
+   "headword": "as opposed to"
+  },
+  {
+   "headword": "as part of a team"
+  },
+  {
+   "headword": "as part of sth"
+  },
+  {
+   "headword": "as soon as"
+  },
+  {
+   "headword": "as soon as possible"
+  },
+  {
+   "headword": "as such"
+  },
+  {
+   "headword": "as though…"
+  },
+  {
+   "headword": "as to how…"
+  },
+  {
+   "headword": "as to sth"
+  },
+  {
+   "headword": "as to whether…"
+  },
+  {
+   "headword": "as well"
+  },
+  {
+   "headword": "as well as sb/sth"
+  },
+  {
+   "headword": "ask for sth"
+  },
+  {
+   "headword": "associated with doing sth"
+  },
+  {
+   "headword": "associated with sth"
+  },
+  {
+   "headword": "at first"
+  },
+  {
+   "headword": "at home"
+  },
+  {
+   "headword": "at last"
+  },
+  {
+   "headword": "at least"
+  },
+  {
+   "headword": "at once"
+  },
+  {
+   "headword": "at present"
+  },
+  {
+   "headword": "at risk"
+  },
+  {
+   "headword": "at school"
+  },
+  {
+   "headword": "at some point"
+  },
+  {
+   "headword": "at that time"
+  },
+  {
+   "headword": "at the age of…"
+  },
+  {
+   "headword": "at the beginning of sth"
+  },
+  {
+   "headword": "at the end"
+  },
+  {
+   "headword": "at the end of sth"
+  },
+  {
+   "headword": "at the end of the day"
+  },
+  {
+   "headword": "at the expense of sb/sth"
+  },
+  {
+   "headword": "at the hands of sb"
+  },
+  {
+   "headword": "at the moment"
+  },
+  {
+   "headword": "at the same time"
+  },
+  {
+   "headword": "at the start of sth"
+  },
+  {
+   "headword": "at the time"
+  },
+  {
+   "headword": "at the time of sth"
+  },
+  {
+   "headword": "at the top"
+  },
+  {
+   "headword": "at the top of sth"
+  },
+  {
+   "headword": "at the weekend"
+  },
+  {
+   "headword": "at this point"
+  },
+  {
+   "headword": "at this stage"
+  },
+  {
+   "headword": "at times"
+  },
+  {
+   "headword": "at university"
+  },
+  {
+   "headword": "at work"
+  },
+  {
+   "headword": "attached to sb/sth"
+  },
+  {
+   "headword": "awareness of sth"
+  },
+  {
+   "headword": "away from sb/sth"
+  },
+  {
+   "headword": "back and forth"
+  },
+  {
+   "headword": "back sb/sth up"
+  },
+  {
+   "headword": "bad for sb/sth"
+  },
+  {
+   "headword": "bad news"
+  },
+  {
+   "headword": "bad thing"
+  },
+  {
+   "headword": "based on sth"
+  },
+  {
+   "headword": "be about to do sth"
+  },
+  {
+   "headword": "be allowed to do sth"
+  },
+  {
+   "headword": "be attributed to sb"
+  },
+  {
+   "headword": "be charged with doing sth"
+  },
+  {
+   "headword": "be charged with sth"
+  },
+  {
+   "headword": "be derived from sth"
+  },
+  {
+   "headword": "be entitled to sth"
+  },
+  {
+   "headword": "be expected to do sth"
+  },
+  {
+   "headword": "be found to do sth"
+  },
+  {
+   "headword": "be going on"
+  },
+  {
+   "headword": "be going to do sth"
+  },
+  {
+   "headword": "be in touch"
+  },
+  {
+   "headword": "be known as sb/sth"
+  },
+  {
+   "headword": "be known to do sth"
+  },
+  {
+   "headword": "be made of sth"
+  },
+  {
+   "headword": "be made up of sth"
+  },
+  {
+   "headword": "be meant to do sth"
+  },
+  {
+   "headword": "be nothing to do with sb/sth"
+  },
+  {
+   "headword": "be on the phone"
+  },
+  {
+   "headword": "be reported to be sth"
+  },
+  {
+   "headword": "be reported to have sth"
+  },
+  {
+   "headword": "be said to be sth"
+  },
+  {
+   "headword": "be said to have sth"
+  },
+  {
+   "headword": "be supposed to be sth"
+  },
+  {
+   "headword": "be supposed to do sth"
+  },
+  {
+   "headword": "be surrounded by sb/sth"
+  },
+  {
+   "headword": "be the case that…"
+  },
+  {
+   "headword": "be to blame"
+  },
+  {
+   "headword": "be to blame for sth"
+  },
+  {
+   "headword": "be to do with sb/sth"
+  },
+  {
+   "headword": "bear in mind that…"
+  },
+  {
+   "headword": "bear sb/sth in mind"
+  },
+  {
+   "headword": "because of"
+  },
+  {
+   "headword": "begin with sth"
+  },
+  {
+   "headword": "believe in sb/sth"
+  },
+  {
+   "headword": "belong to sb"
+  },
+  {
+   "headword": "belong to sth"
+  },
+  {
+   "headword": "benefit from sth"
+  },
+  {
+   "headword": "best friend"
+  },
+  {
+   "headword": "black and white"
+  },
+  {
+   "headword": "both sides"
+  },
+  {
+   "headword": "both sides of the argument"
+  },
+  {
+   "headword": "bound to be sth"
+  },
+  {
+   "headword": "bound to do sth"
+  },
+  {
+   "headword": "break up"
+  },
+  {
+   "headword": "break up with sb"
+  },
+  {
+   "headword": "bring sb up"
+  },
+  {
+   "headword": "bring sth about"
+  },
+  {
+   "headword": "bring sth up"
+  },
+  {
+   "headword": "by means of sth"
+  },
+  {
+   "headword": "by no means"
+  },
+  {
+   "headword": "by now"
+  },
+  {
+   "headword": "by the end of sth"
+  },
+  {
+   "headword": "by the time (that)…"
+  },
+  {
+   "headword": "call for sth"
+  },
+  {
+   "headword": "call on sb"
+  },
+  {
+   "headword": "call on sb to do sth"
+  },
+  {
+   "headword": "can’t afford sth"
+  },
+  {
+   "headword": "can’t afford to do sth"
+  },
+  {
+   "headword": "car park"
+  },
+  {
+   "headword": "care about sth"
+  },
+  {
+   "headword": "care for sb"
+  },
+  {
+   "headword": "carry on"
+  },
+  {
+   "headword": "carry on with sth"
+  },
+  {
+   "headword": "carry sth out"
+  },
+  {
+   "headword": "case study"
+  },
+  {
+   "headword": "caused by sth"
+  },
+  {
+   "headword": "cell phone"
+  },
+  {
+   "headword": "check in"
+  },
+  {
+   "headword": "check in at…"
+  },
+  {
+   "headword": "check out"
+  },
+  {
+   "headword": "check out of sth"
+  },
+  {
+   "headword": "check sb/sth out"
+  },
+  {
+   "headword": "check sth in"
+  },
+  {
+   "headword": "choose to do sth"
+  },
+  {
+   "headword": "city centre"
+  },
+  {
+   "headword": "clean sth up"
+  },
+  {
+   "headword": "clean up"
+  },
+  {
+   "headword": "click on sth"
+  },
+  {
+   "headword": "climate change"
+  },
+  {
+   "headword": "close to sb/sth"
+  },
+  {
+   "headword": "come across sb/sth"
+  },
+  {
+   "headword": "come back"
+  },
+  {
+   "headword": "come from…"
+  },
+  {
+   "headword": "come into sth"
+  },
+  {
+   "headword": "come true"
+  },
+  {
+   "headword": "come up with sth"
+  },
+  {
+   "headword": "compared with sth"
+  },
+  {
+   "headword": "concentrate on sth"
+  },
+  {
+   "headword": "concerned about sth"
+  },
+  {
+   "headword": "concerned with sth"
+  },
+  {
+   "headword": "confidence in sb/sth"
+  },
+  {
+   "headword": "connected to sth"
+  },
+  {
+   "headword": "connected with sb/sth"
+  },
+  {
+   "headword": "consist of sb/sth"
+  },
+  {
+   "headword": "consistent with sth"
+  },
+  {
+   "headword": "contribute to sth"
+  },
+  {
+   "headword": "control over sb/sth"
+  },
+  {
+   "headword": "cope with sth"
+  },
+  {
+   "headword": "credit card"
+  },
+  {
+   "headword": "deal with sb"
+  },
+  {
+   "headword": "deal with sth"
+  },
+  {
+   "headword": "decide on sth"
+  },
+  {
+   "headword": "decline in sth"
+  },
+  {
+   "headword": "dedicated to sth"
+  },
+  {
+   "headword": "depend on sb/sth"
+  },
+  {
+   "headword": "depend on sb/sth for sth"
+  },
+  {
+   "headword": "depend on sth"
+  },
+  {
+   "headword": "dependent on sb/sth"
+  },
+  {
+   "headword": "depending on"
+  },
+  {
+   "headword": "deprive sb/sth of sth"
+  },
+  {
+   "headword": "despite the fact that…"
+  },
+  {
+   "headword": "developing countries"
+  },
+  {
+   "headword": "differences between A and B"
+  },
+  {
+   "headword": "difficult for sb"
+  },
+  {
+   "headword": "dispose of sb/sth"
+  },
+  {
+   "headword": "do well"
+  },
+  {
+   "headword": "do?"
+  },
+  {
+   "headword": "draw attention to sb/sth"
+  },
+  {
+   "headword": "due to sb/sth"
+  },
+  {
+   "headword": "each one"
+  },
+  {
+   "headword": "each other"
+  },
+  {
+   "headword": "economic growth"
+  },
+  {
+   "headword": "end in sth"
+  },
+  {
+   "headword": "end up"
+  },
+  {
+   "headword": "end with sth"
+  },
+  {
+   "headword": "engage in sth"
+  },
+  {
+   "headword": "engaged in sth"
+  },
+  {
+   "headword": "even if"
+  },
+  {
+   "headword": "even more difficult"
+  },
+  {
+   "headword": "even more exciting"
+  },
+  {
+   "headword": "even more…"
+  },
+  {
+   "headword": "even though"
+  },
+  {
+   "headword": "ever since(…)"
+  },
+  {
+   "headword": "every day"
+  },
+  {
+   "headword": "every week"
+  },
+  {
+   "headword": "every year"
+  },
+  {
+   "headword": "everyone else"
+  },
+  {
+   "headword": "exactly the same"
+  },
+  {
+   "headword": "except for"
+  },
+  {
+   "headword": "excuse me"
+  },
+  {
+   "headword": "experience in sth"
+  },
+  {
+   "headword": "exposure to sth"
+  },
+  {
+   "headword": "fail to do sth"
+  },
+  {
+   "headword": "fall asleep"
+  },
+  {
+   "headword": "fall in love"
+  },
+  {
+   "headword": "fall in love with sb"
+  },
+  {
+   "headword": "fall off"
+  }
+ ]
+}

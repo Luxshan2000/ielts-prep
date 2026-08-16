@@ -1,0 +1,1006 @@
+{
+ "kind": "band-word",
+ "count": 250,
+ "items": [
+  {
+   "headword": "garage",
+   "cefr": "B1"
+  },
+  {
+   "headword": "gather",
+   "cefr": "B1"
+  },
+  {
+   "headword": "generally",
+   "cefr": "B1"
+  },
+  {
+   "headword": "generate",
+   "cefr": "B2"
+  },
+  {
+   "headword": "generation",
+   "cefr": "B1"
+  },
+  {
+   "headword": "generous",
+   "cefr": "B1"
+  },
+  {
+   "headword": "genre",
+   "cefr": "B2"
+  },
+  {
+   "headword": "gentle",
+   "cefr": "B1"
+  },
+  {
+   "headword": "gentleman",
+   "cefr": "B1"
+  },
+  {
+   "headword": "ghost",
+   "cefr": "B1"
+  },
+  {
+   "headword": "giant",
+   "cefr": "B1"
+  },
+  {
+   "headword": "glad",
+   "cefr": "B1"
+  },
+  {
+   "headword": "global",
+   "cefr": "B1"
+  },
+  {
+   "headword": "glove",
+   "cefr": "B1"
+  },
+  {
+   "headword": "goods",
+   "cefr": "B1"
+  },
+  {
+   "headword": "govern",
+   "cefr": "B2"
+  },
+  {
+   "headword": "grab",
+   "cefr": "B2"
+  },
+  {
+   "headword": "grade",
+   "cefr": "B1"
+  },
+  {
+   "headword": "gradually",
+   "cefr": "B2"
+  },
+  {
+   "headword": "grain",
+   "cefr": "B1"
+  },
+  {
+   "headword": "grand",
+   "cefr": "B2"
+  },
+  {
+   "headword": "grant",
+   "cefr": "B2"
+  },
+  {
+   "headword": "grateful",
+   "cefr": "B1"
+  },
+  {
+   "headword": "growth",
+   "cefr": "B1"
+  },
+  {
+   "headword": "guarantee",
+   "cefr": "B2"
+  },
+  {
+   "headword": "guard",
+   "cefr": "B1"
+  },
+  {
+   "headword": "guilty",
+   "cefr": "B1"
+  },
+  {
+   "headword": "handle",
+   "cefr": "B2"
+  },
+  {
+   "headword": "hang",
+   "cefr": "B1"
+  },
+  {
+   "headword": "happiness",
+   "cefr": "B1"
+  },
+  {
+   "headword": "hardly",
+   "cefr": "B1"
+  },
+  {
+   "headword": "harm",
+   "cefr": "B2"
+  },
+  {
+   "headword": "harmful",
+   "cefr": "B2"
+  },
+  {
+   "headword": "headline",
+   "cefr": "B1"
+  },
+  {
+   "headword": "hearing",
+   "cefr": "B2"
+  },
+  {
+   "headword": "heating",
+   "cefr": "B1"
+  },
+  {
+   "headword": "heaven",
+   "cefr": "B2"
+  },
+  {
+   "headword": "heavily",
+   "cefr": "B1"
+  },
+  {
+   "headword": "heel",
+   "cefr": "B2"
+  },
+  {
+   "headword": "helicopter",
+   "cefr": "B1"
+  },
+  {
+   "headword": "hell",
+   "cefr": "B2"
+  },
+  {
+   "headword": "hesitate",
+   "cefr": "B2"
+  },
+  {
+   "headword": "highlight",
+   "cefr": "B1"
+  },
+  {
+   "headword": "highly",
+   "cefr": "B1"
+  },
+  {
+   "headword": "hire",
+   "cefr": "B1"
+  },
+  {
+   "headword": "historic",
+   "cefr": "B1"
+  },
+  {
+   "headword": "historical",
+   "cefr": "B1"
+  },
+  {
+   "headword": "hollow",
+   "cefr": "B2"
+  },
+  {
+   "headword": "holy",
+   "cefr": "B2"
+  },
+  {
+   "headword": "honest",
+   "cefr": "B1"
+  },
+  {
+   "headword": "honour",
+   "cefr": "B2"
+  },
+  {
+   "headword": "horrible",
+   "cefr": "B1"
+  },
+  {
+   "headword": "horror",
+   "cefr": "B1"
+  },
+  {
+   "headword": "housing",
+   "cefr": "B2"
+  },
+  {
+   "headword": "humorous",
+   "cefr": "B2"
+  },
+  {
+   "headword": "humour",
+   "cefr": "B2"
+  },
+  {
+   "headword": "hunt",
+   "cefr": "B1"
+  },
+  {
+   "headword": "hunting",
+   "cefr": "B2"
+  },
+  {
+   "headword": "hurricane",
+   "cefr": "B1"
+  },
+  {
+   "headword": "hurry",
+   "cefr": "B1"
+  },
+  {
+   "headword": "identity",
+   "cefr": "B1"
+  },
+  {
+   "headword": "ignore",
+   "cefr": "B1"
+  },
+  {
+   "headword": "illegal",
+   "cefr": "B1"
+  },
+  {
+   "headword": "illustrate",
+   "cefr": "B2"
+  },
+  {
+   "headword": "illustration",
+   "cefr": "B2"
+  },
+  {
+   "headword": "imaginary",
+   "cefr": "B1"
+  },
+  {
+   "headword": "imagination",
+   "cefr": "B2"
+  },
+  {
+   "headword": "immediate",
+   "cefr": "B1"
+  },
+  {
+   "headword": "immigrant",
+   "cefr": "B1"
+  },
+  {
+   "headword": "impact",
+   "cefr": "B1"
+  },
+  {
+   "headword": "impatient",
+   "cefr": "B2"
+  },
+  {
+   "headword": "imply",
+   "cefr": "B2"
+  },
+  {
+   "headword": "import",
+   "cefr": "B1"
+  },
+  {
+   "headword": "importance",
+   "cefr": "B1"
+  },
+  {
+   "headword": "impose",
+   "cefr": "B2"
+  },
+  {
+   "headword": "impress",
+   "cefr": "B2"
+  },
+  {
+   "headword": "impressed",
+   "cefr": "B2"
+  },
+  {
+   "headword": "impression",
+   "cefr": "B1"
+  },
+  {
+   "headword": "impressive",
+   "cefr": "B1"
+  },
+  {
+   "headword": "improvement",
+   "cefr": "B1"
+  },
+  {
+   "headword": "inch",
+   "cefr": "B2"
+  },
+  {
+   "headword": "incident",
+   "cefr": "B2"
+  },
+  {
+   "headword": "income",
+   "cefr": "B2"
+  },
+  {
+   "headword": "increasingly",
+   "cefr": "B2"
+  },
+  {
+   "headword": "incredibly",
+   "cefr": "B1"
+  },
+  {
+   "headword": "indeed",
+   "cefr": "B1"
+  },
+  {
+   "headword": "indicate",
+   "cefr": "B1"
+  },
+  {
+   "headword": "indirect",
+   "cefr": "B1"
+  },
+  {
+   "headword": "indoor",
+   "cefr": "B1"
+  },
+  {
+   "headword": "indoors",
+   "cefr": "B1"
+  },
+  {
+   "headword": "industrial",
+   "cefr": "B2"
+  },
+  {
+   "headword": "infection",
+   "cefr": "B2"
+  },
+  {
+   "headword": "influence",
+   "cefr": "B1"
+  },
+  {
+   "headword": "inform",
+   "cefr": "B2"
+  },
+  {
+   "headword": "ingredient",
+   "cefr": "B1"
+  },
+  {
+   "headword": "initial",
+   "cefr": "B2"
+  },
+  {
+   "headword": "initially",
+   "cefr": "B2"
+  },
+  {
+   "headword": "initiative",
+   "cefr": "B2"
+  },
+  {
+   "headword": "injure",
+   "cefr": "B1"
+  },
+  {
+   "headword": "injured",
+   "cefr": "B1"
+  },
+  {
+   "headword": "inner",
+   "cefr": "B2"
+  },
+  {
+   "headword": "innocent",
+   "cefr": "B1"
+  },
+  {
+   "headword": "insight",
+   "cefr": "B2"
+  },
+  {
+   "headword": "insist",
+   "cefr": "B2"
+  },
+  {
+   "headword": "inspire",
+   "cefr": "B2"
+  },
+  {
+   "headword": "install",
+   "cefr": "B2"
+  },
+  {
+   "headword": "instance",
+   "cefr": "B2"
+  },
+  {
+   "headword": "institute",
+   "cefr": "B2"
+  },
+  {
+   "headword": "institution",
+   "cefr": "B2"
+  },
+  {
+   "headword": "insurance",
+   "cefr": "B2"
+  },
+  {
+   "headword": "intelligence",
+   "cefr": "B1"
+  },
+  {
+   "headword": "intend",
+   "cefr": "B1"
+  },
+  {
+   "headword": "intended",
+   "cefr": "B2"
+  },
+  {
+   "headword": "intense",
+   "cefr": "B2"
+  },
+  {
+   "headword": "intention",
+   "cefr": "B1"
+  },
+  {
+   "headword": "internal",
+   "cefr": "B2"
+  },
+  {
+   "headword": "interpret",
+   "cefr": "B2"
+  },
+  {
+   "headword": "interrupt",
+   "cefr": "B2"
+  },
+  {
+   "headword": "investigate",
+   "cefr": "B1"
+  },
+  {
+   "headword": "investigation",
+   "cefr": "B2"
+  },
+  {
+   "headword": "investment",
+   "cefr": "B2"
+  },
+  {
+   "headword": "involved",
+   "cefr": "B1"
+  },
+  {
+   "headword": "iron",
+   "cefr": "B1"
+  },
+  {
+   "headword": "issue",
+   "cefr": "B1"
+  },
+  {
+   "headword": "journal",
+   "cefr": "B1"
+  },
+  {
+   "headword": "joy",
+   "cefr": "B2"
+  },
+  {
+   "headword": "judge",
+   "cefr": "B1"
+  },
+  {
+   "headword": "judgement",
+   "cefr": "B2"
+  },
+  {
+   "headword": "junior",
+   "cefr": "B2"
+  },
+  {
+   "headword": "justice",
+   "cefr": "B2"
+  },
+  {
+   "headword": "justify",
+   "cefr": "B2"
+  },
+  {
+   "headword": "keen",
+   "cefr": "B1"
+  },
+  {
+   "headword": "keyboard",
+   "cefr": "B1"
+  },
+  {
+   "headword": "kick",
+   "cefr": "B1"
+  },
+  {
+   "headword": "killing",
+   "cefr": "B1"
+  },
+  {
+   "headword": "kiss",
+   "cefr": "B1"
+  },
+  {
+   "headword": "label",
+   "cefr": "B1"
+  },
+  {
+   "headword": "labour",
+   "cefr": "B2"
+  },
+  {
+   "headword": "lack",
+   "cefr": "B1"
+  },
+  {
+   "headword": "landscape",
+   "cefr": "B2"
+  },
+  {
+   "headword": "largely",
+   "cefr": "B2"
+  },
+  {
+   "headword": "latest",
+   "cefr": "B1"
+  },
+  {
+   "headword": "launch",
+   "cefr": "B2"
+  },
+  {
+   "headword": "lay",
+   "cefr": "B1"
+  },
+  {
+   "headword": "layer",
+   "cefr": "B1"
+  },
+  {
+   "headword": "leadership",
+   "cefr": "B2"
+  },
+  {
+   "headword": "leading",
+   "cefr": "B1"
+  },
+  {
+   "headword": "leaf",
+   "cefr": "B1"
+  },
+  {
+   "headword": "league",
+   "cefr": "B2"
+  },
+  {
+   "headword": "lean",
+   "cefr": "B2"
+  },
+  {
+   "headword": "leather",
+   "cefr": "B1"
+  },
+  {
+   "headword": "legal",
+   "cefr": "B1"
+  },
+  {
+   "headword": "leisure",
+   "cefr": "B1"
+  },
+  {
+   "headword": "length",
+   "cefr": "B1"
+  },
+  {
+   "headword": "licence",
+   "cefr": "B2"
+  },
+  {
+   "headword": "limit",
+   "cefr": "B1"
+  },
+  {
+   "headword": "limited",
+   "cefr": "B2"
+  },
+  {
+   "headword": "lip",
+   "cefr": "B1"
+  },
+  {
+   "headword": "liquid",
+   "cefr": "B1"
+  },
+  {
+   "headword": "literature",
+   "cefr": "B1"
+  },
+  {
+   "headword": "lively",
+   "cefr": "B2"
+  },
+  {
+   "headword": "living",
+   "cefr": "B1"
+  },
+  {
+   "headword": "load",
+   "cefr": "B2"
+  },
+  {
+   "headword": "loan",
+   "cefr": "B2"
+  },
+  {
+   "headword": "locate",
+   "cefr": "B1"
+  },
+  {
+   "headword": "located",
+   "cefr": "B1"
+  },
+  {
+   "headword": "location",
+   "cefr": "B1"
+  },
+  {
+   "headword": "logical",
+   "cefr": "B2"
+  },
+  {
+   "headword": "lonely",
+   "cefr": "B1"
+  },
+  {
+   "headword": "long-term",
+   "cefr": "B2"
+  },
+  {
+   "headword": "loose",
+   "cefr": "B2"
+  },
+  {
+   "headword": "lord",
+   "cefr": "B2"
+  },
+  {
+   "headword": "loss",
+   "cefr": "B1"
+  },
+  {
+   "headword": "lower",
+   "cefr": "B2"
+  },
+  {
+   "headword": "lung",
+   "cefr": "B2"
+  },
+  {
+   "headword": "luxury",
+   "cefr": "B1"
+  },
+  {
+   "headword": "mad",
+   "cefr": "B1"
+  },
+  {
+   "headword": "magic",
+   "cefr": "B1"
+  },
+  {
+   "headword": "mainly",
+   "cefr": "B1"
+  },
+  {
+   "headword": "maintain",
+   "cefr": "B2"
+  },
+  {
+   "headword": "majority",
+   "cefr": "B2"
+  },
+  {
+   "headword": "mall",
+   "cefr": "B1"
+  },
+  {
+   "headword": "management",
+   "cefr": "B1"
+  },
+  {
+   "headword": "marketing",
+   "cefr": "B1"
+  },
+  {
+   "headword": "marriage",
+   "cefr": "B1"
+  },
+  {
+   "headword": "mass",
+   "cefr": "B2"
+  },
+  {
+   "headword": "massive",
+   "cefr": "B2"
+  },
+  {
+   "headword": "master",
+   "cefr": "B2"
+  },
+  {
+   "headword": "matching",
+   "cefr": "B2"
+  },
+  {
+   "headword": "maximum",
+   "cefr": "B2"
+  },
+  {
+   "headword": "means",
+   "cefr": "B2"
+  },
+  {
+   "headword": "meanwhile",
+   "cefr": "B1"
+  },
+  {
+   "headword": "measure",
+   "cefr": "B1"
+  },
+  {
+   "headword": "measurement",
+   "cefr": "B2"
+  },
+  {
+   "headword": "medium",
+   "cefr": "B1"
+  },
+  {
+   "headword": "melt",
+   "cefr": "B2"
+  },
+  {
+   "headword": "mental",
+   "cefr": "B1"
+  },
+  {
+   "headword": "mess",
+   "cefr": "B1"
+  },
+  {
+   "headword": "mild",
+   "cefr": "B1"
+  },
+  {
+   "headword": "military",
+   "cefr": "B2"
+  },
+  {
+   "headword": "mineral",
+   "cefr": "B2"
+  },
+  {
+   "headword": "minimum",
+   "cefr": "B2"
+  },
+  {
+   "headword": "minister",
+   "cefr": "B2"
+  },
+  {
+   "headword": "minor",
+   "cefr": "B2"
+  },
+  {
+   "headword": "minority",
+   "cefr": "B2"
+  },
+  {
+   "headword": "mission",
+   "cefr": "B2"
+  },
+  {
+   "headword": "mix",
+   "cefr": "B1"
+  },
+  {
+   "headword": "mixed",
+   "cefr": "B2"
+  },
+  {
+   "headword": "mixture",
+   "cefr": "B1"
+  },
+  {
+   "headword": "modify",
+   "cefr": "B2"
+  },
+  {
+   "headword": "monitor",
+   "cefr": "B2"
+  },
+  {
+   "headword": "mood",
+   "cefr": "B1"
+  },
+  {
+   "headword": "moral",
+   "cefr": "B2"
+  },
+  {
+   "headword": "motor",
+   "cefr": "B2"
+  },
+  {
+   "headword": "mount",
+   "cefr": "B2"
+  },
+  {
+   "headword": "mud",
+   "cefr": "B1"
+  },
+  {
+   "headword": "multiple",
+   "cefr": "B2"
+  },
+  {
+   "headword": "multiply",
+   "cefr": "B2"
+  },
+  {
+   "headword": "murder",
+   "cefr": "B1"
+  },
+  {
+   "headword": "muscle",
+   "cefr": "B1"
+  },
+  {
+   "headword": "mysterious",
+   "cefr": "B2"
+  },
+  {
+   "headword": "mystery",
+   "cefr": "B1"
+  },
+  {
+   "headword": "nail",
+   "cefr": "B1"
+  },
+  {
+   "headword": "nation",
+   "cefr": "B1"
+  },
+  {
+   "headword": "native",
+   "cefr": "B1"
+  },
+  {
+   "headword": "naturally",
+   "cefr": "B1"
+  },
+  {
+   "headword": "neat",
+   "cefr": "B2"
+  },
+  {
+   "headword": "necessarily",
+   "cefr": "B1"
+  },
+  {
+   "headword": "needle",
+   "cefr": "B1"
+  },
+  {
+   "headword": "neighbourhood",
+   "cefr": "B1"
+  },
+  {
+   "headword": "nerve",
+   "cefr": "B2"
+  },
+  {
+   "headword": "net",
+   "cefr": "B1"
+  },
+  {
+   "headword": "nevertheless",
+   "cefr": "B2"
+  },
+  {
+   "headword": "nightmare",
+   "cefr": "B2"
+  },
+  {
+   "headword": "northern",
+   "cefr": "B1"
+  },
+  {
+   "headword": "notion",
+   "cefr": "B2"
+  },
+  {
+   "headword": "nuclear",
+   "cefr": "B1"
+  },
+  {
+   "headword": "numerous",
+   "cefr": "B2"
+  },
+  {
+   "headword": "obey",
+   "cefr": "B2"
+  },
+  {
+   "headword": "objective",
+   "cefr": "B2"
+  },
+  {
+   "headword": "obligation",
+   "cefr": "B2"
+  },
+  {
+   "headword": "observation",
+   "cefr": "B2"
+  },
+  {
+   "headword": "observe",
+   "cefr": "B2"
+  },
+  {
+   "headword": "obvious",
+   "cefr": "B1"
+  },
+  {
+   "headword": "obviously",
+   "cefr": "B1"
+  },
+  {
+   "headword": "occasion",
+   "cefr": "B1"
+  },
+  {
+   "headword": "occasionally",
+   "cefr": "B2"
+  },
+  {
+   "headword": "occur",
+   "cefr": "B1"
+  },
+  {
+   "headword": "odd",
+   "cefr": "B1"
+  },
+  {
+   "headword": "offence",
+   "cefr": "B2"
+  }
+ ]
+}

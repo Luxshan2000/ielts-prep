@@ -1,0 +1,1586 @@
+{
+ "kind": "foundation-word",
+ "count": 395,
+ "items": [
+  {
+   "headword": "ability",
+   "cefr": "A2"
+  },
+  {
+   "headword": "able",
+   "cefr": "A2"
+  },
+  {
+   "headword": "about",
+   "cefr": "A1"
+  },
+  {
+   "headword": "above",
+   "cefr": "A1"
+  },
+  {
+   "headword": "abroad",
+   "cefr": "A2"
+  },
+  {
+   "headword": "accept",
+   "cefr": "A2"
+  },
+  {
+   "headword": "accident",
+   "cefr": "A2"
+  },
+  {
+   "headword": "achieve",
+   "cefr": "A2"
+  },
+  {
+   "headword": "across",
+   "cefr": "A1"
+  },
+  {
+   "headword": "act",
+   "cefr": "A2"
+  },
+  {
+   "headword": "action",
+   "cefr": "A1"
+  },
+  {
+   "headword": "active",
+   "cefr": "A2"
+  },
+  {
+   "headword": "activity",
+   "cefr": "A1"
+  },
+  {
+   "headword": "actor",
+   "cefr": "A1"
+  },
+  {
+   "headword": "actress",
+   "cefr": "A1"
+  },
+  {
+   "headword": "actually",
+   "cefr": "A2"
+  },
+  {
+   "headword": "add",
+   "cefr": "A1"
+  },
+  {
+   "headword": "adult",
+   "cefr": "A1"
+  },
+  {
+   "headword": "advantage",
+   "cefr": "A2"
+  },
+  {
+   "headword": "adventure",
+   "cefr": "A2"
+  },
+  {
+   "headword": "advertise",
+   "cefr": "A2"
+  },
+  {
+   "headword": "advertisement",
+   "cefr": "A2"
+  },
+  {
+   "headword": "advertising",
+   "cefr": "A2"
+  },
+  {
+   "headword": "advice",
+   "cefr": "A1"
+  },
+  {
+   "headword": "affect",
+   "cefr": "A2"
+  },
+  {
+   "headword": "afraid",
+   "cefr": "A1"
+  },
+  {
+   "headword": "after",
+   "cefr": "A1"
+  },
+  {
+   "headword": "afternoon",
+   "cefr": "A1"
+  },
+  {
+   "headword": "again",
+   "cefr": "A1"
+  },
+  {
+   "headword": "against",
+   "cefr": "A2"
+  },
+  {
+   "headword": "age",
+   "cefr": "A1"
+  },
+  {
+   "headword": "ago",
+   "cefr": "A1"
+  },
+  {
+   "headword": "agree",
+   "cefr": "A1"
+  },
+  {
+   "headword": "ah",
+   "cefr": "A2"
+  },
+  {
+   "headword": "air",
+   "cefr": "A1"
+  },
+  {
+   "headword": "airline",
+   "cefr": "A2"
+  },
+  {
+   "headword": "airport",
+   "cefr": "A1"
+  },
+  {
+   "headword": "alive",
+   "cefr": "A2"
+  },
+  {
+   "headword": "all",
+   "cefr": "A1"
+  },
+  {
+   "headword": "allow",
+   "cefr": "A2"
+  },
+  {
+   "headword": "almost",
+   "cefr": "A2"
+  },
+  {
+   "headword": "along",
+   "cefr": "A2"
+  },
+  {
+   "headword": "already",
+   "cefr": "A2"
+  },
+  {
+   "headword": "also",
+   "cefr": "A1"
+  },
+  {
+   "headword": "alternative",
+   "cefr": "A2"
+  },
+  {
+   "headword": "although",
+   "cefr": "A2"
+  },
+  {
+   "headword": "always",
+   "cefr": "A1"
+  },
+  {
+   "headword": "amazing",
+   "cefr": "A1"
+  },
+  {
+   "headword": "among",
+   "cefr": "A2"
+  },
+  {
+   "headword": "amount",
+   "cefr": "A2"
+  },
+  {
+   "headword": "ancient",
+   "cefr": "A2"
+  },
+  {
+   "headword": "and",
+   "cefr": "A1"
+  },
+  {
+   "headword": "angry",
+   "cefr": "A1"
+  },
+  {
+   "headword": "animal",
+   "cefr": "A1"
+  },
+  {
+   "headword": "ankle",
+   "cefr": "A2"
+  },
+  {
+   "headword": "answer",
+   "cefr": "A1"
+  },
+  {
+   "headword": "January",
+   "cefr": "A1"
+  },
+  {
+   "headword": "any",
+   "cefr": "A1"
+  },
+  {
+   "headword": "anybody",
+   "cefr": "A2"
+  },
+  {
+   "headword": "anyone",
+   "cefr": "A1"
+  },
+  {
+   "headword": "anything",
+   "cefr": "A1"
+  },
+  {
+   "headword": "anyway",
+   "cefr": "A2"
+  },
+  {
+   "headword": "anywhere",
+   "cefr": "A2"
+  },
+  {
+   "headword": "apartment",
+   "cefr": "A1"
+  },
+  {
+   "headword": "app",
+   "cefr": "A2"
+  },
+  {
+   "headword": "appear",
+   "cefr": "A2"
+  },
+  {
+   "headword": "appearance",
+   "cefr": "A2"
+  },
+  {
+   "headword": "apple",
+   "cefr": "A1"
+  },
+  {
+   "headword": "apply",
+   "cefr": "A2"
+  },
+  {
+   "headword": "March",
+   "cefr": "A1"
+  },
+  {
+   "headword": "architect",
+   "cefr": "A2"
+  },
+  {
+   "headword": "architecture",
+   "cefr": "A2"
+  },
+  {
+   "headword": "area",
+   "cefr": "A1"
+  },
+  {
+   "headword": "argue",
+   "cefr": "A2"
+  },
+  {
+   "headword": "argument",
+   "cefr": "A2"
+  },
+  {
+   "headword": "arm",
+   "cefr": "A1"
+  },
+  {
+   "headword": "army",
+   "cefr": "A2"
+  },
+  {
+   "headword": "around",
+   "cefr": "A1"
+  },
+  {
+   "headword": "arrange",
+   "cefr": "A2"
+  },
+  {
+   "headword": "arrangement",
+   "cefr": "A2"
+  },
+  {
+   "headword": "arrive",
+   "cefr": "A1"
+  },
+  {
+   "headword": "art",
+   "cefr": "A1"
+  },
+  {
+   "headword": "article",
+   "cefr": "A1"
+  },
+  {
+   "headword": "artist",
+   "cefr": "A1"
+  },
+  {
+   "headword": "as",
+   "cefr": "A1"
+  },
+  {
+   "headword": "ask",
+   "cefr": "A1"
+  },
+  {
+   "headword": "asleep",
+   "cefr": "A2"
+  },
+  {
+   "headword": "assistant",
+   "cefr": "A2"
+  },
+  {
+   "headword": "at",
+   "cefr": "A1"
+  },
+  {
+   "headword": "athlete",
+   "cefr": "A2"
+  },
+  {
+   "headword": "attack",
+   "cefr": "A2"
+  },
+  {
+   "headword": "attend",
+   "cefr": "A2"
+  },
+  {
+   "headword": "attention",
+   "cefr": "A2"
+  },
+  {
+   "headword": "attractive",
+   "cefr": "A2"
+  },
+  {
+   "headword": "Saturday",
+   "cefr": "A1"
+  },
+  {
+   "headword": "audience",
+   "cefr": "A2"
+  },
+  {
+   "headword": "aunt",
+   "cefr": "A1"
+  },
+  {
+   "headword": "author",
+   "cefr": "A2"
+  },
+  {
+   "headword": "autumn",
+   "cefr": "A1"
+  },
+  {
+   "headword": "auxiliary",
+   "cefr": "A1"
+  },
+  {
+   "headword": "available",
+   "cefr": "A2"
+  },
+  {
+   "headword": "average",
+   "cefr": "A2"
+  },
+  {
+   "headword": "avoid",
+   "cefr": "A2"
+  },
+  {
+   "headword": "award",
+   "cefr": "A2"
+  },
+  {
+   "headword": "away",
+   "cefr": "A1"
+  },
+  {
+   "headword": "awful",
+   "cefr": "A2"
+  },
+  {
+   "headword": "May",
+   "cefr": "A1"
+  },
+  {
+   "headword": "baby",
+   "cefr": "A1"
+  },
+  {
+   "headword": "back",
+   "cefr": "A1"
+  },
+  {
+   "headword": "background",
+   "cefr": "A2"
+  },
+  {
+   "headword": "bad",
+   "cefr": "A1"
+  },
+  {
+   "headword": "badly",
+   "cefr": "A2"
+  },
+  {
+   "headword": "bag",
+   "cefr": "A1"
+  },
+  {
+   "headword": "ball",
+   "cefr": "A1"
+  },
+  {
+   "headword": "banana",
+   "cefr": "A1"
+  },
+  {
+   "headword": "band",
+   "cefr": "A1"
+  },
+  {
+   "headword": "bar",
+   "cefr": "A2"
+  },
+  {
+   "headword": "baseball",
+   "cefr": "A2"
+  },
+  {
+   "headword": "based",
+   "cefr": "A2"
+  },
+  {
+   "headword": "basketball",
+   "cefr": "A2"
+  },
+  {
+   "headword": "bath",
+   "cefr": "A1"
+  },
+  {
+   "headword": "bathroom",
+   "cefr": "A1"
+  },
+  {
+   "headword": "beach",
+   "cefr": "A1"
+  },
+  {
+   "headword": "bean",
+   "cefr": "A2"
+  },
+  {
+   "headword": "beat",
+   "cefr": "A2"
+  },
+  {
+   "headword": "beautiful",
+   "cefr": "A1"
+  },
+  {
+   "headword": "because",
+   "cefr": "A1"
+  },
+  {
+   "headword": "become",
+   "cefr": "A1"
+  },
+  {
+   "headword": "bed",
+   "cefr": "A1"
+  },
+  {
+   "headword": "bedroom",
+   "cefr": "A1"
+  },
+  {
+   "headword": "beef",
+   "cefr": "A2"
+  },
+  {
+   "headword": "beer",
+   "cefr": "A1"
+  },
+  {
+   "headword": "before",
+   "cefr": "A1"
+  },
+  {
+   "headword": "begin",
+   "cefr": "A1"
+  },
+  {
+   "headword": "beginning",
+   "cefr": "A1"
+  },
+  {
+   "headword": "behave",
+   "cefr": "A2"
+  },
+  {
+   "headword": "behaviour",
+   "cefr": "A2"
+  },
+  {
+   "headword": "behind",
+   "cefr": "A1"
+  },
+  {
+   "headword": "believe",
+   "cefr": "A1"
+  },
+  {
+   "headword": "belong",
+   "cefr": "A2"
+  },
+  {
+   "headword": "below",
+   "cefr": "A1"
+  },
+  {
+   "headword": "belt",
+   "cefr": "A2"
+  },
+  {
+   "headword": "benefit",
+   "cefr": "A2"
+  },
+  {
+   "headword": "best",
+   "cefr": "A1"
+  },
+  {
+   "headword": "better",
+   "cefr": "A1"
+  },
+  {
+   "headword": "between",
+   "cefr": "A1"
+  },
+  {
+   "headword": "bicycle",
+   "cefr": "A1"
+  },
+  {
+   "headword": "big",
+   "cefr": "A1"
+  },
+  {
+   "headword": "bike",
+   "cefr": "A1"
+  },
+  {
+   "headword": "bill",
+   "cefr": "A1"
+  },
+  {
+   "headword": "bin",
+   "cefr": "A2"
+  },
+  {
+   "headword": "biology",
+   "cefr": "A2"
+  },
+  {
+   "headword": "bird",
+   "cefr": "A1"
+  },
+  {
+   "headword": "birth",
+   "cefr": "A2"
+  },
+  {
+   "headword": "birthday",
+   "cefr": "A1"
+  },
+  {
+   "headword": "biscuit",
+   "cefr": "A2"
+  },
+  {
+   "headword": "bit",
+   "cefr": "A2"
+  },
+  {
+   "headword": "black",
+   "cefr": "A1"
+  },
+  {
+   "headword": "blank",
+   "cefr": "A2"
+  },
+  {
+   "headword": "blog",
+   "cefr": "A1"
+  },
+  {
+   "headword": "blonde",
+   "cefr": "A1"
+  },
+  {
+   "headword": "blood",
+   "cefr": "A2"
+  },
+  {
+   "headword": "blow",
+   "cefr": "A2"
+  },
+  {
+   "headword": "blue",
+   "cefr": "A1"
+  },
+  {
+   "headword": "board",
+   "cefr": "A2"
+  },
+  {
+   "headword": "boat",
+   "cefr": "A1"
+  },
+  {
+   "headword": "body",
+   "cefr": "A1"
+  },
+  {
+   "headword": "boil",
+   "cefr": "A2"
+  },
+  {
+   "headword": "bone",
+   "cefr": "A2"
+  },
+  {
+   "headword": "book",
+   "cefr": "A1"
+  },
+  {
+   "headword": "boot",
+   "cefr": "A1"
+  },
+  {
+   "headword": "bored",
+   "cefr": "A1"
+  },
+  {
+   "headword": "boring",
+   "cefr": "A1"
+  },
+  {
+   "headword": "born",
+   "cefr": "A1"
+  },
+  {
+   "headword": "borrow",
+   "cefr": "A2"
+  },
+  {
+   "headword": "boss",
+   "cefr": "A2"
+  },
+  {
+   "headword": "bottle",
+   "cefr": "A1"
+  },
+  {
+   "headword": "bottom",
+   "cefr": "A2"
+  },
+  {
+   "headword": "bowl",
+   "cefr": "A2"
+  },
+  {
+   "headword": "box",
+   "cefr": "A1"
+  },
+  {
+   "headword": "boy",
+   "cefr": "A1"
+  },
+  {
+   "headword": "boyfriend",
+   "cefr": "A1"
+  },
+  {
+   "headword": "brain",
+   "cefr": "A2"
+  },
+  {
+   "headword": "bread",
+   "cefr": "A1"
+  },
+  {
+   "headword": "break",
+   "cefr": "A1"
+  },
+  {
+   "headword": "breakfast",
+   "cefr": "A1"
+  },
+  {
+   "headword": "bridge",
+   "cefr": "A2"
+  },
+  {
+   "headword": "bright",
+   "cefr": "A2"
+  },
+  {
+   "headword": "brilliant",
+   "cefr": "A2"
+  },
+  {
+   "headword": "bring",
+   "cefr": "A1"
+  },
+  {
+   "headword": "broken",
+   "cefr": "A2"
+  },
+  {
+   "headword": "brother",
+   "cefr": "A1"
+  },
+  {
+   "headword": "brown",
+   "cefr": "A1"
+  },
+  {
+   "headword": "brush",
+   "cefr": "A2"
+  },
+  {
+   "headword": "build",
+   "cefr": "A1"
+  },
+  {
+   "headword": "building",
+   "cefr": "A1"
+  },
+  {
+   "headword": "burn",
+   "cefr": "A2"
+  },
+  {
+   "headword": "bus",
+   "cefr": "A1"
+  },
+  {
+   "headword": "business",
+   "cefr": "A1"
+  },
+  {
+   "headword": "businessman",
+   "cefr": "A2"
+  },
+  {
+   "headword": "busy",
+   "cefr": "A1"
+  },
+  {
+   "headword": "but",
+   "cefr": "A1"
+  },
+  {
+   "headword": "butter",
+   "cefr": "A1"
+  },
+  {
+   "headword": "button",
+   "cefr": "A2"
+  },
+  {
+   "headword": "buy",
+   "cefr": "A1"
+  },
+  {
+   "headword": "by",
+   "cefr": "A1"
+  },
+  {
+   "headword": "bye",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cafe",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cake",
+   "cefr": "A1"
+  },
+  {
+   "headword": "call",
+   "cefr": "A1"
+  },
+  {
+   "headword": "camera",
+   "cefr": "A1"
+  },
+  {
+   "headword": "camp",
+   "cefr": "A2"
+  },
+  {
+   "headword": "camping",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cannot",
+   "cefr": "A1"
+  },
+  {
+   "headword": "capital",
+   "cefr": "A1"
+  },
+  {
+   "headword": "car",
+   "cefr": "A1"
+  },
+  {
+   "headword": "card",
+   "cefr": "A1"
+  },
+  {
+   "headword": "care",
+   "cefr": "A2"
+  },
+  {
+   "headword": "career",
+   "cefr": "A1"
+  },
+  {
+   "headword": "careful",
+   "cefr": "A2"
+  },
+  {
+   "headword": "carefully",
+   "cefr": "A2"
+  },
+  {
+   "headword": "carpet",
+   "cefr": "A2"
+  },
+  {
+   "headword": "carrot",
+   "cefr": "A1"
+  },
+  {
+   "headword": "carry",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cartoon",
+   "cefr": "A2"
+  },
+  {
+   "headword": "case",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cash",
+   "cefr": "A2"
+  },
+  {
+   "headword": "castle",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cat",
+   "cefr": "A1"
+  },
+  {
+   "headword": "catch",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cause",
+   "cefr": "A2"
+  },
+  {
+   "headword": "celebrate",
+   "cefr": "A2"
+  },
+  {
+   "headword": "celebrity",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cent",
+   "cefr": "A1"
+  },
+  {
+   "headword": "centre",
+   "cefr": "A1"
+  },
+  {
+   "headword": "century",
+   "cefr": "A1"
+  },
+  {
+   "headword": "certain",
+   "cefr": "A2"
+  },
+  {
+   "headword": "certainly",
+   "cefr": "A2"
+  },
+  {
+   "headword": "chair",
+   "cefr": "A1"
+  },
+  {
+   "headword": "chance",
+   "cefr": "A2"
+  },
+  {
+   "headword": "change",
+   "cefr": "A1"
+  },
+  {
+   "headword": "character",
+   "cefr": "A2"
+  },
+  {
+   "headword": "charity",
+   "cefr": "A2"
+  },
+  {
+   "headword": "chart",
+   "cefr": "A1"
+  },
+  {
+   "headword": "chat",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cheap",
+   "cefr": "A1"
+  },
+  {
+   "headword": "check",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cheese",
+   "cefr": "A1"
+  },
+  {
+   "headword": "chef",
+   "cefr": "A2"
+  },
+  {
+   "headword": "chemistry",
+   "cefr": "A2"
+  },
+  {
+   "headword": "chicken",
+   "cefr": "A1"
+  },
+  {
+   "headword": "child",
+   "cefr": "A1"
+  },
+  {
+   "headword": "chip",
+   "cefr": "A2"
+  },
+  {
+   "headword": "chocolate",
+   "cefr": "A1"
+  },
+  {
+   "headword": "choice",
+   "cefr": "A2"
+  },
+  {
+   "headword": "choose",
+   "cefr": "A1"
+  },
+  {
+   "headword": "church",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cigarette",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cinema",
+   "cefr": "A1"
+  },
+  {
+   "headword": "circle",
+   "cefr": "A2"
+  },
+  {
+   "headword": "city",
+   "cefr": "A1"
+  },
+  {
+   "headword": "class",
+   "cefr": "A1"
+  },
+  {
+   "headword": "classical",
+   "cefr": "A2"
+  },
+  {
+   "headword": "classroom",
+   "cefr": "A1"
+  },
+  {
+   "headword": "clean",
+   "cefr": "A1"
+  },
+  {
+   "headword": "clear",
+   "cefr": "A2"
+  },
+  {
+   "headword": "clearly",
+   "cefr": "A2"
+  },
+  {
+   "headword": "clever",
+   "cefr": "A2"
+  },
+  {
+   "headword": "climate",
+   "cefr": "A2"
+  },
+  {
+   "headword": "climb",
+   "cefr": "A1"
+  },
+  {
+   "headword": "clock",
+   "cefr": "A1"
+  },
+  {
+   "headword": "closed",
+   "cefr": "A2"
+  },
+  {
+   "headword": "clothes",
+   "cefr": "A1"
+  },
+  {
+   "headword": "clothing",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cloud",
+   "cefr": "A2"
+  },
+  {
+   "headword": "club",
+   "cefr": "A1"
+  },
+  {
+   "headword": "coach",
+   "cefr": "A2"
+  },
+  {
+   "headword": "coast",
+   "cefr": "A2"
+  },
+  {
+   "headword": "coat",
+   "cefr": "A1"
+  },
+  {
+   "headword": "code",
+   "cefr": "A2"
+  },
+  {
+   "headword": "coffee",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cold",
+   "cefr": "A1"
+  },
+  {
+   "headword": "colleague",
+   "cefr": "A2"
+  },
+  {
+   "headword": "collect",
+   "cefr": "A2"
+  },
+  {
+   "headword": "college",
+   "cefr": "A1"
+  },
+  {
+   "headword": "colour",
+   "cefr": "A1"
+  },
+  {
+   "headword": "column",
+   "cefr": "A2"
+  },
+  {
+   "headword": "come",
+   "cefr": "A1"
+  },
+  {
+   "headword": "comedy",
+   "cefr": "A2"
+  },
+  {
+   "headword": "comfortable",
+   "cefr": "A2"
+  },
+  {
+   "headword": "comment",
+   "cefr": "A2"
+  },
+  {
+   "headword": "common",
+   "cefr": "A1"
+  },
+  {
+   "headword": "communicate",
+   "cefr": "A2"
+  },
+  {
+   "headword": "community",
+   "cefr": "A2"
+  },
+  {
+   "headword": "company",
+   "cefr": "A1"
+  },
+  {
+   "headword": "compare",
+   "cefr": "A1"
+  },
+  {
+   "headword": "compete",
+   "cefr": "A2"
+  },
+  {
+   "headword": "competition",
+   "cefr": "A2"
+  },
+  {
+   "headword": "complain",
+   "cefr": "A2"
+  },
+  {
+   "headword": "complete",
+   "cefr": "A1"
+  },
+  {
+   "headword": "completely",
+   "cefr": "A2"
+  },
+  {
+   "headword": "computer",
+   "cefr": "A1"
+  },
+  {
+   "headword": "concert",
+   "cefr": "A1"
+  },
+  {
+   "headword": "condition",
+   "cefr": "A2"
+  },
+  {
+   "headword": "conference",
+   "cefr": "A2"
+  },
+  {
+   "headword": "connect",
+   "cefr": "A2"
+  },
+  {
+   "headword": "connected",
+   "cefr": "A2"
+  },
+  {
+   "headword": "consider",
+   "cefr": "A2"
+  },
+  {
+   "headword": "contain",
+   "cefr": "A2"
+  },
+  {
+   "headword": "context",
+   "cefr": "A2"
+  },
+  {
+   "headword": "continent",
+   "cefr": "A2"
+  },
+  {
+   "headword": "continue",
+   "cefr": "A2"
+  },
+  {
+   "headword": "control",
+   "cefr": "A2"
+  },
+  {
+   "headword": "conversation",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cook",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cooker",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cooking",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cool",
+   "cefr": "A1"
+  },
+  {
+   "headword": "copy",
+   "cefr": "A2"
+  },
+  {
+   "headword": "corner",
+   "cefr": "A2"
+  },
+  {
+   "headword": "correct",
+   "cefr": "A1"
+  },
+  {
+   "headword": "correctly",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cost",
+   "cefr": "A1"
+  },
+  {
+   "headword": "count",
+   "cefr": "A2"
+  },
+  {
+   "headword": "country",
+   "cefr": "A1"
+  },
+  {
+   "headword": "couple",
+   "cefr": "A2"
+  },
+  {
+   "headword": "course",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cousin",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cover",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cow",
+   "cefr": "A1"
+  },
+  {
+   "headword": "crazy",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cream",
+   "cefr": "A1"
+  },
+  {
+   "headword": "create",
+   "cefr": "A1"
+  },
+  {
+   "headword": "creative",
+   "cefr": "A2"
+  },
+  {
+   "headword": "credit",
+   "cefr": "A2"
+  },
+  {
+   "headword": "crime",
+   "cefr": "A2"
+  },
+  {
+   "headword": "criminal",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cross",
+   "cefr": "A2"
+  },
+  {
+   "headword": "crowd",
+   "cefr": "A2"
+  },
+  {
+   "headword": "crowded",
+   "cefr": "A2"
+  },
+  {
+   "headword": "cry",
+   "cefr": "A2"
+  },
+  {
+   "headword": "October",
+   "cefr": "A1"
+  },
+  {
+   "headword": "culture",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cup",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cupboard",
+   "cefr": "A2"
+  },
+  {
+   "headword": "curly",
+   "cefr": "A2"
+  },
+  {
+   "headword": "customer",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cut",
+   "cefr": "A1"
+  },
+  {
+   "headword": "cycle",
+   "cefr": "A2"
+  },
+  {
+   "headword": "dad",
+   "cefr": "A1"
+  },
+  {
+   "headword": "daily",
+   "cefr": "A2"
+  },
+  {
+   "headword": "dance",
+   "cefr": "A1"
+  },
+  {
+   "headword": "dancer",
+   "cefr": "A1"
+  },
+  {
+   "headword": "dancing",
+   "cefr": "A1"
+  },
+  {
+   "headword": "danger",
+   "cefr": "A2"
+  },
+  {
+   "headword": "dangerous",
+   "cefr": "A1"
+  },
+  {
+   "headword": "dark",
+   "cefr": "A1"
+  },
+  {
+   "headword": "data",
+   "cefr": "A2"
+  },
+  {
+   "headword": "date",
+   "cefr": "A1"
+  },
+  {
+   "headword": "daughter",
+   "cefr": "A1"
+  },
+  {
+   "headword": "day",
+   "cefr": "A1"
+  },
+  {
+   "headword": "dead",
+   "cefr": "A2"
+  },
+  {
+   "headword": "deal",
+   "cefr": "A2"
+  },
+  {
+   "headword": "dear",
+   "cefr": "A1"
+  },
+  {
+   "headword": "death",
+   "cefr": "A2"
+  },
+  {
+   "headword": "decide",
+   "cefr": "A1"
+  },
+  {
+   "headword": "decision",
+   "cefr": "A2"
+  },
+  {
+   "headword": "deep",
+   "cefr": "A2"
+  },
+  {
+   "headword": "definitely",
+   "cefr": "A2"
+  },
+  {
+   "headword": "degree",
+   "cefr": "A2"
+  },
+  {
+   "headword": "delicious",
+   "cefr": "A1"
+  },
+  {
+   "headword": "dentist",
+   "cefr": "A2"
+  },
+  {
+   "headword": "department",
+   "cefr": "A2"
+  },
+  {
+   "headword": "depend",
+   "cefr": "A2"
+  },
+  {
+   "headword": "describe",
+   "cefr": "A1"
+  },
+  {
+   "headword": "description",
+   "cefr": "A1"
+  },
+  {
+   "headword": "desert",
+   "cefr": "A2"
+  },
+  {
+   "headword": "design",
+   "cefr": "A1"
+  },
+  {
+   "headword": "designer",
+   "cefr": "A2"
+  },
+  {
+   "headword": "desk",
+   "cefr": "A1"
+  },
+  {
+   "headword": "destroy",
+   "cefr": "A2"
+  },
+  {
+   "headword": "detail",
+   "cefr": "A1"
+  },
+  {
+   "headword": "detective",
+   "cefr": "A2"
+  },
+  {
+   "headword": "develop",
+   "cefr": "A2"
+  },
+  {
+   "headword": "device",
+   "cefr": "A2"
+  },
+  {
+   "headword": "dialogue",
+   "cefr": "A1"
+  },
+  {
+   "headword": "diary",
+   "cefr": "A2"
+  },
+  {
+   "headword": "dictionary",
+   "cefr": "A1"
+  },
+  {
+   "headword": "die",
+   "cefr": "A1"
+  },
+  {
+   "headword": "diet",
+   "cefr": "A1"
+  },
+  {
+   "headword": "difference",
+   "cefr": "A1"
+  },
+  {
+   "headword": "different",
+   "cefr": "A1"
+  },
+  {
+   "headword": "differently",
+   "cefr": "A2"
+  },
+  {
+   "headword": "difficult",
+   "cefr": "A1"
+  },
+  {
+   "headword": "digital",
+   "cefr": "A2"
+  }
+ ]
+}

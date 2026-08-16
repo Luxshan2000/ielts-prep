@@ -1,0 +1,1586 @@
+{
+ "kind": "foundation-word",
+ "count": 395,
+ "items": [
+  {
+   "headword": "dinner",
+   "cefr": "A1"
+  },
+  {
+   "headword": "direct",
+   "cefr": "A2"
+  },
+  {
+   "headword": "direction",
+   "cefr": "A2"
+  },
+  {
+   "headword": "director",
+   "cefr": "A2"
+  },
+  {
+   "headword": "dirty",
+   "cefr": "A1"
+  },
+  {
+   "headword": "disagree",
+   "cefr": "A2"
+  },
+  {
+   "headword": "disappear",
+   "cefr": "A2"
+  },
+  {
+   "headword": "disaster",
+   "cefr": "A2"
+  },
+  {
+   "headword": "discover",
+   "cefr": "A2"
+  },
+  {
+   "headword": "discovery",
+   "cefr": "A2"
+  },
+  {
+   "headword": "discuss",
+   "cefr": "A1"
+  },
+  {
+   "headword": "discussion",
+   "cefr": "A2"
+  },
+  {
+   "headword": "disease",
+   "cefr": "A2"
+  },
+  {
+   "headword": "dish",
+   "cefr": "A1"
+  },
+  {
+   "headword": "distance",
+   "cefr": "A2"
+  },
+  {
+   "headword": "divorced",
+   "cefr": "A2"
+  },
+  {
+   "headword": "doctor",
+   "cefr": "A1"
+  },
+  {
+   "headword": "document",
+   "cefr": "A2"
+  },
+  {
+   "headword": "dog",
+   "cefr": "A1"
+  },
+  {
+   "headword": "dollar",
+   "cefr": "A1"
+  },
+  {
+   "headword": "door",
+   "cefr": "A1"
+  },
+  {
+   "headword": "double",
+   "cefr": "A2"
+  },
+  {
+   "headword": "down",
+   "cefr": "A1"
+  },
+  {
+   "headword": "download",
+   "cefr": "A2"
+  },
+  {
+   "headword": "downstairs",
+   "cefr": "A1"
+  },
+  {
+   "headword": "drama",
+   "cefr": "A2"
+  },
+  {
+   "headword": "draw",
+   "cefr": "A1"
+  },
+  {
+   "headword": "drawing",
+   "cefr": "A2"
+  },
+  {
+   "headword": "dream",
+   "cefr": "A2"
+  },
+  {
+   "headword": "dress",
+   "cefr": "A1"
+  },
+  {
+   "headword": "drink",
+   "cefr": "A1"
+  },
+  {
+   "headword": "drive",
+   "cefr": "A1"
+  },
+  {
+   "headword": "driver",
+   "cefr": "A1"
+  },
+  {
+   "headword": "driving",
+   "cefr": "A2"
+  },
+  {
+   "headword": "drop",
+   "cefr": "A2"
+  },
+  {
+   "headword": "drug",
+   "cefr": "A2"
+  },
+  {
+   "headword": "dry",
+   "cefr": "A2"
+  },
+  {
+   "headword": "during",
+   "cefr": "A1"
+  },
+  {
+   "headword": "ear",
+   "cefr": "A1"
+  },
+  {
+   "headword": "early",
+   "cefr": "A1"
+  },
+  {
+   "headword": "earn",
+   "cefr": "A2"
+  },
+  {
+   "headword": "earth",
+   "cefr": "A2"
+  },
+  {
+   "headword": "easily",
+   "cefr": "A2"
+  },
+  {
+   "headword": "east",
+   "cefr": "A1"
+  },
+  {
+   "headword": "easy",
+   "cefr": "A1"
+  },
+  {
+   "headword": "eat",
+   "cefr": "A1"
+  },
+  {
+   "headword": "February",
+   "cefr": "A1"
+  },
+  {
+   "headword": "December",
+   "cefr": "A1"
+  },
+  {
+   "headword": "Wednesday",
+   "cefr": "A1"
+  },
+  {
+   "headword": "education",
+   "cefr": "A2"
+  },
+  {
+   "headword": "effect",
+   "cefr": "A2"
+  },
+  {
+   "headword": "egg",
+   "cefr": "A1"
+  },
+  {
+   "headword": "electric",
+   "cefr": "A2"
+  },
+  {
+   "headword": "electrical",
+   "cefr": "A2"
+  },
+  {
+   "headword": "electricity",
+   "cefr": "A2"
+  },
+  {
+   "headword": "electronic",
+   "cefr": "A2"
+  },
+  {
+   "headword": "elephant",
+   "cefr": "A1"
+  },
+  {
+   "headword": "else",
+   "cefr": "A1"
+  },
+  {
+   "headword": "email",
+   "cefr": "A1"
+  },
+  {
+   "headword": "employ",
+   "cefr": "A2"
+  },
+  {
+   "headword": "employee",
+   "cefr": "A2"
+  },
+  {
+   "headword": "employer",
+   "cefr": "A2"
+  },
+  {
+   "headword": "empty",
+   "cefr": "A2"
+  },
+  {
+   "headword": "end",
+   "cefr": "A1"
+  },
+  {
+   "headword": "ending",
+   "cefr": "A2"
+  },
+  {
+   "headword": "energy",
+   "cefr": "A2"
+  },
+  {
+   "headword": "engine",
+   "cefr": "A2"
+  },
+  {
+   "headword": "engineer",
+   "cefr": "A2"
+  },
+  {
+   "headword": "enjoy",
+   "cefr": "A1"
+  },
+  {
+   "headword": "enormous",
+   "cefr": "A2"
+  },
+  {
+   "headword": "enough",
+   "cefr": "A1"
+  },
+  {
+   "headword": "enter",
+   "cefr": "A2"
+  },
+  {
+   "headword": "environment",
+   "cefr": "A2"
+  },
+  {
+   "headword": "September",
+   "cefr": "A1"
+  },
+  {
+   "headword": "equipment",
+   "cefr": "A2"
+  },
+  {
+   "headword": "error",
+   "cefr": "A2"
+  },
+  {
+   "headword": "especially",
+   "cefr": "A2"
+  },
+  {
+   "headword": "essay",
+   "cefr": "A2"
+  },
+  {
+   "headword": "euro",
+   "cefr": "A1"
+  },
+  {
+   "headword": "even",
+   "cefr": "A1"
+  },
+  {
+   "headword": "evening",
+   "cefr": "A1"
+  },
+  {
+   "headword": "event",
+   "cefr": "A1"
+  },
+  {
+   "headword": "ever",
+   "cefr": "A1"
+  },
+  {
+   "headword": "every",
+   "cefr": "A1"
+  },
+  {
+   "headword": "everybody",
+   "cefr": "A1"
+  },
+  {
+   "headword": "everyday",
+   "cefr": "A2"
+  },
+  {
+   "headword": "everyone",
+   "cefr": "A1"
+  },
+  {
+   "headword": "everything",
+   "cefr": "A1"
+  },
+  {
+   "headword": "everywhere",
+   "cefr": "A2"
+  },
+  {
+   "headword": "evidence",
+   "cefr": "A2"
+  },
+  {
+   "headword": "exact",
+   "cefr": "A2"
+  },
+  {
+   "headword": "exactly",
+   "cefr": "A2"
+  },
+  {
+   "headword": "exam",
+   "cefr": "A1"
+  },
+  {
+   "headword": "example",
+   "cefr": "A1"
+  },
+  {
+   "headword": "excellent",
+   "cefr": "A2"
+  },
+  {
+   "headword": "except",
+   "cefr": "A2"
+  },
+  {
+   "headword": "excited",
+   "cefr": "A1"
+  },
+  {
+   "headword": "exciting",
+   "cefr": "A1"
+  },
+  {
+   "headword": "exercise",
+   "cefr": "A1"
+  },
+  {
+   "headword": "exist",
+   "cefr": "A2"
+  },
+  {
+   "headword": "expect",
+   "cefr": "A2"
+  },
+  {
+   "headword": "expensive",
+   "cefr": "A1"
+  },
+  {
+   "headword": "experience",
+   "cefr": "A2"
+  },
+  {
+   "headword": "experiment",
+   "cefr": "A2"
+  },
+  {
+   "headword": "expert",
+   "cefr": "A2"
+  },
+  {
+   "headword": "explain",
+   "cefr": "A1"
+  },
+  {
+   "headword": "explanation",
+   "cefr": "A2"
+  },
+  {
+   "headword": "express",
+   "cefr": "A2"
+  },
+  {
+   "headword": "expression",
+   "cefr": "A2"
+  },
+  {
+   "headword": "extra",
+   "cefr": "A1"
+  },
+  {
+   "headword": "extreme",
+   "cefr": "A2"
+  },
+  {
+   "headword": "extremely",
+   "cefr": "A2"
+  },
+  {
+   "headword": "eye",
+   "cefr": "A1"
+  },
+  {
+   "headword": "face",
+   "cefr": "A1"
+  },
+  {
+   "headword": "fact",
+   "cefr": "A1"
+  },
+  {
+   "headword": "factor",
+   "cefr": "A2"
+  },
+  {
+   "headword": "factory",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fail",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fair",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fall",
+   "cefr": "A1"
+  },
+  {
+   "headword": "false",
+   "cefr": "A1"
+  },
+  {
+   "headword": "family",
+   "cefr": "A1"
+  },
+  {
+   "headword": "famous",
+   "cefr": "A1"
+  },
+  {
+   "headword": "fan",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fantastic",
+   "cefr": "A1"
+  },
+  {
+   "headword": "far",
+   "cefr": "A1"
+  },
+  {
+   "headword": "farm",
+   "cefr": "A1"
+  },
+  {
+   "headword": "farmer",
+   "cefr": "A1"
+  },
+  {
+   "headword": "farming",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fashion",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fast",
+   "cefr": "A1"
+  },
+  {
+   "headword": "fat",
+   "cefr": "A1"
+  },
+  {
+   "headword": "father",
+   "cefr": "A1"
+  },
+  {
+   "headword": "favourite",
+   "cefr": "A1"
+  },
+  {
+   "headword": "fear",
+   "cefr": "A2"
+  },
+  {
+   "headword": "feature",
+   "cefr": "A2"
+  },
+  {
+   "headword": "feed",
+   "cefr": "A2"
+  },
+  {
+   "headword": "feel",
+   "cefr": "A1"
+  },
+  {
+   "headword": "feeling",
+   "cefr": "A1"
+  },
+  {
+   "headword": "female",
+   "cefr": "A2"
+  },
+  {
+   "headword": "festival",
+   "cefr": "A1"
+  },
+  {
+   "headword": "fiction",
+   "cefr": "A2"
+  },
+  {
+   "headword": "field",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fight",
+   "cefr": "A2"
+  },
+  {
+   "headword": "figure",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fill",
+   "cefr": "A1"
+  },
+  {
+   "headword": "film",
+   "cefr": "A1"
+  },
+  {
+   "headword": "final",
+   "cefr": "A1"
+  },
+  {
+   "headword": "finally",
+   "cefr": "A2"
+  },
+  {
+   "headword": "find",
+   "cefr": "A1"
+  },
+  {
+   "headword": "fine",
+   "cefr": "A1"
+  },
+  {
+   "headword": "finger",
+   "cefr": "A2"
+  },
+  {
+   "headword": "finish",
+   "cefr": "A1"
+  },
+  {
+   "headword": "fire",
+   "cefr": "A1"
+  },
+  {
+   "headword": "firstly",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fish",
+   "cefr": "A1"
+  },
+  {
+   "headword": "fishing",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fit",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fix",
+   "cefr": "A2"
+  },
+  {
+   "headword": "flat",
+   "cefr": "A1"
+  },
+  {
+   "headword": "flight",
+   "cefr": "A1"
+  },
+  {
+   "headword": "floor",
+   "cefr": "A1"
+  },
+  {
+   "headword": "flower",
+   "cefr": "A1"
+  },
+  {
+   "headword": "flu",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fly",
+   "cefr": "A1"
+  },
+  {
+   "headword": "flying",
+   "cefr": "A2"
+  },
+  {
+   "headword": "focus",
+   "cefr": "A2"
+  },
+  {
+   "headword": "follow",
+   "cefr": "A1"
+  },
+  {
+   "headword": "following",
+   "cefr": "A2"
+  },
+  {
+   "headword": "food",
+   "cefr": "A1"
+  },
+  {
+   "headword": "foot",
+   "cefr": "A1"
+  },
+  {
+   "headword": "football",
+   "cefr": "A1"
+  },
+  {
+   "headword": "for",
+   "cefr": "A1"
+  },
+  {
+   "headword": "foreign",
+   "cefr": "A2"
+  },
+  {
+   "headword": "forest",
+   "cefr": "A2"
+  },
+  {
+   "headword": "forget",
+   "cefr": "A1"
+  },
+  {
+   "headword": "fork",
+   "cefr": "A2"
+  },
+  {
+   "headword": "form",
+   "cefr": "A1"
+  },
+  {
+   "headword": "formal",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fortunately",
+   "cefr": "A2"
+  },
+  {
+   "headword": "forward",
+   "cefr": "A2"
+  },
+  {
+   "headword": "free",
+   "cefr": "A1"
+  },
+  {
+   "headword": "fresh",
+   "cefr": "A2"
+  },
+  {
+   "headword": "fridge",
+   "cefr": "A2"
+  },
+  {
+   "headword": "friend",
+   "cefr": "A1"
+  },
+  {
+   "headword": "friendly",
+   "cefr": "A1"
+  },
+  {
+   "headword": "frog",
+   "cefr": "A2"
+  },
+  {
+   "headword": "from",
+   "cefr": "A1"
+  },
+  {
+   "headword": "front",
+   "cefr": "A1"
+  },
+  {
+   "headword": "fruit",
+   "cefr": "A1"
+  },
+  {
+   "headword": "full",
+   "cefr": "A1"
+  },
+  {
+   "headword": "fun",
+   "cefr": "A1"
+  },
+  {
+   "headword": "funny",
+   "cefr": "A1"
+  },
+  {
+   "headword": "furniture",
+   "cefr": "A2"
+  },
+  {
+   "headword": "further",
+   "cefr": "A2"
+  },
+  {
+   "headword": "future",
+   "cefr": "A1"
+  },
+  {
+   "headword": "gallery",
+   "cefr": "A2"
+  },
+  {
+   "headword": "game",
+   "cefr": "A1"
+  },
+  {
+   "headword": "gap",
+   "cefr": "A2"
+  },
+  {
+   "headword": "garden",
+   "cefr": "A1"
+  },
+  {
+   "headword": "gas",
+   "cefr": "A2"
+  },
+  {
+   "headword": "gate",
+   "cefr": "A2"
+  },
+  {
+   "headword": "general",
+   "cefr": "A2"
+  },
+  {
+   "headword": "geography",
+   "cefr": "A1"
+  },
+  {
+   "headword": "get",
+   "cefr": "A1"
+  },
+  {
+   "headword": "gift",
+   "cefr": "A2"
+  },
+  {
+   "headword": "girl",
+   "cefr": "A1"
+  },
+  {
+   "headword": "girlfriend",
+   "cefr": "A1"
+  },
+  {
+   "headword": "give",
+   "cefr": "A1"
+  },
+  {
+   "headword": "glass",
+   "cefr": "A1"
+  },
+  {
+   "headword": "go",
+   "cefr": "A1"
+  },
+  {
+   "headword": "goal",
+   "cefr": "A2"
+  },
+  {
+   "headword": "god",
+   "cefr": "A2"
+  },
+  {
+   "headword": "gold",
+   "cefr": "A2"
+  },
+  {
+   "headword": "golf",
+   "cefr": "A2"
+  },
+  {
+   "headword": "good",
+   "cefr": "A1"
+  },
+  {
+   "headword": "government",
+   "cefr": "A2"
+  },
+  {
+   "headword": "grandfather",
+   "cefr": "A1"
+  },
+  {
+   "headword": "grandmother",
+   "cefr": "A1"
+  },
+  {
+   "headword": "grandparent",
+   "cefr": "A1"
+  },
+  {
+   "headword": "grass",
+   "cefr": "A2"
+  },
+  {
+   "headword": "great",
+   "cefr": "A1"
+  },
+  {
+   "headword": "green",
+   "cefr": "A1"
+  },
+  {
+   "headword": "greet",
+   "cefr": "A2"
+  },
+  {
+   "headword": "grey",
+   "cefr": "A1"
+  },
+  {
+   "headword": "ground",
+   "cefr": "A2"
+  },
+  {
+   "headword": "group",
+   "cefr": "A1"
+  },
+  {
+   "headword": "grow",
+   "cefr": "A1"
+  },
+  {
+   "headword": "guess",
+   "cefr": "A1"
+  },
+  {
+   "headword": "guest",
+   "cefr": "A2"
+  },
+  {
+   "headword": "guide",
+   "cefr": "A2"
+  },
+  {
+   "headword": "guitar",
+   "cefr": "A1"
+  },
+  {
+   "headword": "gun",
+   "cefr": "A2"
+  },
+  {
+   "headword": "guy",
+   "cefr": "A2"
+  },
+  {
+   "headword": "gym",
+   "cefr": "A1"
+  },
+  {
+   "headword": "habit",
+   "cefr": "A2"
+  },
+  {
+   "headword": "hair",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hall",
+   "cefr": "A2"
+  },
+  {
+   "headword": "hand",
+   "cefr": "A1"
+  },
+  {
+   "headword": "happen",
+   "cefr": "A1"
+  },
+  {
+   "headword": "happily",
+   "cefr": "A2"
+  },
+  {
+   "headword": "happy",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hard",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hat",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hate",
+   "cefr": "A1"
+  },
+  {
+   "headword": "have",
+   "cefr": "A1"
+  },
+  {
+   "headword": "he",
+   "cefr": "A1"
+  },
+  {
+   "headword": "head",
+   "cefr": "A1"
+  },
+  {
+   "headword": "headache",
+   "cefr": "A2"
+  },
+  {
+   "headword": "health",
+   "cefr": "A1"
+  },
+  {
+   "headword": "healthy",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hear",
+   "cefr": "A1"
+  },
+  {
+   "headword": "heart",
+   "cefr": "A2"
+  },
+  {
+   "headword": "heat",
+   "cefr": "A2"
+  },
+  {
+   "headword": "heavy",
+   "cefr": "A2"
+  },
+  {
+   "headword": "height",
+   "cefr": "A2"
+  },
+  {
+   "headword": "help",
+   "cefr": "A1"
+  },
+  {
+   "headword": "helpful",
+   "cefr": "A2"
+  },
+  {
+   "headword": "her",
+   "cefr": "A1"
+  },
+  {
+   "headword": "here",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hero",
+   "cefr": "A2"
+  },
+  {
+   "headword": "hers",
+   "cefr": "A2"
+  },
+  {
+   "headword": "herself",
+   "cefr": "A2"
+  },
+  {
+   "headword": "hey",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hi",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hide",
+   "cefr": "A2"
+  },
+  {
+   "headword": "high",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hill",
+   "cefr": "A2"
+  },
+  {
+   "headword": "him",
+   "cefr": "A1"
+  },
+  {
+   "headword": "himself",
+   "cefr": "A2"
+  },
+  {
+   "headword": "his",
+   "cefr": "A1"
+  },
+  {
+   "headword": "history",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hit",
+   "cefr": "A2"
+  },
+  {
+   "headword": "hobby",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hockey",
+   "cefr": "A2"
+  },
+  {
+   "headword": "hold",
+   "cefr": "A2"
+  },
+  {
+   "headword": "hole",
+   "cefr": "A2"
+  },
+  {
+   "headword": "holiday",
+   "cefr": "A1"
+  },
+  {
+   "headword": "home",
+   "cefr": "A1"
+  },
+  {
+   "headword": "homework",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hope",
+   "cefr": "A1"
+  },
+  {
+   "headword": "horse",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hospital",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hot",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hotel",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hour",
+   "cefr": "A1"
+  },
+  {
+   "headword": "house",
+   "cefr": "A1"
+  },
+  {
+   "headword": "how",
+   "cefr": "A1"
+  },
+  {
+   "headword": "however",
+   "cefr": "A1"
+  },
+  {
+   "headword": "huge",
+   "cefr": "A2"
+  },
+  {
+   "headword": "human",
+   "cefr": "A2"
+  },
+  {
+   "headword": "hungry",
+   "cefr": "A1"
+  },
+  {
+   "headword": "Thursday",
+   "cefr": "A1"
+  },
+  {
+   "headword": "hurt",
+   "cefr": "A2"
+  },
+  {
+   "headword": "husband",
+   "cefr": "A1"
+  },
+  {
+   "headword": "ice",
+   "cefr": "A1"
+  },
+  {
+   "headword": "idea",
+   "cefr": "A1"
+  },
+  {
+   "headword": "ideal",
+   "cefr": "A2"
+  },
+  {
+   "headword": "identify",
+   "cefr": "A2"
+  },
+  {
+   "headword": "if",
+   "cefr": "A1"
+  },
+  {
+   "headword": "ill",
+   "cefr": "A2"
+  },
+  {
+   "headword": "illness",
+   "cefr": "A2"
+  },
+  {
+   "headword": "image",
+   "cefr": "A2"
+  },
+  {
+   "headword": "imagine",
+   "cefr": "A1"
+  },
+  {
+   "headword": "immediately",
+   "cefr": "A2"
+  },
+  {
+   "headword": "important",
+   "cefr": "A1"
+  },
+  {
+   "headword": "impossible",
+   "cefr": "A2"
+  },
+  {
+   "headword": "improve",
+   "cefr": "A1"
+  },
+  {
+   "headword": "in",
+   "cefr": "A1"
+  },
+  {
+   "headword": "include",
+   "cefr": "A1"
+  },
+  {
+   "headword": "included",
+   "cefr": "A2"
+  },
+  {
+   "headword": "including",
+   "cefr": "A2"
+  },
+  {
+   "headword": "increase",
+   "cefr": "A2"
+  },
+  {
+   "headword": "incredible",
+   "cefr": "A2"
+  },
+  {
+   "headword": "independent",
+   "cefr": "A2"
+  },
+  {
+   "headword": "individual",
+   "cefr": "A2"
+  },
+  {
+   "headword": "industry",
+   "cefr": "A2"
+  },
+  {
+   "headword": "informal",
+   "cefr": "A2"
+  },
+  {
+   "headword": "information",
+   "cefr": "A1"
+  },
+  {
+   "headword": "injury",
+   "cefr": "A2"
+  },
+  {
+   "headword": "insect",
+   "cefr": "A2"
+  },
+  {
+   "headword": "inside",
+   "cefr": "A2"
+  },
+  {
+   "headword": "instead",
+   "cefr": "A2"
+  },
+  {
+   "headword": "instruction",
+   "cefr": "A2"
+  },
+  {
+   "headword": "instructor",
+   "cefr": "A2"
+  },
+  {
+   "headword": "instrument",
+   "cefr": "A2"
+  },
+  {
+   "headword": "intelligent",
+   "cefr": "A2"
+  },
+  {
+   "headword": "interest",
+   "cefr": "A1"
+  },
+  {
+   "headword": "interested",
+   "cefr": "A1"
+  },
+  {
+   "headword": "interesting",
+   "cefr": "A1"
+  },
+  {
+   "headword": "international",
+   "cefr": "A2"
+  },
+  {
+   "headword": "internet",
+   "cefr": "A1"
+  },
+  {
+   "headword": "interview",
+   "cefr": "A1"
+  },
+  {
+   "headword": "into",
+   "cefr": "A1"
+  },
+  {
+   "headword": "introduce",
+   "cefr": "A1"
+  },
+  {
+   "headword": "introduction",
+   "cefr": "A2"
+  },
+  {
+   "headword": "invent",
+   "cefr": "A2"
+  },
+  {
+   "headword": "invention",
+   "cefr": "A2"
+  },
+  {
+   "headword": "invitation",
+   "cefr": "A2"
+  },
+  {
+   "headword": "invite",
+   "cefr": "A2"
+  },
+  {
+   "headword": "involve",
+   "cefr": "A2"
+  },
+  {
+   "headword": "island",
+   "cefr": "A1"
+  },
+  {
+   "headword": "it",
+   "cefr": "A1"
+  },
+  {
+   "headword": "item",
+   "cefr": "A2"
+  },
+  {
+   "headword": "its",
+   "cefr": "A1"
+  },
+  {
+   "headword": "itself",
+   "cefr": "A2"
+  },
+  {
+   "headword": "jacket",
+   "cefr": "A1"
+  },
+  {
+   "headword": "jam",
+   "cefr": "A2"
+  },
+  {
+   "headword": "jazz",
+   "cefr": "A2"
+  },
+  {
+   "headword": "jeans",
+   "cefr": "A1"
+  },
+  {
+   "headword": "jewellery",
+   "cefr": "A2"
+  },
+  {
+   "headword": "job",
+   "cefr": "A1"
+  },
+  {
+   "headword": "join",
+   "cefr": "A1"
+  },
+  {
+   "headword": "joke",
+   "cefr": "A2"
+  },
+  {
+   "headword": "journalist",
+   "cefr": "A2"
+  },
+  {
+   "headword": "journey",
+   "cefr": "A1"
+  },
+  {
+   "headword": "juice",
+   "cefr": "A1"
+  },
+  {
+   "headword": "jump",
+   "cefr": "A2"
+  },
+  {
+   "headword": "just",
+   "cefr": "A1"
+  },
+  {
+   "headword": "keep",
+   "cefr": "A1"
+  },
+  {
+   "headword": "key",
+   "cefr": "A1"
+  },
+  {
+   "headword": "kid",
+   "cefr": "A2"
+  },
+  {
+   "headword": "kill",
+   "cefr": "A2"
+  },
+  {
+   "headword": "kilometre",
+   "cefr": "A1"
+  },
+  {
+   "headword": "king",
+   "cefr": "A2"
+  },
+  {
+   "headword": "kitchen",
+   "cefr": "A1"
+  },
+  {
+   "headword": "knee",
+   "cefr": "A2"
+  },
+  {
+   "headword": "knife",
+   "cefr": "A2"
+  },
+  {
+   "headword": "knock",
+   "cefr": "A2"
+  },
+  {
+   "headword": "know",
+   "cefr": "A1"
+  },
+  {
+   "headword": "knowledge",
+   "cefr": "A2"
+  },
+  {
+   "headword": "lab",
+   "cefr": "A2"
+  },
+  {
+   "headword": "lady",
+   "cefr": "A2"
+  },
+  {
+   "headword": "lake",
+   "cefr": "A2"
+  },
+  {
+   "headword": "lamp",
+   "cefr": "A2"
+  },
+  {
+   "headword": "land",
+   "cefr": "A1"
+  },
+  {
+   "headword": "language",
+   "cefr": "A1"
+  },
+  {
+   "headword": "laptop",
+   "cefr": "A2"
+  },
+  {
+   "headword": "large",
+   "cefr": "A1"
+  },
+  {
+   "headword": "late",
+   "cefr": "A1"
+  },
+  {
+   "headword": "later",
+   "cefr": "A1"
+  },
+  {
+   "headword": "laugh",
+   "cefr": "A1"
+  },
+  {
+   "headword": "laughter",
+   "cefr": "A2"
+  },
+  {
+   "headword": "law",
+   "cefr": "A2"
+  },
+  {
+   "headword": "lawyer",
+   "cefr": "A2"
+  },
+  {
+   "headword": "lazy",
+   "cefr": "A2"
+  },
+  {
+   "headword": "leader",
+   "cefr": "A2"
+  },
+  {
+   "headword": "learn",
+   "cefr": "A1"
+  },
+  {
+   "headword": "learning",
+   "cefr": "A2"
+  },
+  {
+   "headword": "leave",
+   "cefr": "A1"
+  },
+  {
+   "headword": "lecture",
+   "cefr": "A2"
+  },
+  {
+   "headword": "left",
+   "cefr": "A1"
+  },
+  {
+   "headword": "leg",
+   "cefr": "A1"
+  },
+  {
+   "headword": "lemon",
+   "cefr": "A2"
+  },
+  {
+   "headword": "lend",
+   "cefr": "A2"
+  }
+ ]
+}

@@ -1,0 +1,808 @@
+{
+ "staging_version": 1,
+ "block": "core-05-calendar",
+ "authored_by": "hand",
+ "_readme": "The twelve months and seven weekdays. They were lost when a PDF-extraction bug ate the leading capital of every capitalised headword, and the blocks that met them as 'anuary' and 'onday' each invented a different repair. Written once, here, with the preposition rule that is the only real difficulty in them.",
+ "points": [],
+ "vocab_new": [
+  {
+   "id": "vocab_ox_january",
+   "lemma": "January",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "January",
+    "ipa": "ˈdʒænjuəri",
+    "pos": "noun",
+    "definition": "the first month of the year",
+    "own_context_sentence": "Term starts in the second week of January.",
+    "example_sentences": [
+     "Term starts in the second week of January."
+    ],
+    "collocations": [
+     "in January",
+     "last January",
+     "early January"
+    ],
+    "topic_tags": [
+     "education"
+    ],
+    "topic_id": "topic_education",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "Term starts in the second week of January.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Months take *in*: in January, not on January.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_february",
+   "lemma": "February",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "February",
+    "ipa": "ˈfebruəri",
+    "pos": "noun",
+    "definition": "the second month of the year",
+    "own_context_sentence": "The deadline for applications is the end of February.",
+    "example_sentences": [
+     "The deadline for applications is the end of February."
+    ],
+    "collocations": [
+     "in February",
+     "last February",
+     "early February"
+    ],
+    "topic_tags": [
+     "education"
+    ],
+    "topic_id": "topic_education",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "The deadline for applications is the end of February.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Months take *in*: in February, not on February.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_march",
+   "lemma": "March",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "March",
+    "ipa": "mɑːtʃ",
+    "pos": "noun",
+    "definition": "the third month of the year",
+    "own_context_sentence": "The results are published in March.",
+    "example_sentences": [
+     "The results are published in March."
+    ],
+    "collocations": [
+     "in March",
+     "last March",
+     "early March"
+    ],
+    "topic_tags": [
+     "education"
+    ],
+    "topic_id": "topic_education",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "The results are published in March.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Months take *in*: in March, not on March.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_april",
+   "lemma": "April",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "April",
+    "ipa": "ˈeɪprəl",
+    "pos": "noun",
+    "definition": "the fourth month of the year",
+    "own_context_sentence": "We move into the new flat in April.",
+    "example_sentences": [
+     "We move into the new flat in April."
+    ],
+    "collocations": [
+     "in April",
+     "last April",
+     "early April"
+    ],
+    "topic_tags": [
+     "urbanisation-housing"
+    ],
+    "topic_id": "topic_housing",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "We move into the new flat in April.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Months take *in*: in April, not on April.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_may",
+   "lemma": "May",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "May",
+    "ipa": "meɪ",
+    "pos": "noun",
+    "definition": "the fifth month of the year",
+    "own_context_sentence": "Exams run through the whole of May.",
+    "example_sentences": [
+     "Exams run through the whole of May."
+    ],
+    "collocations": [
+     "in May",
+     "last May",
+     "early May"
+    ],
+    "topic_tags": [
+     "education"
+    ],
+    "topic_id": "topic_education",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "Exams run through the whole of May.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Months take *in*: in May, not on May.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_june",
+   "lemma": "June",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "June",
+    "ipa": "dʒuːn",
+    "pos": "noun",
+    "definition": "the sixth month of the year",
+    "own_context_sentence": "The conference is held every June in Brackenfield.",
+    "example_sentences": [
+     "The conference is held every June in Brackenfield."
+    ],
+    "collocations": [
+     "in June",
+     "last June",
+     "early June"
+    ],
+    "topic_tags": [
+     "work-careers"
+    ],
+    "topic_id": "topic_work",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "The conference is held every June in Brackenfield.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Months take *in*: in June, not on June.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_july",
+   "lemma": "July",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "July",
+    "ipa": "dʒuˈlaɪ",
+    "pos": "noun",
+    "definition": "the seventh month of the year",
+    "own_context_sentence": "Visitor numbers peak in July and August.",
+    "example_sentences": [
+     "Visitor numbers peak in July and August."
+    ],
+    "collocations": [
+     "in July",
+     "last July",
+     "early July"
+    ],
+    "topic_tags": [
+     "travel-tourism"
+    ],
+    "topic_id": "topic_tourism",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "Visitor numbers peak in July and August.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Months take *in*: in July, not on July.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_august",
+   "lemma": "August",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "August",
+    "ipa": "ˈɔːɡəst",
+    "pos": "noun",
+    "definition": "the eighth month of the year",
+    "own_context_sentence": "The office is quiet in August because most staff take leave.",
+    "example_sentences": [
+     "The office is quiet in August because most staff take leave."
+    ],
+    "collocations": [
+     "in August",
+     "last August",
+     "early August"
+    ],
+    "topic_tags": [
+     "work-careers"
+    ],
+    "topic_id": "topic_work",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "The office is quiet in August because most staff take leave.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Months take *in*: in August, not on August.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_september",
+   "lemma": "September",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "September",
+    "ipa": "sepˈtembə(r)",
+    "pos": "noun",
+    "definition": "the ninth month of the year",
+    "own_context_sentence": "The academic year begins in September.",
+    "example_sentences": [
+     "The academic year begins in September."
+    ],
+    "collocations": [
+     "in September",
+     "last September",
+     "early September"
+    ],
+    "topic_tags": [
+     "education"
+    ],
+    "topic_id": "topic_education",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "The academic year begins in September.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Months take *in*: in September, not on September.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_october",
+   "lemma": "October",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "October",
+    "ipa": "ɒkˈtəʊbə(r)",
+    "pos": "noun",
+    "definition": "the tenth month of the year",
+    "own_context_sentence": "Rainfall rises sharply in October.",
+    "example_sentences": [
+     "Rainfall rises sharply in October."
+    ],
+    "collocations": [
+     "in October",
+     "last October",
+     "early October"
+    ],
+    "topic_tags": [
+     "environment"
+    ],
+    "topic_id": "topic_environment",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "Rainfall rises sharply in October.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Months take *in*: in October, not on October.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_november",
+   "lemma": "November",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "November",
+    "ipa": "nəʊˈvembə(r)",
+    "pos": "noun",
+    "definition": "the eleventh month of the year",
+    "own_context_sentence": "The report is due at the end of November.",
+    "example_sentences": [
+     "The report is due at the end of November."
+    ],
+    "collocations": [
+     "in November",
+     "last November",
+     "early November"
+    ],
+    "topic_tags": [
+     "work-careers"
+    ],
+    "topic_id": "topic_work",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "The report is due at the end of November.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Months take *in*: in November, not on November.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_december",
+   "lemma": "December",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "December",
+    "ipa": "dɪˈsembə(r)",
+    "pos": "noun",
+    "definition": "the twelfth and last month of the year",
+    "own_context_sentence": "Trains are busiest in the week before December ends.",
+    "example_sentences": [
+     "Trains are busiest in the week before December ends."
+    ],
+    "collocations": [
+     "in December",
+     "last December",
+     "early December"
+    ],
+    "topic_tags": [
+     "transport"
+    ],
+    "topic_id": "topic_transport",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "Trains are busiest in the week before December ends.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Months take *in*: in December, not on December.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_monday",
+   "lemma": "Monday",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "Monday",
+    "ipa": "ˈmʌndeɪ",
+    "pos": "noun",
+    "definition": "the day after Sunday and before Tuesday",
+    "own_context_sentence": "The seminar runs every Monday afternoon.",
+    "example_sentences": [
+     "The seminar runs every Monday afternoon."
+    ],
+    "collocations": [
+     "on Monday",
+     "every Monday",
+     "last Monday"
+    ],
+    "topic_tags": [
+     "education"
+    ],
+    "topic_id": "topic_education",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "The seminar runs every Monday afternoon.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Days take *on*: on Monday, not in Monday.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_tuesday",
+   "lemma": "Tuesday",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "Tuesday",
+    "ipa": "ˈtjuːzdeɪ",
+    "pos": "noun",
+    "definition": "the day after Monday",
+    "own_context_sentence": "I have a lecture on Tuesday morning.",
+    "example_sentences": [
+     "I have a lecture on Tuesday morning."
+    ],
+    "collocations": [
+     "on Tuesday",
+     "every Tuesday",
+     "last Tuesday"
+    ],
+    "topic_tags": [
+     "education"
+    ],
+    "topic_id": "topic_education",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "I have a lecture on Tuesday morning.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Days take *on*: on Tuesday, not in Tuesday.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_wednesday",
+   "lemma": "Wednesday",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "Wednesday",
+    "ipa": "ˈwenzdeɪ",
+    "pos": "noun",
+    "definition": "the day in the middle of the working week",
+    "own_context_sentence": "The library stays open late on Wednesday.",
+    "example_sentences": [
+     "The library stays open late on Wednesday."
+    ],
+    "collocations": [
+     "on Wednesday",
+     "every Wednesday",
+     "last Wednesday"
+    ],
+    "topic_tags": [
+     "education"
+    ],
+    "topic_id": "topic_education",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "The library stays open late on Wednesday.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Days take *on*: on Wednesday, not in Wednesday.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_thursday",
+   "lemma": "Thursday",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "Thursday",
+    "ipa": "ˈθɜːzdeɪ",
+    "pos": "noun",
+    "definition": "the day after Wednesday",
+    "own_context_sentence": "We hand the assignment in on Thursday.",
+    "example_sentences": [
+     "We hand the assignment in on Thursday."
+    ],
+    "collocations": [
+     "on Thursday",
+     "every Thursday",
+     "last Thursday"
+    ],
+    "topic_tags": [
+     "education"
+    ],
+    "topic_id": "topic_education",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "We hand the assignment in on Thursday.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Days take *on*: on Thursday, not in Thursday.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_friday",
+   "lemma": "Friday",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "Friday",
+    "ipa": "ˈfraɪdeɪ",
+    "pos": "noun",
+    "definition": "the last day of the working week",
+    "own_context_sentence": "The office closes early on Friday.",
+    "example_sentences": [
+     "The office closes early on Friday."
+    ],
+    "collocations": [
+     "on Friday",
+     "every Friday",
+     "last Friday"
+    ],
+    "topic_tags": [
+     "work-careers"
+    ],
+    "topic_id": "topic_work",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "The office closes early on Friday.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Days take *on*: on Friday, not in Friday.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_saturday",
+   "lemma": "Saturday",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "Saturday",
+    "ipa": "ˈsætədeɪ",
+    "pos": "noun",
+    "definition": "the first day of the weekend",
+    "own_context_sentence": "The market is busiest on Saturday morning.",
+    "example_sentences": [
+     "The market is busiest on Saturday morning."
+    ],
+    "collocations": [
+     "on Saturday",
+     "every Saturday",
+     "last Saturday"
+    ],
+    "topic_tags": [
+     "travel-tourism"
+    ],
+    "topic_id": "topic_tourism",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "The market is busiest on Saturday morning.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Days take *on*: on Saturday, not in Saturday.",
+    "audio_hint": null
+   }
+  },
+  {
+   "id": "vocab_ox_sunday",
+   "lemma": "Sunday",
+   "pos": "noun",
+   "deck": "oxford-foundation",
+   "entry_json": {
+    "schema_version": 2,
+    "headword": "Sunday",
+    "ipa": "ˈsʌndeɪ",
+    "pos": "noun",
+    "definition": "the day after Saturday, when many places are shut",
+    "own_context_sentence": "Buses run less often on Sunday.",
+    "example_sentences": [
+     "Buses run less often on Sunday."
+    ],
+    "collocations": [
+     "on Sunday",
+     "every Sunday",
+     "last Sunday"
+    ],
+    "topic_tags": [
+     "transport"
+    ],
+    "topic_id": "topic_transport",
+    "cefr_level": "A1",
+    "unit_type": "word",
+    "register": "both",
+    "frequency_band": 1,
+    "word_family": [],
+    "chunk": null,
+    "contexts": [
+     {
+      "id": "c1",
+      "text": "Buses run less often on Sunday.",
+      "register": "both"
+     }
+    ],
+    "confusables": [],
+    "avoid": "Days take *on*: on Sunday, not in Sunday.",
+    "audio_hint": null
+   }
+  }
+ ],
+ "vocab_updates": []
+}

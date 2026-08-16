@@ -25,7 +25,7 @@
     "reading_tests": 12,
     "listening_scripts": 43,
     "listening_tests": 7,
-    "vocab": 1246,
+    "vocab": 4995,
     "pron_pairs": 20,
     "grammar": 156
   },
@@ -40,7 +40,7 @@
     "data/speaking_cards.jsonl": "sha256:287f23dacdce3a60bfe6a6d4ba20f4951928f1f0339e7856c400922e5d160de3",
     "data/theory.jsonl": "sha256:4f3ac4c2f8494bf5e8f15e8fcff93ec454beff4a5ef3009ee1446060ec5087b4",
     "data/topics.jsonl": "sha256:1a460452b0dcf403c648ea805bb1f4d0c057959263873c1021ca967f35065f35",
-    "data/vocab.jsonl": "sha256:82f1b7e65997054491b7cf0ddb34a12cdf7207ae2b555f406bf0a54d84084d28",
+    "data/vocab.jsonl": "sha256:dda63a3f1bb4c9cd8a0f34bfb786232fabb4b948a96ef5eca6a9f3750cc056a1",
     "data/writing_prompts.jsonl": "sha256:dd3eb208fc1a5a67c14c64877163b5873ba7632313a1e1f474d9083f451538b1",
     "media/listening/maps/lm_allotment_site.svg": "sha256:94ff34e4f3e3d25e7cd6d39c4c80f2b3569eb60b94fdbb6b4d36448b6d9d283c",
     "media/listening/maps/lm_campsite.svg": "sha256:6e940d58a3af1cb992ca031835dd3c1d42d553fc0918e25c34ccde005cccfe1f",

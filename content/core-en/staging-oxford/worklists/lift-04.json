@@ -1,0 +1,1006 @@
+{
+ "kind": "band-word",
+ "count": 250,
+ "items": [
+  {
+   "headword": "offend",
+   "cefr": "B2"
+  },
+  {
+   "headword": "offensive",
+   "cefr": "B2"
+  },
+  {
+   "headword": "official",
+   "cefr": "B1"
+  },
+  {
+   "headword": "old-fashioned",
+   "cefr": "B1"
+  },
+  {
+   "headword": "opening",
+   "cefr": "B2"
+  },
+  {
+   "headword": "operate",
+   "cefr": "B2"
+  },
+  {
+   "headword": "operation",
+   "cefr": "B1"
+  },
+  {
+   "headword": "opponent",
+   "cefr": "B2"
+  },
+  {
+   "headword": "oppose",
+   "cefr": "B2"
+  },
+  {
+   "headword": "opposed",
+   "cefr": "B2"
+  },
+  {
+   "headword": "opposition",
+   "cefr": "B2"
+  },
+  {
+   "headword": "organ",
+   "cefr": "B2"
+  },
+  {
+   "headword": "organized",
+   "cefr": "B1"
+  },
+  {
+   "headword": "organizer",
+   "cefr": "B1"
+  },
+  {
+   "headword": "origin",
+   "cefr": "B2"
+  },
+  {
+   "headword": "originally",
+   "cefr": "B1"
+  },
+  {
+   "headword": "otherwise",
+   "cefr": "B2"
+  },
+  {
+   "headword": "ours",
+   "cefr": "B1"
+  },
+  {
+   "headword": "outcome",
+   "cefr": "B2"
+  },
+  {
+   "headword": "outdoor",
+   "cefr": "B1"
+  },
+  {
+   "headword": "outdoors",
+   "cefr": "B1"
+  },
+  {
+   "headword": "outer",
+   "cefr": "B2"
+  },
+  {
+   "headword": "outline",
+   "cefr": "B2"
+  },
+  {
+   "headword": "overall",
+   "cefr": "B2"
+  },
+  {
+   "headword": "owe",
+   "cefr": "B2"
+  },
+  {
+   "headword": "pace",
+   "cefr": "B2"
+  },
+  {
+   "headword": "package",
+   "cefr": "B1"
+  },
+  {
+   "headword": "painful",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pale",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pan",
+   "cefr": "B1"
+  },
+  {
+   "headword": "panel",
+   "cefr": "B2"
+  },
+  {
+   "headword": "parliament",
+   "cefr": "B2"
+  },
+  {
+   "headword": "participant",
+   "cefr": "B2"
+  },
+  {
+   "headword": "participate",
+   "cefr": "B1"
+  },
+  {
+   "headword": "particularly",
+   "cefr": "B1"
+  },
+  {
+   "headword": "partly",
+   "cefr": "B2"
+  },
+  {
+   "headword": "passage",
+   "cefr": "B2"
+  },
+  {
+   "headword": "passion",
+   "cefr": "B1"
+  },
+  {
+   "headword": "path",
+   "cefr": "B1"
+  },
+  {
+   "headword": "payment",
+   "cefr": "B1"
+  },
+  {
+   "headword": "peaceful",
+   "cefr": "B1"
+  },
+  {
+   "headword": "percentage",
+   "cefr": "B1"
+  },
+  {
+   "headword": "perfectly",
+   "cefr": "B1"
+  },
+  {
+   "headword": "performance",
+   "cefr": "B1"
+  },
+  {
+   "headword": "permanent",
+   "cefr": "B2"
+  },
+  {
+   "headword": "permit",
+   "cefr": "B2"
+  },
+  {
+   "headword": "personally",
+   "cefr": "B1"
+  },
+  {
+   "headword": "perspective",
+   "cefr": "B2"
+  },
+  {
+   "headword": "persuade",
+   "cefr": "B1"
+  },
+  {
+   "headword": "phase",
+   "cefr": "B2"
+  },
+  {
+   "headword": "phenomenon",
+   "cefr": "B2"
+  },
+  {
+   "headword": "philosophy",
+   "cefr": "B2"
+  },
+  {
+   "headword": "photographer",
+   "cefr": "B1"
+  },
+  {
+   "headword": "photography",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pile",
+   "cefr": "B2"
+  },
+  {
+   "headword": "pin",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pipe",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pitch",
+   "cefr": "B2"
+  },
+  {
+   "headword": "plain",
+   "cefr": "B2"
+  },
+  {
+   "headword": "planning",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pleasant",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pleasure",
+   "cefr": "B1"
+  },
+  {
+   "headword": "plenty",
+   "cefr": "B1"
+  },
+  {
+   "headword": "plot",
+   "cefr": "B1"
+  },
+  {
+   "headword": "poem",
+   "cefr": "B1"
+  },
+  {
+   "headword": "poet",
+   "cefr": "B1"
+  },
+  {
+   "headword": "poetry",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pointed",
+   "cefr": "B2"
+  },
+  {
+   "headword": "poison",
+   "cefr": "B1"
+  },
+  {
+   "headword": "poisonous",
+   "cefr": "B1"
+  },
+  {
+   "headword": "policy",
+   "cefr": "B1"
+  },
+  {
+   "headword": "political",
+   "cefr": "B1"
+  },
+  {
+   "headword": "politician",
+   "cefr": "B1"
+  },
+  {
+   "headword": "politics",
+   "cefr": "B1"
+  },
+  {
+   "headword": "popularity",
+   "cefr": "B2"
+  },
+  {
+   "headword": "port",
+   "cefr": "B1"
+  },
+  {
+   "headword": "portrait",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pose",
+   "cefr": "B2"
+  },
+  {
+   "headword": "possess",
+   "cefr": "B2"
+  },
+  {
+   "headword": "possibly",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pot",
+   "cefr": "B1"
+  },
+  {
+   "headword": "potential",
+   "cefr": "B2"
+  },
+  {
+   "headword": "pour",
+   "cefr": "B1"
+  },
+  {
+   "headword": "poverty",
+   "cefr": "B1"
+  },
+  {
+   "headword": "powder",
+   "cefr": "B1"
+  },
+  {
+   "headword": "powerful",
+   "cefr": "B1"
+  },
+  {
+   "headword": "practical",
+   "cefr": "B1"
+  },
+  {
+   "headword": "praise",
+   "cefr": "B2"
+  },
+  {
+   "headword": "pray",
+   "cefr": "B1"
+  },
+  {
+   "headword": "prayer",
+   "cefr": "B1"
+  },
+  {
+   "headword": "prediction",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pregnant",
+   "cefr": "B2"
+  },
+  {
+   "headword": "preparation",
+   "cefr": "B2"
+  },
+  {
+   "headword": "prepared",
+   "cefr": "B1"
+  },
+  {
+   "headword": "presence",
+   "cefr": "B2"
+  },
+  {
+   "headword": "presentation",
+   "cefr": "B1"
+  },
+  {
+   "headword": "press",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pressure",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pretend",
+   "cefr": "B1"
+  },
+  {
+   "headword": "previous",
+   "cefr": "B1"
+  },
+  {
+   "headword": "previously",
+   "cefr": "B1"
+  },
+  {
+   "headword": "priest",
+   "cefr": "B1"
+  },
+  {
+   "headword": "primary",
+   "cefr": "B1"
+  },
+  {
+   "headword": "prime",
+   "cefr": "B2"
+  },
+  {
+   "headword": "prince",
+   "cefr": "B1"
+  },
+  {
+   "headword": "princess",
+   "cefr": "B1"
+  },
+  {
+   "headword": "principle",
+   "cefr": "B2"
+  },
+  {
+   "headword": "printing",
+   "cefr": "B1"
+  },
+  {
+   "headword": "priority",
+   "cefr": "B2"
+  },
+  {
+   "headword": "prisoner",
+   "cefr": "B1"
+  },
+  {
+   "headword": "privacy",
+   "cefr": "B2"
+  },
+  {
+   "headword": "private",
+   "cefr": "B1"
+  },
+  {
+   "headword": "procedure",
+   "cefr": "B2"
+  },
+  {
+   "headword": "producer",
+   "cefr": "B1"
+  },
+  {
+   "headword": "production",
+   "cefr": "B1"
+  },
+  {
+   "headword": "profession",
+   "cefr": "B1"
+  },
+  {
+   "headword": "profit",
+   "cefr": "B1"
+  },
+  {
+   "headword": "promote",
+   "cefr": "B1"
+  },
+  {
+   "headword": "proof",
+   "cefr": "B2"
+  },
+  {
+   "headword": "proper",
+   "cefr": "B1"
+  },
+  {
+   "headword": "properly",
+   "cefr": "B1"
+  },
+  {
+   "headword": "property",
+   "cefr": "B1"
+  },
+  {
+   "headword": "proposal",
+   "cefr": "B2"
+  },
+  {
+   "headword": "propose",
+   "cefr": "B2"
+  },
+  {
+   "headword": "prospect",
+   "cefr": "B2"
+  },
+  {
+   "headword": "protection",
+   "cefr": "B2"
+  },
+  {
+   "headword": "protest",
+   "cefr": "B1"
+  },
+  {
+   "headword": "proud",
+   "cefr": "B1"
+  },
+  {
+   "headword": "prove",
+   "cefr": "B1"
+  },
+  {
+   "headword": "psychologist",
+   "cefr": "B2"
+  },
+  {
+   "headword": "psychology",
+   "cefr": "B2"
+  },
+  {
+   "headword": "publication",
+   "cefr": "B2"
+  },
+  {
+   "headword": "punish",
+   "cefr": "B1"
+  },
+  {
+   "headword": "punishment",
+   "cefr": "B1"
+  },
+  {
+   "headword": "pupil",
+   "cefr": "B2"
+  },
+  {
+   "headword": "purchase",
+   "cefr": "B2"
+  },
+  {
+   "headword": "pure",
+   "cefr": "B2"
+  },
+  {
+   "headword": "pursue",
+   "cefr": "B2"
+  },
+  {
+   "headword": "qualification",
+   "cefr": "B1"
+  },
+  {
+   "headword": "qualified",
+   "cefr": "B1"
+  },
+  {
+   "headword": "qualify",
+   "cefr": "B1"
+  },
+  {
+   "headword": "queue",
+   "cefr": "B1"
+  },
+  {
+   "headword": "quit",
+   "cefr": "B1"
+  },
+  {
+   "headword": "quotation",
+   "cefr": "B1"
+  },
+  {
+   "headword": "quote",
+   "cefr": "B1"
+  },
+  {
+   "headword": "racing",
+   "cefr": "B1"
+  },
+  {
+   "headword": "range",
+   "cefr": "B1"
+  },
+  {
+   "headword": "rank",
+   "cefr": "B2"
+  },
+  {
+   "headword": "rapid",
+   "cefr": "B2"
+  },
+  {
+   "headword": "rapidly",
+   "cefr": "B2"
+  },
+  {
+   "headword": "rare",
+   "cefr": "B1"
+  },
+  {
+   "headword": "rarely",
+   "cefr": "B1"
+  },
+  {
+   "headword": "raw",
+   "cefr": "B2"
+  },
+  {
+   "headword": "reaction",
+   "cefr": "B1"
+  },
+  {
+   "headword": "realistic",
+   "cefr": "B2"
+  },
+  {
+   "headword": "reality",
+   "cefr": "B1"
+  },
+  {
+   "headword": "reasonable",
+   "cefr": "B2"
+  },
+  {
+   "headword": "recall",
+   "cefr": "B2"
+  },
+  {
+   "headword": "receipt",
+   "cefr": "B1"
+  },
+  {
+   "headword": "recommendation",
+   "cefr": "B1"
+  },
+  {
+   "headword": "recover",
+   "cefr": "B2"
+  },
+  {
+   "headword": "reduction",
+   "cefr": "B2"
+  },
+  {
+   "headword": "reference",
+   "cefr": "B1"
+  },
+  {
+   "headword": "reflect",
+   "cefr": "B1"
+  },
+  {
+   "headword": "regard",
+   "cefr": "B2"
+  },
+  {
+   "headword": "regional",
+   "cefr": "B2"
+  },
+  {
+   "headword": "regret",
+   "cefr": "B2"
+  },
+  {
+   "headword": "regularly",
+   "cefr": "B1"
+  },
+  {
+   "headword": "regulation",
+   "cefr": "B2"
+  },
+  {
+   "headword": "reject",
+   "cefr": "B1"
+  },
+  {
+   "headword": "relate",
+   "cefr": "B1"
+  },
+  {
+   "headword": "related",
+   "cefr": "B1"
+  },
+  {
+   "headword": "relation",
+   "cefr": "B1"
+  },
+  {
+   "headword": "relative",
+   "cefr": "B1"
+  },
+  {
+   "headword": "relatively",
+   "cefr": "B2"
+  },
+  {
+   "headword": "relaxed",
+   "cefr": "B1"
+  },
+  {
+   "headword": "relaxing",
+   "cefr": "B1"
+  },
+  {
+   "headword": "release",
+   "cefr": "B1"
+  },
+  {
+   "headword": "relevant",
+   "cefr": "B2"
+  },
+  {
+   "headword": "reliable",
+   "cefr": "B1"
+  },
+  {
+   "headword": "relief",
+   "cefr": "B2"
+  },
+  {
+   "headword": "religion",
+   "cefr": "B1"
+  },
+  {
+   "headword": "religious",
+   "cefr": "B1"
+  },
+  {
+   "headword": "rely",
+   "cefr": "B2"
+  },
+  {
+   "headword": "remain",
+   "cefr": "B1"
+  },
+  {
+   "headword": "remark",
+   "cefr": "B2"
+  },
+  {
+   "headword": "remind",
+   "cefr": "B1"
+  },
+  {
+   "headword": "remote",
+   "cefr": "B1"
+  },
+  {
+   "headword": "rent",
+   "cefr": "B1"
+  },
+  {
+   "headword": "repeated",
+   "cefr": "B1"
+  },
+  {
+   "headword": "represent",
+   "cefr": "B1"
+  },
+  {
+   "headword": "representative",
+   "cefr": "B2"
+  },
+  {
+   "headword": "reputation",
+   "cefr": "B2"
+  },
+  {
+   "headword": "require",
+   "cefr": "B1"
+  },
+  {
+   "headword": "requirement",
+   "cefr": "B2"
+  },
+  {
+   "headword": "rescue",
+   "cefr": "B2"
+  },
+  {
+   "headword": "reservation",
+   "cefr": "B1"
+  },
+  {
+   "headword": "reserve",
+   "cefr": "B2"
+  },
+  {
+   "headword": "resident",
+   "cefr": "B2"
+  },
+  {
+   "headword": "resist",
+   "cefr": "B2"
+  },
+  {
+   "headword": "resolve",
+   "cefr": "B2"
+  },
+  {
+   "headword": "resort",
+   "cefr": "B2"
+  },
+  {
+   "headword": "resource",
+   "cefr": "B1"
+  },
+  {
+   "headword": "respect",
+   "cefr": "B1"
+  },
+  {
+   "headword": "responsibility",
+   "cefr": "B1"
+  },
+  {
+   "headword": "responsible",
+   "cefr": "B1"
+  },
+  {
+   "headword": "retain",
+   "cefr": "B2"
+  },
+  {
+   "headword": "retire",
+   "cefr": "B1"
+  },
+  {
+   "headword": "retired",
+   "cefr": "B1"
+  },
+  {
+   "headword": "reveal",
+   "cefr": "B2"
+  },
+  {
+   "headword": "revise",
+   "cefr": "B1"
+  },
+  {
+   "headword": "revolution",
+   "cefr": "B2"
+  },
+  {
+   "headword": "reward",
+   "cefr": "B2"
+  },
+  {
+   "headword": "rhythm",
+   "cefr": "B2"
+  },
+  {
+   "headword": "rid",
+   "cefr": "B2"
+  },
+  {
+   "headword": "risk",
+   "cefr": "B1"
+  },
+  {
+   "headword": "robot",
+   "cefr": "B1"
+  },
+  {
+   "headword": "roll",
+   "cefr": "B1"
+  },
+  {
+   "headword": "romantic",
+   "cefr": "B1"
+  },
+  {
+   "headword": "root",
+   "cefr": "B2"
+  },
+  {
+   "headword": "rope",
+   "cefr": "B1"
+  },
+  {
+   "headword": "rough",
+   "cefr": "B1"
+  },
+  {
+   "headword": "royal",
+   "cefr": "B1"
+  },
+  {
+   "headword": "rub",
+   "cefr": "B2"
+  },
+  {
+   "headword": "rubber",
+   "cefr": "B2"
+  },
+  {
+   "headword": "rugby",
+   "cefr": "B1"
+  },
+  {
+   "headword": "rural",
+   "cefr": "B2"
+  },
+  {
+   "headword": "rush",
+   "cefr": "B2"
+  },
+  {
+   "headword": "safety",
+   "cefr": "B1"
+  },
+  {
+   "headword": "sailor",
+   "cefr": "B1"
+  },
+  {
+   "headword": "sample",
+   "cefr": "B1"
+  },
+  {
+   "headword": "sand",
+   "cefr": "B1"
+  },
+  {
+   "headword": "satellite",
+   "cefr": "B2"
+  },
+  {
+   "headword": "satisfied",
+   "cefr": "B2"
+  },
+  {
+   "headword": "satisfy",
+   "cefr": "B2"
+  },
+  {
+   "headword": "saving",
+   "cefr": "B2"
+  },
+  {
+   "headword": "scale",
+   "cefr": "B2"
+  },
+  {
+   "headword": "scan",
+   "cefr": "B1"
+  },
+  {
+   "headword": "scheme",
+   "cefr": "B2"
+  },
+  {
+   "headword": "scientific",
+   "cefr": "B1"
+  },
+  {
+   "headword": "scream",
+   "cefr": "B2"
+  },
+  {
+   "headword": "script",
+   "cefr": "B1"
+  },
+  {
+   "headword": "sculpture",
+   "cefr": "B1"
+  },
+  {
+   "headword": "secondary",
+   "cefr": "B1"
+  },
+  {
+   "headword": "secure",
+   "cefr": "B2"
+  },
+  {
+   "headword": "security",
+   "cefr": "B1"
+  },
+  {
+   "headword": "seed",
+   "cefr": "B1"
+  },
+  {
+   "headword": "seek",
+   "cefr": "B2"
+  },
+  {
+   "headword": "select",
+   "cefr": "B2"
+  },
+  {
+   "headword": "selection",
+   "cefr": "B2"
+  }
+ ]
+}

@@ -13,12 +13,7 @@ import type { FeatureRoute } from "@/lib/featureRoute";
 // Eagerly loading every route pulls in the live-call screen and, through it, the WebRTC
 // stack — which touches canvas/WebRTC APIs jsdom does not implement. Stub the transport
 // exactly as the speaking feature's own route test does; the route modules stay real.
-vi.mock("@pipecat-ai/small-webrtc-transport", () => ({
-  SmallWebRTCTransport: class {},
-  // PlainMicMediaManager extends this at module load, so the mock must export it even in
-  // tests that never place a call.
-  MediaManager: class {},
-}));
+vi.mock("@pipecat-ai/small-webrtc-transport", () => ({ SmallWebRTCTransport: class {} }));
 vi.mock("@pipecat-ai/client-js", () => ({ PipecatClient: class {}, RTVIEvent: {} }));
 vi.mock("@pipecat-ai/client-react", () => ({
   PipecatClientAudio: () => null,

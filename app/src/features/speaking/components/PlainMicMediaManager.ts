@@ -1,5 +1,5 @@
-import { MediaManager } from "@pipecat-ai/small-webrtc-transport";
-import type { Tracks } from "@pipecat-ai/client-js";
+import type { MediaManager } from "@pipecat-ai/small-webrtc-transport";
+import type { PipecatClientOptions, RTVIEventCallbacks, Tracks } from "@pipecat-ai/client-js";
 
 /**
  * Microphone capture with `getUserMedia` and nothing else.
@@ -22,8 +22,46 @@ import type { Tracks } from "@pipecat-ai/client-js";
  * Bot audio is not routed through here. With this transport it arrives as a remote track and
  * the call screen plays it directly, so the buffering hooks below are genuinely unused rather
  * than stubbed out and hoped over.
+ *
+ * Standalone rather than `extends MediaManager`, because the base class is a lie at runtime:
+ * the package's `.d.ts` declares it but `dist/index.js` exports only the two concrete
+ * managers, so `extends` passes the typecheck and the mocked tests and then throws a
+ * SyntaxError the moment a real browser imports the module. The transport only ever calls
+ * methods on whatever object it is handed, so a structurally complete implementation is the
+ * same thing to it; `asMediaManager()` carries the one type assertion, in one place, with
+ * this paragraph as its justification.
  */
-export class PlainMicMediaManager extends MediaManager {
+export class PlainMicMediaManager {
+  // The base-class contract, reproduced from the compiled source rather than imagined:
+  // the constructor seeds these five, and setClientOptions() replaces them unless already
+  // set. The client calls setClientOptions and setUserAudioCallback before initialize().
+  protected _userAudioCallback: (data: ArrayBuffer) => void = () => {};
+  protected _options: PipecatClientOptions | null = null;
+  protected _callbacks: RTVIEventCallbacks = {};
+  protected _micEnabled = true;
+  protected _camEnabled = false;
+  protected _supportsScreenShare = false;
+
+  setUserAudioCallback(userAudioCallback: (data: ArrayBuffer) => void): void {
+    this._userAudioCallback = userAudioCallback;
+  }
+
+  setClientOptions(options: PipecatClientOptions, override = false): void {
+    if (this._options && !override) return;
+    this._options = options;
+    this._callbacks = options.callbacks ?? {};
+    this._micEnabled = options.enableMic ?? true;
+    this._camEnabled = options.enableCam ?? false;
+  }
+
+  get supportsScreenShare(): boolean {
+    return this._supportsScreenShare;
+  }
+
+  /** The single, documented lie: structurally complete, nominally unrelated. */
+  asMediaManager(): MediaManager {
+    return this as unknown as MediaManager;
+  }
   private stream: MediaStream | null = null;
   private micId: string | null = null;
   private selected: MediaDeviceInfo | Record<string, never> = {};

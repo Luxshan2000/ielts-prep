@@ -1,12 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 
 // The route module pulls in the live-call component, which imports the WebRTC stack.
-vi.mock("@pipecat-ai/small-webrtc-transport", () => ({
-  SmallWebRTCTransport: class {},
-  // PlainMicMediaManager extends this at module load, so the mock must export it even in
-  // tests that never place a call.
-  MediaManager: class {},
-}));
+vi.mock("@pipecat-ai/small-webrtc-transport", () => ({ SmallWebRTCTransport: class {} }));
 vi.mock("@pipecat-ai/client-js", () => ({ PipecatClient: class {}, RTVIEvent: {} }));
 vi.mock("@pipecat-ai/client-react", () => ({
   PipecatClientAudio: () => null,

@@ -729,7 +729,7 @@ export function LiveSession() {
           // call published silence for a full minute with nothing on screen but an SDK
           // lifecycle string. Ours opens the microphone with getUserMedia and hands over the
           // track, which is all `addUserMedia()` reads from it.
-          mediaManager: new PlainMicMediaManager(),
+          mediaManager: new PlainMicMediaManager().asMediaManager(),
         });
         created = new PipecatClient({ transport, enableMic: true, enableCam: false });
         if (cancelled) {

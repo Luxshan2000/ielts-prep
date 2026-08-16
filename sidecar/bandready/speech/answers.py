@@ -125,7 +125,7 @@ async def transcribe_answer(wav_path: Path) -> SpokenAnswer:
     """Transcribe one short recording and decide whether it can be graded at all."""
     try:
         from bandready.speaking import drills
-    except Exception as exc:  # noqa: BLE001 — the voice extra is optional
+    except Exception as exc:
         raise SpeechUnavailable(str(exc)) from exc
 
     words, transcript, duration_ms = await drills.transcribe(Path(wav_path))

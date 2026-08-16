@@ -33,13 +33,16 @@ from __future__ import annotations
 import json
 import logging
 import random
+import tempfile
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 
-from fastapi import APIRouter, Depends, File, Form, UploadFile, Query
+from fastapi import APIRouter, Depends, File, Form, Query, UploadFile
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import select, text
 from sqlalchemy.orm import Session
+from ulid import ULID
 
 from bandready.db.engine import get_session
 from bandready.grammar import grading, practice, syllabus
@@ -47,6 +50,7 @@ from bandready.grammar import scheduler_bridge as bridge
 from bandready.grammar.tables import GrammarCard, ensure_grammar_tables
 from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
+from bandready.speech import answers
 from bandready.srs import scheduler as sched
 from bandready.timeutil import utcnow
 

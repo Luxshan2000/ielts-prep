@@ -19,6 +19,7 @@ import json
 import logging
 import tempfile
 from datetime import datetime
+from pathlib import Path
 from typing import Any, Literal
 
 from fastapi import (
@@ -37,13 +38,11 @@ from sqlalchemy import delete, func, or_, select, text, tuple_
 from sqlalchemy.orm import Session
 from ulid import ULID
 
-from pathlib import Path
-
 from bandready.db import models as m
-from bandready.speech import answers
 from bandready.db.engine import get_session
 from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
+from bandready.speech import answers
 from bandready.srs import exercises as ex
 from bandready.srs import scheduler as sched
 from bandready.timeutil import utcnow

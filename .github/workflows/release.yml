@@ -71,7 +71,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
 
       - name: Install uv
@@ -122,7 +122,10 @@ jobs:
             dist-electron/*.msi
             dist-electron/*.zip
           if-no-files-found: error
-          retention-days: 14
+          # These exist to hand the build to the publish job, which attaches them to the
+          # release. The default 90 days keeps a second copy of every installer for three
+          # months and is what exhausted the storage quota.
+          retention-days: 3
 
   publish:
     name: attach to a pre-release

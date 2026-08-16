@@ -1,15 +1,9 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import {
-  Moon,
-  PanelLeftClose,
-  PanelLeftOpen,
-  SlidersHorizontal,
-  Sun,
-} from "lucide-react";
+import { PanelLeftClose, PanelLeftOpen, SlidersHorizontal } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Badge, Button, Logo, Tooltip } from "@/components/ui";
-import { useSettingsStore, useSrsStore } from "@/stores";
+import { useSrsStore } from "@/stores";
 import type { FeatureIcon } from "@/lib/featureRoute";
 
 export interface SidebarItem {
@@ -95,8 +89,6 @@ export function Sidebar({
     typeof window === "undefined" ? false : readCollapsed(),
   );
   const dueCount = useSrsStore((s) => s.dueCount);
-  const theme = useSettingsStore((s) => s.theme);
-  const toggleTheme = useSettingsStore((s) => s.toggleTheme);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -280,9 +272,10 @@ export function Sidebar({
         {groupIds.map((id) => renderGroup(id))}
       </nav>
 
-      {/* One row expanded: Settings, then your preferences and the theme as icons beside it.
-          The footer used to stack a Settings link over a half-empty row holding a sun and a
-          collapse arrow — two rows to say what fits on one. */}
+      {/* One row expanded: Settings, with your preferences as an icon beside it. The theme
+          toggle used to sit here too. It has gone to the Appearance section of the Settings
+          dialog, which is where the rest of the theme choice already lived, so the sidebar
+          is not the one place in the app that changes a setting without opening Settings. */}
       <div className="shrink-0 border-t border-border p-2">
         <div className={cn("flex items-center gap-1", collapsed && "flex-col")}>
           {/* Collapsed the row becomes a column, and a bare <nav> in a centred column
@@ -302,12 +295,6 @@ export function Sidebar({
               // closing it leaves the learner looking at the nav they just used.
               onNavigate?.();
             }}
-          />
-          <FooterIcon
-            collapsed={collapsed}
-            icon={theme === "dark" ? Sun : Moon}
-            label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
-            onClick={toggleTheme}
           />
         </div>
       </div>

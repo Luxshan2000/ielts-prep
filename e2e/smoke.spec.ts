@@ -14,8 +14,24 @@ const DESTINATIONS = [
   { path: "/listening", label: "Listening" },
   { path: "/vocab", label: "Vocabulary" },
   { path: "/progress", label: "Progress" },
-  { path: "/settings", label: "Settings" },
+  // Settings is a dialog over the app rather than a screen, so it is the one destination
+  // with no <h1> in <main>. Its heading is the dialog's own.
+  { path: "/settings", label: "Settings", dialog: true },
 ];
+
+/** Something real is on screen, whichever shape this destination takes. */
+async function expectRendered(
+  page: Page,
+  destination: { label: string; dialog?: boolean },
+): Promise<void> {
+  if (destination.dialog) {
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible({ timeout: 30_000 });
+    await expect(dialog.getByRole("heading", { name: destination.label })).toBeVisible();
+    return;
+  }
+  await expect(page.locator("main h1").first()).toBeVisible({ timeout: 30_000 });
+}
 
 async function setTheme(page: Page, theme: "dark" | "light"): Promise<void> {
   await page.evaluate((value) => {
@@ -46,8 +62,7 @@ test("every sidebar destination renders without console errors", async ({
     // The Vocabulary link carries a due-count badge, so match on the leading label.
     await page.getByRole("link", { name: new RegExp(`^${destination.label}`) }).click();
     await expect(page.locator("main")).toBeVisible();
-    // Something real must be on screen: every page owns an <h1>.
-    await expect(page.locator("main h1").first()).toBeVisible({ timeout: 30_000 });
+    await expectRendered(page, destination);
     await expectNoErrorBoundary(page);
     // No route may leave the app on the "page not found" fallback.
     await expect(page.getByText("The link you followed points at a screen")).toHaveCount(0);
@@ -70,7 +85,7 @@ test("every destination is legible in both themes", async ({ page, errors }) => 
     for (const destination of DESTINATIONS) {
       await gotoRoute(page, destination.path);
       await setTheme(page, theme);
-      await expect(page.locator("main h1").first()).toBeVisible({ timeout: 30_000 });
+      await expectRendered(page, destination);
       await expectNoErrorBoundary(page);
 
       // The theme really applied, and the page paints its own background rather

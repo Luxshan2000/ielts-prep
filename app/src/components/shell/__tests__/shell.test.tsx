@@ -129,6 +129,15 @@ describe("Sidebar", () => {
     await userEvent.click(screen.getByRole("button", { name: "Expand sidebar" }));
   });
 
+  it("leaves the theme to the Settings dialog instead of keeping a toggle of its own", () => {
+    renderSidebar();
+    // The footer used to carry a sun/moon button. The theme now lives in one place, the
+    // Appearance section of Settings, so the two controls cannot disagree about it.
+    expect(screen.queryByRole("button", { name: /theme/i })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Settings" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Your preferences" })).toBeInTheDocument();
+  });
+
   it("takes the closed mobile drawer out of the tab order instead of only sliding it away", () => {
     const { container, rerender } = render(
       <MemoryRouter>

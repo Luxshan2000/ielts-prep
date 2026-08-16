@@ -1,6 +1,9 @@
 /**
  * Settings — provider selection, verification, and the VAD guard rails
  * (03-providers-and-settings.md §2.3 and §4).
+ *
+ * /settings opens a dialog rather than a screen, so the sections are links in the dialog's
+ * rail. The route, the deep links and the sidebar entry are unchanged.
  */
 import { expect, expectNoErrorBoundary, gotoRoute, test } from "./fixtures";
 
@@ -13,8 +16,8 @@ test("selecting the mock LLM verifies, lists models, and survives a reload", asy
   seed,
 }) => {
   await gotoRoute(page, "/settings");
-  await expect(page.getByRole("heading", { name: "Settings" })).toBeVisible();
-  await page.getByRole("tab", { name: "Providers" }).click();
+  await expect(page.getByRole("dialog").getByRole("heading", { name: "Settings" })).toBeVisible();
+  await page.getByRole("link", { name: "Providers" }).click();
 
   // Pick the hidden mock preset (registered because the sidecar runs with
   // BANDREADY_ENABLE_MOCK=1 — 14 §7.1's shared test seam).
@@ -59,7 +62,7 @@ test("selecting the mock LLM verifies, lists models, and survives a reload", asy
   expect(stored.llm.preset).toBe("mock_llm");
 
   await page.reload();
-  await page.getByRole("tab", { name: "Providers" }).click();
+  await page.getByRole("link", { name: "Providers" }).click();
   await expect(page.getByRole("button", { name: "Language model provider" })).toContainText(
     "Mock LLM",
   );
@@ -68,7 +71,7 @@ test("selecting the mock LLM verifies, lists models, and survives a reload", asy
 
 test("the VAD volume gate cannot be pushed past the documented 0.6 cap", async ({ page, seed }) => {
   await gotoRoute(page, "/settings");
-  await page.getByRole("tab", { name: "Voice" }).click();
+  await page.getByRole("link", { name: "Voice" }).click();
 
   const slider = page.getByLabel("Minimum volume gate");
   await expect(slider).toBeVisible();
@@ -95,7 +98,7 @@ test("the VAD volume gate cannot be pushed past the documented 0.6 cap", async (
   expect(stored.vad.min_volume).toBeCloseTo(0.6, 5);
 
   await page.reload();
-  await page.getByRole("tab", { name: "Voice" }).click();
+  await page.getByRole("link", { name: "Voice" }).click();
   await expect(page.getByLabel("Minimum volume gate")).toHaveValue("0.6");
   await expectNoErrorBoundary(page);
 

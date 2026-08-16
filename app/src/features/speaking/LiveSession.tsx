@@ -40,7 +40,8 @@ import {
   type ConversationMessage,
   type ConversationMessagePart,
 } from "@pipecat-ai/client-react";
-import { SmallWebRTCTransport, WavMediaManager } from "@pipecat-ai/small-webrtc-transport";
+import { SmallWebRTCTransport } from "@pipecat-ai/small-webrtc-transport";
+import { PlainMicMediaManager } from "./components/PlainMicMediaManager";
 import {
   Button,
   Card,
@@ -721,14 +722,14 @@ export function LiveSession() {
             // which the transport sends to this same URL with these same headers.
             headers: new Headers({ Authorization: `Bearer ${token}` }),
           },
-          // WavMediaManager, not the transport's DailyMediaManager default: the
-          // Daily manager downloads its call-machine bundle from c.daily.co (and
-          // pings Sentry) the moment a call starts, which a local-first app must
-          // never do — it is blocked by the app's own CSP and fails outright with
-          // no network. WavMediaManager captures the mic with an AudioWorklet and
-          // still publishes a real MediaStreamTrack, so the SDP the sidecar sees
-          // is unchanged.
-          mediaManager: new WavMediaManager(),
+          // Neither manager the transport ships is usable here. Daily's downloads its
+          // call-machine bundle from a CDN the moment a call starts, which this app's CSP
+          // blocks and which cannot work offline. Wav's captures through an AudioWorklet and
+          // discards the error when that worklet fails to start, which is how a connected
+          // call published silence for a full minute with nothing on screen but an SDK
+          // lifecycle string. Ours opens the microphone with getUserMedia and hands over the
+          // track, which is all `addUserMedia()` reads from it.
+          mediaManager: new PlainMicMediaManager(),
         });
         created = new PipecatClient({ transport, enableMic: true, enableCam: false });
         if (cancelled) {

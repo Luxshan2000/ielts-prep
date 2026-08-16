@@ -22,6 +22,8 @@ vi.mock("@/lib/api", async () => {
 // work *without* it.
 vi.mock("@pipecat-ai/small-webrtc-transport", () => ({
   SmallWebRTCTransport: class {},
+  // PlainMicMediaManager extends this at module load.
+  MediaManager: class {},
 }));
 vi.mock("@pipecat-ai/client-js", () => ({
   PipecatClient: class {

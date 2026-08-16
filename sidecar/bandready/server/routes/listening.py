@@ -204,7 +204,13 @@ def _authored_questions(script: Mapping[str, Any]) -> dict[int, Mapping[str, Any
 
 
 def _audio_status(row: m.ListeningScript, script: Mapping[str, Any]) -> dict[str, Any]:
-    audio_hash = row.audio_hash or tts_render.script_audio_hash(script)
+    # The **expected** hash, never the stored one. `listening_scripts.audio_hash` records
+    # what was rendered once; it does not follow the script when a line is edited, and it
+    # does not follow the TTS provider when Settings changes. Preferring it meant the
+    # library kept reporting "audio ready" and kept handing out a signed URL for audio the
+    # current content and the current provider would no longer produce. Computing it is
+    # cheap and it is the same expression the render routes key on.
+    audio_hash = tts_render.script_audio_hash(script)
     cached = tts_render.cached_render(audio_hash)
     return {
         "audio_hash": audio_hash if cached else None,
@@ -321,7 +327,16 @@ def list_tests(
         for script in scripts:
             if script is None:
                 continue
-            if script.audio_hash and tts_render.cached_render(script.audio_hash):
+            # Expected hash, not the stored column — same reason as `_audio_status`. This
+            # is the number the library card shows, so believing the stored hash is how a
+            # learner is told a whole test is prepared when its audio has been superseded.
+            # One unreadable document must not 500 the whole library, so it counts as
+            # not-prepared rather than raising the way the detail route does.
+            try:
+                expected = tts_render.script_audio_hash(_parse_script_json(script))
+            except ApiError:
+                continue
+            if tts_render.cached_render(expected):
                 ready += 1
         items.append(
             {
@@ -1114,6 +1129,11 @@ def review_attempt(
         authored = _authored_questions(document).get(question.number, {})
         lines = document.get("lines") or []
         if script.id not in timings:
+            # Deliberately the **stored** hash here, unlike `_audio_status`: this is the
+            # review of a submitted attempt, and the recording the learner actually sat
+            # is the one whose clips they are entitled to. Readiness asks "what would we
+            # render now"; review asks "what did they hear". `media_path` below reads the
+            # same column, so the timings and the file always describe each other.
             timings[script.id] = (
                 tts_render.load_timing(script.audio_hash) if script.audio_hash else None
             ) or {}

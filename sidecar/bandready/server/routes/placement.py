@@ -523,7 +523,7 @@ def _render_listening(session: Session, step: dict[str, Any]) -> dict[str, Any]:
         {f"q{i}": qid for i, qid in enumerate(step["question_ids"])},
     ).mappings().all()
     document = _loads(row["script_json"]) or {}
-    audio_hash = _listening_audio_hash(document, row["audio_hash"])
+    audio_hash = _listening_audio_hash(document)
     if audio_hash is None:
         # A fresh install ships the scripts but not the speech — the examiner voice is a
         # model download, and at placement it usually has not happened yet. Rendering the
@@ -543,13 +543,21 @@ def _render_listening(session: Session, step: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _listening_audio_hash(document: dict[str, Any], stored_hash: Any) -> str | None:
+def _listening_audio_hash(document: dict[str, Any]) -> str | None:
     """The hash of a WAV that is actually on disk, or ``None``.
 
     Keyed on the content hash rather than on ``listening_scripts.audio_hash``, matching
     :func:`bandready.listening.mock._render_state`: the column records the last render and
     the hash records what the current script *would* render to, so an edited script has a
     stale column and no usable audio.
+
+    The column is **not** used as a fallback, and that is deliberate. Now that the hash
+    carries the voice provider's identity, a stored hash that no longer matches means the
+    audio on disk was made by a provider the learner has since replaced. Serving it would
+    play the old provider's voice into a placement sitting while the listening library, which
+    keys on the same expected hash, reports that very script as not rendered. Answering
+    ``None`` is the honest half of that disagreement: the sitting says there is no audio yet,
+    which is true, and one render fixes it.
     """
     try:
         from bandready.audio import tts_render
@@ -557,8 +565,6 @@ def _listening_audio_hash(document: dict[str, Any], stored_hash: Any) -> str | N
         expected = tts_render.script_audio_hash(document)
         if tts_render.cached_render(expected) is not None:
             return expected
-        if stored_hash and tts_render.cached_render(str(stored_hash)) is not None:
-            return str(stored_hash)
     except Exception:  # noqa: BLE001 — a missing voice extra must not break the sitting
         _log.debug("placement listening audio lookup failed", exc_info=True)
     return None

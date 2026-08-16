@@ -1,9 +1,11 @@
 """Data portability and retention (11-data-model.md §13).
 
-Two routes, both reachable from Settings → Data:
+Four routes, all reachable from Settings → Data:
 
-    POST /api/v1/data/export           202 {job_id}  → exports/bandready-export-<date>.zip
-    POST /api/v1/data/wipe-recordings  200 {removed, freed_mb, cleared_refs}
+    POST /api/v1/data/export                202 {job_id}  → exports/bandready-export-<date>.zip
+    POST /api/v1/data/wipe-recordings       200 {removed, freed_mb, cleared_refs}
+    GET  /api/v1/data/generated-audio       200 {files, freed_mb, by_kind, kept_recordings}
+    POST /api/v1/data/wipe-generated-audio  200 {removed, freed_mb, by_kind, kept_recordings}
 
 The export is deliberately job-backed: a heavy user's ``media/`` tree is the bulk of the
 archive and zipping it can take minutes, which is far past the renderer's fetch patience.
@@ -18,6 +20,16 @@ an ORM table.
 **Never touched by the wipe**: transcripts, metrics, band scores and reports. Only the
 audio of the learner's own voice is deleted, and only after an explicit confirmation in
 the UI — 11 §9 rule 1 forbids ever removing these files implicitly.
+
+The *generated*-audio purge is the exact mirror image and the two must never be confused:
+it deletes only what a TTS engine produced (listening renders, cached TTS lines,
+pronunciation reference clips, vocabulary audio) and never a single byte of the learner's
+own voice. It exists so that "I changed the text-to-speech provider" has an answer that
+does not involve deleting the data folder by hand. The boundary is drawn on
+``media_files.kind`` + ``pinned``, not on paths, because ``media/pron/ref`` (generated) is
+a sibling of ``media/pron/attempts`` (the learner's voice) — a path glob over ``pron/``
+would take both. ``is_user_recording`` is then asked a second time per row, exactly as
+``evict_cache`` does, so the two guards would have to fail together.
 """
 
 from __future__ import annotations
@@ -31,6 +43,7 @@ from pathlib import Path
 from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, Response
+from sqlalchemy import bindparam
 from sqlalchemy import text as sa_text
 
 from bandready import __version__
@@ -39,6 +52,7 @@ from bandready.db.engine import session_scope
 from bandready.server.deps import require_auth
 from bandready.server.errors import ApiError
 from bandready.server.jobs import job_manager
+from bandready.server.routes.media import CACHE_KINDS, is_user_recording, resolve_rel_path
 
 _log = logging.getLogger("bandready.routes.data")
 
@@ -241,3 +255,228 @@ def _wipe_recordings() -> dict[str, Any]:
 async def wipe_recordings_route(_: Auth = None) -> dict[str, Any]:
     """Synchronous from the caller's view; the unlink loop runs off the event loop."""
     return await asyncio.to_thread(_wipe_recordings)
+
+
+# ------------------------------------------------------------------- generated audio
+
+
+#: The only four subtrees of ``media/`` that hold engine output. Deliberately written out
+#: one by one rather than derived: ``pron/ref`` is generated and ``pron/attempts`` is the
+#: learner's voice, so the *parent* ``pron`` must never appear here — and neither must
+#: ``speaking`` (recordings) or ``packs`` (shipped content, pinned).
+GENERATED_DIRS: tuple[str, ...] = ("listening", "tts-lines", "pron/ref", "vocab")
+
+#: Which ``media_files.kind`` an orphaned file under each directory would have had.
+_DIR_KIND: dict[str, str] = {
+    "listening": "listening_render",
+    "tts-lines": "tts_line",
+    "pron/ref": "pron_ref",
+    "vocab": "vocab_audio",
+}
+
+
+def _timing_sidecar(path: Path) -> Path:
+    """``<hash>.wav`` → ``<hash>.timing.json``.
+
+    The word-timing document a listening render writes next to its WAV is never
+    registered in ``media_files`` (only the audio is), so nothing else would ever remove
+    it. Left behind it is merely dead weight, but it is dead weight keyed by a hash that
+    a future render can legitimately reuse.
+    """
+    return path.with_name(f"{path.stem}.timing.json")
+
+
+def _generated_plan() -> dict[str, Any]:
+    """Everything the purge would touch, computed without deleting anything.
+
+    Returns ``{rows, files, keep, skipped}`` where ``rows`` is the list of
+    ``media_files`` rows to drop, ``files`` maps each on-disk path to the kind it counts
+    against, ``keep`` is the set of media-relative paths that are spoken for by a row the
+    purge is *not* dropping, and ``skipped`` counts rows the recording guard rejected.
+    """
+    settings = get_settings()
+    media_dir = settings.media_dir
+
+    with session_scope() as session:
+        rows = session.execute(
+            sa_text(
+                "SELECT hash, rel_path, kind FROM media_files "
+                "WHERE pinned = 0 AND kind IN :kinds"
+            ).bindparams(bindparam("kinds", expanding=True)),
+            {"kinds": list(CACHE_KINDS)},
+        ).mappings().all()
+        every = session.execute(
+            sa_text("SELECT rel_path FROM media_files")
+        ).scalars().all()
+
+    doomed: list[dict[str, Any]] = []
+    skipped = 0
+    for row in rows:
+        rel = str(row["rel_path"])
+        if is_user_recording(rel):
+            # Belt and braces, exactly as evict_cache does: a cache `kind` on a path
+            # under speaking/ or pron/attempts/ is a bug somewhere upstream, and the
+            # answer to a bug in a delete path is to not delete.
+            skipped += 1
+            _log.warning("refusing to purge %r — it is under a recordings subtree", rel)
+            continue
+        doomed.append({"hash": str(row["hash"]), "rel_path": rel, "kind": str(row["kind"])})
+
+    dropping = {d["rel_path"].lstrip("/") for d in doomed}
+    keep = {str(rel).lstrip("/") for rel in every} - dropping
+
+    files: dict[Path, str] = {}
+    for entry in doomed:
+        path = resolve_rel_path(entry["rel_path"])
+        files[path] = entry["kind"]
+        sidecar = _timing_sidecar(path)
+        if sidecar.is_file():
+            files[sidecar] = entry["kind"]
+
+    # Orphans: renders outlive their row (a restored backup, a reset database over a warm
+    # cache) and timing sidecars were never in the table to begin with. Without this pass
+    # "delete it all and try new settings" would leave the old provider's bytes exactly
+    # where the next lookup finds them.
+    for sub in GENERATED_DIRS:
+        root = media_dir / sub
+        if not root.is_dir():
+            continue
+        for path in root.rglob("*"):
+            if not path.is_file() or path in files:
+                continue
+            try:
+                rel = path.relative_to(media_dir).as_posix()
+            except ValueError:  # pragma: no cover — rglob cannot leave its root
+                continue
+            if is_user_recording(rel) or rel in keep:
+                continue
+            files[path] = _DIR_KIND[sub]
+
+    return {"rows": doomed, "files": files, "keep": keep, "skipped": skipped}
+
+
+def _kept_recordings() -> int:
+    """How many of the learner's own audio files this purge leaves alone. All of them."""
+    return len(_recording_files(get_settings().media_dir))
+
+
+def _survey_generated_audio() -> dict[str, Any]:
+    """Dry run: the same numbers the purge would report, with nothing unlinked."""
+    plan = _generated_plan()
+    by_kind: dict[str, int] = {}
+    total = 0
+    for path, kind in plan["files"].items():
+        try:
+            total += path.stat().st_size
+        except OSError:
+            continue
+        by_kind[kind] = by_kind.get(kind, 0) + 1
+    return {
+        "files": len(plan["files"]),
+        "freed_mb": round(total / (1024 * 1024), 2),
+        "by_kind": by_kind,
+        "kept_recordings": _kept_recordings(),
+    }
+
+
+def _wipe_generated_audio() -> dict[str, Any]:
+    """Delete every generated audio file. The learner's own recordings are not in scope."""
+    settings = get_settings()
+    media_dir = settings.media_dir
+    plan = _generated_plan()
+
+    removed = 0
+    freed = 0
+    by_kind: dict[str, int] = {}
+    failures: list[str] = []
+    gone: set[Path] = set()
+    for path, kind in plan["files"].items():
+        try:
+            size = path.stat().st_size
+            path.unlink()
+        except FileNotFoundError:
+            gone.add(path)
+            continue
+        except OSError as exc:
+            failures.append(f"{path.name}: {exc.strerror or exc}")
+            continue
+        gone.add(path)
+        removed += 1
+        freed += size
+        by_kind[kind] = by_kind.get(kind, 0) + 1
+
+    # Only forget a row whose file is actually gone: a row kept alongside a file that
+    # could not be unlinked is the recoverable half of the failure.
+    hashes = [
+        entry["hash"]
+        for entry in plan["rows"]
+        if resolve_rel_path(entry["rel_path"]) in gone
+    ]
+    try:
+        with session_scope() as session:
+            for chunk in (hashes[i : i + 400] for i in range(0, len(hashes), 400)):
+                # NULL the referrer FIRST: `listening_scripts.audio_hash` is a real
+                # foreign key onto `media_files.hash`, so deleting the row first raises
+                # IntegrityError and the whole purge rolls back with the files gone.
+                session.execute(
+                    sa_text(
+                        "UPDATE listening_scripts SET audio_hash = NULL WHERE audio_hash IN :h"
+                    ).bindparams(bindparam("h", expanding=True)),
+                    {"h": chunk},
+                )
+                session.flush()
+                session.execute(
+                    sa_text("DELETE FROM media_files WHERE hash IN :h").bindparams(
+                        bindparam("h", expanding=True)
+                    ),
+                    {"h": chunk},
+                )
+    except Exception as exc:
+        _log.exception("generated-audio purge unlinked files but could not clear media_files")
+        raise ApiError(
+            500,
+            "internal",
+            f"deleted {removed} files but the database still references them: {exc}",
+        ) from exc
+
+    # Best effort tidy-up of the now-empty voice/accent subdirectories.
+    for sub in GENERATED_DIRS:
+        root = media_dir / sub
+        if not root.is_dir():
+            continue
+        for directory in sorted((p for p in root.rglob("*") if p.is_dir()), reverse=True):
+            try:
+                directory.rmdir()
+            except OSError:
+                pass
+
+    if failures:
+        _log.warning(
+            "generated-audio purge could not delete %d file(s): %s", len(failures), failures[:5]
+        )
+    _log.info(
+        "generated-audio purge removed %d file(s), %.1f MB, kinds=%s",
+        removed,
+        freed / (1024 * 1024),
+        by_kind,
+    )
+
+    return {
+        "removed": removed,
+        "freed_mb": round(freed / (1024 * 1024), 2),
+        "by_kind": by_kind,
+        "kept_recordings": _kept_recordings(),
+        "failed": failures[:20],
+    }
+
+
+@router.get("/generated-audio", summary="What a generated-audio purge would delete")
+async def generated_audio_survey(_: Auth = None) -> dict[str, Any]:
+    """Dry run. Deletes nothing — it exists so the confirmation dialog can be specific."""
+    return await asyncio.to_thread(_survey_generated_audio)
+
+
+@router.post("/wipe-generated-audio", summary="Delete every generated audio file")
+async def wipe_generated_audio_route(_: Auth = None) -> dict[str, Any]:
+    """Synchronous from the caller's view; the unlink loop runs off the event loop."""
+    return await asyncio.to_thread(_wipe_generated_audio)

@@ -23,10 +23,11 @@ still serialises ``score: null`` for proxy-v1 because a confidence is not a GOP.
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import json
 import logging
 import re
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
 from itertools import pairwise
 from pathlib import Path
@@ -195,8 +196,15 @@ class TurnPronResult:
 # Stage 1 — word-level transcription
 # --------------------------------------------------------------------------------------
 
-_whisper_model: Any = None
-_whisper_failed = False
+# Word-timing transcription is deliberately local-only: the per-word confidence the
+# scorer needs is not carried by any remote transcript API we speak to. The model is
+# cached per *configuration*, never per process, so changing Settings takes effect on
+# the next call instead of at the next restart.
+WhisperKey = tuple[str, str, str, str]
+
+_whisper_models: dict[WhisperKey, Any] = {}
+_whisper_failed: set[WhisperKey] = set()
+_whisper_local_only_logged = False
 
 
 def _stt_settings() -> dict[str, Any]:
@@ -208,49 +216,83 @@ def _stt_settings() -> dict[str, Any]:
         return {}
 
 
-def _load_whisper() -> Any:
-    """faster-whisper model, cached. Never raises; returns ``None`` when unavailable."""
-    global _whisper_model, _whisper_failed
-    if _whisper_model is not None or _whisper_failed:
-        return _whisper_model
+def _whisper_key(cfg: Mapping[str, Any] | None = None) -> WhisperKey:
+    """The four fields that decide which local acoustic model actually loads."""
+    slot = dict(cfg if cfg is not None else _stt_settings())
+    engine = str(slot.get("engine") or "faster_whisper").strip() or "faster_whisper"
+    model = str(slot.get("model") or slot.get("model_size") or "small").strip() or "small"
+    device = str(slot.get("device") or "auto").strip() or "auto"
+    compute_type = str(slot.get("compute_type") or "int8").strip() or "int8"
+    return (engine, model, device, compute_type)
+
+
+def reset_whisper_cache() -> None:
+    """Drop every cached model and failure memo (settings hot-apply, tests)."""
+    _whisper_models.clear()
+    _whisper_failed.clear()
+
+
+def _load_whisper(cfg: Mapping[str, Any] | None = None) -> Any:
+    """faster-whisper model for the *current* stt slot. Never raises; ``None`` when unusable.
+
+    Keyed on ``(engine, model, device, compute_type)``: a learner who switches Whisper
+    model or device gets the new model on the next call, and a load failure is memoised
+    only for the configuration that failed so a corrected setting is retried.
+    """
+    global _whisper_local_only_logged
+
+    key = _whisper_key(cfg)
+    cached = _whisper_models.get(key)
+    if cached is not None:
+        return cached
+    if key in _whisper_failed:
+        return None
+
+    if not _whisper_local_only_logged:
+        _whisper_local_only_logged = True
+        _log.info(
+            "word-timing transcription is local-only by design (faster-whisper); "
+            "the STT provider setting does not apply to pronunciation analysis"
+        )
+
     try:
         from faster_whisper import WhisperModel  # type: ignore
     except Exception:  # noqa: BLE001 — optional voice extra
-        _whisper_failed = True
+        _whisper_failed.add(key)
         _log.info("faster-whisper is not installed — pronunciation v1 runs transcript-only")
         return None
 
-    cfg = _stt_settings()
-    size = str(cfg.get("model") or cfg.get("model_size") or "small")
+    _engine, size, device, compute_type = key
     for local_only in (True, False):
         try:
-            _whisper_model = WhisperModel(
-                size, device="auto", compute_type="int8", local_files_only=local_only
+            model = WhisperModel(
+                size, device=device, compute_type=compute_type, local_files_only=local_only
             )
-            return _whisper_model
         except Exception as exc:  # noqa: BLE001
             _log.debug("faster-whisper load failed (local_files_only=%s): %s", local_only, exc)
-    _whisper_failed = True
-    _log.warning("no usable local STT model — pronunciation v1 falls back to the stored transcript")
+            continue
+        _whisper_models[key] = model
+        return model
+    _whisper_failed.add(key)
+    _log.warning(
+        "no usable local STT model for %s (device=%s, compute_type=%s) — "
+        "pronunciation v1 falls back to the stored transcript",
+        size,
+        device,
+        compute_type,
+    )
     return None
 
 
 def transcribe_words(wav_path: Path) -> tuple[list[dict[str, Any]], str]:
     """``([{word, t_start_ms, t_end_ms, confidence}], transcript)`` for one WAV.
 
-    Tries a shared STT provider first (owned by the voice module), then faster-whisper.
-    Returns ``([], "")`` when neither can run — the caller then degrades to LLM-only
+    Always local faster-whisper, by design: the scorer needs per-word timings and
+    per-word confidence, which the remote transcript APIs we speak to do not return.
+    The STT provider chosen in Settings selects the *model* here, never the endpoint.
+    Returns ``([], "")`` when whisper cannot run — the caller then degrades to LLM-only
     flagging over the stored transcript, exactly as 09 §3.1 prescribes.
     """
-    try:  # pragma: no cover — provider module is owned by the voice agent
-        from bandready.providers.stt import transcribe_words as provider_words  # type: ignore
-
-        words, transcript = provider_words(str(wav_path))
-        if words:
-            return list(words), str(transcript or "")
-    except Exception as exc:  # noqa: BLE001 — any provider failure falls through to whisper
-        _log.debug("shared STT provider unavailable for word timings: %s", exc)
-
     model = _load_whisper()
     if model is None or not Path(wav_path).is_file():
         return [], ""
@@ -516,6 +558,52 @@ def media_root() -> Path:
     from bandready.config import get_settings
 
     return get_settings().media_dir
+
+
+def reference_rel_path(voice: str, text: str, cfg: Mapping[str, Any] | None = None) -> str:
+    """Where one drill reference clip lives, relative to the media root.
+
+    ``pron/ref/<voice>/<sha1(text)>-<generation>[-<identity>].wav``.
+
+    The old key was voice + text and nothing else — the weakest in the app, weaker even
+    than the listening renderer, which at least had a hand-bumped generation counter. Two
+    consequences, both live: switching text-to-speech provider kept serving the previous
+    engine's clip forever, and "delete all generated audio and try new settings" would
+    regenerate a byte-identical file at the identical path, so the purge would appear to
+    have done nothing. Folding in ``RENDER_GENERATION`` and the provider identity fixes
+    both without a migration.
+
+    The identity term is **omitted** when it is empty — the legacy default, local Kokoro
+    at speed 1.0 — so an install that has never changed provider keeps the same names it
+    would have had after the generation bump alone.
+
+    Lives here, not in the route, because ``routes/media.py`` resolves the same path when
+    it serves the file: two copies of this rule would be a 404 waiting for the first
+    learner who switches provider.
+    """
+    from bandready.audio.tts_render import RENDER_GENERATION
+    from bandready.providers import transport
+
+    if cfg is None:
+        identity = transport.slot_identity("tts")
+    else:
+        identity = transport.provider_identity(cfg, "tts")
+
+    digest = hashlib.sha1(str(text or "").encode("utf-8")).hexdigest()
+    stem = f"{digest}-{RENDER_GENERATION}"
+    if identity:
+        stem = f"{stem}-{identity}"
+    return f"pron/ref/{voice}/{stem}.wav"
+
+
+def reference_media_hash(voice: str, text: str, cfg: Mapping[str, Any] | None = None) -> str:
+    """The ``media_files.hash`` for one reference clip — same terms as the path.
+
+    It has to carry the same terms: the row is what the LRU sweep and the generated-audio
+    purge address the file by, and a hash that ignored the provider would let one row
+    claim two different renders.
+    """
+    return hashlib.sha256(reference_rel_path(voice, text, cfg).encode("utf-8")).hexdigest()
 
 
 def resolve_audio(audio_path: str | None) -> Path | None:

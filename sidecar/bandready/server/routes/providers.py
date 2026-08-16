@@ -296,7 +296,20 @@ async def tts_preview(
     text = str(body.get("text") or PREVIEW_SENTENCE)[:300]
     base_url = str(config.get("base_url") or "").strip()
 
-    if config.get("engine") == "openai_compat" or (base_url and not config.get("engine")):
+    # One resolver, the same one every real render uses. The rule here used to be
+    # `engine == "openai_compat" or (base_url and not engine)`, which took the remote
+    # branch on the *unsaved draft* (no stored engine yet) and the local branch once the
+    # same config was saved (a stale `engine` had appeared) — so the preview proved a
+    # switch had worked at the exact moment it had not.
+    from bandready.providers import transport
+
+    if transport.resolve_engine(config, "tts") == "openai_compat":
+        if not base_url:
+            raise ApiError(
+                422,
+                "validation_error",
+                "this voice provider is a remote one but has no base URL yet",
+            )
         import httpx
 
         headers = {"Content-Type": "application/json"}

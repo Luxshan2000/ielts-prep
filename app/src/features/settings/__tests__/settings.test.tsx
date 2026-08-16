@@ -647,3 +647,140 @@ describe("the settings dialog", () => {
     expect(useSettingsFeatureStore.getState().isDirty()).toBe(true);
   });
 });
+
+// ------------------------------------------------------ Settings > Data, the two wipes
+
+/**
+ * There are two destructive buttons on this tab and they mean opposite things: one
+ * deletes the learner's own voice, the other deletes what a text-to-speech engine
+ * produced. What is pinned here is that they never blur into each other — separate
+ * confirmations, separate endpoints, and a dialog that names both halves — and that
+ * clearing generated audio actually makes the app stop believing it still exists.
+ */
+const { DataTab } = await import("../components/DataTab");
+const { useListeningStore } = await import("@/features/listening/store");
+const { useCoachStore } = await import("@/features/listening/components/coach/store");
+
+describe("Settings > Data", () => {
+  const SURVEY = {
+    files: 12,
+    freed_mb: 8.5,
+    by_kind: { listening_render: 9, tts_line: 3 },
+    kept_recordings: 4,
+  };
+
+  function renderTab() {
+    get.mockImplementation((path: string) => {
+      if (path === "/api/v1/data/generated-audio") return Promise.resolve(SURVEY);
+      if (path.startsWith("/api/v1/system/info")) {
+        return Promise.resolve({ data_dir: "/tmp/bandready" });
+      }
+      return Promise.resolve({ items: [], next_cursor: null });
+    });
+    return render(
+      <ConfirmProvider>
+        <DataTab />
+      </ConfirmProvider>,
+    );
+  }
+
+  it("names what goes and what stays before deleting a single file", async () => {
+    const user = userEvent.setup();
+    post.mockResolvedValue({ removed: 12, freed_mb: 8.5, kept_recordings: 4, failed: [] });
+    renderTab();
+
+    await user.click(await screen.findByRole("button", { name: /delete generated audio/i }));
+
+    const dialog = await screen.findByRole("dialog");
+    // The count comes from the dry run, so the sentence is about this install.
+    expect(within(dialog).getByText(/12 generated audio files \(8\.5 MB\)/i)).toBeInTheDocument();
+    expect(within(dialog).getByText(/Goes:/)).toBeInTheDocument();
+    expect(within(dialog).getByText(/rendered listening audio/i)).toBeInTheDocument();
+    expect(within(dialog).getByText(/pronunciation reference clips/i)).toBeInTheDocument();
+    expect(within(dialog).getByText(/Stays:/)).toBeInTheDocument();
+    expect(within(dialog).getByText(/every recording of your own voice/i)).toBeInTheDocument();
+    expect(within(dialog).getByText(/Your 4 recordings are not touched/i)).toBeInTheDocument();
+
+    // Nothing has been asked of the sidecar yet — the dry run does not delete.
+    expect(post).not.toHaveBeenCalled();
+  });
+
+  it("deletes nothing when the confirmation is declined", async () => {
+    const user = userEvent.setup();
+    renderTab();
+
+    await user.click(await screen.findByRole("button", { name: /delete generated audio/i }));
+    await screen.findByRole("dialog");
+    await user.click(screen.getByRole("button", { name: "Cancel" }));
+
+    await waitFor(() => expect(post).not.toHaveBeenCalled());
+  });
+
+  it("calls the generated-audio endpoint, never the recordings one", async () => {
+    const user = userEvent.setup();
+    post.mockResolvedValue({ removed: 12, freed_mb: 8.5, kept_recordings: 4, failed: [] });
+    renderTab();
+
+    await user.click(await screen.findByRole("button", { name: /delete generated audio/i }));
+    const dialog = await screen.findByRole("dialog");
+    await user.click(within(dialog).getByRole("button", { name: "Delete generated audio" }));
+
+    await waitFor(() =>
+      expect(post).toHaveBeenCalledWith("/api/v1/data/wipe-generated-audio", {}),
+    );
+    // Hard rule: this button must never reach the endpoint that deletes the
+    // learner's own voice, whatever the copy above it says.
+    expect(post).not.toHaveBeenCalledWith("/api/v1/data/wipe-recordings", expect.anything());
+    expect(
+      await screen.findByText(/Deleted 12 generated audio files \(8\.5 MB freed\)/i),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/recordings were not touched/i)).toBeInTheDocument();
+  });
+
+  it("makes the app forget the audio it just deleted", async () => {
+    const user = userEvent.setup();
+    post.mockResolvedValue({ removed: 12, freed_mb: 8.5, kept_recordings: 4, failed: [] });
+    // The state a learner arrives with: a library listing that says the audio is ready,
+    // a loaded test and the coach's documents for it. All three describe files that are
+    // about to stop existing.
+    useListeningStore.setState({
+      tests: [{ id: "lt_1", audio_ready: true }] as never,
+      scripts: [] as never,
+      libraryGeneration: 0,
+      detail: { id: "lt_1", parts: [] } as never,
+    });
+    useCoachStore.setState({
+      slots: { ls_1: { status: "ready" } as never },
+      replays: { "ls_1:1": { status: "ready" } as never },
+    });
+
+    renderTab();
+    await user.click(await screen.findByRole("button", { name: /delete generated audio/i }));
+    const dialog = await screen.findByRole("dialog");
+    await user.click(within(dialog).getByRole("button", { name: "Delete generated audio" }));
+
+    await waitFor(() => expect(useListeningStore.getState().detail).toBeNull());
+    expect(useCoachStore.getState().slots).toEqual({});
+    expect(useCoachStore.getState().replays).toEqual({});
+    // Re-asked, not re-rendered from the snapshot taken before the purge.
+    expect(get).toHaveBeenCalledWith("/api/v1/listening/tests?limit=100");
+  });
+
+  it("keeps the recordings wipe on its own button and its own words", async () => {
+    const user = userEvent.setup();
+    post.mockResolvedValue({ removed: 3, freed_mb: 1 });
+    renderTab();
+
+    await user.click(await screen.findByRole("button", { name: /delete all recordings/i }));
+    const dialog = await screen.findByRole("dialog");
+    expect(await screen.findByText("Delete every practice recording?")).toBeInTheDocument();
+    // The two dialogs must not share copy: this one is about the learner's own voice.
+    expect(within(dialog).queryByText(/Goes:/)).not.toBeInTheDocument();
+
+    await user.click(within(document.body).getByRole("button", { name: "Delete recordings" }));
+    await waitFor(() =>
+      expect(post).toHaveBeenCalledWith("/api/v1/data/wipe-recordings", {}),
+    );
+    expect(post).not.toHaveBeenCalledWith("/api/v1/data/wipe-generated-audio", expect.anything());
+  });
+});

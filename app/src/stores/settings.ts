@@ -42,9 +42,29 @@ interface SettingsState {
   error: string | null;
   theme: Theme;
 
+  /**
+   * Bumped every time the *provider* selection changes (see `bumpGeneration`).
+   *
+   * Anything the app has cached because a particular engine produced it — the listening
+   * library's `audio_ready` flags, a loaded test detail, the coach's teaching documents,
+   * a signed media ticket — was computed under the previous providers and is a claim
+   * about them, not about the ones now selected. Readers compare the generation they
+   * fetched under against this number instead of assuming their snapshot is still true.
+   */
+  generation: number;
+
   load: () => Promise<void>;
   /** Deep-merge partial update (18 §1 PATCH semantics). Returns success. */
   save: (patch: SettingsDoc) => Promise<boolean>;
+  /**
+   * Declare that generated artefacts may no longer match the selected providers.
+   *
+   * Called after a provider PATCH lands and after the generated-audio purge. It is
+   * deliberately NOT called for theme, density or study preferences: those change
+   * nothing about what an engine would produce, and dropping the library cache for
+   * them would cost a round trip per toggle.
+   */
+  bumpGeneration: () => void;
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
 }
@@ -56,6 +76,9 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
   offline: false,
   error: null,
   theme: typeof window === "undefined" ? "dark" : getStoredTheme(),
+  generation: 0,
+
+  bumpGeneration: () => set((s) => ({ generation: s.generation + 1 })),
 
   load: async () => {
     set({ loading: true, error: null });

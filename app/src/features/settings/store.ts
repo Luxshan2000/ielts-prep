@@ -332,6 +332,10 @@ export async function patchSettingsOptimistic(patch: SettingsDoc): Promise<boole
   }
   const ok = await useSettingsStore.getState().save(patch);
   if (!ok && previous) useSettingsStore.setState({ doc: previous });
+  // A provider change re-keys everything an engine has already produced, so anything
+  // the app cached because "the audio is ready" has to be re-asked rather than
+  // re-displayed. Only on success: a refused PATCH changed nothing to invalidate.
+  if (ok && "providers" in patch) useSettingsStore.getState().bumpGeneration();
   return ok;
 }
 

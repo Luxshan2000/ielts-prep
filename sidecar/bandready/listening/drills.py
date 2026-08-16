@@ -379,16 +379,25 @@ def script_doc(row: m.ListeningScript) -> dict[str, Any]:
     ``script_id`` and ``part`` come off the row rather than out of the document because the
     row is what the rest of the app joins on, and a generated document does not always
     repeat them.
+
+    ``audio_hash`` is the **expected** hash — what the current script and the current TTS
+    provider would render to — not ``listening_scripts.audio_hash``. The stored column
+    records one past render and follows neither an edited line nor a change of provider,
+    so keying off it is what let a drill keep playing the previous engine's audio and
+    keep reporting itself ready. It is computed from the document exactly as it was
+    loaded, before the row's own ``accent_set`` is folded in, so that it matches the hash
+    the render routes compute for the same script.
     """
     doc = loads(row.script_json, {})
     if not isinstance(doc, dict):
         doc = {}
     doc = dict(doc)
+    expected = tts_render.script_audio_hash(doc)
     doc["script_id"] = row.id
     doc.setdefault("title", row.title)
     doc["part"] = row.part
     doc["accent_set"] = row.accent_set
-    doc["audio_hash"] = row.audio_hash
+    doc["audio_hash"] = expected
     return doc
 
 
@@ -555,11 +564,18 @@ def clip_for(
 
 
 def audio_ref(doc: Mapping[str, Any]) -> dict[str, Any]:
-    """Where the client fetches the recording, and whether it exists yet."""
+    """Where the client fetches the recording, and whether it exists yet.
+
+    ``doc["audio_hash"]`` is the expected hash (:func:`script_doc`), so ``ready`` answers
+    "is the audio this configuration would produce already on disk" rather than "was
+    something rendered once". A drill whose provider has changed comes back not-ready and
+    the existing 409 → ``NeedsAudioError`` → inline Prepare panel path takes over.
+    """
     audio_hash = str(doc.get("audio_hash") or "")
     ready = bool(audio_hash) and tts_render.cached_render(audio_hash) is not None
     return {
-        "audio_hash": audio_hash or None,
+        "audio_hash": audio_hash if ready else None,
+        "expected_audio_hash": audio_hash or None,
         "ready": ready,
         "media_path": f"/api/v1/media/listening/{audio_hash}.wav" if audio_hash else None,
         "timing_path": (

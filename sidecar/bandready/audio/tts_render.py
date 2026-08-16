@@ -359,20 +359,59 @@ def _canonical(payload: Any) -> str:
     return json.dumps(payload, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
 
 
-def script_audio_hash(script: Mapping[str, Any], accent_set: str | None = None) -> str:
-    """Content hash of *what will be spoken*: resolved voices + spoken text + pauses.
+def tts_identity(config: Mapping[str, Any] | None = None) -> str:
+    """Provider identity of ``config``, or of the live TTS slot when it is ``None``.
+
+    ``""`` for the legacy default (local Kokoro, shipped weights, speed 1.0) — see
+    :func:`bandready.providers.transport.provider_identity`. Every caller here omits an
+    empty term rather than folding an empty string in, so a default install's hashes are
+    byte-identical to the ones it already has on disk.
+    """
+    from bandready.providers import transport
+
+    if config is None:
+        return transport.slot_identity("tts")
+    try:
+        return transport.provider_identity(config, "tts")
+    except Exception as exc:  # noqa: BLE001 — identity must never break a render
+        _log.debug("could not compute the TTS provider identity: %s", exc)
+        return ""
+
+
+def script_audio_hash(
+    script: Mapping[str, Any],
+    accent_set: str | None = None,
+    *,
+    config: Mapping[str, Any] | None = None,
+) -> str:
+    """Content hash of *what will be spoken*, **and of what will speak it**.
 
     Changing a line, a pause or the accent set yields a new hash; re-titling the script
     or editing a question does not (07 §3 step 5). Teaching payloads are therefore free to
     rewrite — which is the point, since they are rewritten far more often than the audio.
 
-    Two things beyond the original are folded in, and both had to be:
+    Three things beyond the original are folded in, and each one had to be:
 
     * the **spoken** form (``phonemes``/``say_as``/normalised ``text``) rather than the raw
       ``text``, or editing ``say_as`` would silently keep serving the old audio;
     * :data:`RENDER_GENERATION`, so that a change to *how* we synthesize invalidates every
       cached render at once instead of leaving the previous pipeline's output on disk under
-      a name the new pipeline would still consider a hit.
+      a name the new pipeline would still consider a hit;
+    * the **TTS provider identity** (:func:`tts_identity`), which is what makes a provider
+      switch behave like any other change to the audio. Before it, rendering a part with
+      local Kokoro and then choosing OpenRouter in Settings left the hash untouched:
+      :func:`cached_render` hit, the library reported "audio ready", and the app served
+      Kokoro audio forever. The engine's own ``speed`` rides inside that term, which is
+      how a moved speed slider — previously present in :func:`line_cache_key` and absent
+      here — finally re-keys the stitched render too.
+
+    The identity term is **omitted** when it is empty, i.e. for the shipped default. That
+    is deliberate and is the entire upgrade story: an install that never changed provider
+    keeps every WAV it has, and only a learner who has actually moved off Kokoro gets new
+    hashes — which is exactly when they should.
+
+    ``config`` defaults to the live ``tts`` slot; pass it explicitly when hashing against
+    a configuration other than the one currently saved.
     """
     voices = resolve_voices(script, accent_set)
     lines = []
@@ -389,25 +428,43 @@ def script_audio_hash(script: Mapping[str, Any], accent_set: str | None = None) 
                 "p": stitch_mod.clamp_pause(line.get("pause_after_ms", 300)),
             }
         )
-    payload = {
+    payload: dict[str, Any] = {
         "schema_version": int(script.get("schema_version") or 1),
         "render_generation": RENDER_GENERATION,
         "accent_set": str(accent_set or script.get("accent_set") or "uk").lower(),
         "lines": lines,
     }
+    identity = tts_identity(config)
+    if identity:
+        payload["tts"] = identity
     return hashlib.sha256(_canonical(payload).encode("utf-8")).hexdigest()[:16]
 
 
 def line_cache_key(
-    voice: str, text: str, speed: float = 1.0, *, is_phonemes: bool = False
+    voice: str,
+    text: str,
+    speed: float = 1.0,
+    *,
+    is_phonemes: bool = False,
+    config: Mapping[str, Any] | None = None,
 ) -> str:
     """Cache key for one synthesized line.
 
     The language is not a separate term because it is a pure function of ``voice``
     (:func:`lang_for_voice`); :data:`RENDER_GENERATION` is, because it is what retires the
     lines synthesized before British voices were given British phonology.
+
+    The provider identity is the third term that is not about the text, and re-keying the
+    stitched render without it fixes nothing: Kokoro's voice ids are engine-independent, so
+    every line of a re-keyed script would still hit ``media/tts-lines/`` and the new render
+    would be the old provider's audio, stitched again, under a new name. It is appended
+    rather than inserted, and omitted when empty, so the shipped default's keys are exactly
+    the ones already on disk.
     """
     raw = f"{RENDER_GENERATION}\x00{voice}\x00{text}\x00{speed:.2f}\x00{int(is_phonemes)}"
+    identity = tts_identity(config)
+    if identity:
+        raw = f"{raw}\x00{identity}"
     return hashlib.sha256(raw.encode()).hexdigest()[:24]
 
 
@@ -486,11 +543,15 @@ def tts_config(override: Mapping[str, Any] | None = None) -> dict[str, Any]:
 
 
 def is_mock_tts(cfg: Mapping[str, Any]) -> bool:
-    from bandready.providers.presets import is_mock_config
+    """Will this slot produce silence rather than reach an engine?
 
-    # The engine check stays here, not in the shared predicate: "the TTS engine is the
-    # mock renderer" is a fact about this slot, not about whether the provider is mock.
-    return is_mock_config(cfg) or str(cfg.get("engine") or "") == "mock"
+    Delegated to :func:`bandready.providers.transport.resolve_engine` so that "is it the
+    mock?" and "which engine runs?" cannot disagree — they used to, because this read the
+    slot's stored ``engine`` and the dispatcher read something else.
+    """
+    from bandready.providers import transport
+
+    return transport.resolve_engine(cfg, "tts") == "mock"
 
 
 def _mock_pcm(text: str, rate: int = stitch_mod.TARGET_RATE) -> tuple[np.ndarray, int]:
@@ -617,15 +678,27 @@ async def synthesize_line(
     phonemized line falls back to speaking the IPA string, which is why the field is
     documented as a local-engine escape hatch rather than a portable one.
     """
+    from bandready.providers import transport
+
     config = tts_config(cfg)
     clean = (text or "").strip()
     if not clean:
         return np.zeros(0, dtype=np.float32), stitch_mod.TARGET_RATE
-    if is_mock_tts(config):
+    # `transport.resolve_engine`, not `config["engine"]`: the stored engine is a stale copy
+    # of an answer the preset already gives, and reading it here is how "TTS: OpenRouter"
+    # kept synthesizing locally on a cold cache.
+    engine = transport.resolve_engine(config, "tts")
+    if engine == "mock":
         return _mock_pcm(clean)
-    engine = str(config.get("engine") or "").lower()
-    if engine in ("kokoro_onnx", "kokoro"):
+    if engine == "kokoro_onnx":
         return await _synthesize_kokoro(clean, voice, config, is_phonemes=is_phonemes)
+    if engine == "faster_whisper":  # pragma: no cover — a mis-set slot, not a TTS engine
+        raise ApiError(
+            422,
+            "validation_error",
+            "the text-to-speech provider resolves to a speech-to-text engine "
+            f"({engine}); choose a TTS provider in Settings",
+        )
     return await _synthesize_openai(clean, voice, config)
 
 
@@ -637,12 +710,17 @@ async def _synthesize_cached(
     use_cache: bool = True,
     is_phonemes: bool = False,
 ) -> tuple[np.ndarray, int]:
-    """Per-line cache (07 §3 step 2) so an edited script re-renders only what changed."""
+    """Per-line cache (07 §3 step 2) so an edited script re-renders only what changed.
+
+    ``use_cache=False`` skips the *read* and still writes: a forced re-render is a request
+    for fresh audio, not a request to leave the next render cold. The entry it writes is
+    the one the current provider produced, under the current provider's key.
+    """
     clean = (text or "").strip()
     if not clean:
         return np.zeros(0, dtype=np.float32), stitch_mod.TARGET_RATE
     key = line_cache_key(
-        voice, clean, float(cfg.get("speed") or 1.0), is_phonemes=is_phonemes
+        voice, clean, float(cfg.get("speed") or 1.0), is_phonemes=is_phonemes, config=cfg
     )
     path = line_cache_path(key)
     if use_cache and path.exists() and path.stat().st_size > 0:
@@ -651,7 +729,7 @@ async def _synthesize_cached(
         except Exception:  # noqa: BLE001 — a corrupt cache entry is not fatal
             _log.warning("discarding unreadable TTS line cache entry %s", path.name)
     pcm, rate = await synthesize_line(clean, voice, cfg, is_phonemes=is_phonemes)
-    if use_cache and pcm.size:
+    if pcm.size:
         try:
             size = stitch_mod.write_wav(path, pcm, rate)
             register_media(key, "tts_line", f"tts-lines/{key}.wav", size)
@@ -764,7 +842,13 @@ async def render_script(
     accent = str(accent_set or script.get("accent_set") or "uk").lower()
     # NB: the raw `accent_set` (possibly None) is what drives voice resolution, so a
     # mixed-accent authored script keeps its cast; `accent` is only the label.
-    audio_hash = script_audio_hash(script, accent_set)
+    #
+    # The config is resolved *before* the hash, not after: `config` is an override, and
+    # hashing against the live slot while synthesizing with the override would file the
+    # override's audio under the live slot's name — the same class of mismatch this whole
+    # change exists to remove.
+    cfg = tts_config(config)
+    audio_hash = script_audio_hash(script, accent_set, config=cfg)
 
     if not force:
         hit = cached_render(audio_hash)
@@ -775,7 +859,6 @@ async def render_script(
             hit.update({"accent_set": accent, "script_id": script_id})
             return hit
 
-    cfg = tts_config(config)
     voices = resolve_voices(script, accent_set)
     default_voice = VOICE_MAP.get(accent, VOICE_MAP["uk"])["narrator"]
 
@@ -790,8 +873,11 @@ async def render_script(
                 "listening script %s line %d: %r — %s",
                 script_id or "(unsaved)", index, warning["found"], warning["advice"],
             )
+        # `force` has to reach *this* layer to mean anything. Skipping `cached_render`
+        # alone re-stitched the per-line cache, which is the previous provider's audio
+        # under a new name — the escape hatch defeated by the layer below it.
         pcm, rate = await _synthesize_cached(
-            spoken, voice, cfg, is_phonemes=is_phonemes
+            spoken, voice, cfg, use_cache=not force, is_phonemes=is_phonemes
         )
         # Trim *after* the cache read, so the stored line stays whatever the engine
         # produced and the trim policy can change without re-synthesizing anything.

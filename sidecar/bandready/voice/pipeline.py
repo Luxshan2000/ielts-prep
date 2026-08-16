@@ -31,6 +31,7 @@ import types
 from dataclasses import dataclass
 from typing import Any
 
+from bandready.providers import transport
 from bandready.server.errors import ApiError
 
 _log = logging.getLogger("bandready.voice.pipeline")
@@ -185,22 +186,64 @@ def _import_whisper_stt() -> tuple[Any, Any]:
     return module.Model, module.WhisperSTTService
 
 
+def _whisper_model_enum(Model: Any, name: str) -> Any:
+    """`Model.<NAME>` or a 422 that says which name was not recognised.
+
+    ``getattr(Model, name, Model.BASE)`` used to sit here, and a silent default is the
+    worst possible answer to a misconfiguration: a learner who typed ``large-v3-turbo``
+    got whisper-base, heard plausible-but-worse transcripts, and had nothing anywhere
+    telling them the name never took. Failing loudly costs one clear error; failing
+    quietly costs trust in every transcript the app produces.
+    """
+    attr = str(name or "base").upper().replace("-", "_")
+    model = getattr(Model, attr, None)
+    if model is not None:
+        return model
+    known = sorted(
+        m.name.lower().replace("_", "-") for m in Model if not m.name.startswith("_")
+    )
+    raise ApiError(
+        422,
+        "validation_error",
+        f"{name!r} is not a Whisper model this build can run. "
+        f"Choose one of: {', '.join(known)} — or change the model in Settings → Providers.",
+    )
+
+
 def build_stt_service(config: dict[str, Any] | None = None) -> Any:
-    """Local Whisper by default (03 §1); an OpenAI-compatible endpoint when configured."""
+    """Local Whisper by default (03 §1); an OpenAI-compatible endpoint when configured.
+
+    The engine comes from :func:`bandready.providers.transport.resolve_engine`, never from
+    a local allow-list: this used to read ``cfg["engine"] or cfg["preset"]`` and match it
+    against ``("openai_stt", "openai", "groq_stt")``, so selecting OpenRouter — whose stored
+    ``engine`` was still ``faster_whisper`` — quietly ran the local model instead.
+    """
     cfg = config or _slot("stt")
-    engine = str(cfg.get("engine") or cfg.get("preset") or "faster_whisper")
-    if engine in ("openai_stt", "openai", "groq_stt") and cfg.get("base_url"):
+    engine = transport.resolve_engine(cfg, "stt")
+    if engine == "openai_compat":
+        base_url = str(cfg.get("base_url") or "").strip()
+        if not base_url:
+            raise ApiError(
+                503,
+                "provider_error",
+                "the selected speech-to-text provider is a remote one but has no base URL — "
+                "finish it in Settings → Providers.",
+            )
         from pipecat.services.openai.stt import OpenAISTTService
 
+        # `or "not-needed"`, exactly as `build_llm_service` does: a keyless local
+        # OpenAI-compatible server is a supported setup, and the OpenAI SDK refuses to
+        # construct at all with an empty key — which would turn "I run LM Studio" into a
+        # crash, and a genuinely missing OpenRouter key into an SDK message about
+        # OPENAI_API_KEY that names an env var this app has never used.
         return OpenAISTTService(
-            api_key=str(cfg.get("api_key") or ""),
-            base_url=str(cfg.get("base_url")),
+            api_key=str(cfg.get("api_key") or "not-needed"),
+            base_url=base_url,
             model=str(cfg.get("model") or "whisper-1"),
         )
     Model, WhisperSTTService = _import_whisper_stt()
 
-    name = str(cfg.get("model") or "base").upper().replace("-", "_")
-    model = getattr(Model, name, Model.BASE)
+    model = _whisper_model_enum(Model, str(cfg.get("model") or "base"))
     device = str(cfg.get("device") or "auto")
     return WhisperSTTService(
         model=model,
@@ -209,15 +252,24 @@ def build_stt_service(config: dict[str, Any] | None = None) -> Any:
 
 
 def build_tts_service(config: dict[str, Any] | None = None) -> Any:
-    """Kokoro ONNX by default (03 §1)."""
+    """Kokoro ONNX by default (03 §1); an OpenAI-compatible endpoint when configured."""
     cfg = config or _slot("tts")
-    engine = str(cfg.get("engine") or cfg.get("preset") or "kokoro")
-    if engine in ("openai_tts", "openai") and cfg.get("base_url"):
+    engine = transport.resolve_engine(cfg, "tts")
+    if engine == "openai_compat":
+        base_url = str(cfg.get("base_url") or "").strip()
+        if not base_url:
+            raise ApiError(
+                503,
+                "provider_error",
+                "the selected voice provider is a remote one but has no base URL — "
+                "finish it in Settings → Providers.",
+            )
         from pipecat.services.openai.tts import OpenAITTSService
 
+        # See the note in `build_stt_service`: never an empty string.
         return OpenAITTSService(
-            api_key=str(cfg.get("api_key") or ""),
-            base_url=str(cfg.get("base_url")),
+            api_key=str(cfg.get("api_key") or "not-needed"),
+            base_url=base_url,
             voice=str(cfg.get("voice") or "alloy"),
         )
     from pipecat.services.kokoro.tts import KokoroTTSService

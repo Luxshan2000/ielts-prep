@@ -42,9 +42,18 @@ REPAIR_MESSAGE = (
 
 Message = dict[str, str]
 
-# Endpoints that reject `response_format` are remembered per base_url so we stop paying
-# for the round trip.
-_no_json_mode: set[str] = set()
+# Endpoints that reject `response_format` are remembered so we stop paying for the round
+# trip. Keyed by ``(base_url, model)`` and not by base_url alone: whether an endpoint
+# honours JSON mode is a property of the *model*, so one 400 from one Ollama model must
+# not disable JSON-mode enforcement for every other model on the same server. Cleared
+# whenever settings are saved (see routes/settings.py `_hot_apply`) so a model that has
+# since gained JSON support is re-tried instead of being written off for the process.
+_no_json_mode: set[tuple[str, str]] = set()
+
+
+def invalidate_json_mode_memo() -> None:
+    """Forget which (base_url, model) pairs rejected ``response_format``."""
+    _no_json_mode.clear()
 
 
 # --------------------------------------------------------------------------- helpers
@@ -145,7 +154,8 @@ async def _post_chat(
         "stream": False,
     }
     payload.update(extra)
-    use_json_mode = json_mode and base_url not in _no_json_mode
+    json_mode_key = (base_url, str(model))
+    use_json_mode = json_mode and json_mode_key not in _no_json_mode
     if use_json_mode:
         payload["response_format"] = {"type": "json_object"}
 
@@ -169,8 +179,8 @@ async def _post_chat(
             ) from exc
 
         if resp.status_code == 400 and use_json_mode and "response_format" in resp.text:
-            _log.info("%s rejects response_format; retrying without JSON mode", base_url)
-            _no_json_mode.add(base_url)
+            _log.info("%s/%s rejects response_format; retrying without JSON mode", base_url, model)
+            _no_json_mode.add(json_mode_key)
             payload.pop("response_format", None)
             resp = await client.post(url, json=payload, headers=headers)
 

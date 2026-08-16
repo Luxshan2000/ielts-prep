@@ -410,9 +410,17 @@ def seeded(client: TestClient) -> dict[str, Any]:
 
 @pytest.fixture()
 def unrendered(client: TestClient) -> str:
-    """A second script with no audio, for the "prepare it first" path."""
+    """A second script with no audio, for the "prepare it first" path.
+
+    The pause has to differ, not just the title. Renders are content-addressed, so a
+    verbatim copy of the rendered script — same voices, same spoken text, same pauses —
+    resolves to the same WAV and is *correctly* reported as ready. Nudging one pause is
+    the smallest change that makes this a genuinely unrendered script without touching a
+    single word the drills are built from.
+    """
     document = _script_document()
     document["title"] = "Never rendered"
+    document["lines"][1]["pause_after_ms"] = 913
     with session_scope() as session:
         existing = session.get(m.ListeningScript, "ls_drill_dark")
         if existing is None:

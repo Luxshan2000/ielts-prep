@@ -392,8 +392,12 @@ export function PartPlayer({
             onEnded();
           }}
           onError={() =>
+            // Not necessarily still on disk: changing the text-to-speech provider
+            // re-keys a render, and Settings → Data can delete generated audio outright.
+            // Promising the file was merely cached sent people back to a screen that
+            // failed the same way; reopening now offers to prepare it again.
             setMediaError(
-              "This part's audio stopped loading. It is cached on this machine, so reopen the test to continue.",
+              "This part's audio could not be played. Reopen the test — if it needs preparing again, you will be offered the button.",
             )
           }
         />

@@ -253,6 +253,18 @@ function invalidateTicket(audience: TicketAudience, resource: string): void {
 }
 
 /**
+ * Drop every cached ticket.
+ *
+ * A ticket is minted for one exact media path, so a still-valid ticket for a WAV that
+ * has been purged or re-keyed is a live URL pointing at a file that is gone — the
+ * `<audio>` element fails silently rather than asking the sidecar what it should be
+ * playing now. Called after a provider change and after the generated-audio purge.
+ */
+function clearTicketCache(): void {
+  ticketCache.clear();
+}
+
+/**
  * Absolute, ticket-signed URL for an `<audio>`/`<img>` src.
  * `path` is the exact `/api/v1/media/...` request path (the ticket resource).
  */
@@ -375,6 +387,7 @@ export const api = {
 
   ticket,
   invalidateTicket,
+  clearTicketCache,
   mediaUrl,
   wsUrl,
   pollJob,

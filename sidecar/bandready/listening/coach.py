@@ -1611,18 +1611,36 @@ def script_header(row: Any, doc: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def audio_view(row: Any) -> dict[str, Any]:
+def expected_audio_hash(row: Any, doc: dict[str, Any] | None = None) -> str:
+    """The hash the current script and the current TTS provider would render to.
+
+    Not ``row.audio_hash``. That column records what was rendered *once*; it does not
+    follow an edited line and it does not follow a provider change, so reading it made
+    the coach report "ready" — and hand the player a URL — for audio neither the script
+    nor Settings would produce any more.
+    """
+    from bandready.audio import tts_render
+
+    return tts_render.script_audio_hash(document(row) if doc is None else doc)
+
+
+def audio_view(row: Any, doc: dict[str, Any] | None = None) -> dict[str, Any]:
     """Whether this part's audio exists, and where the player finds it.
 
     Never gated: knowing that the audio is not rendered yet is an operational fact, not a
     teaching one, and a locked coach screen that cannot say "press render" is a dead end.
+
+    ``audio_hash`` is reported only when the file is really there, and
+    ``expected_audio_hash`` always is — the same split :func:`_audio_status` uses, so a
+    client can tell "not rendered yet" from "rendered under a key we no longer address".
     """
     from bandready.audio import tts_render
 
-    audio_hash = row.audio_hash
+    audio_hash = expected_audio_hash(row, doc)
     cached = tts_render.cached_render(audio_hash) if audio_hash else None
     return {
-        "audio_hash": audio_hash,
+        "audio_hash": audio_hash if cached else None,
+        "expected_audio_hash": audio_hash or None,
         "ready": cached is not None,
         "duration_ms": int((cached or {}).get("duration_ms") or 0),
         "media_path": f"/api/v1/media/listening/{audio_hash}.wav" if audio_hash else None,
@@ -1653,7 +1671,7 @@ def teaching_payload(row: Any, *, unlocked: bool) -> dict[str, Any]:
         or any(q["teaching_available"] for q in questions),
         "timelines_available": sum(1 for q in questions if q["teaching_available"]),
         "question_count": len(questions),
-        "audio": audio_view(row),
+        "audio": audio_view(row, doc),
         # ---- ungated: preparation material ------------------------------------------
         "speakers": _dicts(doc.get("speakers")),
         "what_makes_this_hard": _what_makes_this_hard(teaching),
@@ -1724,7 +1742,7 @@ def locked_teaching_payload(row: Any, conditions: dict[str, Any]) -> dict[str, A
         "teaching_available": False,
         "timelines_available": 0,
         "question_count": sum(1 for _ in iter_questions(doc)),
-        "audio": audio_view(row),
+        "audio": audio_view(row, doc),
         "speakers": [],
         "what_makes_this_hard": None,
         "pre_teach": [],
@@ -1940,9 +1958,13 @@ REPLAY_NOTE = (
 def _timing(row: Any) -> dict[str, Any] | None:
     from bandready.audio import tts_render
 
-    if not row.audio_hash:
+    # The expected hash, because :func:`audio_view` serves the file under the expected
+    # hash. If these two disagreed the replay would take its clip windows from one render
+    # and play them against another — every segment landing on the wrong second.
+    audio_hash = expected_audio_hash(row)
+    if not audio_hash:
         return None
-    return tts_render.load_timing(row.audio_hash)
+    return tts_render.load_timing(audio_hash)
 
 
 def _line_window(timing: dict[str, Any] | None, index: Any) -> tuple[int | None, int | None]:
@@ -2121,7 +2143,7 @@ def replay(
         "part": row.part,
         "title": row.title,
         "number": int(number),
-        "audio": audio_view(row),
+        "audio": audio_view(row, doc),
         "note": REPLAY_NOTE,
         "lead_in_ms": LEAD_IN_MS,
         "tail_ms": TAIL_MS,

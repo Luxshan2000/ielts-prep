@@ -55,6 +55,20 @@ def _hot_apply() -> None:
     except Exception as exc:  # noqa: BLE001 — never fail a save over a cache
         _log.debug("detection cache could not be invalidated: %s", exc)
 
+    try:
+        from bandready.providers.llm import invalidate_json_mode_memo
+
+        invalidate_json_mode_memo()
+    except Exception as exc:  # noqa: BLE001
+        _log.debug("JSON-mode memo could not be invalidated: %s", exc)
+
+    try:
+        from bandready.pron.analyze import reset_whisper_cache
+
+        reset_whisper_cache()
+    except Exception as exc:  # noqa: BLE001
+        _log.debug("local STT model cache could not be invalidated: %s", exc)
+
 
 # ------------------------------------------------------------------- study ↔ profile
 

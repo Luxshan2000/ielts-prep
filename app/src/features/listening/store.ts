@@ -17,6 +17,7 @@
 import { create } from "zustand";
 import { api } from "@/lib/api";
 import { friendlyMessage } from "@/lib/errors";
+import { useSettingsStore } from "@/stores";
 import type {
   AttemptCreated,
   AttemptMode,
@@ -91,6 +92,12 @@ interface ListeningState {
   scripts: ScriptSummary[] | null;
   scriptsLoading: boolean;
   scriptsError: string | null;
+  /**
+   * The settings generation the current listing was fetched under, or `null` if there
+   * is no listing. `audio_ready` is a claim about the providers selected at fetch time,
+   * so a listing from an older generation is not a cache hit — it is a stale answer.
+   */
+  libraryGeneration: number | null;
   loadLibrary: (force?: boolean) => Promise<void>;
 
   // ------------------------------------------------------- audio preparation --
@@ -171,10 +178,16 @@ export const useListeningStore = create<ListeningState>((set, get) => ({
   scripts: null,
   scriptsLoading: false,
   scriptsError: null,
+  libraryGeneration: null,
 
   loadLibrary: async (force = false) => {
-    const { tests, scripts, testsLoading, scriptsLoading } = get();
-    if (!force && tests && scripts) return;
+    const { tests, scripts, testsLoading, scriptsLoading, libraryGeneration } = get();
+    const generation = useSettingsStore.getState().generation;
+    // The store is module-level and survives the whole app session, so without the
+    // generation check the readiness flags taken on the first visit outlive a trip to
+    // Settings: the learner switches TTS provider, comes back, and is still told the
+    // audio is ready — for a render the sidecar has just stopped addressing.
+    if (!force && tests && scripts && libraryGeneration === generation) return;
     if (testsLoading || scriptsLoading) return;
     set({ testsLoading: true, scriptsLoading: true, testsError: null, scriptsError: null });
 
@@ -186,6 +199,12 @@ export const useListeningStore = create<ListeningState>((set, get) => ({
     set({
       testsLoading: false,
       scriptsLoading: false,
+      // Only claim the newer generation when both halves actually arrived; a partial
+      // listing must stay refetchable rather than look like a satisfied cache.
+      libraryGeneration:
+        testsResult.status === "fulfilled" && scriptsResult.status === "fulfilled"
+          ? generation
+          : null,
       tests: testsResult.status === "fulfilled" ? testsResult.value.items : get().tests,
       testsError:
         testsResult.status === "rejected"

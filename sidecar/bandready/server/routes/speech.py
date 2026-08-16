@@ -55,12 +55,26 @@ def capabilities(_: None = Depends(require_auth)) -> dict[str, Any]:
         )
         _ = exc
 
+    from bandready.speech import capabilities as caps
+
+    try:
+        jobs = caps.stt_jobs()
+    except Exception as exc:  # noqa: BLE001 — a broken config must not blank the screen
+        jobs = []
+        _ = exc
+
     return {
         "transcription": available,
         "reason": reason,
         # What a screen should show instead. Named rather than left to each caller to invent,
         # so the same absence does not get five different explanations across the app.
         "fallback": "typing",
+        # Which provider actually runs each speech-to-text job. "Speech-to-text works" and
+        # "the provider you chose is the one doing it" are different claims, and answering
+        # only the first is how a learner ends up sure a setting took effect when it did
+        # not. `honours_setting: false` on a job means the Settings choice is not consulted.
+        "jobs": jobs,
+        "local_only_note": caps.WHISPER_ONLY_NOTE,
     }
 
 

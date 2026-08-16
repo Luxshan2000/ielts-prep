@@ -340,13 +340,15 @@ def pron_reference(
 ) -> Response:
     """09 §5.2 cache read. Rendering on miss belongs to the TTS provider (07/09)."""
     _authorize(request, ticket)
-    from hashlib import sha1
+    from bandready.pron.analyze import reference_rel_path
 
     phrase = (request.query_params.get("text") or text_ or "").strip()
     if not phrase:
         raise ApiError(422, "validation_error", "text= is required")
-    digest = sha1(phrase.encode("utf-8")).hexdigest()
-    path = _safe_join(media_dir(), "pron", "ref", voice, f"{digest}.wav")
+    # The name carries the render generation and the provider identity, so this route and
+    # the renderer must derive it from the one function. Computing it here a second time
+    # is how a provider switch would turn into a 404 instead of a re-render.
+    path = _safe_join(media_dir(), *reference_rel_path(voice, phrase).split("/"))
     if not path.is_file():
         raise ApiError(
             404,

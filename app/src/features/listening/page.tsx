@@ -34,6 +34,8 @@ import {
 import { PageShell } from "@/components/shell/PageShell";
 import { HistoryButton } from "@/components/practice/history";
 import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
+import { useSettingsGeneration } from "@/lib/useSettingsGeneration";
+import { dropGeneratedAudioCaches } from "./audioCaches";
 import { useListeningStore } from "./store";
 import { accentLabel } from "./labels";
 import { useListeningHistory } from "./history";
@@ -71,6 +73,12 @@ export function ListeningHome() {
   // A screen that failed while the sidecar was down must not stay stuck on its
   // error card after it comes back (12 §9).
   useSidecarRecovery(() => void loadLibrary());
+
+  // Same idea for a provider change made in the Settings dialog, which can be opened
+  // over this very screen: every "Audio ready" badge below was computed for the engine
+  // that was selected a moment ago, so the listing has to be re-asked rather than
+  // re-rendered.
+  useSettingsGeneration(() => void dropGeneratedAudioCaches());
 
   const loadingFirstTime = testsLoading && !tests;
   const hasTests = Boolean(tests && tests.length > 0);

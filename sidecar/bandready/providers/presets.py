@@ -136,6 +136,11 @@ PRESETS: list[dict[str, Any]] = [
         # OpenAI-compatible client reaches both without a new transport.
         "modalities": ["llm", "stt", "tts"],
         "kind": "cloud",
+        # Declared, not inferred. `engine` on a slot is a stale copy of this answer —
+        # `bandready.providers.transport.resolve_engine` reads the declaration and
+        # `settings_store.validate_settings` writes it back over whatever the previous
+        # preset left in the slot, which is what stops "TTS: OpenRouter" running Kokoro.
+        "engine": "openai_compat",
         "base_url": "https://openrouter.ai/api/v1",
         "base_url_locked": True,
         "needs_key": True,

@@ -887,10 +887,15 @@ def examiner_status() -> tuple[bool, str | None]:
 @router.get("/engine", summary="Voice-engine availability (pre-flight screen)")
 async def engine_info(request: Request, _: Auth = None) -> dict[str, Any]:
     """Whether this build can run a live session at all, plus the effective VAD params."""
+    from bandready.speech import capabilities as caps
     from bandready.voice.pipeline import pipecat_available, vad_params
 
     live = runtime.active()
     examiner_available, examiner_reason = examiner_status()
+    try:
+        providers = caps.job_providers()
+    except Exception:  # noqa: BLE001 — a broken config must not blank the pre-flight
+        providers = {"stt": [], "tts": []}
     return {
         "voice_available": pipecat_available(),
         # The examiner and the marker are the same model, so one flag covers both the
@@ -898,6 +903,11 @@ async def engine_info(request: Request, _: Auth = None) -> dict[str, Any]:
         "examiner_available": examiner_available,
         "examiner_reason": examiner_reason,
         "vad": vad_params(),
+        # Per job, which provider will actually run — so a pre-flight screen can say
+        # "your voice comes from OpenRouter, but pronunciation scoring stays local"
+        # rather than implying one Settings choice covers everything.
+        "providers": providers,
+        "local_only_note": caps.WHISPER_ONLY_NOTE,
         "live_session_id": live.session_id if live else None,
         "client": request.client.host if request.client else None,
     }

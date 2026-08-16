@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { api, ApiError } from "@/lib/api";
+import { useSettingsStore } from "@/stores";
 import { useListeningStore } from "../store";
 
 const emptyPage = { items: [], next_cursor: null };
@@ -8,6 +9,7 @@ function resetStore(): void {
   useListeningStore.setState({
     tests: null,
     scripts: null,
+    libraryGeneration: null,
     prepare: {},
     detail: null,
     attempt: null,
@@ -16,6 +18,7 @@ function resetStore(): void {
     saveError: null,
     startError: null,
   });
+  useSettingsStore.setState({ generation: 0 });
 }
 
 describe("prepare audio", () => {
@@ -82,6 +85,56 @@ describe("prepare audio", () => {
       error: expect.stringContaining("the TTS provider returned no audio") as unknown as string,
     });
     expect(useListeningStore.getState().prepare.t1?.error).toContain("Settings");
+  });
+});
+
+describe("the library after a provider change", () => {
+  beforeEach(resetStore);
+
+  const page = (id: string) => ({
+    items: [{ id, title: "Test 1", audio_ready: true }],
+    next_cursor: null,
+  });
+
+  it("serves the cached listing while the providers are unchanged", async () => {
+    const get = vi.spyOn(api, "get").mockResolvedValue(page("t1"));
+
+    await useListeningStore.getState().loadLibrary();
+    await useListeningStore.getState().loadLibrary();
+
+    expect(get).toHaveBeenCalledTimes(2); // tests + scripts, once
+    expect(useListeningStore.getState().libraryGeneration).toBe(0);
+  });
+
+  it("refetches once the selected providers change, instead of trusting the snapshot", async () => {
+    // The exact sequence that used to serve a Kokoro render forever: open Listening,
+    // see "Audio ready", switch text-to-speech in Settings, come back. The store is
+    // module-level, so the first snapshot outlived the change and no Prepare button
+    // ever reappeared.
+    const get = vi.spyOn(api, "get").mockResolvedValue(page("t1"));
+
+    await useListeningStore.getState().loadLibrary();
+    expect(get).toHaveBeenCalledTimes(2);
+
+    useSettingsStore.getState().bumpGeneration();
+    await useListeningStore.getState().loadLibrary();
+
+    expect(get).toHaveBeenCalledTimes(4);
+    expect(useListeningStore.getState().libraryGeneration).toBe(1);
+  });
+
+  it("does not record a generation it only half-fetched", async () => {
+    vi.spyOn(api, "get").mockImplementation(async (path: string) => {
+      if (path.includes("/scripts")) throw new ApiError(500, "internal", "no");
+      return page("t1") as never;
+    });
+
+    await useListeningStore.getState().loadLibrary();
+
+    expect(useListeningStore.getState().libraryGeneration).toBeNull();
+    // ...so the next visit really does try again rather than treating the half a
+    // listing it has as an answer for these providers.
+    expect(useListeningStore.getState().scriptsError).toBeTruthy();
   });
 });
 

@@ -308,8 +308,42 @@ def validate_settings(doc: dict[str, Any]) -> dict[str, Any]:
             parts.append(f"{loc}: {err.get('msg')}")
         raise ApiError(422, "validation_error", "; ".join(parts)) from exc
     out = model.model_dump(mode="json")
+    _derive_engines(out)
     _reject_hidden_presets(out)
     return out
+
+
+def _derive_engines(doc: dict[str, Any]) -> None:
+    """Re-derive ``stt.engine`` / ``tts.engine`` from the slot's preset, in place.
+
+    ``engine`` is not a setting the learner chooses; it is a consequence of the preset,
+    and keeping a second stored copy of it is what broke provider switching. The frontend's
+    ``applyPreset`` skips a falsy ``engine`` and ``PATCH`` deep-merges, so selecting
+    OpenRouter for text-to-speech left ``{"preset": "openrouter", "engine": "kokoro_onnx"}``
+    on disk and every dispatch site dutifully ran the local model. That is not a cache bug
+    — a cold cache and a brand-new render are affected too.
+
+    Deriving here rather than in a migration means already-saved documents heal on the next
+    read, and a slot whose preset id we do not ship keeps whatever engine it was given.
+    ``llm`` is left alone: :class:`LlmSlot` has no ``engine`` field and no reader of one.
+    """
+    from bandready.providers.presets import get_preset
+    from bandready.providers.transport import resolve_engine
+
+    for modality in ("stt", "tts"):
+        slot = doc.get(modality)
+        if not isinstance(slot, dict):
+            continue
+        preset_id = str(slot.get("preset") or "").strip()
+        if not preset_id or get_preset(preset_id, include_hidden=True) is None:
+            continue
+        derived = resolve_engine(slot, modality)
+        if slot.get("engine") != derived:
+            _log.info(
+                "%s.engine %r does not follow from preset %r; using %r",
+                modality, slot.get("engine"), preset_id, derived,
+            )
+        slot["engine"] = derived
 
 
 def _reject_hidden_presets(doc: dict[str, Any]) -> None:

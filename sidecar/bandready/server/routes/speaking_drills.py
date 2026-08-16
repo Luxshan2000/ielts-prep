@@ -26,7 +26,6 @@ is mechanical; this module is the HTTP surface over it and holds no rules of its
 
 from __future__ import annotations
 
-import hashlib
 from pathlib import Path
 from typing import Annotated, Any
 from urllib.parse import quote
@@ -50,9 +49,21 @@ router = APIRouter(prefix="/api/v1/speaking/drills", tags=["speaking-drills"])
 #: A drill recording is seconds long. 16 MB is already an order of magnitude of headroom.
 MAX_UPLOAD_BYTES = 16 * 1024 * 1024
 
-#: Kokoro voice for reference audio. HVPT wants multiple talkers, so the client may vary
-#: it per item; this is only what it gets when it does not ask.
+#: Last resort only. The voice for reference audio comes from the learner's own
+#: text-to-speech setting (:func:`_default_voice`); this is what is used when that slot
+#: names no voice at all — a remote provider whose ``voice`` field is still blank, say.
+#: HVPT wants multiple talkers, so the client may still vary it per item.
 DEFAULT_VOICE = "bf_emma"
+
+
+def _default_voice(cfg: Any) -> str:
+    """The voice this install actually speaks in, not a constant baked in at build time.
+
+    ``DEFAULT_VOICE`` was hardcoded, so a learner who changed the voice in Settings kept
+    hearing ``bf_emma`` in every drill — the setting was real, saved, displayed, and
+    ignored by this one route.
+    """
+    return str((cfg or {}).get("voice") or "").strip() or DEFAULT_VOICE
 
 
 class AudioBody(BaseModel):
@@ -61,7 +72,8 @@ class AudioBody(BaseModel):
     card_id: str = Field(min_length=1)
     item_id: str = Field(min_length=1)
     #: Vary this across repeats: single-voice minimal-pair drills lose most of the effect.
-    voice: str = DEFAULT_VOICE
+    #: Empty means "whatever voice Settings names" — not a constant, see `_default_voice`.
+    voice: str = ""
     attempted: bool = False
 
 
@@ -235,10 +247,15 @@ def card_drills(
 async def render_audio(body: AudioBody, _: Auth = None, s: Db = None) -> dict[str, Any]:
     """Synthesize the item's spoken prompt into the cache the media route already reads.
 
-    The file lands at ``media/pron/ref/<voice>/<sha1(text)>.wav`` — the exact path
-    ``GET /api/v1/media/pron/ref`` resolves — and is registered as a ``pron_ref`` cache
-    entry so the LRU sweep can reclaim it. Calling this twice is free: an existing render
-    is returned without touching the engine.
+    The file lands at ``media/pron/ref/<voice>/<sha1(text)>-<generation>[-<identity>].wav``
+    — the exact path ``GET /api/v1/media/pron/ref`` resolves, both computed by
+    :func:`bandready.pron.analyze.reference_rel_path` — and is registered as a ``pron_ref``
+    cache entry so both the LRU sweep and the generated-audio purge can reclaim it.
+    Calling this twice is free: an existing render is returned without touching the engine.
+
+    Because the provider identity is part of the name, switching text-to-speech provider
+    in Settings makes this a miss and the clip is re-synthesized with the engine the
+    learner actually chose — no migration, and the old clip simply stops being addressed.
     """
     _, _gate, items = _items_for(s, body.card_id, attempted=body.attempted)
     item = drills.find_item(items, body.item_id)
@@ -250,26 +267,25 @@ async def render_audio(body: AudioBody, _: Auth = None, s: Db = None) -> dict[st
     if not phrase:
         raise ApiError(422, "validation_error", "this drill item has nothing to speak")
 
-    voice = (body.voice or DEFAULT_VOICE).strip() or DEFAULT_VOICE
+    from bandready.audio import stitch, tts_render
+
+    cfg = tts_render.tts_config()
+    voice = (body.voice or _default_voice(cfg)).strip() or _default_voice(cfg)
     if "/" in voice or ".." in voice:
         raise ApiError(422, "validation_error", "invalid voice id")
 
-    digest = hashlib.sha1(phrase.encode("utf-8")).hexdigest()
-    rel = f"pron/ref/{voice}/{digest}.wav"
+    rel = pron.reference_rel_path(voice, phrase, cfg)
     target = pron.media_root() / rel
     url = f"/api/v1/media/pron/ref?voice={quote(voice)}&text={quote(phrase)}"
 
     if not (target.is_file() and target.stat().st_size > 0):
-        from bandready.audio import stitch, tts_render
-
         target.parent.mkdir(parents=True, exist_ok=True)
-        cfg = tts_render.tts_config()
         pcm, rate = await tts_render.synthesize_line(phrase, voice, cfg)
         if not getattr(pcm, "size", 0):
             raise ApiError(502, "provider_error", "the TTS engine returned no audio for this line")
         size = stitch.write_wav(target, pcm, rate)
         tts_render.register_media(
-            hashlib.sha256(f"{voice}\x00{phrase}".encode()).hexdigest(), "pron_ref", rel, size
+            pron.reference_media_hash(voice, phrase, cfg), "pron_ref", rel, size
         )
 
     return {

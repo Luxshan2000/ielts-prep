@@ -45,7 +45,7 @@ export function isOfflineFailure(error: unknown): boolean {
 /** The action clause appended to a message, per kind. Empty when there is nothing to add. */
 const ACTION: Record<FailureKind, string> = {
   offline:
-    "BandReady's local service isn't responding. Nothing is lost — it reconnects on its own, or press retry in a moment.",
+    "BandReady's local service isn't responding. Nothing is lost. It reconnects on its own, or press retry in a moment.",
   provider: "Check your model provider in Settings, then try again.",
   notFound: "",
   generic: "",

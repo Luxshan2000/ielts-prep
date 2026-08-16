@@ -27,6 +27,12 @@ export interface FeatureRoute {
   icon?: FeatureIcon;
   /** Sidebar sort order (ascending). */
   order?: number;
+  /**
+   * Which sidebar heading this route sits under. Omit for a route that belongs above the
+   * headings, which in practice means Home. The Sidebar already knew how to draw groups and
+   * nothing declared one, so ten routes rendered as one flat list.
+   */
+  group?: string;
   /** Element rendered at `path`. */
   element: ReactElement;
   /** Optional nested routes. */

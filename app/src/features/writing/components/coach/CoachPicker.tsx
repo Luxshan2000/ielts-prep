@@ -1,5 +1,10 @@
 /**
- * The coach's front door, rendered as a tab on the Writing hub.
+ * The coach's front door, its own room off the Writing hub.
+ *
+ * It was a tab here and a route in every other skill, so the same thing was reached three
+ * different ways across four rooms: a header button in Reading and Listening, a card in the
+ * body in Speaking, and a tab here. It is a header button everywhere now, and the shell,
+ * the back link and the title match the other three.
  *
  * The prompt bank answers "what shall I write?". This answers a different question
  * — "what does this prompt teach?" — so it leads with the one behaviour each prompt
@@ -13,6 +18,7 @@
 
 import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { PageShell } from "@/components/shell/PageShell";
 import { GraduationCap, Lock, Search, Target } from "lucide-react";
 import { Badge, Button, EmptyState, ErrorState, Input, Select, Skeleton } from "@/components/ui";
 import { cn } from "@/lib/cn";
@@ -61,7 +67,12 @@ export function CoachPicker() {
   const taught = useMemo(() => prompts.filter((p) => hasTeaching(p.teaching)), [prompts]);
 
   return (
-    <div className="space-y-4">
+    <PageShell
+      title="Writing coach"
+      description="Study one prompt outside an attempt: what it is really asking, and the one behaviour it trains."
+      back={{ to: "/writing", label: "Writing" }}
+    >
+      <div className="space-y-4">
       <div className="flex flex-wrap items-end gap-3">
         <div className="min-w-[12rem] flex-1">
           <label
@@ -195,7 +206,8 @@ export function CoachPicker() {
           </Button>
         </p>
       )}
-    </div>
+      </div>
+    </PageShell>
   );
 }
 

@@ -3,7 +3,7 @@ import { defineFeatureRoute } from "@/lib/featureRoute";
 import { FeatureErrorBoundary } from "@/components/FeatureErrorBoundary";
 import { WritingLayout } from "./page";
 import { AttemptWorkspace } from "./components/AttemptWorkspace";
-import { WritingCoach } from "./components/coach";
+import { CoachPicker as WritingCoachPicker, WritingCoach } from "./components/coach";
 import { MockPreflight, MockReport, MockSitting } from "./components/mock";
 import { WritingHistoryScreen } from "./history";
 
@@ -11,7 +11,8 @@ export default defineFeatureRoute({
   path: "/writing",
   label: "Writing",
   icon: PenLine,
-  order: 30,
+  order: 40,
+  group: "skills",
   element: <WritingLayout />,
   children: [
     // One route for the whole attempt: the editor while it is a draft, the
@@ -43,6 +44,17 @@ export default defineFeatureRoute({
     // The teaching layer: study one prompt outside an attempt. Read-only against the
     // content pack and the learner's own history, so a crash costs nothing and the
     // default boundary reset (a remount) is the right recovery.
+    //
+    // The picker is a route here, as it is in the other three skills. It used to be a tab on
+    // the hub, which is why the same room was reached three different ways across four skills.
+    {
+      path: "coach",
+      element: (
+        <FeatureErrorBoundary feature="writing coach">
+          <WritingCoachPicker />
+        </FeatureErrorBoundary>
+      ),
+    },
     {
       path: "coach/:promptId",
       element: (

@@ -37,7 +37,7 @@ describe("writing route", () => {
   it("declares the sidebar contract", () => {
     expect(writingRoute.path).toBe("/writing");
     expect(writingRoute.label).toBe("Writing");
-    expect(writingRoute.order).toBe(30);
+    expect(writingRoute.order).toBe(40);
     expect(writingRoute.icon).toBeTruthy();
     // Assert the child routes the sidebar contract depends on are PRESENT rather than
     // pinning the exact list: adding a screen under /writing is normal feature work and

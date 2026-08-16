@@ -12,6 +12,7 @@ import {
   GraduationCap,
   Mic,
   Radio,
+  Timer,
 } from "lucide-react";
 import {
   Button,
@@ -106,7 +107,22 @@ export function SpeakingHome() {
               : "Practice only"}
         </Badge>
       }
-      actions={<HistoryButton to="/speaking/history" count={history.length} />}
+      actions={
+        <>
+          {/* The same three, in the same order, with the same words as the other skills:
+              your record, then the teaching room, then the timed one. Coach used to be a
+              card halfway down the page here and a header button everywhere else. */}
+          <HistoryButton to="/speaking/history" count={history.length} />
+          <Button variant="outline" size="sm" onClick={() => navigate("/speaking/coach")}>
+            <GraduationCap className="h-4 w-4" aria-hidden="true" />
+            Coach
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => navigate("/speaking/mock")}>
+            <Timer className="h-4 w-4" aria-hidden="true" />
+            Mock test
+          </Button>
+        </>
+      }
     >
       <div className="space-y-6">
         {offline && (

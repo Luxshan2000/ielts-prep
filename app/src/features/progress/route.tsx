@@ -7,5 +7,6 @@ export default defineFeatureRoute({
   label: "Progress",
   icon: TrendingUp,
   order: 70,
+  group: "review",
   element: <ProgressPage />,
 });

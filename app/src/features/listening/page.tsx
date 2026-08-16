@@ -97,7 +97,7 @@ export function ListeningHome() {
           </Button>
           <Button variant="outline" size="sm" onClick={() => navigate("/listening/mock")}>
             <Timer className="h-4 w-4" aria-hidden="true" />
-            Mock paper
+            Mock test
           </Button>
         </>
       }

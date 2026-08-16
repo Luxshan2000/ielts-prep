@@ -16,7 +16,15 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'self' blob:; worker-src 'self' blob:; child-src 'self' blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: http://127.0.0.1:* http://localhost:*; media-src 'self' blob: http://127.0.0.1:* http://localhost:*; connect-src 'self' http://127.0.0.1:* ws://127.0.0.1:* http://localhost:* ws://localhost:*"
     />
+    <!--
+      The SVG is what a modern browser uses at every size. The two PNGs are the fallback, and
+      the 16px one is a separate, flatter drawing rather than this mark shrunk: below about
+      20px the B's counters close up and the tassel merges into it.
+    -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>BandReady</title>
   </head>
   <body>

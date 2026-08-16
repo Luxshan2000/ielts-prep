@@ -20,7 +20,7 @@ describe("speaking route contract", () => {
     expect(route.path).toBe("/speaking");
     expect(route.label).toBe("Speaking");
     expect(route.icon).toBeTruthy();
-    expect(route.order).toBe(20);
+    expect(route.order).toBe(50);
     expect(route.element).toBeTruthy();
   });
 

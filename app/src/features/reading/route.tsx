@@ -14,7 +14,8 @@ export default defineFeatureRoute({
   path: "/reading",
   label: "Reading",
   icon: BookOpen,
-  order: 40,
+  order: 30,
+  group: "skills",
   element: <ReadingPage />,
   children: [
     { path: "", index: true, element: <ReadingBrowser /> },

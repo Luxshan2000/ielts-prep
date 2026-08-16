@@ -71,20 +71,46 @@ describe("feature route discovery", () => {
     expect(new Set(paths).size).toBe(paths.length);
   });
 
-  it("shows the ten shipped screens in the sidebar, in order", () => {
+  /**
+   * The four skills run in the exam's own order. They used to run backwards from it, so the
+   * last paper a candidate sits was the first thing in the sidebar.
+   */
+  it("shows the ten shipped screens in the sidebar, in the order a learner meets them", () => {
     const labelled = routes.filter((r) => Boolean(r.label)).map((r) => r.label);
     expect(labelled).toEqual([
       "Home",
-      "Speaking",
-      "Writing",
-      "Reading",
       "Listening",
+      "Reading",
+      "Writing",
+      "Speaking",
       "Vocabulary",
       "Grammar",
       "Pronunciation",
       "Progress",
       "Settings",
     ]);
+  });
+
+  /**
+   * Grouping is what stops ten entries reading as one undifferentiated list. Home sits above
+   * the headings; Settings is drawn in the footer, so neither carries a group.
+   */
+  it("files every sidebar entry under a heading, apart from Home and Settings", () => {
+    const grouped = Object.fromEntries(
+      routes.filter((r) => r.label).map((r) => [r.label, r.group ?? null]),
+    );
+    expect(grouped).toEqual({
+      Home: null,
+      Listening: "skills",
+      Reading: "skills",
+      Writing: "skills",
+      Speaking: "skills",
+      Vocabulary: "foundations",
+      Grammar: "foundations",
+      Pronunciation: "foundations",
+      Progress: "review",
+      Settings: null,
+    });
   });
 
   it("keeps onboarding out of the sidebar but reachable at /onboarding", () => {

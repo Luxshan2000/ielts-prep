@@ -24,7 +24,8 @@ export default defineFeatureRoute({
   path: "/speaking",
   label: "Speaking",
   icon: Mic,
-  order: 20,
+  order: 50,
+  group: "skills",
   element: <SpeakingLayout />,
   children: [
     { path: "", index: true, element: <SpeakingHome /> },

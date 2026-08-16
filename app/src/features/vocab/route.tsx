@@ -15,6 +15,7 @@ export default defineFeatureRoute({
   label: "Vocabulary",
   icon: Library,
   order: 60,
+  group: "foundations",
   element: <VocabLayout />,
   children: [
     { path: "", index: true, element: <VocabPage /> },

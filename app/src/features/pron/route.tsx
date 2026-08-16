@@ -10,6 +10,7 @@ export default defineFeatureRoute({
   // Grammar is 65 and Progress is 70: this belongs with the practice modules, not after
   // the reporting one.
   order: 66,
+  group: "foundations",
   element: (
     <FeatureErrorBoundary
       feature="pronunciation"

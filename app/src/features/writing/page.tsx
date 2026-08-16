@@ -19,12 +19,11 @@ import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
 import { useSessionStore } from "@/stores";
 import { PromptBrowser } from "./components/PromptBrowser";
 import { TemplatesPanel } from "./components/TemplatesPanel";
-import { CoachPicker } from "./components/coach";
 import { readMockRecords } from "./components/mock/store";
 import { buildWritingHistory } from "./history";
 import { TASK_SHORT, useWritingStore } from "./store";
 
-type TabValue = "bank" | "coach" | "templates";
+type TabValue = "bank" | "templates";
 
 /**
  * Layout element for `/writing`. React Router renders child routes through the
@@ -78,12 +77,16 @@ export function WritingHome() {
           {/* Your own record of this room. In the header because it is a thing you go
               and look at, not a list to scroll past on the way to somewhere else. */}
           <HistoryButton to="/writing/history" count={historyCount} />
-          {/* The mock is the whole paper under one clock, so it gets a header action
-              rather than a tab: it is a thing you commit an hour to, not a thing you
-              browse. */}
+          {/* Coach and the mock are rooms, not sections of this one, so both are header
+              actions. The three sit in the same order and carry the same words in all four
+              skills: your record, then the teaching room, then the timed one. */}
+          <Button variant="outline" size="sm" onClick={() => navigate("/writing/coach")}>
+            <GraduationCap className="h-4 w-4" aria-hidden="true" />
+            Coach
+          </Button>
           <Button variant="outline" size="sm" onClick={() => navigate("/writing/mock")}>
             <Timer className="h-4 w-4" aria-hidden="true" />
-            Sit the 60-minute paper
+            Mock test
           </Button>
         </div>
       }
@@ -94,7 +97,6 @@ export function WritingHome() {
           onChange={(value) => setTab(value as TabValue)}
           items={[
             { value: "bank", label: "Prompt bank" },
-            { value: "coach", label: "Coach" },
             { value: "templates", label: "Frameworks" },
           ]}
         />
@@ -131,22 +133,6 @@ export function WritingHome() {
           <PromptBrowser />
         </TabPanel>
 
-        <TabPanel value="coach" active={tab === "coach"}>
-          <div className="space-y-4">
-            <div className="flex items-start gap-2.5 rounded-xl border border-border bg-muted/40 p-3">
-              <GraduationCap
-                className="mt-0.5 h-4 w-4 shrink-0 text-primary"
-                aria-hidden="true"
-              />
-              <p className="text-[13px] leading-6 text-muted-foreground">
-                The bank asks what to write; the coach asks what a prompt can teach. Each one
-                carries a plan, a language bank and the same answer at bands 6, 7 and 8. The
-                models stay locked until you have written it yourself.
-              </p>
-            </div>
-            <CoachPicker />
-          </div>
-        </TabPanel>
 
         <TabPanel value="templates" active={tab === "templates"}>
           <TemplatesPanel />

@@ -14,7 +14,8 @@ export default defineFeatureRoute({
   path: "/listening",
   label: "Listening",
   icon: Headphones,
-  order: 50,
+  order: 20,
+  group: "skills",
   element: <ListeningLayout />,
   children: [
     { index: true, path: "", element: <ListeningHome /> },

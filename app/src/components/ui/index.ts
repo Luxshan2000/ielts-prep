@@ -56,3 +56,4 @@ export {
   type QuestionStatus,
 } from "./QuestionPalette";
 export { Heatmap, type HeatmapProps, type HeatmapDay } from "./Heatmap";
+export { Logo } from "./Logo";

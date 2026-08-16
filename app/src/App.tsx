@@ -38,7 +38,7 @@ const featureRoutes: FeatureRoute[] = Object.entries(modules)
 
 const navItems: SidebarItem[] = featureRoutes
   .filter((r) => Boolean(r.label))
-  .map((r) => ({ path: r.path, label: r.label as string, icon: r.icon, end: r.end }));
+  .map((r) => ({ path: r.path, label: r.label as string, icon: r.icon, end: r.end, group: r.group }));
 
 function renderChildren(children: FeatureChildRoute[] | undefined): ReactNode {
   return children?.map((child, i) =>

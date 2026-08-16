@@ -17,6 +17,7 @@ export default defineFeatureRoute({
   label: "Grammar",
   icon: GraduationCap,
   order: 65,
+  group: "foundations",
   element: <GrammarLayout />,
   children: [
     { path: "", index: true, element: <GrammarPage /> },

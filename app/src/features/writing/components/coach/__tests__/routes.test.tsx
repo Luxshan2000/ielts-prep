@@ -42,18 +42,24 @@ function mountAt(path: string) {
 describe("the coach and the mock are reachable", () => {
   it("declares both rooms as child routes of /writing", () => {
     const paths = writingRoute.children?.map((c) => c.path) ?? [];
+    expect(paths).toContain("coach");
     expect(paths).toContain("coach/:promptId");
     expect(paths).toContain("mock");
     expect(paths).toContain("mock/sitting/:mockId");
     expect(paths).toContain("mock/report/:mockId");
   });
 
-  it("puts the coach and the mock on the Writing hub without burying them", async () => {
+  /**
+   * The coach was a tab here and a route in the other three skills, so the same room was
+   * reached three different ways across four. Both are header buttons now, and this asserts
+   * the shared wording as much as the wiring: a "Coach" that is called something else in one
+   * room is the inconsistency, not a cosmetic detail.
+   */
+  it("puts the coach and the mock on the Writing hub as header actions, named as elsewhere", async () => {
     mountAt("/writing");
-    expect(await screen.findByRole("tab", { name: /coach/i })).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: /sit the 60-minute paper/i }),
-    ).toBeInTheDocument();
+    expect(await screen.findByRole("button", { name: /^coach$/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /^mock test$/i })).toBeInTheDocument();
+    expect(screen.queryByRole("tab", { name: /coach/i })).not.toBeInTheDocument();
   });
 
   it("renders the coach with the engine down instead of throwing", async () => {

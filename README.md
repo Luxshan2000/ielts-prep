@@ -1,10 +1,6 @@
-<!--
-  LOGO PLACEHOLDER — drop a square PNG at docs/images/logo.png, then uncomment the block below.
-
-  <p align="center">
-    <img alt="BandReady" height="72" src="docs/images/logo.png">
-  </p>
--->
+<p align="center">
+  <img alt="BandReady" width="96" height="96" src="docs/brand/logo.svg">
+</p>
 
 <h1 align="center">BandReady</h1>
 

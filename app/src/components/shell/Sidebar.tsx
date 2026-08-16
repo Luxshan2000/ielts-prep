@@ -1,7 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
-  GraduationCap,
   Moon,
   PanelLeftClose,
   PanelLeftOpen,
@@ -9,7 +8,7 @@ import {
   Sun,
 } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { Badge, Button, Tooltip } from "@/components/ui";
+import { Badge, Button, Logo, Tooltip } from "@/components/ui";
 import { useSettingsStore, useSrsStore } from "@/stores";
 import type { FeatureIcon } from "@/lib/featureRoute";
 
@@ -62,6 +61,7 @@ const PINNED_PATHS = new Set(["/settings"]);
 const DEFAULT_GROUP_LABELS: Record<string, string> = {
   skills: "Exam skills",
   foundations: "Groundwork",
+  review: "How it is going",
 };
 
 function groupLabel(id: string, groups: SidebarProps["groups"]): string {
@@ -238,9 +238,7 @@ export function Sidebar({
           collapsed ? "justify-center px-0" : "px-4",
         )}
       >
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary">
-          <GraduationCap className="h-[18px] w-[18px] text-primary-foreground" aria-hidden="true" />
-        </span>
+        <Logo className="h-8 w-8 shrink-0" />
         {!collapsed && <span className="font-semibold">BandReady</span>}
         {/* Expanded, collapse sits with the wordmark it folds away. Collapsed, the 64px rail
             has no room beside the mark, so it drops to its own row just below — still at the

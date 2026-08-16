@@ -294,7 +294,7 @@ export function ReadingBrowser() {
           </Button>
           <Button variant="outline" size="sm" onClick={() => navigate("/reading/mock")}>
             <Timer className="h-4 w-4" aria-hidden="true" />
-            Mock paper
+            Mock test
           </Button>
         </>
       }

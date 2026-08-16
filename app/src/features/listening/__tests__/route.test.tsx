@@ -6,7 +6,7 @@ describe("listening route contract", () => {
     expect(route.path).toBe("/listening");
     expect(route.label).toBe("Listening");
     expect(route.icon).toBeTruthy();
-    expect(route.order).toBe(50);
+    expect(route.order).toBe(20);
     expect(route.element).toBeTruthy();
   });
 

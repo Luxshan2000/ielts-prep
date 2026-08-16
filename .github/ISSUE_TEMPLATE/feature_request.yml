@@ -1,0 +1,75 @@
+name: Feature request
+description: Suggest something BandReady should do that it does not do today.
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before you write this up, check
+        [docs/IMPLEMENTATION-STATUS.md](https://github.com/Luxshan2000/bandready/blob/main/docs/IMPLEMENTATION-STATUS.md).
+        It lists what is built and what is knowingly missing, and it may already cover this.
+
+        [docs/plan/README.md](https://github.com/Luxshan2000/bandready/blob/main/docs/plan/README.md)
+        indexes the design documents, which record why several obvious-looking ideas were
+        rejected.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do, and what stops you? Describe the situation, not the solution.
+      placeholder: |
+        I practise on a train with no signal. The listening audio renders fine, but if I have not
+        opened a test before, the first play does nothing and I cannot tell whether it is
+        rendering or broken.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like it to do
+      description: Your suggested behaviour, as concretely as you can put it.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of the app
+      options:
+        - Speaking
+        - Writing
+        - Reading
+        - Listening
+        - Vocabulary or SRS
+        - Grammar
+        - Theory
+        - Pronunciation
+        - Settings and providers
+        - Onboarding or placement
+        - Progress and study plan
+        - Content packs and authoring
+        - Install, build or packaging
+        - Something else
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you tried instead
+      description: Workarounds, other tools, or the manual process you use today.
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Does this fit the project
+      description: |
+        BandReady is offline-first, single-learner and account-free. A feature that needs a
+        BandReady server, a user account or telemetry is out of scope no matter how good it is.
+      options:
+        - label: This works without a BandReady-operated server, an account, or sending user data anywhere.
+          required: true
+        - label: I searched the existing issues and this is not a duplicate.
+          required: true

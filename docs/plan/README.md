@@ -34,7 +34,7 @@ BandReady is an open-source, self-hosted desktop app for complete IELTS-style ex
 | Voice | pipecat-ai pinned 1.5.0, SmallWebRTCTransport, Silero VAD (the five OpenVoiceUI gotchas are law) |
 | Data | SQLite (WAL, foreign_keys ON) via SQLAlchemy 2.0 + Alembic, per-OS app data dir |
 | Providers | Exactly one LLM + one STT + one TTS, all OpenAI-compatible or in-process; local defaults: MLX (mac), Ollama + faster-whisper (win/linux), Kokoro ONNX TTS everywhere |
-| License | Apache-2.0 app; CC0-1.0 first-party content; separate project from OpenVoiceUI |
+| License | MIT app; CC0-1.0 first-party content; separate project from OpenVoiceUI |
 
 ## Recommended reading order
 

@@ -1,0 +1,124 @@
+name: Bug report
+description: Something is broken, wrong, or does not do what the docs say.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. BandReady is a pre-release with no tagged version, so a good bug
+        report is genuinely the most useful thing you can send.
+
+        **If this is a security problem, do not file it here.** Use
+        [private vulnerability reporting](https://github.com/Luxshan2000/bandready/security/advisories/new)
+        instead. See [SECURITY.md](https://github.com/Luxshan2000/bandready/blob/main/SECURITY.md).
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, and what the app did instead of what you expected.
+      placeholder: |
+        I opened a Reading test in exam mode, answered question 12, and the palette jumped back
+        to question 1. Expected it to stay where I was.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps someone else can follow on a fresh install.
+      placeholder: |
+        1. Start with `node scripts/dev.mjs`
+        2. Go to Reading, pick rt_academic_1, choose Full test
+        3. Answer question 12
+        4. Look at the palette
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which part of the app
+      options:
+        - Speaking
+        - Writing
+        - Reading
+        - Listening
+        - Vocabulary or SRS
+        - Grammar
+        - Theory
+        - Pronunciation
+        - Settings and providers
+        - Onboarding or placement
+        - Progress and study plan
+        - Model download or import
+        - Install, build or packaging
+        - Content (a wrong answer key or a broken question)
+        - Something else
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      description: macOS arm64 is the only platform anyone has run so far, so anything else is useful to know.
+      options:
+        - macOS (Apple Silicon)
+        - macOS (Intel)
+        - Windows
+        - Linux
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: The commit SHA you built from, or the installer filename if you used one.
+      placeholder: "8c74690, or BandReady-0.1.0-arm64.dmg"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: how-run
+    attributes:
+      label: How are you running it
+      options:
+        - node scripts/dev.mjs (Electron)
+        - node scripts/dev.mjs --browser
+        - A packaged installer
+    validations:
+      required: true
+
+  - type: textarea
+    id: providers
+    attributes:
+      label: Configured providers
+      description: |
+        Which LLM, STT and TTS you have selected, and whether they are local or cloud.
+        Do not paste an API key. If you paste a log, check it for one first.
+      placeholder: |
+        LLM: Ollama, qwen3:14b
+        STT: Local Whisper, base
+        TTS: Kokoro, bf_emma
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or error output
+      description: |
+        The sidecar log lives in `<data dir>/logs/`. In dev that is `.dev-data/logs/`.
+        Renderer errors show in the DevTools console.
+      render: text
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I searched the existing issues and this is not a duplicate.
+          required: true
+        - label: I removed any API keys, tokens or personal practice content from what I pasted.
+          required: true

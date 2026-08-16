@@ -2,12 +2,22 @@
   "name": "bandready-monorepo",
   "private": true,
   "version": "0.1.0",
+  "description": "Offline-first IELTS exam preparation desktop app: Electron shell, React renderer, Python FastAPI sidecar.",
+  "license": "MIT",
+  "author": "Luxshan Thavarasa",
+  "homepage": "https://github.com/Luxshan2000/bandready",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luxshan2000/bandready.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Luxshan2000/bandready/issues"
+  },
   "packageManager": "pnpm@9.12.0",
   "engines": { "node": ">=20" },
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "build": "pnpm --filter bandready-app build",
-    "lint": "pnpm --filter bandready-app lint",
     "test": "pnpm --filter bandready-app test",
     "sidecar:install": "cd sidecar && uv sync --extra dev",
     "sidecar:test": "cd sidecar && uv run pytest -q"

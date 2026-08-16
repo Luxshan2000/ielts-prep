@@ -80,7 +80,7 @@ Applies to every string in `prompts/**` and content packs that expresses scoring
 
 ### 2.1 Code vs content
 
-- **Code** (app, sidecar, validators, and the **prompt templates** in `prompts/` and this doc — they are functional instructions, part of the program): **Apache-2.0**, per decisions.md.
+- **Code** (app, sidecar, validators, and the **prompt templates** in `prompts/` and this doc — they are functional instructions, part of the program): **MIT**, per decisions.md.
 - **First-party practice content** (everything in shipped content packs: cards, prompts, passages, scripts, vocab, pre-rendered WAVs): **CC0-1.0** (public-domain dedication).
 
 ### 2.2 Why CC0 and not CC-BY-SA (decision + rationale)
@@ -88,7 +88,7 @@ Applies to every string in `prompts/**` and content packs that expresses scoring
 Chosen: **CC0-1.0** for all first-party content.
 
 1. **Honesty about AI-assisted authorship.** Our pipeline is LLM-generated + human-reviewed (§3). Under current US Copyright Office guidance, purely AI-generated expression is not copyrightable; only the human selection/arrangement/editing is. A CC-BY-SA claim over such content would assert copyright we may not fully hold — ShareAlike is unenforceable exactly where we'd want it. CC0 makes no claim that can be challenged.
-2. **Zero friction with the Apache-2.0 app.** SA content bundled inside downstream forks, embedded in SQLite, quoted in screenshots, remixed into new packs, or used to fine-tune a local model would raise perpetual "is this a derivative/adaptation?" questions. CC0 answers every such question with "yes, go ahead", which matches the project's first-mover-OSS goal (00-vision.md §7: ≥10 community packs in year one — attribution/SA bookkeeping is a tax on that).
+2. **Zero friction with the MIT-licensed app.** SA content bundled inside downstream forks, embedded in SQLite, quoted in screenshots, remixed into new packs, or used to fine-tune a local model would raise perpetual "is this a derivative/adaptation?" questions. CC0 answers every such question with "yes, go ahead", which matches the project's first-mover-OSS goal (00-vision.md §7: ≥10 community packs in year one — attribution/SA bookkeeping is a tax on that).
 3. **The moat is not the content.** BandReady's value is the integrated local voice pipeline + scoring, not any individual passage. Protecting content with SA defends the wrong asset while annoying contributors.
 4. Cost acknowledged: commercial competitors may ship our content. Accepted — they could regenerate equivalent content with the same LLMs anyway.
 

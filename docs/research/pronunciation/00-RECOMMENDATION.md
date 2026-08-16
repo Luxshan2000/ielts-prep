@@ -93,7 +93,7 @@ Stated now so the deferral is a decision and not a drift. If the trigger in §7 
 **Why it beats the runners-up**, on the four axes that bind here:
 
 - `torchaudio.pipelines.MMS_FA` and `facebook/mms-300m` — **CC-BY-NC-4.0** `[B]`. Non-commercial
-  weights in an Apache-2.0 app. Not a close call; `docs/plan/09` §2(b) names `MMS_FA` without
+  weights in a permissively licensed app. Not a close call; `docs/plan/09` §2(b) names `MMS_FA` without
   noticing this and must be corrected.
 - `charsiu/en_w2v2_fc_10ms` (~94 M, 377.7 MB) — **no licence on the weights at all**, repo dead
   since 2022-09-19 `[B]`.

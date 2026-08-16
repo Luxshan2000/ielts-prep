@@ -21,7 +21,7 @@ evidence supports it. Everything else is worse on at least one axis that matters
 
 | Rejected | Killer reason |
 |---|---|
-| `torchaudio.pipelines.MMS_FA` | **CC-BY-NC-4.0** [V]. Non-commercial. Cannot ship in an Apache-2.0 app. plan/09 §2(b) names it without noting this. |
+| `torchaudio.pipelines.MMS_FA` | **CC-BY-NC-4.0** [V]. Non-commercial. Cannot ship in a permissively licensed app. plan/09 §2(b) names it without noting this. |
 | `facebook/mms-300m` | **CC-BY-NC-4.0** [V]. Same problem, it is the same weights family. |
 | charsiu (`charsiu/en_w2v2_fc_10ms`) | **No licence on the model repo at all** [V]. GitHub code is MIT but the weights are unlicensed and the repo has not been pushed to since 2022-09-19 [V]. |
 | `microsoft/wavlm-large` | **No licence field on the HF model card** [V]. Unresolvable without legal review. |
@@ -456,7 +456,8 @@ Any espeak-based G2P pulls **GPL-3.0** into a distributed binary.
 | `g2p-en` 2.1.0 | Apache-2.0 | PyPI [V] |
 | `gruut` 2.4.0 | MIT | PyPI classifier [V] |
 
-BandReady's root `LICENSE` is Apache-2.0 [V]. GPL-3.0 and Apache-2.0 are one-way compatible:
+BandReady's root `LICENSE` is MIT (it was Apache-2.0 when this was written; the substitution
+does not change the conclusion). GPL-3.0 and MIT are one-way compatible:
 you may combine them, but **the combined distributed work goes out under GPL-3.0**.
 
 **The finding that changes the shape of this problem:** you are already exposed.
@@ -471,7 +472,7 @@ the licences are what they are, the dependency edges exist, and **this is curren
 anywhere in `docs/`**. Options, listed neutrally:
 
 1. **Accept it.** Relicense the distributed application GPL-3.0 (the sidecar *source* can stay
-   Apache-2.0). Simplest, and arguably already the status quo.
+   MIT). Simplest, and arguably already the status quo.
 2. **Keep espeak out of process.** GPL's boundary is much softer across a subprocess/IPC
    boundary than across a linked library. Costly and fiddly.
 3. **Use a permissive G2P.** `g2p-en` (Apache-2.0, CMUdict + a neural fallback, ARPAbet output)

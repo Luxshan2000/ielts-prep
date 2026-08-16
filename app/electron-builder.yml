@@ -8,7 +8,7 @@
 #   build/sidecar-venv/  uv-built venv with the sidecar wheel (13 §3.3)
 appId: dev.bandready.app
 productName: BandReady
-copyright: Copyright © 2026 BandReady contributors
+copyright: Copyright © 2026 Luxshan Thavarasa. MIT licensed.
 
 directories:
   # Relative to app/ — i.e. <repo>/dist-electron holds the installers, which is a

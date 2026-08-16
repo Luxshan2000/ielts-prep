@@ -15,7 +15,7 @@ The vision doc owns final naming; everyone else just says "BandReady".
 - **Who**: IELTS candidates (Academic & General Training) who want unlimited private practice with
   their own AI models — local or any cloud key. First-mover OSS positioning: no complete open-source
   IELTS package exists.
-- **Business/license**: fully OSS (Apache-2.0), separate repo/project from OpenVoiceUI. Open-core
+- **Business/license**: fully OSS (MIT), separate repo/project from OpenVoiceUI. Open-core
   possible later; not planned in v1.
 - **Single learner, local-first.** No accounts, no server auth/RBAC (unlike OpenVoiceUI). Optional
   multiple local profiles at most. All data stays on device.

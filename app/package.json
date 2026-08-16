@@ -2,6 +2,15 @@
   "name": "bandready-app",
   "private": true,
   "version": "0.1.0",
+  "description": "BandReady desktop client: Electron main process and React renderer.",
+  "license": "MIT",
+  "author": "Luxshan Thavarasa",
+  "homepage": "https://github.com/Luxshan2000/bandready",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luxshan2000/bandready.git",
+    "directory": "app"
+  },
   "type": "module",
   "main": "dist-electron/main.js",
   "scripts": {

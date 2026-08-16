@@ -1,7 +1,5 @@
 <!--
   LOGO PLACEHOLDER — drop a square PNG at docs/images/logo.png, then uncomment the block below.
-  The app currently ships with no icon at all (app/build/ holds only entitlements.mac.plist),
-  so the same file is worth producing for electron-builder at the same time.
 
   <p align="center">
     <img alt="BandReady" height="72" src="docs/images/logo.png">
@@ -12,7 +10,7 @@
 
 <p align="center">
   <b>Offline-first IELTS exam preparation for your own machine.</b><br/>
-  All four skills, a live AI voice examiner you actually talk to, and band-descriptor scoring — running against AI models you choose, local or cloud. No account, no subscription, no telemetry.
+  All four skills, a live AI voice examiner you actually talk to, and band-descriptor scoring — running against AI models you choose, local or cloud. You supply the model; the app is free and there is no account.
 </p>
 
 <p align="center">

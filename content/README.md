@@ -194,8 +194,8 @@ presence; a human enforces that it has not been paraphrased):
 
 ### 4.3 First-party content is CC0-1.0
 
-All content in `core-en` is dedicated to the public domain under **CC0-1.0** (code is
-Apache-2.0 — different license, different directory). The reasoning: the pipeline is
+All content in `core-en` is dedicated to the public domain under **CC0-1.0**. The code is MIT
+licensed: different license, different directory. The reasoning: the pipeline is
 LLM-assisted, purely AI-generated expression is not reliably copyrightable, and a ShareAlike
 claim would assert rights the project may not hold. CC0 makes no claim that can be challenged
 and puts no attribution tax on the community packs the project wants to exist.

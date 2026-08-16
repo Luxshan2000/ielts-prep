@@ -1,5 +1,5 @@
 import type { MediaManager } from "@pipecat-ai/small-webrtc-transport";
-import type { PipecatClientOptions, RTVIEventCallbacks, Tracks } from "@pipecat-ai/client-js";
+import type { Participant, PipecatClientOptions, RTVIEventCallbacks, Tracks } from "@pipecat-ai/client-js";
 
 /**
  * Microphone capture with `getUserMedia` and nothing else.
@@ -58,6 +58,19 @@ export class PlainMicMediaManager {
     return this._supportsScreenShare;
   }
 
+  /**
+   * The shape the SDK's own managers report for the local side, verbatim.
+   *
+   * The callbacks are not decoration: `usePipecatClientMediaTrack("audio", "local")` only
+   * learns a track exists from `onTrackStarted`. The first version of this class skipped
+   * them, and everything reading that hook saw null — the level meter sat flat while a
+   * working call transcribed perfectly, and the silent-mic warning concluded "the browser
+   * never handed over a microphone" about a microphone it was hearing.
+   */
+  private localParticipant(): Participant {
+    return { id: "local", name: "", local: true };
+  }
+
   /** The single, documented lie: structurally complete, nominally unrelated. */
   asMediaManager(): MediaManager {
     return this as unknown as MediaManager;
@@ -79,7 +92,10 @@ export class PlainMicMediaManager {
   }
 
   async disconnect(): Promise<void> {
-    this.stream?.getTracks().forEach((t) => t.stop());
+    this.stream?.getTracks().forEach((t) => {
+      t.stop();
+      this._callbacks.onTrackStopped?.(t, this.localParticipant());
+    });
     this.stream = null;
   }
 
@@ -96,9 +112,17 @@ export class PlainMicMediaManager {
       video: false,
     };
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
-    this.stream?.getTracks().forEach((t) => t.stop());
+    // On a device switch the old track is both stopped and reported stopped, so the hooks
+    // swap to the replacement instead of holding a dead reference.
+    this.stream?.getTracks().forEach((t) => {
+      t.stop();
+      this._callbacks.onTrackStopped?.(t, this.localParticipant());
+    });
     this.stream = stream;
-    for (const track of stream.getAudioTracks()) track.enabled = this._micEnabled;
+    for (const track of stream.getAudioTracks()) {
+      track.enabled = this._micEnabled;
+      this._callbacks.onTrackStarted?.(track, this.localParticipant());
+    }
 
     // Resolve the label only after permission is granted; before that every label is "".
     const id = stream.getAudioTracks()[0]?.getSettings().deviceId ?? null;

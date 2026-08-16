@@ -119,6 +119,30 @@ async function micStillExists(micId: string): Promise<boolean> {
  * is normal and must never be accused of a broken microphone. This measures the LOCAL track,
  * so it is about capture rather than about the network.
  */
+/**
+ * Why the microphone is producing nothing, in the learner's terms.
+ *
+ * Silence has several causes that look identical on screen and need opposite responses, so the
+ * warning names which one this is instead of listing all of them and hoping. `muted` is the
+ * interesting one: the browser sets it when the operating system refuses capture, which is a
+ * system setting rather than anything the page can fix.
+ */
+function captureFault(track: MediaStreamTrack | null): string {
+  if (!track) {
+    return "The browser never handed over a microphone. Reconnect, and allow microphone access when it asks.";
+  }
+  if (track.readyState === "ended") {
+    return "The microphone was disconnected during the call. Reconnect to pick it up again.";
+  }
+  if (track.muted) {
+    return "Your system is blocking microphone access for this browser. Allow it in your privacy settings, then reconnect.";
+  }
+  if (!track.enabled) {
+    return "The microphone is switched off in this call. Turn it back on with the microphone button.";
+  }
+  return "The microphone is open and sending nothing, which usually means another app has taken it, or the wrong input is selected.";
+}
+
 function useSilentMic(level: number, listening: boolean): boolean {
   const [silent, setSilent] = useState(false);
   const lastSound = useRef<number | null>(null);
@@ -389,10 +413,10 @@ function CallStage({ activity, onEnded }: CallStageProps) {
           just never said so. */}
       {micIsSilent && (
         <Notice tone="warning" title="Nothing is reaching the examiner from your microphone">
-          The call is connected but no sound is coming through. Check that the right microphone
-          is selected and that nothing else has taken it, then reconnect. If you changed the
-          address of this page recently, the browser treats it as a new site and asks for
-          microphone permission again.
+          {captureFault(localTrack)}
+          {" "}
+          If you changed the address of this page recently, the browser treats it as a new site
+          and asks for microphone permission again.
         </Notice>
       )}
 

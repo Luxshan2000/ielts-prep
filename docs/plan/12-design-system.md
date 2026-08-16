@@ -6,13 +6,13 @@
 
 _Status: draft v2 (2026-07-25)_
 
-BandReady replicates OpenVoiceUI's proven design language — Inter Variable at 14px, a 240°-neutral HSL token palette with dark as the default theme, rounded-xl cards, shadcn-style CSS-custom-property tokens consumed through Tailwind — with one deliberate brand divergence: the primary shifts from OpenVoiceUI's indigo to a **teal at ~170°** so the two sibling apps are visually distinct at a glance. This doc pins every token value for both themes (verified against OpenVoiceUI's `index.css` / `tailwind.config.js` on 2026-07-25), specs the Electron window chrome, gives ASCII wireframes for the 9 core screens, inventories reused and new components (including a CVD-validated band-score color scale), and defines motion, interaction states, accessibility rules, voice-UI states, and copy tone. Architecture context: 01-architecture.md; the screens map to modules 04–10; provider forms follow 03-providers-and-settings.md.
+BandReady's design language is Inter Variable at 14px, a 240°-neutral HSL token palette with dark as the default theme, rounded-xl cards, and shadcn-style CSS-custom-property tokens consumed through Tailwind. The primary is a **teal at ~170°**. This doc pins every token value for both themes, specs the Electron window chrome, gives ASCII wireframes for the 9 core screens, inventories reused and new components (including a CVD-validated band-score color scale), and defines motion, interaction states, accessibility rules, voice-UI states, and copy tone. Architecture context: 01-architecture.md; the screens map to modules 04–10; provider forms follow 03-providers-and-settings.md.
 
 ## 1. Color tokens
 
-Same 19-token structure as OpenVoiceUI (`packages/webui/src/index.css`), same Tailwind mapping (`hsl(var(--token))` so opacity modifiers like `bg-primary/25` work), `darkMode: ["class"]`, dark is the boot default (theme bootstraps before first paint, exactly like OpenVoiceUI's `bootstrapTheme().finally(mount)`).
+19 tokens, mapped in tailwind.config.js as `hsl(var(--token))` so opacity modifiers like `bg-primary/25` work; `darkMode: ["class"]`; dark is the boot default. The theme bootstraps before first paint (`bootstrapTheme().finally(mount)`), which is what stops the light-to-dark flash.
 
-**DECISION: teal primary.** BandReady keeps all 240°-hue neutrals verbatim but replaces indigo `243 75% 59%` with teal. Rationale: instant sibling-app differentiation; teal reads calm/growth (right for a study app); the chosen triples pass WCAG AA (light primary on white ≈ 4.6:1 with white text on it ≈ 4.6:1; dark primary with dark foreground ≈ 8.4:1). **Confirmed canonical by ruling R2-16 (resolving C17):** the exact HSL triples below are authoritative; `_context/decisions.md`'s UI-look bullet has been amended from "indigo" to "OpenVoiceUI's token system with BandReady's teal primary per 12-design-system.md", and 06 §9's stale "indigo" wording is corrected.
+**DECISION: teal primary.** Every neutral sits on the 240° hue and the primary is teal. Rationale: teal reads calm/growth, which is right for a study app; the chosen triples pass WCAG AA (light primary on white ≈ 4.6:1 with white text on it ≈ 4.6:1; dark primary with dark foreground ≈ 8.4:1). **Confirmed canonical by ruling R2-16 (resolving C17):** the exact HSL triples below are authoritative; `_context/decisions.md`'s UI-look bullet has been amended from "indigo" to "the HSL token system with BandReady's teal primary per 12-design-system.md", and 06 §9's stale "indigo" wording is corrected.
 
 ```css
 :root {
@@ -25,7 +25,7 @@ Same 19-token structure as OpenVoiceUI (`packages/webui/src/index.css`), same Ta
   --border: 240 6% 90%;
   --input: 240 6% 88%;
   --ring: 172 72% 30%;
-  --primary: 172 72% 30%;          /* teal — was indigo 243 75% 59% in OpenVoiceUI */
+  --primary: 172 72% 30%;          /* teal */
   --primary-foreground: 0 0% 100%;
   --accent: 240 5% 96%;
   --accent-foreground: 240 10% 8%;
@@ -51,7 +51,7 @@ Same 19-token structure as OpenVoiceUI (`packages/webui/src/index.css`), same Ta
   --primary-foreground: 240 10% 6%;
   --accent: 240 4% 15%;
   --accent-foreground: 0 0% 96%;
-  --sidebar: 240 6% 5%;            /* sidebar darker than content — keep this OpenVoiceUI signature */
+  --sidebar: 240 6% 5%;            /* sidebar darker than content */
   --destructive: 0 63% 54%;
   --destructive-foreground: 0 0% 100%;
   --success: 142 60% 48%;
@@ -79,9 +79,9 @@ Same 19-token structure as OpenVoiceUI (`packages/webui/src/index.css`), same Ta
 }
 ```
 
-Rules: band colors are **status colors** — reserved for band semantics, never used as chart-series colors, never shown without the numeric band next to them (this is the required relief for the light-amber 2.7:1 contrast WARN). `success`/`warning`/`destructive` keep their OpenVoiceUI meanings (operation outcomes), so band buckets get their own tokens rather than overloading them.
+Rules: band colors are **status colors** — reserved for band semantics, never used as chart-series colors, never shown without the numeric band next to them (this is the required relief for the light-amber 2.7:1 contrast WARN). `success`/`warning`/`destructive` keep their ordinary meanings (operation outcomes), so band buckets get their own tokens rather than overloading them.
 
-## 2. Typography — verbatim from OpenVoiceUI
+## 2. Typography
 
 `@fontsource-variable/inter`; font stack `"Inter Variable", "Inter", system-ui, sans-serif`; mono `ui-monospace, SFMono-Regular, Menlo, monospace`.
 
@@ -98,14 +98,14 @@ h1, h2, h3, h4 { font-weight: 600; letter-spacing: -0.02em; }
 ::selection { background: hsl(var(--primary) / 0.25); }
 ```
 
-Scale (defaults, matching OpenVoiceUI usage): page title `text-lg` (18px) semibold; section heading `text-sm` semibold + `text-muted-foreground` uppercase variant for group labels; body `text-sm` (14px); the deliberate odd small sizes are kept: **`text-[13px]`** for secondary rows/buttons-sm, **`text-[11px]`** for meta/badges/timestamps. Reading passages and Writing editor use `text-[15px] leading-7` (new, reading comfort) with a user-adjustable 14/15/17px setting. Band numerals in BandScore use `font-semibold tabular-nums`.
+Scale (defaults): page title `text-lg` (18px) semibold; section heading `text-sm` semibold + `text-muted-foreground` uppercase variant for group labels; body `text-sm` (14px); the deliberate odd small sizes are kept: **`text-[13px]`** for secondary rows/buttons-sm, **`text-[11px]`** for meta/badges/timestamps. Reading passages and Writing editor use `text-[15px] leading-7` (new, reading comfort) with a user-adjustable 14/15/17px setting. Band numerals in BandScore use `font-semibold tabular-nums`.
 
 ## 3. Shape, elevation, focus, scrollbars
 
 - Radii (tailwind.config.js): `lg: 0.75rem`, `md: 0.5rem`, `sm: 0.375rem`. Cards `rounded-xl`, buttons `rounded-lg`, badges `rounded-md`, inputs `rounded-lg`.
 - Borders: global `* { @apply border-border }`; cards are `border bg-card` — elevation comes from borders + subtle `shadow-sm` on interactive surfaces, not heavy shadows. Modals/Drawers: `shadow-xl` + `bg-black/40` overlay.
 - Focus: `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background` on every interactive element. Never remove without replacement.
-- Scrollbars: `.scrollbar-thin` utility verbatim from OpenVoiceUI (8px, `hsl(var(--border))` thumb, transparent track, `border-radius: 9999px`). Applied to passage panes, transcripts, answer sheets.
+- Scrollbars: `.scrollbar-thin` utility (8px, `hsl(var(--border))` thumb, transparent track, `border-radius: 9999px`). Applied to passage panes, transcripts, answer sheets.
 
 ## 4. Motion
 
@@ -147,7 +147,7 @@ CSS: `.titlebar { -webkit-app-region: drag; user-select: none; height: 36px }`; 
 
 ## 6. Screen inventory + wireframes
 
-Shell = OpenVoiceUI pattern: `Sidebar` (NAV array: Home, Speaking, Writing, Reading, Listening, Vocabulary, Progress, Settings) + `PageShell` content. Sidebar is darker than content (token above), 224px, collapsible to 64px icon rail. All screens `animate-fade-in` on mount.
+Shell: `Sidebar` (NAV array: Home, Speaking, Writing, Reading, Listening, Vocabulary, Progress, Settings) + `PageShell` content. Sidebar is darker than content (token above), 224px, collapsible to 64px icon rail. All screens `animate-fade-in` on mount.
 
 ### 6.1 Dashboard / Home
 
@@ -280,8 +280,8 @@ Dataviz conventions (binding): **no pie charts anywhere**; band trends are line 
 │  ┌ LLM ──────────────────────────────┐  exactly ONE of each —       │
 │  │ Endpoint  [http://127.0.0.1:8080] │  fields rendered from the    │
 │  │ API key   [••••••••]  Model [ ▾]  │  adapter config_spec, never  │
-│  │ [Test connection]  ✓ reachable    │  hard-coded (OpenVoiceUI     │
-│  └───────────────────────────────────┘  spec-driven form pattern)   │
+│  │ [Test connection]  ✓ reachable    │  hard-coded (the spec-driven │
+│  └───────────────────────────────────┘  form pattern, 03 §4)        │
 │  ┌ STT … ┐ ┌ TTS … ┐ ┌ VAD tunables … ┐                             │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -299,9 +299,9 @@ Layout: modal-free full-screen steps, one question per screen, progress dots top
 
 Escape hatch "Set up later" per 10's flow rules; every answer is editable afterwards in Settings → Profile.
 
-## 7. Component inventory — reused from OpenVoiceUI
+## 7. Component inventory — the shared kit
 
-Port OpenVoiceUI's `components/ui/` kit wholesale into `app/src/components/ui/` (R2-9 layout; verified API, `Button.tsx` et al.):
+The `components/ui/` kit lives at `app/src/components/ui/` (R2-9 layout; `Button.tsx` et al.):
 
 | Component | Spec (unchanged) |
 |---|---|
@@ -314,7 +314,7 @@ Port OpenVoiceUI's `components/ui/` kit wholesale into `app/src/components/ui/` 
 | ConfirmProvider / useConfirm | promise-based confirm dialogs (used by mock-test close guard) |
 | PageShell / Sidebar | NAV-array-driven shell; ViewToggle where list/grid applies |
 
-Icons: lucide-react only. State: Zustand 5, tiny stores — the four global stores (session, settings, progress, srs) plus per-feature ephemeral stores under `app/src/features/<module>/store.ts`, attempt-in-progress state always feature-local (R2-23, 01 §7); pages fetch via `api.*` in `useEffect` with an `active` cancellation flag (no react-query) — keep the OpenVoiceUI convention.
+Icons: lucide-react only. State: Zustand 5, tiny stores — the four global stores (session, settings, progress, srs) plus per-feature ephemeral stores under `app/src/features/<module>/store.ts`, attempt-in-progress state always feature-local (R2-23, 01 §7); pages fetch via `api.*` in `useEffect` with an `active` cancellation flag (no react-query).
 
 ## 8. New components
 
@@ -385,14 +385,14 @@ Rendering: `sm` = tinted pill (`bg-[hsl(var(--band-*))]/12 text-[hsl(var(--band-
 - **Loading:** skeletons, never spinners for page loads. Skeleton = `bg-muted rounded-md relative overflow-hidden` + absolutely-positioned gradient child animated with `shimmer 1.5s infinite`. Provide `SkeletonCard`, `SkeletonRow`, `SkeletonChart` (chart skeleton keeps final aspect ratio to avoid layout shift). Spinners only inside Buttons (`loading` prop).
 - **Empty states:** centered in the content pane: lucide icon in a `bg-muted` circle, one-line heading, one line of guidance, one primary CTA. Copy examples — Vocab: "No cards due. Words from your practice sessions wait in your suggestions inbox — accept them to start reviewing." [Review suggestions] (nothing enters the SRS silently, R2-5); Progress: "Complete your first scored practice to see your band trend." [Start placement test].
 - **Error states:**
-  - *Mic permission* (port OpenVoiceUI `describeError()` mapping `NotAllowedError`/`NotFoundError`): inline card in DeviceCheck, not a toast — "BandReady can't access your microphone. Open System Settings → Privacy & Security → Microphone and enable BandReady, then click Retry." [Open System Settings] (deep-link via `shell.openExternal`) [Retry].
+  - *Mic permission* (`describeError()` maps `NotAllowedError`/`NotFoundError`): inline card in DeviceCheck, not a toast — "BandReady can't access your microphone. Open System Settings → Privacy & Security → Microphone and enable BandReady, then click Retry." [Open System Settings] (deep-link via `shell.openExternal`) [Retry].
   - *Provider unreachable:* banner at top of the affected module (not global): "Your LLM endpoint (http://127.0.0.1:11434) isn't responding. Speaking and scoring are paused." [Open Settings] [Retry]. Detected via the adapter `verify()` path from 03-providers-and-settings.md. Reading/Listening practice with pre-scored answer keys keeps working — say so in the banner.
   - *Mid-session drop:* the session machine (04 §3.1, per R2-11) goes `RECONNECTING` (grace spinner + "Reconnecting…" chip, 15 s server-side grace) then `ERROR`; the `ERROR` overlay preserves the transcript and offers [Reconnect]; partial session is saved per 11-data-model.md.
 - **Destructive confirms:** always `useConfirm`, destructive Button variant, verb-first ("Delete profile", never "OK").
 
 ## 10. Voice-UI states (Speaking Room)
 
-Base transport phases come verbatim from OpenVoiceUI `LiveCall.tsx`: `Phase = "idle" | "connecting" | "connected" | "error"` mapped from `usePipecatClientTransportState()`. BandReady layers the examiner-session state machine on top (only meaningful while `connected`). **Phase names are 04 §3.1's canonical vocabulary (R2-11, resolving C11) — this doc's earlier `part2-talk` strings are repealed.** The renderer never advances state: phases arrive as `state` events on `WS /api/v1/speaking/sessions/{id}/events` (18-api-contract.md §5) and the UI mirrors them:
+Base transport phases: `Phase = "idle" | "connecting" | "connected" | "error"` mapped from `usePipecatClientTransportState()`. BandReady layers the examiner-session state machine on top (only meaningful while `connected`). **Phase names are 04 §3.1's canonical vocabulary (R2-11, resolving C11) — this doc's earlier `part2-talk` strings are repealed.** The renderer never advances state: phases arrive as `state` events on `WS /api/v1/speaking/sessions/{id}/events` (18-api-contract.md §5) and the UI mirrors them:
 
 ```
 IDLE → CONNECTING → P1_INTRO → P1_QA
@@ -431,6 +431,6 @@ Calm, encouraging, concrete; second person; no exclamation marks in feedback; **
 
 1. Sidebar behavior during timed tests: auto-collapse to the icon rail (recommended default) or fully hide with a locked "test mode" bar? Affects perceived exam realism vs. escape-hatch accessibility.
 2. Should the band-bucket thresholds be user-relative (colored against the user's *target* band, e.g. amber = 1.0 below target) instead of the absolute scale in §8.2? Absolute is the shipped default; relative may motivate better and needs only a mapping change.
-3. Runtime theme customization: OpenVoiceUI lets users override tokens via a validated settings table. Do we expose that in v1 or ship fixed light/dark only (current default: fixed) — matters for 11-data-model.md's settings schema.
+3. Runtime theme customization: tokens could be user-overridable through a settings table, validated server-side against an allowlist and a strict HSL regex (the values are injected into a `<style>` tag, so the validation is a security control, not a nicety). Do we expose that in v1 or ship fixed light/dark only (current default: fixed) — matters for 11-data-model.md's settings schema.
 4. Windows 11 snap layouts require either native frame or `titleBarOverlay`; with `frame:false` we lose the snap flyout on the maximize button. Accept the loss (default) or adopt `titleBarStyle:'hidden'` + overlay on Windows?
 5. Does ChartRenderer also need a hand-drawn/print texture mode for Task 1 map/process types, or is monochrome SVG sufficient for v1?

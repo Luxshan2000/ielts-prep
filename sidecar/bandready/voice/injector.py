@@ -125,8 +125,7 @@ def _processor_class() -> Any:
     class _QuestionCardProcessor(FrameProcessor):  # type: ignore[misc,valid-type]
         """Intercepts ``LLMContextFrame`` and rewrites the context in place.
 
-        Mirrors OpenVoiceUI's ``RAGProcessor.process_frame`` exactly, including its
-        never-raise policy: a missed injection degrades one turn, an exception kills the
+        Never raises: a missed injection degrades one turn, an exception kills the
         whole call.
         """
 

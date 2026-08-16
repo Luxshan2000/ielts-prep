@@ -1,10 +1,10 @@
 """Process configuration for the sidecar.
 
 Everything the Electron main process needs to agree with us on lives here, and every
-value is read from the environment. This is deliberate: OpenVoiceUI shipped a bug where
-argparse defaults silently overrode `HOST`/`PORT` env vars, so a packaged app bound the
-wrong interface. Here env is the source of truth (01-architecture.md §4.1, §9); the CLI
-only *fills in* argparse values when the flag was explicitly passed.
+value is read from the environment. This is deliberate: argparse defaults silently
+override `HOST`/`PORT` env vars if you let them, and a packaged app then binds the wrong
+interface. Here env is the source of truth (01-architecture.md §4.1, §9); the CLI only
+*fills in* argparse values when the flag was explicitly passed.
 """
 
 from __future__ import annotations

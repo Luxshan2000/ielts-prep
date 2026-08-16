@@ -274,8 +274,8 @@ export function descriptorFor(key: CriterionKey, band: number | null | undefined
 // ---------------------------------------------------------------- errors ---
 
 /**
- * 02 §6.4 error copy, ported from OpenVoiceUI's `describeError()`. Mic-permission
- * failures get the OS-specific action, never a generic "something went wrong".
+ * 02 §6.4 error copy. Mic-permission failures get the OS-specific action, never a
+ * generic "something went wrong".
  */
 export function describeError(err: unknown): string {
   if (err && typeof err === "object" && "code" in err && "detail" in err) {

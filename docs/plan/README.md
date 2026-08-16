@@ -31,10 +31,10 @@ BandReady is an open-source, self-hosted desktop app for complete IELTS-style ex
 |---|---|
 | Shell | Electron + React 18 + Vite + TypeScript + Tailwind (ADR-001 — not React Native) |
 | Backend | Python FastAPI sidecar spawned by Electron main — loopback-only, random port, token-authenticated (ADR-002) |
-| Voice | pipecat-ai pinned 1.5.0, SmallWebRTCTransport, Silero VAD (the five OpenVoiceUI gotchas are law) |
+| Voice | pipecat-ai pinned 1.5.0, SmallWebRTCTransport, Silero VAD (the five gotchas are law) |
 | Data | SQLite (WAL, foreign_keys ON) via SQLAlchemy 2.0 + Alembic, per-OS app data dir |
 | Providers | Exactly one LLM + one STT + one TTS, all OpenAI-compatible or in-process; local defaults: MLX (mac), Ollama + faster-whisper (win/linux), Kokoro ONNX TTS everywhere |
-| License | MIT app; CC0-1.0 first-party content; separate project from OpenVoiceUI |
+| License | MIT app; CC0-1.0 first-party content |
 
 ## Recommended reading order
 
@@ -45,7 +45,7 @@ Read top to bottom; each doc cross-references siblings by filename.
 | Doc | One-liner |
 |---|---|
 | [_context/decisions.md](_context/decisions.md) | The locked planning decisions every doc must align with — product, stack ADR summaries, conventions. |
-| [_context/openvoiceui-findings.md](_context/openvoiceui-findings.md) | Hard-won OpenVoiceUI knowledge reused here, including the five Pipecat voice-pipeline gotchas. |
+| [_context/voice-pipeline-gotchas.md](_context/voice-pipeline-gotchas.md) | The verified voice-pipeline, provider, sidecar, and packaging engineering, including the five Pipecat gotchas. |
 
 ### Foundation
 
@@ -95,7 +95,7 @@ Read top to bottom; each doc cross-references siblings by filename.
 
 ```mermaid
 graph TD
-    CTX["_context/<br/>decisions + OpenVoiceUI findings"] --> V["00 Vision"]
+    CTX["_context/<br/>decisions + voice-pipeline gotchas"] --> V["00 Vision"]
     V --> A["01 Architecture"]
     A --> VP["02 Voice pipeline"]
     A --> PS["03 Providers & settings"]

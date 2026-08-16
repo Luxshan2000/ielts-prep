@@ -1,8 +1,8 @@
 /**
  * The live examiner call — `/speaking/session/:sessionId` (12 §6.2 B).
  *
- * Ported from OpenVoiceUI's `LiveCall.tsx`, with the four BandReady-specific
- * additions: bearer-authenticated SDP endpoint, the server-owned phase/timer HUD fed by
+ * The live call surface, with the four things this app needs that a generic call UI
+ * does not: bearer-authenticated SDP endpoint, the server-owned phase/timer HUD fed by
  * the session WebSocket, the Part 2 cue card, and the scored hand-off to the report.
  *
  * Two invariants:

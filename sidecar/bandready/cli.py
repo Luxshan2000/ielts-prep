@@ -1,11 +1,12 @@
 """``bandready-sidecar`` — the process Electron spawns (01-architecture.md §4).
 
-Two rules that exist because OpenVoiceUI got them wrong:
+Two rules, both of which are easy to get wrong:
 
 1. **Env wins.** ``BANDREADY_HOST``/``BANDREADY_PORT`` are the source of truth in a
    packaged app. argparse flags exist for dev only, and an omitted flag never overrides
-   the environment — OpenVoiceUI's argparse defaults silently shadowed its env vars and
-   bound the wrong interface.
+   the environment. An argparse default silently shadows an environment variable, so the
+   flag default must be ``None`` and the env value must win, or the packaged app binds
+   the wrong interface.
 2. **The token never appears in argv** (``ps`` shows argv to every local user). It comes
    in through the environment; if it is absent we generate one and announce it on stdout:
 

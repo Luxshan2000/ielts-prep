@@ -6,7 +6,7 @@
 
 _Status: draft v2 (2026-07-25)_
 
-BandReady is an open-source (MIT), self-hosted desktop app for end-to-end IELTS-style exam preparation: all four skills (Speaking, Writing, Reading, Listening), spaced-repetition vocabulary, pronunciation feedback, and a guided curriculum from placement test to exam-ready — powered entirely by AI models the user chooses, local or cloud. It is a single-learner, local-first Electron + React app with a Python FastAPI sidecar that reuses the proven voice pipeline, provider abstraction, and design system of the sibling project OpenVoiceUI. The wedge feature is a live, low-latency voice examiner for Speaking practice — the one part of IELTS prep that is scarce, expensive, and anxiety-inducing to get from humans, and that no existing open-source project delivers end-to-end. This doc owns positioning, personas, competitive analysis, principles, metrics, naming, and v1 scope; architecture and module details live in 01-architecture.md through 16-roadmap.md.
+BandReady is an open-source (MIT), self-hosted desktop app for end-to-end IELTS-style exam preparation: all four skills (Speaking, Writing, Reading, Listening), spaced-repetition vocabulary, pronunciation feedback, and a guided curriculum from placement test to exam-ready — powered entirely by AI models the user chooses, local or cloud. It is a single-learner, local-first Electron + React app with a Python FastAPI sidecar that owns the voice pipeline, the provider abstraction, and scoring. The wedge feature is a live, low-latency voice examiner for Speaking practice — the one part of IELTS prep that is scarce, expensive, and anxiety-inducing to get from humans, and that no existing open-source project delivers end-to-end. This doc owns positioning, personas, competitive analysis, principles, metrics, naming, and v1 scope; architecture and module details live in 01-architecture.md through 16-roadmap.md.
 
 ## 1. Vision
 
@@ -27,7 +27,7 @@ BandReady is an open-source (MIT), self-hosted desktop app for end-to-end IELTS-
 ## 2. Why now
 
 1. **Local models crossed the usefulness threshold.** An 8–14B instruct model on Apple Silicon (mlx-lm) or Ollama scores essays against published band descriptors credibly; Whisper-class STT is free and local; Kokoro TTS is fast enough for live conversation. In 2023 this required cloud APIs; in 2026 a mid-range laptop suffices.
-2. **The voice stack is solved and in-house.** OpenVoiceUI already runs a production Pipecat 1.5 pipeline (SmallWebRTCTransport + Silero VAD) with sub-second turn-taking, including the five version-specific gotchas that sink naive implementations (02-voice-pipeline.md, `_context/openvoiceui-findings.md`). Competitors' OSS attempts die exactly here.
+2. **The voice stack is solved and in-house.** BandReady ships a Pipecat 1.5 pipeline (SmallWebRTCTransport + Silero VAD) with sub-second turn-taking, including fixes for the five version-specific gotchas that sink naive implementations (02-voice-pipeline.md, `_context/voice-pipeline-gotchas.md`). Competitors' OSS attempts die exactly here.
 3. **The market is large and underserved.** ~4M IELTS tests are taken per year, concentrated in South/Southeast Asia, the Middle East, and Africa — regions where $1/hour of human tutoring is a luxury and $20/month subscriptions are meaningfully expensive. Free-and-local is not a gimmick there; it is the product.
 4. **First-mover OSS window is open** (verified below, §4.3): the open-source field is a graveyard of single-skill student projects; no maintained, packaged, all-four-skills app exists.
 
@@ -83,7 +83,7 @@ Verified 2026-07-25 via GitHub search ([topic: ielts](https://github.com/topics/
 | [ielts-ai-dataset](https://github.com/LuchoBazz/ielts-ai-dataset) | AI-generated practice-test datasets (JSON/MD) | Content, not an app — potential *complement*; evaluate licensing in 15-content-authoring-licensing.md |
 | Tauri local-first IELTS practice app (search result, JSON question packs) | Local desktop drills | No AI scoring, no voice pipeline, no curriculum; validates local-first demand |
 
-**Refined first-mover claim (use this wording publicly):** *"BandReady is the first complete, packaged, open-source IELTS-style preparation app — all four skills with a live AI voice examiner, local-model support, spaced repetition, and a guided curriculum."* Do **not** claim "first open-source IELTS app" unqualified — single-skill OSS projects demonstrably exist. The defensible moats within OSS: (a) the working Pipecat live-voice pipeline (every OSS attempt above is record-then-upload, none does live conversation — this is exactly the hard part we already solved in OpenVoiceUI), (b) desktop packaging with bundled Python runtime, (c) an original, curated content bank, (d) the integrated curriculum loop.
+**Refined first-mover claim (use this wording publicly):** *"BandReady is the first complete, packaged, open-source IELTS-style preparation app — all four skills with a live AI voice examiner, local-model support, spaced repetition, and a guided curriculum."* Do **not** claim "first open-source IELTS app" unqualified — single-skill OSS projects demonstrably exist. The defensible moats within OSS: (a) the working Pipecat live-voice pipeline (every OSS attempt above is record-then-upload, none does live conversation, and that is exactly the hard part), (b) desktop packaging with bundled Python runtime, (c) an original, curated content bank, (d) the integrated curriculum loop.
 
 ## 5. The wedge: voice-first Speaking practice
 
@@ -91,7 +91,7 @@ Speaking is the wedge feature because it maximizes (pain × scarcity × our unfa
 
 1. **Highest-anxiety, least-practicable skill.** Reading/Listening can be self-marked from a book. Writing feedback is a ChatGPT paste away. A realistic Speaking interview requires a partner — the one thing solo candidates don't have. P6 exists as a persona because of this.
 2. **Structurally hard to fake.** The IELTS Speaking test is a *timed, three-part, interactive* interview: Part 1 (4–5 min, familiar topics), Part 2 (1 min prep + 1–2 min cue-card monologue), Part 3 (4–5 min abstract discussion). Turn-based record-and-submit tools cannot reproduce examiner follow-ups, interruptions, or time pressure. A live pipeline with sub-second VAD turn-taking can — and we have one running (02-voice-pipeline.md, 04-speaking-module.md).
-3. **Our unfair advantage is precisely here.** The five Pipecat 1.5 gotchas (inert `TransportParams` VAD, hanging Smart Turn default, `initDevices()` ordering, ICE-PATCH routing, `min_volume` default blocking speech) are silent-failure landmines that killed or capped every OSS attempt at live voice. OpenVoiceUI's `TranscriptObserver` gives us clean per-turn transcripts as scoring input, and its RAG-injection pattern (`build_messages()`) injects cue cards and rubric fragments mid-session without prompt accumulation.
+3. **Our unfair advantage is precisely here.** The five Pipecat 1.5 gotchas (inert `TransportParams` VAD, hanging Smart Turn default, `initDevices()` ordering, ICE-PATCH routing, `min_volume` default blocking speech) are silent-failure landmines that killed or capped every OSS attempt at live voice. Our transcript observer gives clean per-turn transcripts as scoring input, and the single-marked-system-message injection pattern puts cue cards and rubric fragments into a live session without prompt accumulation (`_context/voice-pipeline-gotchas.md` §4).
 4. **It demos irresistibly.** "Open the app, talk to an examiner, get a band estimate in 12 minutes" is the GitHub-README GIF and the conference demo. Reading drills are not.
 
 Sequencing consequence for 16-roadmap.md: Speaking + its scoring loop ships first and defines the quality bar; Writing second (highest feedback value per token); Reading/Listening third (content-bank-bound); Vocabulary/SRS and curriculum weave throughout.
@@ -105,7 +105,7 @@ Sequencing consequence for 16-roadmap.md: Speaking + its scoring loop ships firs
 5. **Honest scoring.** Band estimates are always labeled as estimates, shown with the criterion breakdown (e.g. Fluency & Coherence, Lexical Resource, Grammatical Range & Accuracy, Pronunciation), and never presented as predictions of official results. Calibration approach lives in 14-testing-strategy.md.
 6. **Original content only.** Formats and public band descriptors are usable; past-paper content never is (15-content-authoring-licensing.md).
 7. **Runs on modest hardware.** Default local-model recommendations must run on an 8 GB M1 / 16 GB Windows laptop; degrade gracefully (e.g. smaller whisper model) rather than gate features.
-8. **Boring, proven tech.** Reuse OpenVoiceUI's verified patterns (pipeline params, lockfile atomics, token'd sidecar, design tokens) before inventing anything (01-architecture.md).
+8. **Boring, proven tech.** Use the verified patterns already written down (pipeline params, lockfile atomics, token'd sidecar, design tokens) before inventing anything (01-architecture.md, `_context/voice-pipeline-gotchas.md`).
 
 ## 7. Success metrics
 
@@ -123,7 +123,7 @@ No telemetry in v1, so metrics split into observable-publicly and measurable-loc
 
 **Quality (measurable in CI, 14-testing-strategy.md):**
 - Scoring calibration: LLM band scores within ±0.5 of expert-rated reference essays/transcripts on our internal calibration set, for the default recommended cloud model; within ±1.0 for the default local model.
-- Voice pipeline: **< 1.5 s p50 examiner response** latency (user stop-speaking → TTS start) on reference hardware, matching 02-voice-pipeline.md's latency budget (R2-15); zero regressions on the five-gotchas E2E harness (reuse OpenVoiceUI's `eval/` headless WebRTC harness).
+- Voice pipeline: **< 1.5 s p50 examiner response** latency (user stop-speaking → TTS start) on reference hardware, matching 02-voice-pipeline.md's latency budget (R2-15); zero regressions on the five-gotchas E2E harness (the headless WebRTC harness, `_context/voice-pipeline-gotchas.md` §5).
 
 **Anti-metrics:** no DAU-maximization mechanics (streak guilt, notification spam). Success is the user *leaving* — passing their exam.
 

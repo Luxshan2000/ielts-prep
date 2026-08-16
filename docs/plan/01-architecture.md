@@ -6,7 +6,7 @@
 
 _Status: draft v2 (2026-07-25)_
 
-BandReady is a three-process desktop app: an **Electron main process** that owns windows, app lifecycle, and the sidecar; a **React 18 SPA renderer** (Vite + TypeScript + Tailwind) that owns all UI; and a **Python FastAPI sidecar** that owns everything stateful and AI-shaped — the Pipecat 1.5.0 voice pipeline, SQLite, the content bank, and scoring orchestration. The renderer talks to the sidecar over loopback HTTP (bearer-token authenticated) and WebRTC, exactly as OpenVoiceUI's SPA talks to its server — which is the whole point: the proven LiveCall/WebRTC/design-system code transfers nearly verbatim. This doc records ADR-001 (Electron over React Native) and ADR-002 (Python sidecar over Node backend), and specifies the sidecar lifecycle, the security contract between processes, the repo layout, per-OS data directories, and the dev-mode workflow. Bundling of the Python runtime is owned by 13-packaging-distribution.md.
+BandReady is a three-process desktop app: an **Electron main process** that owns windows, app lifecycle, and the sidecar; a **React 18 SPA renderer** (Vite + TypeScript + Tailwind) that owns all UI; and a **Python FastAPI sidecar** that owns everything stateful and AI-shaped — the Pipecat 1.5.0 voice pipeline, SQLite, the content bank, and scoring orchestration. The renderer talks to the sidecar over loopback HTTP (bearer-token authenticated) and WebRTC, the same way a browser SPA talks to a web server, which is the whole point: the live-call, WebRTC, and design-system code is all ordinary web code. This doc records ADR-001 (Electron over React Native) and ADR-002 (Python sidecar over Node backend), and specifies the sidecar lifecycle, the security contract between processes, the repo layout, per-OS data directories, and the dev-mode workflow. Bundling of the Python runtime is owned by 13-packaging-distribution.md.
 
 ## 1. System overview
 
@@ -59,7 +59,7 @@ Three hard boundaries:
 
 ### Context
 
-We need one codebase shipping to macOS and Windows (Linux welcome but not release-blocking), with first-class real-time voice: browser-grade WebRTC, mic capture, echo cancellation, and the Pipecat JS client SDK (`@pipecat-ai/client-js` + `@pipecat-ai/small-webrtc-transport`). We also hold a large proven asset: OpenVoiceUI's React 18 + Tailwind UI — the LiveCall page, the token-based design system, the UI kit (Button/Card/Modal/Drawer/…), the Zustand patterns.
+We need one codebase shipping to macOS and Windows (Linux welcome but not release-blocking), with first-class real-time voice: browser-grade WebRTC, mic capture, echo cancellation, and the Pipecat JS client SDK (`@pipecat-ai/client-js` + `@pipecat-ai/small-webrtc-transport`). We also want a web front end: React 18 + Tailwind, a live-call page, a token-based design system, a Headless-UI kit (Button/Card/Modal/Drawer/…), and Zustand stores.
 
 ### Options considered
 
@@ -68,7 +68,7 @@ We need one codebase shipping to macOS and Windows (Linux welcome but not releas
 | Pipecat web SDK | Works as-is (it's a browser SDK) | **No viable path** — RN has no DOM, no `navigator.mediaDevices`; the SDK would need a ground-up native rewrite | Works (system WebView) but WebRTC/WebView quality varies by OS WebView version |
 | WebRTC | Chromium's, best-in-class, identical on every OS | `react-native-webrtc` exists but macOS/windows forks are weakly maintained; no `SmallWebRTCTransport` equivalent | WebView-dependent (WKWebView/WebView2); getUserMedia quirks on macOS WKWebView |
 | Tailwind design-system reuse | 100% — same CSS, same tokens | 0% — RN styling is a different system (StyleSheet/NativeWind approximations) | 100% |
-| OpenVoiceUI UI-kit reuse | ~100% (Headless UI, lucide, Zustand all DOM) | ~0% | ~100% |
+| Web UI-kit reuse (Headless UI, lucide, Zustand) | ~100% (all DOM) | ~0% | ~100% |
 | Memory footprint | **Worst**: ~250–400 MB baseline (Chromium + Node + our Python sidecar on top) | **Best**: native views, roughly 100–200 MB lighter | Good: no bundled Chromium |
 | Binary size | ~120–200 MB before Python | Small | Smallest |
 | Windows + macOS parity | One team ships both | Two half-communities; `react-native-windows` and `react-native-macos` lag RN core versions independently | Good |
@@ -79,8 +79,8 @@ We need one codebase shipping to macOS and Windows (Linux welcome but not releas
 **Electron.** The honest cost is memory and disk: an Electron app with a bundled Python runtime will idle around 400–600 MB RSS, where an RN-desktop app might sit 150–250 MB lighter. We accept that because:
 
 1. **The Pipecat JS SDK is the deciding factor.** BandReady's core loop is live voice. On RN desktop there is no path to `SmallWebRTCTransport`, `PipecatClientAudio`, `usePipecatConversation`, or the `initDevices()` flow — we would re-implement WebRTC signaling, mic pipeline, and audio playback natively, twice (macOS + Windows). That alone is months of risk on the least-forgiving part of the stack.
-2. **The five Pipecat gotchas (see 02-voice-pipeline.md) were paid for in Chromium.** OpenVoiceUI's working config is verified against Chromium's WebRTC stack. Changing the client stack invalidates that verification.
-3. **Total reuse of OpenVoiceUI's front end**: Tailwind token system, Inter typography, UI kit, LiveCall patterns, Zustand conventions. RN discards all of it.
+2. **The five Pipecat gotchas (see 02-voice-pipeline.md) were paid for in Chromium.** The working config is verified against Chromium's WebRTC stack. Changing the client stack invalidates that verification.
+3. **The entire front end is DOM code**: Tailwind token system, Inter typography, UI kit, live-call patterns, Zustand conventions. RN discards all of it.
 4. Electron gives Linux support essentially free.
 
 Mitigations for the footprint: single `BrowserWindow`, no extra renderer processes, `backgroundThrottling` left on for hidden windows, sidecar loads STT/TTS models lazily (first speaking session, not boot), and 13-packaging-distribution.md tracks install size budget.
@@ -103,9 +103,9 @@ Electron's main process is already a Node runtime; the "obvious" move is to put 
 - **faster-whisper** (CTranslate2) — Python-only bindings.
 - **mlx-lm / mlx_whisper** — Python-only (Apple MLX).
 - **kokoro-onnx** — Python package.
-- SQLAlchemy 2.0 + Alembic migration discipline is proven in OpenVoiceUI.
+- SQLAlchemy 2.0 + Alembic give us real migration discipline.
 
-A Node backend would reduce us to cloud-only providers and a hand-rolled voice pipeline — abandoning the entire verified OpenVoiceUI voice stack.
+A Node backend would reduce us to cloud-only providers and a hand-rolled voice pipeline — abandoning the entire verified Pipecat voice stack.
 
 ### Decision
 
@@ -123,7 +123,7 @@ Electron main owns *only*: windows, menus, tray, auto-update, OS integration, an
 
 - Two runtimes shipped (Chromium+Node, Python). Install size and packaging complexity go up; 13-packaging-distribution.md pays that bill.
 - Crash isolation: a Pipecat/native-lib crash kills the sidecar, not the window. Main restarts it (section 4.4) and the renderer shows a reconnect state instead of a dead app.
-- Same `workers=1` contract as OpenVoiceUI: WebRTC/session state is in-process, so exactly one uvicorn worker, one sidecar process, ever.
+- The `workers=1` contract (`_context/voice-pipeline-gotchas.md` §3): WebRTC/session state is in-process, so exactly one uvicorn worker, one sidecar process, ever.
 
 ## 4. Sidecar lifecycle
 
@@ -167,9 +167,9 @@ export async function startSidecar(dataDir: string) {
 }
 ```
 
-Rules (some inherited from OpenVoiceUI lessons):
+Rules:
 
-- **Bind host is explicit** — `BANDREADY_HOST=127.0.0.1` is read by the sidecar CLI and passed to uvicorn directly. OpenVoiceUI's argparse-ignores-env bug must not recur: env is the *only* source of host/port in packaged mode; argparse flags exist for dev only and defaults are `127.0.0.1`.
+- **Bind host is explicit** — `BANDREADY_HOST=127.0.0.1` is read by the sidecar CLI and passed to uvicorn directly. An argparse default silently shadows the env var it was meant to fall back to, so env is the *only* source of host/port in packaged mode; argparse flags exist for dev only and defaults are `127.0.0.1`.
 - **Token via env, never argv** (argv is visible in `ps`). The sidecar reads `BANDREADY_AUTH_TOKEN` at startup and holds it in memory only.
 - The port-pick has a small TOCTOU race (port freed, then rebound). If the sidecar fails to bind (`EADDRINUSE` detected in its stderr / exit code 2), main simply picks a new port and respawns — bounded to 3 attempts.
 
@@ -199,7 +199,7 @@ contextBridge.exposeInMainWorld("bandready", {
 The SPA's api client wraps every call:
 
 ```ts
-// app/src/lib/api.ts — same single-wrapper pattern as OpenVoiceUI's req<T>()
+// app/src/lib/api.ts — one wrapper for every call: req<T>()
 const { baseUrl, token } = await window.bandready.getSidecarInfo(); // cached at boot
 async function req<T>(path: string, init: RequestInit = {}): Promise<T> {
   const res = await fetch(`${baseUrl}/api/v1${path}`, {
@@ -224,7 +224,7 @@ On `child.on("exit")` when the app isn't quitting:
 
 On `app.before-quit`:
 
-1. Main sends `POST /internal/shutdown` (bearer-authed); sidecar cancels active `PipelineTask`s (`task.cancel()` — writes session logs in its finally-blocks, same as OpenVoiceUI's hangup path), checkpoints SQLite WAL, then exits 0.
+1. Main sends `POST /internal/shutdown` (bearer-authed); sidecar cancels active `PipelineTask`s (`task.cancel()` — writes session logs in its finally-blocks, same as the hangup path), checkpoints SQLite WAL, then exits 0.
 2. Main waits up to 5 s; then `SIGTERM`; after 3 more s, `SIGKILL` (`taskkill /T /F` on Windows).
 3. Quit proceeds only after the child has exited.
 
@@ -241,14 +241,14 @@ Single-user local-first app (per decisions.md: no accounts, no RBAC) — but the
 | CORS | Not enabled in production (same-token requests come from the Electron renderer via fetch with explicit header; no cross-origin allowance needed). Dev-mode allows the Vite origin. |
 | Electron BrowserWindow | `contextIsolation: true`, `nodeIntegration: false`, `sandbox: true`, `webSecurity: true`, `webviewTag` disabled, `will-navigate` and `setWindowOpenHandler` deny all external navigation (external links go through `openExternal`, main validates `https:` scheme). |
 | Preload surface | Exactly the four methods in section 4.3. No generic `ipcRenderer` exposure, no `send/on` passthrough. |
-| Secrets | Provider API keys stored encrypted at rest by the sidecar (reuse OpenVoiceUI `security/secrets.py` pattern: per-install key file, 0600, in the data dir). Keys never transit to the renderer — settings API returns masked values (`sk-…abcd`). |
-| CSP | Renderer `Content-Security-Policy`: `default-src 'self'; connect-src 'self' http://127.0.0.1:*; media-src 'self' blob: http://127.0.0.1:*; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'` (`media-src` includes loopback so `<audio>` elements can stream ticket-authenticated sidecar media, 18 §4.16; Tailwind runtime theming injects a `<style>` tag — values validated against strict HSL regex, same as OpenVoiceUI). |
+| Secrets | Provider API keys stored encrypted at rest by the sidecar (`sidecar/bandready/security/secrets.py`: per-install key file, 0600, in the data dir). Keys never transit to the renderer — settings API returns masked values (`sk-…abcd`). |
+| CSP | Renderer `Content-Security-Policy`: `default-src 'self'; connect-src 'self' http://127.0.0.1:*; media-src 'self' blob: http://127.0.0.1:*; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'` (`media-src` includes loopback so `<audio>` elements can stream ticket-authenticated sidecar media, 18 §4.16; Tailwind runtime theming injects a `<style>` tag — values validated against a strict HSL regex). |
 
 WebRTC media is DTLS-SRTP encrypted by construction and both peers are on loopback; the signaling endpoints (`/offer`) are bearer-protected like everything else.
 
 ## 6. WebRTC signaling path
 
-Identical shape to OpenVoiceUI (verified working, do not innovate here). Route shapes below are the canonical `/api/v1` forms from 18-api-contract.md (R2-1) — this section illustrates the handshake; 18 owns the inventory:
+The verified-working handshake (do not innovate here). Route shapes below are the canonical `/api/v1` forms from 18-api-contract.md (R2-1) — this section illustrates the handshake; 18 owns the inventory:
 
 1. Session start/config (which module, which question card, examiner persona) comes first: `POST /api/v1/speaking/sessions` → `201 {session_id, offer_url, events_url}`, so the pipeline is assembled per-session (04-speaking-module.md owns the session model).
 2. Renderer: `new SmallWebRTCTransport({ webrtcRequestParams: { endpoint: `${baseUrl}/api/v1/speaking/sessions/${sessionId}/offer`, headers: { Authorization: `Bearer ${token}` } } })` → `new PipecatClient({ transport, enableMic: true, enableCam: false })`.
@@ -261,7 +261,7 @@ Identical shape to OpenVoiceUI (verified working, do not innovate here). Route s
 
 ## 7. Repository layout (BINDING — R2-9)
 
-Monorepo, **pnpm** for all JS (one package manager — OpenVoiceUI's npm/pnpm mix was a mistake), **uv** for Python.
+Monorepo, **pnpm** for all JS (one package manager; an npm/pnpm mix leaves two lockfiles that disagree), **uv** for Python.
 
 **This tree is binding (ruling R2-9, resolving C3).** The divergent sketches elsewhere — `packages/core/bandready/…` (02 §1, 09 §4.0), `apps/desktop`/`apps/renderer` (16 P0), `webui/src/…` (06/07) — are corrected to this layout. Frontend feature code lives under `app/src/features/<module>/` (the earlier `src/pages/…` naming is superseded).
 
@@ -274,12 +274,12 @@ bandready/
 │   │   ├── preload.ts            # contextBridge surface (section 4.3)
 │   │   ├── ipc.ts                # ipcMain handlers (sidecar:info, shell:openExternal, …)
 │   │   └── update.ts             # electron-updater wiring
-│   ├── src/                      # React SPA (structure mirrors OpenVoiceUI webui)
+│   ├── src/                      # React SPA
 │   │   ├── main.tsx              # bootstrapTheme().finally(mount) — no theme flash
 │   │   ├── App.tsx               # router + PageShell
 │   │   ├── lib/api.ts            # req<T>() wrapper, ApiError
 │   │   ├── stores/               # the four GLOBAL Zustand stores: session, settings, progress, srs (R2-23)
-│   │   ├── components/ui/        # ported OpenVoiceUI kit (12-design-system.md)
+│   │   ├── components/ui/        # shared UI kit (12-design-system.md)
 │   │   ├── components/shell/     # PageShell, Sidebar, window chrome
 │   │   ├── features/             # one folder per module: page + components + ephemeral store.ts
 │   │   │   ├── speaking/         # LiveCall-derived session UI (04)
@@ -415,7 +415,7 @@ Electron's own `userData` (cookies, cache) stays at Electron's default location;
 └ electron ──────── loads http://localhost:5173 instead of app://
 ```
 
-1. **Sidecar**: `uv run uvicorn bandready.server.app:app --reload --host 127.0.0.1 --port 8710` with `BANDREADY_AUTH_TOKEN=dev-token BANDREADY_DATA_DIR=./.dev-data`. Fixed port + token in dev so the SPA can also be opened in a plain browser (fastest loop for UI work, mirrors OpenVoiceUI development).
+1. **Sidecar**: `uv run uvicorn bandready.server.app:app --reload --host 127.0.0.1 --port 8710` with `BANDREADY_AUTH_TOKEN=dev-token BANDREADY_DATA_DIR=./.dev-data`. Fixed port + token in dev so the SPA can also be opened in a plain browser (fastest loop for UI work).
 2. **Vite**: standard dev server. No `/api` proxy needed — the api client targets the sidecar's absolute base URL with the bearer header; dev-mode CORS on the sidecar allows `http://localhost:5173`.
 3. **Electron**: `ELECTRON_RENDERER_URL=http://localhost:5173` makes main `loadURL` the Vite server; main still spawns nothing (it detects the already-running dev sidecar via `BANDREADY_DEV_SIDECAR=http://127.0.0.1:8710`) — or, when testing lifecycle code itself, `pnpm dev --spawn-sidecar` exercises the real spawn path.
 4. In dev, `getSidecarInfo()` returns the fixed dev contract; when the page is opened in a raw browser (no preload), the api client falls back to `import.meta.env.VITE_SIDECAR_URL` + `VITE_SIDECAR_TOKEN`.
@@ -428,7 +428,7 @@ Electron main/preload TS is compiled by `electron-vite` (default choice) so main
 - 03-providers-and-settings.md — one-LLM/one-STT/one-TTS settings, lockfile, engine detection
 - 11-data-model.md — SQLite schema behind section 8's database; §9 owns the canonical media tree + eviction policy
 - 18-api-contract.md — authoritative `/api/v1` route inventory, ticket auth (R2-2), job convention (R2-3)
-- 12-design-system.md — token palette and UI kit ported from OpenVoiceUI
+- 12-design-system.md — token palette and UI kit
 - 13-packaging-distribution.md — Python runtime bundling, code signing, auto-update, size budget
 - 14-testing-strategy.md — browser-mode SPA testing, headless voice E2E harness reuse
 
@@ -437,4 +437,4 @@ Electron main/preload TS is compiled by `electron-vite` (default choice) so main
 1. **Custom `app://` protocol vs `file://` for the packaged renderer** — `app://` (via `protocol.handle`) gives a real origin for CSP and avoids `file://` fetch quirks, but adds code; default above is `app://`, needs a spike to confirm no friction with electron-updater and deep links.
 2. **Sidecar restart UX during a live speaking session** — silently resume the session from the transcript so far, or always end-and-score the partial attempt? Interacts with scoring fairness (04-speaking-module.md should decide).
 3. **Single-instance behavior** — `app.requestSingleInstanceLock()` is assumed (two sidecars on one data dir would fight over SQLite WAL), but do we want a second window into the same instance instead?
-4. **Whether the sidecar should ever serve the SPA** as a fallback (OpenVoiceUI-style catch-all) to enable a pure-browser "server mode" later — cheap to keep possible, but out of scope for v1 unless 16-roadmap.md claims it.
+4. **Whether the sidecar should ever serve the SPA** as a fallback (SPA catch-all route) to enable a pure-browser "server mode" later — cheap to keep possible, but out of scope for v1 unless 16-roadmap.md claims it.

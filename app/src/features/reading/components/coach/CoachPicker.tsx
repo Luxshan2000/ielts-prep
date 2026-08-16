@@ -68,6 +68,7 @@ export function CoachPicker() {
       toolbar={
         <div className="flex flex-wrap items-center gap-2">
           <Select
+            size="sm"
             aria-label="Format"
             className="w-56"
             value={format}

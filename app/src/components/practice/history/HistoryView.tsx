@@ -112,6 +112,7 @@ export function HistoryView({
           />
         </div>
         <Select
+          size="sm"
           aria-label="Sort"
           className="w-[11rem]"
           value={sort}

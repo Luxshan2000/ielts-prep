@@ -19,7 +19,7 @@ Cross-review of `_context/decisions.md` and docs 00–16. Overall the set is unu
 ### C3. Repo layout: three different trees
 - 01-architecture.md §7: `app/` (one package: `app/electron/`, `app/src/pages/...`) + `sidecar/bandready/...`.
 - 16-roadmap.md §3 (P0 scaffold): `apps/desktop` + `apps/renderer` + `sidecar/`.
-- 02-voice-pipeline.md §1 and 09-pronunciation-assessment.md §4.0: `packages/core/bandready/...` (OpenVoiceUI's layout, which decisions.md says this is a separate repo from).
+- 02-voice-pipeline.md §1 and 09-pronunciation-assessment.md §4.0: `packages/core/bandready/...` (a `packages/` monorepo layout BandReady does not use).
 - Frontend paths: `src/pages/...` (01 §7, 07 §file tree "webui/src/pages/listening/") vs `src/features/...` (05 §12, 06 §9) vs `webui/src/features/reading/` (06 §9).
 An implementer cannot run `git init` + scaffold without picking a winner.
 
@@ -79,7 +79,7 @@ Per-module divergence may be intentional (05 flags it), but 04 vs 05 give a lear
 00-vision.md §7 quality metric: "< 1.2 s median examiner response latency". 02-voice-pipeline.md §9: "Target: < 1.5 s … p50", with a budget that sums to ~1.5 s and a 600 ms VAD floor. The vision doc's public metric is unachievable per the pipeline doc's own budget.
 
 ### C17. Primary color: 12's teal vs locked indigo and 06's copy
-decisions.md ("UI look") locks "replicate OpenVoiceUI's design system (… indigo-on-240°-neutral HSL token palette …)"; 12-design-system.md §1 deliberately switches primary to teal (flagged as a decision, arguably within "the design-system doc owns exact tokens"). But 06-reading-module.md §9 still says "dark default, **indigo** primary" — stale either way, and the decisions.md text should be amended if teal stands.
+decisions.md ("UI look") locks "Inter Variable, 14px base, indigo-on-240°-neutral HSL token palette"; 12-design-system.md §1 deliberately switches primary to teal (flagged as a decision, arguably within "the design-system doc owns exact tokens"). But 06-reading-module.md §9 still says "dark default, **indigo** primary" — stale either way, and the decisions.md text should be amended if teal stands.
 
 ### C18. One-LLM lock vs cross-model validation language
 decisions.md locks "exactly one LLM". 06-reading-module.md §7 Stage 3: "If a *different* model is configured as available, validation prefers it" — there is no mechanism to configure a second model (06's own open Q3 admits this). 14 §5.4's reference-model matrix and 15 §3.2's frontier authoring model are fine (out-of-app tooling), but 06's in-app sentence contradicts the lock.
@@ -182,7 +182,7 @@ Verified against the current doc text (not the fixers' claims), per the R2-1..R2
 
 | ID | Status | How |
 |---|---|---|
-| C1 | resolved | All docs use `/api/v1`; 18-api-contract.md is the single route inventory (R2-1); remaining un-versioned strings are OpenVoiceUI/Ollama references only |
+| C1 | resolved | All docs use `/api/v1`; 18-api-contract.md is the single route inventory (R2-1); remaining un-versioned strings are third-party (Ollama) references only |
 | C2 | resolved | `POST`/`PATCH /api/v1/speaking/sessions/{id}/offer` everywhere (01/02/04/14/16/18); `/voice/offer` explicitly superseded |
 | C3 | resolved | 01 §7 marked BINDING (`app/` + `sidecar/bandready/`, `app/src/features/<module>/`); 02/09/16/06/07 divergent trees corrected |
 | C4 | resolved | 11 §6 rewritten to 08's four tables (TEXT ULID PKs, `fsrs_json`, dedup `(profile_id, lemma, pos)`, status `suggested\|active\|suspended\|known`, six review types); 08 conforms |

@@ -6,7 +6,7 @@
 
 _Status: draft v2 (2026-07-25)_
 
-BandReady's correctness splits into two very different problems: **deterministic logic** (answer matching, band tables, FSRS scheduling, state machines, lockfile I/O) which gets a classic pytest/vitest pyramid with exhaustive table-driven tests, and **LLM-judged scoring quality** (writing/speaking band prediction) which cannot be unit-tested and instead gets a **golden-set evaluation framework**: ~50 expert-annotated samples across bands 4–8.5, run through the real evaluation prompts, with hard accuracy gates (|predicted − expected| ≤ 0.5 for ≥ 80% of samples, ≤ 1.0 for 100%) and drift tracking per `prompt_version` and per model (the `llm_evaluations.prompt_version` column in 11-data-model.md exists for exactly this). Between those poles sit FastAPI TestClient API tests on a temp data dir, a headless WebRTC speaking-session E2E harness adapted from OpenVoiceUI's proven `eval/` package, blind re-answer validation tests for generated content (06-reading-module.md, 07-listening-module.md), Playwright driving the real Electron app against a mock-LLM sidecar, and packaging smoke tests in CI. This doc specs each layer, the eval runner CLI, the model-swap calibration workflow, what is deliberately NOT automated, and the CI matrix.
+BandReady's correctness splits into two very different problems: **deterministic logic** (answer matching, band tables, FSRS scheduling, state machines, lockfile I/O) which gets a classic pytest/vitest pyramid with exhaustive table-driven tests, and **LLM-judged scoring quality** (writing/speaking band prediction) which cannot be unit-tested and instead gets a **golden-set evaluation framework**: ~50 expert-annotated samples across bands 4–8.5, run through the real evaluation prompts, with hard accuracy gates (|predicted − expected| ≤ 0.5 for ≥ 80% of samples, ≤ 1.0 for 100%) and drift tracking per `prompt_version` and per model (the `llm_evaluations.prompt_version` column in 11-data-model.md exists for exactly this). Between those poles sit FastAPI TestClient API tests on a temp data dir, a headless WebRTC speaking-session E2E harness (`_context/voice-pipeline-gotchas.md` §5), blind re-answer validation tests for generated content (06-reading-module.md, 07-listening-module.md), Playwright driving the real Electron app against a mock-LLM sidecar, and packaging smoke tests in CI. This doc specs each layer, the eval runner CLI, the model-swap calibration workflow, what is deliberately NOT automated, and the CI matrix.
 
 ## 1. The pyramid at a glance
 
@@ -55,7 +55,7 @@ bandready/
 │       │   ├── test_reading_blind_validation.py
 │       │   └── test_listening_blind_validation.py
 │       └── voice_e2e/                        # §4 — real WebRTC, marked slow
-│           ├── harness.py  client.py  speech.py   # adapted from openvoiceui/eval/
+│           ├── harness.py  client.py  speech.py   # see _context/voice-pipeline-gotchas §5
 │           ├── scripts/                      # scripted candidate answers (§4.2)
 │           └── test_speaking_session_e2e.py
 ├── evals/                                    # §5 — golden-set framework (NOT pytest)
@@ -161,7 +161,7 @@ The curriculum plan generator (10-curriculum-progress.md) is pure: `generate_pla
 
 ### 2.5 Settings lockfile atomicity and corruption recovery
 
-Port OpenVoiceUI's lockfile tests wholesale (findings §2) against `bandready/settings/lockfile.py` (03-providers-and-settings.md):
+The settings write path (`_context/voice-pipeline-gotchas.md` §2.2) is directly testable. Against `bandready/settings/lockfile.py` (03-providers-and-settings.md):
 
 - **Atomicity**: monkeypatch `os.replace` to raise after the temp file is written → original file unchanged, no partial writes visible; temp file cleaned up.
 - **Crash-window fuzz**: write, kill mid-sequence at each of {post-mkstemp, post-fsync, pre-replace} via injected exceptions → subsequent load always sees either old or new content, never garbage.
@@ -186,8 +186,8 @@ from fastapi.testclient import TestClient
 @pytest.fixture()
 def client(tmp_path, monkeypatch):
     monkeypatch.setenv("BANDREADY_DATA_DIR", str(tmp_path))     # engine is lazily built
-    monkeypatch.setenv("BANDREADY_AUTH_TOKEN", "test-token")    # (lesson from OpenVoiceUI:
-    monkeypatch.setenv("BANDREADY_ENABLE_MOCK", "1")            #  import AFTER env is set)
+    monkeypatch.setenv("BANDREADY_AUTH_TOKEN", "test-token")    # (so create_app must be
+    monkeypatch.setenv("BANDREADY_ENABLE_MOCK", "1")            #  imported AFTER env is set)
     from bandready.server.app import create_app                 # hidden mock presets register
     app = create_app()                                          # runs migrations + seeds
     with TestClient(app, headers={"Authorization": "Bearer test-token"}) as c:
@@ -214,7 +214,7 @@ Coverage (illustrative, not exhaustive):
 
 ## 4. Voice E2E: headless speaking-session harness
 
-Adapted from OpenVoiceUI's `packages/core/openvoiceui/eval/{speech,client,harness}.py` (findings §7) into `sidecar/tests/voice_e2e/`. What transfers verbatim: `ScriptedAudioTrack` (queued s16-mono-48k utterances + silence when idle, drift-free pacing), `place_call` (aiortc `RTCPeerConnection` + `MediaBlackhole`/recorder), `say()` (Kokoro TTS synth with macOS `say` fallback, on-disk cache keyed by text hash). What changes: instead of polling `call_logs` for a transcript, the BandReady harness (a) subscribes to the session WebSocket `WS /api/v1/speaking/sessions/{id}/events` (minting a `session-events` ticket first, per 18-api-contract.md §2) to observe **state-machine transitions live**, and (b) polls `GET /api/v1/speaking/sessions/{id}` for the final record.
+Built to the shape in `_context/voice-pipeline-gotchas.md` §5, under `sidecar/tests/voice_e2e/`. The reusable pieces: `ScriptedAudioTrack` (queued s16-mono-48k utterances + silence when idle, drift-free pacing), `place_call` (aiortc `RTCPeerConnection` + `MediaBlackhole`/recorder), `say()` (Kokoro TTS synth with macOS `say` fallback, on-disk cache keyed by text hash). On top of that, the BandReady harness (a) subscribes to the session WebSocket `WS /api/v1/speaking/sessions/{id}/events` (minting a `session-events` ticket first, per 18-api-contract.md §2) to observe **state-machine transitions live**, and (b) polls `GET /api/v1/speaking/sessions/{id}` for the final record.
 
 ### 4.1 Harness API
 
@@ -228,7 +228,7 @@ async def run_speaking_scenario(
 ) -> ScenarioResult:                # .states: [(state, t_ms)], .transcript, .session, .checks
 ```
 
-The harness answers each examiner turn by enqueuing the next scripted WAV **when the bot stops speaking** (detected via silence on the incoming track for > 1.2 s, same heuristic as OpenVoiceUI's `per_turn_wait` but event-driven), which keeps it robust to variable examiner verbosity.
+The harness answers each examiner turn by enqueuing the next scripted WAV **when the bot stops speaking** (detected via silence on the incoming track for > 1.2 s, event-driven rather than a fixed per-turn wait), so a more verbose examiner does not break the test.
 
 ### 4.2 Scripted candidate answers
 
@@ -254,10 +254,10 @@ Shipped scenarios (defaults): `p1-hometown-band6`, `p2-cue-card-long-turn` (one 
 ### 4.3 Assertions per scenario
 
 1. **State sequence**: observed WebSocket states equal the expected path for the mode (order-sensitive subsequence match; timer-driven states allow ±1 turn jitter).
-2. **Transcript capture**: final session transcript (`TranscriptObserver` shape, findings §7: `{"turns":[{role,text,t_ms}]}`) contains ≥ 1 user turn per scripted utterance, and STT text for each turn passes a loose keyword check (`expect_transcript_contains`, ≥ 60% of content words — STT is imperfect; do not assert exact strings).
+2. **Transcript capture**: final session transcript (transcript-observer shape, `_context/voice-pipeline-gotchas.md` §4.1: `{"turns":[{role,text,t_ms}]}`) contains ≥ 1 user turn per scripted utterance, and STT text for each turn passes a loose keyword check (`expect_transcript_contains`, ≥ 60% of content words — STT is imperfect; do not assert exact strings).
 3. **Recording files exist**: per 04-speaking-module.md, the session writes candidate-audio WAVs to `media/speaking/<session_id>/` in the data dir (11-data-model.md §9's canonical layout, R2-18; user recordings are never auto-evicted per R2-6); assert file count == candidate turns and each is > 0 bytes with a valid RIFF header and duration within ±30% of the source utterance.
 4. **Scoring handoff**: session reaches SCORING then FEEDBACK (mock LLM configured), and an `llm_evaluations` row exists for the session.
-5. **The five Pipecat gotchas stay pinned** (findings §1): this suite is their living regression test — if VADProcessor is dropped, turn-stop regresses to Smart Turn, or `min_volume` drifts up, scenario turns simply never transcribe and the suite fails loudly. Additionally one direct unit test asserts pipeline assembly order and params by introspecting the built pipeline (`test_pipeline_assembly.py`: VADProcessor immediately after `transport.input()`; `SpeechTimeoutUserTurnStopStrategy(user_speech_timeout=0.6)` present; `VADParams.min_volume == 0.0`, user-supplied values clamped ≤ 0.6).
+5. **The five Pipecat gotchas stay pinned** (`_context/voice-pipeline-gotchas.md` §1.3): this suite is their living regression test — if VADProcessor is dropped, turn-stop regresses to Smart Turn, or `min_volume` drifts up, scenario turns simply never transcribe and the suite fails loudly. Additionally one direct unit test asserts pipeline assembly order and params by introspecting the built pipeline (`test_pipeline_assembly.py`: VADProcessor immediately after `transport.input()`; `SpeechTimeoutUserTurnStopStrategy(user_speech_timeout=0.6)` present; `VADParams.min_volume == 0.0`, user-supplied values clamped ≤ 0.6).
 
 Execution: `uv run pytest -m slow sidecar/tests/voice_e2e` — runs the real sidecar (subprocess, temp data dir, real Whisper BASE STT + Kokoro TTS locally, mock LLM). ~6 min wall clock. Nightly + pre-release + on any change under `bandready/voice/` or `bandready/speaking/`; not on every PR.
 
@@ -363,7 +363,7 @@ The blind re-answer quality gates are production code (06-reading-module.md §St
 
 ### 7.1 The mock LLM adapter (shared seam)
 
-Copy OpenVoiceUI's mock-adapter pattern: a `MockLLM` adapter registered under `type_id="mock"` implementing the same adapter ABC as `OpenAICompatLLM` (findings §2), returning canned fixture responses keyed by (route, fixture_set) with 0 latency (or `--latency-ms` for loading-state tests). Fixture sets live in `sidecar/bandready/adapters/mock/fixtures/*.json` and include: a valid writing evaluation (05 §6 schema), a malformed one, a reading generation + matching blind answers, examiner turn responses. The mock adapter ships in the package but its presets carry `"hidden": true` and register only when `BANDREADY_ENABLE_MOCK=1` (the test seam 03-providers-and-settings.md documents, per R2-19; selected via `PATCH /api/v1/settings`) — used by §3, §4, and §7.2 alike, so every layer above unit tests exercises the **real** scoring orchestration code with fake model output.
+A `MockLLM` adapter registered under `type_id="mock"` implements the same adapter ABC as `OpenAICompatLLM` (`_context/voice-pipeline-gotchas.md` §2.1), returning canned fixture responses keyed by (route, fixture_set) with 0 latency (or `--latency-ms` for loading-state tests). Fixture sets live in `sidecar/bandready/adapters/mock/fixtures/*.json` and include: a valid writing evaluation (05 §6 schema), a malformed one, a reading generation + matching blind answers, examiner turn responses. The mock adapter ships in the package but its presets carry `"hidden": true` and register only when `BANDREADY_ENABLE_MOCK=1` (the test seam 03-providers-and-settings.md documents, per R2-19; selected via `PATCH /api/v1/settings`) — used by §3, §4, and §7.2 alike, so every layer above unit tests exercises the **real** scoring orchestration code with fake model output.
 
 ### 7.2 Vitest component tests
 
@@ -398,7 +398,7 @@ Owned jointly with 13-packaging-distribution.md. On real OS runners (macos-14 ar
 2. Install silently (`hdiutil attach`+copy / `installer.exe /S` / `dpkg -i`).
 3. Launch the installed binary headless (xvfb on Linux) with a temp `BANDREADY_DATA_DIR`.
 4. Assert within 30 s: sidecar process is running as a child; `GET /health` on the advertised port returns `{"status":"ok","db":"ok"}` with the expected migration head; renderer window reached the app shell (Playwright attach to the packaged app).
-5. **Wheel-content guard** (the OpenVoiceUI dist-not-in-wheel lesson, findings §6): a script asserts the built artifact contains the webui `dist/`, alembic migrations, seed content JSON, Kokoro model files (or the documented download-on-first-run marker), and that `Path(__file__).parent`-relative resolution finds them from the installed location.
+5. **Wheel-content guard** (the dist-not-in-wheel trap, `_context/voice-pipeline-gotchas.md` §6): a script asserts the built artifact contains the webui `dist/`, alembic migrations, seed content JSON, Kokoro model files (or the documented download-on-first-run marker), and that `Path(__file__).parent`-relative resolution finds them from the installed location.
 6. **Offline boot**: relaunch with all non-loopback traffic blocked (pf rule / firewall / netns) → app boots, a seeded reading test can be taken and scored, SRS reviews work. (LLM features degrade with the documented offline notice — asserted present, not absent.)
 7. Uninstall leaves the data dir intact (documented behavior).
 8. Auto-update: dedicated nightly-only job feeds a stub update server, asserts version bump across restart.

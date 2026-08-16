@@ -3,8 +3,9 @@
 Storage (per the A1 contract): the SQLite ``settings`` table (11-data-model.md §2), a
 key/value store of JSON blobs, under the key ``app``. When the DB layer is not available
 yet (early boot, headless unit tests) we fall back to ``<data_dir>/settings.json`` written
-with OpenVoiceUI's proven durability recipe: mkstemp → fsync → atomic replace → chmod 0600
-→ fsync of the parent directory, and quarantine of a corrupt file rather than a crash.
+with a durability recipe that survives a crash mid-write: mkstemp → fsync → atomic replace
+→ chmod 0600 → fsync of the parent directory, and quarantine of a corrupt file rather than
+a crash.
 
 Three read shapes exist and mixing them up is the classic secrets bug, so they are three
 functions:
@@ -13,8 +14,7 @@ functions:
 * :func:`load_settings_masked` — UI form. Secrets become ``"•••• (stored)"``.
 * :func:`load_settings_resolved` — use form. Decrypted, ``${VAR}`` interpolated. An unset
   variable raises :class:`~bandready.server.errors.ApiError` — never a silent empty
-  string (03 §2.2 divergence from OpenVoiceUI, which substituted ``""`` and produced
-  baffling 401s).
+  string (03 §2.2; substituting ``""`` produces baffling 401s far from the cause).
 """
 
 from __future__ import annotations
@@ -413,7 +413,7 @@ def _read_file() -> dict[str, Any] | None:
 
 
 def _write_file(doc: dict[str, Any]) -> None:
-    """Atomic + durable write (03 §2.1, verbatim port of OpenVoiceUI's lockfile.write)."""
+    """Atomic + durable write (03 §2.1)."""
     path = _settings_path()
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(dir=str(path.parent), suffix=".tmp")

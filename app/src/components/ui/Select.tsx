@@ -15,8 +15,26 @@ export interface SelectProps {
   placeholder?: string;
   disabled?: boolean;
   className?: string;
+  /**
+   * `md` matches `Input`, so the two line up in a form. `sm` matches a small `Button`, which
+   * is what a toolbar or a filter row is built from.
+   *
+   * The rule, so this does not drift: a Select inside a `Field` is `md`; a Select sitting in a
+   * row of buttons is `sm`. Every control on one line should be the same height.
+   */
+  size?: "sm" | "md";
+  /**
+   * Width follows the container by default, which is right in a form and wrong in a filter row,
+   * where a picker holding "Newest first" would otherwise stretch across the page.
+   */
+  fluid?: boolean;
   "aria-label"?: string;
 }
+
+const SIZES = {
+  sm: "h-8 px-2.5 text-[13px]",
+  md: "h-9 px-3 text-sm",
+} as const;
 
 export function Select({
   value,
@@ -25,6 +43,8 @@ export function Select({
   placeholder = "Select…",
   disabled,
   className,
+  size = "md",
+  fluid = true,
   "aria-label": ariaLabel,
 }: SelectProps) {
   const selected = options.find((o) => o.value === value) ?? null;
@@ -35,9 +55,11 @@ export function Select({
         <ListboxButton
           aria-label={ariaLabel}
           className={cn(
-            "flex h-9 w-full items-center justify-between gap-2 rounded-lg border border-input bg-background px-3",
-            "text-sm text-foreground transition-colors focus:outline-none",
+            "flex items-center justify-between gap-2 rounded-lg border border-input bg-background",
+            "text-foreground transition-colors focus:outline-none",
             "data-[focus]:ring-2 data-[focus]:ring-ring disabled:opacity-50",
+            SIZES[size],
+            fluid ? "w-full" : "w-auto",
           )}
         >
           <span className={cn("truncate", !selected && "text-muted-foreground")}>
@@ -49,7 +71,7 @@ export function Select({
           anchor="bottom start"
           transition
           className={cn(
-            "scrollbar-thin z-[60] max-h-64 w-[var(--button-width)] overflow-auto rounded-lg border border-border",
+            "scrollbar-thin z-[60] max-h-64 min-w-[var(--button-width)] overflow-auto rounded-lg border border-border",
             "bg-card p-1 shadow-xl [--anchor-gap:4px] focus:outline-none data-[closed]:opacity-0",
           )}
         >
@@ -59,8 +81,8 @@ export function Select({
               value={o.value}
               disabled={o.disabled}
               className={cn(
-                "flex cursor-pointer items-center justify-between gap-2 rounded-md px-2.5 py-1.5",
-                "text-sm text-foreground data-[focus]:bg-accent data-[disabled]:opacity-50",
+                "flex cursor-pointer items-center justify-between gap-2 rounded-md px-2.5 py-1",
+                "text-[13px] text-foreground data-[focus]:bg-accent data-[disabled]:opacity-50",
               )}
             >
               {({ selected: isSelected }) => (

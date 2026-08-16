@@ -7,8 +7,8 @@
 _Status: draft v2 (2026-07-25)_
 
 This doc specifies the exact Pipecat 1.5.0 pipeline that powers BandReady speaking sessions: the
-processor chain and parameters (carried over verbatim from OpenVoiceUI's verified build, including
-the five version-specific gotchas restated here as hard requirements), the examiner-session variant
+processor chain and parameters (the verified build, including the five version-specific gotchas
+restated here as hard requirements), the examiner-session variant
 where the current question card is injected per-turn by app logic (never left to the LLM's memory),
 the timed transcript capture that feeds fluency metrics, the raw per-turn WAV recorder that feeds
 09-pronunciation-assessment.md, the Electron-renderer client wiring, the Part 2 prep-and-monologue
@@ -18,14 +18,14 @@ and their settings by 03-providers-and-settings.md; audio file retention by 11-d
 
 ## 1. Scope and source material
 
-- Pipecat is pinned at **1.5.0** (decisions.md). Everything here is verified against that version
-  via OpenVoiceUI (`packages/core/openvoiceui/voice/{pipeline,runtime,transcript,rag_processor}.py`
-  and `packages/webui/src/pages/LiveCall.tsx`). Do not upgrade Pipecat without re-verifying §2.1.
+- Pipecat is pinned at **1.5.0** (decisions.md). Everything here is verified against that version;
+  the parameter-level record is `_context/voice-pipeline-gotchas.md` §1. Do not upgrade Pipecat
+  without re-verifying §2.1.
 - Transport: `SmallWebRTCTransport` between the Electron renderer and the FastAPI sidecar on
   loopback. WebRTC (not raw WebSocket audio) so we reuse the proven Pipecat JS client SDK,
   echo cancellation, and jitter handling for free.
 - One speaking session = one WebRTC call = one `PipelineTask`. Sidecar runs `workers=1`; WebRTC
-  and session state are per-process (same contract as OpenVoiceUI).
+  and session state are per-process (`_context/voice-pipeline-gotchas.md` §3).
 
 Backend module tree (new code, package `bandready`; repo layout per 01 §7, binding — R2-9):
 
@@ -59,8 +59,8 @@ start + run + close must happen inside one asyncio task (anyio scope requirement
 
 ### 2.2 Processor chain
 
-BandReady's chain is OpenVoiceUI's with two insertions (recorder, question injector) and one
-optional gate (Part 2):
+The base chain (`_context/voice-pipeline-gotchas.md` §1.1) with two insertions (recorder, question
+injector) and one optional gate (Part 2):
 
 ```
 transport.input()
@@ -143,7 +143,7 @@ than by rebuilding the task mid-session.
 
 ### 2.4 Signaling, greeting, teardown (runtime.py)
 
-Same shape as OpenVoiceUI's `runtime.py`, with BandReady routes:
+Signaling shape per `_context/voice-pipeline-gotchas.md` §1.2, with BandReady routes:
 
 - `POST /api/v1/speaking/sessions/{session_id}/offer` (route contract: 18-api-contract.md §4.7,
   per R2-1 — this supersedes 01/14's earlier `/voice/offer` sketch) — body
@@ -154,7 +154,7 @@ Same shape as OpenVoiceUI's `runtime.py`, with BandReady routes:
 - `PATCH` to the **same URL** → build `SmallWebRTCPatchRequest` accepting both key spellings (G4)
   → `handle_patch_request`.
 - `on_client_connected` → `task.queue_frames([TTSSpeakFrame(part_opening_line)])` — the examiner
-  speaks first (§3.2 opening lines), exactly like OpenVoiceUI's greeting.
+  speaks first (§3.2 opening lines).
 - `on_client_disconnected` → `await task.cancel()`; the runner's `finally` block persists the
   transcript record (`speaking_sessions.transcript_json`), per-turn WAV index, and computed
   fluency metrics, then flushes/closes any open WAV writer. **Turn-row flatten (R2-24,
@@ -166,7 +166,7 @@ Same shape as OpenVoiceUI's `runtime.py`, with BandReady routes:
   `status='active'`; the startup sweep re-runs the flatten from `transcript_json` (idempotent —
   `UNIQUE (session_id, turn_index)` upsert) and then marks the session `complete` or `aborted`.
 - The whole call runs in a single `asyncio.create_task(...)`; `on_ready(task)` hands the task to
-  the connect handler (holder-dict pattern from OpenVoiceUI, verbatim).
+  the connect handler (holder-dict pattern).
 
 Sidecar auth: the renderer includes the Electron-issued sidecar token on the offer/PATCH requests
 like every other API call (01-architecture.md owns the token scheme; 18-api-contract.md owns the
@@ -176,8 +176,8 @@ per-route auth contract, including the ticket mechanism the session-events WebSo
 
 **Principle: question progression is app logic, not LLM memory.** The LLM never decides which
 question comes next, never sees future cards, and cannot "drift" off the script, because the
-current card is re-injected fresh every turn and the previous injection is stripped — the
-`build_messages()` pattern from OpenVoiceUI's `rag_processor.py`, reused with a different marker.
+current card is re-injected fresh every turn and the previous injection is stripped
+(`_context/voice-pipeline-gotchas.md` §4.2), with a BandReady-specific marker.
 
 ### 3.1 QuestionCardProcessor
 
@@ -278,7 +278,8 @@ pipeline processors entirely.
 
 ### 4.1 TimedTranscriptObserver
 
-Extends OpenVoiceUI's `TranscriptObserver` (same frame taps, same `id(frame)` dedupe): finalized
+Extends the base transcript observer (`_context/voice-pipeline-gotchas.md` §4.1, same frame taps
+and the same `id(frame)` dedupe): finalized
 `TranscriptionFrame` → user turn; `LLMFullResponseStart/Text/End` → assistant turn. BandReady adds
 speech-segment timing from the VAD control frames, which observers also see:
 
@@ -393,7 +394,7 @@ write failed; the turn simply has `audio_file: null` and 09 skips it.
 
 ### 6.1 Packages and component shape
 
-Same SDK stack as OpenVoiceUI's LiveCall: `@pipecat-ai/client-js`, `@pipecat-ai/client-react`,
+SDK stack (`_context/voice-pipeline-gotchas.md` §1.4): `@pipecat-ai/client-js`, `@pipecat-ai/client-react`,
 `@pipecat-ai/small-webrtc-transport`. Renderer page `app/src/features/speaking/SpeakingSession.tsx`
 (R2-9: features live under `app/src/features/<module>/`, 01 §7 binding) wraps the
 session UI in `PipecatClientProvider` and mounts **`<PipecatClientAudio />`** once for bot audio
@@ -423,7 +424,7 @@ runs on the selected device before the user starts the timed session.
 
 ### 6.3 Transport state → UI phases
 
-Reuse OpenVoiceUI's mapping verbatim:
+The mapping:
 
 ```
 disconnected → idle | connecting/negotiating/... → connecting | connected|ready → connected | error → error
@@ -534,7 +535,7 @@ Knobs (exposed in settings per 03-providers-and-settings.md; defaults flagged):
   faster full response. Also set `max_tokens=150` (default) on the LLM call for Parts 1/3.
 - Context trimming: QuestionCardProcessor's rebuild step also truncates history to the last 12
   messages (default) — examiner turns don't need deep memory since cards carry the script.
-- Warmup: reuse OpenVoiceUI's `warmup()` — build STT + TTS at sidecar boot so first-session
+- Warmup: `warmup()` builds STT + TTS at sidecar boot so first-session
   latency matches steady state; additionally fire one 1-token LLM ping at boot (loads mlx/Ollama
   model weights).
 - Scripted lines (`TTSSpeakFrame`) bypass STT+LLM entirely — all part transitions are effectively

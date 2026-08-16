@@ -421,7 +421,7 @@ Sidecar endpoints (canonical inventory: 18-api-contract.md §4.13; all under `/a
 ## 8. Adaptive rules engine
 
 Declarative rules evaluated after every scored attempt and at daily rollover. Rules are shipped as
-data (JSON in the content bank — same "composable fragments" spirit as OpenVoiceUI's skills.json),
+data (JSON in the content bank, the same composable-fragment idea as the speaking prompts,
 so tuning them never needs a code change. Firings are persisted and surfaced as dashboard callouts.
 
 Rule shape:

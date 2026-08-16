@@ -212,6 +212,7 @@ export function MinimalPairDrill({ className }: { className?: string }) {
       <CardContent className="space-y-3">
         {options.length > 1 && (
           <Select
+            size="sm"
             aria-label="Sound pair"
             value={contrast}
             onChange={setContrast}

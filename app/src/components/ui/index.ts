@@ -1,4 +1,4 @@
-// Ported OpenVoiceUI kit (12-design-system.md §7)
+// Shared UI kit (12-design-system.md §7)
 export { Button, type ButtonProps, type ButtonVariant, type ButtonSize } from "./Button";
 export {
   Card,

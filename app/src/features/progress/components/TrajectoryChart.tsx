@@ -225,6 +225,7 @@ export function TrajectoryChart({
           </p>
         </div>
         <Select
+          size="sm"
           className="w-[10.5rem] shrink-0"
           aria-label="Trajectory time range"
           value={String(weeks)}
@@ -254,7 +255,6 @@ export function TrajectoryChart({
           <SkeletonChart aspect="aspect-[16/7]" />
         ) : !hasData ? (
           <EmptyState
-            size="sm"
             icon={LineChartIcon}
             title="No band history yet"
             description={

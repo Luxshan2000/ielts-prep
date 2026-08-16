@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="BandReady">
+  <!--
+    The same mark the sidebar draws: a graduation cap on the primary teal, in a rounded square.
+    Kept as one file rather than a set, because an SVG favicon scales to every size a tab, a
+    bookmark bar or a task switcher asks for, and a 16px PNG of this would lose the mortarboard.
+
+    The teal is the `primary` token from tokens.css at its light value (172 72% 30%), not the dark one:
+    a favicon sits on the browser's chrome, which is usually pale, and the darker teal keeps
+    contrast there. The cap geometry is lucide's graduation-cap, scaled from its 24px grid into
+    the 20px square this leaves inside the tile.
+  -->
+  <rect width="32" height="32" rx="8" fill="#158475" />
+  <g transform="translate(6 6) scale(0.8333)"
+     fill="none" stroke="#ffffff" stroke-width="2"
+     stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+    <path d="M22 10v6" />
+    <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+  </g>
+</svg>

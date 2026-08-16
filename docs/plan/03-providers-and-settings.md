@@ -6,14 +6,16 @@
 
 _Status: draft v2 (2026-07-25)_
 
-BandReady radically simplifies OpenVoiceUI's multi-agent/multi-connection provider system down to
-exactly **one LLM + one STT + one TTS (+ VAD tunables)**, configured on a single Settings page.
+BandReady's provider layer is deliberately small: exactly **one LLM + one STT + one TTS
+(+ VAD tunables)**, configured on a single Settings page. No multi-agent or multi-connection
+machinery.
 Everything goes through OpenAI-compatible HTTP endpoints where a server exists (LLM, cloud
 STT/TTS); local STT/TTS run in-process inside the Python sidecar (faster-whisper / mlx-whisper /
 Kokoro ONNX). Configuration lives in a single `settings.json` in the app data dir, written with
-OpenVoiceUI's proven lockfile robustness (atomic mkstemp→fsync→replace→chmod 0600→fsync-dir,
-corrupt-file quarantine, `${ENV_VAR}` interpolation). A small shipped **preset registry** (12
-presets) plus OpenVoiceUI's `config_spec`-driven form idea render the whole Settings UI
+the durability recipe in `_context/voice-pipeline-gotchas.md` §2.2 (atomic
+mkstemp→fsync→replace→chmod 0600→fsync-dir, corrupt-file quarantine, `${ENV_VAR}`
+interpolation). A small shipped **preset registry** (12 presets) plus a `config_spec`-driven
+form render the whole Settings UI
 generically — no provider-specific React code. The app probes localhost ports and PATH binaries to
 auto-detect installed engines and offers one-click guided setup per engine. Secrets are encrypted
 at rest with a per-install key (OS keychain deferred to v2). See 01-architecture.md for the
@@ -30,8 +32,9 @@ in this doc live under `/api/v1` per ruling R2-1).
 2. **OpenAI-compatible or in-process.** An LLM is always `base_url + api_key + model` against
    `/v1/chat/completions`. STT/TTS are either an OpenAI-compatible endpoint
    (`/v1/audio/transcriptions`, `/v1/audio/speech`) or an in-process engine with no URL at all.
-   One code path per shape; OpenVoiceUI proved a single `OpenAICompatLLM` adapter covers
-   OpenAI/OpenRouter/Groq/DeepSeek/Ollama/vLLM/LM Studio/llama.cpp purely via `base_url` + key.
+   One code path per shape: a single `OpenAICompatLLM` adapter covers
+   OpenAI/OpenRouter/Groq/DeepSeek/Ollama/vLLM/LM Studio/llama.cpp purely via `base_url` + key
+   (`_context/voice-pipeline-gotchas.md` §2.1).
 3. **Presets are data, not code.** A preset only pre-fills fields and declares which fields to
    show. The renderer is one generic React form driven by `config_spec` (§4).
 4. **Renderer never sees secrets.** The Electron renderer gets masked keys; plaintext exists only
@@ -51,10 +54,10 @@ Location (see 01-architecture.md for data dir resolution):
 ```
 
 Owned and written **only by the Python sidecar** (Electron main/renderer go through
-`PATCH /api/v1/settings`). Single-writer, no merge-with-shipped-defaults layer like OpenVoiceUI's
-lockfile v2 — defaults are code constants; a missing file simply yields defaults + first-run flag.
+`PATCH /api/v1/settings`). Single-writer, and no merge-with-shipped-defaults layer at all:
+defaults are code constants, and a missing file simply yields defaults + first-run flag.
 
-### 2.1 Write path (verbatim port of `openvoiceui/models/lockfile.py:write`)
+### 2.1 Write path (`_context/voice-pipeline-gotchas.md` §2.2)
 
 ```python
 def write_settings(path: Path, data: dict) -> None:
@@ -88,8 +91,7 @@ def write_settings(path: Path, data: dict) -> None:
   Never crash the sidecar on a bad byte.
 - `${ENV_VAR}` interpolation (regex `\$\{([A-Z0-9_]+)\}`) applied **at use time**, recursively
   over strings/dicts/lists — the file on disk keeps the literal `${OPENROUTER_API_KEY}`.
-  Divergence from OpenVoiceUI (which substitutes `""` silently): an unset variable is a
-  **Verify-time error** surfaced as a Settings banner ("`OPENROUTER_API_KEY` is not set in your
+  An unset variable is a **Verify-time error** surfaced as a Settings banner ("`OPENROUTER_API_KEY` is not set in your
   environment"), because a silently empty key produces a confusing 401 (default; flagged).
 
 ### 2.3 Schema (JSON Schema draft 2020-12, mirrored by a Pydantic model in the sidecar)
@@ -164,7 +166,7 @@ def write_settings(path: Path, data: dict) -> None:
 
 Notes:
 - `vad.min_volume` is **schema-clamped to ≤ 0.6** and defaults to `0.0` — gotcha #5 in
-  `_context/openvoiceui-findings.md` (the Pipecat default 0.6 blocks normal speech). The
+  `_context/voice-pipeline-gotchas.md` §1.3 (the Pipecat default 0.6 blocks normal speech). The
   sidecar additionally clamps at read time so a hand-edited file cannot regress it.
   `vad.stop_secs` also feeds `SpeechTimeoutUserTurnStopStrategy(user_speech_timeout=stop_secs)`
   so the two stay in lockstep — see 02-voice-pipeline.md. The Speaking module may *raise*
@@ -302,9 +304,9 @@ exercises the **real** scoring orchestration with deterministic fake model outpu
 presets never appear in the Settings UI preset dropdowns even when enabled — they are selectable
 only via the API.
 
-Direct port of OpenVoiceUI's idea (`adapters/base.py` `FieldSpec`/`ConfigSpec`,
-`GET /api/adapters/config-spec`): the React form is a generic renderer over field specs; adding a
-preset never touches TSX. TypeScript mirror:
+The adapter declares `FieldSpec`/`ConfigSpec` and the UI reads it from
+`GET /api/adapters/config-spec` (`_context/voice-pipeline-gotchas.md` §2.1): the React form is a
+generic renderer over field specs; adding a preset never touches TSX. TypeScript mirror:
 
 ```ts
 type FieldType = "text" | "password" | "number" | "select" | "bool" | "slider";
@@ -437,13 +439,13 @@ whisper regardless of the live STT choice. Kokoro voice suggestions for examiner
 
 ## 8. Secrets handling
 
-**Decision: encrypted-at-rest inside `settings.json`, per-install key — OpenVoiceUI's model.**
+**Decision: encrypted-at-rest inside `settings.json`, with a per-install key.**
 OS keychain (keytar/`safeStorage` in Electron main) is deferred to v2: it splits secret ownership
 across the Electron/Python boundary, breaks headless sidecar tests, and keytar is
 maintenance-risky. Flagged as a default worth revisiting.
 
 - Per-install Fernet key auto-generated at first boot → `<datadir>/secret.key`, `chmod 0600`.
-  No shared fallback key ever (OpenVoiceUI lesson).
+  No shared fallback key ever: a key baked into the source of an open-source app encrypts nothing.
 - `PATCH /api/v1/settings` with a plaintext `api_key` ⇒ sidecar encrypts to `enc:v1:<fernet-token>`
   before the atomic write. `${ENV_VAR}` values are stored literally (never encrypted) and
   resolved at use time — power users keep keys out of the file entirely.
@@ -453,7 +455,7 @@ maintenance-risky. Flagged as a default worth revisiting.
   obfuscation against casual reads/backup leaks, not against a local attacker with user
   privileges. That is the accepted v1 posture for a single-user local app.
 - Decrypted values live only in sidecar process memory; never logged (redaction filter on the
-  logger, ported from OpenVoiceUI's secrets module).
+  logger).
 
 ## 9. Verify semantics
 
@@ -469,7 +471,7 @@ One `POST /api/v1/providers/verify` with body `{"modality": "llm" | "stt" | "tts
      the key has model access and measures TTFT (for STT presets: transcribe a bundled 1 s WAV;
      for TTS: synthesize the word "ready").
 - **In-process engines**: check weight files exist and load metadata; no network.
-  `detail: "local model — loads at pipeline start"` (OpenVoiceUI wording), plus
+  `detail: "local model — loads at pipeline start"`, plus
   `state: "needs_download"` when weights are absent (button flips to Download).
 
 ```json

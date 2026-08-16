@@ -197,7 +197,7 @@ Paths follow the binding repo layout of 01-architecture.md §7 (R2-9):
 ```
 sidecar/bandready/pron/
 ├── __init__.py
-├── provider.py      # PronProvider ABC + registry (mirrors OpenVoiceUI adapters/base.py pattern)
+├── provider.py      # PronProvider ABC + registry (same shape as the adapter base, 03 §4)
 ├── proxy_v1.py      # §3 v1 implementation (always available)
 ├── gop_v2.py        # orchestrates §4.1–4.5; the "local-gop" provider
 ├── g2p.py           # espeak phonemizer wrapper, vocab normalization map, CMUdict stress lookup
@@ -292,7 +292,7 @@ score < 55 replaced by its normalized `heard_token` IPA.
 ```python
 class PronProvider(ABC):                      # provider.py
     provider_id: str                          # "proxy-v1" | "local-gop" | "azure" | "speechace"
-    def available(self) -> VerifyResult: ...  # model downloaded? key set? (OpenVoiceUI verify pattern)
+    def available(self) -> VerifyResult: ...  # model downloaded? key set? (the verify() pattern)
     async def analyze(self, wav_path: Path, reference_text: str | None,
                       lang: str = "en-us") -> TurnPronResult: ...
 ```

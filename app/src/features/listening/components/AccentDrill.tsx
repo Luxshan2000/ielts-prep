@@ -225,6 +225,7 @@ export function AccentDrill() {
               <div className="space-y-1.5">
                 <span className="block text-[13px] font-medium">Script</span>
                 <Select
+                  size="sm"
                   value={scriptId}
                   onChange={setScriptId}
                   aria-label="Listening script"
@@ -237,6 +238,7 @@ export function AccentDrill() {
               <div className="space-y-1.5">
                 <span className="block text-[13px] font-medium">Re-voice as</span>
                 <Select
+                  size="sm"
                   value={accent}
                   onChange={setAccent}
                   aria-label="Accent"

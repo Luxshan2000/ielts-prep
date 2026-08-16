@@ -307,7 +307,7 @@ Byte-level progress maps into the generic job object: `progress_pct = received_b
 Rules (all defaults, all firm):
 - Downloads via `httpx` streaming into `<dest>/<name>.part`; **resume** with `Range: bytes=<len(.part)>-` when the server advertises `Accept-Ranges` (HF and GitHub releases both do); otherwise restart.
 - On completion: sha256 the whole file (streamed, incremental during download so verify is nearly free), compare, then atomic `os.replace` `.part` → final name. Mismatch ⇒ delete `.part`, state `error:"checksum"`, one automatic retry.
-- 3 retries with exponential backoff (2/8/30 s) on network errors; renderer polls `GET /api/v1/jobs/{id}` at 500 ms (no SSE — the job convention per R2-3 / 18 §3, matches OpenVoiceUI's polling conventions).
+- 3 retries with exponential backoff (2/8/30 s) on network errors; renderer polls `GET /api/v1/jobs/{id}` at 500 ms (no SSE — the job convention per R2-3 / 18 §3).
 - One download at a time (models are GB-scale; parallelism just fragments bandwidth). Queue in the sidecar, survives renderer reloads, cancelled cleanly on app quit (`.part` kept for resume next launch).
 - **Offline import**: user picks a file/folder via native dialog (preload `showOpenDialog` bridge); sidecar verifies sha256 against the manifest, then copies into place. Serves air-gapped users and the "I already have whisper models" crowd. A `--models-from <dir>` import-all is a stretch goal.
 - MLX whisper snapshots (multi-file HF repos) use the same per-file mechanism with `hf_repo` listing expanded at pin time.
@@ -341,7 +341,7 @@ SmartScreen reputation also accrues organically per-file-hash — but every rele
 | OS | Mechanism | BandReady behavior |
 |---|---|---|
 | macOS | TCC prompt on first mic access; text from `NSMicrophoneUsageDescription` (set in section 4's `extendInfo` — exact copy there). Hardened-runtime entitlement `com.apple.security.device.audio-input` required or capture silently fails. | Main calls `systemPreferences.askForMediaAccess('microphone')` when the user *enters the first speaking/pronunciation session* — not at app launch (asking at launch tanks grant rates). If denied: renderer shows a card with a deep link `x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone`. |
-| Windows | No prompt for desktop (win32) apps by default, but the global *Settings → Privacy → Microphone → "Let desktop apps access your microphone"* toggle can block capture — `getUserMedia` then rejects. | Map `NotAllowedError`/`NotFoundError` via the ported `describeError()` (openvoiceui-findings.md §1) to a card deep-linking `ms-settings:privacy-microphone`. |
+| Windows | No prompt for desktop (win32) apps by default, but the global *Settings → Privacy → Microphone → "Let desktop apps access your microphone"* toggle can block capture — `getUserMedia` then rejects. | Map `NotAllowedError`/`NotFoundError` via `describeError()` (`app/src/features/speaking/components/phases.ts`) to a card deep-linking `ms-settings:privacy-microphone`. |
 | Linux | No OS prompt (PulseAudio/PipeWire); portal prompts only under Flatpak (not v1). | Same `describeError()` card; docs mention `pavucontrol` for device debugging. |
 
 Renderer-side, Electron main auto-approves Chromium's `media` permission request for our own origin only (`session.setPermissionRequestHandler` allowlists `app://` + the dev Vite origin, denies everything else). The gotcha-#3 `initDevices()`-before-`connect()` rule (law) is what actually surfaces these prompts at the right moment — 02-voice-pipeline.md.

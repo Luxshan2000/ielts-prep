@@ -30,7 +30,10 @@ export interface PageShellProps {
   refreshing?: boolean;
   /** What is being reloaded, e.g. "Recompute estimates". Becomes the accessible name. */
   refreshLabel?: string;
-  /** Full-width row below the title (tabs, filters, banners). */
+  /**
+   * Tabs, filters or a mode picker. Rendered in its own band under the header, on a lighter
+   * ground, because these controls change the content below rather than the title above.
+   */
   toolbar?: ReactNode;
   maxWidth?: string;
   /** Drop the padded content wrapper — for full-bleed players and split panes. */
@@ -100,9 +103,22 @@ export function PageShell({
               </div>
             )}
           </div>
-          {toolbar}
         </div>
       </header>
+
+      {/*
+        The tabs are their own band under the header, not the last row inside it.
+        Sharing the header's box made the title and the mode picker read as one object, so
+        it was never obvious that the tabs change what is below rather than what is above.
+        The band draws NO rule of its own. Tabs already carry an underline, so a border here
+        put three lines within forty pixels: the header's, the band's, and the tabs' own. The
+        header rule plus a lighter ground is enough to separate the two.
+      */}
+      {toolbar && (
+        <div className="shrink-0 bg-muted/20">
+          <div className={cn("mx-auto w-full px-6 py-2.5", maxWidth)}>{toolbar}</div>
+        </div>
+      )}
 
       {bleed ? (
         <div className="scrollbar-thin min-h-0 flex-1 overflow-y-auto">{children}</div>

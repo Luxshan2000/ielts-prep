@@ -41,7 +41,7 @@ Only Full Mock and Single Part produce band scores that count toward progress ch
 
 ## 3. Session state machine
 
-Lives in the FastAPI sidecar (`sidecar/bandready/speaking/session.py` per the binding repo layout, 01 §7 / R2-9; single source of truth). The renderer mirrors state via WebSocket events; it never advances state itself. One active speaking session per process (workers=1 contract inherited from OpenVoiceUI findings §3).
+Lives in the FastAPI sidecar (`sidecar/bandready/speaking/session.py` per the binding repo layout, 01 §7 / R2-9; single source of truth). The renderer mirrors state via WebSocket events; it never advances state itself. One active speaking session per process (the `workers=1` contract, `_context/voice-pipeline-gotchas.md` §3).
 
 ### 3.1 Diagram
 
@@ -138,13 +138,13 @@ semantics. Representative events:
 ### 3.4 Driving the examiner over the live pipeline
 
 - The pipeline is exactly 02-voice-pipeline.md's assembly (all five Pipecat gotchas honored; explicit `VADProcessor`, `SpeechTimeoutUserTurnStopStrategy`, `initDevices()` before `connect()`, PATCH trickle ICE, `min_volume=0.0`).
-- Part-specific instructions and the question card are injected using the OpenVoiceUI `rag_processor.build_messages()` pattern: one marked system message inserted before the last user turn, previous injection stripped — so switching P1→P2→P3 swaps the active script without context bloat.
+- Part-specific instructions and the question card are injected with the `build_messages()` pattern (`_context/voice-pipeline-gotchas.md` §4.2): one marked system message inserted before the last user turn, previous injection stripped, so switching P1→P2→P3 swaps the active script without context bloat.
 - Scripted lines (part transitions, "Thank you." cutoff, wrap-up) bypass the LLM: the controller queues `TTSSpeakFrame(line)` directly, with `allow_interruptions` handling the Part 2 hard cut. This guarantees ritual fidelity regardless of model quality.
 - Part 2 prep minute: controller mutes examiner turns (LLM not invoked); candidate audio during prep is captured but excluded from scoring metrics; UI shows the cue card + a notes textarea (notes are local-only, shown again during the long turn, never sent to the LLM).
 
 ## 4. Personas — verbatim system prompts
 
-Stored as prompt fragments (OpenVoiceUI skills pattern, findings §7) in `sidecar/bandready/defaults/prompts/speaking/`. `{{placeholders}}` are filled by the session controller. These are the shipped defaults; user-editable copies live in the data dir.
+Stored as composable prompt fragments (`_context/voice-pipeline-gotchas.md` §4.3) in `sidecar/bandready/defaults/prompts/speaking/`. `{{placeholders}}` are filled by the session controller. These are the shipped defaults; user-editable copies live in the data dir.
 
 ### 4.1 Examiner — shared base (`examiner_base.txt`)
 
@@ -605,7 +605,7 @@ POST   /api/v1/vocab/suggestions               batch, §8 (R2-5 suggested-inbox 
 GET    /api/v1/media/speaking/{session_id}/{turn_file}.wav   ?ticket= — report replay (18 §4.16)
 ```
 
-Testing hooks: the OpenVoiceUI headless E2E harness (findings §7 — Kokoro-synthesized caller, real aiortc WebRTC call, transcript assertions) is the backbone of speaking-module E2E tests; scoring determinism and calibration regression live in 14-testing-strategy.md.
+Testing hooks: the headless E2E harness (`_context/voice-pipeline-gotchas.md` §5: Kokoro-synthesized caller, real aiortc WebRTC call, transcript assertions) is the backbone of speaking-module E2E tests; scoring determinism and calibration regression live in 14-testing-strategy.md.
 
 ## Open questions
 

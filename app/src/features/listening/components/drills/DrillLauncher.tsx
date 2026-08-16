@@ -142,6 +142,7 @@ export function DrillLauncher({
           <div className="space-y-1.5">
             <span className="block text-[13px] font-medium">Recording</span>
             <Select
+              size="sm"
               value={chosenScript}
               onChange={setChosenScript}
               aria-label="Listening script"
@@ -157,6 +158,7 @@ export function DrillLauncher({
           <div className="space-y-1.5">
             <span className="block text-[13px] font-medium">Items</span>
             <Select
+              size="sm"
               value={String(size)}
               onChange={(value) => setSize(Number(value) || DEFAULT_SIZE)}
               aria-label="Set size"

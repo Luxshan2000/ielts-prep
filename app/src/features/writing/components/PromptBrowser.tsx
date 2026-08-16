@@ -173,6 +173,7 @@ export function PromptBrowser() {
           />
         </div>
         <Select
+          size="sm"
           aria-label="Task type"
           value={filters.task_type}
           onChange={(value) => {
@@ -182,6 +183,7 @@ export function PromptBrowser() {
           className="w-[15rem]"
         />
         <Select
+          size="sm"
           aria-label="Pattern"
           value={filters.genre}
           onChange={(value) => setFilter("genre", value)}
@@ -190,6 +192,7 @@ export function PromptBrowser() {
           className="w-[12rem]"
         />
         <Select
+          size="sm"
           aria-label="Difficulty"
           value={String(filters.difficulty)}
           onChange={(value) => setFilter("difficulty", Number(value))}

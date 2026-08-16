@@ -15,39 +15,38 @@ The vision doc owns final naming; everyone else just says "BandReady".
 - **Who**: IELTS candidates (Academic & General Training) who want unlimited private practice with
   their own AI models — local or any cloud key. First-mover OSS positioning: no complete open-source
   IELTS package exists.
-- **Business/license**: fully OSS (MIT), separate repo/project from OpenVoiceUI. Open-core
-  possible later; not planned in v1.
-- **Single learner, local-first.** No accounts, no server auth/RBAC (unlike OpenVoiceUI). Optional
+- **Business/license**: fully OSS (MIT). Open-core possible later; not planned in v1.
+- **Single learner, local-first.** No accounts, no server auth, no RBAC. Optional
   multiple local profiles at most. All data stays on device.
 
 ## Stack (ADR summaries — 01-architecture.md elaborates)
 
 - **ADR-001: Electron + React 18 + Vite + TypeScript + Tailwind — NOT React Native.**
-  Rationale: reuse of the Pipecat JS client SDK (WebRTC voice), OpenVoiceUI's proven LiveCall
-  patterns, and its entire Tailwind design-token system. react-native-macos/windows has no viable
-  path for the Pipecat web SDK, weak WebRTC support, and would discard all existing UI knowledge.
+  Rationale: the Pipecat JS client SDK (WebRTC voice) is a web SDK, and the whole UI is DOM code
+  on a Tailwind design-token system. react-native-macos/windows has no viable path for the
+  Pipecat web SDK and has weak WebRTC support.
   Electron ships one codebase to macOS + Windows (+ Linux for free).
 - **ADR-002: Python FastAPI sidecar** spawned by Electron main process (localhost, random port,
   loopback-only, token-authenticated). It owns: Pipecat voice pipeline, SQLite, content bank,
-  scoring orchestration. Electron renderer talks to it over HTTP/WebRTC exactly as OpenVoiceUI's
-  SPA does. Packaged as a self-contained python runtime (PyInstaller or python-build-standalone +
+  scoring orchestration. The Electron renderer talks to it over HTTP/WebRTC the way any SPA talks
+  to a web server. Packaged as a self-contained python runtime (PyInstaller or python-build-standalone +
   bundled venv — packaging doc decides).
 - **DB**: SQLite (WAL, foreign_keys ON) via SQLAlchemy 2.0 + Alembic. Data dir:
   `~/Library/Application Support/BandReady` (mac) / `%APPDATA%/BandReady` (win).
-- **Voice**: pipecat-ai pinned **1.5.0**, SmallWebRTCTransport, Silero VAD. The five gotchas from
-  `_context/openvoiceui-findings.md` are law.
+- **Voice**: pipecat-ai pinned **1.5.0**, SmallWebRTCTransport, Silero VAD. The five gotchas in
+  `_context/voice-pipeline-gotchas.md` are law.
 - **Providers**: everything through **OpenAI-compatible endpoints** where possible. ONE simplified
-  settings page: the user configures exactly one LLM + one STT + one TTS (+ VAD tunables) —
-  NOT OpenVoiceUI's multi-agent/multi-connection system. Keep OpenVoiceUI's `config_spec`-driven
-  form idea and lockfile robustness (atomic writes, env interpolation), radically simplified.
+  settings page: the user configures exactly one LLM + one STT + one TTS (+ VAD tunables). No
+  multi-agent or multi-connection machinery. Keep the `config_spec`-driven form and the lockfile
+  robustness (atomic writes, env interpolation), radically simplified.
 - **Local engines**:
   - macOS (Apple Silicon): MLX family — `mlx-lm` server (OpenAI-compatible), `mlx_whisper` STT;
   - Windows/Linux: Ollama (OpenAI-compatible) + faster-whisper;
   - TTS default everywhere: Kokoro ONNX (local, fast);
   - any cloud OpenAI-compatible endpoint also works (OpenRouter, Groq, DeepSeek, ...).
   App detects installed engines and offers one-click guided setup.
-- **UI look**: replicate OpenVoiceUI's design system (Inter Variable, 14px base, indigo-on-240°-neutral
-  HSL token palette, dark default, rounded-xl cards). The design-system doc owns exact tokens.
+- **UI look**: Inter Variable, 14px base, indigo-on-240°-neutral HSL token palette, dark default,
+  rounded-xl cards. The design-system doc owns exact tokens.
 
 ## Conventions
 
@@ -147,7 +146,7 @@ existing doc, the doc must be edited to match. Citations refer to 17's finding I
 - **R2-15 (C16) Latency**: public target is "<1.5s p50 examiner response" (02's budget); 00 is
   corrected.
 - **R2-16 (C17) Primary color**: TEAL stands (12's exact HSL triples are canonical). The earlier
-  "indigo" wording in this file's UI-look bullet is hereby amended to "OpenVoiceUI's token system
+  "indigo" wording in this file's UI-look bullet is hereby amended to "the HSL token system
   with BandReady's teal primary per 12-design-system.md". 06 §9's "indigo" is corrected.
 - **R2-17 (C18) One-LLM lock**: absolute in-app. 06 §7's "different model configured" sentence is
   deleted; validation always uses the configured LLM (out-of-app authoring tooling may use any

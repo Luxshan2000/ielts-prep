@@ -1138,7 +1138,7 @@ review. The same flag serves user-hidden content ("don't show me this prompt aga
 
 - Initial revision creates the full schema above — including the two views (§8.2/§8.3) and the
   FTS5 table + triggers (§6) via `op.execute` — then sidecar startup runs `upgrade head` under
-  the boot flock (same pattern as OpenVoiceUI: migrations → seed pack import → serve).
+  the boot flock (`_context/voice-pipeline-gotchas.md` §3: migrations → seed pack import → serve).
 - **SQLite batch-alter caveats**: SQLite cannot `ALTER` most things. All alterations use
   `op.batch_alter_table` (Alembic's copy-rename dance); `context.configure(render_as_batch=True)`
   in `env.py`. This REQUIRES a constraint **naming convention** from day one (anonymous

@@ -143,17 +143,21 @@ export function EntryBrowser() {
         </div>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           <Select
+            size="sm"
             value={filters.status}
             onChange={(value) => setFilters({ status: value as VocabStatus | "all" })}
             options={STATUS_OPTIONS}
           />
           <Select value={filters.pos} onChange={(pos) => setFilters({ pos })} options={POS_OPTIONS} />
+            size="sm"
           <Select
+            size="sm"
             value={filters.topic}
             onChange={(topic) => setFilters({ topic })}
             options={TOPIC_OPTIONS}
           />
           <Select
+            size="sm"
             value={filters.sort}
             onChange={(sort) => setFilters({ sort: sort as typeof filters.sort })}
             options={SORT_OPTIONS}

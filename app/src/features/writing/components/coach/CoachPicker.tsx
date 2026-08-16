@@ -89,6 +89,7 @@ export function CoachPicker() {
             Task type
           </span>
           <Select
+            size="sm"
             aria-label="Task type"
             value={filters.task_type}
             onChange={(value) => setFilter("task_type", value as TaskType | "all")}

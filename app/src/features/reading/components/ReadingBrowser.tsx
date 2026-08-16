@@ -52,6 +52,7 @@ function FormatFilter({
 }) {
   return (
     <Select
+      size="sm"
       aria-label="Test format"
       className="w-56"
       value={value}
@@ -373,6 +374,7 @@ export function ReadingBrowser() {
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <FormatFilter value={format} onChange={setFormat} />
               <Select
+                size="sm"
                 aria-label="Difficulty"
                 className="w-44"
                 value={difficulty}

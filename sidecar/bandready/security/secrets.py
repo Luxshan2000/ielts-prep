@@ -3,8 +3,7 @@
 Policy (03-providers-and-settings.md §8):
 
 * A Fernet key is generated on first use into ``<data_dir>/secret.key`` with mode 0600.
-  There is **no shared fallback key** — that was an OpenVoiceUI mistake; a key baked into
-  the source is not encryption.
+  There is **no shared fallback key**; a key baked into the source is not encryption.
 * Plaintext keys entered by the user become ``enc:v1:<fernet-token>`` before they are
   written anywhere.
 * ``${ENV_VAR}`` references are stored literally and never encrypted — power users keep

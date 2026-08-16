@@ -1,6 +1,5 @@
 /* 12-design-system.md §1 + §1.1 — authoritative HSL triples.
-   Teal primary (172 72% 30% light / 170 70% 45% dark) is the one deliberate
-   divergence from OpenVoiceUI's indigo; all 240°-hue neutrals are verbatim. */
+   Teal primary (172 72% 30% light / 170 70% 45% dark) on 240°-hue neutrals. */
 
 :root {
   --background: 0 0% 100%;
@@ -59,7 +58,7 @@
   --primary-foreground: 240 10% 6%;
   --accent: 240 4% 15%;
   --accent-foreground: 0 0% 96%;
-  --sidebar: 240 6% 5%; /* sidebar darker than content — OpenVoiceUI signature */
+  --sidebar: 240 6% 5%; /* sidebar darker than content */
   --sidebar-foreground: 0 0% 96%;
   /* 0 63% 54% measured 3.87:1 on the dark card, and `text-destructive` carries
      every 13px error message. Lightened past AA; the foreground flips to near-black

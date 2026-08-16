@@ -16,7 +16,7 @@ import json
 import logging
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import UTC, datetime, timedelta
+from datetime import datetime, timedelta
 from typing import Any
 
 from sqlalchemy import text
@@ -592,7 +592,7 @@ def dismiss(session: Any, profile_id: str, event_id: str) -> bool:
         text(
             "UPDATE adaptive_events SET dismissed_at = :at WHERE id = :id AND profile_id = :pid"
         ),
-        {"at": iso(datetime.now(UTC)), "id": event_id, "pid": profile_id},
+        {"at": iso(), "id": event_id, "pid": profile_id},
     )
     return bool(result.rowcount)
 

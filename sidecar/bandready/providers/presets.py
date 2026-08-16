@@ -12,6 +12,7 @@ this module always but are only *served* and only *selectable* when the sidecar 
 from __future__ import annotations
 
 import copy
+from collections.abc import Mapping
 from typing import Any
 
 ALL_PLATFORMS = ["darwin-arm64", "darwin-x64", "win32-x64", "linux-x64"]
@@ -329,6 +330,25 @@ def is_mock_preset(preset_id: str | None) -> bool:
         return False
     preset = _BY_ID.get(preset_id)
     return bool(preset and preset.get("kind") == "mock")
+
+
+def is_mock_config(cfg: Mapping[str, Any]) -> bool:
+    """Is this slot config pointed at the mock provider — i.e. does nothing leave the box?
+
+    One predicate, not six private copies, because this is the answer to the question the
+    whole product rests on: an offline-first app that says "no" here in five places and
+    "yes" in the sixth has shipped a network call it promised not to make. A config is the
+    mock one if its preset is a mock preset (``is_mock_preset`` above) or if its base URL
+    is a ``mock://`` address, which is how an override reaches the mock transport without
+    naming a preset at all.
+
+    Engine-level mock flags stay at their call site: ``tts_render`` writes
+    ``is_mock_config(cfg) or engine == "mock"`` because "the TTS engine is the mock
+    renderer" is a different fact from "the provider is the mock provider".
+    """
+    return is_mock_preset(cfg.get("preset")) or str(cfg.get("base_url") or "").startswith(
+        "mock://"
+    )
 
 
 def preset_for_config(cfg: dict[str, Any]) -> dict[str, Any] | None:

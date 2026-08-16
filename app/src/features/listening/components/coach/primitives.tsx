@@ -1,140 +1,28 @@
 /**
- * The small pieces the listening coach needs that the shared UI kit does not export:
- * a disclosure row, a tinted callout, a chip, a section head, and the two things this
+ * The small pieces the listening coach needs: a chip, and the two things this
  * module needs that no other one does — a span highlighted inside its own sentence,
- * and a button that plays exactly one moment of the recording.
+ * and a button that plays exactly one moment of the recording. The disclosure row,
+ * the callout and the section head were needed by every coach layer, so they now
+ * live in `components/ui` and are re-exported from here.
  *
  * All of them are real `<button>`s with real ARIA relationships, so Tab and
  * Enter/Space work without a single custom key handler.
  */
 
-import { useId, useState, type ReactNode } from "react";
-import { AlertTriangle, ChevronDown, Info, Lightbulb, Play, Volume2 } from "lucide-react";
+import { type ReactNode } from "react";
+import { Play, Volume2 } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { formatTimestamp } from "@/lib/format";
 
-// ------------------------------------------------------------------ disclosure ---
+// ------------------------------------ disclosure, callout and section head ---
 
-export function Disclosure({
-  title,
-  subtitle,
-  meta,
-  defaultOpen = false,
-  children,
-  className,
-}: {
-  title: ReactNode;
-  subtitle?: ReactNode;
-  meta?: ReactNode;
-  defaultOpen?: boolean;
-  children: ReactNode;
-  className?: string;
-}) {
-  const [open, setOpen] = useState(defaultOpen);
-  const panelId = useId();
-  const buttonId = useId();
-
-  return (
-    <div className={cn("overflow-hidden rounded-xl border border-border bg-card", className)}>
-      <h3 className="m-0">
-        <button
-          type="button"
-          id={buttonId}
-          aria-expanded={open}
-          aria-controls={panelId}
-          onClick={() => setOpen((value) => !value)}
-          className={cn(
-            "flex w-full items-center gap-3 px-4 py-3 text-left transition-colors",
-            "hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2",
-            "focus-visible:ring-ring focus-visible:ring-inset",
-          )}
-        >
-          <ChevronDown
-            className={cn(
-              "h-4 w-4 shrink-0 text-muted-foreground transition-transform",
-              open && "rotate-180",
-            )}
-            aria-hidden="true"
-          />
-          <span className="min-w-0 flex-1">
-            <span className="block text-[14px] font-semibold text-foreground">{title}</span>
-            {subtitle && (
-              <span className="mt-0.5 block text-[12px] text-muted-foreground">{subtitle}</span>
-            )}
-          </span>
-          {meta && <span className="shrink-0">{meta}</span>}
-        </button>
-      </h3>
-      <div
-        id={panelId}
-        role="region"
-        aria-labelledby={buttonId}
-        hidden={!open}
-        className="border-t border-border px-4 py-4"
-      >
-        {open && children}
-      </div>
-    </div>
-  );
-}
-
-// --------------------------------------------------------------------- callout ---
-
-export type CalloutTone = "info" | "warn" | "teach";
-
-const CALLOUT_STYLE: Record<CalloutTone, { box: string; icon: string }> = {
-  info: { box: "border-border bg-muted/50", icon: "text-muted-foreground" },
-  warn: { box: "border-warning/40 bg-warning/8", icon: "text-warning" },
-  teach: { box: "border-primary/40 bg-primary/8", icon: "text-primary" },
-};
-
-const CALLOUT_ICON = { info: Info, warn: AlertTriangle, teach: Lightbulb } as const;
-
-export function Callout({
-  tone = "info",
-  title,
-  children,
-  className,
-}: {
-  tone?: CalloutTone;
-  title?: ReactNode;
-  children: ReactNode;
-  className?: string;
-}) {
-  const style = CALLOUT_STYLE[tone];
-  const Icon = CALLOUT_ICON[tone];
-  return (
-    <div className={cn("flex items-start gap-2.5 rounded-xl border p-3", style.box, className)}>
-      <Icon className={cn("mt-0.5 h-4 w-4 shrink-0", style.icon)} aria-hidden="true" />
-      <div className="min-w-0 space-y-1">
-        {title && <p className="text-[13px] font-semibold text-foreground">{title}</p>}
-        <div className="text-[13px] leading-6 text-muted-foreground">{children}</div>
-      </div>
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------- section head ---
-
-export function SectionHead({
-  title,
-  hint,
-  children,
-}: {
-  title: string;
-  hint?: string;
-  children?: ReactNode;
-}) {
-  return (
-    <div className="flex flex-wrap items-baseline justify-between gap-2">
-      <div className="min-w-0">
-        <h2 className="text-sm font-semibold text-foreground">{title}</h2>
-        {hint && <p className="mt-0.5 text-[12px] leading-5 text-muted-foreground">{hint}</p>}
-      </div>
-      {children}
-    </div>
-  );
-}
+/**
+ * These three now live in the shared kit — all four coach layers carried
+ * byte-identical copies, and `Disclosure` in particular is an ARIA primitive that
+ * must not be fixed in one room and not the others. Re-exported from here so the
+ * consumer files in this feature keep importing them from `./primitives`.
+ */
+export { Disclosure, Callout, SectionHead, type CalloutTone } from "@/components/ui";
 
 // -------------------------------------------------------------------------- chip ---
 

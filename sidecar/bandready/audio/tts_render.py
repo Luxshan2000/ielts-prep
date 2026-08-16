@@ -486,13 +486,11 @@ def tts_config(override: Mapping[str, Any] | None = None) -> dict[str, Any]:
 
 
 def is_mock_tts(cfg: Mapping[str, Any]) -> bool:
-    from bandready.providers.presets import is_mock_preset
+    from bandready.providers.presets import is_mock_config
 
-    return (
-        is_mock_preset(cfg.get("preset"))
-        or str(cfg.get("engine") or "") == "mock"
-        or str(cfg.get("base_url") or "").startswith("mock://")
-    )
+    # The engine check stays here, not in the shared predicate: "the TTS engine is the
+    # mock renderer" is a fact about this slot, not about whether the provider is mock.
+    return is_mock_config(cfg) or str(cfg.get("engine") or "") == "mock"
 
 
 def _mock_pcm(text: str, rate: int = stitch_mod.TARGET_RATE) -> tuple[np.ndarray, int]:

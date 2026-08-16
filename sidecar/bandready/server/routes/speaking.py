@@ -33,6 +33,7 @@ from bandready.db.engine import get_session, session_scope
 from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
 from bandready.server.tickets import verify_ticket
+from bandready.timeutil import iso
 from bandready.voice import runtime
 from bandready.voice.state_machine import (
     ACTIVITIES,
@@ -126,7 +127,7 @@ def _pick_card_set(s: Any, card_set_id: str | None) -> tuple[CardBundle, str | N
     )
     if bundle.is_empty():
         return default_bundle(), None
-    row.last_served_at = _now_iso()
+    row.last_served_at = iso()
     for card in cards:
         card.last_served_at = row.last_served_at
     return bundle, row.id
@@ -150,7 +151,7 @@ def _pick_cards_for_part(s: Any, part: int, topic: str | None) -> CardBundle:
     bundle = CardBundle.from_payloads([_payload(c) for c in cards])
     if bundle.is_empty():
         return default_bundle()
-    stamp = _now_iso()
+    stamp = iso()
     for card in cards:
         card.last_served_at = stamp
     # A single-part 2 or 3 session still needs the other parts' text for its scripted
@@ -171,12 +172,6 @@ def _payload(card: Any) -> dict[str, Any]:
     payload.setdefault("part", card.part)
     payload.setdefault("topic", card.title)
     return payload
-
-
-def _now_iso() -> str:
-    from datetime import UTC, datetime
-
-    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
 
 
 def _session_record(s: Any, session_id: str) -> dict[str, Any]:
@@ -875,9 +870,9 @@ def examiner_status() -> tuple[bool, str | None]:
             "grammar and vocabulary practice all still work."
         )
 
-    from bandready.providers.presets import is_mock_preset
+    from bandready.providers.presets import is_mock_config
 
-    if is_mock_preset(cfg.get("preset")) or str(cfg.get("base_url") or "").startswith("mock://"):
+    if is_mock_config(cfg):
         return True, None
 
     if not str(cfg.get("model") or "").strip():

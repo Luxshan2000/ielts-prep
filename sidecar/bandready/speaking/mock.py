@@ -47,7 +47,6 @@ import logging
 import random
 import re
 from dataclasses import dataclass
-from datetime import UTC, datetime
 from typing import Any
 
 from sqlalchemy import text as sa_text
@@ -57,6 +56,7 @@ from ulid import ULID
 from bandready.db import models as m
 from bandready.server.errors import ApiError
 from bandready.speaking import coach
+from bandready.timeutil import iso, parse_iso, seconds_since
 
 _log = logging.getLogger("bandready.speaking.mock")
 
@@ -164,33 +164,6 @@ EXAM_CONDITIONS_MESSAGE = (
 # ======================================================================================
 
 
-def _now() -> datetime:
-    return datetime.now(UTC)
-
-
-def _iso(moment: datetime | None = None) -> str:
-    return (moment or _now()).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
-
-
-def _parse_iso(value: Any) -> datetime | None:
-    if not isinstance(value, str) or not value.strip():
-        return None
-    raw = value.strip()
-    raw = raw[:-1] + "+00:00" if raw.endswith("Z") else raw
-    try:
-        parsed = datetime.fromisoformat(raw)
-    except ValueError:
-        return None
-    return parsed if parsed.tzinfo else parsed.replace(tzinfo=UTC)
-
-
-def _since(value: Any) -> float:
-    started = _parse_iso(value)
-    if started is None:
-        return 0.0
-    return max(0.0, (_now() - started).total_seconds())
-
-
 def _round1(value: float) -> float:
     return round(float(value) + 0.0, 1)
 
@@ -255,7 +228,7 @@ def _save(session: Session, doc: dict[str, Any]) -> dict[str, Any]:
     ensure_schema(session)
     if doc.get("status") not in MOCK_STATUSES:  # pragma: no cover — a typo'd status
         raise ApiError(500, "internal", f"unknown mock status {doc.get('status')!r}")
-    doc["updated_at"] = _iso()
+    doc["updated_at"] = iso()
     session.execute(
         sa_text(
             "INSERT INTO speaking_mocks "
@@ -313,7 +286,7 @@ def _live_row(session: Session, profile_id: str) -> dict[str, Any] | None:
         {"pid": profile_id},
     ).all()
     for session_id, created_at, doc_json in rows:
-        if _since(created_at) > STALE_AFTER_S:
+        if seconds_since(created_at) > STALE_AFTER_S:
             continue
         try:
             doc = json.loads(doc_json or "{}")
@@ -879,7 +852,7 @@ def assemble(
 
 def _stamp_served(session: Session, set_id: str, card_ids: list[str]) -> None:
     """Least-recently-served bookkeeping, so a repeat mock is a different sitting."""
-    stamp = _iso()
+    stamp = iso()
     session.execute(
         sa_text("UPDATE card_sets SET last_served_at = :at WHERE id = :sid"),
         {"at": stamp, "sid": set_id},
@@ -927,7 +900,7 @@ def create(
     )
 
     session_id = f"ss_{ULID()}"
-    started = _iso()
+    started = iso()
     doc: dict[str, Any] = {
         "schema_version": MOCK_SCHEMA_VERSION,
         "session_id": session_id,
@@ -989,7 +962,7 @@ def view(doc: dict[str, Any]) -> dict[str, Any]:
     stages = doc.get("stages") or []
     stage = current_stage(doc)
     entry = (doc.get("log") or [])[-1] if doc.get("log") else None
-    elapsed = _since(entry.get("started_at")) if stage is not None and entry else 0.0
+    elapsed = seconds_since(entry.get("started_at")) if stage is not None and entry else 0.0
     budget = float(stage["budget_s"]) if stage else 0.0
     hard_cap = stage.get("max_s") if stage else None
 
@@ -1000,7 +973,7 @@ def view(doc: dict[str, Any]) -> dict[str, Any]:
     return {
         "session_id": doc["session_id"],
         "status": doc["status"],
-        "stale": doc["status"] == "in_progress" and _since(doc.get("created_at")) > STALE_AFTER_S,
+        "stale": doc["status"] == "in_progress" and seconds_since(doc.get("created_at")) > STALE_AFTER_S,
         "started_at": doc.get("started_at"),
         "finished_at": doc.get("finished_at"),
         "sitting": sitting_header(doc),
@@ -1085,7 +1058,7 @@ def advance(
 
     entry = log[-1]
     measured = (
-        float(elapsed_s) if elapsed_s is not None else _since(entry.get("started_at"))
+        float(elapsed_s) if elapsed_s is not None else seconds_since(entry.get("started_at"))
     )
     measured = max(0.0, measured)
 
@@ -1095,7 +1068,7 @@ def advance(
         hard_stopped = True
         measured = float(cap)
 
-    now = _iso()
+    now = iso()
     entry["ended_at"] = now
     entry["duration_s"] = _round1(measured)
     entry["hard_stopped"] = hard_stopped
@@ -1192,11 +1165,11 @@ def abandon(session: Session, session_id: str) -> dict[str, Any]:
     doc = load(session, session_id)
     if doc.get("status") == "in_progress":
         doc["status"] = "abandoned"
-        doc["finished_at"] = _iso()
+        doc["finished_at"] = iso()
         entry = (doc.get("log") or [])[-1] if doc.get("log") else None
         if entry is not None and entry.get("ended_at") is None:
             entry["ended_at"] = doc["finished_at"]
-            entry["duration_s"] = _round1(_since(entry.get("started_at")))
+            entry["duration_s"] = _round1(seconds_since(entry.get("started_at")))
         _close_session_row(session, doc, status="aborted")
         _save(session, doc)
     return view(doc)
@@ -1222,10 +1195,10 @@ def _close_session_row(
             row.status = status
     envelope = session.get(m.PracticeSession, session_id)
     if envelope is not None and envelope.ended_at is None:
-        envelope.ended_at = doc.get("finished_at") or _iso()
+        envelope.ended_at = doc.get("finished_at") or iso()
         envelope.duration_s = int(
-            max(0.0, (_parse_iso(envelope.ended_at) - _parse_iso(envelope.started_at)).total_seconds())
-            if _parse_iso(envelope.started_at) and _parse_iso(envelope.ended_at)
+            max(0.0, (parse_iso(envelope.ended_at) - parse_iso(envelope.started_at)).total_seconds())
+            if parse_iso(envelope.started_at) and parse_iso(envelope.ended_at)
             else 0
         )
 
@@ -1829,11 +1802,11 @@ async def score(session_id: str, *, force: bool = False) -> dict[str, Any]:
         doc = load(s, session_id)
         if doc.get("status") == "in_progress":
             doc["status"] = "complete"
-            doc["finished_at"] = _iso()
+            doc["finished_at"] = iso()
             entry = (doc.get("log") or [])[-1] if doc.get("log") else None
             if entry is not None and entry.get("ended_at") is None:
                 entry["ended_at"] = doc["finished_at"]
-                entry["duration_s"] = _round1(_since(entry.get("started_at")))
+                entry["duration_s"] = _round1(seconds_since(entry.get("started_at")))
             _save(s, doc)
         row = s.get(m.SpeakingSession, session_id)
         if row is not None and row.status == "active" and row.transcript_json:

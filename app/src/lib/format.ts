@@ -24,6 +24,12 @@ export function bandColor(band: number, alpha?: number): string {
   return alpha === undefined ? `hsl(${v})` : `hsl(${v} / ${alpha})`;
 }
 
+/** `correct` out of `total` as a percentage. Zero questions is 0, never NaN. */
+export function scorePct(correct: number, total: number): number {
+  return total > 0 ? (correct / total) * 100 : 0;
+}
+
+
 /** One decimal, always — "6.5", "7.0". Never rounds; scores arrive pre-rounded. */
 export function formatBand(band: number | null | undefined): string {
   if (band === null || band === undefined || Number.isNaN(band)) return "—";

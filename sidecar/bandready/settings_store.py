@@ -33,6 +33,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_valida
 
 from bandready.security import secrets as secrets_mod
 from bandready.server.errors import ApiError
+from bandready.timeutil import iso
 
 _log = logging.getLogger("bandready.settings")
 
@@ -372,7 +373,7 @@ def _write_db(doc: dict[str, Any]) -> bool:
     except Exception:  # noqa: BLE001
         return False
     payload = json.dumps(doc, ensure_ascii=False)
-    now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+    now = iso()
     try:
         with session_scope() as session:
             session.execute(

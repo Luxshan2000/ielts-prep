@@ -19,6 +19,7 @@
 import { Sparkles } from "lucide-react";
 import { Badge, Button } from "@/components/ui";
 import { SpeakAnswer } from "@/components/practice/SpeakAnswer";
+import { pluralize } from "@/lib/format";
 import { speakGrammarAnswer } from "../../api";
 import { AnswerField, ContextBlock, useTypedAnswer, type ItemViewProps } from "./shared";
 
@@ -28,7 +29,7 @@ function WordCount({ value, min, max }: { value: string; min?: number | null; ma
   const long = max ? words > max : false;
   return (
     <span className="text-[12px] text-muted-foreground">
-      {words} {words === 1 ? "word" : "words"}
+      {pluralize(words, "word")}
       {short && min ? `, aim for at least ${min}` : ""}
       {long && max ? `, trim to about ${max}` : ""}
     </span>

@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronRight, Search } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import {
   Badge,
   Button,
   EmptyState,
-  Input,
   Select,
   SkeletonRow,
 } from "@/components/ui";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { cn } from "@/lib/cn";
 import { formatDate, formatDuration } from "@/lib/format";
 import {
@@ -98,19 +98,13 @@ export function HistoryView({
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2">
-        <div className="relative min-w-[12rem] flex-1">
-          <Search
-            className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-            aria-hidden="true"
-          />
-          <Input
-            className="pl-8"
-            aria-label="Search your history"
-            placeholder="Search by title, topic or score…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </div>
+        <SearchInput
+          className="min-w-[12rem] flex-1"
+          aria-label="Search your history"
+          placeholder="Search by title, topic or score…"
+          value={query}
+          onChange={setQuery}
+        />
         <Select
           size="sm"
           aria-label="Sort"

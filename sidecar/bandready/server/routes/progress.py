@@ -24,7 +24,6 @@ from bandready.curriculum.estimate import (
     current_estimates,
     recompute,
     trajectory,
-    utcnow,
     weakest_criteria,
 )
 from bandready.curriculum.plan import (
@@ -42,6 +41,7 @@ from bandready.curriculum.plan import (
 from bandready.db.engine import get_session
 from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
+from bandready.timeutil import iso, utcnow
 
 router = APIRouter(prefix="/api/v1", tags=["progress"])
 
@@ -104,7 +104,7 @@ def _vocab_tile(session: Session, profile_id: str) -> dict[str, Any]:
                 "FROM srs_cards c JOIN vocab_entries e ON e.id = c.entry_id "
                 "WHERE e.profile_id = :pid"
             ),
-            {"pid": profile_id, "now": now.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"},
+            {"pid": profile_id, "now": iso(now)},
         ).mappings().first()
         reviews = session.execute(
             text(
@@ -115,7 +115,7 @@ def _vocab_tile(session: Session, profile_id: str) -> dict[str, Any]:
             ),
             {
                 "pid": profile_id,
-                "since": (now - timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z",
+                "since": iso(now - timedelta(days=7)),
             },
         ).mappings().first()
     except Exception as exc:  # noqa: BLE001 — vocab tables exist, but stay resilient
@@ -712,7 +712,7 @@ def put_readiness(
         if item_id in {i for i, _ in AUTO_ITEMS}:
             raise ApiError(422, "validation_error", "auto-checked items cannot be set by hand")
         raise ApiError(404, "not_found", f"no readiness item {item_id}")
-    now = utcnow().strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+    now = iso()
     profile_id = current_profile_id(session)
     session.execute(
         text(

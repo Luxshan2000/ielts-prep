@@ -58,9 +58,9 @@ def _resolve_config(override: dict[str, Any] | None = None) -> dict[str, Any]:
 
 
 def _is_mock(cfg: dict[str, Any]) -> bool:
-    from bandready.providers.presets import is_mock_preset
+    from bandready.providers.presets import is_mock_config
 
-    return is_mock_preset(cfg.get("preset")) or str(cfg.get("base_url", "")).startswith("mock://")
+    return is_mock_config(cfg)
 
 
 def _endpoint(base_url: str, path: str) -> str:

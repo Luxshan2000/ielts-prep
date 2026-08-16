@@ -73,7 +73,6 @@ import hashlib
 import json
 import logging
 import re
-from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -85,6 +84,7 @@ from bandready.db import models as m
 from bandready.pron import analyze as pron
 from bandready.server.errors import ApiError
 from bandready.speaking import coach
+from bandready.timeutil import iso
 
 _log = logging.getLogger("bandready.speaking.drills")
 
@@ -215,10 +215,6 @@ def clip(value: Any, limit: int = 400) -> str | None:
 
 #: Internal alias kept short because this module uses it on nearly every field.
 _text = clip
-
-
-def _iso() -> str:
-    return datetime.now(UTC).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
 def _item_id(card_id: str, kind: str, index: int) -> str:
@@ -1591,7 +1587,7 @@ def persist(
 ) -> dict[str, Any]:
     """Write the attempt across the tables that already exist for it."""
     session_id = f"ps_{ULID()}"
-    now = _iso()
+    now = iso()
     duration_s = round((duration_ms or 0) / 1000) or None
 
     summary = {

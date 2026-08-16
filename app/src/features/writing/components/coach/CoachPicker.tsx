@@ -20,7 +20,8 @@ import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { PageShell } from "@/components/shell/PageShell";
 import { GraduationCap, Lock, Search, Target } from "lucide-react";
-import { Badge, Button, EmptyState, ErrorState, Input, Select, Skeleton } from "@/components/ui";
+import { Badge, Button, EmptyState, ErrorState, Select, Skeleton } from "@/components/ui";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { cn } from "@/lib/cn";
 import { hasTeaching } from "./types";
 import {
@@ -81,19 +82,12 @@ export function CoachPicker() {
           >
             Search
           </label>
-          <div className="relative">
-            <Search
-              className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-              aria-hidden="true"
-            />
-            <Input
-              id="coach-search"
-              value={filters.q}
-              onChange={(event) => setFilter("q", event.target.value)}
-              placeholder="a subject, a chart kind, a letter situation…"
-              className="pl-8"
-            />
-          </div>
+          <SearchInput
+            id="coach-search"
+            value={filters.q}
+            onChange={(next) => setFilter("q", next)}
+            placeholder="a subject, a chart kind, a letter situation…"
+          />
         </div>
         <div className="min-w-[12rem]">
           <span className="mb-1 block text-[12px] font-medium text-muted-foreground">

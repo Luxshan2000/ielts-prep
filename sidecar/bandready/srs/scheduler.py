@@ -31,6 +31,8 @@ from sqlalchemy.orm import Session
 from ulid import ULID
 
 from bandready.db import models as m
+from bandready.timeutil import iso, parse_iso
+from bandready.timeutil import utcnow as now_utc
 
 _log = logging.getLogger("bandready.srs")
 
@@ -88,32 +90,12 @@ STATE_RELEARNING = 3
 # --------------------------------------------------------------------------------------
 
 
-def now_utc() -> datetime:
-    return datetime.now(UTC)
-
-
-def iso(dt: datetime) -> str:
-    """UTC ISO-8601 with a ``Z`` suffix and millisecond precision (18 §1).
-
-    Every timestamp this module writes uses this exact format, which makes the string
-    comparisons in the due-queue SQL correct lexicographically.
-    """
-    if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=UTC)
-    return dt.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
-
-
-def parse_iso(value: str | None) -> datetime | None:
-    if not value:
-        return None
-    text = value.strip()
-    if text.endswith("Z"):
-        text = text[:-1] + "+00:00"
-    try:
-        dt = datetime.fromisoformat(text)
-    except ValueError:
-        return None
-    return dt.replace(tzinfo=UTC) if dt.tzinfo is None else dt.astimezone(UTC)
+#: ``now_utc``/``iso``/``parse_iso`` now come from :mod:`bandready.timeutil`, which is
+#: where the reason for the format is written down — the due-queue SQL below compares
+#: these timestamps as strings, so every stored value must be the same fixed-width UTC
+#: rendering. They are re-exported under this module's historical names (rather than the
+#: call sites being rewritten) because ``grammar/`` reaches them as ``sched.now_utc()``
+#: and ``sched.iso()`` on nearly every path.
 
 
 def day_start(now: datetime | None = None) -> datetime:

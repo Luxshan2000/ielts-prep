@@ -31,6 +31,9 @@ export {
   type ErrorKind,
 } from "./ErrorState";
 export { Skeleton, SkeletonRow, SkeletonCard, SkeletonChart } from "./Skeleton";
+export { Disclosure, type DisclosureProps } from "./Disclosure";
+export { Callout, type CalloutTone } from "./Callout";
+export { SectionHead } from "./SectionHead";
 
 // BandReady-specific components (12-design-system.md §8)
 export { BandScore, type BandScoreProps } from "./BandScore";

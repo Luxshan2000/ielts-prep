@@ -19,7 +19,6 @@ from __future__ import annotations
 import json
 import logging
 from collections.abc import Mapping, Sequence
-from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -43,6 +42,7 @@ from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
 from bandready.server.jobs import job_manager
 from bandready.server.tickets import require_ticket
+from bandready.timeutil import iso
 
 _log = logging.getLogger("bandready.routes.listening")
 
@@ -906,7 +906,7 @@ def submit_attempt(
     if attempt.status == "submitted":
         raise ApiError(409, "conflict", "this attempt has already been submitted")
 
-    now = datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+    now = iso()
     per_question: list[dict[str, Any]] = []
     per_type: dict[str, dict[str, int]] = {}
     raw = 0

@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import logging
 import random
-from datetime import UTC, datetime
+from datetime import datetime
 from typing import Any, Literal
 
 from fastapi import APIRouter, Depends, Query
@@ -27,6 +27,7 @@ from bandready.server.routes.vocab import serialize_entry
 from bandready.srs import context as ctx
 from bandready.srs import exercises as ex
 from bandready.srs import scheduler as sched
+from bandready.timeutil import utcnow
 
 _log = logging.getLogger("bandready.srs.routes")
 
@@ -45,10 +46,6 @@ class ReviewRequest(BaseModel):
         "flip", "cloze", "use_in_sentence", "collocation", "audio_recall", "speaking_drill"
     ] = "flip"
     elapsed_ms: int | None = Field(default=None, ge=0, le=3_600_000)
-
-
-def _now() -> datetime:
-    return datetime.now(UTC)
 
 
 def _distractor_pool(session: Session, profile_id: str, exclude: str) -> list[str]:
@@ -78,7 +75,7 @@ def _queue_items(
     rng: random.Random | None = None,
     now: datetime | None = None,
 ) -> list[dict[str, Any]]:
-    now = now or _now()
+    now = now or utcnow()
     rng = rng or random.Random()
     pairs = sched.due_queue(session, profile_id, limit, now)
     items: list[dict[str, Any]] = []
@@ -117,7 +114,7 @@ def due(
     session: Session = Depends(get_session),
 ) -> dict[str, Any]:
     profile_id = current_profile_id(session)
-    now = _now()
+    now = utcnow()
     return {
         "items": _queue_items(session, profile_id, limit, now=now),
         "counts": sched.counts(session, profile_id, now),
@@ -142,7 +139,7 @@ def compose_session(
     session: Session = Depends(get_session),
 ) -> dict[str, Any]:
     profile_id = current_profile_id(session)
-    now = _now()
+    now = utcnow()
     rng = random.Random(seed) if seed is not None else random.Random()
     items = _queue_items(session, profile_id, count, rng=rng, now=now)
     tallies = sched.counts(session, profile_id, now)
@@ -168,7 +165,7 @@ def post_review(
     session: Session = Depends(get_session),
 ) -> dict[str, Any]:
     profile_id = current_profile_id(session)
-    now = _now()
+    now = utcnow()
 
     card: m.SrsCard | None = None
     if body.card_id:

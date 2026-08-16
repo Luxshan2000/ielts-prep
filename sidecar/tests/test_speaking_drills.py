@@ -1074,19 +1074,20 @@ def _open_a_mock(session_id: str = "ss_drill_mock_1") -> None:
     from bandready.db.engine import session_scope
     from bandready.server.deps import current_profile_id
     from bandready.speaking import mock
+    from bandready.timeutil import iso
 
     with session_scope() as s:
         profile_id = current_profile_id(s)
         mock.ensure_schema(s)
         doc = {"session_id": session_id, "profile_id": profile_id, "status": "in_progress",
-               "card_set_id": SET_ID, "started_at": mock._iso(), "stages": [], "cursor": 0}
+               "card_set_id": SET_ID, "started_at": iso(), "stages": [], "cursor": 0}
         s.execute(
             __import__("sqlalchemy").text(
                 "INSERT INTO speaking_mocks (session_id, profile_id, status, seed, card_set_id, "
                 "created_at, updated_at, doc_json) VALUES (:sid, :pid, 'in_progress', 1, :cs, "
                 ":now, :now, :doc)"
             ),
-            {"sid": session_id, "pid": profile_id, "cs": SET_ID, "now": mock._iso(),
+            {"sid": session_id, "pid": profile_id, "cs": SET_ID, "now": iso(),
              "doc": json.dumps(doc)},
         )
 

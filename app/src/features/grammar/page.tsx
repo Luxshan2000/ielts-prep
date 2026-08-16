@@ -12,12 +12,13 @@
  * should be sharing a header with a tab strip.
  */
 
-import { useCallback, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { GraduationCap, Play } from "lucide-react";
 import { Badge, Button, EmptyState, TabPanel, Tabs } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
+import { useUrlTab } from "@/lib/useUrlTab";
 import { TheoryScreen } from "./components/theory/TheoryScreen";
 import { PathScreen } from "./components/PathScreen";
 import { PhrasesScreen } from "./components/PhrasesScreen";
@@ -47,9 +48,7 @@ function ModuleMissing() {
 
 export function GrammarPage() {
   const navigate = useNavigate();
-  const [params, setParams] = useSearchParams();
-  const raw = params.get("tab");
-  const tab: GrammarTab = TAB_VALUES.includes(raw as GrammarTab) ? (raw as GrammarTab) : "path";
+  const [tab, setTab] = useUrlTab<GrammarTab>(TAB_VALUES, "path");
 
   const missing = useGrammarStore((s) => s.missing);
   const path = useGrammarStore((s) => s.path);
@@ -66,16 +65,6 @@ export function GrammarPage() {
   useSidecarRecovery(() => {
     void loadPath(true);
   });
-
-  const setTab = useCallback(
-    (next: string) => {
-      const search = new URLSearchParams(params);
-      if (next === "path") search.delete("tab");
-      else search.set("tab", next);
-      setParams(search, { replace: true });
-    },
-    [params, setParams],
-  );
 
   const due = path?.summary?.due_now ?? 0;
   const costing = path?.summary?.harvested_codes ?? 0;

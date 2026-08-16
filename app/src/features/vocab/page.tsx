@@ -1,9 +1,10 @@
-import { useCallback, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Play } from "lucide-react";
 import { Badge, Button, TabPanel, Tabs } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
+import { useUrlTab } from "@/lib/useUrlTab";
 import { DecksPanel } from "./components/DecksPanel";
 import { EntryBrowser } from "./components/EntryBrowser";
 import { ReviewOverview } from "./components/ReviewOverview";
@@ -21,9 +22,7 @@ const TAB_VALUES: VocabTab[] = ["review", "inbox", "browse", "decks", "stats"];
  */
 export function VocabPage() {
   const navigate = useNavigate();
-  const [params, setParams] = useSearchParams();
-  const raw = params.get("tab");
-  const tab: VocabTab = TAB_VALUES.includes(raw as VocabTab) ? (raw as VocabTab) : "review";
+  const [tab, setTab] = useUrlTab<VocabTab>(TAB_VALUES, "review");
 
   const stats = useVocabStore((s) => s.stats);
   const loadStats = useVocabStore((s) => s.loadStats);
@@ -43,16 +42,6 @@ export function VocabPage() {
     void loadStats();
     void loadSuggestions();
   });
-
-  const setTab = useCallback(
-    (next: string) => {
-      const search = new URLSearchParams(params);
-      if (next === "review") search.delete("tab");
-      else search.set("tab", next);
-      setParams(search, { replace: true });
-    },
-    [params, setParams],
-  );
 
   const due = stats?.due_today ?? 0;
   const suggested = stats?.counts.suggested ?? 0;

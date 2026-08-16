@@ -31,11 +31,11 @@ from fastapi.responses import FileResponse, StreamingResponse
 from sqlalchemy import bindparam, text
 from sqlalchemy.orm import Session
 
-from bandready.curriculum.estimate import iso, utcnow
 from bandready.db.engine import get_session
 from bandready.server.deps import require_auth
 from bandready.server.errors import ApiError
 from bandready.server.tickets import require_ticket
+from bandready.timeutil import iso, utcnow
 
 _log = logging.getLogger("bandready.routes.media")
 

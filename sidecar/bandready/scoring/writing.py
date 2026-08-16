@@ -25,7 +25,6 @@ import logging
 import re
 import time
 from collections.abc import Iterable, Mapping, Sequence
-from datetime import UTC, datetime
 from typing import Any
 
 from ulid import ULID
@@ -39,6 +38,7 @@ from bandready.scoring.rubrics import (
     writing_criterion1_name,
 )
 from bandready.server.errors import ApiError
+from bandready.timeutil import iso
 
 _log = logging.getLogger("bandready.scoring.writing")
 
@@ -116,10 +116,6 @@ def min_words_for(task_type: str) -> int:
 
 def time_limit_s(task_type: str) -> int:
     return int(task_meta(task_type)["minutes"]) * 60
-
-
-def _now() -> str:
-    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
 
 
 def _nid(prefix: str) -> str:
@@ -1265,7 +1261,7 @@ def _persist_evaluation(
                 vocab_suggestions_json=json.dumps(
                     vocab_suggestions(parsed, submission_id), ensure_ascii=False
                 ),
-                created_at=_now(),
+                created_at=iso(),
             )
         )
         submission = session.get(m.WritingSubmission, submission_id)
@@ -1273,10 +1269,10 @@ def _persist_evaluation(
             submission.status = "scored"
             submission.overall_band = overall
             if not submission.submitted_at:
-                submission.submitted_at = _now()
+                submission.submitted_at = iso()
             envelope = session.get(m.PracticeSession, submission_id)
             if envelope is not None:
-                envelope.ended_at = _now()
+                envelope.ended_at = iso()
                 envelope.duration_s = int(submission.seconds_elapsed or 0)
                 envelope.summary_json = json.dumps(
                     {
@@ -1361,7 +1357,7 @@ def store_model_answer(prompt_id: str, band: int, text: str, model_id: str = "")
         "band": band,
         "text": text,
         "model_id": model_id,
-        "created_at": _now(),
+        "created_at": iso(),
     }
     if len(cache) > _MODEL_ANSWER_CACHE_MAX:
         for key in sorted(cache, key=lambda k: str(cache[k].get("created_at") or ""))[
@@ -1372,10 +1368,10 @@ def store_model_answer(prompt_id: str, band: int, text: str, model_id: str = "")
     with session_scope() as session:
         row = session.get(m.Setting, _SETTINGS_CACHE_KEY)
         if row is None:
-            session.add(m.Setting(key=_SETTINGS_CACHE_KEY, value=value, updated_at=_now()))
+            session.add(m.Setting(key=_SETTINGS_CACHE_KEY, value=value, updated_at=iso()))
         else:
             row.value = value
-            row.updated_at = _now()
+            row.updated_at = iso()
 
 
 def build_model_answer_messages(
@@ -1626,13 +1622,9 @@ def _coerce_generated(
 
 def _is_mock_llm() -> bool:
     try:
-        from bandready.providers.presets import is_mock_preset
+        from bandready.providers.presets import is_mock_config
 
-        cfg = _llm_config()
-        return bool(
-            is_mock_preset(cfg.get("preset"))
-            or str(cfg.get("base_url", "")).startswith("mock://")
-        )
+        return is_mock_config(_llm_config())
     except Exception:  # noqa: BLE001
         return False
 
@@ -1700,7 +1692,7 @@ async def generate_prompt(
                 ),
                 source="generated",
                 license="CC-BY-4.0",
-                created_at=_now(),
+                created_at=iso(),
             )
         )
     _progress(job_id, 100, "done")

@@ -28,7 +28,8 @@ import {
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { cn } from "@/lib/cn";
-import { formatDuration } from "@/lib/format";
+import { formatDuration, scorePct } from "@/lib/format";
+import { scoreTone } from "../../model";
 import { qtypeLabel } from "../../qtypes";
 import { useReadingStore } from "../../store";
 import { BAND_FACTS, FORMAT_LABEL, MOCK_SECONDS, pacingPlan } from "./script";
@@ -41,10 +42,6 @@ import {
 } from "./analysis";
 import { useMockStore } from "./store";
 import type { ReadingFormat } from "../../types";
-
-function pct(correct: number, total: number): number {
-  return total > 0 ? (correct / total) * 100 : 0;
-}
 
 export function MockReport() {
   const { attemptId = "" } = useParams<{ attemptId: string }>();
@@ -106,7 +103,7 @@ export function MockReport() {
   const plan = pacingPlan(format);
   const timed = hasTiming(rows);
   const types = Object.entries(review.per_type ?? {}).sort(
-    (a, b) => pct(a[1].correct, a[1].total) - pct(b[1].correct, b[1].total),
+    (a, b) => scorePct(a[1].correct, a[1].total) - scorePct(b[1].correct, b[1].total),
   );
 
   return (
@@ -213,16 +210,10 @@ export function MockReport() {
             )}
             <div className="min-w-0 flex-1 space-y-2">
               <Progress
-                value={pct(review.raw_score, review.total_questions)}
+                value={scorePct(review.raw_score, review.total_questions)}
                 label="Accuracy"
-                detail={`${Math.round(pct(review.raw_score, review.total_questions))}%`}
-                tone={
-                  pct(review.raw_score, review.total_questions) >= 75
-                    ? "success"
-                    : pct(review.raw_score, review.total_questions) >= 50
-                      ? "primary"
-                      : "warning"
-                }
+                detail={`${Math.round(scorePct(review.raw_score, review.total_questions))}%`}
+                tone={scoreTone(review.raw_score, review.total_questions)}
               />
               <p className="text-[12px] leading-5 text-muted-foreground">
                 {review.band_disclaimer}
@@ -249,16 +240,10 @@ export function MockReport() {
                 types.map(([type, stats]) => (
                   <Progress
                     key={type}
-                    value={pct(stats.correct, stats.total)}
+                    value={scorePct(stats.correct, stats.total)}
                     label={qtypeLabel(type)}
                     detail={`${stats.correct}/${stats.total}`}
-                    tone={
-                      pct(stats.correct, stats.total) >= 75
-                        ? "success"
-                        : pct(stats.correct, stats.total) >= 50
-                          ? "primary"
-                          : "warning"
-                    }
+                    tone={scoreTone(stats.correct, stats.total)}
                   />
                 ))
               )}
@@ -279,16 +264,10 @@ export function MockReport() {
                 rows.map((row) => (
                   <Progress
                     key={row.passageId}
-                    value={pct(row.correct, row.total)}
+                    value={scorePct(row.correct, row.total)}
                     label={`${row.position}. ${row.title}`}
                     detail={`${row.correct}/${row.total}`}
-                    tone={
-                      pct(row.correct, row.total) >= 75
-                        ? "success"
-                        : pct(row.correct, row.total) >= 50
-                          ? "primary"
-                          : "warning"
-                    }
+                    tone={scoreTone(row.correct, row.total)}
                   />
                 ))
               )}

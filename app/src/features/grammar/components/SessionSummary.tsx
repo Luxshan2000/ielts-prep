@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowRight, RotateCcw } from "lucide-react";
 import { Badge, Button } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
+import { pluralize } from "@/lib/format";
 import { KIND_LABEL, stageName } from "../labels";
 import { useGrammarStore } from "../store";
 import type { SessionRequest } from "../api";
@@ -36,7 +37,7 @@ export function SessionSummary({ request, onExit, onAgain }: SessionSummaryProps
       description={
         outcomes.length === 0
           ? "Nothing was answered, so nothing changed."
-          : `${right} of ${outcomes.length} right, across ${points.length} ${points.length === 1 ? "lesson" : "lessons"}. Every answer was saved as you gave it.`
+          : `${right} of ${outcomes.length} right, across ${pluralize(points.length, "lesson")}. Every answer was saved as you gave it.`
       }
       maxWidth="max-w-3xl"
     >

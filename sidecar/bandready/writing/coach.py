@@ -33,7 +33,6 @@ prompt yet" instead of a 500.
 
 from __future__ import annotations
 
-import json
 import logging
 import re
 from dataclasses import dataclass
@@ -45,6 +44,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from bandready.db import models as m
+from bandready.db.jsoncol import loads
 from bandready.scoring import writing as scoring
 from bandready.scoring.rubrics import writing_criterion_labels
 from bandready.server.errors import ApiError
@@ -159,21 +159,10 @@ def redact_gated(teaching: Any) -> dict[str, Any] | None:
 # --------------------------------------------------------------------------------------
 
 
-def loads(raw: Any, fallback: Any) -> Any:
-    """Parse a ``*_json`` column that may already be decoded, never raising."""
-    if raw is None:
-        return fallback
-    if isinstance(raw, type(fallback)) and not isinstance(raw, str):
-        return raw
-    if isinstance(raw, str):
-        if not raw.strip():
-            return fallback
-        try:
-            value = json.loads(raw)
-        except (TypeError, ValueError):
-            return fallback
-        return value if isinstance(value, type(fallback)) else fallback
-    return fallback
+#: ``loads`` is imported, not defined here: the same ``*_json`` reader lived byte-identical
+#: in all four coach modules, and the list of shapes it tolerates has to be one edit, not
+#: four. Re-exported under this module's own name because ``coach.loads(...)`` is how the
+#: mock engines and the tests reach it.
 
 
 def _text(value: Any, limit: int = 400) -> str | None:

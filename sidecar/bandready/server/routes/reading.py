@@ -17,7 +17,6 @@ from __future__ import annotations
 import copy
 import json
 import logging
-from datetime import UTC, datetime
 from typing import Any, Literal
 
 from fastapi import APIRouter, Body, Depends, Query, Response, status
@@ -43,6 +42,7 @@ from bandready.scoring.answers import (
 from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
 from bandready.server.jobs import job_manager
+from bandready.timeutil import iso
 
 _log = logging.getLogger("bandready.reading")
 
@@ -169,10 +169,6 @@ class DrillResultIn(BaseModel):
 # --------------------------------------------------------------------------------------
 # Content loading helpers
 # --------------------------------------------------------------------------------------
-
-def _now() -> str:
-    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
-
 
 def _loads(raw: str | None, fallback: Any) -> Any:
     if not raw:
@@ -786,7 +782,7 @@ def autosave(
     session.flush()
     return {
         "attempt_id": attempt_id,
-        "saved_at": _now(),
+        "saved_at": iso(),
         "answered": len(state.get("answers") or {}),
         "flagged": len(state.get("flags") or []),
         "timer_s": state.get("timer_s"),
@@ -1266,7 +1262,7 @@ def submit_attempt(
     row.band = record["band"]
     row.duration_s = record["duration_s"]
     row.status = "submitted"
-    row.submitted_at = _now()
+    row.submitted_at = iso()
     row.state_json = json.dumps(state, ensure_ascii=False)
 
     practice = session.get(m.PracticeSession, row.id)
@@ -1617,7 +1613,7 @@ def post_drill_result(
 ) -> dict[str, Any]:
     profile_id = current_profile_id(session)
     drill_id = f"dr_{ULID()}"
-    now = _now()
+    now = iso()
     session.add(
         m.PracticeSession(
             id=drill_id,

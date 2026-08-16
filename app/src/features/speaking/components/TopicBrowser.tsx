@@ -1,6 +1,7 @@
 import { useMemo, useState, type ReactNode } from "react";
-import { GraduationCap, Search } from "lucide-react";
-import { Badge, Button, EmptyState, Input, Select, Skeleton } from "@/components/ui";
+import { GraduationCap } from "lucide-react";
+import { Badge, Button, EmptyState, Select, Skeleton } from "@/components/ui";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { cn } from "@/lib/cn";
 import type { SpeakingCard } from "../store";
 
@@ -118,19 +119,13 @@ export function TopicBrowser({
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2">
-        <div className="relative min-w-[14rem] flex-1">
-          <Search
-            className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-            aria-hidden="true"
-          />
-          <Input
-            className="pl-8"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search topics and tags…"
-            aria-label="Search topics"
-          />
-        </div>
+        <SearchInput
+          className="min-w-[14rem] flex-1"
+          value={query}
+          onChange={setQuery}
+          placeholder="Search topics and tags…"
+          aria-label="Search topics"
+        />
         {filters}
         {tiers.length > 2 && (
           <Select aria-label="Difficulty" size="sm" value={tier} onChange={setTier} options={tiers} />

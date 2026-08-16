@@ -18,7 +18,7 @@ import base64
 import json
 import logging
 import tempfile
-from datetime import UTC, datetime
+from datetime import datetime
 from typing import Any, Literal
 
 from fastapi import (
@@ -46,6 +46,7 @@ from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
 from bandready.srs import exercises as ex
 from bandready.srs import scheduler as sched
+from bandready.timeutil import utcnow
 
 _log = logging.getLogger("bandready.vocab")
 
@@ -133,10 +134,6 @@ class LookupRequest(_Model):
 # --------------------------------------------------------------------------------------
 # Helpers
 # --------------------------------------------------------------------------------------
-
-
-def _now() -> datetime:
-    return datetime.now(UTC)
 
 
 def _loads(raw: str | None, fallback: Any) -> Any:
@@ -404,7 +401,7 @@ def ingest_item(
     now: datetime | None = None,
 ) -> dict[str, Any]:
     """Normalise → dedup → merge-or-insert one term. Returns ``{id, merged, status}``."""
-    now = now or _now()
+    now = now or utcnow()
     headword = ex.normalize_term(item.term)
     if not headword:
         raise ApiError(422, "validation_error", "term is empty after normalisation")
@@ -594,7 +591,7 @@ async def enrich_entry(entry_id: str) -> dict[str, Any]:
         if entry is None:
             return {"entry_id": entry_id, "enriched": False}
         changed = _apply_enrichment(entry, payload)
-        entry.updated_at = sched.iso(_now())
+        entry.updated_at = sched.iso(utcnow())
     return {"entry_id": entry_id, "enriched": changed}
 
 
@@ -815,7 +812,7 @@ def patch_entry(
 ) -> dict[str, Any]:
     profile_id = current_profile_id(session)
     entry = _entry_or_404(session, profile_id, entry_id)
-    now = _now()
+    now = utcnow()
     data = body.model_dump(exclude_unset=True)
 
     if data.get("pos") is not None:
@@ -909,7 +906,7 @@ def post_suggestions(
     if not body.items:
         raise ApiError(422, "validation_error", "items must contain at least one term")
     profile_id = current_profile_id(session)
-    now = _now()
+    now = utcnow()
     results: list[dict[str, Any]] = []
     for item in body.items:
         try:
@@ -982,7 +979,7 @@ def accept_suggestion(
 ) -> dict[str, Any]:
     profile_id = current_profile_id(session)
     entry = _entry_or_404(session, profile_id, entry_id)
-    doc = _accept(session, entry, _now())
+    doc = _accept(session, entry, utcnow())
     session.commit()  # see add_entry: enrichment runs on its own connection
     if _needs_enrichment(entry):
         queue_enrichment(background, [entry.id])
@@ -1009,7 +1006,7 @@ def accept_all(
     session: Session = Depends(get_session),
 ) -> dict[str, Any]:
     profile_id = current_profile_id(session)
-    now = _now()
+    now = utcnow()
     stmt = select(m.VocabEntry).where(
         m.VocabEntry.profile_id == profile_id, m.VocabEntry.status == "suggested"
     )
@@ -1117,7 +1114,7 @@ def _opt_in(session: Session, profile_id: str, deck_id: str) -> dict[str, Any]:
     )
     if not rows:
         raise ApiError(404, "not_found", f"no seed deck {deck_id!r} is installed")
-    now = _now()
+    now = utcnow()
     imported = 0
     merged_count = 0
     for row in rows:

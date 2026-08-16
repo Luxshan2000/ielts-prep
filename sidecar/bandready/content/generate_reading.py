@@ -863,14 +863,14 @@ def _persist_passage(
 # --------------------------------------------------------------------------------------
 
 def _is_mock_llm() -> bool:
-    from bandready.providers.presets import is_mock_preset
+    from bandready.providers.presets import is_mock_config
     from bandready.settings_store import get_slot
 
     try:
         cfg = get_slot("llm")
     except Exception:  # noqa: BLE001 — settings unavailable is not a generation concern
         return False
-    return is_mock_preset(cfg.get("preset")) or str(cfg.get("base_url", "")).startswith("mock://")
+    return is_mock_config(cfg)
 
 
 async def generate_reading(

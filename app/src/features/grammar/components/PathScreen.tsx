@@ -44,12 +44,13 @@ import {
   GraduationCap,
   Lock,
   Play,
-  Search,
   Stethoscope,
   Target,
 } from "lucide-react";
-import { Badge, Button, ErrorState, Input, Skeleton } from "@/components/ui";
+import { Badge, Button, ErrorState, Skeleton } from "@/components/ui";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { cn } from "@/lib/cn";
+import { pluralize } from "@/lib/format";
 import { LEVEL_LABEL, ROLE_LABEL, TRACK_LABEL, TRACK_NOTE, formatStudyTime } from "../labels";
 import { useGrammarStore } from "../store";
 import type { PathPoint, PathUnit } from "../types";
@@ -445,7 +446,7 @@ function UnitBlock({
             )}
           </span>
           <span className="mt-0.5 block text-[12px] leading-relaxed text-muted-foreground">
-            {all.length} {all.length === 1 ? "lesson" : "lessons"} · about {formatStudyTime(minutes)}
+            {pluralize(all.length, "lesson")} · about {formatStudyTime(minutes)}
             {level ? ` · mostly ${level} level` : ""}
             {view.hasNext ? " · your next lesson is in here" : ""}
           </span>
@@ -633,19 +634,12 @@ export function PathScreen() {
       {views.length > 0 && <PathMap views={views} onJump={jump} />}
 
       <div className="space-y-2">
-        <div className="relative">
-          <Search
-            className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-            aria-hidden="true"
-          />
-          <Input
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            placeholder="Find a lesson: “passive”, “articles”"
-            aria-label="Find a lesson"
-            className="pl-8"
-          />
-        </div>
+        <SearchInput
+          value={filter}
+          onChange={setFilter}
+          placeholder="Find a lesson: “passive”, “articles”"
+          aria-label="Find a lesson"
+        />
         <div className="flex flex-wrap gap-1.5">
           {FILTERS.map((f) => {
             const count = counts[f.id];

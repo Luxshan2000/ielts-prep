@@ -17,12 +17,12 @@ from __future__ import annotations
 import asyncio
 import contextlib
 import logging
-from datetime import UTC, datetime
 from typing import Any
 
 from ulid import ULID
 
 from bandready.server.errors import ApiError
+from bandready.timeutil import iso, parse_iso
 from bandready.voice import metrics as metrics_mod
 from bandready.voice.recorder import TurnAudioRecorder
 from bandready.voice.state_machine import (
@@ -53,10 +53,6 @@ TIMER_TICK_S = 1.0
 EVENT_QUEUE_MAX = 256
 
 
-def _now_iso() -> str:
-    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
-
-
 # --------------------------------------------------------------------------- session
 
 
@@ -75,7 +71,7 @@ class LiveSession:
         self.activity = activity
         self.part = part
         self.bundle = bundle
-        self.started_at = _now_iso()
+        self.started_at = iso()
         self.ended = False
 
         self.recorder = TurnAudioRecorder(session_id)
@@ -559,7 +555,7 @@ def _persist(
 
         envelope = s.get(m.PracticeSession, session_id)
         if envelope is not None and envelope.ended_at is None:
-            envelope.ended_at = _now_iso()
+            envelope.ended_at = iso()
             started = envelope.started_at or envelope.ended_at
             envelope.duration_s = _elapsed_s(started, envelope.ended_at)
             envelope.summary_json = json.dumps(
@@ -578,13 +574,7 @@ def _persist(
 
 
 def _elapsed_s(started: str, ended: str) -> int:
-    def parse(value: str) -> datetime | None:
-        try:
-            return datetime.fromisoformat(value.rstrip("Z") + "+00:00" if value.endswith("Z") else value)
-        except (ValueError, AttributeError):
-            return None
-
-    a, b = parse(started), parse(ended)
+    a, b = parse_iso(started), parse_iso(ended)
     if a is None or b is None:
         return 0
     return max(0, int((b - a).total_seconds()))

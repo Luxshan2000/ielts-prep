@@ -24,9 +24,11 @@ import {
   TabPanel,
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
+import { HistoryButton } from "@/components/practice/history";
 import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
 import { cn } from "@/lib/cn";
 import { formatMinutes } from "@/lib/format";
+import { fetchReadingHistory } from "../history";
 import { DRILLABLE_TYPES, qtypeLabel } from "../qtypes";
 import { useReadingStore } from "../store";
 import type { PassageSummary, TestSummary } from "../types";
@@ -183,9 +185,27 @@ export function ReadingBrowser() {
   const starting = useReadingStore((s) => s.attemptStatus === "loading");
   const startError = useReadingStore((s) => s.attemptError);
 
+  // How much is behind the History button. "History" on its own gives a learner no reason
+  // to press it; a failure here just hides the count and never breaks the library.
+  const [historyCount, setHistoryCount] = useState<number | null>(null);
+
   useEffect(() => {
     void loadCatalog();
   }, [loadCatalog]);
+
+  useEffect(() => {
+    let live = true;
+    fetchReadingHistory()
+      .then((rows) => {
+        if (live) setHistoryCount(rows.length);
+      })
+      .catch(() => {
+        if (live) setHistoryCount(null);
+      });
+    return () => {
+      live = false;
+    };
+  }, []);
 
   // A screen that failed while the sidecar was down must not stay stuck on its
   // error card after it comes back (12 §9).
@@ -266,6 +286,7 @@ export function ReadingBrowser() {
       refreshLabel="Reload the reading library"
       actions={
         <>
+          <HistoryButton to="/reading/history" count={historyCount} />
           <Button variant="outline" size="sm" onClick={() => navigate("/reading/coach")}>
             <GraduationCap className="h-4 w-4" aria-hidden="true" />
             Coach

@@ -8,6 +8,7 @@ import { AccentDrill } from "./components/AccentDrill";
 import { CoachPicker, ListeningCoach } from "./components/coach";
 import { ListeningDrills } from "./components/drills";
 import { MockPreflight, MockReport, MockSitting } from "./components/mock";
+import { ListeningHistory } from "./history";
 
 export default defineFeatureRoute({
   path: "/listening",
@@ -50,6 +51,17 @@ export default defineFeatureRoute({
       ),
     },
     { path: "accents", element: <AccentDrill /> },
+    // Every attempt, mock and drill this room has recorded, in one searchable list. It
+    // replaced the eight-row strip at the foot of the hub: the record of a learner's own
+    // work was in the least-visited part of the page and capped at whatever fitted.
+    {
+      path: "history",
+      element: (
+        <FeatureErrorBoundary feature="listening history">
+          <ListeningHistory />
+        </FeatureErrorBoundary>
+      ),
+    },
     // Item practice on one recording: dictation, numbers, signposts, prediction.
     // Distinct from `accents` above, which re-voices a whole script for ear training.
     {

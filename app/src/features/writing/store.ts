@@ -518,7 +518,10 @@ export const useWritingStore = create<WritingState>((set, get) => ({
   historyError: null,
   loadHistory: async (promptId) => {
     set({ historyLoading: true, historyError: null });
-    const params = new URLSearchParams({ limit: "40" });
+    // The hub reads this list for the resume banner, the last band and the count on the
+    // History button, so a page of forty would have made the button undercount a heavy
+    // user's record. 200 is the endpoint's ceiling; the history screen itself pages past it.
+    const params = new URLSearchParams({ limit: "200" });
     if (promptId) params.set("prompt_id", promptId);
     try {
       const res = await api.get<{ items: AttemptSummary[] }>(`${ATTEMPTS}?${params.toString()}`);

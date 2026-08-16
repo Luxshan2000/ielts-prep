@@ -183,6 +183,22 @@ export function HistoryView({
   );
 }
 
+/**
+ * The status line's colour.
+ *
+ * `statusTone` is the one field on `HistoryRow` that says how a row *went* rather than what
+ * it was, and every adapter sets it. Left unrendered it was four rooms' worth of careful
+ * wording flattened into the same grey, so an unmarked essay and a scored paper read alike
+ * at a glance. `default` stays inherited: most rows are ordinary and colouring all of them
+ * would say nothing.
+ */
+const STATUS_TONE: Record<NonNullable<HistoryRow["statusTone"]>, string> = {
+  default: "",
+  success: "text-success",
+  warning: "text-warning",
+  destructive: "text-destructive",
+};
+
 function HistoryRowItem({ row }: { row: HistoryRow }) {
   const navigate = useNavigate();
   const open = row.href ? () => navigate(row.href as string) : undefined;
@@ -206,7 +222,12 @@ function HistoryRowItem({ row }: { row: HistoryRow }) {
           {typeof row.durationS === "number" && row.durationS > 0 && (
             <span>· {formatDuration(row.durationS)}</span>
           )}
-          <span>· {row.statusLabel}</span>
+          <span>
+            ·{" "}
+            <span className={cn("font-medium", STATUS_TONE[row.statusTone ?? "default"])}>
+              {row.statusLabel}
+            </span>
+          </span>
           {!row.href && row.unopenableReason && <span>· {row.unopenableReason}</span>}
         </span>
       </span>

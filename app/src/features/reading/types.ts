@@ -245,6 +245,61 @@ export interface AttemptRecord {
   resume_state: ResumeState;
 }
 
+/** One row of `GET /api/v1/reading/attempts` — the history list, not the player payload. */
+export interface AttemptListItem {
+  attempt_id: string;
+  test_id: string | null;
+  passage_id: string | null;
+  mode: AttemptMode;
+  /** `practice_sessions.activity`: `full_test`, `single_passage`, `drill`, `reading_mock`. */
+  activity: string;
+  exam_conditions: boolean;
+  /** The test or passage title. Null for a drill, and null when the pack is gone. */
+  title: string | null;
+  format: ReadingFormat | null;
+  /** Drills only. */
+  qtype: string | null;
+  status: "in_progress" | "submitted" | "abandoned" | string;
+  started_at: string | null;
+  finished_at: string | null;
+  raw_score: number | null;
+  total_questions: number | null;
+  band: number | null;
+  duration_s: number | null;
+  answered: number;
+}
+
+/** One row of `GET /api/v1/reading/drills/results`. */
+export interface DrillResultItem {
+  drill_id: string;
+  drill_kind: string;
+  qtype: string | null;
+  trap: string | null;
+  n_items: number;
+  n_correct: number;
+  started_at: string | null;
+  finished_at: string | null;
+  duration_s: number | null;
+  /** Set when the drill was sat inside an attempt, so the two are one row, not two. */
+  attempt_id: string | null;
+}
+
+/** One row of `GET /api/v1/reading/mock/sessions`. */
+export interface MockSessionItem {
+  mock_id: string;
+  attempt_id: string;
+  status: string;
+  module: string | null;
+  test_id: string | null;
+  title: string | null;
+  started_at: string | null;
+  finished_at: string | null;
+  minutes: number | null;
+  raw_score: number | null;
+  total_questions: number | null;
+  band: number | null;
+}
+
 export interface AutosaveAck {
   attempt_id: string;
   saved_at: string;

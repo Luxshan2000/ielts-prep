@@ -14,7 +14,6 @@ import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { AlertTriangle, ArrowRight, Clock, Info, ShieldAlert, Timer } from "lucide-react";
 import {
-  Badge,
   Button,
   Card,
   CardContent,
@@ -35,7 +34,7 @@ import {
   NO_TRANSFER_LINE,
   pacingPlan,
 } from "./script";
-import { activeSitting, elapsedOf, remainingOf, useMockStore } from "./store";
+import { activeSitting, remainingOf, useMockStore } from "./store";
 
 const FORMAT_OPTIONS = [
   { value: "academic", label: "Academic: three passages, 40 questions" },
@@ -223,53 +222,24 @@ export function MockPreflight() {
           </CardContent>
         </Card>
 
-        {/* ------------------------------------------------------ history --- */}
-        <section className="space-y-3">
-          <h2 className="text-sm font-semibold">Your past sittings</h2>
-          {records.length === 0 ? (
-            <p className="text-[13px] text-muted-foreground">
-              None yet. A full paper is an assessment instrument rather than a training one: one
-              every two or three days at most, with review and drills in between.
-            </p>
-          ) : (
-            <ul className="space-y-2">
-              {records.slice(0, 6).map((record) => (
-                <li key={record.attemptId}>
-                  <Card>
-                    <CardContent className="flex flex-wrap items-center justify-between gap-3 pt-4">
-                      <div className="min-w-0">
-                        <p className="text-[13px] font-medium text-foreground">
-                          {record.testTitle}
-                        </p>
-                        <p className="mt-0.5 flex flex-wrap items-center gap-2 text-[12px] text-muted-foreground">
-                          <Badge tone="outline">{FORMAT_LABEL[record.format]}</Badge>
-                          <span>{new Date(record.startedAt).toLocaleString()}</span>
-                          <span className="tabular">
-                            {formatDuration(Math.min(elapsedOf(record), MOCK_SECONDS))} sat
-                          </span>
-                          {record.status === "abandoned" && <Badge tone="warning">Abandoned</Badge>}
-                          {record.status === "sitting" && <Badge tone="primary">Open</Badge>}
-                        </p>
-                      </div>
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() =>
-                          navigate(
-                            record.status === "sitting"
-                              ? `/reading/mock/sitting/${record.attemptId}`
-                              : `/reading/mock/report/${record.attemptId}`,
-                          )
-                        }
-                      >
-                        {record.status === "sitting" ? "Resume" : "The report"}
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </li>
-              ))}
-            </ul>
-          )}
+        {/* --------------------------------------------------- past papers --- */}
+        {/*
+          This used to be a six-row list of past sittings pinned to the foot of the screen:
+          the learner's own record of their work, in the least-visited part of the page,
+          capped at whatever fitted and reachable from nowhere else. It is one line now,
+          because `/reading/history` shows all of it, searchable, alongside the passages and
+          drills that were never listed anywhere. The open sitting is not history and keeps
+          its banner at the top of this screen.
+        */}
+        <section className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-card p-3">
+          <p className="min-w-0 flex-1 text-[13px] text-muted-foreground">
+            {records.length === 0
+              ? "You have not sat one yet. A full paper is an assessment instrument rather than a training one: one every two or three days at most, with review and drills in between."
+              : `You have sat ${records.length} ${records.length === 1 ? "paper" : "papers"}. Every one of them, with its report, is in your reading history.`}
+          </p>
+          <Button variant="outline" onClick={() => navigate("/reading/history")}>
+            Your reading history
+          </Button>
         </section>
       </div>
     </PageShell>

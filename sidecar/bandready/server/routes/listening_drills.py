@@ -37,6 +37,7 @@ what makes these free to run.
 
 from __future__ import annotations
 
+import json
 import logging
 from datetime import UTC, datetime
 from typing import Annotated, Any, Literal
@@ -478,6 +479,77 @@ def get_profile(_: Auth, session: Db) -> dict[str, Any]:
             "“practise listening” to fix it will practise the wrong thing for months."
         ),
     }
+
+
+@router.get("/sessions", summary="Every drill set you have finished")
+def list_sessions(
+    _: Auth,
+    session: Db,
+    limit: Annotated[int, Query(ge=1, le=200)] = 100,
+) -> dict[str, Any]:
+    """The drill ledger, newest first — counts only, never the items.
+
+    ``record_set`` has written one ``practice_sessions`` envelope and one ``drill_results``
+    row per finished set since drills shipped, and nothing has ever read them back: the
+    only surface that touched a drill result was the report the runner drew once, in
+    memory, and then dropped. So a learner's own drill work was unreachable the moment the
+    screen unmounted.
+
+    Two decisions worth keeping:
+
+    * **Aggregates only.** ``details_json`` holds the dictated line, the key and what the
+      learner wrote. None of it comes out here — a history row needs "6 of 8, dictation,
+      Tuesday", and shipping the key inside a list payload is how a reveal leaks.
+    * **No mock gate.** Every other route in this module refuses while a sitting is open,
+      because every other route hands back pack material the paper is about to test. This
+      one hands back the learner's own past scores, which reveal nothing about the paper in
+      front of them, and locking a history screen during a mock would be theatre.
+    """
+    profile_id = current_profile_id(session)
+    rows = session.execute(
+        select(m.DrillResult, m.PracticeSession)
+        .join(m.PracticeSession, m.PracticeSession.id == m.DrillResult.id)
+        .where(
+            m.PracticeSession.profile_id == profile_id,
+            m.DrillResult.module == "listening",
+        )
+        .order_by(m.PracticeSession.started_at.desc())
+        .limit(limit)
+    ).all()
+
+    items: list[dict[str, Any]] = []
+    for result, envelope in rows:
+        params = _json_object(result.params_json)
+        summary = _json_object(envelope.summary_json)
+        items.append(
+            {
+                "session_id": result.id,
+                # `drill_kind` is the stored taxonomy value ("numbers_spelling"); `kind` is
+                # what the learner picked in the launcher ("numbers"). Both are here so a
+                # client can label the row without having to reverse `RESULT_KINDS`.
+                "kind": params.get("kind") or result.drill_kind,
+                "drill_kind": result.drill_kind,
+                "script_id": summary.get("script_id") or params.get("script_id"),
+                "part": params.get("part"),
+                "accent_set": params.get("accent_set"),
+                "mode": params.get("mode"),
+                "n_items": result.n_items,
+                "n_correct": result.n_correct,
+                "started_at": envelope.started_at,
+                "ended_at": envelope.ended_at,
+                "duration_s": envelope.duration_s,
+            }
+        )
+    return {"items": items, "count": len(items)}
+
+
+def _json_object(raw: str | None) -> dict[str, Any]:
+    """A stored JSON column as a dict — never an exception, never a non-dict."""
+    try:
+        value = json.loads(raw or "{}")
+    except (TypeError, ValueError):  # pragma: no cover — a hand-edited row
+        return {}
+    return value if isinstance(value, dict) else {}
 
 
 # --------------------------------------------------------------------------------------

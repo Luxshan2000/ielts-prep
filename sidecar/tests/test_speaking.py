@@ -816,6 +816,50 @@ def test_full_session_lifecycle_without_webrtc(client: Any) -> None:
     assert again.json()["report_id"] == report["report_id"]
 
 
+def test_session_list_carries_what_a_history_row_needs(client: Any) -> None:
+    """The list has to answer the same questions the single record does.
+
+    Every past session used to render as a dead row because the list omitted
+    ``report_id`` — the client asked for it, got ``undefined``, and disabled the row.
+    A quick chat is the harder half of the same problem: it is never scored, so the only
+    thing it can ever offer is the conversation, and the list has to say that one exists.
+    """
+    scored_id = client.post(
+        "/api/v1/speaking/sessions", json={"mode": "full_mock"}
+    ).json()["session_id"]
+    runtime.inject_transcript(scored_id, TRANSCRIPT)
+    client.post(f"/api/v1/speaking/sessions/{scored_id}/end", json={"score": False})
+    report_id = client.post(f"/api/v1/speaking/sessions/{scored_id}/score").json()["report_id"]
+
+    chat_id = client.post(
+        "/api/v1/speaking/sessions", json={"mode": "quick_chat"}
+    ).json()["session_id"]
+    runtime.inject_transcript(chat_id, {"turns": TRANSCRIPT["turns"][:2]})
+    client.post(f"/api/v1/speaking/sessions/{chat_id}/end", json={"score": False})
+
+    items = {i["id"]: i for i in client.get("/api/v1/speaking/sessions").json()["items"]}
+
+    scored = items[scored_id]
+    assert scored["report_id"] == report_id
+    assert scored["overall_band"] == 6.5
+    assert scored["turn_count"] == len(TRANSCRIPT["turns"])
+    assert scored["has_transcript"] is True
+    assert scored["live"] is False
+    # A mock is assembled from a real topic set, so the row can be named after it.
+    assert scored["card_set_title"]
+
+    chat = items[chat_id]
+    # Never scored, so it has no report and no band — but it does have a conversation,
+    # and that is the only thing standing between it and being unreachable.
+    assert chat["report_id"] is None
+    assert chat["overall_band"] is None
+    assert chat["has_transcript"] is True
+    assert chat["turn_count"] == 2
+    # Four unscored chats would otherwise be four rows all reading "Quick chat".
+    assert chat["opening_line"] == "My name is Sam Perera."
+    assert client.get(f"/api/v1/speaking/sessions/{chat_id}/transcript").json()["turns"]
+
+
 def test_teardown_flattens_turns_before_marking_complete(client: Any) -> None:
     from sqlalchemy import select
 

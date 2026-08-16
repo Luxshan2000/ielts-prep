@@ -834,15 +834,49 @@ def dictation_headline(total: int, heard: int, missed: int, function_missed: int
 # Selection — what this pack can honestly drill
 # ======================================================================================
 
+def exam_script_ids(session: Session) -> set[str]:
+    """Every script a listening test carries, and therefore every script a drill must not use."""
+    ids: set[str] = set()
+    for row in session.execute(
+        select(
+            m.ListeningTest.p1_id, m.ListeningTest.p2_id, m.ListeningTest.p3_id, m.ListeningTest.p4_id
+        )
+    ):
+        ids.update(value for value in row if value)
+    return ids
+
+
 def live_scripts(
-    session: Session, *, part: int | None = None, accent_set: str | None = None
+    session: Session,
+    *,
+    part: int | None = None,
+    accent_set: str | None = None,
+    include_exam: bool = False,
 ) -> list[m.ListeningScript]:
+    """Scripts a drill may be built from.
+
+    **Exam scripts are excluded by default**, and that is the whole point of this function.
+    A learner put it plainly: seeing a drill item again inside a test "gives the feel like
+    leaked questions". The module docstring above says drills are "built from the pack's own
+    keyed answers so the practice is the test", which is good for fidelity and bad for anybody
+    who then meets the same item on exam day.
+
+    The pack already ships the material for both: 43 scripts, of which the seven tests carry 28,
+    leaving 15 that belong to nobody. This query used to take all 43.
+
+    An empty result is an honest empty state, not a reason to fall back to the exam pool. Falling
+    back would re-open the leak exactly when the practice pool is thinnest, which is now.
+    """
     query = select(m.ListeningScript).where(m.ListeningScript.retired == 0)
     if part:
         query = query.where(m.ListeningScript.part == int(part))
     if accent_set:
         query = query.where(m.ListeningScript.accent_set == accent_set)
-    return list(session.scalars(query.order_by(m.ListeningScript.id)).all())
+    rows = list(session.scalars(query.order_by(m.ListeningScript.id)).all())
+    if include_exam:
+        return rows
+    reserved = exam_script_ids(session)
+    return [row for row in rows if row.id not in reserved]
 
 
 def rng_for(seed: str, salt: str = "") -> random.Random:

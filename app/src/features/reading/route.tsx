@@ -5,6 +5,7 @@ import { ReadingPage } from "./page";
 import { ReadingBrowser } from "./components/ReadingBrowser";
 import { ReadingPlayer } from "./components/ReadingPlayer";
 import { ReadingReview } from "./components/ReadingReview";
+import { ReadingHistory } from "./components/ReadingHistory";
 import { CoachPicker, ReadingCoach } from "./components/coach";
 import { DrillPractice } from "./components/drills";
 import { MockPreflight, MockReport, MockSitting } from "./components/mock";
@@ -34,6 +35,16 @@ export default defineFeatureRoute({
       element: (
         <FeatureErrorBoundary feature="reading review">
           <ReadingReview />
+        </FeatureErrorBoundary>
+      ),
+    },
+    // The learner's own ledger. It reads three list endpoints and renders the shared
+    // history screen, so a crash costs nothing and remounting is the right recovery.
+    {
+      path: "history",
+      element: (
+        <FeatureErrorBoundary feature="reading history">
+          <ReadingHistory />
         </FeatureErrorBoundary>
       ),
     },

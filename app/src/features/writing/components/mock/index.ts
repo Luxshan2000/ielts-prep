@@ -1,9 +1,13 @@
-/** The 60-minute writing mock: pre-flight, sitting, report, history. */
+/**
+ * The 60-minute writing mock: pre-flight, sitting, report.
+ *
+ * Past sittings are no longer listed here. They are records like any other and live with
+ * the rest of them at `/writing/history`.
+ */
 
 export { MockPreflight } from "./MockPreflight";
 export { MockSitting } from "./MockSitting";
 export { MockReport } from "./MockReport";
-export { MockHistory } from "./MockHistory";
 export {
   MOCK_SECONDS,
   TARGET_SECONDS,

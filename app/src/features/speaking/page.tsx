@@ -22,10 +22,10 @@ import {
   Badge,
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
+import { HistoryButton } from "@/components/practice/history";
 import { useSessionStore } from "@/stores";
 import { ModePicker } from "./components/ModePicker";
 import { PreCallCheck } from "./components/PreCallCheck";
-import { SessionHistory } from "./components/SessionHistory";
 import { modeMeta } from "./components/phases";
 import { useMockStore } from "./components/mock";
 import { useSpeakingStore } from "./store";
@@ -49,12 +49,20 @@ export function SpeakingHome() {
   const loadEngine = useSpeakingStore((s) => s.loadEngine);
   const cardSetId = useSpeakingStore((s) => s.cardSetId);
   const setMockCardSet = useMockStore((s) => s.setCardSetId);
+  const history = useSpeakingStore((s) => s.history);
+  const loadHistory = useSpeakingStore((s) => s.loadHistory);
 
   const [micReady, setMicReady] = useState(false);
 
   useEffect(() => {
     void loadEngine();
   }, [loadEngine]);
+
+  // Only for the count on the History button. The list itself is loaded by the history
+  // screen — this hub no longer renders any of it.
+  useEffect(() => {
+    void loadHistory();
+  }, [loadHistory]);
 
   const onReadyChange = useCallback((ready: boolean) => setMicReady(ready), []);
 
@@ -89,7 +97,7 @@ export function SpeakingHome() {
           ? "Live examiner practice. Set up a language model first. Without one there is no examiner and no band."
           : "Live examiner practice with band feedback afterwards."
       }
-      actions={
+      status={
         <Badge tone={examinerMissing ? "default" : mode.scored ? "primary" : "default"}>
           {examinerMissing
             ? "Not set up yet"
@@ -98,6 +106,7 @@ export function SpeakingHome() {
               : "Practice only"}
         </Badge>
       }
+      actions={<HistoryButton to="/speaking/history" count={history.length} />}
     >
       <div className="space-y-6">
         {offline && (
@@ -267,11 +276,10 @@ export function SpeakingHome() {
             </Button>
           </CardContent>
         </Card>
-
-        <section className="space-y-3">
-          <h2 className="text-sm font-semibold">Recent sessions</h2>
-          <SessionHistory />
-        </section>
+        {/* Past sessions used to be a capped strip below this point. They are behind the
+            History button in the header now: one searchable list, and every session in
+            it can be opened — including the three modes that are never scored, whose
+            transcripts had no screen at all before. */}
       </div>
     </PageShell>
   );

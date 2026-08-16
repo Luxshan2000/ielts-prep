@@ -5,6 +5,7 @@ import { WritingLayout } from "./page";
 import { AttemptWorkspace } from "./components/AttemptWorkspace";
 import { WritingCoach } from "./components/coach";
 import { MockPreflight, MockReport, MockSitting } from "./components/mock";
+import { WritingHistoryScreen } from "./history";
 
 export default defineFeatureRoute({
   path: "/writing",
@@ -26,6 +27,16 @@ export default defineFeatureRoute({
           hint="Your draft is autosaved to the local sidecar as you type, so reloading this screen picks it up again."
         >
           <AttemptWorkspace />
+        </FeatureErrorBoundary>
+      ),
+    },
+    // The whole record of this room — practice, redrafts and sittings — in one searchable
+    // list. Read-only over endpoints the hub already calls, so a crash here costs nothing.
+    {
+      path: "history",
+      element: (
+        <FeatureErrorBoundary feature="writing history">
+          <WritingHistoryScreen />
         </FeatureErrorBoundary>
       ),
     },

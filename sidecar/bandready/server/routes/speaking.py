@@ -24,7 +24,7 @@ from typing import Annotated, Any
 
 from fastapi import APIRouter, Depends, Query, Request, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel, Field
-from sqlalchemy import select
+from sqlalchemy import func, select
 from ulid import ULID
 
 from bandready.config import get_settings
@@ -294,6 +294,96 @@ async def start_session(
     }
 
 
+def _latest_report_ids(s: Any, session_ids: list[str]) -> dict[str, str]:
+    """The newest successful evaluation per session id.
+
+    The single-session record has always carried ``report_id``; the list did not, so
+    every client reading the list saw ``undefined`` and concluded no past session could
+    be opened. That is why the Speaking room's history was a wall of dead rows. One
+    ``IN`` query answers it for the whole page.
+    """
+    if not session_ids:
+        return {}
+    rows = s.execute(
+        select(m.LlmEvaluation.subject_id, m.LlmEvaluation.id)
+        .where(
+            m.LlmEvaluation.subject_kind == "speaking_session",
+            m.LlmEvaluation.subject_id.in_(session_ids),
+            m.LlmEvaluation.status == "ok",
+        )
+        # Ascending, so the last row written for a subject is the one that survives the
+        # dict build — the same "newest ok evaluation wins" rule `_session_record` uses.
+        .order_by(m.LlmEvaluation.created_at.asc(), m.LlmEvaluation.id.asc())
+    ).all()
+    return {row.subject_id: row.id for row in rows}
+
+
+def _card_set_titles(s: Any, set_ids: set[str]) -> dict[str, str]:
+    """Topic-set titles, so a history row can be named rather than numbered."""
+    if not set_ids:
+        return {}
+    rows = s.execute(
+        select(m.CardSet.id, m.CardSet.title).where(m.CardSet.id.in_(sorted(set_ids)))
+    ).all()
+    return {row.id: row.title for row in rows}
+
+
+def _turn_counts(s: Any, session_ids: list[str]) -> dict[str, int]:
+    """How many flattened turns each session kept (R2-24)."""
+    if not session_ids:
+        return {}
+    rows = s.execute(
+        select(m.SpeakingTurn.session_id, func.count())
+        .where(m.SpeakingTurn.session_id.in_(session_ids))
+        .group_by(m.SpeakingTurn.session_id)
+    ).all()
+    return {row[0]: int(row[1]) for row in rows}
+
+
+#: How much of the opening answer a history row can usefully show.
+OPENING_LINE_MAX = 160
+
+
+def _opening_lines(s: Any, session_ids: list[str]) -> dict[str, str]:
+    """The first thing the candidate said in each session.
+
+    An unscored session has no band and no report, so without this the whole list reads
+    "Quick chat, Quick chat, Quick chat" and the learner cannot tell which conversation
+    was which. The first line is what they remember it by, and it is what makes the
+    search box able to find one.
+
+    Only the earliest user turn per session is read — a min()/join rather than pulling
+    every turn's text back for a page of fifty sessions.
+    """
+    if not session_ids:
+        return {}
+    first = (
+        select(
+            m.SpeakingTurn.session_id.label("sid"),
+            func.min(m.SpeakingTurn.turn_index).label("ti"),
+        )
+        .where(m.SpeakingTurn.session_id.in_(session_ids), m.SpeakingTurn.role == "user")
+        .group_by(m.SpeakingTurn.session_id)
+        .subquery()
+    )
+    rows = s.execute(
+        select(m.SpeakingTurn.session_id, m.SpeakingTurn.text).join(
+            first,
+            (m.SpeakingTurn.session_id == first.c.sid)
+            & (m.SpeakingTurn.turn_index == first.c.ti),
+        )
+    ).all()
+    out: dict[str, str] = {}
+    for session_id, raw in rows:
+        line = " ".join((raw or "").split())
+        if not line:
+            continue
+        out[session_id] = (
+            line if len(line) <= OPENING_LINE_MAX else line[: OPENING_LINE_MAX - 1].rstrip() + "…"
+        )
+    return out
+
+
 @router.get("/sessions", summary="Speaking session history")
 async def list_sessions(
     limit: Annotated[int, Query(ge=1, le=200)] = 50,
@@ -314,6 +404,18 @@ async def list_sessions(
     rows = list(s.execute(stmt).all())
     has_more = len(rows) > limit
     rows = rows[:limit]
+
+    # Everything a history row needs to be openable and nameable, resolved once for the
+    # page rather than per row: which report to link to, what the topic set was called,
+    # and whether anything was actually said.
+    ids = [row.id for row, _ in rows]
+    reports = _latest_report_ids(s, ids)
+    titles = _card_set_titles(s, {row.card_set_id for row, _ in rows if row.card_set_id})
+    turn_counts = _turn_counts(s, ids)
+    openings = _opening_lines(s, ids)
+    live = runtime.active()
+    live_id = live.session_id if live is not None and not live.ended else None
+
     items = [
         {
             "id": row.id,
@@ -321,12 +423,21 @@ async def list_sessions(
             "activity": envelope.activity,
             "part": row.part,
             "card_set_id": row.card_set_id,
+            "card_set_title": titles.get(row.card_set_id) if row.card_set_id else None,
             "state": row.state,
             "status": row.status,
             "overall_band": row.overall_band,
             "started_at": envelope.started_at,
             "ended_at": envelope.ended_at,
             "duration_s": envelope.duration_s,
+            "live": row.id == live_id,
+            "report_id": reports.get(row.id),
+            "turn_count": turn_counts.get(row.id, 0),
+            "opening_line": openings.get(row.id),
+            # The blob and the flattened rows are written by the same teardown, but a
+            # row trimmed by a repair keeps only one of them. Either one means there is
+            # a conversation to read back.
+            "has_transcript": bool(row.transcript_json) or row.id in turn_counts,
         }
         for row, envelope in rows
     ]

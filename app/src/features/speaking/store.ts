@@ -38,6 +38,8 @@ export interface SessionRecord {
   activity: string | null;
   part: number | null;
   card_set_id: string | null;
+  /** The topic set's name, so a row can be called something. Absent on an older sidecar. */
+  card_set_title?: string | null;
   state: string;
   status: string;
   overall_band: number | null;
@@ -47,6 +49,15 @@ export interface SessionRecord {
   duration_s: number | null;
   live?: boolean;
   report_id?: string | null;
+  /** Flattened turns kept for this session (R2-24). */
+  turn_count?: number | null;
+  /**
+   * Whether the conversation can be read back. Distinct from `turn_count`: a row
+   * trimmed by a repair keeps the transcript blob without the flattened rows.
+   */
+  has_transcript?: boolean;
+  /** The first thing the candidate said — how an unscored chat is recognised. */
+  opening_line?: string | null;
   offer_url?: string;
   events_url?: string;
   /** Present only if the sidecar decides to inline the transcript (tolerated). */
@@ -430,8 +441,11 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
   loadHistory: async () => {
     set({ historyLoading: true, historyError: null });
     try {
+      // The header's History button shows this count, so a low cap would quietly
+      // under-report how much work the learner has actually done. 200 is the route's
+      // own ceiling.
       const res = await api.get<{ items: SessionRecord[] }>(
-        "/api/v1/speaking/sessions?limit=30",
+        "/api/v1/speaking/sessions?limit=200",
       );
       set({ history: res.items ?? [], historyLoading: false });
     } catch (err) {

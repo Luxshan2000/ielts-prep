@@ -793,6 +793,147 @@ def autosave(
     }
 
 
+# --------------------------------------------------------------------------------------
+# GET /attempts — the history list
+# --------------------------------------------------------------------------------------
+
+#: ``practice_sessions.activity`` ⇄ the ``full|passage|drill`` mode the player speaks.
+#: The column is the authority because it is always written (``start_attempt``), where
+#: ``state_json["mode"]`` is free-form and older rows may not carry it.
+_ACTIVITY_MODE: dict[str, str] = {
+    "full_test": "full",
+    "single_passage": "passage",
+    "drill": "drill",
+    # A server-assembled mock is a full paper sat under exam conditions; it is listed
+    # here because the sitting *is* an ordinary reading attempt row (reading/mock.py).
+    "reading_mock": "full",
+}
+
+_MODE_ACTIVITY: dict[str, list[str]] = {
+    "full": ["full_test", "reading_mock"],
+    "passage": ["single_passage"],
+    "drill": ["drill"],
+}
+
+
+@router.get("/attempts", summary="Every reading attempt, newest first")
+def list_attempts(
+    _: None = Depends(require_auth),
+    session: Session = Depends(get_session),
+    mode: str | None = Query(default=None, pattern="^(full|passage|drill)$"),
+    status_filter: str | None = Query(
+        default=None, alias="status", pattern="^(in_progress|submitted|abandoned)$"
+    ),
+    limit: int = Query(default=50, ge=1, le=200),
+    cursor: str | None = None,
+) -> dict[str, Any]:
+    """The learner's own reading ledger — everything this module has ever recorded.
+
+    Reading kept attempts for a year with nothing able to list them: the module served
+    ``GET /attempts/{id}`` and nothing else, so a submitted paper was reachable only from
+    the tab that had just submitted it and was lost on reload. The history screen reads
+    this route.
+
+    ``started_at`` lives on ``practice_sessions`` rather than on ``reading_attempts``, so
+    the envelope is joined in rather than fetched per row — that join is also what scopes
+    the list to the current profile. Titles are resolved in two batched queries for the
+    whole page for the same reason: a history list must not cost one round trip per row.
+
+    Paginated exactly as the listening and writing lists are: ULIDs sort by creation
+    time, so ``id DESC`` is newest-first and ``?cursor=<last id>`` is the next page.
+    """
+    profile_id = current_profile_id(session)
+    stmt = (
+        select(m.ReadingAttempt, m.PracticeSession)
+        .join(m.PracticeSession, m.PracticeSession.id == m.ReadingAttempt.id)
+        .where(m.PracticeSession.profile_id == profile_id)
+    )
+    if mode:
+        stmt = stmt.where(m.PracticeSession.activity.in_(_MODE_ACTIVITY[mode]))
+    if status_filter:
+        stmt = stmt.where(m.ReadingAttempt.status == status_filter)
+    if cursor:
+        stmt = stmt.where(m.ReadingAttempt.id < cursor)
+
+    rows = session.execute(
+        stmt.order_by(m.ReadingAttempt.id.desc()).limit(limit + 1)
+    ).all()
+    page = rows[:limit]
+
+    tests = {
+        row.id: row
+        for row in session.scalars(
+            select(m.ReadingTest).where(
+                m.ReadingTest.id.in_({a.test_id for a, _ in page if a.test_id} or {""})
+            )
+        ).all()
+    }
+    passages = {
+        row.id: row
+        for row in session.scalars(
+            select(m.ReadingPassage).where(
+                m.ReadingPassage.id.in_(
+                    {a.passage_id for a, _ in page if a.passage_id} or {""}
+                )
+            )
+        ).all()
+    }
+
+    items: list[dict[str, Any]] = []
+    for attempt, envelope in page:
+        state = _attempt_state(attempt)
+        attempt_mode = _ACTIVITY_MODE.get(envelope.activity) or str(
+            state.get("mode") or "passage"
+        )
+        test = tests.get(attempt.test_id or "")
+        passage = passages.get(attempt.passage_id or "")
+        # A drill pulls its questions from across the bank, so the passage the attempt is
+        # keyed to names only the first question. Calling it the drill's title would be a
+        # lie the learner cannot check, so the drill is titled by its type instead.
+        title = (
+            None
+            if attempt_mode == "drill"
+            else (test.title if test is not None else passage.title if passage else None)
+        )
+        items.append(
+            {
+                "attempt_id": attempt.id,
+                "test_id": attempt.test_id,
+                "passage_id": attempt.passage_id,
+                "mode": attempt_mode,
+                "activity": envelope.activity,
+                "exam_conditions": bool(state.get("exam_conditions"))
+                or attempt.mode == "exam",
+                "title": title,
+                "format": (
+                    test.format
+                    if test is not None
+                    else passage.format
+                    if passage is not None
+                    else None
+                ),
+                "qtype": (state.get("drill") or {}).get("qtype")
+                if attempt_mode == "drill"
+                else None,
+                "status": attempt.status,
+                "started_at": envelope.started_at,
+                "finished_at": attempt.submitted_at or envelope.ended_at,
+                "raw_score": attempt.raw_score,
+                "total_questions": attempt.total_questions,
+                "band": attempt.band,
+                "duration_s": attempt.duration_s,
+                # What an unfinished attempt is worth resuming for. Without it the history
+                # screen can only say "Not finished" and not how far in.
+                "answered": len(state.get("answers") or {}),
+            }
+        )
+
+    return {
+        "items": items,
+        "next_cursor": page[-1][0].id if len(rows) > limit and page else None,
+    }
+
+
 @router.get("/attempts/{attempt_id}", summary="Attempt record and resume state")
 def get_attempt(
     attempt_id: str,
@@ -1387,6 +1528,68 @@ async def generate(  # async: job_manager.submit() needs the running event loop
 # --------------------------------------------------------------------------------------
 # Drills (06 §6.2, §8)
 # --------------------------------------------------------------------------------------
+
+# Declared *above* ``GET /drills/{qtype}``: FastAPI matches in declaration order, and the
+# qtype route would otherwise swallow this one and answer "no questions of type 'results'".
+@router.get("/drills/results", summary="Recorded reading drills, newest first")
+def list_drill_results(
+    _: None = Depends(require_auth),
+    session: Session = Depends(get_session),
+    limit: int = Query(default=50, ge=1, le=200),
+    cursor: str | None = None,
+) -> dict[str, Any]:
+    """Standalone drill sets this learner has finished.
+
+    A drill run from ``/reading/drills`` never becomes a ``reading_attempts`` row — the
+    trap and paraphrase kinds have no passage document behind them — so it is recorded as
+    a ``drill_results`` row and would be invisible to a history screen fed only by
+    ``GET /attempts``.
+
+    ``attempt_id`` is echoed out of ``details_json`` because a type drill sat *inside* an
+    attempt records both, and the history screen must show that once rather than twice.
+    """
+    profile_id = current_profile_id(session)
+    stmt = (
+        select(m.DrillResult, m.PracticeSession)
+        .join(m.PracticeSession, m.PracticeSession.id == m.DrillResult.id)
+        .where(
+            m.DrillResult.module == "reading",
+            m.PracticeSession.profile_id == profile_id,
+        )
+    )
+    if cursor:
+        stmt = stmt.where(m.DrillResult.id < cursor)
+    rows = session.execute(stmt.order_by(m.DrillResult.id.desc()).limit(limit + 1)).all()
+    page = rows[:limit]
+
+    items: list[dict[str, Any]] = []
+    for result, envelope in page:
+        details = _loads(result.details_json, {})
+        summary = _loads(envelope.summary_json, {})
+        items.append(
+            {
+                "drill_id": result.id,
+                "drill_kind": result.drill_kind,
+                "qtype": result.qtype,
+                "trap": (summary or {}).get("trap")
+                if isinstance(summary, dict)
+                else None,
+                "n_items": result.n_items,
+                "n_correct": result.n_correct,
+                "started_at": envelope.started_at,
+                "finished_at": envelope.ended_at,
+                "duration_s": envelope.duration_s,
+                "attempt_id": (details or {}).get("attempt_id")
+                if isinstance(details, dict)
+                else None,
+            }
+        )
+
+    return {
+        "items": items,
+        "next_cursor": page[-1][0].id if len(rows) > limit and page else None,
+    }
+
 
 @router.get("/drills/{qtype}", summary="A drill question set of one type")
 def get_drill(

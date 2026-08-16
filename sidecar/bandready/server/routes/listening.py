@@ -1047,12 +1047,16 @@ def list_attempts(
     limit: int = Query(default=50, ge=1, le=200),
     cursor: str | None = None,
 ) -> dict[str, Any]:
-    stmt = select(m.ListeningAttempt)
+    # The envelope is joined for one field: `started_at`. Only a submitted attempt has a
+    # `submitted_at`, so a list keyed on it can date the attempts that went well and none
+    # of the ones that were walked out of — which is most of what a history screen is for.
+    # The join is total: `listening_attempts.id` is an FK onto `practice_sessions.id`.
+    stmt = select(m.ListeningAttempt, m.PracticeSession).join(
+        m.PracticeSession, m.PracticeSession.id == m.ListeningAttempt.id
+    )
     if cursor:
         stmt = stmt.where(m.ListeningAttempt.id < cursor)
-    rows = list(
-        session.execute(stmt.order_by(m.ListeningAttempt.id.desc()).limit(limit + 1)).scalars()
-    )
+    rows = list(session.execute(stmt.order_by(m.ListeningAttempt.id.desc()).limit(limit + 1)))
     has_more = len(rows) > limit
     rows = rows[:limit]
     items = [
@@ -1066,11 +1070,12 @@ def list_attempts(
             "total_questions": row.total_questions,
             "band": row.band,
             "duration_s": row.duration_s,
+            "started_at": envelope.started_at,
             "submitted_at": row.submitted_at,
         }
-        for row in rows
+        for row, envelope in rows
     ]
-    return {"items": items, "next_cursor": rows[-1].id if has_more and rows else None}
+    return {"items": items, "next_cursor": rows[-1][0].id if has_more and rows else None}
 
 
 @router.get("/api/v1/listening/attempts/{attempt_id}/review", summary="Review an attempt")

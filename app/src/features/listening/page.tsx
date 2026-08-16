@@ -1,7 +1,11 @@
 /**
- * Listening hub (12 §6.3): the test bank, single-part practice, accent training
- * and your recent attempts. Child routes (player, review, drill) render through
- * the outlet.
+ * Listening hub (12 §6.3): the test bank, single-part practice and accent training.
+ * Child routes (player, review, drill) render through the outlet.
+ *
+ * Past attempts used to be an eight-row strip at the very foot of this page, below the
+ * drills, which put the record of a learner's own work in the least-visited part of the
+ * screen and capped it at whatever fitted. It is a button in the header now, and
+ * `/listening/history` shows all of it — attempts, mock sittings and drills together.
  */
 
 import { useEffect, useState } from "react";
@@ -28,11 +32,12 @@ import {
   Tabs,
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
+import { HistoryButton } from "@/components/practice/history";
 import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
 import { useListeningStore } from "./store";
 import { accentLabel } from "./labels";
+import { useListeningHistory } from "./history";
 import { PrepareAudioPanel } from "./components/PrepareAudioPanel";
-import { RecentAttempts } from "./components/RecentAttempts";
 import { SpellingNotice } from "./components/SpellingNotice";
 
 /** Layout element for `/listening`. */
@@ -51,7 +56,13 @@ export function ListeningHome() {
   const scriptsError = useListeningStore((s) => s.scriptsError);
   const loadLibrary = useListeningStore((s) => s.loadLibrary);
 
-  const [mode, setMode] = useState<Mode>("exam");
+  // Practice is where somebody starts. Exam conditions are what you graduate to once the
+  // material is familiar, and landing there first meant every visit opened on the one mode
+  // that plays each part once and never rewinds.
+  const [mode, setMode] = useState<Mode>("practice");
+  // Counted here so the header button can say how much is behind it; the history screen
+  // reads the same three ledgers through the same hook.
+  const history = useListeningHistory();
 
   useEffect(() => {
     void loadLibrary();
@@ -73,11 +84,13 @@ export function ListeningHome() {
       refreshing={testsLoading}
       refreshLabel="Reload the listening library"
       /*
-        The two rooms either side of the library, in the slot every skill uses for them —
-        the same two buttons, in the same order, as the reading library.
+        Your own record first, then the two rooms either side of the library, in the slot
+        every skill uses for them. The primary action stays rightmost: history is where you
+        go to look something up, not what this screen is for.
       */
       actions={
         <>
+          <HistoryButton to="/listening/history" count={history.rows.length} />
           <Button variant="outline" size="sm" onClick={() => navigate("/listening/coach")}>
             <GraduationCap className="h-4 w-4" aria-hidden="true" />
             Coach
@@ -94,8 +107,8 @@ export function ListeningHome() {
           value={mode}
           onChange={(value) => setMode(value)}
           items={[
-            { value: "exam", label: "Exam conditions" },
             { value: "practice", label: "Practice" },
+            { value: "exam", label: "Exam conditions" },
           ]}
         />
       }
@@ -118,6 +131,34 @@ export function ListeningHome() {
         </div>
 
         <SpellingNotice />
+
+        {/* Both rooms replay, seek and re-voice the audio, so neither belongs under exam
+            conditions. They are the practice half of this screen and they sit at the top of
+            it now. They used to be the last two sections on the page, under the library and
+            under the recent-attempts list, which is the least visited part of any screen. */}
+        {mode === "practice" && (
+          <div className="grid gap-3 sm:grid-cols-2">
+            <PracticeRoom
+              icon={ListChecks}
+              title="Targeted drills"
+              body="Short reps on the four things that lose the most marks: taking dictation, catching numbers, hearing the signpost that announces an answer, and predicting what kind of word a gap needs before it plays."
+              cta="Open drills"
+              onOpen={() => navigate("/listening/drills")}
+              ready={hasScripts}
+              unavailable="Drills are built from the scripts in your content pack. Install one to practise."
+            />
+            <PracticeRoom
+              icon={Globe2}
+              title="Accent training"
+              body="Re-voice any part in British, American or Australian voices and compare them side by side. The questions stay the same, so it is pure ear training."
+              cta="Open accent training"
+              onOpen={() => navigate("/listening/accents")}
+              ready={hasScripts}
+              unavailable="Accent training needs a content pack with listening scripts. It re-voices an existing script rather than creating new material."
+            />
+          </div>
+        )}
+
 
         {(testsError || scriptsError) && (
           <div
@@ -274,57 +315,54 @@ export function ListeningHome() {
           </section>
         )}
 
-        <section className="space-y-3">
-          <h2 className="flex items-center gap-2 text-sm font-semibold">
-            <Globe2 className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-            Accent training
-          </h2>
-          {hasScripts ? (
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-card p-3">
-              <p className="min-w-0 flex-1 text-[13px] text-muted-foreground">
-                Re-voice any part in British, American or Australian voices and compare them side by
-                side. The questions stay the same, so it is pure ear training.
-              </p>
-              <Button variant="outline" onClick={() => navigate("/listening/accents")}>
-                Open accent training
-              </Button>
-            </div>
-          ) : (
-            <p className="rounded-xl border border-dashed border-border bg-muted/40 p-3 text-[13px] text-muted-foreground">
-              Accent training becomes available once a content pack with listening scripts is
-              installed. It re-voices an existing script rather than creating new material.
-            </p>
-          )}
-        </section>
-
-        <section className="space-y-3">
-          <h2 className="flex items-center gap-2 text-sm font-semibold">
-            <ListChecks className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-            Targeted drills
-          </h2>
-          {hasScripts ? (
-            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-card p-3">
-              <p className="min-w-0 flex-1 text-[13px] text-muted-foreground">
-                Short reps on the four things that actually lose marks: taking dictation, catching
-                numbers, hearing the signpost that announces an answer, and predicting what kind of
-                word a gap needs before it plays.
-              </p>
-              <Button variant="outline" onClick={() => navigate("/listening/drills")}>
-                Open drills
-              </Button>
-            </div>
-          ) : (
-            <p className="rounded-xl border border-dashed border-border bg-muted/40 p-3 text-[13px] text-muted-foreground">
-              Drills are built from the scripts in your content pack. Install one to practise.
-            </p>
-          )}
-        </section>
-
-        <section className="space-y-3">
-          <h2 className="text-sm font-semibold">Recent attempts</h2>
-          <RecentAttempts />
-        </section>
       </div>
     </PageShell>
+  );
+}
+
+/**
+ * One of the two practice rooms at the top of this screen.
+ *
+ * Written as a component because the pair sit side by side in a two-column grid, where the
+ * old shape (text and button on one flex row) collapsed badly: at half width the button wrapped
+ * under a ragged paragraph and the two cards stopped lining up. The button is pinned to the
+ * bottom of the card instead, so the two agree however long the text runs.
+ */
+function PracticeRoom({
+  icon: Icon,
+  title,
+  body,
+  cta,
+  onOpen,
+  ready,
+  unavailable,
+}: {
+  icon: typeof Globe2;
+  title: string;
+  body: string;
+  cta: string;
+  onOpen: () => void;
+  ready: boolean;
+  unavailable: string;
+}) {
+  return (
+    <section className="space-y-2">
+      <h2 className="flex items-center gap-2 text-sm font-semibold">
+        <Icon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+        {title}
+      </h2>
+      {ready ? (
+        <div className="flex h-[calc(100%-2rem)] flex-col gap-3 rounded-xl border border-border bg-card p-3">
+          <p className="text-[13px] text-muted-foreground">{body}</p>
+          <Button variant="outline" className="mt-auto self-start" onClick={onOpen}>
+            {cta}
+          </Button>
+        </div>
+      ) : (
+        <p className="rounded-xl border border-dashed border-border bg-muted/40 p-3 text-[13px] text-muted-foreground">
+          {unavailable}
+        </p>
+      )}
+    </section>
   );
 }

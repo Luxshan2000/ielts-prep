@@ -9,6 +9,10 @@
  * The temptation on a screen like this is to reassure — "it's only practice" —
  * which is precisely how you get a learner who half-tries for an hour and then
  * distrusts the report.
+ *
+ * Past sittings used to be a four-row list under the start button. They are ordinary
+ * records, so they are read where every other record is read: `/writing/history`, from the
+ * header. An hour still running keeps its own banner here, because that is not history.
  */
 
 import { useEffect, useMemo } from "react";
@@ -25,9 +29,9 @@ import {
   Select,
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
+import { HistoryButton } from "@/components/practice/history";
 import { useSessionStore } from "@/stores";
 import { MarkingNotice } from "../MarkingNotice";
-import { MockHistory } from "./MockHistory";
 import { EXPECTATIONS, TASK_OUTLINE, WEIGHTING_NOTE } from "./script";
 import { clockLabel } from "./format";
 import { remainingOf, useMockStore, type MockModule } from "./store";
@@ -65,7 +69,8 @@ export function MockPreflight() {
     <PageShell
       title="Mock writing paper"
       description="Two tasks, sixty minutes, one clock. No help of any kind while it runs."
-      actions={<Badge tone="primary">The only place a combined Writing band is shown</Badge>}
+      status={<Badge tone="primary">The only place a combined Writing band is shown</Badge>}
+      actions={<HistoryButton to="/writing/history" count={records.length} label="Past sittings" />}
     >
       <div className="space-y-6">
         {offline && (
@@ -192,12 +197,6 @@ export function MockPreflight() {
             </div>
           </CardContent>
         </Card>
-
-        {/* ------------------------------------------------------ history --- */}
-        <section className="space-y-3">
-          <h2 className="text-sm font-semibold">Your past sittings</h2>
-          <MockHistory limit={4} />
-        </section>
       </div>
     </PageShell>
   );

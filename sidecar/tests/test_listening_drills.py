@@ -943,6 +943,68 @@ def test_the_bucket_profile_aggregates_across_sessions(
     assert "counted apart" in body["form_note"]
 
 
+def test_finished_drill_sets_are_listed_back_without_their_keys(
+    client: TestClient, seeded: dict[str, Any]
+) -> None:
+    """The ledger a history screen reads: counts and dates, and nothing that reveals."""
+    empty = client.get(f"{BASE}/sessions")
+    assert empty.status_code == 200, empty.text
+    before = empty.json()["count"]
+
+    built = client.post(
+        f"{BASE}/sets",
+        json={"kind": "dictation", "script_id": seeded["script_id"], "size": 3},
+    ).json()
+    graded = client.post(
+        f"{BASE}/grade",
+        json={
+            "kind": "dictation",
+            "script_id": seeded["script_id"],
+            "size": 3,
+            "seed": built["seed"],
+            "duration_s": 91,
+            "responses": [
+                {"item_id": item["item_id"], "given": "the"} for item in built["items"]
+            ],
+        },
+    )
+    assert graded.status_code == 200, graded.text
+
+    body = client.get(f"{BASE}/sessions").json()
+    assert body["count"] == before + 1
+    row = body["items"][0]
+    # The launcher's word for the kind, not the storage taxonomy's, so a client can label
+    # the row without reversing RESULT_KINDS.
+    assert row["kind"] == "dictation"
+    assert row["script_id"] == seeded["script_id"]
+    assert row["n_items"] == 3
+    assert row["n_correct"] == 0
+    assert row["started_at"], "a drill with no date cannot be placed in a history"
+    assert row["duration_s"] == 91
+
+    # Aggregates only. The dictated line, the key and what the learner typed all live in
+    # `details_json` and none of them may leave through a list payload.
+    flat = json.dumps(body)
+    for leaked in ("details", "items_detail", "key", "given", "diff"):
+        assert f'"{leaked}"' not in flat
+
+
+def test_the_drill_ledger_stays_open_while_a_mock_is_open(
+    client: TestClient, seeded: dict[str, Any]
+) -> None:
+    """Past scores reveal nothing about the paper in front of you (unlike every sibling)."""
+    attempt = client.post(
+        "/api/v1/listening/attempts",
+        json={"script_id": seeded["script_id"], "mode": "exam"},
+    )
+    attempt_id = attempt.json()["attempt_id"]
+    try:
+        assert client.get(f"{BASE}/profile").status_code == 409
+        assert client.get(f"{BASE}/sessions").status_code == 200
+    finally:
+        client.post(f"/api/v1/listening/attempts/{attempt_id}/submit", json={})
+
+
 def test_synonym_check_returns_the_authored_link_alongside_the_model(
     client: TestClient, seeded: dict[str, Any]
 ) -> None:

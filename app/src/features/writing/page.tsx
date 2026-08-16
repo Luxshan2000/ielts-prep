@@ -1,7 +1,12 @@
 /**
- * Writing Desk (05-writing-module.md). `/writing` is the hub — prompt bank, your
- * attempts, and the frameworks library; the attempt editor and its report live at
- * `/writing/attempt/:attemptId` and render through the outlet.
+ * Writing Desk (05-writing-module.md). `/writing` is the hub — prompt bank, coach and the
+ * frameworks library; the attempt editor and its report live at `/writing/attempt/:attemptId`
+ * and render through the outlet.
+ *
+ * What you have already written is not one of the tabs. A "Your attempts" tab capped at forty
+ * rows, sitting beside the things you might do next, is a poor place to keep the only copy of
+ * your own work — so the record moved to `/writing/history`, whole and searchable, reached
+ * from the History button in this header.
  */
 
 import { useEffect, useMemo, useState } from "react";
@@ -9,15 +14,17 @@ import { Outlet, useNavigate, useOutlet } from "react-router-dom";
 import { AlertTriangle, GraduationCap, PenLine, Timer } from "lucide-react";
 import { Badge, Button, Tabs, TabPanel } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
+import { HistoryButton } from "@/components/practice/history";
 import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
 import { useSessionStore } from "@/stores";
-import { AttemptHistory } from "./components/AttemptHistory";
 import { PromptBrowser } from "./components/PromptBrowser";
 import { TemplatesPanel } from "./components/TemplatesPanel";
 import { CoachPicker } from "./components/coach";
+import { readMockRecords } from "./components/mock/store";
+import { buildWritingHistory } from "./history";
 import { TASK_SHORT, useWritingStore } from "./store";
 
-type TabValue = "bank" | "coach" | "attempts" | "templates";
+type TabValue = "bank" | "coach" | "templates";
 
 /**
  * Layout element for `/writing`. React Router renders child routes through the
@@ -52,6 +59,13 @@ export function WritingHome() {
   const scored = useMemo(() => history.filter((a) => a.status === "scored"), [history]);
   const lastBand = scored.length > 0 ? scored[0].overall_band : null;
 
+  // What the History button promises: attempts plus the sittings kept on this machine,
+  // counted the same way the history screen counts them so the two never disagree.
+  const historyCount = useMemo(
+    () => buildWritingHistory({ attempts: history, mocks: readMockRecords() }).length,
+    [history],
+  );
+
   return (
     <PageShell
       title="Writing"
@@ -61,6 +75,9 @@ export function WritingHome() {
           {lastBand !== null && (
             <Badge tone="primary">Last marked answer: band {lastBand.toFixed(1)}</Badge>
           )}
+          {/* Your own record of this room. In the header because it is a thing you go
+              and look at, not a list to scroll past on the way to somewhere else. */}
+          <HistoryButton to="/writing/history" count={historyCount} />
           {/* The mock is the whole paper under one clock, so it gets a header action
               rather than a tab: it is a thing you commit an hour to, not a thing you
               browse. */}
@@ -78,7 +95,6 @@ export function WritingHome() {
           items={[
             { value: "bank", label: "Prompt bank" },
             { value: "coach", label: "Coach" },
-            { value: "attempts", label: "Your attempts", badge: history.length || undefined },
             { value: "templates", label: "Frameworks" },
           ]}
         />
@@ -130,10 +146,6 @@ export function WritingHome() {
             </div>
             <CoachPicker />
           </div>
-        </TabPanel>
-
-        <TabPanel value="attempts" active={tab === "attempts"}>
-          <AttemptHistory />
         </TabPanel>
 
         <TabPanel value="templates" active={tab === "templates"}>

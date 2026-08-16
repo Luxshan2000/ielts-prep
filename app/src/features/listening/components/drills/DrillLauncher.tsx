@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Badge, Button, EmptyState, ErrorState, Select, Spinner } from "@/components/ui";
+import { Badge, Button, EmptyState, ErrorState, Notice, Select, Spinner } from "@/components/ui";
 import { cn } from "@/lib/cn";
 import { fetchCatalogue, fetchKinds, fetchProfile, type RunnerParams } from "./api";
 import { BUCKET_SHORT } from "./labels";
@@ -90,11 +90,37 @@ export function DrillLauncher({
     active ? active.counts[kind] : (catalogue.kinds.find((k) => k.kind === kind)?.items ?? 0);
   const losses = (profile?.buckets ?? []).filter((row) => row.count > 0).slice(0, 4);
 
+  // How much of the pack can actually be drilled today.
+  //
+  // Three of the four kinds need the recording, and a pack ships as scripts with no audio:
+  // it is synthesized on this machine. `blocked` below only fires once a learner has picked
+  // a specific part, so leaving the picker on "any part" showed four enabled buttons over a
+  // pack with nothing rendered, and the failure arrived after the press instead of before it.
+  const preparedCount = catalogue.scripts.filter((s) => s.audio_ready).length;
+  const totalCount = catalogue.scripts.length;
+  const someUnprepared = preparedCount < totalCount;
+
   return (
     <div className="space-y-5">
       <div className="rounded-xl border border-border bg-muted/20 p-4">
         <p className="text-[13px] leading-relaxed">{kinds.why}</p>
       </div>
+
+      {someUnprepared && (
+        <Notice
+          tone={preparedCount === 0 ? "warning" : "info"}
+          title={
+            preparedCount === 0
+              ? "None of this pack's audio has been made yet"
+              : `${preparedCount} of ${totalCount} parts have audio so far`
+          }
+        >
+          The recordings are generated on your computer rather than shipped with the pack.
+          Prediction works without them and is ready now. Dictation, numbers and signposts all
+          need the sound, so pick a part marked as prepared, or open a part and generate its
+          audio first.
+        </Notice>
+      )}
 
       {losses.length > 0 && (
         <div className="space-y-2">

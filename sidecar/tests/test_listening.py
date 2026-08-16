@@ -627,6 +627,39 @@ def test_practice_attempt_on_one_script_reports_raw_only(
     assert score["band_note"]
 
 
+def test_the_attempt_list_dates_the_attempts_that_were_never_submitted(
+    client: TestClient, seeded: dict[str, Any]
+) -> None:
+    """`submitted_at` is null for anything walked out of, so the list carries `started_at`.
+
+    A history screen keyed on `submitted_at` alone can date the attempts that went well and
+    none of the ones that did not, which is most of what it exists to show.
+    """
+    created = client.post(
+        "/api/v1/listening/attempts",
+        json={"script_id": seeded["script_ids"][0], "mode": "practice"},
+    )
+    attempt_id = created.json()["attempt_id"]
+
+    row = next(
+        item
+        for item in client.get("/api/v1/listening/attempts?limit=200").json()["items"]
+        if item["attempt_id"] == attempt_id
+    )
+    assert row["submitted_at"] is None
+    assert row["started_at"], "an unfinished attempt still has to carry a date"
+    assert row["status"] == "in_progress"
+
+    client.post(f"/api/v1/listening/attempts/{attempt_id}/submit", json={})
+    after = next(
+        item
+        for item in client.get("/api/v1/listening/attempts?limit=200").json()["items"]
+        if item["attempt_id"] == attempt_id
+    )
+    assert after["started_at"] == row["started_at"]
+    assert after["submitted_at"]
+
+
 def test_attempt_validation(client: TestClient, seeded: dict[str, Any]) -> None:
     both = client.post(
         "/api/v1/listening/attempts",

@@ -5,6 +5,8 @@ import { useSessionStore } from "@/stores";
 import { SpeakingHome, SpeakingLayout } from "./page";
 import { LiveSession } from "./LiveSession";
 import { FeedbackReport } from "./FeedbackReport";
+import { SessionTranscript } from "./SessionTranscript";
+import { SpeakingHistoryPage } from "./history";
 import { CoachPicker, TopicCoach } from "./components/teaching";
 import {
   MockHistoryPage,
@@ -41,11 +43,33 @@ export default defineFeatureRoute({
         </FeatureErrorBoundary>
       ),
     },
+    // Read a past conversation back. Declared before the report so the two screens that
+    // can show a transcript sit together: this is the one for the three modes that are
+    // never scored and therefore never get a report to show it in.
+    {
+      path: "session/:sessionId/transcript",
+      element: (
+        <FeatureErrorBoundary feature="speaking transcript">
+          <SessionTranscript />
+        </FeatureErrorBoundary>
+      ),
+    },
     {
       path: "report/:reportId",
       element: (
         <FeatureErrorBoundary feature="speaking report">
           <FeedbackReport />
+        </FeatureErrorBoundary>
+      ),
+    },
+    // One searchable list of everything this room has recorded — mocks, single parts,
+    // drills and chats alike. Reached from the header button, not from the foot of the
+    // hub, which is where it used to be and where nobody found it.
+    {
+      path: "history",
+      element: (
+        <FeatureErrorBoundary feature="speaking history">
+          <SpeakingHistoryPage />
         </FeatureErrorBoundary>
       ),
     },

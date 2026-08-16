@@ -74,6 +74,18 @@ export const TASK_ORDER: MockTaskKey[] = ["task1", "task2"];
 
 // ------------------------------------------------------------------ persistence ---
 
+/**
+ * The sittings kept on this machine.
+ *
+ * Exported because the writing history screen needs them once, at fetch time, and has no
+ * use for the rest of this store: a sitting is the only place the pairing of two exam
+ * attempts into one hour is recorded, so a history built from the sidecar alone would show
+ * the two halves of every mock as unrelated essays.
+ */
+export function readMockRecords(): MockRecord[] {
+  return readRecords();
+}
+
 function readRecords(): MockRecord[] {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);

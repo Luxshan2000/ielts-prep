@@ -1,6 +1,13 @@
 import { useEffect, useState, type ReactNode } from "react";
-import { NavLink } from "react-router-dom";
-import { GraduationCap, Moon, PanelLeftClose, PanelLeftOpen, Sun } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
+import {
+  GraduationCap,
+  Moon,
+  PanelLeftClose,
+  PanelLeftOpen,
+  SlidersHorizontal,
+  Sun,
+} from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Badge, Button, Tooltip } from "@/components/ui";
 import { useSettingsStore, useSrsStore } from "@/stores";
@@ -90,6 +97,7 @@ export function Sidebar({
   const dueCount = useSrsStore((s) => s.dueCount);
   const theme = useSettingsStore((s) => s.theme);
   const toggleTheme = useSettingsStore((s) => s.toggleTheme);
+  const navigate = useNavigate();
 
   useEffect(() => {
     try {
@@ -221,6 +229,9 @@ export function Sidebar({
         className,
       )}
     >
+      {/* Collapse lives up here with the mark it collapses. It sat in the footer under
+          Settings, which put the control furthest from the edge it moves and gave the footer
+          a second row it did not need. */}
       <div
         className={cn(
           "titlebar flex h-14 items-center gap-2.5",
@@ -231,7 +242,37 @@ export function Sidebar({
           <GraduationCap className="h-[18px] w-[18px] text-primary-foreground" aria-hidden="true" />
         </span>
         {!collapsed && <span className="font-semibold">BandReady</span>}
+        {/* Expanded, collapse sits with the wordmark it folds away. Collapsed, the 64px rail
+            has no room beside the mark, so it drops to its own row just below — still at the
+            top, which is the point: it used to be in the footer, as far from the edge it
+            moves as the rail allows, and it cost the footer a second row. */}
+        {!collapsed && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="-mr-1.5 ml-auto shrink-0"
+            onClick={() => setCollapsed(true)}
+            aria-label="Collapse sidebar"
+            title="Collapse sidebar"
+          >
+            <PanelLeftClose className="h-4 w-4" />
+          </Button>
+        )}
       </div>
+
+      {collapsed && (
+        <div className="flex shrink-0 justify-center pb-1">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setCollapsed(false)}
+            aria-label="Expand sidebar"
+            title="Expand sidebar"
+          >
+            <PanelLeftOpen className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
 
       <nav
         aria-label="Study"
@@ -241,32 +282,57 @@ export function Sidebar({
         {groupIds.map((id) => renderGroup(id))}
       </nav>
 
-      <div className="shrink-0 space-y-1 border-t border-border p-2">
-        <nav aria-label="App">{pinned.map((item) => renderItem(item))}</nav>
+      {/* One row expanded: Settings, then your preferences and the theme as icons beside it.
+          The footer used to stack a Settings link over a half-empty row holding a sun and a
+          collapse arrow — two rows to say what fits on one. */}
+      <div className="shrink-0 border-t border-border p-2">
         <div className={cn("flex items-center gap-1", collapsed && "flex-col")}>
-          <Button
-            variant="ghost"
-            size="icon"
+          <nav aria-label="App" className={cn(!collapsed && "min-w-0 flex-1")}>
+            {pinned.map((item) => renderItem(item))}
+          </nav>
+          <FooterIcon
+            collapsed={collapsed}
+            icon={SlidersHorizontal}
+            label="Your preferences"
+            onClick={() => {
+              navigate("/settings?tab=you");
+              // Below `md` the sidebar is a drawer over the page, so navigating without
+              // closing it leaves the learner looking at the nav they just used.
+              onNavigate?.();
+            }}
+          />
+          <FooterIcon
+            collapsed={collapsed}
+            icon={theme === "dark" ? Sun : Moon}
+            label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
             onClick={toggleTheme}
-            aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
-          >
-            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={cn(!collapsed && "ml-auto")}
-            onClick={() => setCollapsed((c) => !c)}
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          >
-            {collapsed ? (
-              <PanelLeftOpen className="h-4 w-4" />
-            ) : (
-              <PanelLeftClose className="h-4 w-4" />
-            )}
-          </Button>
+          />
         </div>
       </div>
     </aside>
+  );
+}
+
+/**
+ * One footer control. Always tooltipped rather than only when collapsed: an unlabelled icon
+ * needs its name in both states, and the row is icons-beside-a-link either way.
+ */
+function FooterIcon({
+  collapsed,
+  icon: Icon,
+  label,
+  onClick,
+}: {
+  collapsed: boolean;
+  icon: FeatureIcon;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <Tooltip content={label} side={collapsed ? "right" : "top"}>
+      <Button variant="ghost" size="icon" onClick={onClick} aria-label={label}>
+        <Icon className="h-4 w-4" />
+      </Button>
+    </Tooltip>
   );
 }

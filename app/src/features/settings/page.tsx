@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Tabs, TabPanel } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
@@ -10,11 +11,13 @@ import { OfflineBanner } from "./components/OfflineBanner";
 import { ProvidersTab } from "./components/ProvidersTab";
 import { SaveBar } from "./components/SaveBar";
 import { VoiceTab } from "./components/VoiceTab";
+import { YouTab } from "./components/YouTab";
 import { useSettingsFeatureStore } from "./store";
 
-type TabId = "providers" | "voice" | "appearance" | "data" | "about";
+type TabId = "you" | "providers" | "voice" | "appearance" | "data" | "about";
 
 const TABS: { value: TabId; label: string }[] = [
+  { value: "you", label: "You" },
   { value: "providers", label: "Providers" },
   { value: "voice", label: "Voice" },
   { value: "appearance", label: "Appearance" },
@@ -23,7 +26,24 @@ const TABS: { value: TabId; label: string }[] = [
 ];
 
 export function SettingsPage() {
-  const [tab, setTab] = useState<TabId>("providers");
+  // Deep-linkable, so the sidebar's preferences button can land on the right section and a
+  // "change this in Settings" sentence elsewhere in the app can point at the tab it means
+  // rather than at the tab that happens to be first.
+  const [params, setParams] = useSearchParams();
+  const requested = params.get("tab");
+  const [tab, setTabState] = useState<TabId>(() =>
+    TABS.some((t) => t.value === requested) ? (requested as TabId) : "providers",
+  );
+  const setTab = (next: TabId) => {
+    setTabState(next);
+    setParams(next === "providers" ? {} : { tab: next }, { replace: true });
+  };
+
+  useEffect(() => {
+    if (requested && TABS.some((t) => t.value === requested) && requested !== tab) {
+      setTabState(requested as TabId);
+    }
+  }, [requested, tab]);
 
   const doc = useSettingsStore((s) => s.doc);
   const loading = useSettingsStore((s) => s.loading);
@@ -92,6 +112,10 @@ export function SettingsPage() {
           />
         </div>
       )}
+
+      <TabPanel value="you" active={tab === "you"}>
+        <YouTab />
+      </TabPanel>
 
       <TabPanel value="providers" active={tab === "providers"}>
         <ProvidersTab />

@@ -16,6 +16,7 @@ import { api } from "@/lib/api";
 import { cn } from "@/lib/cn";
 import { countWords } from "@/lib/format";
 import { useOnboardingStore } from "../store";
+import { SpokenAnswerField, useCanRecord } from "./SpokenAnswerField";
 import {
   SKILL_LABELS,
   type DocQuestion,
@@ -379,6 +380,7 @@ function SpeakingStep({ step }: { step: PlacementStep }) {
     typeof q === "string" ? q : (q.prompt ?? q.text ?? `Question ${i + 1}`),
   );
   const [answers, setAnswers] = useState<string[]>(() => questions.map(() => ""));
+  const canRecord = useCanRecord();
 
   const transcript = answers
     .map((answer, i) => (answer.trim() ? `Q: ${questions[i]}\nA: ${answer.trim()}` : ""))
@@ -389,14 +391,24 @@ function SpeakingStep({ step }: { step: PlacementStep }) {
     <div className="space-y-4">
       <Card className="border-primary/40 bg-primary/[0.05]">
         <CardContent className="space-y-1.5 p-4 text-[13px]">
+          {/* This card used to explain, underneath a text box, why a section called Speaking
+              was asking the learner to type. The reason arrived after the confusion it was
+              meant to prevent. Lead with what will actually happen instead. */}
           <p className="flex items-center gap-2 font-medium text-foreground">
             <Mic className="h-4 w-4 shrink-0" aria-hidden="true" />
-            This sampler scores your language, not your delivery
+            {canRecord === false
+              ? "Type your answers here — speech is not set up yet"
+              : "Say your answers out loud, or type them"}
           </p>
           <p className="text-muted-foreground">
-            Type your answers as you would say them — full sentences, the way you speak. The
-            scorer reads them against the Fluency, Lexical Resource, Grammar and Pronunciation
-            descriptors, and a live spoken assessment happens in the Speaking room once your
+            {canRecord === false
+              ? "Speech-to-text is not available in this build, so this sampler reads what you write. Set speech up in Settings and the Speaking room will listen properly."
+              : "Speak each answer as you would in the exam and it is written down for you, or type it if that is easier. Either way you can correct what appears before you move on."}
+          </p>
+          <p className="text-muted-foreground">
+            Either way, this sampler scores the language you produce — your words and your
+            grammar — against the Fluency, Lexical Resource and Grammar descriptors. It does not
+            judge your accent or your delivery. That happens in the Speaking room once your
             microphone and voice models are set up.
           </p>
           <p className="text-muted-foreground">
@@ -408,23 +420,15 @@ function SpeakingStep({ step }: { step: PlacementStep }) {
 
       <ol className="space-y-4">
         {questions.map((question, i) => (
-          <li key={`${question}-${i}`} className="space-y-2">
-            <div className="flex items-baseline gap-2">
-              <span className="tabular text-[13px] font-semibold text-muted-foreground">
-                {i + 1}.
-              </span>
-              <span className="min-w-0 flex-1 text-[13px] text-foreground">{question}</span>
-            </div>
-            <Textarea
-              className="ml-6 min-h-[80px] w-[calc(100%-1.5rem)]"
-              aria-label={`Your answer to question ${i + 1}`}
-              placeholder="Answer in two or three sentences…"
-              value={answers[i]}
-              onChange={(e) =>
-                setAnswers((prev) => prev.map((a, j) => (j === i ? e.target.value : a)))
-              }
-            />
-          </li>
+          <SpokenAnswerField
+            key={`${question}-${i}`}
+            question={question}
+            index={i}
+            value={answers[i]}
+            canRecord={canRecord}
+            disabled={submitting}
+            onChange={(next) => setAnswers((prev) => prev.map((a, j) => (j === i ? next : a)))}
+          />
         ))}
       </ol>
 

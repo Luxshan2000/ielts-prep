@@ -114,12 +114,28 @@ async def verify_connection(kind: str, cfg: dict[str, Any]) -> dict[str, Any]:
     """Verify one modality's config. Returns ``{ok, detail, models, ...}``.
 
     Never raises for an unreachable endpoint — an unreachable endpoint IS the answer, and
-    the UI renders `detail` as actionable copy.
+    the UI renders `detail` as actionable copy. The same goes for a key that cannot be
+    resolved, which is the most common thing to be wrong and used to be the one thing this
+    function threw for.
     """
     if kind not in ("llm", "stt", "tts"):
         raise ApiError(422, "validation_error", f"unknown modality {kind!r}")
 
-    cfg = _resolve(cfg)
+    try:
+        cfg = _resolve(cfg)
+    except ApiError as exc:
+        # A `${VAR}` with nothing behind it, or a stored key that will not decrypt. Raising
+        # turned the check into an HTTP error, and the Settings row that asked for it went
+        # back to looking like a check nobody had run — the learner was told a job was
+        # broken and given no sentence saying why. Verify's whole job is to say why.
+        return {
+            "ok": False,
+            "latency_ms": 0,
+            "models": [],
+            "state": "no_key",
+            "detail": exc.detail,
+            "warnings": [],
+        }
     inproc = _inproc_result(kind, cfg)
     if inproc is not None:
         return inproc

@@ -2,7 +2,7 @@ import { Check, CircleAlert, Cpu, Cloud, Loader2 } from "lucide-react";
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
 import { cn } from "@/lib/cn";
 import { useSettingsFeatureStore, type Modality, type RecommendedEntry } from "../store";
-import { ProviderSlotCard } from "./ProviderSlotCard";
+import { CloudKeyCard } from "./CloudKeyCard";
 
 /**
  * Settings for somebody who is here to practise English, not to configure an inference stack.
@@ -18,10 +18,32 @@ import { ProviderSlotCard } from "./ProviderSlotCard";
  * "Advanced settings", unchanged, for the people who want it.
  */
 
-const JOBS: { modality: Modality; label: string; what: string }[] = [
-  { modality: "llm", label: "The examiner", what: "asks you questions and marks your answers" },
-  { modality: "stt", label: "Hearing you", what: "turns what you say into text" },
-  { modality: "tts", label: "The voice", what: "reads questions and listening audio aloud" },
+/**
+ * `without` is what still works when this job does not — and it is the honest answer, not a
+ * softening. Somebody with no key can still do every reading and listening paper, every
+ * grammar and vocabulary drill, and every sound-pair exercise in the app; only marking stops.
+ * The card used to say "three jobs have to work for a full practice session" above a red
+ * cross, which reads as *the app is broken* to somebody for whom nearly all of it works.
+ */
+const JOBS: { modality: Modality; label: string; what: string; without: string }[] = [
+  {
+    modality: "llm",
+    label: "The examiner",
+    what: "asks you questions and marks your answers",
+    without: "Without it: reading, listening, grammar and vocabulary practice all still work — but nothing can be marked and no band can be estimated.",
+  },
+  {
+    modality: "stt",
+    label: "Hearing you",
+    what: "turns what you say into text",
+    without: "Without it: you can type your answers everywhere you would otherwise speak.",
+  },
+  {
+    modality: "tts",
+    label: "The voice",
+    what: "reads questions and listening audio aloud",
+    without: "Without it: your computer's own voice is used instead, which is fine for single words but not for listening papers.",
+  },
 ];
 
 /**
@@ -40,6 +62,10 @@ function failureSentence(result: { state?: string; detail?: string } | undefined
       return "It took too long to reply — it may still be starting up. Wait a moment and check again.";
     case "unauthorized":
       return "The key was rejected. Open Advanced settings and paste it again.";
+    case "no_key":
+      // The single commonest failure, and until now the one that said nothing at all: the
+      // check threw instead of answering, so the row fell back to looking un-run.
+      return "No usable key. Paste your key above, then check again.";
     case "unconfigured":
       return "Nothing is set up for this yet. Choose where the thinking should happen above.";
     case "no_model":
@@ -58,6 +84,7 @@ export function SimpleSetup({ onAdvanced }: { onAdvanced: () => void }) {
   const verifyState = useSettingsFeatureStore((s) => s.verify);
   const verifying = useSettingsFeatureStore((s) => s.verifying);
   const runVerify = useSettingsFeatureStore((s) => s.runVerify);
+  const verifyErrors = useSettingsFeatureStore((s) => s.verifyError);
 
   const apply = (entry: RecommendedEntry) => {
     const preset = entry.preset ? presetById(entry.preset) : undefined;
@@ -139,15 +166,14 @@ export function SimpleSetup({ onAdvanced }: { onAdvanced: () => void }) {
         </CardContent>
       </Card>
 
-      {/* The key field is spec-driven per preset, so the slot card owns it rather than
-          this screen guessing a field name. */}
-      {usingCloud && <ProviderSlotCard modality="llm" />}
+      {usingCloud && <CloudKeyCard />}
 
       <Card>
         <CardHeader>
           <CardTitle>Is everything working?</CardTitle>
           <p className="mt-0.5 text-[13px] text-muted-foreground">
-            Three jobs have to work for a full practice session.
+            Three jobs sit behind a full practice session. If one is unhappy, the row says
+            what stops and what carries on.
           </p>
         </CardHeader>
         <CardContent className="space-y-2">
@@ -155,7 +181,11 @@ export function SimpleSetup({ onAdvanced }: { onAdvanced: () => void }) {
             const result = verifyState?.[job.modality];
             const ok = result?.ok === true;
             const busy = verifying === job.modality;
-            const failure = busy || ok ? null : failureSentence(result);
+            // The check can fail as a *result* (`result.state`) or as a request that never
+            // produced one (`verifyError`). Both used to leave the row silent in the second
+            // case; a row that says a job is broken owes a sentence either way.
+            const thrown = verifyErrors?.[job.modality];
+            const failure = busy || ok ? null : (failureSentence(result) ?? thrown ?? null);
             return (
               <div
                 key={job.modality}
@@ -182,7 +212,21 @@ export function SimpleSetup({ onAdvanced }: { onAdvanced: () => void }) {
                 <span className="min-w-0 flex-1">
                   <span className="block text-[14px] font-medium">{job.label}</span>
                   <span className="block text-[13px] text-muted-foreground">{job.what}</span>
-                  {failure && <span className="mt-1 block text-[13px] text-foreground">{failure}</span>}
+                  {failure && (
+                    <>
+                      <span className="mt-1 block text-[13px] text-foreground">{failure}</span>
+                      <span className="mt-0.5 block text-[13px] text-muted-foreground">
+                        {job.without}
+                      </span>
+                      {/* The provider's own words, kept where somebody debugging can find
+                          them and out of the way of somebody who cannot use them. */}
+                      {result?.detail && (
+                        <span className="mt-0.5 block text-[12px] text-muted-foreground">
+                          Reported: {result.detail}
+                        </span>
+                      )}
+                    </>
+                  )}
                 </span>
                 {ok ? (
                   <Badge tone="success">Working</Badge>

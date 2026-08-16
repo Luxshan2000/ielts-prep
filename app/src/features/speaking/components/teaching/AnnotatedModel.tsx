@@ -288,7 +288,7 @@ export function AnnotatedModel({
           <ul className="space-y-1">
             {unresolved.map((note, i) => (
               <li key={i} className="text-[12px] leading-5 text-muted-foreground">
-                <span className="font-medium text-foreground">{note.label}</span> — {note.why}
+                <span className="font-medium text-foreground">{note.label}</span>: {note.why}
               </li>
             ))}
           </ul>

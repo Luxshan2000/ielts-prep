@@ -83,7 +83,7 @@ export function SessionSummary({ request, onExit, onAgain }: SessionSummaryProps
         {right > 0 && missed.length === 0 && (
           <section className="rounded-xl border border-success/40 bg-success/8 p-5">
             <p className="text-sm font-medium text-foreground">
-              Every one right. The next time these come round they will be harder — that is the ladder
+              Every one right. The next time these come round they will be harder. That is the ladder
               working, not the app being awkward.
             </p>
           </section>
@@ -106,7 +106,7 @@ export function SessionSummary({ request, onExit, onAgain }: SessionSummaryProps
         </div>
 
         <p className="text-[12px] leading-relaxed text-muted-foreground">
-          A grammar point takes weeks, not days — a dozen or so spaced retrievals before it holds up
+          A grammar point takes weeks, not days: a dozen or so spaced retrievals before it holds up
           under pressure. Coming back tomorrow is worth more than doing another five sets tonight.
         </p>
       </div>

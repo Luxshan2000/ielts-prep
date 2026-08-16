@@ -50,7 +50,7 @@ export const EXPECTATIONS: Expectation[] = [
     id: "one-clock",
     title: "One clock for both tasks, and it does not pause",
     detail:
-      "Sixty minutes total. You move between Task 1 and Task 2 whenever you like and spend the hour however you like — that freedom is the thing being practised, and it is where most candidates lose the marks.",
+      "Sixty minutes total. You move between Task 1 and Task 2 whenever you like and spend the hour however you like. That freedom is the thing being practised, and it is where most candidates lose the marks.",
   },
   {
     id: "no-help",
@@ -68,7 +68,7 @@ export const EXPECTATIONS: Expectation[] = [
     id: "one-report",
     title: "One submission, two marked answers, one estimate",
     detail:
-      "Both answers go to the examiner model together. The report opens on how you spent the hour, then the two band sets, then a weighted estimate — the only place in BandReady where a combined Writing band is shown.",
+      "Both answers go to the examiner model together. The report opens on how you spent the hour, then the two band sets, then a weighted estimate. It is the only place in BandReady where a combined Writing band is shown.",
   },
 ];
 

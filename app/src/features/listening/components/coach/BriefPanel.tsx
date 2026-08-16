@@ -37,7 +37,7 @@ function seconds(ms: number | null | undefined): string {
 /** The server's protocol when it sent one, otherwise the static copy. */
 function protocolRows(steps: PreviewStep[] | undefined): { window: string; step: string }[] {
   if (steps && steps.length > 0) {
-    return steps.map((row) => ({ window: `${row.from_s}–${row.to_s}s`, step: row.step }));
+    return steps.map((row) => ({ window: `${row.from_s}-${row.to_s}s`, step: row.step }));
   }
   return PREVIEW_PROTOCOL;
 }
@@ -110,8 +110,8 @@ export function BriefPanel({ doc }: { doc: TeachingPayload }) {
               </Callout>
             )}
             <p className="text-[12px] leading-5 text-muted-foreground">
-              Difficulty in this paper is vocabulary, sentence length and the number of decoys — not
-              speed and not audio quality, both of which stay flat from Part 1 to Part 4.
+              Difficulty in this paper is vocabulary, sentence length and the number of decoys, not
+              speed and not audio quality. Both of those stay flat from Part 1 to Part 4.
             </p>
           </CardContent>
         </Card>
@@ -159,7 +159,7 @@ export function BriefPanel({ doc }: { doc: TeachingPayload }) {
             <Disclosure
               key={group.group_id ?? `${group.qtype}-${index}`}
               defaultOpen={taught.length <= 2}
-              title={`Questions ${blockLabel(group.question_numbers)} — ${
+              title={`Questions ${blockLabel(group.question_numbers)}: ${
                 group.type_page?.label ?? typeLabel(group.qtype)
               }`}
               subtitle={group.instruction ?? undefined}

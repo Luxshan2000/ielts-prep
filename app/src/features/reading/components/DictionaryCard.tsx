@@ -78,7 +78,7 @@ export function DictionaryCard({
           <WifiOff className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
           <p className="text-[13px] text-muted-foreground">
             The offline dictionary isn&apos;t ready yet
-            {state.entry.detail ? ` — ${state.entry.detail}` : ""}. BandReady is fetching the
+            {state.entry.detail ? ` (${state.entry.detail})` : ""}. BandReady is fetching the
             WordNet lexicon in the background; you can still add the word to your vocabulary and
             fill in the definition later.
           </p>
@@ -106,7 +106,7 @@ export function DictionaryCard({
               )}
               {sense.examples.length > 0 && (
                 <span className="mt-0.5 block text-[11px] italic text-muted-foreground">
-                  “{sense.examples[0]}”
+                  "{sense.examples[0]}"
                 </span>
               )}
             </li>

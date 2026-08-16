@@ -144,7 +144,7 @@ export function ReviewQuestionRow({
                   question.correct ? "text-success" : "text-destructive",
                 )}
               >
-                {given || "— left blank"}
+                {given || "left blank"}
               </p>
             </div>
             <div className="rounded-lg border border-border p-2.5">
@@ -152,7 +152,7 @@ export function ReviewQuestionRow({
                 Accepted {accepted.length > 1 ? "answers" : "answer"}
               </p>
               <p className="mt-0.5 text-[13px] font-medium text-foreground">
-                {accepted.length > 0 ? accepted.join(" / ") : "—"}
+                {accepted.length > 0 ? accepted.join(" / ") : "-"}
               </p>
             </div>
           </div>
@@ -176,7 +176,7 @@ export function ReviewQuestionRow({
 
               {question.locate?.evidence_quote && (
                 <blockquote className="border-l-2 border-primary bg-primary/[0.06] px-2.5 py-2 text-[13px] italic">
-                  “{question.locate.evidence_quote}”
+                  "{question.locate.evidence_quote}"
                   {question.locate.paragraph_id && (
                     <span className="ml-1.5 not-italic text-[11px] text-muted-foreground">
                       paragraph {question.locate.paragraph_id}

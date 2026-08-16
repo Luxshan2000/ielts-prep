@@ -262,7 +262,7 @@ export const useVocabStore = create<VocabState>((set, get) => ({
         rating,
         correct: meta.correct,
         elapsedMs: meta.elapsedMs,
-        nextLabel: item.intervals?.[ratingKey]?.label ?? "—",
+        nextLabel: item.intervals?.[ratingKey]?.label ?? "-",
       };
       const next = get().session;
       const index = next.index + 1;

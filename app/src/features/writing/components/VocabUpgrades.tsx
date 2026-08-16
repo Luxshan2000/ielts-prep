@@ -60,7 +60,7 @@ export function VocabUpgrades({ submissionId, suggestions }: VocabUpgradesProps)
         <div>
           <CardTitle>Vocabulary upgrades</CardTitle>
           <p className="mt-1 text-[12px] text-muted-foreground">
-            Added words wait in your vocabulary inbox — nothing is scheduled for review until you
+            Added words wait in your vocabulary inbox. Nothing is scheduled for review until you
             accept it there.
           </p>
         </div>
@@ -107,13 +107,13 @@ export function VocabUpgrades({ submissionId, suggestions }: VocabUpgradesProps)
                 return (
                   <tr key={`${item.term}-${index}`} className="align-top">
                     <td className="border-b border-border/60 px-2 py-2.5 text-muted-foreground line-through decoration-muted-foreground/50">
-                      {item.replaces || "—"}
+                      {item.replaces || "-"}
                     </td>
                     <td className="border-b border-border/60 px-2 py-2.5 font-medium text-foreground">
                       {item.term}
                     </td>
                     <td className="border-b border-border/60 px-2 py-2.5 text-muted-foreground">
-                      {item.sentence_context || "—"}
+                      {item.sentence_context || "-"}
                     </td>
                     <td className="border-b border-border/60 px-2 py-2.5 text-right">
                       <Button

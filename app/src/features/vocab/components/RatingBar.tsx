@@ -36,7 +36,7 @@ export function RatingBar({
             disabled={disabled}
             onClick={() => onRate(rating.value)}
             aria-keyshortcuts={rating.shortcut}
-            aria-label={`${rating.label} — next in ${preview?.label ?? "unknown"} (key ${rating.shortcut})`}
+            aria-label={`${rating.label}, next in ${preview?.label ?? "unknown"} (key ${rating.shortcut})`}
             className={cn(
               "flex flex-col items-center gap-0.5 rounded-xl border bg-card px-3 py-2.5 transition-colors",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background",
@@ -53,7 +53,7 @@ export function RatingBar({
               </kbd>
             </span>
             <span className="tabular text-[11px] text-muted-foreground">
-              {preview?.label ?? "—"}
+              {preview?.label ?? "-"}
             </span>
           </button>
         );

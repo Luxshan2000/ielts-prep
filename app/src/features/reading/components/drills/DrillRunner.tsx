@@ -16,6 +16,7 @@ import { DrillReportView } from "./DrillReport";
 import { ExplainBackBox } from "./ExplainBackBox";
 import { FORM_TRAP_LABEL } from "./labels";
 import type { DrillItem, DrillReport, DrillResponse, DrillSet, ItemResult } from "./types";
+import { StepCount } from "@/components/practice/StepCount";
 
 type Phase = "loading" | "window" | "answer" | "reveal" | "report" | "error";
 
@@ -356,6 +357,7 @@ function Progress({
   return (
     <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border bg-muted/20 px-4 py-2.5">
       <div className="flex flex-wrap items-center gap-2">
+        <StepCount index={index} total={total} />
         <span className="text-[13px] font-medium">
           {set.trap_info ? set.trap_info.name : (set.qtype ? qtypeLabel(set.qtype) : null)}
           {!set.trap_info && !set.qtype && "Practice"}
@@ -365,7 +367,7 @@ function Progress({
       </div>
       <div className="flex items-center gap-2">
         <span className="text-[11px] text-muted-foreground tabular">
-          {index + 1} of {total} · {correct} right so far
+          {correct} right so far
         </span>
         {onExit && (
           <Button variant="ghost" size="sm" onClick={onExit}>
@@ -395,7 +397,7 @@ function ItemContext({ item }: { item: DrillItem }) {
     <div className="space-y-2 rounded-lg border border-border bg-muted/30 p-3">
       {context.kind === "band" && (
         <p className="text-[11px] font-medium text-primary">
-          Bounded search — paragraphs {context.paragraph_ids.join("–")}
+          Bounded search: paragraphs {context.paragraph_ids.join("-")}
         </p>
       )}
       {(context.paragraphs ?? []).map((para) => (

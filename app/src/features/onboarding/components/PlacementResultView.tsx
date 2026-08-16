@@ -85,8 +85,8 @@ function provenance(
   }
   if (worked) {
     return markingWasDown
-      ? "You answered this — it could not be marked, so your self-rating stands"
-      : "You answered this — it could not be marked this time";
+      ? "You answered this, but it could not be marked, so your self-rating stands"
+      : "You answered this, but it could not be marked this time";
   }
   return "From your self-rating";
 }
@@ -127,7 +127,10 @@ export function PlacementResultView({ result }: { result: PlacementResult }) {
           <CardContent className="space-y-3">
             <div className="grid gap-2 sm:grid-cols-2">
               {SKILLS.map((skill) => {
-                const estimate = result.estimates[skill];
+                // Optional chaining, not decoration: a truncated or older `/complete` body
+                // with no `estimates` threw here, and this screen is the *end* of setup —
+                // crashing on it strands somebody who has just done thirty minutes of work.
+                const estimate = result.estimates?.[skill];
                 return (
                   <div
                     key={skill}
@@ -156,7 +159,7 @@ export function PlacementResultView({ result }: { result: PlacementResult }) {
               })}
             </div>
             <p className="text-[11px] text-muted-foreground">
-              {result.disclaimer ?? "Estimated band — not a guarantee"}. Each band carries about
+              {result.disclaimer ?? "Estimated band, not a guarantee"}. Each band carries about
               ±1.0 of uncertainty at this stage; three scored attempts per skill tighten it.
             </p>
           </CardContent>
@@ -167,8 +170,8 @@ export function PlacementResultView({ result }: { result: PlacementResult }) {
             <CardContent className="space-y-1 p-4 text-[13px]">
               <p className="font-medium text-foreground">Start with Reading or Vocabulary</p>
               <p className="text-muted-foreground">
-                They are ready now and marked on this machine. Writing and Speaking still need a
-                marking model — you can write and record without one, but nothing there gets a
+                They are ready now and marked on this machine. Writing and Speaking still need
+                a marking model. You can write and record without one, but nothing there gets a
                 band until it is set up in Settings.
               </p>
             </CardContent>

@@ -103,7 +103,7 @@ export function StepWelcome() {
           ) : (
             <Sun className="h-3 w-3" aria-hidden="true" />
           )}
-          Applied immediately — change it any time from Settings.
+          Applied immediately. Change it any time from Settings.
         </p>
       </div>
     </div>
@@ -203,7 +203,7 @@ export function StepExam({
               dateInvalid
                 ? "That date has already passed."
                 : draft.exam_date === null
-                  ? "Add your date, or choose “Not booked yet” — otherwise the plan is paced on a rolling 8 weeks."
+                  ? 'Add your date, or choose "Not booked yet". Otherwise the plan is paced on a rolling 8 weeks.'
                   : undefined
             }
           >
@@ -267,7 +267,7 @@ export function StepLevel({
         </p>
         <p className="text-[13px] text-muted-foreground">
           This is only a starting point. If you skip a placement section, this is what
-          BandReady falls back on for that skill — clearly marked as self-rated.
+          BandReady falls back on for that skill, clearly marked as self-rated.
         </p>
         <div className="grid gap-2">
           {SELF_LEVELS.map((level) => (
@@ -304,7 +304,7 @@ export function StepLevel({
           Which days will you study?
         </legend>
         <p className="text-[13px] text-muted-foreground">
-          Pick at least three. The days you leave out are rest days — they never break a
+          Pick at least three. The days you leave out are rest days, and they never break a
           streak.
         </p>
         <div className="flex flex-wrap gap-2">
@@ -504,7 +504,7 @@ function CloudSetup() {
     <div className="space-y-3">
       <p className="text-[13px] text-muted-foreground">
         You sign up with the provider and paste the key they give you. Only your essay text and
-        the marking instructions are sent — your recordings never leave this machine. The key is
+        the marking instructions are sent. Your recordings never leave this machine. The key is
         stored encrypted and you can remove it in Settings.
       </p>
 
@@ -594,7 +594,7 @@ function LocalSetup() {
           ))}
           {llm.length === 0 && (
             <li className="rounded-lg border border-border px-3 py-2.5 text-[13px] text-muted-foreground">
-              Nothing to list — this build knows of no local model servers.
+              Nothing to list. This build knows of no local model servers.
             </li>
           )}
         </ul>
@@ -676,7 +676,7 @@ export function StepEngines() {
           <ChoiceCard
             name="scoring_choice"
             selected={scoringChoice === "later"}
-            title="Not now — I'll start with the modules that already work"
+            title="Not now, I'll start with the modules that already work"
             description="Reading, Listening, Vocabulary and Grammar are fully available. Settings has this screen again whenever you want it."
             onSelect={() => setScoringChoice("later")}
           />
@@ -749,8 +749,8 @@ function artifactInUse(
 }
 
 const OPTIONAL_BENEFIT: Record<string, string> = {
-  stt: "Optional — a more accurate speech model. The one you already have works.",
-  tts: "Optional — an alternative examiner voice.",
+  stt: "Optional: a more accurate speech model. The one you already have works.",
+  tts: "Optional: an alternative examiner voice.",
 };
 
 export function StepModels() {
@@ -895,7 +895,7 @@ export function StepModels() {
                 )}
                 {job?.state === "cancelled" && (
                   <p className="mt-2 text-xs text-muted-foreground">
-                    Cancelled — the partial file was kept, so Resume picks it back up.
+                    Cancelled. The partial file was kept, so Resume picks it back up.
                   </p>
                 )}
                 {job?.state === "error" && job.error && (
@@ -910,7 +910,7 @@ export function StepModels() {
       <p className="text-[13px] text-muted-foreground">
         {missingInUse.length > 0
           ? "You can continue now and let these finish in the background."
-          : "Nothing here is required to continue — downloads can wait until you first open the Speaking room."}
+          : "Nothing here is required to continue. Downloads can wait until you first open the Speaking room."}
       </p>
     </div>
   );
@@ -1008,7 +1008,7 @@ export function StepMic() {
     <div className="space-y-4">
       <p className="text-sm leading-relaxed text-muted-foreground">
         The Speaking room needs a microphone. Check it now so the first live session is not the
-        moment you discover it is muted. Skipping this is fine — every other module works
+        moment you discover it is muted. Skipping this is fine. Every other module works
         without a mic.
       </p>
 
@@ -1043,8 +1043,8 @@ export function StepMic() {
         <span className="min-w-0 flex-1 text-[13px] text-muted-foreground">
           {state.status === "listening"
             ? heard
-              ? "Sounds good — the meter is moving."
-              : "Say something: “The weather today is…”"
+              ? "Sounds good, the meter is moving."
+              : 'Say something: "The weather today is…"'
             : state.status === "requesting"
               ? "Waiting for permission…"
               : (state.detail ?? "Not tested yet.")}
@@ -1088,9 +1088,9 @@ export function StepPlacementOffer({ draft }: { draft: ProfileDraft }) {
   return (
     <div className="space-y-4">
       <p className="text-sm leading-relaxed text-muted-foreground">
-        The placement test is a short sampler — one reading passage, one listening part, a
-        100–150 word writing task and four short written answers to speaking questions, typed
-        the way you would say them. It takes about 30 minutes and gives every skill a starting
+        The placement test is a short sampler: one reading passage, one listening part, a
+        writing task of 100 to 150 words and four short written answers to speaking questions,
+        typed the way you would say them. It takes about 30 minutes and gives every skill a starting
         band within about ±1.0, which is what the plan needs to weight your week.
       </p>
 
@@ -1105,7 +1105,7 @@ export function StepPlacementOffer({ draft }: { draft: ProfileDraft }) {
               Listening are marked here on this machine and will give you real starting bands;
               Writing and Speaking would fall back to the self-rating you gave earlier. You can
               go back a few steps to set marking up, skip those two sections, or place now and
-              retake them later — nothing is lost either way.
+              retake them later. Nothing is lost either way.
             </p>
           </CardContent>
         </Card>
@@ -1113,7 +1113,7 @@ export function StepPlacementOffer({ draft }: { draft: ProfileDraft }) {
 
       <ul className="space-y-2 text-[13px]">
         {[
-          "Every section is skippable on its own — a skipped section falls back to your self-rating for that skill.",
+          "Every section is skippable on its own, and a skipped section falls back to your self-rating for that skill.",
           "You can stop between sections; the sitting is saved on this machine and resumes where you left it.",
           "Nothing here is graded against you. It only sets a starting point.",
         ].map((line) => (
@@ -1131,12 +1131,12 @@ export function StepPlacementOffer({ draft }: { draft: ProfileDraft }) {
         <CardContent className="p-4 text-[13px]">
           <p className="font-medium text-foreground">If you skip it</p>
           <p className="mt-1 text-muted-foreground">
-            All four skills start at {selfLevel?.label.toLowerCase() ?? "your self-rating"} —
+            All four skills start at {selfLevel?.label.toLowerCase() ?? "your self-rating"},
             about band{" "}
             {formatBand(
               { beginner: 4.5, intermediate: 5.5, upper: 6.5, advanced: 7.5 }[draft.self_level],
-            )}{" "}
-            — with low confidence, and the dashboard keeps a dismissible reminder until you
+            )}
+            , with low confidence, and the dashboard keeps a dismissible reminder until you
             place or complete three scored attempts per skill.
           </p>
         </CardContent>

@@ -37,9 +37,9 @@ import type { SetCard } from "./api";
 export type PartNumber = 1 | 2 | 3;
 
 export const PART_LABELS: Record<PartNumber, string> = {
-  1: "Part 1 — Interview",
-  2: "Part 2 — Long turn",
-  3: "Part 3 — Discussion",
+  1: "Part 1: Interview",
+  2: "Part 2: Long turn",
+  3: "Part 3: Discussion",
 };
 
 export interface PartQuote {
@@ -376,7 +376,7 @@ export function nextActions(
       detail:
         part.issues.length > 0
           ? `${part.issues.length} of the examiner's corrections came from this part. Re-run it on its own before your next full sitting.`
-          : "Your delivery metrics dipped here — longer pauses and shorter runs than the rest of the test.",
+          : "Your delivery metrics dipped here, with longer pauses and shorter runs than the rest of the test.",
       to: "/speaking",
       cta: "Practise a single part",
     });

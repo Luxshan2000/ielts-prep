@@ -83,7 +83,12 @@ export function MockPreflight() {
   const options = useMemo(() => setOptions(cards), [cards]);
   const liveElsewhere = engine?.live_session_id ?? null;
   const voiceMissing = engine?.voice_available === false;
-  const blocked = offline || voiceMissing || Boolean(liveElsewhere);
+  // The band this screen commits the learner to eleven minutes for is written by the
+  // same model that asks the questions. Promising it before checking is how somebody
+  // sits a whole mock in silence and finds out at the end. `=== false` because an
+  // older sidecar omits the field entirely.
+  const examinerMissing = engine?.examiner_available === false;
+  const blocked = offline || voiceMissing || examinerMissing || Boolean(liveElsewhere);
 
   const begin = async () => {
     const session = await start();
@@ -93,8 +98,18 @@ export function MockPreflight() {
   return (
     <PageShell
       title="Mock speaking test"
-      description="Three parts, 11–14 minutes, one band at the end. No help while it runs."
-      actions={<Badge tone="primary">Counts toward your band trend</Badge>}
+      description={
+        examinerMissing
+          ? "Three parts, 11 to 14 minutes. Set up a language model first. Without one there is no examiner and no band."
+          : "Three parts, 11 to 14 minutes, one band at the end. No help while it runs."
+      }
+      actions={
+        examinerMissing ? (
+          <Badge>Not set up yet</Badge>
+        ) : (
+          <Badge tone="primary">Counts toward your band trend</Badge>
+        )
+      }
     >
       <div className="space-y-6">
         {offline && (
@@ -105,7 +120,7 @@ export function MockPreflight() {
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
             <p className="text-[13px] text-muted-foreground">
               The practice engine isn't responding, so a mock can't start. It may still be
-              launching — retry in a few seconds.
+              launching. Retry in a few seconds.
             </p>
           </div>
         )}
@@ -120,6 +135,22 @@ export function MockPreflight() {
               The voice engine isn't installed in this build, so the examiner can't speak. Mock
               tests are unavailable until it is.
             </p>
+          </div>
+        )}
+
+        {examinerMissing && (
+          <div
+            role="alert"
+            className="flex flex-wrap items-start justify-between gap-3 rounded-xl border border-warning/40 bg-warning/8 p-3"
+          >
+            <p className="flex min-w-0 items-start gap-2.5 text-[13px] text-muted-foreground">
+              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
+              {engine?.examiner_reason ??
+                "No language model is set up yet, so nothing can ask you questions or mark your answers."}
+            </p>
+            <Button size="sm" variant="outline" onClick={() => navigate("/settings")}>
+              Set up the examiner
+            </Button>
           </div>
         )}
 
@@ -230,9 +261,11 @@ export function MockPreflight() {
                   <ArrowRight className="h-4 w-4" />
                 </Button>
                 <p className="text-[12px] text-muted-foreground">
-                  {micReady
-                    ? "Part 1 begins as soon as the examiner connects. There is no countdown."
-                    : "Test the microphone first — if the examiner hears nothing there is no band to give you."}
+                  {examinerMissing
+                    ? "A mock cannot start until a language model is set up. There would be nobody to ask the questions and nothing to write the band."
+                    : micReady
+                      ? "Part 1 begins as soon as the examiner connects. There is no countdown."
+                      : "Test the microphone first. If the examiner hears nothing there is no band to give you."}
                 </p>
               </div>
             </div>

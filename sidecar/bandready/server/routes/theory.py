@@ -86,15 +86,30 @@ def _summary(article: m.TheoryArticle) -> dict[str, Any]:
         "also_called": body.get("also_called"),
         "one_line": body.get("one_line"),
         "estimated_read_minutes": body.get("estimated_read_minutes"),
+        # Search terms, not display text. Titles here are written as answers ("Saying what
+        # is generally true"), so a learner searching the words they actually know — "present
+        # simple", "despite or although", "what is a clause" — matches nothing without these.
+        # Every article ships both fields for exactly this purpose.
+        "aliases": body.get("aliases") or [],
+        "question_in_learner_words": body.get("question_in_learner_words"),
     }
 
 
 def _live(session: Session) -> list[m.TheoryArticle]:
+    """Every live article, in the order the reference is meant to be read.
+
+    ``sequence_index`` is numbered per chapter, not across the pack: chapter 2 and chapter 7
+    both run 21–35, and chapter 6 (80–84) is numbered below chapter 4 (85–90). Ordering by it
+    alone interleaved the chapters, so Next stepped from a tense to a noun article and back
+    again — 30 chapter changes over a straight read of 99 articles instead of 7 — and the
+    "12 of 99" position counted along that scrambled order. Chapter first fixes both, and
+    matches the order the index lists them in.
+    """
     return list(
         session.execute(
             select(m.TheoryArticle)
             .where(m.TheoryArticle.retired == 0)
-            .order_by(m.TheoryArticle.sequence_index)
+            .order_by(m.TheoryArticle.chapter_id, m.TheoryArticle.sequence_index)
         ).scalars()
     )
 

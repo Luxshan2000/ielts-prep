@@ -27,7 +27,7 @@ export function SpeakingDrillExercise({ item, revealed, onCommit }: ExerciseBody
     onCommit({
       correct: null,
       suggestedRating: null,
-      detail: "Rate how fluent that felt — nothing was recorded.",
+      detail: "Rate how fluent that felt. Nothing was recorded.",
     });
   }, [revealed, onCommit]);
 
@@ -48,8 +48,8 @@ export function SpeakingDrillExercise({ item, revealed, onCommit }: ExerciseBody
         <div className="space-y-1">
           <p className="text-sm font-medium">Say one full sentence using it, out loud.</p>
           <p className="text-[12px] text-muted-foreground">
-            You still rate yourself — a recogniser cannot tell you whether the sentence was a
-            good one.{" "}
+            You still rate yourself, because a recogniser cannot tell you whether the sentence
+            was a good one.{" "}
             <Link
               to="/speaking"
               className="text-primary underline decoration-primary/40 hover:decoration-primary"

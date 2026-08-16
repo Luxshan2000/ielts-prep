@@ -433,7 +433,7 @@ describe("the listening coach", () => {
     await userEvent.click(await screen.findByRole("tab", { name: /Transcript/ }));
 
     const replay = await screen.findByRole("button", {
-      name: /Replay the moment — decoy, then the answer/,
+      name: /Replay the moment: decoy, then the answer/,
     });
     await userEvent.click(replay);
 

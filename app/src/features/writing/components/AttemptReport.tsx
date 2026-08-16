@@ -136,7 +136,7 @@ export function AttemptReport({
         {attempt.integrity_flag === "pasted" && (
           <p className="flex items-start gap-2.5 rounded-xl border border-border bg-muted/40 p-3 text-[13px] text-muted-foreground">
             <ClipboardPaste className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-            A large block was pasted into this attempt. That is recorded, not penalised — but the band
+            A large block was pasted into this attempt. That is recorded, not penalised, but the band
             below only means something if the words are yours.
           </p>
         )}

@@ -112,7 +112,7 @@ export function DetectPanel() {
               ? `${platform.os ?? "?"} · ${platform.arch ?? "?"}${
                   platform.ram_gb ? ` · ${platform.ram_gb} GB RAM` : ""
                 }${platform.apple_silicon ? " · Apple Silicon" : ""}`
-              : "Probes 127.0.0.1 and your PATH — nothing leaves this machine."}
+              : "Probes 127.0.0.1 and your PATH. Nothing leaves this machine."}
           </p>
         </div>
         <Button

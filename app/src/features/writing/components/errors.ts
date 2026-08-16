@@ -29,13 +29,13 @@ const TEXT: Record<ModelFailure, string> = {
     "The language model that marks your writing could not be reached. Check Settings → Providers: a local engine has to be running, and a cloud model needs a valid key.",
   bad_key:
     "Your model provider rejected its key, so the marking request never ran. Open Settings → Providers, paste a working key and press Verify.",
-  slow: "The language model took too long to answer. Try again — if it keeps timing out, a smaller model in Settings → Providers will be quicker on this machine.",
+  slow: "The language model took too long to answer. Try again. If it keeps timing out, a smaller model in Settings → Providers will be quicker on this machine.",
   unusable:
-    "The language model answered, but not in a form BandReady could mark with. Try again — if it keeps happening, choose a stronger model in Settings → Providers.",
+    "The language model answered, but not in a form BandReady could mark with. Try again. If it keeps happening, choose a stronger model in Settings → Providers.",
 };
 
 const OFFLINE =
-  "Couldn't reach the BandReady engine. It may still be starting — wait a few seconds and retry.";
+  "Couldn't reach the BandReady engine. It may still be starting. Wait a few seconds and retry.";
 
 /**
  * Classify a thrown value as a model problem, or `null` if it is anything else

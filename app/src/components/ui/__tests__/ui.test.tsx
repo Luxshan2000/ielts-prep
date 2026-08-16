@@ -38,7 +38,7 @@ describe("BandScore", () => {
   it("always renders the numeral — colour is never the only encoding", () => {
     render(<BandScore band={6.5} label="Fluency" />);
     expect(screen.getByText("6.5")).toBeInTheDocument();
-    expect(screen.getByLabelText("Band 6.5 — Fluency")).toBeInTheDocument();
+    expect(screen.getByLabelText("Band 6.5, Fluency")).toBeInTheDocument();
   });
 
   it("maps bands onto the 12 §8.2 buckets", () => {

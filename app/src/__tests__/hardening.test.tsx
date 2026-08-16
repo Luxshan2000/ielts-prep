@@ -185,7 +185,7 @@ describe("accessibility of the exam primitives", () => {
 
   it("gives the band badge a role so its label is actually exposed", () => {
     render(<BandScore band={7} label="Fluency" />);
-    expect(screen.getByRole("img", { name: "Band 7.0 — Fluency" })).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "Band 7.0, Fluency" })).toBeInTheDocument();
   });
 
   it("moves real focus with the palette's arrow keys, so the ring follows aria-current", async () => {

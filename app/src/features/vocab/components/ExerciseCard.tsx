@@ -16,7 +16,7 @@ import type { CommitResult, ExerciseBodyProps } from "./exercises/shared";
 /** "due now" / "due 14 days ago" / "due in 3 days", never "due due now". */
 function dueLabel(iso: string): string {
   const phrase = formatDue(iso);
-  return phrase === "—" || phrase.startsWith("due") ? phrase : `due ${phrase}`;
+  return phrase === "-" || phrase.startsWith("due") ? phrase : `due ${phrase}`;
 }
 
 const BODIES: Record<ExerciseKind, (props: ExerciseBodyProps) => JSX.Element> = {
@@ -163,7 +163,8 @@ export function ExerciseCard({ item, onRate, submitting, error }: ExerciseCardPr
             <p className="flex items-start gap-2 rounded-lg border border-destructive/40 bg-destructive/10 p-3 text-[13px] text-destructive">
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
               <span>
-                {error} — press a rating again to retry.
+                {error}
+                <span className="mt-0.5 block">Press a rating again to retry.</span>
               </span>
             </p>
           )}
@@ -191,7 +192,7 @@ export function ExerciseCard({ item, onRate, submitting, error }: ExerciseCardPr
                 busyRating={busyRating}
               />
               <p className="text-[11px] text-muted-foreground">
-                Each button shows when the card comes back. Keys 1–4.
+                Each button shows when the card comes back. Keys 1-4.
               </p>
             </>
           ) : (

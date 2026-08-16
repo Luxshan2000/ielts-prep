@@ -71,7 +71,7 @@ export function ProcessDiagram({ spec, width, ariaLabel, describedBy }: ProcessD
   if (steps.length === 0) {
     return (
       <p className="py-10 text-center text-[13px] text-muted-foreground">
-        This process diagram has no stages — use the table view.
+        This process diagram has no stages. Use the table view.
       </p>
     );
   }

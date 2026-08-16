@@ -131,7 +131,7 @@ function StealRail({
             </button>
             {type === null ? (
               <p className="text-[11px] text-muted-foreground">
-                A technique, not a phrase — practise it, don't bank it.
+                A technique, not a phrase. Practise it, don't bank it.
               </p>
             ) : (
               <AddToBank
@@ -141,7 +141,7 @@ function StealRail({
                   example: a.span,
                   topicTags,
                   isPhrase: type === "phrase" || a.span.trim().includes(" "),
-                  sourceDetail: `Speaking model answer — ${cardTitle}`,
+                  sourceDetail: `Speaking model answer: ${cardTitle}`,
                 }}
                 label="Add to bank"
               />
@@ -246,7 +246,7 @@ export function ModelAnswerViewer({
             Underlined phrases carry a note. Hover, tap or tab to one to see why it earns what
             it earns.
             {swaps.length > 0 &&
-              " Shaded phrases are this speaker's own life — swap them for yours."}
+              " Shaded phrases are this speaker's own life, so swap them for yours."}
           </p>
 
           <AnnotatedModel
@@ -272,7 +272,7 @@ export function ModelAnswerViewer({
         <aside className="space-y-2.5">
           <h4 className="text-[13px] font-semibold text-foreground">Steal this</h4>
           <p className="text-[12px] leading-5 text-muted-foreground">
-            The transferable moves — the parts that work on any topic, not just this one.
+            The transferable moves: the parts that work on any topic, not just this one.
           </p>
           <StealRail
             answer={answer}

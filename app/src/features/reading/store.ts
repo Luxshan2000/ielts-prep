@@ -414,7 +414,7 @@ export const useReadingStore = create<ReadingState>((set, get) => {
           throw new ApiError(
             409,
             "not_resumable",
-            "A question-type drill can't be resumed after the window reloads — its questions " +
+            "A question-type drill can't be resumed after the window reloads. Its questions " +
               "are only held for the live attempt. Start a fresh drill from the browser.",
           );
         }

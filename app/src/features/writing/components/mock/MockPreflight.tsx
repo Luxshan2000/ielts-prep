@@ -26,14 +26,15 @@ import {
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { useSessionStore } from "@/stores";
+import { MarkingNotice } from "../MarkingNotice";
 import { MockHistory } from "./MockHistory";
 import { EXPECTATIONS, TASK_OUTLINE, WEIGHTING_NOTE } from "./script";
 import { clockLabel } from "./format";
 import { remainingOf, useMockStore, type MockModule } from "./store";
 
 const MODULE_OPTIONS = [
-  { value: "academic", label: "Academic — Task 1 is a chart, table, process or map" },
-  { value: "general", label: "General Training — Task 1 is a letter" },
+  { value: "academic", label: "Academic: Task 1 is a chart, table, process or map" },
+  { value: "general", label: "General Training: Task 1 is a letter" },
 ];
 
 export function MockPreflight() {
@@ -75,7 +76,7 @@ export function MockPreflight() {
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" aria-hidden="true" />
             <p className="text-[13px] text-muted-foreground">
               The practice engine isn't responding, so a mock can't start. It may still be
-              launching — retry in a few seconds.
+              launching. Retry in a few seconds.
             </p>
           </div>
         )}
@@ -84,7 +85,7 @@ export function MockPreflight() {
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/40 bg-primary/8 p-3">
             <p className="flex items-center gap-2 text-[13px] text-foreground">
               <Clock className="h-4 w-4 text-primary" aria-hidden="true" />
-              You have a sitting open — {clockLabel(remainingOf(unfinished))}{" "}
+              You have a sitting open: {clockLabel(remainingOf(unfinished))}{" "}
               {remainingOf(unfinished) >= 0 ? "left on its clock" : "past its hour"}. It has been
               running the whole time.
             </p>
@@ -162,6 +163,12 @@ export function MockPreflight() {
                 options={MODULE_OPTIONS}
               />
             </Field>
+
+            {/* Directly above the button, because this is the moment the hour is
+                spent. A learner who starts a mock with no marking model writes two
+                essays and gets a report with no bands in it — that news belongs
+                here, not sixty minutes downstream. */}
+            <MarkingNotice cost="the hour" />
 
             {startError && (
               <p role="alert" className="text-[13px] text-destructive">

@@ -12,9 +12,9 @@ import { MODES } from "./phases";
 import { useSpeakingStore, type SpeakingActivity, type SpeakingCard } from "../store";
 
 const PART_OPTIONS = [
-  { value: "1", label: "Part 1 — Interview" },
-  { value: "2", label: "Part 2 — Long turn" },
-  { value: "3", label: "Part 3 — Discussion" },
+  { value: "1", label: "Part 1: Interview" },
+  { value: "2", label: "Part 2: Long turn" },
+  { value: "3", label: "Part 3: Discussion" },
 ];
 
 function cardSetOptions(cards: SpeakingCard[]) {

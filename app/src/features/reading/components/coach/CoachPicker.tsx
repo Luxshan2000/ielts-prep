@@ -102,7 +102,7 @@ export function CoachPicker() {
           description={
             passages.length === 0
               ? "Reading passages arrive with a content pack. Install or import one from Settings → Data, then come back."
-              : "Try the other format — the coach works the same way on both."
+              : "Try the other format. The coach works the same way on both."
           }
           action={
             passages.length === 0 ? (

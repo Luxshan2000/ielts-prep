@@ -46,12 +46,33 @@ const DAYS: { id: string; label: string; short: string }[] = [
 const BANDS = [4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9];
 
 /**
+ * Not a slider. The daily session is composed from one of exactly three shapes
+ * (`curriculum/plan.py` `VARIANTS`), the profiles table has
+ * `CHECK (daily_minutes IN (30,60,90))`, and onboarding asks the same three. A 10–180
+ * slider offered 35 numbers, 32 of which the database refuses and none of which would
+ * have changed the length of a single session.
+ */
+const MINUTES = [
+  { value: 30, label: "30 minutes", shape: "5 min warm-up · 20 min main · 5 min drill" },
+  { value: 60, label: "60 minutes", shape: "10 min warm-up · 40 min main · 10 min drill" },
+  { value: 90, label: "90 minutes", shape: "10 min warm-up · 60 min main · 15 min drill" },
+];
+
+/** Onboarding refuses fewer, and a plan needs somewhere to put the week's work. */
+const MIN_STUDY_DAYS = 3;
+
+/**
  * A slider that moves freely and saves once you stop.
  *
  * A range input fires on every frame of a drag, so writing straight through would send a PATCH
  * per pixel and race its own responses — the last one to land wins, which is not necessarily
  * the last one you chose. The thumb follows the finger from local state; the write happens a
  * beat after it stops.
+ *
+ * Leaving the tab within that beat used to drop the write on the floor: `TabPanel` unmounts
+ * the panel it is not showing, and the cleanup cleared the timer without firing it. Adjust,
+ * switch to Providers, come back — the old number, and nothing ever said so. The pending
+ * value is flushed on unmount instead.
  */
 function SettledSlider({
   value,
@@ -61,6 +82,11 @@ function SettledSlider({
   const [local, setLocal] = useState(value);
   const dragging = useRef(false);
   const timer = useRef<number | null>(null);
+  const pending = useRef<number | null>(null);
+  // Read through a ref so the flush-on-unmount effect can stay mounted for the component's
+  // whole life without capturing the first render's `onSettle`.
+  const settle = useRef(onSettle);
+  settle.current = onSettle;
 
   // The stored value wins whenever it changes underneath us — unless a drag is in flight,
   // in which case snapping the thumb back mid-gesture is worse than being briefly stale.
@@ -68,7 +94,13 @@ function SettledSlider({
     if (!dragging.current) setLocal(value);
   }, [value]);
 
-  useEffect(() => () => { if (timer.current) window.clearTimeout(timer.current); }, []);
+  useEffect(
+    () => () => {
+      if (timer.current) window.clearTimeout(timer.current);
+      if (pending.current !== null) settle.current(pending.current);
+    },
+    [],
+  );
 
   return (
     <Slider
@@ -77,9 +109,11 @@ function SettledSlider({
       onChange={(next) => {
         setLocal(next);
         dragging.current = true;
+        pending.current = next;
         if (timer.current) window.clearTimeout(timer.current);
         timer.current = window.setTimeout(() => {
           dragging.current = false;
+          pending.current = null;
           onSettle(next);
         }, 400);
       }}
@@ -106,7 +140,14 @@ export function YouTab() {
   };
 
   const toggleDay = (id: string) => {
-    const next = days.includes(id) ? days.filter((d) => d !== id) : [...days, id];
+    const on = days.includes(id);
+    if (on && days.length <= MIN_STUDY_DAYS) {
+      // Saving an empty week silently became Monday–Saturday again, because that is what
+      // the planner substitutes for it. Say no out loud instead of appearing to agree.
+      setError(`Keep at least ${MIN_STUDY_DAYS} study days. The week's work has to go somewhere.`);
+      return;
+    }
+    const next = on ? days.filter((d) => d !== id) : [...days, id];
     // Ordering matters to anything that renders the week, and a toggled-off-then-on day
     // would otherwise jump to the end of the list.
     const ordered = DAYS.filter((d) => next.includes(d.id)).map((d) => d.id);
@@ -153,7 +194,7 @@ export function YouTab() {
             The band you are aiming for
           </CardTitle>
           <p className="mt-0.5 text-[13px] text-muted-foreground">
-            Everything in the app is measured against this — what Home says you still need, and
+            Everything in the app is measured against this: what Home says you still need, and
             which practice it puts in front of you first. Move it whenever your goal moves.
           </p>
         </CardHeader>
@@ -187,21 +228,39 @@ export function YouTab() {
             How much time you have
           </CardTitle>
           <p className="mt-0.5 text-[13px] text-muted-foreground">
-            An honest number beats an ambitious one — the daily plan is built to fit it, so a
+            An honest number beats an ambitious one. The daily plan is built to fit it, so a
             figure you cannot keep produces a plan you fall behind.
           </p>
         </CardHeader>
         <CardContent className="space-y-4">
-          <SettledSlider
-            label="Minutes a day"
-            value={minutes}
-            min={10}
-            max={180}
-            step={5}
-            decimals={0}
-            unit="min"
-            onSettle={(next) => void save({ daily_minutes: next }, "Your daily minutes")}
-          />
+          <Field label="How long a study day is" hint="A session is built to this shape.">
+            <div className="grid gap-2 sm:grid-cols-3">
+              {MINUTES.map((option) => {
+                const picked = minutes === option.value;
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    aria-pressed={picked}
+                    onClick={() => void save({ daily_minutes: option.value }, "Your daily minutes")}
+                    className={cn(
+                      "rounded-xl border px-3 py-2.5 text-left transition-colors",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      picked ? "border-primary bg-primary/10" : "border-border hover:bg-accent",
+                    )}
+                  >
+                    <span className="flex items-center gap-2 text-[14px] font-medium text-foreground">
+                      {option.label}
+                      {picked && <Check className="h-4 w-4 text-primary" aria-hidden="true" />}
+                    </span>
+                    <span className="mt-0.5 block text-[13px] text-muted-foreground">
+                      {option.shape}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </Field>
 
           <Field label="Days you study" hint="Rest days are not counted against your streak.">
             <div className="flex flex-wrap gap-1.5">
@@ -262,8 +321,8 @@ export function YouTab() {
               <span className="block text-[14px] font-medium text-foreground">Show the timer</span>
               <span className="block text-[13px] text-muted-foreground">
                 The real exam is timed, so this is on by default. Turning it off does not add
-                time — the paper is still marked against the exam's limit — it only hides the
-                clock, which helps if watching it is what makes you rush.
+                time. The paper is still marked against the exam's limit, and all this hides is
+                the clock, which helps if watching it is what makes you rush.
               </span>
             </span>
           </label>

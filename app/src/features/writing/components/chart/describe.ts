@@ -75,7 +75,7 @@ function describeCartesian(spec: ChartSpecLike, unit: string): DescriptionBlock[
   axes.push(
     `Horizontal axis${spec.x_axis?.label ? ` (${clean(spec.x_axis.label)})` : ""}: ${
       categories.length
-    } points, left to right — ${categories.join(", ")}.`,
+    } points, left to right: ${categories.join(", ")}.`,
   );
   const yLabel = clean(spec.y_axis?.label) || clean(unit);
   const { min, max } = spec.y_axis ?? {};
@@ -101,7 +101,7 @@ function describeCartesian(spec: ChartSpecLike, unit: string): DescriptionBlock[
       lines.push(`Extra figure ${i + 1}: ${num(values[i])}`);
     }
     blocks.push({
-      heading: series.length > 1 ? name : `${name} — every figure`,
+      heading: series.length > 1 ? name : `${name}: every figure`,
       lines: lines.length > 0 ? lines : ["No figures were supplied for this series."],
     });
   });
@@ -121,7 +121,7 @@ function describePie(spec: ChartSpecLike, unit: string): DescriptionBlock[] {
         heading: "How to read it",
         lines: [
           categories.length > 0
-            ? `A pie chart of ${categories.length} segments — ${categories.join(", ")} — but no figures were supplied for them.`
+            ? `A pie chart of ${categories.length} segments (${categories.join(", ")}), but no figures were supplied for them.`
             : "A pie chart with no segments and no figures.",
         ],
       },
@@ -191,9 +191,9 @@ function describeProcess(spec: ChartSpecLike): DescriptionBlock[] {
         const next = (step.next ?? []).map((id) => byId.get(id) ?? id);
         const arrow =
           next.length === 0
-            ? "no arrow leaves this stage — it is the end of the process"
+            ? "no arrow leaves this stage, so it is the end of the process"
             : `arrow to ${next.join(", and to ")}`;
-        return `Stage ${index + 1}, ${clean(step.label)} — ${arrow}.`;
+        return `Stage ${index + 1}, ${clean(step.label)}: ${arrow}.`;
       }),
     },
   ];
@@ -217,13 +217,13 @@ function describeFeature(feature: ChartFeature): string {
   const where = compass(feature);
   if (feature.shape === "road" || feature.shape === "river") {
     const run = w >= h ? "east to west" : "north to south";
-    return `${label} — a ${feature.shape} running ${run}, ${where}.`;
+    return `${label}: a ${feature.shape} running ${run}, ${where}.`;
   }
-  if (feature.shape === "tree") return `${label} — trees, ${where}.`;
+  if (feature.shape === "tree") return `${label}: trees, ${where}.`;
   // Footprint on the 0–100 × 0–100 plan: 30×30 reads as large, 16×16 as small.
   const area = w * h;
   const size = area >= 900 ? "a large block" : area >= 250 ? "a medium block" : "a small block";
-  return `${label} — ${size}, ${where}.`;
+  return `${label}: ${size}, ${where}.`;
 }
 
 function describeMap(spec: ChartSpecLike): DescriptionBlock[] {
@@ -311,7 +311,7 @@ export function describeChart(spec: ChartSpecLike | null | undefined): ChartDesc
       const panelNotes = clean(panel.notes);
       blocks.push({
         heading: `Visual ${index + 1} of ${panels.length}: ${kindLabel(panel.kind, panel)}${
-          clean(panel.title) ? ` — ${clean(panel.title)}` : ""
+          clean(panel.title) ? ` (${clean(panel.title)})` : ""
         }`,
         lines: [
           clean(panel.unit) ? `Figures are in ${clean(panel.unit)}.` : "",
@@ -320,7 +320,7 @@ export function describeChart(spec: ChartSpecLike | null | undefined): ChartDesc
       });
       for (const block of blocksFor(panel)) {
         blocks.push({
-          heading: block.heading ? `Visual ${index + 1} — ${block.heading}` : undefined,
+          heading: block.heading ? `Visual ${index + 1}: ${block.heading}` : undefined,
           lines: block.lines,
         });
       }

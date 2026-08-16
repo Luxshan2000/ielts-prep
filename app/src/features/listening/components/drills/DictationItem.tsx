@@ -69,7 +69,7 @@ export function DictationItem({
           value={value}
           onChange={(event) => onChange(event.target.value)}
           disabled={disabled}
-          placeholder="Punctuation is not marked — just the words."
+          placeholder="Punctuation is not marked, just the words."
           className="font-mono text-[14px]"
           // Autocorrect would silently fix exactly the misspellings the report is built to
           // find, so the box has to be dumber than the browser wants it to be.
@@ -82,7 +82,7 @@ export function DictationItem({
             <>
               You have written {typed} of {expected}.{" "}
               {typed < expected
-                ? "Play it again and listen for the small words — they are the ones that vanish."
+                ? "Play it again and listen for the small words. They are the ones that vanish."
                 : "Read it back against the audio before you commit."}
             </>
           ) : (
@@ -118,7 +118,7 @@ export function DictationDiff({ marking }: { marking: Marking }) {
         <p className="text-[13px] text-warning">
           {(marking.heard ?? 0) - (marking.exact ?? 0)} of those you heard correctly and
           spelled wrongly. On the answer sheet that is worth the same as not hearing it at
-          all — and it is an orthography fix, not a listening one.
+          all, and it is an orthography fix rather than a listening one.
         </p>
       )}
     </div>
@@ -145,7 +145,7 @@ function DiffToken({ entry }: { entry: DiffEntry }) {
     );
   }
   return (
-    <span className={cn(TONE_CLASS[tone ?? "miss"])} title={`You wrote “${entry.given}”`}>
+    <span className={cn(TONE_CLASS[tone ?? "miss"])} title={`You wrote "${entry.given}"`}>
       {entry.reference}{" "}
     </span>
   );

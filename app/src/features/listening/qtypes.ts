@@ -28,6 +28,7 @@ const TYPE_LABELS: Record<string, string> = {
   multiple_choice: "Multiple choice",
   matching: "Matching",
   map_labelling: "Map and plan labelling",
+  short_answer: "Short answer",
 };
 
 export function typeLabel(type: string): string {
@@ -44,6 +45,39 @@ export function optionEntries(options: OptionBank): [string, string][] {
     return Object.entries(options).map(([letter, text]) => [String(letter), String(text)]);
   }
   return [];
+}
+
+/**
+ * The one lettered bank a whole group shares, or `null` when each question has its own.
+ *
+ * Matching prints the box A–H once and asks for a letter beside each numbered item. The
+ * pack copies that bank onto every question in the group, so drawing it per question put
+ * the same eight options on screen five times — the "same question over and over" the
+ * learner reported. One bank, drawn once, is both correct and shorter.
+ */
+export function sharedOptionBank(questions: ListeningQuestion[]): [string, string][] | null {
+  if (questions.length < 2) return null;
+  const first = optionEntries(questions[0].options);
+  if (first.length === 0) return null;
+  const key = JSON.stringify(first);
+  const same = questions.every((q) => JSON.stringify(optionEntries(q.options)) === key);
+  return same ? first : null;
+}
+
+/**
+ * True when the group's own instruction already states the word limit.
+ *
+ * Every completion instruction in the pack ends "Write NO MORE THAN TWO WORDS…", so
+ * repeating the same sentence under each of ten questions only adds noise — and where the
+ * instruction says "TWO WORDS" and the hint says "TWO WORDS AND/OR A NUMBER" it reads as
+ * two different rules. The per-question line is kept for the one thing it alone can say:
+ * that what is typed is now over the limit.
+ */
+export function instructionStatesLimit(instruction: string | null | undefined): boolean {
+  if (!instruction) return false;
+  return /\b(NO MORE THAN\s+(ONE|TWO|THREE|FOUR|FIVE)\b|WRITE\s+(ONE|TWO|THREE|FOUR|FIVE)\s+WORDS?\b)/i.test(
+    instruction,
+  );
 }
 
 /** How many letters this question wants (multi-select MCQ carries `select_n`). */
@@ -131,6 +165,39 @@ export function promptLineFor(
   return stripEmphasis(line ?? text);
 }
 
+/**
+ * The one row of a table prompt that belongs to `number`, as `Header: cell` pairs.
+ *
+ * Review prints one line per question, and a table prompt has no such line: printing it
+ * whole put `| Item | Cost | Note |` and `|---|---|---|` on screen as literal characters.
+ * The row that holds this number, labelled by its headers, is the line that was wanted.
+ * `null` when the prompt is not a table or no row carries the marker.
+ */
+export function tableRowFor(
+  prompt: string | null | undefined,
+  number: number | null | undefined,
+): string | null {
+  const text = (prompt ?? "").trim();
+  if (!text || number == null || !isMarkdownTable(text)) return null;
+  const { header, rows } = parseMarkdownTable(text);
+  const row = rows.find((cells) =>
+    cells.some((cell) => {
+      const m = cell.match(MARKER_RE);
+      return m != null && Number(m[1]) === number;
+    }),
+  );
+  if (!row) return null;
+  const parts = row
+    .map((cell, index) => {
+      const value = stripEmphasis(cell).trim();
+      if (!value) return null;
+      const label = stripEmphasis(header[index] ?? "").trim();
+      return label ? `${label}: ${value}` : value;
+    })
+    .filter((part): part is string => Boolean(part));
+  return parts.length > 0 ? parts.join(" · ") : null;
+}
+
 /** A prompt is a markdown pipe table when two or more of its lines contain `|`. */
 export function isMarkdownTable(text: string | null | undefined): boolean {
   if (!text) return false;
@@ -208,5 +275,5 @@ export function rangeLabel(questions: { number: number }[]): string {
   const numbers = questions.map((q) => q.number);
   const first = Math.min(...numbers);
   const last = Math.max(...numbers);
-  return first === last ? `Question ${first}` : `Questions ${first}–${last}`;
+  return first === last ? `Question ${first}` : `Questions ${first}-${last}`;
 }

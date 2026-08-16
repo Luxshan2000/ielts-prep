@@ -42,7 +42,7 @@ export function PlanPanel({ teaching, taskType, attempted }: PlanPanelProps) {
         <section className="space-y-3">
           <SectionHead
             title={`The ${total} minutes, spent`}
-            hint="Not a countdown — a procedure. The last block is checking time, and it is the cheapest band you will ever buy."
+            hint="A procedure, not a countdown. The last block is checking time, and it is the cheapest band you will ever buy."
           />
 
           <div
@@ -87,7 +87,7 @@ export function PlanPanel({ teaching, taskType, attempted }: PlanPanelProps) {
         <section className="space-y-3">
           <SectionHead
             title="The paragraph skeleton for this question type"
-            hint={`${structure.length} paragraphs, about ${budget} words. The word figures are budgets, not counts — the body paragraphs must be visibly the longest.`}
+            hint={`${structure.length} paragraphs, about ${budget} words. The word figures are budgets, not counts. The body paragraphs must be visibly the longest.`}
           />
           <ol className="space-y-2">
             {structure.map((para) => (
@@ -150,7 +150,7 @@ export function PlanPanel({ teaching, taskType, attempted }: PlanPanelProps) {
             ) : (
               <p className="flex items-start gap-2 rounded-xl border border-dashed border-border p-3 text-[12px] leading-5 text-muted-foreground">
                 <PencilRuler className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                There is one more note here — the thing most people leave out of this task. It
+                There is one more note here: the thing most people leave out of this task. It
                 opens after you have written it, because reading it first turns a trap into an
                 instruction.
               </p>

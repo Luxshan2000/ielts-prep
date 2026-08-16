@@ -90,7 +90,7 @@ function GroupCard({ group }: { group: CoachGroup }) {
           </div>
         ) : (
           <p className="text-[13px] leading-6 text-muted-foreground">
-            This group has no authored plan in the installed pack — the generic page below still
+            This group has no authored plan in the installed pack. The generic page below still
             applies.
           </p>
         )}
@@ -100,7 +100,7 @@ function GroupCard({ group }: { group: CoachGroup }) {
             Everything for this group is in{" "}
             <span className="font-semibold">
               paragraph{teaching.section_scope.length > 1 ? "s" : ""}{" "}
-              {teaching.section_scope.join("–")}
+              {teaching.section_scope.join("-")}
             </span>
             . Find that stretch once, then work inside it.
           </p>
@@ -126,7 +126,7 @@ function GroupCard({ group }: { group: CoachGroup }) {
                 >
                   <span className="mr-1.5 font-semibold text-foreground">{entry.key}</span>
                   <span className="text-muted-foreground">
-                    {entry.designed_to_tempt ? `written for Q${entry.designed_to_tempt} — ` : ""}
+                    {entry.designed_to_tempt ? `written for Q${entry.designed_to_tempt}: ` : ""}
                     {entry.why_wrong}
                   </span>
                 </li>
@@ -137,7 +137,7 @@ function GroupCard({ group }: { group: CoachGroup }) {
 
         {page && (
           <Disclosure
-            title={`${qtypeLabel(group.type)} — the type itself`}
+            title={`${qtypeLabel(group.type)}: the type itself`}
             subtitle="The same on every passage. Read it once, then never again."
             meta={<Badge tone="default">{GEARS[page.gear]?.name ?? page.gear}</Badge>}
           >

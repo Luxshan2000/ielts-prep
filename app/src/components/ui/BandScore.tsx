@@ -83,7 +83,7 @@ export function BandScore({ band, size = "md", label, reveal = false, className 
   const tint = `hsl(var(${bandVar(band)}) / 0.12)`;
   const text = formatBand(shown);
 
-  const a11y = `Band ${formatBand(band)}${label ? ` — ${label}` : ""}`;
+  const a11y = `Band ${formatBand(band)}${label ? `, ${label}` : ""}`;
   const announcement = useRevealAnnouncement(a11y, reveal);
 
   /* Rendered alongside every variant; empty unless this badge is a reveal. */

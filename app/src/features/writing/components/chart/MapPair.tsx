@@ -250,7 +250,7 @@ export function MapPair({ spec, width, ariaLabel, describedBy }: MapPairProps) {
   if (snapshots.length === 0) {
     return (
       <p className="py-10 text-center text-[13px] text-muted-foreground">
-        This map prompt has no plans attached — use the table view.
+        This map prompt has no plans attached. Use the table view.
       </p>
     );
   }

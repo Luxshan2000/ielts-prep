@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Ear, Info, RefreshCw } from "lucide-react";
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
 import { useRecorder } from "@/components/practice/useRecorder";
@@ -32,6 +32,14 @@ export function ReadAloud({ sentence, source, className }: ReadAloudProps) {
   const [busy, setBusy] = useState(false);
   const [failure, setFailure] = useState<string | null>(null);
 
+  // A new sentence means the last take is about something else. Leaving it on screen puts a
+  // transcript of one sentence directly under another, which reads as a result for the
+  // sentence being shown.
+  useEffect(() => {
+    setResult(null);
+    setFailure(null);
+  }, [sentence]);
+
   const run = useCallback(async () => {
     setResult(null);
     setFailure(null);
@@ -53,6 +61,12 @@ export function ReadAloud({ sentence, source, className }: ReadAloudProps) {
 
   const recording = recorder.state === "recording";
   const unsure = result?.words_the_recogniser_was_unsure_of ?? [];
+  /**
+   * Whether speech-to-text ran at all. `recognised === false` means it did not, and the
+   * result below is empty rather than perfect — saying "every word came through" there
+   * would be praise for a recording nothing ever listened to.
+   */
+  const heard = result != null && result.recognised !== false;
 
   return (
     <Card className={className}>
@@ -77,7 +91,7 @@ export function ReadAloud({ sentence, source, className }: ReadAloudProps) {
             <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
             <span>
               Say it in your own accent, up to fifteen seconds. All this can tell you afterwards is
-              which words the speech recogniser hesitated over — it does not score your
+              which words the speech recogniser hesitated over. It does not score your
               pronunciation, and an accent is not a mistake.
             </span>
           </p>
@@ -111,13 +125,20 @@ export function ReadAloud({ sentence, source, className }: ReadAloudProps) {
           </p>
         )}
 
-        {result && (
+        {result && !heard && (
+          <p className="rounded-lg border border-border bg-muted/50 p-2.5 text-[13px] leading-relaxed">
+            {result.method_note ||
+              "Your recording was saved, but this computer could not turn it into text yet."}
+          </p>
+        )}
+
+        {result && heard && (
           <div className="space-y-2">
             <div>
               <p className="text-[12px] font-semibold uppercase tracking-wide text-muted-foreground">
                 What was heard
               </p>
-              <p className="mt-0.5 text-[14px]">{result.transcript || "— nothing —"}</p>
+              <p className="mt-0.5 text-[14px]">{result.transcript || "(nothing)"}</p>
             </div>
 
             {unsure.length > 0 ? (

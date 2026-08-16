@@ -84,7 +84,7 @@ export function VocabPanel({ doc }: { doc: TeachingPayload }) {
     <div className="space-y-4">
       <SectionHead
         title={`Learn these ${items.length} before you press play`}
-        hint="Each one names the question it could cost you. Nothing here is on the list because it is difficult — only because it is load-bearing."
+        hint="Each one names the question it could cost you. Nothing here is on the list because it is difficult, only because it is load-bearing."
       >
         {!unlocked && (
           <Badge tone="default" className="gap-1">
@@ -95,7 +95,7 @@ export function VocabPanel({ doc }: { doc: TeachingPayload }) {
       </SectionHead>
 
       {unlocked && doc.audio.media_path && (
-        <ClipPlayerBar player={player} title={`Part ${doc.part} — ${doc.title}`} />
+        <ClipPlayerBar player={player} title={`Part ${doc.part}: ${doc.title}`} />
       )}
 
       {error && (
@@ -169,7 +169,7 @@ export function VocabPanel({ doc }: { doc: TeachingPayload }) {
       <Callout tone="info" title="Where the return actually is">
         In order: the signpost markers, which are a closed set and the only handholds in Part 4; the
         direction words on any map task; the idioms that carry agreement and refusal in a discussion
-        — <em>I&rsquo;ll give that a miss</em>, <em>put me down for that</em> — none of which contain
+        (<em>I'll give that a miss</em>, <em>put me down for that</em>), none of which contain
         the words printed in the options; and only then the topic vocabulary.
       </Callout>
     </div>

@@ -118,7 +118,7 @@ export function MockPreflight() {
             <EmptyState
               icon={AlertTriangle}
               title="BandReady's local service isn't responding"
-              description="A mock needs it to generate the audio, hold the clock and mark the paper. It may still be starting up — this screen picks up on its own once it answers."
+              description="A mock needs it to generate the audio, hold the clock and mark the paper. It may still be starting up. This screen picks up on its own once it answers."
             />
           </CardContent>
         </Card>
@@ -283,7 +283,7 @@ export function MockPreflight() {
                 {preparing.audio.ready_parts} of {preparing.audio.total_parts} parts rendered
                 {preparing.audio.job_progress_pct !== null &&
                   !preparing.audio.ready &&
-                  ` — this one is ${Math.round(preparing.audio.job_progress_pct)}% done`}
+                  `, and this one is ${Math.round(preparing.audio.job_progress_pct)}% done`}
                 .
               </p>
 
@@ -296,7 +296,7 @@ export function MockPreflight() {
               {!preparing.audio.ready && (
                 <p className="text-[12px] leading-5 text-muted-foreground">
                   This is speech synthesis on your own machine, so it takes a few minutes the first
-                  time and is instant every time after — the recordings are cached. You can leave
+                  time and is instant every time after. The recordings are cached. You can leave
                   this screen open; the clock has not started and will not until you press start.
                 </p>
               )}
@@ -308,7 +308,7 @@ export function MockPreflight() {
                     className="flex items-center justify-between gap-2 rounded-lg px-2 py-1 text-[12px]"
                   >
                     <span className="min-w-0 truncate text-muted-foreground">
-                      Part {part.position} — {part.title}
+                      Part {part.position}: {part.title}
                     </span>
                     <span className={part.ready ? "text-success" : "text-muted-foreground"}>
                       {part.ready

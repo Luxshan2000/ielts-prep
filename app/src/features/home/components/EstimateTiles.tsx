@@ -16,14 +16,14 @@ import { SKILL_KEYS, SKILL_LABELS, type ProgressSummary, type SkillEstimate } fr
 
 const CONFIDENCE_COPY: Record<string, string> = {
   insufficient: "Not enough scored practice yet",
-  low: "Low confidence — one or two attempts",
+  low: "Low confidence, one or two attempts",
   medium: "Medium confidence",
   high: "High confidence",
 };
 
 function rangeText(estimate: SkillEstimate | undefined): string {
   if (!estimate || estimate.band === null) return "No estimate yet";
-  return `likely ${formatBand(estimate.range_low)}–${formatBand(estimate.range_high)}`;
+  return `likely ${formatBand(estimate.range_low)} to ${formatBand(estimate.range_high)}`;
 }
 
 function SkillTile({
@@ -60,7 +60,7 @@ function SkillTile({
       {stale && (
         <span className="flex items-center gap-1 text-[11px] text-warning">
           <AlertTriangle className="h-3 w-3 shrink-0" aria-hidden="true" />
-          Getting stale — practise {label.toLowerCase()} to refresh it
+          Getting stale. Practise {label.toLowerCase()} to refresh it.
         </span>
       )}
     </div>
@@ -83,7 +83,7 @@ export function EstimateTiles({ summary }: { summary: ProgressSummary }) {
         <div className="min-w-0">
           <CardTitle>Band estimates</CardTitle>
           <p className="mt-1 flex items-center gap-1.5 text-[13px] text-muted-foreground">
-            {summary.disclaimer || "Estimated band — not a guarantee"}
+            {summary.disclaimer || "Estimated band, not a guarantee"}
             <Tooltip content={summary.tooltip} side="bottom">
               <HelpCircle
                 className="h-3.5 w-3.5 text-muted-foreground"
@@ -122,7 +122,7 @@ export function EstimateTiles({ summary }: { summary: ProgressSummary }) {
                       confidence — one or two attempts · starting point, no scored
                       attempts yet". With nothing scored, only the honest half is true. */}
                   {overall.attempts_used === 0
-                    ? "Starting point — no scored attempts yet"
+                    ? "Starting point, nothing scored yet"
                     : `${CONFIDENCE_COPY[overall.confidence]} · from ${overall.attempts_used} scored ${
                         overall.attempts_used === 1 ? "attempt" : "attempts"
                       }`}

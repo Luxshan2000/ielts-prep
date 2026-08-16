@@ -38,7 +38,7 @@ export function StageBar({ stage, cleared, compact = false, className }: StageBa
     <div
       className={cn("flex w-full items-end gap-1", className)}
       role="img"
-      aria-label={`Stage ${stage} of 5 — ${STAGES[stage].name}`}
+      aria-label={`Stage ${stage} of 5, ${STAGES[stage].name}`}
     >
       {STAGE_ORDER.map((s) => {
         const isDone = done.has(s) || s < stage;

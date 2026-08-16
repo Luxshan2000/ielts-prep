@@ -25,6 +25,7 @@ import {
   type WritingAttempt,
 } from "../store";
 import { AttemptTimer, SaveIndicator, WordCount } from "./EditorStatus";
+import { isRetryable } from "./errors";
 import { OutlineScratchpad } from "./OutlineScratchpad";
 import { PrecheckModal } from "./PrecheckModal";
 import { PromptPanel } from "./PromptPanel";
@@ -58,6 +59,7 @@ export function AttemptEditor({ attempt }: { attempt: WritingAttempt }) {
   const submitPct = useWritingStore((s) => s.submitPct);
   const submitDetail = useWritingStore((s) => s.submitDetail);
   const submitError = useWritingStore((s) => s.submitError);
+  const submitFailure = useWritingStore((s) => s.submitFailure);
   const clearSubmitError = useWritingStore((s) => s.clearSubmitError);
   const submit = useWritingStore((s) => s.submit);
 
@@ -264,7 +266,7 @@ export function AttemptEditor({ attempt }: { attempt: WritingAttempt }) {
             />
 
             <p className="pb-6 text-[11px] text-muted-foreground">
-              Autosaved every 10 seconds. Pasting is allowed and counted —{" "}
+              Autosaved every 10 seconds. Pasting is allowed and counted:{" "}
               {pasteEvents > 0
                 ? `${pasteEvents} paste${pasteEvents === 1 ? "" : "s"} so far.`
                 : "no pastes so far."}{" "}
@@ -351,11 +353,26 @@ export function AttemptEditor({ attempt }: { attempt: WritingAttempt }) {
               <Button variant="ghost" onClick={clearSubmitError}>
                 Back to the editor
               </Button>
-              <Button onClick={() => void submit({ acknowledgeWarnings: true })}>Try again</Button>
+              {/* A model that was never set up, is not running, or is refusing its key
+                  fails identically every time, so the button that promises otherwise is
+                  replaced by the one that actually fixes it (`isRetryable`, errors.ts). */}
+              {isRetryable(submitFailure) ? (
+                <Button onClick={() => void submit({ acknowledgeWarnings: true })}>
+                  Try again
+                </Button>
+              ) : (
+                <Button onClick={() => navigate("/settings")}>Set up marking</Button>
+              )}
             </>
           }
         >
-          <p className="p-5 text-[13px] leading-6 text-muted-foreground">{submitError}</p>
+          <div className="space-y-2 p-5 text-[13px] leading-6 text-muted-foreground">
+            <p>{submitError}</p>
+            <p>
+              Your answer is saved on this machine exactly as you wrote it. Nothing is lost, and
+              submitting it again once marking works will score it.
+            </p>
+          </div>
         </Modal>
       )}
     </div>

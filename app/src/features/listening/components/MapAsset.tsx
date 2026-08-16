@@ -45,7 +45,7 @@ export function MapAsset({ asset, label }: MapAssetProps) {
       <div className="flex items-center gap-2.5 rounded-xl border border-dashed border-border bg-muted/40 px-3 py-4">
         <ImageOff className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
         <p className="text-[13px] text-muted-foreground">
-          The map for this question isn&rsquo;t in the installed content pack. The audio still
+          The map for this question isn't in the installed content pack. The audio still
           names each location, so you can answer from what you hear.
         </p>
       </div>

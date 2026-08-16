@@ -340,8 +340,8 @@ export function TestRunner() {
         title={detail.title}
         description={
           exam
-            ? "Exam conditions — the recording plays once."
-            : "Practice mode — replay, slow down and check the transcript."
+            ? "Exam conditions. The recording plays once."
+            : "Practice mode. Replay, slow down and check the transcript."
         }
         back={{ to: "/listening", label: "Listening" }}
       >
@@ -368,7 +368,7 @@ export function TestRunner() {
                     The transcript stays locked until you submit.
                   </Rule>
                   <Rule icon={Headphones}>
-                    Put headphones on and set your volume now — you cannot restart a part.
+                    Put headphones on and set your volume now. You cannot restart a part.
                   </Rule>
                 </ul>
               ) : (
@@ -377,7 +377,7 @@ export function TestRunner() {
                     Replay any part, seek freely and slow the audio to 0.75×.
                   </Rule>
                   <Rule icon={Eye}>
-                    Once every question in a part is answered you can reveal its transcript — those
+                    Once every question in a part is answered you can reveal its transcript. Those
                     answers then lock, so the reveal never becomes a way to cheat.
                   </Rule>
                   <Rule icon={BookOpen}>
@@ -402,7 +402,7 @@ export function TestRunner() {
                     className="flex flex-wrap items-center justify-between gap-2 text-[13px]"
                   >
                     <span className="min-w-0 truncate">
-                      <span className="font-medium">Part {part.part}</span> — {part.title}
+                      <span className="font-medium">Part {part.part}:</span> {part.title}
                     </span>
                     <span className="flex items-center gap-2">
                       <Badge tone="outline">{part.audio.accent_label}</Badge>
@@ -437,7 +437,7 @@ export function TestRunner() {
             </Button>
             {!audioReady && (
               <span className="text-[13px] text-muted-foreground">
-                Prepare the audio first — it is generated once and then cached.
+                Prepare the audio first. It is generated once and then cached.
               </span>
             )}
           </div>
@@ -489,7 +489,7 @@ export function TestRunner() {
     <PageShell
       title={detail.title}
       description={
-        exam ? "Exam conditions — one play, no rewind." : "Practice — replay and slow down freely."
+        exam ? "Exam conditions: one play, no rewind." : "Practice: replay and slow down freely."
       }
       maxWidth="max-w-7xl"
       status={
@@ -559,7 +559,7 @@ export function TestRunner() {
               className="flex items-center gap-1.5 text-[12px] font-medium text-warning"
             >
               <AlertTriangle className="h-3.5 w-3.5" aria-hidden="true" />
-              {saveError} — your answers stay on screen and are retried automatically.
+              {saveError} (your answers stay on screen and are retried automatically)
             </p>
           )}
 
@@ -591,7 +591,7 @@ export function TestRunner() {
             <div className="space-y-2 border-t border-border pt-4">
               {reveal ? (
                 <>
-                  <h3 className="text-[13px] font-semibold">Transcript — part {viewPart.part}</h3>
+                  <h3 className="text-[13px] font-semibold">Transcript: part {viewPart.part}</h3>
                   <p className="text-[12px] text-muted-foreground">
                     The line holding the answer to question {activeNumber || partNumbers[0]} is
                     highlighted. Use a timestamp to replay it.

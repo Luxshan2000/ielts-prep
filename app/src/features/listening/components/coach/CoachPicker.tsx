@@ -37,10 +37,10 @@ interface AttemptRow {
 
 const PART_OPTIONS = [
   { value: "all", label: "All four parts" },
-  { value: "1", label: "Part 1 — everyday conversation" },
-  { value: "2", label: "Part 2 — everyday monologue" },
-  { value: "3", label: "Part 3 — academic discussion" },
-  { value: "4", label: "Part 4 — academic lecture" },
+  { value: "1", label: "Part 1: everyday conversation" },
+  { value: "2", label: "Part 2: everyday monologue" },
+  { value: "3", label: "Part 3: academic discussion" },
+  { value: "4", label: "Part 4: academic lecture" },
 ];
 
 export function CoachPicker() {
@@ -137,7 +137,7 @@ export function CoachPicker() {
           description={
             (scripts?.length ?? 0) === 0
               ? "Listening scripts arrive with a content pack. Install or import one from Settings, then every part in it can be studied here."
-              : "Try another part of the paper — the coach works the same way on all four."
+              : "Try another part of the paper. The coach works the same way on all four."
           }
           action={
             (scripts?.length ?? 0) === 0 ? (

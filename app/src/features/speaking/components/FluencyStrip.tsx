@@ -53,7 +53,7 @@ const TILES: Tile[] = [
   {
     key: "mean_length_of_run_words",
     label: "Run length",
-    hint: "Average number of words between pauses — longer runs read as more fluent.",
+    hint: "Average number of words between pauses. Longer runs read as more fluent.",
     format: (v) => `${oneDp(v)} words`,
   },
   {

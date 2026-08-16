@@ -101,7 +101,7 @@ function VocabRow({
               cefr: entry.cefr,
               topicTags,
               isPhrase,
-              sourceDetail: `Speaking topic vocabulary — ${setTitle}`,
+              sourceDetail: `Speaking topic vocabulary: ${setTitle}`,
             }}
           />
         </div>

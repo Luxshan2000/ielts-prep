@@ -175,7 +175,7 @@ export function AboutTab() {
             <p className="mt-0.5 text-[13px] text-muted-foreground">
               Everything BandReady stores lives in one folder. Attaching{" "}
               <code className="font-mono text-foreground">sidecar.log</code> to a bug report
-              is the single most useful thing you can do — API keys are redacted before
+              is the single most useful thing you can do. API keys are redacted before
               they are written.
             </p>
           </CardHeader>
@@ -209,7 +209,7 @@ export function AboutTab() {
 
             {!info.log_file && (
               <p className="pt-1 text-xs text-muted-foreground">
-                No log file has been written yet — it appears the first time the sidecar
+                No log file has been written yet. One appears the first time the sidecar
                 logs something after a restart.
               </p>
             )}
@@ -238,7 +238,7 @@ export function AboutTab() {
           <p>
             API keys are encrypted with a key generated on this install and stored beside the
             settings, both readable only by your user account. That protects against casual
-            reads and stray backups — it does not protect against someone who is already
+            reads and stray backups. It does not protect against someone who is already
             logged in as you.
           </p>
           <p>

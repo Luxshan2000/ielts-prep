@@ -42,7 +42,7 @@ const LENS_LABEL: Record<Lens, string> = {
 const LENS_HINT: Record<Lens, string> = {
   all: "Every entry that carries real sentences to practise in.",
   chunk: "Stored and retrieved whole. Roughly half of natural English is prefabricated like this.",
-  frame: "A shape with a gap in it — the part you reuse, and the part you fill.",
+  frame: "A shape with a gap in it: the part you reuse, and the part you fill.",
   preposition: "The one part of “grammar” that is purely lexical, and belongs on the scheduler.",
 };
 
@@ -106,7 +106,7 @@ function PatternCard({ entry }: { entry: PatternEntry }) {
             <span key={i} className="rounded-md border border-dashed border-border px-2 py-1 text-[12px]">
               <span className="font-mono text-muted-foreground">{slot.slot}</span>
               {slot.fills && slot.fills.length > 0 && (
-                <span className="ml-1.5 text-muted-foreground">— {slot.fills.slice(0, 3).join(" · ")}</span>
+                <span className="ml-1.5 text-muted-foreground">: {slot.fills.slice(0, 3).join(" · ")}</span>
               )}
             </span>
           ))}
@@ -266,7 +266,7 @@ export function PhrasesScreen() {
       <EmptyState
         icon={Quote}
         title="This build's word list has no sentences attached yet"
-        description="Phrases show up here once the content pack carries the sentence-level payload — the contexts, the slots and the near-synonyms. Your word bank still works exactly as it did."
+        description="Phrases show up here once the content pack carries the sentence-level content: the contexts, the slots and the near-synonyms. Your word bank still works exactly as it did."
         action={<Button onClick={() => navigate("/vocab")}>Open your word bank</Button>}
       />
     );

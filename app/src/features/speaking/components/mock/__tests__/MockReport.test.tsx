@@ -109,9 +109,9 @@ describe("MockReport", () => {
     renderAt();
 
     await waitFor(() => expect(screen.getByText("Part by part")).toBeInTheDocument());
-    expect(screen.getByText("Part 1 — Interview")).toBeInTheDocument();
-    expect(screen.getByText("Part 2 — Long turn")).toBeInTheDocument();
-    expect(screen.getByText("Part 3 — Discussion")).toBeInTheDocument();
+    expect(screen.getByText("Part 1: Interview")).toBeInTheDocument();
+    expect(screen.getByText("Part 2: Long turn")).toBeInTheDocument();
+    expect(screen.getByText("Part 3: Discussion")).toBeInTheDocument();
     expect(screen.getByText(/very much cars/)).toBeInTheDocument();
     expect(screen.getByText(/my daily commute takes an hour/)).toBeInTheDocument();
   });

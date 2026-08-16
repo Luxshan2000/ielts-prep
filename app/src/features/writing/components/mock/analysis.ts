@@ -50,7 +50,7 @@ export function timeVerdict(record: MockRecord): TimeVerdict {
     return {
       tone: "warn",
       headline: `You gave Task 1 ${minutesLabel(t1)} of the hour.`,
-      detail: `The target is about 20 minutes. Task 2 is worth twice as much, so every minute moved from Task 1 to Task 2 is worth double — this is the single most expensive habit in the paper, and it costs nothing to fix.`,
+      detail: `The target is about 20 minutes. Task 2 is worth twice as much, so every minute moved from Task 1 to Task 2 is worth double. This is the single most expensive habit in the paper, and it costs nothing to fix.`,
     };
   }
 
@@ -59,7 +59,7 @@ export function timeVerdict(record: MockRecord): TimeVerdict {
       tone: "warn",
       headline: `Task 2 got ${minutesLabel(t2)} of the hour.`,
       detail:
-        "It carries two thirds of the writing band and needs closer to forty minutes — five of them for planning and five for checking. Whatever it did not get came out of the score that matters most.",
+        "It carries two thirds of the writing band and needs closer to forty minutes, five of them for planning and five for checking. Whatever it did not get came out of the score that matters most.",
     };
   }
 
@@ -77,6 +77,61 @@ export function timeVerdict(record: MockRecord): TimeVerdict {
     headline: `${minutesLabel(t1)} on Task 1, ${minutesLabel(t2)} on Task 2.`,
     detail:
       "That is the split the paper is designed around, and getting it right is worth more than any single sentence you wrote.",
+  };
+}
+
+/**
+ * The hard floor the sidecar refuses to evaluate below
+ * (`scoring/writing.py` `DEFAULT_THRESHOLDS["hard_floor_words"]`).
+ */
+export const HARD_FLOOR_WORDS = 50;
+
+/** Why one answer in a sitting carries no band, said accurately. */
+export interface UnmarkedReason {
+  headline: string;
+  detail: string;
+  /** True when the cause is the setup rather than the answer, so Settings is the fix. */
+  setup: boolean;
+}
+
+/**
+ * The report used to give one reason for every unmarked answer — the fifty-word floor —
+ * regardless of what actually happened. On the default install, where no marking model
+ * is running, that told somebody who had just written 400 words under exam conditions
+ * that their answer was too short. The reason is knowable from the attempt itself, so
+ * it is read off the attempt instead of guessed.
+ */
+export function unmarkedReason(attempt: WritingAttempt): UnmarkedReason {
+  if (attempt.status === "failed") {
+    return {
+      setup: true,
+      headline: "This answer could not be marked.",
+      detail:
+        "It was submitted, but the marking model did not return a result, most often because no model is set up or the local one was not running. Your answer is saved exactly as you wrote it, and submitting it again once marking works will score it.",
+    };
+  }
+
+  if (attempt.word_count < HARD_FLOOR_WORDS) {
+    return {
+      setup: false,
+      headline: `This answer is ${attempt.word_count} words.`,
+      detail: `Under ${HARD_FLOOR_WORDS} words there is not enough writing to judge, so BandReady refuses it rather than inventing a band for it.`,
+    };
+  }
+
+  if (attempt.status === "submitted") {
+    return {
+      setup: false,
+      headline: "This answer is still being marked.",
+      detail: "Marking usually takes under a minute. Reload this report to pick up the result.",
+    };
+  }
+
+  return {
+    setup: false,
+    headline: "This answer was never submitted.",
+    detail:
+      "The sitting ended before it was sent for marking. Open the draft and submit it to have it scored.",
   };
 }
 
@@ -131,7 +186,7 @@ export function buildNextActions({ record, task1, task2 }: BuildActionsInput): N
     actions.push({
       id: "length",
       title: "One of your answers was under length",
-      detail: `${under.join(" and ")}. An under-length answer cannot cover the task, and criterion 1 is measured on coverage — this is arithmetic, not style.`,
+      detail: `${under.join(" and ")}. An under-length answer cannot cover the task, and criterion 1 is measured on coverage. This is arithmetic, not style.`,
     });
   }
 
@@ -155,7 +210,7 @@ export function buildNextActions({ record, task1, task2 }: BuildActionsInput): N
       id: `coach-${key}`,
       title: `${key === "task1" ? "Task 1" : "Task 2"}: the models are unlocked now`,
       detail:
-        "The same answer at bands 6, 7 and 8 — same content, only the language moves — plus the plan, the language bank and the one change that would most raise what you wrote. They stayed locked until you had sat it, because a model read beforehand is a script to memorise.",
+        "The same answer at bands 6, 7 and 8 (same content, only the language moves), plus the plan, the language bank and the one change that would most raise what you wrote. They stayed locked until you had sat it, because a model read beforehand is a script to memorise.",
       to: `/writing/coach/${encodeURIComponent(promptId)}`,
       cta: "Open the coach",
     });

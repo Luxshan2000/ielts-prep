@@ -56,7 +56,7 @@ function useSentence() {
         for (const item of data.items ?? []) {
           for (const text of [item.own_context_sentence, ...(item.example_sentences ?? [])]) {
             if (typeof text === "string" && text.trim().length > 20) {
-              pool.push({ text: text.trim(), label: `From your vocabulary — “${item.headword}”` });
+              pool.push({ text: text.trim(), label: `From your vocabulary: “${item.headword}”` });
             }
           }
         }
@@ -110,7 +110,7 @@ export function PronPage() {
   return (
     <PageShell
       title="Pronunciation"
-      description="Hear the contrasts first, then say them. Every accent is accepted — this is about being understood, not about sounding like anybody else."
+      description="Hear the contrasts first, then say them. Every accent is accepted. This is about being understood, not about sounding like anybody else."
       toolbar={
         <Tabs
           value={tab}

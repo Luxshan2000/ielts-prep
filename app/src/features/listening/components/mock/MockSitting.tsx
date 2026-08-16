@@ -345,7 +345,7 @@ export function MockSitting() {
       title={session.title}
       description={
         phase === "window"
-          ? `${session.delivery_label} — the ${windowLabel} at the end of the paper.`
+          ? `${session.delivery_label}: the ${windowLabel} at the end of the paper.`
           : "Exam conditions. Each recording plays once, and nothing here explains anything."
       }
       status={
@@ -391,7 +391,7 @@ export function MockSitting() {
         {saveError && (
           <p role="alert" className="flex items-center gap-1.5 text-[12px] font-medium text-warning">
             <AlertTriangle className="h-3.5 w-3.5" aria-hidden="true" />
-            {saveError} — your answers stay on screen and are retried automatically.
+            {saveError} (your answers stay on screen and are retried automatically)
           </p>
         )}
         {submitError && (
@@ -443,7 +443,7 @@ export function MockSitting() {
                         </span>
                         <div className="min-w-0">
                           <p className="truncate text-sm font-semibold">
-                            Part {playPart.part} of {parts.length} — {playPart.title}
+                            Part {playPart.part} of {parts.length}: {playPart.title}
                           </p>
                           <p className="truncate text-[12px] text-muted-foreground">
                             {playPart.audio.accent_label}
@@ -458,7 +458,7 @@ export function MockSitting() {
 
                     <p className="text-[13px] leading-6 text-muted-foreground">
                       This recording plays once. There is no pause, no rewind, no replay and no
-                      speed control, and that is recorded outside this screen — once you press
+                      speed control, and that is recorded outside this screen. Once you press
                       play, a second play is impossible even after
                       a reload. The read-ahead pauses are inside the recording, so it will stop and
                       give you about thirty seconds before each set on its own.
@@ -477,7 +477,7 @@ export function MockSitting() {
                       aria-label={`Play part ${playPart.part}. This recording plays once and cannot be paused, rewound or replayed.`}
                     >
                       <Headphones className="h-4 w-4" aria-hidden="true" />
-                      Play part {playPart.part} — once only
+                      Play part {playPart.part} (once only)
                     </Button>
                   </div>
                 )}
@@ -614,7 +614,7 @@ function TransferWindow({
           </span>
           <div className="min-w-0">
             <h2 className="text-sm font-semibold">
-              {paper ? "Transfer your answers" : "Check your answers"} — {label}
+              {paper ? "Transfer your answers" : "Check your answers"}: {label}
             </h2>
             <p className="mt-0.5 text-[13px] leading-6 text-muted-foreground">
               {note ||
@@ -641,10 +641,10 @@ function TransferWindow({
       </div>
 
       <ol className="space-y-1 rounded-xl border border-border bg-muted/40 p-3 text-[12px] leading-5 text-muted-foreground">
-        <li>1. Blanks first — a blank is a guaranteed zero and a guess is not.</li>
-        <li>2. Word limits second — anything over the limit is a certain zero. Articles are words.</li>
-        <li>3. Plurals third — does the printed frame force a number on the noun you wrote?</li>
-        <li>4. Doubled answers fourth — a box holding two candidates is marked wrong. Pick one.</li>
+        <li>1. Blanks first. A blank is a guaranteed zero and a guess is not.</li>
+        <li>2. Word limits second. Anything over the limit is a certain zero, and articles are words.</li>
+        <li>3. Plurals third. Does the printed frame force a number on the noun you wrote?</li>
+        <li>4. Doubled answers fourth. A box holding two candidates is marked wrong, so pick one.</li>
         <li>5. Spelling last, and only on words you copied from a spelled-out name.</li>
       </ol>
 
@@ -697,7 +697,7 @@ function TransferWindow({
         </Button>
         <span className="flex items-center gap-1.5 text-[12px] text-muted-foreground">
           <Clock className="h-3.5 w-3.5" aria-hidden="true" />
-          Marking is instant and offline — nothing leaves this machine.
+          Marking is instant and offline. Nothing leaves this machine.
         </span>
       </div>
     </div>

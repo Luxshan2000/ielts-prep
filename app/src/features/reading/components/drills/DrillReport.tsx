@@ -50,7 +50,7 @@ export function DrillReportView({
         </div>
         <p className="mt-2 text-[13px] leading-relaxed">{headline}</p>
         <p className="mt-1 text-[11px] text-muted-foreground">
-          No band here on purpose — a drill measures a habit, not a level.
+          No band here on purpose. A drill measures a habit, not a level.
         </p>
       </div>
 

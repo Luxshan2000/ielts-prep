@@ -314,7 +314,7 @@ export function AddToBank({
         friendlyMessage(
           err,
           "That couldn't be added to your vocabulary inbox.",
-          "BandReady's local service isn't answering — try again in a moment.",
+          "BandReady's local service isn't answering. Try again in a moment.",
         ),
       );
     }

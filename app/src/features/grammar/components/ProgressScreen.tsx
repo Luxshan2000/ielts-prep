@@ -141,7 +141,7 @@ function HarvestRow({ error }: { error: HarvestedError }) {
         <Icon className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
         <span className="text-[13px] font-medium text-foreground">{codeLabel(error.code)}</span>
         <Badge tone="outline">from your {error.module}</Badge>
-        {error.wild_failure && <Badge tone="warning">You had this one — it slipped back</Badge>}
+        {error.wild_failure && <Badge tone="warning">You had this one, then it slipped back</Badge>}
       </div>
       {error.learner_text && (
         <p className="mt-2 rounded bg-muted px-2 py-1 text-[13px] italic leading-relaxed text-muted-foreground">
@@ -220,7 +220,7 @@ export function ProgressScreen() {
       {costing.length > 0 && (
         <Section
           title={`${costing.length} ${costing.length === 1 ? "mistake is" : "mistakes are"} costing you`}
-          hint="Each one builds a set from every lesson that carries it — not just the lesson it came from."
+          hint="Each one builds a set from every lesson that carries it, not only the lesson it came from."
           emphasis
         >
           <ul className="space-y-2">
@@ -254,7 +254,7 @@ export function ProgressScreen() {
         ) : (
           <p className="text-[13px] leading-relaxed text-muted-foreground">
             {progress.harvest_available === false
-              ? "Nothing has arrived here yet. When the writing and speaking feedback starts naming the mistakes it finds, they will land here — with your own sentence, the fix, and one tap into the lesson that stops it happening again."
+              ? "Nothing has arrived here yet. When the writing and speaking feedback starts naming the mistakes it finds, they will land here, with your own sentence, the fix, and one tap into the lesson that stops it happening again."
               : "Nothing from your own answers yet. Write a Task 2 or record a Part 3 answer and the mistakes it finds will show up here."}
           </p>
         )}
@@ -314,7 +314,7 @@ export function ProgressScreen() {
       {range.length > 0 && (
         <Section
           title="Your range"
-          hint="The structures you can reach for. Band 7 asks for more clean complex sentences — not for fewer mistakes."
+          hint="The structures you can reach for. Band 7 asks for more clean complex sentences, not for fewer mistakes."
         >
           <div className="flex flex-wrap gap-2">
             {range.map((structure) => (
@@ -339,8 +339,8 @@ export function ProgressScreen() {
           </div>
           <p className="mt-3 text-[13px] leading-relaxed text-muted-foreground">
             A learner who believes band 7 means “no mistakes” writes short, safe sentences and lands at
-            6, because range is marked too. The useful move is to use more of these, cleanly — not to
-            use fewer of them.
+            6, because range is marked too. The useful move is to use more of these, cleanly, rather
+            than fewer of them.
           </p>
         </Section>
       )}

@@ -69,7 +69,7 @@ export function DataTableView({ spec }: { spec: ChartSpecLike }) {
         {panels.map((panel, index) => (
           <div key={index} className="min-w-0">
             <p className="mb-1.5 text-[12px] font-semibold text-foreground">
-              Visual {index + 1} of {panels.length} — {kindLabel(panel.kind, panel)}
+              Visual {index + 1} of {panels.length}, {kindLabel(panel.kind, panel)}
               {panel.title ? `: ${panel.title}` : ""}
             </p>
             <DataTableView spec={panel} />
@@ -132,7 +132,7 @@ export function DataTableView({ spec }: { spec: ChartSpecLike }) {
   const rows: (string | number)[][] = categories.map((category, index) => {
     const cells = series.map((s) => {
       const value = s.values?.[index];
-      return isNumeric(value) ? (value as number) : "—";
+      return isNumeric(value) ? (value as number) : "-";
     });
     const total = cells.reduce<number>((sum, v) => sum + (typeof v === "number" ? v : 0), 0);
     return [category, ...cells, ...(stacked && series.length > 1 ? [total] : [])];

@@ -447,7 +447,7 @@ function WrapUp({ sessionId, scoreable }: WrapUpProps) {
             </p>
             <p className="text-[13px] text-muted-foreground">
               {scoring
-                ? "Your examiner is writing the assessment. On a local model this takes up to a minute — leaving this screen does not cancel it."
+                ? "Your examiner is writing the assessment. On a local model this takes up to a minute. Leaving this screen does not cancel it."
                 : "Saving your transcript and recordings."}
             </p>
           </div>
@@ -666,7 +666,7 @@ export function LiveSession() {
 
   // ------------------------------------------------------------------ render ---
 
-  const title = `Speaking — ${activityLabel(activity)}`;
+  const title = `Speaking: ${activityLabel(activity)}`;
 
   return (
     <PageShell

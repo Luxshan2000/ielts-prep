@@ -219,7 +219,7 @@ export function BothOkItem({ item, attempt, disabled, onAnswer }: ItemViewProps)
       </span>
     )),
     <span key="both" className="font-medium text-foreground">
-      Both are correct — they say different things
+      Both are correct, and they say different things
     </span>,
   ];
 

@@ -28,6 +28,7 @@ import { AnswerInput } from "./AnswerInput";
 import { LayoutRenderer } from "./LayoutRenderer";
 import {
   CheckboxChoices,
+  ChoiceGlossary,
   LetterSelect,
   OptionBank,
   RadioChoices,
@@ -172,6 +173,7 @@ export function QuestionGroupCard({
             className="w-24"
             options={bankOptions}
             value={answers[key] ?? ""}
+            disabled={disabled}
             disabledKeys={allowReuse ? undefined : used}
             onChange={(value) => {
               onFocusQuestion(n);
@@ -209,10 +211,11 @@ export function QuestionGroupCard({
     body = (
       <div className="space-y-2">
         <CheckboxChoices
-          ariaLabel={`${groupRangeLabel(group)} — choose ${max}`}
+          ariaLabel={`${groupRangeLabel(group)}: choose ${max}`}
           options={bankOptions}
           selected={selected}
           max={max}
+          disabled={disabled}
           onFocus={() => onFocusQuestion(numbers[0] ?? 0)}
           onToggle={(letter) => {
             const key = letter.toUpperCase();
@@ -257,7 +260,7 @@ export function QuestionGroupCard({
           }}
         >
           <p className="text-[13px] text-muted-foreground">
-            This group ships no layout skeleton — answer each numbered gap below.
+            This group ships no layout skeleton. Answer each numbered gap below.
           </p>
         </LayoutRenderer>
         {leftover.length > 0 && (
@@ -323,6 +326,7 @@ export function QuestionGroupCard({
                 ariaLabel={label}
                 values={choiceValues(type)}
                 value={value}
+                disabled={disabled}
                 onFocus={() => onFocusQuestion(n)}
                 onChange={(next) => onAnswer(key, next === value ? "" : next)}
               />
@@ -336,6 +340,7 @@ export function QuestionGroupCard({
                   ariaLabel={label}
                   options={options}
                   value={value}
+                  disabled={disabled}
                   onFocus={() => onFocusQuestion(n)}
                   onChange={(next) => onAnswer(key, next)}
                 />
@@ -356,6 +361,7 @@ export function QuestionGroupCard({
                   ariaLabel={label}
                   options={bankOptions}
                   value={value}
+                  disabled={disabled}
                   disabledKeys={allowReuse ? undefined : used}
                   onChange={(next) => {
                     onFocusQuestion(n);
@@ -428,7 +434,7 @@ export function QuestionGroupCard({
 
   return (
     <section
-      aria-label={`${groupRangeLabel(group)} — ${qtypeLabel(type)}`}
+      aria-label={`${groupRangeLabel(group)}: ${qtypeLabel(type)}`}
       className="space-y-3 rounded-xl border border-border bg-card p-4"
     >
       <header className="space-y-1.5">
@@ -444,6 +450,10 @@ export function QuestionGroupCard({
         )}
         {group.heading && <p className="text-[13px] font-semibold">{group.heading}</p>}
       </header>
+
+      {/* The three buttons say TRUE / FALSE / NOT GIVEN and nothing in the pack says
+          what they mean. The real paper prints this rubric; so do we. */}
+      <ChoiceGlossary qtype={type} />
 
       {showBank && (
         <OptionBank

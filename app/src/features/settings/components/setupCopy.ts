@@ -103,7 +103,7 @@ export function describeVerify(
         : {
             tone: "destructive",
             headline: "Not running",
-            body: "This needs a free marking program running on this computer. Install Ollama — BandReady notices on its own once it is running — or use an online service instead.",
+            body: "This needs a free marking program running on this computer. Install Ollama and BandReady picks it up on its own once it is running. You can use an online service instead.",
             fix: "install-local",
           };
 
@@ -147,7 +147,7 @@ export function describeVerify(
       return {
         tone: "destructive",
         headline: "Not working",
-        body: "It answered with an error. Try again in a moment — if it keeps happening, use an online service instead.",
+        body: "It answered with an error. Try again in a moment. If it keeps happening, use an online service instead.",
         fix: "check",
       };
   }
@@ -182,7 +182,7 @@ function plainCause(raw: string): string | null {
 export function plainDownloadError(raw: string | null | undefined): string | null {
   if (!raw) return null;
   const cause = plainCause(raw);
-  const tail = "Press Resume to pick it back up — the part already downloaded is kept.";
+  const tail = "Press Resume to pick it back up. The part already downloaded is kept.";
   return cause ? `${cause} ${tail}` : `The download did not finish. ${tail}`;
 }
 

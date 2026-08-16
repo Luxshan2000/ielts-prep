@@ -30,7 +30,7 @@ const JOBS: { modality: Modality; label: string; what: string; without: string }
     modality: "llm",
     label: "The examiner",
     what: "asks you questions and marks your answers",
-    without: "Without it: reading, listening, grammar and vocabulary practice all still work — but nothing can be marked and no band can be estimated.",
+    without: "Without it: reading, listening, grammar and vocabulary practice all still work, but nothing can be marked and no band can be estimated.",
   },
   {
     modality: "stt",
@@ -52,16 +52,26 @@ const JOBS: { modality: Modality; label: string; what: string; without: string }
  * The row used to have two states — "Working" or a bare Check button — so a failed check
  * looked exactly like a check nobody had run yet: the button was pressed, the request went
  * out, and the screen said nothing. Every sentence here ends in something to do next.
+ *
+ * The cases are the `state` strings `providers/verify.py` actually returns —
+ * `needs_download`, `no_key`, `unconfigured`, `unreachable`, `timeout`, `unauthorized`,
+ * `error` — not a guess at them. `needs_download` is the one a fresh install hits on two
+ * rows out of three (Kokoro and Whisper weights are not shipped), and it was falling
+ * through to "It could not be reached", directly under a Reported: line saying the weights
+ * were not downloaded yet. Nothing had failed to be reached and nothing on this screen
+ * told them where the Download button lives.
  */
 function failureSentence(result: { state?: string; detail?: string } | undefined): string | null {
   if (result === undefined) return null;
   switch (result.state) {
+    case "needs_download":
+      return 'This one needs its files downloaded first. Open Advanced settings and press Download under "Model weights".';
     case "unreachable":
       return "Not answering. If it runs on this computer, start it first, then check again.";
     case "timeout":
-      return "It took too long to reply — it may still be starting up. Wait a moment and check again.";
+      return "It took too long to reply. It may still be starting up, so wait a moment and check again.";
     case "unauthorized":
-      return "The key was rejected. Open Advanced settings and paste it again.";
+      return "The key was rejected. Paste it again above, or open Advanced settings.";
     case "no_key":
       // The single commonest failure, and until now the one that said nothing at all: the
       // check threw instead of answering, so the row fell back to looking un-run.
@@ -70,6 +80,8 @@ function failureSentence(result: { state?: string; detail?: string } | undefined
       return "Nothing is set up for this yet. Choose where the thinking should happen above.";
     case "no_model":
       return "It replied, but no usable model is chosen. Pick one in Advanced settings.";
+    case "error":
+      return "It answered, but with an error. Try again in a moment, or open Advanced settings to change it.";
     default:
       return "It could not be reached. Try again, or open Advanced settings to change it.";
   }
@@ -88,6 +100,11 @@ export function SimpleSetup({ onAdvanced }: { onAdvanced: () => void }) {
 
   const apply = (entry: RecommendedEntry) => {
     const preset = entry.preset ? presetById(entry.preset) : undefined;
+    // The tier table still recommends `mlx_lm`, which this build does not serve. Falling
+    // through to `setField(model)` would write an MLX model id into whichever connection
+    // happened to be configured — today the ordering of the list saves us, which is not a
+    // property to rely on.
+    if (entry.preset && !preset) return;
     if (preset) applyPreset(entry.modality, preset);
     if (entry.preset_only) {
       const first = preset?.suggested_models?.[0];

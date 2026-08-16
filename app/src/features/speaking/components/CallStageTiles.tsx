@@ -37,7 +37,7 @@ export function CallStageTiles({
         ? "Your microphone is muted"
         : userSpeaking
           ? "You are speaking"
-          : "Listening — your turn";
+          : "Listening, your turn";
 
   return (
     <div className={cn("space-y-3", className)}>

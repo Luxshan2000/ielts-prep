@@ -151,7 +151,7 @@ export function AddToBank({ item, label = "Add to bank", size = "sm", className 
         friendlyMessage(
           err,
           "Couldn't add that to your bank.",
-          "BandReady's local service isn't answering — try again in a moment.",
+          "BandReady's local service isn't answering. Try again in a moment.",
         ),
       );
     }

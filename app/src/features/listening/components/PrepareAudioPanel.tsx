@@ -72,7 +72,7 @@ export function PrepareAudioPanel({
               Cancel
             </Button>
             <span className="text-[12px] text-muted-foreground">
-              This happens once per test — the audio is cached afterwards.
+              This happens once per test. The audio is cached afterwards.
             </span>
           </div>
         </>
@@ -87,8 +87,8 @@ export function PrepareAudioPanel({
               {typeof readyParts === "number" && typeof totalParts === "number" && readyParts > 0
                 ? `${readyParts} of ${totalParts} parts are ready. `
                 : ""}
-              The voices are synthesized locally the first time, then cached — expect
-              {kind === "test" ? " 30–90 seconds" : " 10–25 seconds"}.
+              The voices are synthesized locally the first time, then cached. Expect
+              {kind === "test" ? " 30 to 90 seconds" : " 10 to 25 seconds"}.
             </span>
           </div>
           {error && (

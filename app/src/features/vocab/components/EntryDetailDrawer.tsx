@@ -17,7 +17,9 @@ import {
   formatDue,
   levelLabel,
   percent,
+  registerLabel,
   shortDate,
+  situationLabel,
   sourceAttribution,
   topicLabel,
 } from "../labels";
@@ -49,6 +51,12 @@ export function EntryDetailDrawer() {
   }, [entry?.id, entry?.definition, entry?.own_context_sentence]);
 
   if (!entry && !loading) return null;
+
+  // Present only on the single-entry read, and only for words the shipped pack still knows
+  // more about than the bank stores.
+  const usage = entry?.usage ?? null;
+  const situations = usage?.situations ?? [];
+  const register = registerLabel(usage?.register);
 
   const dirty =
     entry !== null &&
@@ -166,7 +174,7 @@ export function EntryDetailDrawer() {
               rows={3}
               value={sentence}
               onChange={(e) => setSentence(e.target.value)}
-              placeholder="The sentence you met this word in — the gap-fill exercise is built from it."
+              placeholder="The sentence you met this word in. The gap-fill exercise is built from it."
               aria-label="Your own context sentence"
             />
           </Block>
@@ -183,11 +191,74 @@ export function EntryDetailDrawer() {
             </Block>
           )}
 
-          {entry.example_sentences.length > 0 && (
-            <Block title="Examples">
-              <ul className="space-y-1.5 text-[13px] leading-relaxed text-muted-foreground">
-                {entry.example_sentences.map((example) => (
-                  <li key={example}>{example}</li>
+          {/*
+            Examples, and where each one belongs.
+
+            The pack authored every example against a situation — one for a speaking part,
+            one for a Task 2 essay, one academic — and the bank kept only the sentences.
+            A learner who asked "when and where do I use this word" was reading three
+            unlabelled lines. When the pack row is still reachable the situation is shown
+            with the sentence; the plain list below is the fallback for a word the learner
+            added themselves.
+          */}
+          {situations.length > 0 ? (
+            <Block title="Examples, and where to use them">
+              <ul className="space-y-2.5">
+                {situations.map((situation) => {
+                  const where = situationLabel(situation.skill, situation.register);
+                  return (
+                    <li key={situation.text}>
+                      {where && (
+                        <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                          {where}
+                        </p>
+                      )}
+                      <p className="text-[13px] leading-relaxed">{situation.text}</p>
+                    </li>
+                  );
+                })}
+              </ul>
+            </Block>
+          ) : (
+            entry.example_sentences.length > 0 && (
+              <Block title="Examples">
+                <ul className="space-y-1.5 text-[13px] leading-relaxed text-muted-foreground">
+                  {entry.example_sentences.map((example) => (
+                    <li key={example}>{example}</li>
+                  ))}
+                </ul>
+              </Block>
+            )
+          )}
+
+          {(register || usage?.avoid) && (
+            <Block title="When to use it">
+              {register && <p className="text-[13px] leading-relaxed">{register}</p>}
+              {usage?.avoid && (
+                <p className="text-[13px] leading-relaxed text-muted-foreground">{usage.avoid}</p>
+              )}
+            </Block>
+          )}
+
+          {(usage?.confusables.length ?? 0) > 0 && (
+            <Block title="Not the same as">
+              <ul className="space-y-2.5">
+                {usage?.confusables.map((other) => (
+                  <li key={other.term}>
+                    <p className="text-[13px] font-medium">{other.term}</p>
+                    {other.difference && (
+                      <p className="text-[13px] leading-relaxed text-muted-foreground">
+                        {other.difference}
+                      </p>
+                    )}
+                    {other.minimal_pair.length > 0 && (
+                      <ul className="mt-1 space-y-0.5 text-[12px] italic text-muted-foreground">
+                        {other.minimal_pair.map((line) => (
+                          <li key={line}>{line}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
                 ))}
               </ul>
             </Block>
@@ -225,7 +296,7 @@ export function EntryDetailDrawer() {
                   label="Stability"
                   value={
                     entry.srs.stability === null
-                      ? "—"
+                      ? "-"
                       : `${entry.srs.stability.toFixed(1)} days`
                   }
                 />
@@ -236,7 +307,7 @@ export function EntryDetailDrawer() {
               </dl>
             ) : (
               <p className="text-[13px] text-muted-foreground">
-                Not scheduled yet — accept it from the inbox or set it active to start reviewing.
+                Not scheduled yet. Accept it from the inbox or set it active to start reviewing.
               </p>
             )}
             <p className="mt-2 text-[11px] text-muted-foreground">

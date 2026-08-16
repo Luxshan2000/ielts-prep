@@ -46,7 +46,7 @@ const TITLES: Record<ErrorKind, string> = {
 
 const HINTS: Record<ErrorKind, string> = {
   offline:
-    "Everything you have done is saved on disk. The app is reconnecting on its own — this will clear itself.",
+    "Everything you have done is saved on disk. The app is reconnecting on its own, and this will clear itself.",
   provider:
     "BandReady could not reach the model behind this feature. Choose or start a provider in Settings, then try again.",
   generic: "",

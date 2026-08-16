@@ -34,7 +34,7 @@ export default defineFeatureRoute({
         // old socket and the learner would hear two examiners.
         <FeatureErrorBoundary
           feature="live speaking session"
-          hint="The examiner call was stopped. Your recording so far is kept on disk — reload to return to the Speaking room and start again."
+          hint="The examiner call was stopped. Your recording so far is kept on disk. Reload to return to the Speaking room and start again."
           onReset={() => useSessionStore.getState().detach()}
         >
           <LiveSession />
@@ -87,7 +87,7 @@ export default defineFeatureRoute({
         // second examiner talking over the remount.
         <FeatureErrorBoundary
           feature="mock sitting"
-          hint="The test was stopped. Everything you said up to that point is saved on disk — reload to return to the mock room."
+          hint="The test was stopped. Everything you said up to that point is saved on disk. Reload to return to the mock room."
           onReset={() => useSessionStore.getState().detach()}
         >
           <MockSitting />

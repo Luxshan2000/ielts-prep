@@ -25,7 +25,7 @@ export default defineFeatureRoute({
       element: (
         <FeatureErrorBoundary
           feature="vocabulary review"
-          hint="Every card you already rated was saved as you went, so nothing is lost — reloading returns you to the queue."
+          hint="Every card you already rated was saved as you went, so nothing is lost. Reloading returns you to the queue."
         >
           <ReviewSessionPage />
         </FeatureErrorBoundary>

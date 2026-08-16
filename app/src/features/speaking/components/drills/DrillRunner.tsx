@@ -16,17 +16,63 @@ import {
   AlertTriangle,
   CheckCircle2,
   Dumbbell,
+  Keyboard,
   Mic,
   Play,
   RotateCcw,
   Square,
   XCircle,
 } from "lucide-react";
-import { Badge, Button, Card, CardContent, EmptyState, Skeleton } from "@/components/ui";
+import {
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  EmptyState,
+  Skeleton,
+  Textarea,
+} from "@/components/ui";
 import { cn } from "@/lib/cn";
-import { MockInProgressError, fetchCardDrills, fetchItemAudio, submitAttempt } from "./api";
+import {
+  MockInProgressError,
+  fetchCardDrills,
+  fetchItemAudio,
+  fetchSpeechCapabilities,
+  submitAttempt,
+  type SpeechCapabilities,
+} from "./api";
 import { useRecorder } from "@/components/practice/useRecorder";
 import type { CardDrills, DrillItem, DrillResult } from "./types";
+import { StepCount } from "@/components/practice/StepCount";
+
+/**
+ * What to say when this machine cannot read a recording. The server's own wording is
+ * preferred; this is the fallback, and it has to end in something the learner can do.
+ */
+const NO_STT_FALLBACK =
+  "This computer can't turn speech into text yet, so a recording can't be checked. " +
+  "Say it out loud first, then type what you said. The drill checks the words.";
+
+/** Every grader returns a list of sentences; older builds returned one string. */
+function feedbackLines(feedback: DrillResult["feedback"]): string[] {
+  if (!feedback) return [];
+  const lines = Array.isArray(feedback) ? feedback : [feedback];
+  return lines.map((line) => String(line).trim()).filter(Boolean);
+}
+
+/**
+ * The coloured word row for shadowing. The server sends this as `detail.alignment`
+ * (`{expected, heard, status}`), never as a `words` array — reading only `words` meant
+ * the learner was told "Not quite" and never shown which word did not survive.
+ */
+function alignedWords(result: DrillResult): { word: string; ok: boolean }[] {
+  const rows = result.detail?.alignment;
+  if (Array.isArray(rows) && rows.length > 0) {
+    return rows.map((row) => ({ word: row.expected, ok: row.status === "hit" }));
+  }
+  const legacy = result.words;
+  return Array.isArray(legacy) ? (legacy as { word: string; ok: boolean }[]) : [];
+}
 
 const KIND_LABEL: Record<string, string> = {
   shadowing: "Shadowing",
@@ -55,6 +101,16 @@ export function DrillRunner({ cardId, attempted, onPractise }: DrillRunnerProps)
   const [grading, setGrading] = useState(false);
 
   const recorder = useRecorder();
+  // Null until known, so the microphone button is never drawn and then withdrawn.
+  const [speech, setSpeech] = useState<SpeechCapabilities | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    void fetchSpeechCapabilities().then((doc) => active && setSpeech(doc));
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -95,7 +151,7 @@ export function DrillRunner({ cardId, attempted, onPractise }: DrillRunnerProps)
   const advance = useCallback(() => setCursor((c) => c + 1), []);
 
   const grade = useCallback(
-    async (item: DrillItem, payload: { wav?: Blob; choice?: string }) => {
+    async (item: DrillItem, payload: { wav?: Blob; choice?: string; transcript?: string }) => {
       setGrading(true);
       try {
         const result = await submitAttempt({
@@ -172,7 +228,7 @@ export function DrillRunner({ cardId, attempted, onPractise }: DrillRunnerProps)
             <p className="text-[15px] font-semibold">Set finished</p>
             <p className="text-[13px] text-muted-foreground">
               {passed} of {scored.length} clean. Repeat the set tomorrow rather than twice
-              today — spacing is what makes it stick.
+              today. Spacing is what makes it stick.
             </p>
           </div>
           <div className="flex justify-center gap-2">
@@ -191,13 +247,18 @@ export function DrillRunner({ cardId, attempted, onPractise }: DrillRunnerProps)
 
   if (current) {
     return (
+      // Keyed by item: the typed-answer box and the reference audio belong to one
+      // drill, and carrying them into the next one shows the learner somebody else's
+      // sentence.
       <DrillCard
+        key={current.item_id}
         item={current}
         index={cursor}
         total={queue.length}
         result={results[current.item_id]}
         grading={grading}
         recorder={recorder}
+        speech={speech}
         cardId={cardId}
         attempted={attempted}
         onGrade={grade}
@@ -282,9 +343,14 @@ interface DrillCardProps {
   result?: DrillResult;
   grading: boolean;
   recorder: ReturnType<typeof useRecorder>;
+  /** Null while the transcription question is still being asked. */
+  speech: SpeechCapabilities | null;
   cardId: string;
   attempted: boolean;
-  onGrade: (item: DrillItem, payload: { wav?: Blob; choice?: string }) => Promise<void>;
+  onGrade: (
+    item: DrillItem,
+    payload: { wav?: Blob; choice?: string; transcript?: string },
+  ) => Promise<void>;
   onNext: () => void;
 }
 
@@ -295,6 +361,7 @@ function DrillCard({
   result,
   grading,
   recorder,
+  speech,
   cardId,
   attempted,
   onGrade,
@@ -303,6 +370,25 @@ function DrillCard({
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isChoice = item.grading.mode === "choice";
+
+  const [typed, setTyped] = useState("");
+  const [typing, setTyping] = useState(false);
+  // `null` means "not asked yet" — draw the recorder rather than flash a text box.
+  const canRecord = speech === null || speech.transcription;
+  // With no speech-to-text there is no microphone path at all, so typing is not a
+  // fallback here, it is the drill. Never leave the learner with a dead button.
+  const typedOnly = speech !== null && !speech.transcription;
+  const showTyping = typedOnly || typing;
+  /**
+   * A graded take that carried no words at all. The server's verdict for this is
+   * "Nothing came through. Check the microphone" — which is right when the microphone
+   * was muted and wrong whenever the recogniser was simply absent, and either way it
+   * leaves the learner with nothing but the same button. Offer the keyboard instead.
+   */
+  const nothingHeard =
+    result !== undefined &&
+    !isChoice &&
+    String(result.you_said ?? result.heard ?? "").trim() === "";
 
   useEffect(() => {
     let active = true;
@@ -324,11 +410,9 @@ function DrillCard({
   return (
     <Card>
       <CardContent className="space-y-5 p-6">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center gap-2">
+          <StepCount index={index} total={total} />
           <Badge>{KIND_LABEL[item.kind] ?? item.kind}</Badge>
-          <span className="text-[12px] text-muted-foreground">
-            {index + 1} of {total}
-          </span>
         </div>
 
         <div>
@@ -371,21 +455,64 @@ function DrillCard({
           </div>
         )}
 
-        {!result && !isChoice && (
-          <div className="flex items-center gap-3">
-            {recorder.state === "recording" ? (
-              <Button variant="destructive" onClick={recorder.stop}>
-                <Square className="h-4 w-4" aria-hidden="true" />
-                Stop ({recorder.remaining ?? 0}s)
-              </Button>
-            ) : (
-              <Button onClick={() => void take()} loading={grading} disabled={grading}>
-                <Mic className="h-4 w-4" aria-hidden="true" />
-                Record {item.seconds}s
-              </Button>
+        {!isChoice && (!result || nothingHeard) && (
+          <div className="space-y-3">
+            {canRecord && !result && (
+              <div className="flex flex-wrap items-center gap-3">
+                {recorder.state === "recording" ? (
+                  <Button variant="destructive" onClick={recorder.stop}>
+                    <Square className="h-4 w-4" aria-hidden="true" />
+                    Stop ({recorder.remaining ?? 0}s)
+                  </Button>
+                ) : (
+                  <Button onClick={() => void take()} loading={grading} disabled={grading}>
+                    <Mic className="h-4 w-4" aria-hidden="true" />
+                    Record {item.seconds}s
+                  </Button>
+                )}
+                {!showTyping && (
+                  <Button variant="ghost" size="sm" onClick={() => setTyping(true)}>
+                    <Keyboard className="h-4 w-4" aria-hidden="true" />
+                    Type it instead
+                  </Button>
+                )}
+                {recorder.error && (
+                  <p className="text-[12px] text-destructive">{recorder.error}</p>
+                )}
+              </div>
             )}
-            {recorder.error && (
-              <p className="text-[12px] text-destructive">{recorder.error}</p>
+
+            {(showTyping || nothingHeard) && (
+              <div className="space-y-2">
+                <p className="text-[12px] leading-5 text-muted-foreground">
+                  {nothingHeard
+                    ? "Nothing was picked up from that recording. Rather than record it again, write down what you said. The drill checks the words either way."
+                    : typedOnly
+                      ? speech?.reason ?? NO_STT_FALLBACK
+                      : "Say it out loud first, then write down exactly what you said, including anything you got wrong."}
+                </p>
+                <Textarea
+                  className="min-h-[72px]"
+                  aria-label="Type what you said"
+                  placeholder="What you said, word for word…"
+                  value={typed}
+                  onChange={(e) => setTyped(e.target.value)}
+                />
+                <div className="flex flex-wrap items-center gap-2">
+                  <Button
+                    loading={grading}
+                    disabled={grading || typed.trim() === ""}
+                    onClick={() => void onGrade(item, { transcript: typed.trim() })}
+                  >
+                    Check what I said
+                  </Button>
+                  {!typedOnly && !nothingHeard && (
+                    <Button variant="ghost" size="sm" onClick={() => setTyping(false)}>
+                      Use the microphone
+                    </Button>
+                  )}
+                </div>
+              </div>
             )}
           </div>
         )}
@@ -455,6 +582,9 @@ function ResultBody({
   last: boolean;
 }) {
   const ok = result.passed !== false;
+  const words = alignedWords(result);
+  const heard = result.you_said ?? result.heard ?? "";
+  const lines = feedbackLines(result.feedback);
   return (
     <div className="space-y-3 rounded-lg border border-border p-4">
       <div className="flex items-center gap-2">
@@ -471,9 +601,9 @@ function ResultBody({
         </p>
       </div>
 
-      {result.words && result.words.length > 0 && (
+      {words.length > 0 && (
         <p className="text-[14px] leading-7">
-          {result.words.map((w, i) => (
+          {words.map((w, i) => (
             <span
               key={`${w.word}-${i}`}
               className={cn(
@@ -487,10 +617,12 @@ function ResultBody({
         </p>
       )}
 
-      {result.heard && (
-        <p className="text-[12px] text-muted-foreground">Heard: “{result.heard}”</p>
-      )}
-      {result.feedback && <p className="text-[13px] leading-6">{result.feedback}</p>}
+      {heard && <p className="text-[12px] text-muted-foreground">Heard: “{heard}”</p>}
+      {lines.map((line, i) => (
+        <p key={i} className="text-[13px] leading-6">
+          {line}
+        </p>
+      ))}
 
       <Button size="sm" onClick={onNext}>
         {last ? "Finish" : "Next drill"}

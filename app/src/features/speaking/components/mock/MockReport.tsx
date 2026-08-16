@@ -218,7 +218,7 @@ export function MockReport() {
                       className="flex min-w-[74px] flex-col items-center justify-center rounded-xl border border-dashed border-border px-3 py-2"
                       title={`${label} was not assessed`}
                     >
-                      <span className="text-sm font-semibold text-muted-foreground">—</span>
+                      <span className="text-sm font-semibold text-muted-foreground">-</span>
                       <span className="mt-0.5 text-[11px] text-muted-foreground">{short}</span>
                     </div>
                   ) : (
@@ -277,7 +277,7 @@ export function MockReport() {
             </dl>
             <p className="mt-3 text-[12px] text-muted-foreground">
               Descriptors are our own paraphrase of the public criteria, written to be read
-              quickly — not the official wording.
+              quickly, not the official wording.
             </p>
           </CardContent>
         </Card>

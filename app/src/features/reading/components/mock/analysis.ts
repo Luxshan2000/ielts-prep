@@ -139,7 +139,7 @@ export function verdictOf(review: ReviewRecord, timeMs: Record<string, number>):
       kind: "clean",
       headline: "Forty out of forty.",
       detail:
-        "Nothing to diagnose. Sit the other format, or move to a harder passage — this one is no longer measuring you.",
+        "Nothing to diagnose. Sit the other format, or move to a harder passage. This one is no longer measuring you.",
       tone: "good",
     };
   }
@@ -164,7 +164,7 @@ export function verdictOf(review: ReviewRecord, timeMs: Record<string, number>):
       kind: "location",
       headline: "You lost most of these looking in the wrong place.",
       detail:
-        "The damage is in the matching types, whose answers are not in passage order — which means the search was unbounded. Work the paragraph map before the questions, and place the items you are certain of first so each one narrows what is left.",
+        "The damage is in the matching types, whose answers are not in passage order, which means the search was unbounded. Work the paragraph map before the questions, and place the items you are certain of first so each one narrows what is left.",
       tone: "warn",
     };
   }
@@ -173,7 +173,7 @@ export function verdictOf(review: ReviewRecord, timeMs: Record<string, number>):
     kind: "technique",
     headline: "You were in the right place and chose wrong.",
     detail:
-      "The damage is concentrated in the deciding types rather than the finding ones. That is the paraphrase link and the three-way judgement — read the worked solutions for the ones you missed and name the trap each time before you look.",
+      "The damage is concentrated in the deciding types rather than the finding ones. That is the paraphrase link and the three-way judgement. Read the worked solutions for the ones you missed and name the trap each time before you look.",
     tone: "warn",
   };
 }
@@ -217,7 +217,7 @@ export function buildNextActions(
     const { qtype, correct, total } = review.weakest_type;
     actions.push({
       id: "drill",
-      title: `Drill ${qtypeLabel(qtype)} — ${correct}/${total} this paper`,
+      title: `Drill ${qtypeLabel(qtype)}: ${correct}/${total} this paper`,
       detail:
         "A drill pulls this type from across the whole bank and shows only the anchor paragraphs, so it trains the decision rather than the reading stamina.",
       to: `/reading?tab=drills&qtype=${encodeURIComponent(qtype)}`,
@@ -233,7 +233,7 @@ export function buildNextActions(
       id: `coach-${worst.passageId}`,
       title: `Study ${worst.title} in the coach`,
       detail:
-        `${worst.correct} of ${worst.total} on this one. Its worked solutions are unlocked now, and so are its paraphrase pairs — that is the part that transfers to the next passage.`,
+        `${worst.correct} of ${worst.total} on this one. Its worked solutions are unlocked now, and so are its paraphrase pairs. That is the part that transfers to the next passage.`,
       to: `/reading/coach/${encodeURIComponent(worst.passageId)}`,
       cta: "Open the coach",
     });

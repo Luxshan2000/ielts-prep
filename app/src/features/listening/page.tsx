@@ -111,7 +111,7 @@ export function ListeningHome() {
           ) : (
             <p>
               <span className="font-semibold text-foreground">Practice:</span> replay freely, seek,
-              slow the audio to 0.75×, and reveal a part&rsquo;s transcript once you have answered
+              slow the audio to 0.75×, and reveal a part's transcript once you have answered
               it. Practice attempts report a raw score.
             </p>
           )}
@@ -152,7 +152,7 @@ export function ListeningHome() {
             <p className="text-[13px] text-muted-foreground">
               A test here is yours to set up: sit it under exam conditions or in practice mode,
               and the transcript opens as soon as you submit. The mock paper is the same forty
-              questions with none of that — one fixed sitting, no help anywhere in it, and a
+              questions with none of that: one fixed sitting, no help anywhere in it, and a
               report that sends you into the coach for the parts you just heard.
             </p>
             <div className="grid gap-3 lg:grid-cols-2">
@@ -174,7 +174,7 @@ export function ListeningHome() {
                           className="flex items-center justify-between gap-2 text-[12px]"
                         >
                           <span className="min-w-0 truncate">
-                            <span className="font-medium">Part {part.part}</span> — {part.title}
+                            <span className="font-medium">Part {part.part}:</span> {part.title}
                           </span>
                           {part.accent_set && (
                             <Badge tone="outline">{accentLabel(part.accent_set)}</Badge>
@@ -201,7 +201,7 @@ export function ListeningHome() {
                       </Button>
                       {!test.audio_ready && (
                         <span className="text-[12px] text-muted-foreground">
-                          Prepare the audio to unlock this test.
+                          Prepare the audio before you can start this test.
                         </span>
                       )}
                     </div>
@@ -226,8 +226,8 @@ export function ListeningHome() {
               Single parts
             </h2>
             <p className="text-[13px] text-muted-foreground">
-              Ten questions at a time, always in practice mode. A single part reports a raw score —
-              bands need a full test.
+              Ten questions at a time, always in practice mode. A single part reports a raw score.
+              Bands need a full test.
             </p>
             <div className="grid gap-2 lg:grid-cols-2">
               {scripts?.map((script) => (
@@ -238,7 +238,7 @@ export function ListeningHome() {
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div className="min-w-0">
                       <p className="truncate text-[13px] font-semibold">
-                        Part {script.part} — {script.title}
+                        Part {script.part}: {script.title}
                       </p>
                       <p className="text-[12px] text-muted-foreground">
                         {script.questions} questions · {script.audio.accent_label}
@@ -292,7 +292,7 @@ export function ListeningHome() {
           ) : (
             <p className="rounded-xl border border-dashed border-border bg-muted/40 p-3 text-[13px] text-muted-foreground">
               Accent training becomes available once a content pack with listening scripts is
-              installed — it re-voices an existing script rather than creating new material.
+              installed. It re-voices an existing script rather than creating new material.
             </p>
           )}
         </section>
@@ -315,7 +315,7 @@ export function ListeningHome() {
             </div>
           ) : (
             <p className="rounded-xl border border-dashed border-border bg-muted/40 p-3 text-[13px] text-muted-foreground">
-              Drills are built from the scripts in your content pack — install one to practise.
+              Drills are built from the scripts in your content pack. Install one to practise.
             </p>
           )}
         </section>

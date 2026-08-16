@@ -173,7 +173,7 @@ export function CoachPicker() {
                 ) : (
                   <span className="flex items-start gap-2 text-[13px] leading-6 text-muted-foreground">
                     <GraduationCap className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                    No teaching payload on this prompt — the coach shows the task only.
+                    No teaching payload on this prompt, so the coach shows the task only.
                   </span>
                 )}
 

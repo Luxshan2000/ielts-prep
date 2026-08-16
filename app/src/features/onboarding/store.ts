@@ -62,7 +62,7 @@ function detailOf(err: unknown): string {
   return friendlyMessage(
     err,
     "the request failed",
-    "The BandReady sidecar isn't responding — setup can't be saved right now.",
+    "The BandReady sidecar isn't responding, so setup can't be saved right now.",
   );
 }
 
@@ -77,9 +77,25 @@ function detailOf(err: unknown): string {
  */
 const DRAFT_KEY = "br-onboarding-draft";
 
+/**
+ * What survives a reload.
+ *
+ * `phase` and `placement_id` are here because the sitting itself did not survive:
+ * the sidecar has kept the whole thing on a `practice_sessions` row since day one,
+ * but the app only ever remembered the wizard, so closing the laptop halfway
+ * through Reading reopened on step 1 of the wizard and started a *second* sitting
+ * that abandoned the first. `answered`, `scoring_at_start` and `estimated_minutes`
+ * ride along because they exist nowhere else: without them the result screen would
+ * tell somebody who wrote an essay that their Writing band came from a self-rating.
+ */
 interface StoredDraft {
   draft: ProfileDraft;
   step_index: number;
+  phase?: Phase;
+  placement_id?: string | null;
+  answered?: string[];
+  scoring_at_start?: boolean | null;
+  estimated_minutes?: number | null;
 }
 
 function loadStoredDraft(): StoredDraft {
@@ -88,12 +104,21 @@ function loadStoredDraft(): StoredDraft {
     const raw = window.localStorage.getItem(DRAFT_KEY);
     if (!raw) return empty;
     const saved = JSON.parse(raw) as Partial<StoredDraft>;
+    // Only "placement" is resumable. "result" holds a document we never stored, and
+    // restoring it would render a results screen with no results on it.
+    const phase: Phase = saved.phase === "placement" ? "placement" : "wizard";
     return {
       draft: { ...DEFAULT_DRAFT, ...(saved.draft ?? {}) },
       step_index:
         typeof saved.step_index === "number"
           ? Math.max(0, Math.min(WIZARD_STEPS.length - 1, saved.step_index))
           : 0,
+      phase,
+      placement_id: typeof saved.placement_id === "string" ? saved.placement_id : null,
+      answered: Array.isArray(saved.answered) ? saved.answered.filter((s) => typeof s === "string") : [],
+      scoring_at_start: typeof saved.scoring_at_start === "boolean" ? saved.scoring_at_start : null,
+      estimated_minutes:
+        typeof saved.estimated_minutes === "number" ? saved.estimated_minutes : null,
     };
   } catch {
     // A half-written or stale blob must never be the reason setup won't open.
@@ -101,15 +126,42 @@ function loadStoredDraft(): StoredDraft {
   }
 }
 
-function persistDraft(draft: ProfileDraft, stepIndex: number): void {
+function persistDraft(draft: ProfileDraft, stepIndex: number, sitting?: Partial<StoredDraft>): void {
   try {
     window.localStorage.setItem(
       DRAFT_KEY,
-      JSON.stringify({ draft, step_index: stepIndex } satisfies StoredDraft),
+      JSON.stringify({
+        draft,
+        step_index: stepIndex,
+        phase: "wizard",
+        placement_id: null,
+        answered: [],
+        scoring_at_start: null,
+        estimated_minutes: null,
+        ...sitting,
+      } satisfies StoredDraft),
     );
   } catch {
     /* private mode — the wizard still works, it just won't survive a reload */
   }
+}
+
+/** Remember the sitting after every server round-trip, so a crash costs one step at most. */
+function persistSitting(s: {
+  draft: ProfileDraft;
+  stepIndex: number;
+  placementId: string | null;
+  answered: string[];
+  scoringAtStart: boolean | null;
+  estimatedMinutes: number | null;
+}): void {
+  persistDraft(s.draft, s.stepIndex, {
+    phase: "placement",
+    placement_id: s.placementId,
+    answered: s.answered,
+    scoring_at_start: s.scoringAtStart,
+    estimated_minutes: s.estimatedMinutes,
+  });
 }
 
 function clearStoredDraft(): void {
@@ -128,7 +180,7 @@ export function scoringStateSentence(result: VerifyResult | null): string {
   if (result.ok) return "Marking is ready.";
   switch (result.state) {
     case "unreachable":
-      return "The model you chose isn't answering — it may not be started yet.";
+      return "The model you chose isn't answering. It may not be started yet.";
     case "timeout":
       return "The model took too long to answer. It may still be loading.";
     case "unauthorized":
@@ -188,6 +240,12 @@ interface OnboardingState {
   answered: string[];
   /** Whether marking was reachable when the sitting began. */
   scoringAtStart: boolean | null;
+  /**
+   * True while a reopened app is fetching the step it left off on. Distinct from
+   * `submitting`, because `PlacementRunner` renders "scoring your placement" for a
+   * null step and that is the wrong thing to say to somebody who just came back.
+   */
+  resuming: boolean;
 
   setDraft: (patch: Partial<ProfileDraft>) => void;
   goTo: (index: number) => void;
@@ -209,6 +267,8 @@ interface OnboardingState {
   cancelDownload: (artifactId: string) => Promise<void>;
 
   startPlacement: () => Promise<boolean>;
+  /** Reopen the sitting this app was in the middle of, or fall back to the wizard. */
+  resumePlacement: () => Promise<void>;
   answerStep: (payload: Record<string, unknown>) => Promise<void>;
   skipStep: () => Promise<void>;
   completePlacement: () => Promise<void>;
@@ -222,7 +282,7 @@ const jobControllers = new Map<string, { jobId: string; abort: AbortController }
 const restored = loadStoredDraft();
 
 export const useOnboardingStore = create<OnboardingState>((set, get) => ({
-  phase: "wizard",
+  phase: restored.phase ?? "wizard",
   stepIndex: restored.step_index,
   draft: restored.draft,
   error: null,
@@ -247,14 +307,15 @@ export const useOnboardingStore = create<OnboardingState>((set, get) => ({
   modelsError: null,
   loadingModels: false,
 
-  placementId: null,
+  placementId: restored.placement_id ?? null,
   progress: null,
   step: null,
-  estimatedMinutes: null,
+  estimatedMinutes: restored.estimated_minutes ?? null,
   submitting: false,
   result: null,
-  answered: [],
-  scoringAtStart: null,
+  answered: restored.answered ?? [],
+  scoringAtStart: restored.scoring_at_start ?? null,
+  resuming: restored.phase === "placement",
 
   setDraft: (patch) =>
     set((s) => {
@@ -488,7 +549,7 @@ export const useOnboardingStore = create<OnboardingState>((set, get) => ({
         ...s.downloads,
         [artifactId]: {
           pct: null,
-          detail: "cancelled — the partial file was kept",
+          detail: "cancelled, the partial file was kept",
           state: "cancelled",
           error: null,
         },
@@ -508,7 +569,9 @@ export const useOnboardingStore = create<OnboardingState>((set, get) => ({
         estimatedMinutes: res.estimated_minutes,
         answered: [],
         scoringAtStart: get().scoring?.ok ?? null,
+        resuming: false,
       });
+      persistSitting(get());
       // Every section may have been unavailable — finish immediately rather than
       // parking the learner on a blank screen.
       if (res.next === null) await get().completePlacement();
@@ -518,6 +581,52 @@ export const useOnboardingStore = create<OnboardingState>((set, get) => ({
       return false;
     } finally {
       set({ busy: false });
+    }
+  },
+
+  resumePlacement: async () => {
+    const { placementId } = get();
+    set({ resuming: true, error: null });
+    try {
+      // No `placement_id` is still a valid ask: the sidecar resolves the profile's
+      // one open sitting, so a lost local id does not lose the sitting with it.
+      const query = placementId ? `?placement_id=${encodeURIComponent(placementId)}` : "";
+      const res = await api.get<PlacementAdvanceResponse>(`/api/v1/placement/next${query}`);
+      set({
+        phase: "placement",
+        placementId: res.progress?.placement_id ?? placementId,
+        progress: res.progress,
+        step: res.next,
+      });
+      persistSitting(get());
+      // Answered everything before the app closed: score it rather than showing an
+      // empty sitting with no way forward.
+      if (res.next === null) await get().completePlacement();
+    } catch (err) {
+      // 404 (a cleared database) and 409 (nothing open) mean the sitting is really gone:
+      // put the learner back on the offer, not on an error, and keep the profile answers
+      // because the offer's other button needs them.
+      const gone = err instanceof ApiError && (err.status === 404 || err.status === 409);
+      if (gone) {
+        persistDraft(get().draft, WIZARD_STEPS.length - 1);
+        set({
+          phase: "wizard",
+          stepIndex: WIZARD_STEPS.length - 1,
+          placementId: null,
+          progress: null,
+          step: null,
+          answered: [],
+          error:
+            "Your unfinished placement test could not be reopened. You can take it again from here, or skip it and start from your self-rating.",
+        });
+        return;
+      }
+      // Anything else — the sidecar still starting up behind the window, a timeout — is
+      // temporary. Throwing the sitting away for a slow socket would abandon a real one
+      // on the server, so stay put and offer to try again.
+      set({ error: detailOf(err) });
+    } finally {
+      set({ resuming: false });
     }
   },
 
@@ -538,6 +647,7 @@ export const useOnboardingStore = create<OnboardingState>((set, get) => ({
         answered:
           worked && !s.answered.includes(step.skill) ? [...s.answered, step.skill] : s.answered,
       }));
+      persistSitting(get());
       if (res.next === null) await get().completePlacement();
     } catch (err) {
       set({ error: detailOf(err) });

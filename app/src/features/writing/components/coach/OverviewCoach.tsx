@@ -57,7 +57,7 @@ export function OverviewCoach({
       <Callout tone="teach" title="Why this tab exists">
         One paragraph decides more of your Task Achievement score than the rest of the answer put
         together. It has to be true of the whole visual, it has to be separate from the detail,
-        and below band 7 it should carry no figures at all — because an overview with numbers in
+        and below band 7 it should carry no figures at all, because an overview with numbers in
         it decays into another data sentence.
       </Callout>
 
@@ -80,9 +80,9 @@ export function OverviewCoach({
             </p>
             <p className="mt-1 text-[13px] leading-6 text-muted-foreground">
               <span className="tabular font-semibold text-foreground">
-                {brief.figure_budget.min}–{brief.figure_budget.max}
+                {brief.figure_budget.min} to {brief.figure_budget.max}
               </span>{" "}
-              across the body — and none of them in the overview. Every extra figure costs you a
+              across the body, and none of them in the overview. Every extra figure costs you a
               comparison, because a comparative claim is worth two bare data sentences.
             </p>
           </div>
@@ -178,7 +178,7 @@ export function OverviewCoach({
             </p>
             <p className="text-[13px] leading-6 text-muted-foreground">
               Selecting what matters is the skill being assessed. Handing you two finished
-              whole-chart sentences first does not teach it — it does it for you.
+              whole-chart sentences first does not teach it. It does it for you.
             </p>
           </div>
         </div>
@@ -188,7 +188,7 @@ export function OverviewCoach({
             <section className="space-y-3">
               <SectionHead
                 title="Yours, beside the two this chart needed"
-                hint="Not a score. Two overviews can both be right — read them for what they cover, not for wording."
+                hint="Not a score. Two overviews can both be right. Read them for what they cover, not for wording."
               />
               <div className="grid gap-3 lg:grid-cols-2">
                 <div className="space-y-2 rounded-xl border border-border bg-card p-3.5">
@@ -208,7 +208,7 @@ export function OverviewCoach({
                   ) : (
                     <p className="text-[13px] leading-6 text-muted-foreground">
                       You went straight to the editor this time. Next chart, spend the two
-                      minutes here first — it is the cheapest band in the task.
+                      minutes here first. It is the cheapest band in the task.
                     </p>
                   )}
                 </div>

@@ -19,7 +19,7 @@ import type {
 } from "./types";
 
 function actionDetail(err: unknown): string {
-  return friendlyMessage(err, "that did not go through — try again in a moment");
+  return friendlyMessage(err, "that did not go through, so try again in a moment");
 }
 
 interface HomeState {
@@ -185,4 +185,15 @@ export function todaysSession(
   plan: PlanResponse | null,
 ): PlanSession | null {
   return summary?.today ?? plan?.today ?? null;
+}
+
+/**
+ * The next session still scheduled, or `null` when `GET /plan` is unavailable.
+ *
+ * The sidecar's `next` includes today while today is unfinished, so it is only
+ * quoted as "next" once today has nothing left to run — a rest day, or a session
+ * already marked done. `/progress/summary` does not carry it at all.
+ */
+export function nextSession(plan: PlanResponse | null): PlanSession | null {
+  return plan?.next ?? null;
 }

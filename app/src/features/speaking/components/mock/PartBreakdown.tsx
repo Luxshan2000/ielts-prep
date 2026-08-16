@@ -170,7 +170,7 @@ export function PartBreakdown({ analysis, className }: PartBreakdownProps) {
 
       <p className="text-[12px] leading-6 text-muted-foreground">
         {analysis.strongest || analysis.weakest
-          ? "Strongest and weakest describe where the examiner's evidence and your delivery metrics fell — not a band per part. The test is marked once, as a whole."
+          ? "Strongest and weakest describe where the examiner's evidence and your delivery metrics fell, not a band per part. The test is marked once, as a whole."
           : "The three parts were too close, or produced too little quoted evidence, to rank honestly. No part is called out."}
       </p>
 

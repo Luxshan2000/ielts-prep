@@ -126,7 +126,7 @@ afterEach(() => {
 describe("AttemptReport", () => {
   it("shows the overall band, the criteria and the inline annotation", () => {
     wrap(<AttemptReport attempt={makeAttempt()} evaluation={evaluation} />);
-    expect(screen.getByLabelText("Band 6.5 — Overall")).toBeInTheDocument();
+    expect(screen.getByLabelText("Band 6.5, Overall")).toBeInTheDocument();
     expect(screen.getByText("The position is clear but thinly developed.")).toBeInTheDocument();
     expect(screen.getByText(/13 words is under the 250-word minimum/)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /rewrite with feedback/i })).toBeInTheDocument();
@@ -136,7 +136,7 @@ describe("AttemptReport", () => {
     const user = userEvent.setup();
     wrap(<AttemptReport attempt={makeAttempt()} evaluation={evaluation} />);
     await user.click(screen.getByRole("tab", { name: /your answer/i }));
-    expect(screen.getByRole("button", { name: /^error: Grammar —/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /^error: Grammar:/ })).toBeInTheDocument();
     expect(screen.getByText(/Notes that couldn't be pinned/)).toBeInTheDocument();
   });
 

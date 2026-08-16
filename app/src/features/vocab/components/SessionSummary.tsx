@@ -55,7 +55,7 @@ export function SessionSummary({
             <p className="text-[13px] text-muted-foreground">
               {outcomes.length === 0
                 ? "Every rating is saved the moment you press it, so nothing was lost."
-                : "Each rating is already saved — the schedule below is live."}
+                : "Each rating is already saved, and the schedule below is live."}
             </p>
           </div>
 
@@ -63,7 +63,7 @@ export function SessionSummary({
             <Stat label="Time" value={formatDuration(elapsedMs / 1000)} />
             <Stat
               label="Accuracy"
-              value={accuracy === null ? "—" : `${accuracy}%`}
+              value={accuracy === null ? "-" : `${accuracy}%`}
               hint={
                 graded.length === 0
                   ? "no auto-checked cards"

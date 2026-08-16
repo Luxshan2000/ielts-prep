@@ -52,7 +52,7 @@ import { TASK_LABELS, genreLabel, useWritingStore } from "../../store";
  * sitting record the mock itself keeps.
  */
 const EXAM_CONDITIONS_REASON =
-  "You have a mock paper open. Model answers stay shut until the hour is over — a mock you can read a model during is not a mock.";
+  "You have a mock paper open. Model answers stay shut until the hour is over. A mock you can read a model during is not a mock.";
 
 type CoachTab = "task" | "overview" | "plan" | "model" | "compare" | "language";
 
@@ -206,7 +206,7 @@ export function WritingCoach() {
               <EmptyState
                 icon={GraduationCap}
                 title="No teaching material on this prompt"
-                description="This prompt was authored before the teaching payload existed, or this build's content pack predates it. You can still write it — the marking, the report and the rewrite all work exactly the same."
+                description="This prompt was authored before the teaching payload existed, or this build's content pack predates it. You can still write it: the marking, the report and the rewrite all work exactly the same."
                 action={
                   <Button loading={starting} onClick={() => void write()}>
                     <PenLine className="h-4 w-4" aria-hidden="true" />
@@ -253,7 +253,7 @@ export function WritingCoach() {
       title={payload.teaches ? "Writing coach" : (TASK_LABELS[prompt.task_type] ?? "Writing coach")}
       description={
         payload.teaches ??
-        `${TASK_LABELS[prompt.task_type]} · ${genreLabel(prompt.genre)} — everything this prompt can teach, in one place.`
+        `${TASK_LABELS[prompt.task_type]} · ${genreLabel(prompt.genre)}. Everything this prompt can teach, in one place.`
       }
       actions={
         <div className="flex items-center gap-2">
@@ -285,7 +285,7 @@ export function WritingCoach() {
         >
           <p className="text-[13px] leading-6 text-muted-foreground">
             A mock paper is open, so the model answers and the comparison are shut until it is
-            finished. The task, the plan and the language bank stay available — they were
+            finished. The task, the plan and the language bank stay available. They were
             available before you started too.
           </p>
           <Button size="sm" variant="outline" onClick={() => navigate("/writing/mock")}>

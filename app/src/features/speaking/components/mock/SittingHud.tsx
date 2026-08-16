@@ -93,7 +93,7 @@ export function SittingHud({ phase, part, socket, recording, className }: Sittin
               </span>
               <span className="sr-only">
                 Part {n}
-                {state === "current" ? " — in progress" : state === "done" ? " — finished" : ""}
+                {state === "current" ? ", in progress" : state === "done" ? ", finished" : ""}
               </span>
             </li>
           );
@@ -102,7 +102,7 @@ export function SittingHud({ phase, part, socket, recording, className }: Sittin
 
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold" aria-live="polite">
-          {shownPart ? `Part ${shownPart} — ${copy.label}` : copy.label}
+          {shownPart ? `Part ${shownPart}: ${copy.label}` : copy.label}
         </p>
         {copy.note && (
           <p className="mt-0.5 truncate text-[12px] text-muted-foreground">{copy.note}</p>

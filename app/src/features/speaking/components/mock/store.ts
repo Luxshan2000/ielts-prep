@@ -18,7 +18,7 @@ import type { SessionRecord, StartedSession } from "../../store";
 import { abandonMock, hangUp, scoreSession, startMockSession } from "./api";
 
 const OFFLINE_HINT =
-  "Couldn't reach the practice engine. It may still be starting — wait a few seconds and retry.";
+  "Couldn't reach the practice engine. It may still be starting. Wait a few seconds and retry.";
 
 function message(err: unknown, fallback: string): string {
   return friendlyMessage(err, fallback, OFFLINE_HINT);
@@ -146,7 +146,7 @@ export const useMockStore = create<MockState>((set, get) => ({
         scoring: false,
         scoreError: message(
           err,
-          "Marking failed. Your recording and transcript are saved — you can retry.",
+          "Marking failed. Your recording and transcript are saved. You can retry.",
         ),
       });
       return null;

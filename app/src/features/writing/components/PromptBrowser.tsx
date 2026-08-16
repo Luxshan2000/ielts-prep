@@ -214,7 +214,7 @@ export function PromptBrowser() {
 
       {generating && generateDetail && (
         <p role="status" className="text-[12px] text-muted-foreground">
-          Writing a new prompt — {generateDetail}
+          Writing a new prompt: {generateDetail}
         </p>
       )}
       {generateError && (

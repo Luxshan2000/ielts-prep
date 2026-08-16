@@ -78,7 +78,7 @@ export function PrepPad({ card, preparing, notes, onNotesChange, className }: Pr
           onChange={(e) => onNotesChange(e.target.value)}
           rows={7}
           spellCheck={false}
-          placeholder="Keywords only — you will not have time to read sentences back."
+          placeholder="Keywords only. You will not have time to read sentences back."
           className="mt-2 flex-1 text-[15px] leading-7"
         />
         <p className="mt-2 text-[11px] text-muted-foreground">

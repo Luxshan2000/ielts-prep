@@ -58,6 +58,36 @@ export interface VocabSourceRef {
   detail: string | null;
 }
 
+/** One authored sentence together with where it belongs. */
+export interface VocabSituation {
+  text: string;
+  /** "spoken" | "written" | "academic" | "both" — label it with `registerLabel`. */
+  register: string | null;
+  /** "speaking_p2", "writing_t2", … — label it with `skillLabel`. */
+  skill: string | null;
+}
+
+export interface VocabConfusable {
+  term: string;
+  difference: string;
+  minimal_pair: string[];
+}
+
+/**
+ * How and where to use a word — the pack material `vocab_entries` has no columns for.
+ *
+ * Deck opt-in copies eight fields and drops the rest, so the situations a word belongs in,
+ * whether it is a speaking or a writing word, and the thing not to say with it never
+ * reached the bank. `GET /vocab/entries/{id}` reads them back off the pack row
+ * (`routes/vocab.py::_usage_guidance`); it is absent when the pack knows nothing extra.
+ */
+export interface VocabUsage {
+  register: string | null;
+  avoid: string | null;
+  situations: VocabSituation[];
+  confusables: VocabConfusable[];
+}
+
 export interface VocabEntry {
   id: string;
   headword: string;
@@ -81,6 +111,8 @@ export interface VocabEntry {
   /** The first provenance row — only populated on bank/inbox reads. */
   source: VocabSourceRef | null;
   srs: SrsCardPublic | null;
+  /** Only on the single-entry read, and only when the pack carries more than the bank. */
+  usage?: VocabUsage | null;
 }
 
 // ------------------------------------------------------------------ exercises

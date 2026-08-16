@@ -65,7 +65,7 @@ export function VocabPage() {
   return (
     <PageShell
       title="Vocabulary"
-      description="Your own words, brought back just before you would have forgotten them — and nothing joins the queue without you."
+      description="Your own words, brought back just before you would have forgotten them. Nothing joins the queue without you."
       actions={
         // The Review tab already leads with this button, 200 px lower and twice the
         // size. Two of the same control on one screen teaches a learner that the app

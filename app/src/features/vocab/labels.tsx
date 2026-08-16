@@ -90,6 +90,58 @@ export function topicLabel(tag: string): string {
   return tag.replace(/-/g, " ");
 }
 
+/**
+ * Where a word belongs, in words a learner can act on.
+ *
+ * The pack stores "spoken" / "written" / "academic" / "both", which read as labels on the
+ * word rather than as advice. What somebody preparing for IELTS needs to know is which part
+ * of the exam to use it in.
+ */
+export const REGISTER_LABELS: Record<string, string> = {
+  spoken: "Best in the speaking test",
+  written: "Best in writing",
+  academic: "Best in academic writing",
+  both: "Works in both speaking and writing",
+  neutral: "Works in both speaking and writing",
+};
+
+export function registerLabel(register: string | null | undefined): string | null {
+  if (!register) return null;
+  return REGISTER_LABELS[register.trim().toLowerCase()] ?? null;
+}
+
+/** Short form, for a chip beside one example sentence. */
+export const REGISTER_SHORT: Record<string, string> = {
+  spoken: "Speaking",
+  written: "Writing",
+  academic: "Academic writing",
+  both: "Speaking or writing",
+  neutral: "Speaking or writing",
+};
+
+/** The pack's `skill_hook` values, named as the part of the exam they belong to. */
+export const SKILL_LABELS: Record<string, string> = {
+  speaking_p1: "Speaking Part 1",
+  speaking_p2: "Speaking Part 2",
+  speaking_p3: "Speaking Part 3",
+  writing_t1_academic: "Writing Task 1 (Academic)",
+  writing_t1_general: "Writing Task 1 (General)",
+  writing_gt_letter: "a General Training letter",
+  writing_t2: "Writing Task 2",
+  reading: "Reading",
+};
+
+/** "Speaking Part 2" when the pack names a part, otherwise the plain register. */
+export function situationLabel(
+  skill: string | null | undefined,
+  register: string | null | undefined,
+): string | null {
+  const named = skill ? SKILL_LABELS[skill.trim().toLowerCase()] : undefined;
+  if (named) return named;
+  if (!register) return null;
+  return REGISTER_SHORT[register.trim().toLowerCase()] ?? null;
+}
+
 /** The sidecar's placeholder while background enrichment has not run yet (§3.2). */
 export const PENDING_DEFINITION = "(pending)";
 
@@ -101,7 +153,7 @@ export const STATUS_META: Record<VocabStatus, { label: string; tone: BadgeTone; 
   suggested: {
     label: "Suggested",
     tone: "warning",
-    hint: "Waiting in your inbox — not scheduled until you accept it.",
+    hint: "Waiting in your inbox. It is not scheduled until you accept it.",
   },
   active: { label: "Active", tone: "primary", hint: "In your review rotation." },
   suspended: {
@@ -170,7 +222,7 @@ export const EXERCISE_META: Record<ExerciseKind, ExerciseMeta> = {
   use_in_sentence: {
     label: "Use it",
     icon: PenLine,
-    hint: "Write a sentence — the language model checks it.",
+    hint: "Write a sentence. The language model checks it.",
   },
   collocation: { label: "Collocation", icon: Boxes, hint: "Pick the word all of these share." },
   audio_recall: { label: "Listen", icon: Music4, hint: "Type the word you hear." },
@@ -249,9 +301,9 @@ export function renderEmphasis(text: string): ReactNode {
 
 /** "due now" / "in 3 days" / "3 days ago" from an ISO timestamp. */
 export function formatDue(iso: string | null | undefined): string {
-  if (!iso) return "—";
+  if (!iso) return "-";
   const target = new Date(iso).getTime();
-  if (Number.isNaN(target)) return "—";
+  if (Number.isNaN(target)) return "-";
   const deltaMs = target - Date.now();
   const abs = Math.abs(deltaMs);
   const minute = 60_000;
@@ -273,13 +325,13 @@ export function formatDue(iso: string | null | undefined): string {
 
 /** "12 Mar 2026" — compact absolute date for tables. */
 export function shortDate(iso: string | null | undefined): string {
-  if (!iso) return "—";
+  if (!iso) return "-";
   const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return "—";
+  if (Number.isNaN(d.getTime())) return "-";
   return d.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
 }
 
 export function percent(value: number | null | undefined, digits = 0): string {
-  if (value === null || value === undefined || Number.isNaN(value)) return "—";
+  if (value === null || value === undefined || Number.isNaN(value)) return "-";
   return `${(value * 100).toFixed(digits)}%`;
 }

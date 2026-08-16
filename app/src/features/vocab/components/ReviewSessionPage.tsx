@@ -72,7 +72,7 @@ export function ReviewSessionPage() {
   return (
     <PageShell
       title="Review"
-      description="Space shows the answer · 1–4 rate the card · Esc leaves"
+      description="Space shows the answer · keys 1-4 rate the card · Esc leaves"
       maxWidth="max-w-2xl"
       toolbar={toolbar}
       actions={

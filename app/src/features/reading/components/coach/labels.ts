@@ -84,7 +84,7 @@ export const TRAPS: Record<string, TrapInfo> = {
   },
   paraphrase_missed: {
     name: "Paraphrase not recognised",
-    what: "The text does state it, fully, in other words — and the other words hid it.",
+    what: "The text does state it, fully, in other words, and the other words hid it.",
     family: "proposition",
   },
   scope_shift: {
@@ -94,7 +94,7 @@ export const TRAPS: Record<string, TrapInfo> = {
   },
   hedge_stripped: {
     name: "Certainty inflated",
-    what: "may reduce was read as reduces, suggests as proves — or an only, a never or a first was asserted without licence.",
+    what: "may reduce was read as reduces, suggests as proves, or an only, a never or a first was asserted without licence.",
     family: "proposition",
   },
   time_shift: {
@@ -104,7 +104,7 @@ export const TRAPS: Record<string, TrapInfo> = {
   },
   negation_missed: {
     name: "A negative was skipped",
-    what: "A not, a rarely, a failed to — or a negative prefix — reversed the sentence and went unread.",
+    what: "A not, a rarely, a failed to (or a negative prefix) reversed the sentence and went unread.",
     family: "proposition",
   },
   partial_condition: {
@@ -168,7 +168,7 @@ export const TRAPS: Record<string, TrapInfo> = {
   },
   wrong_option_form: {
     name: "Wrote the word, not the letter",
-    what: "A letter-answer type needs the letter — and a choose TWO needs exactly two.",
+    what: "A letter-answer type needs the letter, and a choose TWO needs exactly two.",
     family: "form",
   },
   ran_out_of_time: {
@@ -291,12 +291,12 @@ export const DEVICES: Record<string, DeviceInfo> = {
   },
   nominalisation: {
     name: "Verb to noun",
-    what: "An action re-expressed as a thing — the ice retreated, the retreat of the ice.",
+    what: "An action re-expressed as a thing: the ice retreated, the retreat of the ice.",
     changes: false,
   },
   verbalisation: {
     name: "Noun to verb",
-    what: "A thing re-expressed as an action — a reduction in cost, costs fell.",
+    what: "A thing re-expressed as an action: a reduction in cost, costs fell.",
     changes: false,
   },
   voice_shift: {
@@ -316,7 +316,7 @@ export const DEVICES: Record<string, DeviceInfo> = {
   },
   compression: {
     name: "Compressed",
-    what: "Several words squeezed into one — which is exactly how word limits get broken.",
+    what: "Several words squeezed into one, which is exactly how word limits get broken.",
     changes: false,
   },
   clause_restructure: {
@@ -331,7 +331,7 @@ export const DEVICES: Record<string, DeviceInfo> = {
   },
   figure_restatement: {
     name: "Figure restated",
-    what: "A number expressed as a relation — from 20% to 40% becomes doubled.",
+    what: "A number expressed as a relation: from 20% to 40% becomes doubled.",
     changes: false,
   },
   scope_change: {
@@ -383,8 +383,8 @@ export function diagnosisLabel(code: string | null | undefined): string {
 // -------------------------------------------------------------------- gear ---
 
 export const GEARS: Record<string, { name: string; what: string }> = {
-  skim: { name: "Skim", what: "Fast and global — sample for the gist, do not read every word." },
-  scan: { name: "Scan", what: "Fast and local — hunt a shape you already know: a date, a name, a figure." },
+  skim: { name: "Skim", what: "Fast and global: sample for the gist, do not read every word." },
+  scan: { name: "Scan", what: "Fast and local. Hunt a shape you already know: a date, a name, a figure." },
   search: {
     name: "Search",
     what: "Hunt a meaning whose wording you do not know. This is the gear the paper demands most.",
@@ -420,12 +420,12 @@ export const ANSWER_ORDER: Record<string, OrderInfo> = {
 // ------------------------------------------------------------------ levers ---
 
 export const LEVERS: Record<string, string> = {
-  density: "Propositional density — claims per sentence",
-  abstraction: "Abstraction — processes and arguments rather than things",
-  implicit_cohesion: "Implicit cohesion — the links between sentences are left to you",
+  density: "Propositional density: claims per sentence",
+  abstraction: "Abstraction: processes and arguments rather than things",
+  implicit_cohesion: "Implicit cohesion: the links between sentences are left to you",
   lexis: "Lexical sophistication",
   syntax: "Syntactic complexity",
-  argument_structure: "Rhetorical structure — concession, qualification, verdict",
+  argument_structure: "Rhetorical structure: concession, qualification, verdict",
 };
 
 // ------------------------------------------------- static per-type strategy ---
@@ -450,23 +450,23 @@ export const TYPE_PAGES: Record<string, TypePage> = {
     order: "sequential",
     seconds: 70,
     moves: [
-      "Read the statement and decide what would have to be true for it to be TRUE — the whole of it, not the half you recognise.",
+      "Read the statement and decide what would have to be true for it to be TRUE: the whole of it, not the half you recognise.",
       "Find the sentence that deals with that, using the band between the previous answer and the next.",
       "Ask in this order: does the text state it? does the text contradict it? If neither, it is NOT GIVEN and you move on.",
     ],
     losses: [
-      "FALSE written where the text is merely silent — the commonest error in the whole paper.",
+      "FALSE written where the text is merely silent, the commonest error in the whole paper.",
       "NOT GIVEN written where one word in the text contradicts the statement outright.",
     ],
   },
   yes_no_not_given: {
-    tests: "Whether the writer's own view agrees with the statement. Facts are not the question here — stance is.",
+    tests: "Whether the writer's own view agrees with the statement. Facts are not the question here: stance is.",
     gear: "search",
     order: "sequential",
     seconds: 80,
     moves: [
       "Underline whose view the statement gives: the writer's, a named researcher's, or critics'.",
-      "Find where that view is expressed, and read the hedges — suggests, appears, may.",
+      "Find where that view is expressed, and read the hedges: suggests, appears, may.",
       "Match stance to stance. A view held by somebody the writer quotes is not the writer's view.",
     ],
     losses: [
@@ -496,7 +496,7 @@ export const TYPE_PAGES: Record<string, TypePage> = {
     seconds: 55,
     moves: [
       "Do this group after another one, so you already know roughly where things are.",
-      "Read the item for the kind of thing it is — an example, a reason, a comparison — not for its keywords.",
+      "Read the item for the kind of thing it is (an example, a reason, a comparison) rather than for its keywords.",
       "Check the whole paragraph before you commit: paragraphs can be used more than once here.",
     ],
     losses: [
@@ -541,7 +541,7 @@ export const TYPE_PAGES: Record<string, TypePage> = {
     seconds: 85,
     moves: [
       "Read the stem and answer it from the text before you read the options.",
-      "Eliminate on a specific word — a quantifier, a tense, an agent — not on a general feeling.",
+      "Eliminate on a specific word (a quantifier, a tense, an agent) rather than on a general feeling.",
       "Check the survivor against the text one more time; two options often differ by a single word.",
     ],
     losses: [
@@ -555,7 +555,7 @@ export const TYPE_PAGES: Record<string, TypePage> = {
     order: "sequential",
     seconds: 85,
     moves: [
-      "Count the letters the instruction asks for and write that many — no more, no fewer.",
+      "Count the letters the instruction asks for and write exactly that many.",
       "Find the section that lists the relevant items and work inside it.",
       "Treat each option as a separate true/false decision against the text.",
     ],
@@ -585,7 +585,7 @@ export const TYPE_PAGES: Record<string, TypePage> = {
     order: "sequential",
     seconds: 40,
     moves: [
-      "Predict the word class the gap needs — noun, verb, adjective — from the words around it.",
+      "Predict the word class the gap needs (noun, verb, adjective) from the words around it.",
       "Find the sentence in the text that carries the same proposition, however differently worded.",
       "Copy the passage's own words, and count them against the limit before you move on.",
     ],
@@ -600,7 +600,7 @@ export const TYPE_PAGES: Record<string, TypePage> = {
     order: "section_local",
     seconds: 40,
     moves: [
-      "Read the whole summary first — it tells you which section of the passage it covers.",
+      "Read the whole summary first. It tells you which section of the passage it covers.",
       "Locate that section once, then work down it without re-searching the passage.",
       "Check each answer fits the summary's grammar as well as the text's meaning.",
     ],
@@ -610,7 +610,7 @@ export const TYPE_PAGES: Record<string, TypePage> = {
     ],
   },
   summary_completion_bank: {
-    tests: "The same task with the answers supplied — which makes it a test of paraphrase recognition, not of finding.",
+    tests: "The same task with the answers supplied, which makes it a test of paraphrase recognition rather than of finding.",
     gear: "search",
     order: "section_local",
     seconds: 30,
@@ -631,7 +631,7 @@ export const TYPE_PAGES: Record<string, TypePage> = {
     seconds: 30,
     moves: [
       "Read the headings of the notes: they name the section of the text in order.",
-      "Use the layout — a bullet under a heading is inside that heading's part of the text.",
+      "Use the layout: a bullet under a heading is inside that heading's part of the text.",
       "Copy exactly, including plurals, and count the words.",
     ],
     losses: [
@@ -650,7 +650,7 @@ export const TYPE_PAGES: Record<string, TypePage> = {
       "Locate the section the table covers, then work across, not up and down.",
     ],
     losses: [
-      "An answer of the wrong kind — a date where the column wants a material.",
+      "An answer of the wrong kind: a date where the column wants a material.",
       "Going over the word limit because the passage's phrase was longer than the cell needed.",
     ],
   },
@@ -662,7 +662,7 @@ export const TYPE_PAGES: Record<string, TypePage> = {
     moves: [
       "Read every box before you start: the finished boxes tell you the wording style expected.",
       "Follow the process paragraph in the text step by step; the boxes follow it too.",
-      "Keep the grammar of each box — many are noun phrases, and a verb will not fit.",
+      "Keep the grammar of each box: many are noun phrases, and a verb will not fit.",
     ],
     losses: [
       "Jumping a step because the text describes two stages in one sentence.",
@@ -675,7 +675,7 @@ export const TYPE_PAGES: Record<string, TypePage> = {
     order: "section_local",
     seconds: 40,
     moves: [
-      "Read the labels already on the diagram — they anchor you to the right paragraph.",
+      "Read the labels already on the diagram. They anchor you to the right paragraph.",
       "Work around the diagram in the order the text describes it, not clockwise.",
       "Use the passage's own words; a label you invent is wrong even when it is accurate.",
     ],
@@ -690,7 +690,7 @@ export const TYPE_PAGES: Record<string, TypePage> = {
     order: "sequential",
     seconds: 30,
     moves: [
-      "Read the question word — what, who, how many — and know what shape of answer you need.",
+      "Read the question word (what, who, how many) and know what shape of answer you need.",
       "Scan for that shape rather than reading for meaning.",
       "Answer with the smallest span of the passage that does the job.",
     ],

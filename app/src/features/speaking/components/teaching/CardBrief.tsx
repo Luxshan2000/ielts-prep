@@ -95,7 +95,7 @@ function PronunciationFocusPanel({ teaching }: { teaching: Part2Teaching }) {
               <span className="text-muted-foreground"> vs </span>
               <span className="font-semibold">{pair.b}</span>
               {pair.contrast && (
-                <span className="text-muted-foreground"> — {pair.contrast}</span>
+                <span className="text-muted-foreground">: {pair.contrast}</span>
               )}
             </li>
           ))}
@@ -129,7 +129,7 @@ export function CardBrief({ set, setTitle, part2, className }: CardBriefProps) {
         <section className="space-y-3 rounded-xl border border-border bg-card p-4">
           <div className="flex flex-wrap items-center gap-2">
             <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-              Part 2 — task card
+              Part 2 task card
             </p>
             {part2?.difficulty && <Badge tone="outline">{part2.difficulty}</Badge>}
             {set.family && <Badge tone="outline">Family {set.family}</Badge>}

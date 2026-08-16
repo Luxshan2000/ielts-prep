@@ -120,10 +120,10 @@ export function DrillLauncher({
               onChange={setChosenScript}
               aria-label="Listening script"
               options={[
-                { value: "", label: "Surprise me — any part" },
+                { value: "", label: "Surprise me (any part)" },
                 ...scripts.map((s) => ({
                   value: s.script_id,
-                  label: `Part ${s.part} — ${s.title}${s.audio_ready ? "" : " (no audio yet)"}`,
+                  label: `Part ${s.part}: ${s.title}${s.audio_ready ? "" : " (no audio yet)"}`,
                 })),
               ]}
             />
@@ -199,7 +199,7 @@ export function DrillLauncher({
 
               {!usable && (
                 <p className="text-[12px] text-muted-foreground">
-                  {info.needs} — this pack has {available}, and a set needs {kinds.sizes.min}.
+                  {info.needs}. This pack has {available}, and a set needs {kinds.sizes.min}.
                 </p>
               )}
             </div>

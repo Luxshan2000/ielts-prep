@@ -142,7 +142,7 @@ export function TemplatesPanel({ dense = false, className }: TemplatesPanelProps
     <div className={cn("space-y-4", className)}>
       <p className="text-[13px] leading-6 text-muted-foreground">
         Frameworks to internalise, not to paste. Copying a skeleton straight into an answer reads as
-        templating and caps Coherence around band 6 — learn the shape, then write it in your own words.
+        templating and caps Coherence around band 6. Learn the shape, then write it in your own words.
       </p>
       {categories.length > 1 && (
         <Tabs

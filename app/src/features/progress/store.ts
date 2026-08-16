@@ -55,7 +55,11 @@ interface ProgressFeatureState {
 
   load: (weeks?: number) => Promise<void>;
   loadTrajectory: (skill: SeriesKey, weeks?: number) => Promise<void>;
-  loadCriteria: (skill: SkillKey) => Promise<void>;
+  /**
+   * Fetch one skill's criterion breakdown. Cached per skill so flipping the tabs
+   * does not refetch — `force` is how a reload gets past that cache.
+   */
+  loadCriteria: (skill: SkillKey, force?: boolean) => Promise<void>;
   setWeeks: (weeks: number) => Promise<void>;
   recompute: () => Promise<void>;
   setReadinessItem: (itemId: string, checked: boolean) => Promise<void>;
@@ -171,8 +175,17 @@ export const useProgressFeatureStore = create<ProgressFeatureState>((set, get) =
 
     // Trajectories load in parallel behind the first paint.
     await Promise.all(SERIES_KEYS.map((key) => get().loadTrajectory(key, span)));
-    const productive = get().summary ? (["writing", "speaking"] as SkillKey[]) : [];
-    await Promise.all(productive.map((skill) => get().loadCriteria(skill)));
+    // Writing and Speaking are what the panel opens on, plus any skill the learner
+    // has already opened. `force` is the point: without it the per-skill cache made
+    // `load()` a no-op for this panel, so the reload button and "Update my estimates"
+    // refreshed every number on the screen except the criterion breakdown, which went
+    // on showing the bands read on the first visit.
+    const wanted = new Set<SkillKey>(Object.keys(get().criteria) as SkillKey[]);
+    if (get().summary) {
+      wanted.add("writing");
+      wanted.add("speaking");
+    }
+    await Promise.all([...wanted].map((skill) => get().loadCriteria(skill, true)));
   },
 
   loadTrajectory: async (skill, weeks) => {
@@ -190,8 +203,8 @@ export const useProgressFeatureStore = create<ProgressFeatureState>((set, get) =
     }
   },
 
-  loadCriteria: async (skill) => {
-    if (get().criteria[skill]) return;
+  loadCriteria: async (skill, force) => {
+    if (!force && get().criteria[skill]) return;
     try {
       const doc = await api.get<CriteriaDoc>(
         `/api/v1/progress/criteria?skill=${encodeURIComponent(skill)}`,

@@ -101,6 +101,46 @@ describe("ReadAloud", () => {
     );
   });
 
+  /**
+   * The case a fresh install is always in: no speech-to-text model on the machine.
+   *
+   * The sidecar used to answer 200 with the sentence the learner was *asked* to read as the
+   * transcript, and an empty unsure-word list. Rendered, that told somebody who recorded
+   * silence that every word came through — praise for a recording nothing ever listened to.
+   * It now says `recognised: false`, and this screen must show that instead of a result.
+   */
+  it("does not claim every word was caught when nothing was transcribed", async () => {
+    stub({
+      ...RESULT,
+      recognised: false,
+      transcript: "",
+      words_the_recogniser_was_unsure_of: [],
+      method_note:
+        "Your recording was saved, but this computer could not turn it into text, so there is nothing to check yet. Turn on speech-to-text in Settings and record again.",
+    });
+    const { ReadAloud } = await import("../components/ReadAloud");
+    render(<ReadAloud sentence="The sheep left the field." />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Record" }));
+    await waitFor(() => expect(screen.getByText(/could not turn it into text/i)).toBeInTheDocument());
+    expect(screen.queryByText(/caught every word without hesitating/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/What was heard/i)).not.toBeInTheDocument();
+  });
+
+  it("drops the last result when the learner moves to another sentence", async () => {
+    stub();
+    const { ReadAloud } = await import("../components/ReadAloud");
+    const { rerender } = render(<ReadAloud sentence="The sheep left the field." />);
+
+    await userEvent.click(screen.getByRole("button", { name: "Record" }));
+    await waitFor(() => expect(screen.getByText(/worth listening to again/i)).toBeInTheDocument());
+
+    rerender(<ReadAloud sentence="The ship left the harbour." />);
+    await waitFor(() =>
+      expect(screen.queryByText(/worth listening to again/i)).not.toBeInTheDocument(),
+    );
+  });
+
   it("turns a missing speech provider into an instruction", async () => {
     vi.doMock("../api", () => ({
       readAloud: vi.fn().mockRejectedValue(new Error("503 speech_unavailable")),

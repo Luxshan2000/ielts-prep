@@ -87,12 +87,12 @@ function FrameRow({
         <AddToBank
           item={{
             term: frameStem(frame.frame),
-            definition: `${functionLabel(functionName)} — ${frame.slot_hint}`,
+            definition: `${functionLabel(functionName)}: ${frame.slot_hint}`,
             example: complete ? filled : undefined,
             ownSentence: complete ? filled : undefined,
             topicTags,
             isPhrase: true,
-            sourceDetail: `Speaking language bank — ${setTitle}`,
+            sourceDetail: `Speaking language bank: ${setTitle}`,
           }}
           label={complete ? "Bank your version" : "Add the frame"}
         />
@@ -136,7 +136,7 @@ export function LanguageBankPanel({
       <EmptyState
         icon={Sparkles}
         title="No language bank on this set"
-        description="Topic sets authored with the teaching payload carry frames grouped by what they do — opinion, hedging, conceding and the rest."
+        description="Topic sets authored with the teaching payload carry frames grouped by what they do: opinion, hedging, conceding and the rest."
         className={className}
       />
     );

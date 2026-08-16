@@ -34,17 +34,17 @@ export function windowSeconds(delivery: Delivery): number {
 export const DELIVERY_OPTIONS = [
   {
     value: "computer",
-    label: "Computer-delivered — type as you listen, 2 minutes to check",
+    label: "Computer-delivered: type as you listen, 2 minutes to check",
   },
   {
     value: "paper",
-    label: "Paper-based — 10 minutes at the end to transfer your answers",
+    label: "Paper-based: 10 minutes at the end to transfer your answers",
   },
 ];
 
 /** The mnemonic that stops the confusion between the two windows. */
 export const TRANSFER_MNEMONIC =
-  "Paper gets ten minutes because paper has to move the answers. Computer gets two because the answers are already where they need to be. The ten minutes is a clerical allowance, not a thinking period — and nobody has ever been given extra time to reconsider.";
+  "Paper gets ten minutes because paper has to move the answers. Computer gets two because the answers are already where they need to be. The ten minutes is a clerical allowance, not a thinking period, and nobody has ever been given extra time to reconsider.";
 
 export interface Condition {
   id: string;
@@ -57,13 +57,13 @@ export const CONDITIONS: Condition[] = [
     id: "once",
     title: "Each part plays exactly once",
     detail:
-      "No pause, no rewind, no replay, no speed control. The player mounts no transport at all, and a part that has finished cannot be started again — including after a reload.",
+      "No pause, no rewind, no replay, no speed control. The player mounts no transport at all, and a part that has finished cannot be started again, including after a reload.",
   },
   {
     id: "coaching",
     title: "No coaching of any kind",
     detail:
-      "The coach, the prediction trainer, the signpost inventory and the vocabulary list are all shut while a sitting is open. The teaching payload is not in the response body at all during an attempt — there is nothing to reveal.",
+      "The coach, the prediction trainer, the signpost inventory and the vocabulary list are all shut while a sitting is open. The teaching payload is not in the response body at all during an attempt. There is nothing to reveal.",
   },
   {
     id: "transcript",
@@ -93,15 +93,15 @@ export const CONDITIONS: Condition[] = [
 
 /** Stated once, before the score, and never dressed up. */
 export const BAND_NOTE =
-  "The raw-score-to-band conversion is the published Listening table and is the same for Academic and General Training — the two modules sit the same listening paper. It is a good estimate on a full forty-question paper and meaningless on anything less, which is why single parts report a raw score only.";
+  "The raw-score-to-band conversion is the published Listening table and is the same for Academic and General Training. The two modules sit the same listening paper. It is a good estimate on a full forty-question paper and meaningless on anything less, which is why single parts report a raw score only.";
 
 /** What the raw score is worth compared with the band, and why it leads. */
 export const RAW_FIRST_NOTE =
   "Raw score leads because the middle of the band table is wide: several marks can land on the same half-band. A learner improving inside 5.5 would watch the band sit still and conclude nothing had happened.";
 
 export const PART_DIAGNOSIS: Record<number, string> = {
-  1: "Part 1 is transcription. Marks lost here are almost always spelling, numbers and corrections — not comprehension.",
+  1: "Part 1 is transcription. Marks lost here are almost always spelling, numbers and corrections rather than comprehension.",
   2: "Part 2 is following a route or a sequence with nobody to slow the speaker down.",
-  3: "Part 3 punishes losing track of who thinks what — the keyed answer is usually the position they settle on.",
+  3: "Part 3 punishes losing track of who thinks what. The keyed answer is usually the position they settle on.",
   4: "Part 4 punishes losing your place. There is no mid-part pause, so one miss runs on.",
 };

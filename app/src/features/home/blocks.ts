@@ -183,22 +183,22 @@ export function blockTarget(block: PlanBlock): BlockTarget {
 
 /** "Warm-up — vocabulary review" / "Writing — Task 2 essay". */
 export function blockTitle(block: PlanBlock): string {
-  if (block.kind === "warmup_srs") return "Warm-up — vocabulary review";
+  if (block.kind === "warmup_srs") return "Warm-up: vocabulary review";
   if (block.kind === "micro_drill") {
-    return `Micro-drill — ${activityLabel(block.activity)}`;
+    return `Micro-drill: ${activityLabel(block.activity)}`;
   }
-  return `${moduleLabel(block.module)} — ${activityLabel(block.activity)}`;
+  return `${moduleLabel(block.module)}: ${activityLabel(block.activity)}`;
 }
 
 export function blockSubtitle(block: PlanBlock): string | null {
   const params = block.params ?? {};
   if (block.kind === "warmup_srs") {
     const max = params.max_cards;
-    if (params.new_cards === 0) return "Review only — no new cards during the taper.";
+    if (params.new_cards === 0) return "Review only. No new cards during the taper.";
     return typeof max === "number" ? `Up to ${max} due cards` : null;
   }
   if (params.confirm_long_session) {
-    return "Runs about 2 h 35 — Listening, Reading and Writing back to back.";
+    return "Runs about 2 h 35: Listening, Reading and Writing back to back.";
   }
   if (params.timed || params.full_section) return "Timed, full exam length.";
   const focus = params.criterion_focus;

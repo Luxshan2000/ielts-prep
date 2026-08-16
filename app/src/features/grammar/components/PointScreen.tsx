@@ -75,7 +75,7 @@ function MeetGate({
       title="Meet it first"
       /* Most points carry five of these, not six, and the button underneath already
          counts them correctly — so a hardcoded "Six" made the section contradict itself. */
-      hint={`${notice.length === 1 ? "One sentence" : `${notice.length} sentences`}. Say what each one tells you — about the situation, not about the grammar. The rule comes after.`}
+      hint={`${notice.length === 1 ? "One sentence" : `${notice.length} sentences`}. Say what each one tells you about the situation, not about the grammar. The rule comes after.`}
       emphasis
     >
       <ol className="space-y-4">
@@ -171,8 +171,8 @@ function PointHeader({ detail }: { detail: PointDetail }) {
       <div className="rounded-lg border border-border bg-card p-3">
         <StageBar stage={stage} cleared={detail.card?.cleared_stages} />
         <p className="mt-2 text-[12px] text-muted-foreground">
-          You are on <span className="font-medium text-foreground">{STAGES[stage].name}</span>
-          {" — "}
+          You are on <span className="font-medium text-foreground">{STAGES[stage].name}</span>, where
+          you{" "}
           {STAGES[stage].does.toLowerCase()}. Six rungs, and the last one is using it inside a real
           task.
         </p>
@@ -512,7 +512,7 @@ export function PointScreen() {
               <Check className="h-4 w-4 shrink-0 text-success" aria-hidden="true" />
               <p className="min-w-0 flex-1 text-[13px] text-muted-foreground">
                 Reading it is not learning it. The practice is where this becomes something you can
-                use — start with the sentences and finish with one of your own.
+                use. Start with the sentences and finish with one of your own.
               </p>
               <Button
                 disabled={locked}

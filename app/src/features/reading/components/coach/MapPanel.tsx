@@ -152,7 +152,7 @@ export function MapPanel({ passageId, passage, teaching, onLocate }: MapPanelPro
                       : "border-border text-muted-foreground",
                   )}
                 >
-                  {locked ? "Time — boxes locked" : formatDuration(remaining)}
+                  {locked ? "Time up: boxes locked" : formatDuration(remaining)}
                 </span>
               )}
               <span className="text-[12px] text-muted-foreground">
@@ -220,7 +220,7 @@ export function MapPanel({ passageId, passage, teaching, onLocate }: MapPanelPro
                       <span className="w-full pl-9 text-[12px] leading-5 sm:w-auto sm:pl-0">
                         <span className="text-muted-foreground">pack: </span>
                         <span className="font-medium text-foreground">
-                          {authored?.label ?? "—"}
+                          {authored?.label ?? "-"}
                         </span>
                       </span>
                     )}
@@ -247,7 +247,7 @@ export function MapPanel({ passageId, passage, teaching, onLocate }: MapPanelPro
               <span className="text-[12px] text-muted-foreground">
                 {revealed
                   ? "Where the two differ, read that paragraph again and decide which label survives."
-                  : "Write yours first — a map you read instead of writing is somebody else's."}
+                  : "Write yours first. A map you read instead of writing is somebody else's."}
               </span>
             </div>
           </CardContent>
@@ -269,7 +269,7 @@ function FieldScan({ fields }: { fields: string[] }) {
       <CardContent className="space-y-3">
         <Callout tone="teach">
           Do not draw a paragraph map here. This text already shows you its structure; the marks go
-          instead to the details — dates, prices, who qualifies, what is excluded. Find the fields
+          instead to the details: dates, prices, who qualifies, what is excluded. Find the fields
           below before you read a single question.
         </Callout>
         <ul className="grid gap-2 sm:grid-cols-2">
@@ -361,10 +361,10 @@ function DifficultyCard({
                 The subject matter is{" "}
                 <span className="font-medium text-foreground">{metrics.abstraction}</span>
                 {metrics.abstraction === "contested"
-                  ? " — expect the writer to take a position, which is what Yes/No/Not Given tests."
+                  ? ". Expect the writer to take a position, which is what Yes/No/Not Given tests."
                   : metrics.abstraction === "process"
-                    ? " — expect stages and sequence rather than opinion."
-                    : " — expect facts and figures rather than argument."}
+                    ? ". Expect stages and sequence rather than opinion."
+                    : ". Expect facts and figures rather than argument."}
               </p>
             )}
           </div>
@@ -387,7 +387,7 @@ function Metric({
     <div className="rounded-xl border border-border bg-muted/40 p-2.5">
       <dt className="text-[11px] text-muted-foreground">{label}</dt>
       <dd className="mt-0.5 text-[15px] font-semibold tabular text-foreground">
-        {value === null || value === undefined ? "—" : `${value}${suffix}`}
+        {value === null || value === undefined ? "-" : `${value}${suffix}`}
       </dd>
     </div>
   );

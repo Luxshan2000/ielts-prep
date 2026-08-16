@@ -27,6 +27,16 @@ export interface QuestionBlockProps {
   onFocus?: () => void;
   /** The group renderer draws a shared asset once; blocks opt out. */
   showAsset?: boolean;
+  /**
+   * The group already prints the lettered bank above these questions, so this one shows
+   * letter buttons alone rather than repeating all eight options (matching, 07 §5).
+   */
+  bankShown?: boolean;
+  /**
+   * False when the group's instruction already states the word limit — the standing hint
+   * is then pure repetition. The over-the-limit warning is always shown.
+   */
+  showLimitHint?: boolean;
   registerRef?: (el: HTMLDivElement | null) => void;
 }
 
@@ -39,6 +49,8 @@ export function QuestionBlock({
   active = false,
   onFocus,
   showAsset = true,
+  bankShown = false,
+  showLimitHint = true,
   registerRef,
 }: QuestionBlockProps) {
   const letters = optionEntries(question.options);
@@ -79,6 +91,7 @@ export function QuestionBlock({
             onChange={onChange}
             readOnly={readOnly}
             onFocus={onFocus}
+            compact={bankShown}
           />
         ) : (
           <TextAnswer
@@ -87,6 +100,7 @@ export function QuestionBlock({
             onChange={onChange}
             readOnly={readOnly}
             onFocus={onFocus}
+            showLimitHint={showLimitHint}
           />
         )}
       </div>
@@ -104,7 +118,14 @@ interface AnswerProps {
   onFocus?: () => void;
 }
 
-function TextAnswer({ question, value, onChange, readOnly, onFocus }: AnswerProps) {
+function TextAnswer({
+  question,
+  value,
+  onChange,
+  readOnly,
+  onFocus,
+  showLimitHint = true,
+}: AnswerProps & { showLimitHint?: boolean }) {
   const limit = question.word_limit;
   const words = countWords(value);
   const over = Boolean(limit && words > limit);
@@ -135,32 +156,47 @@ function TextAnswer({ question, value, onChange, readOnly, onFocus }: AnswerProp
   // One input per question: the field lands in the FIRST gap only; any further
   // blanks in the same prompt stay drawn as blanks (they belong to other numbers).
   const slot: GapSlot = { used: false };
+  // A note prompt carries its own heading lines ("VISITOR NOTES", "The shop", "- …").
+  // Rendered as one paragraph those newlines collapse and the heading runs into the
+  // question, so each authored line keeps its own line here.
+  const lines = prompt
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+  const hint = over
+    ? `${words} words, over the limit of ${limit}, so this would be marked wrong.`
+    : showLimitHint
+      ? (wordLimitLabel(limit) ?? "Type exactly what you hear.")
+      : null;
 
   return (
     <div className="space-y-1.5">
       {isMarkdownTable(prompt) ? (
         <TablePrompt prompt={prompt} field={field} slot={slot} />
-      ) : GAP_RE.test(prompt) ? (
-        <p className="flex flex-wrap items-center gap-x-1.5 gap-y-2 text-sm leading-relaxed">
-          {interleaveGap(prompt, field, slot)}
-        </p>
       ) : (
-        <div className="space-y-1.5">
-          {prompt && <p className="text-sm leading-relaxed">{prompt}</p>}
-          {field}
+        <div className="space-y-1">
+          {lines.map((line, index) => (
+            <p
+              key={index}
+              className="flex flex-wrap items-center gap-x-1.5 gap-y-2 text-sm leading-relaxed"
+            >
+              {interleaveGap(line, field, slot)}
+            </p>
+          ))}
+          {!slot.used && field}
         </div>
       )}
 
-      <p
-        className={cn(
-          "text-[11px]",
-          over ? "font-medium text-warning" : "text-muted-foreground",
-        )}
-      >
-        {over
-          ? `${words} words — over the limit of ${limit}, so this would be marked wrong.`
-          : (wordLimitLabel(limit) ?? "Type exactly what you hear.")}
-      </p>
+      {hint && (
+        <p
+          className={cn(
+            "text-[11px]",
+            over ? "font-medium text-warning" : "text-muted-foreground",
+          )}
+        >
+          {hint}
+        </p>
+      )}
     </div>
   );
 }
@@ -265,7 +301,8 @@ function LetterAnswer({
   onChange,
   readOnly,
   onFocus,
-}: AnswerProps & { options: [string, string][] }) {
+  compact = false,
+}: AnswerProps & { options: [string, string][]; compact?: boolean }) {
   const want = letterCount(question);
   const chosen = splitLetters(value);
 
@@ -312,9 +349,34 @@ function LetterAnswer({
           Choose {want === 2 ? "TWO" : want === 3 ? "THREE" : want} letters
         </Badge>
       )}
-      <div className="space-y-1">
+      <div className={cn(compact ? "flex flex-wrap gap-1.5" : "space-y-1")}>
         {options.map(([letter, text]) => {
           const selected = chosen.includes(letter.toUpperCase());
+          if (compact) {
+            // The box above this group already lists what every letter means, so the
+            // question itself only needs the letters.
+            return (
+              <button
+                key={letter}
+                type="button"
+                role={want > 1 ? "checkbox" : "radio"}
+                aria-checked={selected}
+                aria-label={`${letter}: ${text}`}
+                disabled={readOnly}
+                onClick={() => toggle(letter.toUpperCase())}
+                className={cn(
+                  "flex h-8 w-8 items-center justify-center rounded-lg border text-[13px] font-semibold transition-colors",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  selected
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border hover:bg-accent",
+                  readOnly && "cursor-default opacity-70 hover:bg-transparent",
+                )}
+              >
+                {letter}
+              </button>
+            );
+          }
           return (
             <button
               key={letter}

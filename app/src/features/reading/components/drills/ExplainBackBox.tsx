@@ -75,7 +75,7 @@ export function ExplainBackBox({
   return (
     <div className="space-y-2 rounded-lg border border-border bg-muted/20 p-3">
       <label className="block text-[12px] font-medium" htmlFor={`explain-${questionId}`}>
-        Why is that the answer? One sentence, your words — not the verdict, the reason.
+        Why is that the answer? One sentence in your own words, giving the reason rather than the verdict.
       </label>
       <Textarea
         id={`explain-${questionId}`}

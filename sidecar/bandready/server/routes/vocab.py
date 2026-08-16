@@ -225,6 +225,99 @@ def serialize_entry(
     return doc
 
 
+def _pack_row_for(session: Session, entry: m.VocabEntry) -> m.VocabPackEntry | None:
+    """The shipped pack row an entry came from, if the pack still has one.
+
+    Opting a deck in copies eight fields out of ``entry_json`` and drops the rest, because
+    ``vocab_entries`` has no column for them. What it drops is most of what a learner asked
+    for: which situations the word belongs in, whether it is a speaking or a writing word,
+    and the thing not to say with it. The copy does record where the row came from —
+    ``vocab_sources.session_id`` holds the pack row's id for a seeded entry — so the rest can
+    be read back at display time without a migration and without duplicating it into the
+    bank, where an editable copy would immediately drift from the pack.
+
+    Falls back to ``(lemma, pos)`` so a word the learner typed in by hand still gets the
+    pack's notes when the pack happens to carry it.
+    """
+    seeded = (
+        session.execute(
+            select(m.VocabSource.session_id)
+            .where(m.VocabSource.entry_id == entry.id, m.VocabSource.module == "seed")
+            .order_by(m.VocabSource.created_at, m.VocabSource.id)
+        )
+        .scalars()
+        .first()
+    )
+    row = session.get(m.VocabPackEntry, seeded) if seeded else None
+    if row is not None and row.retired == 0:
+        return row
+    return (
+        session.execute(
+            select(m.VocabPackEntry).where(
+                m.VocabPackEntry.lemma == entry.lemma,
+                m.VocabPackEntry.pos == entry.pos,
+                m.VocabPackEntry.retired == 0,
+            )
+        )
+        .scalars()
+        .first()
+    )
+
+
+def _usage_guidance(session: Session, entry: m.VocabEntry) -> dict[str, Any] | None:
+    """How and where to use one word — the pack material the bank has no columns for.
+
+    Returns ``None`` when the pack knows nothing extra, so the UI shows nothing rather than
+    an empty heading. Values are passed through unlabelled: naming ``writing_t2`` in a way a
+    learner can read is the UI's job, not this route's.
+    """
+    row = _pack_row_for(session, entry)
+    if row is None:
+        return None
+    doc = _loads(row.entry_json, {})
+    if not isinstance(doc, dict):
+        return None
+
+    situations = []
+    for context in doc.get("contexts") or []:
+        if not isinstance(context, dict):
+            continue
+        sentence = str(context.get("text") or "").strip()
+        if not sentence:
+            continue
+        situations.append(
+            {
+                "text": sentence,
+                "register": context.get("register") or None,
+                "skill": context.get("skill_hook") or None,
+            }
+        )
+
+    confusables = []
+    for other in doc.get("confusables") or []:
+        if not isinstance(other, dict) or not str(other.get("term") or "").strip():
+            continue
+        confusables.append(
+            {
+                "term": str(other["term"]).strip(),
+                "difference": str(other.get("difference") or "").strip(),
+                "minimal_pair": [
+                    str(s).strip() for s in (other.get("minimal_pair") or []) if str(s).strip()
+                ],
+            }
+        )
+
+    guidance = {
+        "register": doc.get("register") or None,
+        "avoid": (str(doc.get("avoid")).strip() or None) if doc.get("avoid") else None,
+        "situations": situations[:4],
+        "confusables": confusables[:3],
+    }
+    if not any(guidance.values()):
+        return None
+    return guidance
+
+
 def _first_sources(session: Session, entry_ids: list[str]) -> dict[str, m.VocabSource]:
     if not entry_ids:
         return {}
@@ -708,7 +801,9 @@ def get_entry(
     entry = _entry_or_404(session, profile_id, entry_id)
     card = sched.cards_for_entries(session, [entry.id]).get(entry.id)
     source = _first_sources(session, [entry.id]).get(entry.id)
-    return serialize_entry(entry, card, source)
+    # Only on the single-entry read: this is a second query per word, and the browse list
+    # never shows it.
+    return {**serialize_entry(entry, card, source), "usage": _usage_guidance(session, entry)}
 
 
 @router.patch("/entries/{entry_id}", summary="Edit fields / change status")

@@ -174,7 +174,7 @@ function StartCard() {
             <span className="block text-[13px] font-medium text-foreground">Find where to start</span>
             <span className="block text-[12px] leading-relaxed text-muted-foreground">
               A short set of questions across the five points everything else hangs off. It moves your
-              starting place — it does not give you a level.
+              starting place. It does not give you a level.
             </span>
           </span>
         </button>
@@ -241,8 +241,8 @@ function PathMap({ views, onJump }: { views: UnitView[]; onJump: (unitId: string
               <button
                 type="button"
                 onClick={() => onJump(view.unit.unit_id)}
-                title={`Part ${view.index} — ${view.unit.title}`}
-                aria-label={`Part ${view.index} of ${views.length}, ${view.unit.title} — ${view.done} of ${view.all.length} finished`}
+                title={`Part ${view.index}: ${view.unit.title}`}
+                aria-label={`Part ${view.index} of ${views.length}, ${view.unit.title}, ${view.done} of ${view.all.length} finished`}
                 className="block w-full rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background"
               >
                 <span
@@ -271,7 +271,7 @@ function PathMap({ views, onJump }: { views: UnitView[]; onJump: (unitId: string
 
       <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">
         Each block is one part of the syllabus, as wide as it is long. The marked one holds your next
-        lesson — click any of them to jump there.
+        lesson. Click any of them to jump there.
         {totalDone > 0 ? ` About ${formatStudyTime(minutesLeft)} of teaching is still ahead of you.` : ""}
       </p>
     </section>
@@ -373,7 +373,7 @@ function PointRow({
                 onClick={() => open(opener.id)}
                 className="rounded text-left font-medium text-primary underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                lesson {opener.sequence_index} — {opener.title}
+                lesson {opener.sequence_index}: {opener.title}
               </button>
             </p>
           )}
@@ -641,7 +641,7 @@ export function PathScreen() {
           <Input
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            placeholder="Find a lesson — “passive”, “if”, “articles”"
+            placeholder="Find a lesson: “passive”, “articles”"
             aria-label="Find a lesson"
             className="pl-8"
           />
@@ -681,7 +681,7 @@ export function PathScreen() {
           </p>
           <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
             {needle
-              ? "Lessons are named by what you can do with them, not by the grammar term — try “past”, “question” or “joining”."
+              ? "Lessons are named by what you can do with them rather than by the grammar term. Try “past” or “joining”."
               : FILTERS.find((f) => f.id === state)?.empty}
           </p>
           <Button
@@ -727,7 +727,7 @@ export function PathScreen() {
           Two things worth knowing before you start
         </h2>
         <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">
-          Some of these — the `-s` on he/she/it, the articles, the past endings — will keep coming out
+          Some of these (the `-s` on he/she/it, the articles, the past endings) will keep coming out
           wrong for months after you have learned them. That is not you failing and it is not this
           module failing. Teaching moves how often you get them right; it does not change the order in
           which they become automatic.
@@ -735,7 +735,7 @@ export function PathScreen() {
         <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">
           And a lesson is not finished when you have read it. “Practised” means you can build it and
           choose it. “Mastered” means you have used it correctly in your own writing or speaking, weeks
-          after you first met it. That gap is the honest shape of learning a language.
+          after you first met it. That gap is normal.
         </p>
       </section>
     </div>

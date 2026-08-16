@@ -26,43 +26,43 @@ export const PHASE_META: Record<SpeakingPhase, PhaseMeta> = {
     live: false,
   },
   P1_INTRO: {
-    label: "Part 1 — Introduction",
+    label: "Part 1: Introduction",
     hint: "The examiner will confirm who you are. Answer briefly.",
     part: 1,
     live: true,
   },
   P1_QA: {
-    label: "Part 1 — Interview",
+    label: "Part 1: Interview",
     hint: "Short answers with a reason. Two or three sentences is right.",
     part: 1,
     live: true,
   },
   P2_INTRO: {
-    label: "Part 2 — Task card",
+    label: "Part 2: Task card",
     hint: "Listen to the task, then read the card below.",
     part: 2,
     live: true,
   },
   P2_PREP: {
-    label: "Part 2 — Preparation",
+    label: "Part 2: Preparation",
     hint: "You have one minute to prepare. You can make notes if you wish.",
     part: 2,
     live: true,
   },
   P2_LONG_TURN: {
-    label: "Part 2 — Long turn",
+    label: "Part 2: Long turn",
     hint: "Speak for one to two minutes. The examiner will stop you at two minutes.",
     part: 2,
     live: true,
   },
   P2_ROUNDING: {
-    label: "Part 2 — Rounding off",
+    label: "Part 2: Rounding off",
     hint: "One or two short questions. Brief answers are fine.",
     part: 2,
     live: true,
   },
   P3_DISCUSS: {
-    label: "Part 3 — Discussion",
+    label: "Part 3: Discussion",
     hint: "Give opinions about people and society in general, and justify them.",
     part: 3,
     live: true,
@@ -87,7 +87,7 @@ export const PHASE_META: Record<SpeakingPhase, PhaseMeta> = {
   },
   RECONNECTING: {
     label: "Reconnecting",
-    hint: "The connection dropped. Reconnecting — your transcript is safe.",
+    hint: "The connection dropped. Reconnecting now, and your transcript is safe.",
     part: null,
     live: true,
   },
@@ -104,13 +104,13 @@ export const PHASE_META: Record<SpeakingPhase, PhaseMeta> = {
     live: false,
   },
   COACH_QA: {
-    label: "Drill — your turn",
+    label: "Drill: your turn",
     hint: "Answer the coach's question as fully as you can.",
     part: null,
     live: true,
   },
   COACH_FEEDBACK: {
-    label: "Drill — coaching",
+    label: "Drill: coaching",
     hint: "Listen to the feedback, then try again or move on.",
     part: null,
     live: true,
@@ -174,7 +174,7 @@ export const MODES: ModeMeta[] = [
     id: "full_mock",
     label: "Full mock",
     blurb: "Parts 1, 2 and 3 back to back with authentic timing and no coaching.",
-    duration: "11–14 min",
+    duration: "11 to 14 min",
     scored: true,
     needs: "card_set",
   },
@@ -182,7 +182,7 @@ export const MODES: ModeMeta[] = [
     id: "single_part",
     label: "Single part",
     blurb: "One part only, timed exactly as in the test. Scored at the end of the part.",
-    duration: "4–5 min",
+    duration: "4 to 5 min",
     scored: true,
     needs: "part",
   },
@@ -281,7 +281,7 @@ export function describeError(err: unknown): string {
   if (err && typeof err === "object" && "code" in err && "detail" in err) {
     const api = err as { code: string; detail: string; status?: number };
     if (api.status === 0) {
-      return "Couldn't reach the practice engine. It may still be starting — wait a few seconds and retry.";
+      return "Couldn't reach the practice engine. It may still be starting. Wait a few seconds and retry.";
     }
     return api.detail || "The practice engine reported an error.";
   }

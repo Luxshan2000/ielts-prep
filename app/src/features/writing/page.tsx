@@ -93,7 +93,7 @@ export function WritingHome() {
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" aria-hidden="true" />
             <p className="text-[13px] text-muted-foreground">
               The practice engine isn't responding, so prompts and marking are unavailable. It may
-              still be launching — retry in a few seconds.
+              still be launching. Retry in a few seconds.
             </p>
           </div>
         )}
@@ -102,7 +102,7 @@ export function WritingHome() {
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/40 bg-primary/10 p-3">
             <p className="flex items-center gap-2 text-[13px] text-foreground">
               <PenLine className="h-4 w-4 text-primary" aria-hidden="true" />
-              You have an unfinished {TASK_SHORT[resumable.prompt?.task_type ?? "task2"]} draft —{" "}
+              You have an unfinished {TASK_SHORT[resumable.prompt?.task_type ?? "task2"]} draft,{" "}
               <span className="tabular">{resumable.word_count} words</span> so far.
             </p>
             <Button size="sm" onClick={() => navigate(`/writing/attempt/${resumable.id}`)}>
@@ -124,7 +124,7 @@ export function WritingHome() {
               />
               <p className="text-[13px] leading-6 text-muted-foreground">
                 The bank asks what to write; the coach asks what a prompt can teach. Each one
-                carries a plan, a language bank and the same answer at bands 6, 7 and 8 — the
+                carries a plan, a language bank and the same answer at bands 6, 7 and 8. The
                 models stay locked until you have written it yourself.
               </p>
             </div>

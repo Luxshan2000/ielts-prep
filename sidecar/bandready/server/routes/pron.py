@@ -255,8 +255,21 @@ async def read_aloud(
         (w for w in result.words if w.score is not None and w.score < pron.BAND_AMBER),
         key=lambda w: w.score or 0,
     )
+
+    # Did speech-to-text actually run on this recording?
+    #
+    # When it cannot (no local Whisper model on a fresh install, no STT provider, an
+    # undecodable upload), ``analyze_wav`` falls back to the caller's text. On a speaking
+    # turn that text is what the learner really said, so the fallback is sound. Here it is
+    # the sentence they were *asked* to say — so publishing it unmarked told a learner who
+    # recorded silence "what was heard: <their sentence>" and no words to work on, which is
+    # praise for something that never happened. The transcript is withheld instead, and the
+    # note says what to do about it.
+    recognised = result.transcript_source == "recogniser"
     return {
         **result.as_wire(),
+        "recognised": recognised,
+        "transcript": result.transcript if recognised else "",
         "audio_path": rel,
         "media_url": f"/api/v1/media/pron/attempts/{target.name}",
         "passage_id": passage_id,
@@ -272,6 +285,10 @@ async def read_aloud(
         "method_note": (
             "This check listens for words the recogniser found hard to catch. It does not "
             "score your pronunciation, and a strong accent is not a mistake."
+            if recognised
+            else "Your recording was saved, but this computer could not turn it into text, "
+            "so there is nothing to check yet. Turn on speech-to-text in Settings and "
+            "record again."
         ),
         "accent_notice": pron.ACCENT_NOTICE,
     }

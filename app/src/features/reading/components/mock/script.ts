@@ -40,7 +40,7 @@ export const CONDITIONS: Condition[] = [
     id: "transfer",
     title: "There is no transfer time",
     detail:
-      "Sixty minutes is the whole paper. Unlike Listening, Reading gives no extra time at the end to copy answers onto an answer sheet — the writing happens inside the hour. On screen the risk does not exist, and if you are sitting the paper test it certainly does.",
+      "Sixty minutes is the whole paper. Unlike Listening, Reading gives no extra time at the end to copy answers onto an answer sheet: the writing happens inside the hour. On screen the risk does not exist, and if you are sitting the paper test it certainly does.",
   },
   {
     id: "coaching",
@@ -77,10 +77,10 @@ export const CONDITIONS: Condition[] = [
 /** The two facts about the band table that change how a learner reads their score. */
 export const BAND_FACTS: Record<ReadingFormat, string> = {
   academic:
-    "On Academic, seven marks separate band 6.0 from band 7.0 — roughly one bad True/False/Not Given group. The middle of the table is also crowded: 23 to 26 marks is all band 6.0, so three extra correct answers can move nothing. Read the raw score first and the band second.",
+    "On Academic, seven marks separate band 6.0 from band 7.0, roughly one bad True/False/Not Given group. The middle of the table is also crowded: 23 to 26 marks is all band 6.0, so three extra correct answers can move nothing. Read the raw score first and the band second.",
   general_training:
     "On General Training the same raw score buys a lower band: 30 out of 40 is band 6.0 here and band 7.0 on Academic. Sections 1 and 2 carry 27 of the 40 marks and are the easy ones, so near-full accuracy on the first twenty-seven is the band-6 lever.",
 };
 
 export const NO_TRANSFER_LINE =
-  "60 minutes total — and unlike Listening, there is no extra time at the end to write your answers up.";
+  "60 minutes total, and unlike Listening there is no extra time at the end to write your answers up.";

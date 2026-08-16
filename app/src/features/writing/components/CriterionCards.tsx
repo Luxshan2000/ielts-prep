@@ -69,7 +69,7 @@ export function CriterionCards({ criteria, bands, taskType }: CriterionCardsProp
                         {report.unanchored_quotes.length} quote
                         {report.unanchored_quotes.length === 1 ? "" : "s"} paraphrased
                       </Badge>{" "}
-                      — not found word-for-word in your text, so not linked to a position.
+                      Not found word-for-word in your text, so not linked to a position.
                     </p>
                   )}
                 </div>

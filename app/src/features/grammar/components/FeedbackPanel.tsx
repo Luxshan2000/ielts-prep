@@ -73,7 +73,7 @@ export function FeedbackPanel({ item, attempt, onContinue, continueLabel }: Feed
           <Badge tone="success">Moved up a rung</Badge>
         )}
         {reveal?.checked === false && (
-          <Badge tone="warning">Checked offline — rate yourself below</Badge>
+          <Badge tone="warning">Checked offline: rate yourself below</Badge>
         )}
         {attempt.appealed && correct && <Badge tone="success">Appeal accepted</Badge>}
       </div>
@@ -103,7 +103,7 @@ export function FeedbackPanel({ item, attempt, onContinue, continueLabel }: Feed
           <span className="text-muted-foreground">This works:</span>{" "}
           <span className="font-medium">{reveal.accepted[0]}</span>
           {reveal.accepted.length > 1 && (
-            <span className="text-muted-foreground"> — and {reveal.accepted.length - 1} other wording{reveal.accepted.length > 2 ? "s" : ""}</span>
+            <span className="text-muted-foreground">, and {reveal.accepted.length - 1} other wording{reveal.accepted.length > 2 ? "s" : ""}</span>
           )}
         </p>
       )}
@@ -128,7 +128,7 @@ export function FeedbackPanel({ item, attempt, onContinue, continueLabel }: Feed
 
       {result?.mastered && (
         <p className="mt-3 rounded-lg bg-success/12 px-3 py-2 text-[13px] font-medium text-success">
-          That is this one mastered — you have now used it correctly in your own words.
+          That is this one mastered. You have now used it correctly in your own words.
         </p>
       )}
 
@@ -172,7 +172,7 @@ export function FeedbackPanel({ item, attempt, onContinue, continueLabel }: Feed
             rows={2}
             value={meant}
             onChange={(e) => setMeant(e.target.value)}
-            placeholder="In your own words — one line is enough"
+            placeholder="In your own words, one line is enough"
             className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           />
           <div className="flex gap-2">
@@ -210,7 +210,7 @@ export function SignalPanel({ item, onRetry }: { item: SessionItem; onRetry: () 
   return (
     <div className="animate-fade-in rounded-xl border border-warning/40 bg-warning/8 p-4" role="status" aria-live="polite">
       <p className="text-sm font-medium text-warning">Not this one.</p>
-      <p className="mt-1 text-[13px] text-foreground">{where} Then try again — you get one more go.</p>
+      <p className="mt-1 text-[13px] text-foreground">{where} Then try again. You get one more go.</p>
       <Button className="mt-3" size="sm" onClick={onRetry} autoFocus>
         Try again
       </Button>

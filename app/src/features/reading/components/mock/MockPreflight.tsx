@@ -38,8 +38,8 @@ import {
 import { activeSitting, elapsedOf, remainingOf, useMockStore } from "./store";
 
 const FORMAT_OPTIONS = [
-  { value: "academic", label: "Academic — three passages, 40 questions" },
-  { value: "general_training", label: "General Training — three sections, 40 questions" },
+  { value: "academic", label: "Academic: three passages, 40 questions" },
+  { value: "general_training", label: "General Training: three sections, 40 questions" },
 ];
 
 export function MockPreflight() {
@@ -89,7 +89,7 @@ export function MockPreflight() {
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" aria-hidden="true" />
             <p className="text-[13px] text-muted-foreground">
               BandReady's local service isn't responding, so a mock can't start. It may still be
-              launching — try again in a few seconds.
+              launching. Try again in a few seconds.
             </p>
           </div>
         )}
@@ -98,7 +98,7 @@ export function MockPreflight() {
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/40 bg-primary/8 p-3">
             <p className="flex items-center gap-2 text-[13px] text-foreground">
               <Clock className="h-4 w-4 text-primary" aria-hidden="true" />
-              You have a paper open — {formatDuration(Math.abs(remainingOf(open)))}{" "}
+              You have a paper open, {formatDuration(Math.abs(remainingOf(open)))}{" "}
               {remainingOf(open) >= 0 ? "left on its clock" : "past its hour"}. It has been running
               the whole time.
             </p>
@@ -123,8 +123,8 @@ export function MockPreflight() {
             <p className="text-[13px] leading-6 text-muted-foreground">
               On paper you would be writing onto the answer sheet inside those sixty minutes, and
               candidates who plan for extra time at the end lose marks they had already earned. Here
-              your answers are recorded as you type, so the risk does not exist — which is precisely
-              why it has to be said rather than discovered.
+              your answers are recorded as you type, so the risk does not exist, which is why it
+              has to be said rather than discovered.
             </p>
             <ul className="grid gap-3 sm:grid-cols-3">
               {plan.map((mins, index) => (
@@ -179,7 +179,7 @@ export function MockPreflight() {
           <CardContent className="space-y-4 pt-5">
             <Field
               label="Which paper are you sitting?"
-              hint="Pick the module you are entered for — the two papers are marked on different tables."
+              hint="Pick the module you are entered for. The two papers are marked on different tables."
             >
               <Select
                 aria-label="Exam module"
@@ -228,7 +228,7 @@ export function MockPreflight() {
           <h2 className="text-sm font-semibold">Your past sittings</h2>
           {records.length === 0 ? (
             <p className="text-[13px] text-muted-foreground">
-              None yet. A full paper is an assessment instrument rather than a training one — one
+              None yet. A full paper is an assessment instrument rather than a training one: one
               every two or three days at most, with review and drills in between.
             </p>
           ) : (

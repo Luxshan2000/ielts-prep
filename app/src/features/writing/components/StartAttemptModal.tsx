@@ -8,6 +8,7 @@ import { GraduationCap, PenLine } from "lucide-react";
 import { Button, Modal } from "@/components/ui";
 import { cn } from "@/lib/cn";
 import { TASK_LABELS, type AttemptMode, type WritingPrompt } from "../store";
+import { MarkingNotice } from "./MarkingNotice";
 import { PromptPanel } from "./PromptPanel";
 
 export interface StartAttemptModalProps {
@@ -76,6 +77,10 @@ export function StartAttemptModal({
       {prompt && (
         <div className="space-y-5 p-5">
           <PromptPanel prompt={prompt} />
+
+          {/* Before the timer, not after it: this modal is the last screen where
+              "there is no marking model" is still cheap news. */}
+          <MarkingNotice cost={minutes ? `${minutes} minutes` : "this answer"} />
 
           <fieldset className="space-y-2">
             <legend className="mb-2 text-[13px] font-medium text-foreground">How do you want to write it?</legend>

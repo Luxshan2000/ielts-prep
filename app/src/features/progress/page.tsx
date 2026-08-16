@@ -52,7 +52,7 @@ function SkillTile({
         <p className="text-[13px] font-medium text-foreground">{SKILL_LABELS[skill]}</p>
         <p className="text-[11px] tabular text-muted-foreground">
           {estimate && estimate.band !== null
-            ? `likely ${formatBand(estimate.range_low)}–${formatBand(estimate.range_high)}`
+            ? `likely ${formatBand(estimate.range_low)} to ${formatBand(estimate.range_high)}`
             : "not enough scored practice yet"}
         </p>
         {estimate?.method === "self_assessed" && (
@@ -109,9 +109,9 @@ function GettingStarted({
             <span className="tabular font-medium text-muted-foreground">1</span>
             <span className="min-w-0 flex-1 text-muted-foreground">
               <span className="font-medium text-foreground">One scored attempt</span> in any
-              skill — an essay, a speaking part, a reading passage, a listening section. That
-              draws your first band estimate, and the trajectory and criterion breakdown
-              follow it.
+              skill, such as an essay, a speaking part, a reading passage or a listening
+              section. That draws your first band estimate, and the trajectory and criterion
+              breakdown follow it.
             </span>
           </li>
           <li className="flex gap-2.5 rounded-lg border border-border px-3 py-2.5">
@@ -206,7 +206,7 @@ export function ProgressPage() {
   return (
     <PageShell
       title="Progress"
-      description="Where your bands stand, what is moving, and what is left before exam day."
+      description="Where your bands stand, and what is left before exam day."
       onRefresh={() => void load()}
       refreshing={loading}
       refreshLabel="Reload your progress"
@@ -274,9 +274,16 @@ export function ProgressPage() {
                     </Tooltip>
                   </p>
                   <p className="mt-0.5 text-[13px] text-muted-foreground">
-                    {overallBand !== null
-                      ? summary.disclaimer
-                      : "An overall band needs an estimate in all four skills. One scored attempt per skill is enough to start."}
+                    {/* Skipping the placement test seeds every skill at the band the
+                        learner picked for themselves, so this reads 5.5 with nothing
+                        behind it. The dashboard already says so under its own overall
+                        tile; without the same clause here the biggest number on the
+                        screen looks like something that was measured. */}
+                    {overallBand === null
+                      ? "An overall band needs an estimate in all four skills. One scored attempt per skill is enough to start."
+                      : attempts === 0
+                        ? `This is your own starting rating. Nothing has been scored yet. ${summary.disclaimer}`
+                        : summary.disclaimer}
                   </p>
                 </div>
               </div>
@@ -327,7 +334,6 @@ export function ProgressPage() {
           <div className="grid gap-4 lg:grid-cols-2">
             <CriteriaPanel
               criteria={criteria}
-              loading={loading}
               error={errors.criteria}
               onSelect={(skill) => void loadCriteria(skill)}
             />

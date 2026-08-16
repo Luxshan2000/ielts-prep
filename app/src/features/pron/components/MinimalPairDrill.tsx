@@ -98,8 +98,28 @@ export function MinimalPairDrill({ className }: { className?: string }) {
 
   const speech = typeof window !== "undefined" && "speechSynthesis" in window;
 
+  /**
+   * The second half of a "Hear both", still waiting on its timer.
+   *
+   * This is the bug the learner hit. "Hear both" says the first word, then queues the
+   * second one 900 ms later. Nothing used to cancel that timer, so a learner who answered
+   * one pair, compared it, and moved straight on to the next pair heard the *old* pair
+   * speak over the new one — every row played the row they had already left behind, which
+   * reads exactly like a drill stuck on the pair you first picked.
+   */
+  const pending = useRef<number | null>(null);
+
+  const dropQueuedSound = useCallback(() => {
+    if (pending.current !== null) {
+      window.clearTimeout(pending.current);
+      pending.current = null;
+    }
+  }, []);
+
   const say = useCallback(
     (text: string) => {
+      // Anything the learner asks for now replaces whatever was still queued.
+      dropQueuedSound();
       // The platform synthesiser is enough for a single word, and it keeps this screen
       // working before any TTS model has been downloaded.
       if (!speech) return;
@@ -113,7 +133,22 @@ export function MinimalPairDrill({ className }: { className?: string }) {
         /* no synthesiser — the written pair is still usable */
       }
     },
-    [speech],
+    [dropQueuedSound, speech],
+  );
+
+  /** Leaving the drill must not leave a word talking over the next screen. */
+  useEffect(
+    () => () => {
+      dropQueuedSound();
+      if (speech) {
+        try {
+          window.speechSynthesis.cancel();
+        } catch {
+          /* nothing was speaking */
+        }
+      }
+    },
+    [dropQueuedSound, speech],
   );
 
   const options = useMemo(() => {
@@ -126,7 +161,7 @@ export function MinimalPairDrill({ className }: { className?: string }) {
         const count = c.items ? ` · ${c.items} pairs` : "";
         return {
           value: id,
-          label: words ? `${id} — as in ${words}${count}` : `${id}${count}`,
+          label: words ? `${id}, as in ${words}${count}` : `${id}${count}`,
         };
       }),
     ];
@@ -136,7 +171,7 @@ export function MinimalPairDrill({ className }: { className?: string }) {
     return (
       <EmptyState
         title="The sound drills could not be loaded"
-        description="The app could not reach its own background service. Nothing is lost — try again, and if it keeps failing, restart BandReady."
+        description="The app could not reach its own background service. Nothing is lost. Try again, and if it keeps failing, restart BandReady."
         action={<Button onClick={() => load(contrast)}>Try again</Button>}
       />
     );
@@ -187,7 +222,7 @@ export function MinimalPairDrill({ className }: { className?: string }) {
         {!speech && (
           <Notice tone="warning" title="This computer has no built-in voice">
             Your browser cannot speak the words, so this drill has nothing to play. The pairs below
-            are still worth reading — each row shows the two words and a sentence for each.
+            are still worth reading. Each row shows the two words and a sentence for each.
           </Notice>
         )}
 
@@ -204,7 +239,7 @@ export function MinimalPairDrill({ className }: { className?: string }) {
                 className="rounded-full border border-border px-2.5 py-1 text-[12px] text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 {examples.current[row.contrast]
-                  ? `${row.contrast} — ${examples.current[row.contrast]}`
+                  ? `${row.contrast}: ${examples.current[row.contrast]}`
                   : row.contrast}
               </button>
             ))}
@@ -261,7 +296,7 @@ export function MinimalPairDrill({ className }: { className?: string }) {
               }}
               onCompare={() => {
                 say(item.a);
-                window.setTimeout(() => say(item.b), 900);
+                pending.current = window.setTimeout(() => say(item.b), 900);
               }}
             />
           ))}
@@ -270,7 +305,7 @@ export function MinimalPairDrill({ className }: { className?: string }) {
         {finished && (
           <p className="text-[13px] text-foreground">
             You matched {matched} of {round.length}. Sounds you missed are worth playing a few more
-            times — hearing a contrast reliably comes before saying it.
+            times. Hearing a contrast reliably comes before saying it.
           </p>
         )}
 

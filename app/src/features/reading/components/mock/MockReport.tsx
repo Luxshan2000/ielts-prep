@@ -206,7 +206,7 @@ export function MockReport() {
                 {review.raw_score}
                 <span className="text-[18px] text-muted-foreground">/{review.total_questions}</span>
               </p>
-              <p className="mt-1 text-[11px] text-muted-foreground">Raw score — the real metric</p>
+              <p className="mt-1 text-[11px] text-muted-foreground">Raw score, the real metric</p>
             </div>
             {review.band !== null && (
               <BandScore band={review.band} size="md" label="Estimated band" reveal />
@@ -338,7 +338,7 @@ export function MockReport() {
             </ol>
           )}
           <p className="text-[12px] leading-5 text-muted-foreground">
-            A full paper measures; it does not train. One every two or three days at most — the days
+            A full paper measures; it does not train. One every two or three days at most. The days
             between are for the review, the trap drills and the coach.
           </p>
         </section>

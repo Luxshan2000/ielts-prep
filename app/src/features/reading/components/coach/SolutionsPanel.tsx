@@ -50,7 +50,7 @@ import { diagnosisOf, useCoachStore } from "./store";
 import { acceptedAnswers, type SolutionRow } from "./types";
 
 export const GATE_REASON =
-  "In reading, the answer span is the answer. Once you have seen which sentence carried it, this passage can never test you again — so the solutions open after you have sat it, not before.";
+  "In reading, the answer span is the answer. Once you have seen which sentence carried it, this passage can never test you again, so the solutions open after you have sat it, not before.";
 
 // ---------------------------------------------------------------------- gate ---
 
@@ -90,7 +90,7 @@ export function SolutionGate({
           )}
         </div>
         <p className="max-w-xl text-[12px] leading-5 text-muted-foreground">
-          Everything else in this coach stays open — the map, the strategy for each group, the
+          Everything else in this coach stays open: the map, the strategy for each group, the
           paraphrase families and the vocabulary. None of that gives an answer away.
         </p>
       </CardContent>
@@ -186,7 +186,7 @@ function SelfDiagnose({
         </Button>
         {diagnosis.located === null && diagnosis.trap === null && (
           <span className="text-[12px] text-muted-foreground">
-            Guessing counts — the guess is what the solution corrects.
+            Guessing counts. The guess is what the solution corrects.
           </span>
         )}
       </div>
@@ -214,8 +214,8 @@ function DiagnosisVerdict({
       {diagnosis.located && (
         <p>
           {diagnosis.located === "found"
-            ? "You found the right place and still chose wrong — this is a technique problem, so the decision rule below is the part to read twice."
-            : "You never found the place — this is a location problem, so the paraphrase link below is the part to read twice."}
+            ? "You found the right place and still chose wrong. This is a technique problem, so the decision rule below is the part to read twice."
+            : "You never found the place. This is a location problem, so the paraphrase link below is the part to read twice."}
         </p>
       )}
       {diagnosis.trap && diagnosis.trap !== "unsure" && authored && (
@@ -223,7 +223,7 @@ function DiagnosisVerdict({
           You called it <strong>{trapName(diagnosis.trap)}</strong>; the item was written to spring{" "}
           <strong>{trapName(authored)}</strong>.
           {agreed
-            ? " Agreeing with the item writer about your own error is a good sign — you can now watch for it."
+            ? " Agreeing with the item writer about your own error is a good sign, so you can now watch for it."
             : " Where the two differ, the item writer's version is the one that will catch you again."}
         </p>
       )}
@@ -241,7 +241,7 @@ function ParaphraseRow({ row }: { row: SolutionRow }) {
     <section className="space-y-2">
       <SectionHead
         title="The paraphrase link"
-        hint="The pair the item was built from — the question's words, and the text's."
+        hint="The pair the item was built from: the question's words, and the text's."
       />
       <div className="flex flex-wrap items-center gap-2">
         <Chip tone="stem">{link.stem_phrase}</Chip>
@@ -258,8 +258,8 @@ function ParaphraseRow({ row }: { row: SolutionRow }) {
       {link.note && <p className="text-[13px] leading-6 text-muted-foreground">{link.note}</p>}
       {changing && (
         <p className="text-[12px] leading-5 text-muted-foreground">
-          One of those devices changes the meaning rather than preserving it — which is precisely
-          what makes a statement FALSE rather than TRUE.
+          One of those devices changes the meaning rather than preserving it, which is what
+          makes a statement FALSE rather than TRUE.
         </p>
       )}
     </section>
@@ -426,7 +426,7 @@ function SolutionBody({
             <CopyChunk text={row.teaching.reusable_rule} label="Copy the rule" />
           </div>
           <p className="mt-1 pl-6 text-[12px] leading-5 text-muted-foreground">
-            This one carries to any passage — it says nothing about this text.
+            This one carries to any passage. It says nothing about this text.
           </p>
         </section>
       )}
@@ -561,7 +561,7 @@ export function SolutionsPanel({ passageId, rows, record, onLocate }: SolutionsP
               correct when you sat this passage
               {record.attempts > 1 ? ` (attempt ${record.attempts})` : ""}.
               {wrongNumbers.length > 0
-                ? " Start with the ones you missed — the correct ones cost you nothing."
+                ? " Start with the ones you missed. The correct ones cost you nothing."
                 : " Nothing to correct; read two or three solutions anyway and check your reasoning matched theirs."}
             </p>
             {wrongNumbers.length > 0 && (

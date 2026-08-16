@@ -26,7 +26,7 @@ export function CueCard({ card, prepping, notes, onNotesChange, className }: Cue
       )}
     >
       <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
-        Part 2 — Task card
+        Part 2 task card
       </p>
       <p className="text-[15px] font-semibold leading-6 text-foreground">{card.topic}</p>
       {card.bullets.length > 0 && (
@@ -59,7 +59,7 @@ export function CueCard({ card, prepping, notes, onNotesChange, className }: Cue
           onChange={(e) => onNotesChange(e.target.value)}
           rows={4}
           spellCheck={false}
-          placeholder="Jot down keywords — nobody reads these but you."
+          placeholder="Jot down keywords. Nobody reads these but you."
           className="text-[14px] leading-6"
         />
       </div>

@@ -304,7 +304,7 @@ export function ProviderSlotCard({ modality }: { modality: Modality }) {
 
         {verify && !verify.ok && verify.state === "needs_download" && (
           <p className="text-[13px] text-muted-foreground">
-            The weights for this engine are not on disk yet — download them in the Models
+            The weights for this engine are not on disk yet. Download them in the Models
             section below.
           </p>
         )}

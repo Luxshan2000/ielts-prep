@@ -79,8 +79,8 @@ export function SuggestionsInbox() {
                 : `${pluralize(total, "word")} waiting for your decision`}
             </p>
             <p className="max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
-              This inbox is the only way a word enters your review queue. Nothing here is scheduled
-              — and nothing is ever added automatically by a practice session.
+              This inbox is the only way a word enters your review queue. Nothing here is
+              scheduled, and nothing is ever added automatically by a practice session.
             </p>
           </div>
           {items.length > 0 && (
@@ -157,7 +157,7 @@ function SuggestionRow({
             <p className="text-[13px] leading-relaxed">
               {pending ? (
                 <span className="text-muted-foreground">
-                  Definition is still being filled in — accepting will finish it in the background.
+                  Definition is still being filled in. Accepting will finish it in the background.
                 </span>
               ) : (
                 entry.definition
@@ -187,7 +187,7 @@ function SuggestionRow({
               <Check className="h-4 w-4" />
               Accept
             </Button>
-            <Tooltip content="Deletes the suggestion — it can come back if you misuse the word again.">
+            <Tooltip content="Deletes the suggestion. It can come back if you misuse the word again.">
               <span className="inline-flex">
                 <Button size="sm" variant="ghost" onClick={onDismiss} disabled={busy}>
                   <Trash2 className="h-4 w-4" />

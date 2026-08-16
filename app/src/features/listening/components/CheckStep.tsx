@@ -70,7 +70,7 @@ export function CheckStep({
             <h2 className="text-sm font-semibold">Transfer and check</h2>
             <p className="mt-0.5 text-[13px] text-muted-foreground">
               {exam
-                ? "The audio has finished. You have two minutes to check every answer — fix spelling, fill blanks, then submit. The test submits itself at 0:00."
+                ? "The audio has finished. You have two minutes to check every answer: fix spelling, fill blanks, then submit. The test submits itself at 0:00."
                 : "Check every answer before you submit. Nothing is timed in practice mode."}
             </p>
           </div>
@@ -96,7 +96,7 @@ export function CheckStep({
         </Badge>
         {blank.length > 0 && (
           <span className="text-muted-foreground">
-            Blank answers score nothing — a guess costs you nothing either.
+            Blank answers score nothing, and a guess costs you nothing either.
           </span>
         )}
       </div>
@@ -140,7 +140,7 @@ export function CheckStep({
           </Button>
         )}
         <span className="text-[12px] text-muted-foreground">
-          Marking is instant and offline — nothing leaves this machine.
+          Marking is instant and offline. Nothing leaves this machine.
         </span>
       </div>
     </div>

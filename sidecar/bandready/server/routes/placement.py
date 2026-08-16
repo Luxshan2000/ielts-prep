@@ -434,6 +434,47 @@ def _resolve_id(session: Session, profile_id: str, placement_id: str | None) -> 
 # --------------------------------------------------------------------------------------
 
 
+# --------------------------------------------------------------------------------------
+# Key stripping
+# --------------------------------------------------------------------------------------
+
+#: Everything in a pack document that gives the answer away, dropped at every depth.
+#:
+#: The first five mirror ``_SECRET_FIELDS`` in ``routes/reading.py``; ``teaching`` is on that
+#: list because the authored payload carries ``decision_rule`` and ``distractors[]``, which
+#: name the answer outright. ``lines`` is this module's own addition: it is the spoken
+#: transcript of a listening part, and a listening test you can read is not a listening test.
+_SECRET_FIELDS = frozenset(
+    {
+        "answers",
+        "answer",
+        "explanation",
+        "trap_note",
+        "evidence_quote",
+        "teaching",
+        "answer_quote",
+        "cue_line_index",
+        "lines",
+    }
+)
+
+
+def _strip_key(doc: Any) -> Any:
+    """Deep-copy ``doc`` with every answer, explanation and transcript removed.
+
+    Both samplers used to hand the browser the raw pack document: the key, the evidence
+    quote, the examiner's explanation, the distractor analysis, and for listening the entire
+    script of the audio. The screen reads none of it, so it was ~36 KB of cost with no
+    benefit — and a placement whose answers travel with its questions measures nothing, while
+    still seeding the band estimates every study session is planned from.
+    """
+    if isinstance(doc, list):
+        return [_strip_key(item) for item in doc]
+    if not isinstance(doc, dict):
+        return doc
+    return {k: _strip_key(v) for k, v in doc.items() if k not in _SECRET_FIELDS}
+
+
 def _render_reading(session: Session, step: dict[str, Any]) -> dict[str, Any]:
     passage_id = step.get("passage_id")
     if not passage_id or not step.get("question_ids"):
@@ -451,7 +492,7 @@ def _render_reading(session: Session, step: dict[str, Any]) -> dict[str, Any]:
         ),
         {f"q{i}": qid for i, qid in enumerate(step["question_ids"])},
     ).mappings().all()
-    document = _loads(row["passage_json"]) or {}
+    document = _strip_key(_loads(row["passage_json"]) or {})
     return {
         "passage_id": passage_id,
         "title": row["title"],
@@ -481,17 +522,46 @@ def _render_listening(session: Session, step: dict[str, Any]) -> dict[str, Any]:
         ),
         {f"q{i}": qid for i, qid in enumerate(step["question_ids"])},
     ).mappings().all()
+    document = _loads(row["script_json"]) or {}
+    audio_hash = _listening_audio_hash(document, row["audio_hash"])
+    if audio_hash is None:
+        # A fresh install ships the scripts but not the speech — the examiner voice is a
+        # model download, and at placement it usually has not happened yet. Rendering the
+        # section anyway handed the learner eight questions about a recording that does not
+        # exist; every one came back blank, and blank scores 0/8, which is band 3.5. That
+        # number then seeds the plan. An unavailable section falls back to the self-rating
+        # instead, which is the honest answer to "we could not measure this".
+        return {"unavailable": True, "reason": "no_listening_audio"}
     return {
         "script_id": script_id,
         "title": row["title"],
         "part": row["part"],
         "target_band": row["target_band"],
-        "audio_path": (
-            f"/api/v1/media/listening/{row['audio_hash']}.wav" if row["audio_hash"] else None
-        ),
-        "script": _loads(row["script_json"]) or {},
+        "audio_path": f"/api/v1/media/listening/{audio_hash}.wav",
+        "script": _strip_key(document),
         "questions": [dict(q) for q in questions],
     }
+
+
+def _listening_audio_hash(document: dict[str, Any], stored_hash: Any) -> str | None:
+    """The hash of a WAV that is actually on disk, or ``None``.
+
+    Keyed on the content hash rather than on ``listening_scripts.audio_hash``, matching
+    :func:`bandready.listening.mock._render_state`: the column records the last render and
+    the hash records what the current script *would* render to, so an edited script has a
+    stale column and no usable audio.
+    """
+    try:
+        from bandready.audio import tts_render
+
+        expected = tts_render.script_audio_hash(document)
+        if tts_render.cached_render(expected) is not None:
+            return expected
+        if stored_hash and tts_render.cached_render(str(stored_hash)) is not None:
+            return str(stored_hash)
+    except Exception:  # noqa: BLE001 — a missing voice extra must not break the sitting
+        _log.debug("placement listening audio lookup failed", exc_info=True)
+    return None
 
 
 def _render_writing(session: Session, step: dict[str, Any]) -> dict[str, Any]:

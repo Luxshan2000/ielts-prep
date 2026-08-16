@@ -96,7 +96,7 @@ export default defineFeatureRoute({
       element: (
         <FeatureErrorBoundary
           feature="mock sitting"
-          hint="The clock kept running and each part still plays only once. Every answer is autosaved on the local sidecar — reload to pick the paper up where it is."
+          hint="The clock kept running and each part still plays only once. Every answer is autosaved on the local sidecar, so reload to pick the paper up where it is."
         >
           <MockSitting />
         </FeatureErrorBoundary>

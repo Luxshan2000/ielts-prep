@@ -56,7 +56,7 @@ export default defineFeatureRoute({
       element: (
         <FeatureErrorBoundary
           feature="mock sitting"
-          hint="The clock kept running. Both drafts are autosaved on the local sidecar — reload to pick the sitting up where it is."
+          hint="The clock kept running. Both drafts are autosaved on the local sidecar. Reload to pick the sitting up where it is."
         >
           <MockSitting />
         </FeatureErrorBoundary>

@@ -75,7 +75,7 @@ export function QuestionPalette({
   return (
     <div
       role="group"
-      aria-label="Question palette — arrow keys move, Home and End jump to the ends"
+      aria-label="Question palette. Arrow keys move, Home and End jump to the ends"
       onKeyDown={onKeyDown}
       className={cn("flex flex-wrap gap-1.5", className)}
     >

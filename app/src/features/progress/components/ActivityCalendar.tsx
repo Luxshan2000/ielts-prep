@@ -65,7 +65,7 @@ export function ActivityCalendar({ heatmap, loading, error }: Props) {
             size="sm"
             icon={CalendarDays}
             title="No study minutes yet"
-            description="Every minute you spend in a room is counted here — one square per day, darker as the day gets longer. Finish a block from today's session and the first square appears."
+            description="Every minute you spend in a room is counted here, one square per day, darker as the day gets longer. Finish a block from today's session and the first square appears."
           />
         ) : (
           <>

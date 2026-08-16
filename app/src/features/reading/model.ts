@@ -92,7 +92,7 @@ export function groupRangeLabel(group: QuestionGroup): string {
   if (numbers.length === 0) return "Questions";
   const min = Math.min(...numbers);
   const max = Math.max(...numbers);
-  return min === max ? `Question ${min}` : `Questions ${min}–${max}`;
+  return min === max ? `Question ${min}` : `Questions ${min}-${max}`;
 }
 
 /**

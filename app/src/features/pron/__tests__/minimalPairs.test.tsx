@@ -10,24 +10,34 @@
  * every answer was unmarked and the drill taught nothing.
  */
 
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+const SHIP = {
+  id: "mp_ship_sheep",
+  drill_type: "minimal_pair_ab",
+  a: "ship",
+  b: "sheep",
+  contrast: "ɪ–iː",
+  sentence_a: "The ship left the harbour.",
+  sentence_b: "The sheep left the field.",
+};
+
+const CAT = {
+  id: "mp_cat_cut",
+  drill_type: "minimal_pair_ab",
+  a: "cat",
+  b: "cut",
+  contrast: "æ–ʌ",
+  sentence_a: "The cat came back.",
+  sentence_b: "The cut healed slowly.",
+};
 
 const SET = {
   drill_type: "minimal_pair_ab",
   contrast: null,
-  items: [
-    {
-      id: "mp_ship_sheep",
-      drill_type: "minimal_pair_ab",
-      a: "ship",
-      b: "sheep",
-      contrast: "ɪ–iː",
-      sentence_a: "The ship left the harbour.",
-      sentence_b: "The sheep left the field.",
-    },
-  ],
+  items: [SHIP],
   contrasts: [{ contrast: "ɪ–iː", items: 5 }],
   accuracy: [],
   accent_notice:
@@ -149,6 +159,40 @@ describe("the minimal-pair drill", () => {
     await open();
     await userEvent.click(await screen.findByLabelText("Sound pair"));
     expect(await screen.findByText(/as in ship \/ sheep/)).toBeInTheDocument();
+  });
+
+  /**
+   * The bug the learner reported, in their words: "it always stick to selected one, couldn't
+   * switch to next box select and speak".
+   *
+   * "Hear both" said the first word and queued the second one on a 900 ms timer that nothing
+   * cancelled. Move on to the next pair inside that gap — which is what anybody does after
+   * comparing a pair — and the timer fired: `say` cancelled the word they had just asked for
+   * and spoke the *previous* pair instead. Every row played the row before it, so the drill
+   * behaved as though it were stuck on the pair first chosen.
+   */
+  it("does not let a compared pair speak over the pair the learner moves on to", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+      getDrills.mockResolvedValue({ ...SET, items: [SHIP, CAT] });
+      const speak = giveTheBrowserAVoice();
+      await open();
+
+      // Math.random is pinned, so the round deals cat/cut first and ship/sheep second.
+      await screen.findByRole("button", { name: /^cat/ });
+      await user.click(screen.getAllByRole("button", { name: "Play" })[0]);
+      await user.click(screen.getByRole("button", { name: /^cat/ }));
+      await user.click(screen.getByRole("button", { name: /Hear both/ }));
+
+      speak.mockClear();
+      await user.click(screen.getByRole("button", { name: "Play" })); // the next pair
+      act(() => void vi.advanceTimersByTime(1500));
+
+      expect(speak.mock.calls.map((call) => call[0].text)).toEqual(["ship"]);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("offers a way back when the drills cannot be loaded", async () => {

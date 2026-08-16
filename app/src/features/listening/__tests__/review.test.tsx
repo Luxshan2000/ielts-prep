@@ -131,4 +131,33 @@ describe("ReviewScreen", () => {
     expect(await screen.findByText("In your vocabulary inbox")).toBeInTheDocument();
     expect(screen.getByText(/Nothing is scheduled until you accept it there/)).toBeInTheDocument();
   });
+
+  it("says what the letters meant, because a bare 'You wrote B' teaches nothing", async () => {
+    vi.spyOn(api, "get").mockResolvedValue({
+      ...review,
+      parts: [
+        {
+          ...review.parts[0],
+          questions: [
+            {
+              ...review.parts[0].questions[0],
+              number: 9,
+              question_id: "lq_9",
+              type: "multiple_choice",
+              prompt: "What must Daniel bring?",
+              options: { A: "an apron", B: "a pair of scissors", C: "a bone folder" },
+              word_limit: null,
+              given: "B",
+              correct: false,
+              accepted: [["C"]],
+              near_miss_spelling: false,
+            },
+          ],
+        },
+      ],
+    } as ReviewDoc);
+    renderReview();
+    expect(await screen.findByText("B: a pair of scissors")).toBeInTheDocument();
+    expect(screen.getByText("C: a bone folder")).toBeInTheDocument();
+  });
 });

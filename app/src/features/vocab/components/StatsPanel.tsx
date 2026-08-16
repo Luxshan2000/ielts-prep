@@ -116,7 +116,7 @@ function MaturityCard({ stats }: { stats: SrsStats }) {
       <CardContent className="space-y-3">
         {total === 0 ? (
           <p className="text-[13px] text-muted-foreground">
-            Nothing in the bank yet — accept a suggestion or add a deck.
+            Nothing in the bank yet. Accept a suggestion or add a deck.
           </p>
         ) : (
           <>
@@ -156,7 +156,7 @@ function ForecastCard({ stats }: { stats: SrsStats }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Coming up — next 14 days</CardTitle>
+        <CardTitle>Coming up in the next 14 days</CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
         {empty ? (
@@ -320,7 +320,7 @@ function LimitsCard({ stats }: { stats: SrsStats }) {
         {saved && !dirty && (
           <p className="flex items-center gap-2 text-[13px] text-success">
             <Check className="h-4 w-4" aria-hidden="true" />
-            Saved — it applies to your next session.
+            Saved. It applies to your next session.
           </p>
         )}
         {error && (

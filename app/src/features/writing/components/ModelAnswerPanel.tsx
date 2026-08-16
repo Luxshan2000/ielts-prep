@@ -16,9 +16,9 @@ import { cn } from "@/lib/cn";
 import { fetchModelAnswer, message, type ModelAnswer } from "../store";
 
 const BAND_OPTIONS = [
-  { value: "7", label: "Band 7 — imitable" },
-  { value: "8", label: "Band 8 — aspirational" },
-  { value: "9", label: "Band 9 — ceiling" },
+  { value: "7", label: "Band 7: imitable" },
+  { value: "8", label: "Band 8: aspirational" },
+  { value: "9", label: "Band 9: the ceiling" },
 ];
 
 function AiBanner({ text }: { text: string }) {
@@ -136,8 +136,8 @@ export function ModelAnswerPanel({ attemptId, outline }: ModelAnswerPanelProps) 
                 {answer.text}
               </p>
               <p className="text-[11px] text-muted-foreground">
-                Read it for the moves it makes — the overview, the grouping, the comparison language —
-                not to memorise phrases. The examiner model penalises templated writing.
+                Read it for the moves it makes (the overview, the grouping, the comparison
+                language), not to memorise phrases. The examiner model penalises templated writing.
               </p>
             </div>
           )}

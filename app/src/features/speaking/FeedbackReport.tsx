@@ -192,7 +192,7 @@ export function FeedbackReport() {
 
   return (
     <PageShell
-      title={`Speaking — ${label}`}
+      title={`Speaking: ${label}`}
       description={[
         report.created_at ? formatDate(report.created_at) : null,
         report.duration_s ? formatDuration(report.duration_s) : null,
@@ -236,7 +236,7 @@ export function FeedbackReport() {
                       className="flex min-w-[74px] flex-col items-center justify-center rounded-xl border border-dashed border-border px-3 py-2"
                       title={`${full} was not assessed`}
                     >
-                      <span className="text-sm font-semibold text-muted-foreground">—</span>
+                      <span className="text-sm font-semibold text-muted-foreground">-</span>
                       <span className="mt-0.5 text-[11px] text-muted-foreground">{short}</span>
                     </div>
                   ) : (

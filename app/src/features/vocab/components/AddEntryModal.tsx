@@ -73,7 +73,7 @@ export function AddEntryModal({ open, onClose }: AddEntryModalProps) {
       if (!pos && res.preview.pos && res.preview.pos !== "other") setPos(res.preview.pos);
       if (isPendingDefinition(res.preview.definition)) {
         setNotice(
-          "The language model returned nothing extra for this word — add a definition yourself, or save it and let the background pass fill it in.",
+          "The language model returned nothing extra for this word. Add a definition yourself, or save it and let the background pass fill it in.",
         );
       }
     } catch (err) {
@@ -141,7 +141,7 @@ export function AddEntryModal({ open, onClose }: AddEntryModalProps) {
     >
       <div className="space-y-4 p-5">
         <p className="text-[13px] leading-relaxed text-muted-foreground">
-          A word you add yourself is scheduled straight away — that is the difference between this
+          A word you add yourself is scheduled straight away. That is the difference between this
           and the suggestion inbox.
         </p>
 

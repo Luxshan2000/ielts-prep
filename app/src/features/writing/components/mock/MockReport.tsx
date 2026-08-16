@@ -27,13 +27,14 @@ import {
   CardTitle,
   EmptyState,
   ErrorState,
+  Notice,
   Skeleton,
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { cn } from "@/lib/cn";
 import { CriterionCards } from "../CriterionCards";
 import { TASK_SHORT, genreLabel, type WritingAttempt } from "../../store";
-import { buildNextActions, timeVerdict } from "./analysis";
+import { buildNextActions, timeVerdict, unmarkedReason } from "./analysis";
 import { deltaMinutes, minutesLabel } from "./format";
 import { WEIGHTING_NOTE } from "./script";
 import {
@@ -209,8 +210,8 @@ export function MockReport() {
                     An estimate, and the only combined figure in the app
                   </p>
                   <p className="mt-0.5 text-[13px] leading-6 text-muted-foreground">
-                    Task 1 {task1?.evaluation?.overall_band?.toFixed(1) ?? "—"} · Task 2{" "}
-                    {task2?.evaluation?.overall_band?.toFixed(1) ?? "—"}
+                    Task 1 {task1?.evaluation?.overall_band?.toFixed(1) ?? "-"} · Task 2{" "}
+                    {task2?.evaluation?.overall_band?.toFixed(1) ?? "-"}
                   </p>
                 </div>
               </div>
@@ -316,16 +317,7 @@ function TaskSection({
       </CardHeader>
       <CardContent className="space-y-4">
         {!evaluation ? (
-          <div className="space-y-3">
-            <p className="text-[13px] leading-6 text-muted-foreground">
-              This answer was not marked. Most often that is the hard minimum: an answer under
-              fifty words is not markable, and the pre-check refuses it rather than inventing a
-              band for it.
-            </p>
-            <Button variant="outline" size="sm" onClick={() => onOpenAttempt(attempt.id)}>
-              Open the draft
-            </Button>
-          </div>
+          <UnmarkedTask attempt={attempt} onOpenAttempt={onOpenAttempt} />
         ) : (
           <>
             <div className="flex flex-wrap items-center gap-4">
@@ -356,6 +348,43 @@ function TaskSection({
         )}
       </CardContent>
     </Card>
+  );
+}
+
+/**
+ * One task of the pair with no band on it, and the true reason why.
+ *
+ * The reason is never guessed: it comes from the attempt's own status and word count
+ * (`unmarkedReason`). When the cause is the setup rather than the answer, the way out
+ * is a link to Settings — telling somebody their essay "was not marked" and leaving
+ * them to work out that a model has to be installed is where this screen used to end.
+ */
+function UnmarkedTask({
+  attempt,
+  onOpenAttempt,
+}: {
+  attempt: WritingAttempt;
+  onOpenAttempt: (attemptId: string) => void;
+}) {
+  const navigate = useNavigate();
+  const reason = unmarkedReason(attempt);
+
+  return (
+    <div className="space-y-3">
+      <Notice tone="warning" title={reason.headline}>
+        {reason.detail}
+      </Notice>
+      <div className="flex flex-wrap gap-2">
+        <Button variant="outline" size="sm" onClick={() => onOpenAttempt(attempt.id)}>
+          Open the draft
+        </Button>
+        {reason.setup && (
+          <Button size="sm" onClick={() => navigate("/settings")}>
+            Set up marking
+          </Button>
+        )}
+      </div>
+    </div>
   );
 }
 

@@ -14,7 +14,7 @@ import { cn } from "@/lib/cn";
  * feature: `notice` may be missing, and this component still says it.
  */
 export const ACCENT_NOTICE_FALLBACK =
-  "IELTS accepts every accent. This measures how clearly each sound comes across — not how British or American you sound.";
+  "IELTS accepts every accent. This measures how clearly each sound comes across, not how British or American you sound.";
 
 export interface AccentNoticeProps {
   /** `accent_notice` from the sidecar. The fixed sentence stands in when it is absent. */

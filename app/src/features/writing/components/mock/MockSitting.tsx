@@ -368,7 +368,7 @@ export function MockSitting() {
             />
 
             <p className="pb-6 text-[11px] leading-5 text-muted-foreground">
-              {CONDITIONS_LINE} Autosaved every 10 seconds. Pasting is allowed and counted —{" "}
+              {CONDITIONS_LINE} Autosaved every 10 seconds. Pasting is allowed and counted:{" "}
               {state.pasteEvents > 0
                 ? `${state.pasteEvents} paste${state.pasteEvents === 1 ? "" : "s"} on this task.`
                 : "no pastes on this task."}

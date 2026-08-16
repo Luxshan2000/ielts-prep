@@ -73,7 +73,7 @@ export const HATCH_CSS =
 
 /** Locale thousands separators, at most one decimal, no trailing ".0". */
 export function formatValue(value: number): string {
-  if (!Number.isFinite(value)) return "—";
+  if (!Number.isFinite(value)) return "-";
   const rounded = Math.abs(value) >= 100 ? Math.round(value) : Math.round(value * 10) / 10;
   return rounded.toLocaleString(undefined, { maximumFractionDigits: 1 });
 }

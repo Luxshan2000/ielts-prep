@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui";
 import { PlacementResultView } from "./components/PlacementResultView";
@@ -19,7 +20,7 @@ import { ESCAPE_HATCH_FROM_INDEX, WIZARD_STEPS, useOnboardingStore } from "./sto
 const STEP_TITLES: Record<(typeof WIZARD_STEPS)[number], { title: string; description: string }> = {
   welcome: {
     title: "Welcome to BandReady",
-    description: "Local-first IELTS preparation. Let's set up your plan.",
+    description: "IELTS practice that runs on this computer. First, your study plan.",
   },
   exam: {
     title: "Which test, and what are you aiming for?",
@@ -27,7 +28,7 @@ const STEP_TITLES: Record<(typeof WIZARD_STEPS)[number], { title: string; descri
   },
   level: {
     title: "Your starting point and your week",
-    description: "An honest self-rating and a realistic time budget beat an ambitious one.",
+    description: "An honest self-rating and a realistic amount of time beat an ambitious guess.",
   },
   engines: {
     title: "Marking your writing and speaking",
@@ -36,11 +37,11 @@ const STEP_TITLES: Record<(typeof WIZARD_STEPS)[number], { title: string; descri
   },
   models: {
     title: "Speaking practice files",
-    description: "Downloaded once, verified, and resumable. You can continue while they run.",
+    description: "Downloaded once and kept on this computer. You can carry on while they run.",
   },
   mic: {
     title: "Microphone check",
-    description: "Only the Speaking room needs this — everything else works without a mic.",
+    description: "Only the Speaking room needs this. Everything else works without a mic.",
   },
   "placement-offer": {
     title: "Take the placement test?",
@@ -66,14 +67,28 @@ export function OnboardingPage() {
     error,
     busy,
     result,
+    step: placementStep,
+    resuming,
     setDraft,
     next,
     back,
     clearError,
     startPlacement,
+    resumePlacement,
     skipPlacement,
     deferEntirely,
   } = useOnboardingStore();
+
+  // Reopened mid-sitting. The store restored `phase` from localStorage but holds no
+  // step — only the sidecar has that — so ask for it once, here, before anything is
+  // drawn that would imply the sitting was lost.
+  const needsResume = phase === "placement" && placementStep === null && resuming;
+  useEffect(() => {
+    if (needsResume) void resumePlacement();
+    // Deliberately once: `resumePlacement` clears `resuming` in its own finally,
+    // so a re-run cannot loop, and a failure lands back on the wizard.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (phase === "result" && result) {
     return <PlacementResultView result={result} />;
@@ -113,7 +128,7 @@ export function OnboardingPage() {
           navigate("/", { replace: true });
         }}
       >
-        Not now — take me to the app
+        Not now, take me to the app
       </Button>
     ) : null;
 
@@ -134,7 +149,7 @@ export function OnboardingPage() {
         isLast ? (
           <>
             <Button variant="outline" loading={busy} onClick={() => void skipPlacement()}>
-              Skip — start from my self-rating
+              Skip, start from my self-rating
             </Button>
             {/* A failure leaves `phase` on "wizard", so the error banner above
                 stays visible — never clear it by re-entering the step. */}

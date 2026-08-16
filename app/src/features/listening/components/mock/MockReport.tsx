@@ -125,7 +125,7 @@ export function MockReport() {
         {doc.auto_submitted && (
           <p className="rounded-xl border border-warning/40 bg-warning/8 p-3 text-[13px] leading-6 text-muted-foreground">
             The clock ran out and the paper was submitted as it stood. That is what happens in the
-            room too — the window does not wait.
+            room too. The window does not wait.
           </p>
         )}
 
@@ -147,7 +147,7 @@ export function MockReport() {
                   Band{score.band_is_estimate ? " (estimate)" : ""}
                 </p>
                 <p className="text-2xl font-semibold tabular-nums text-muted-foreground">
-                  {score.band ?? "—"}
+                  {score.band ?? "-"}
                 </p>
               </div>
             </div>
@@ -184,7 +184,7 @@ export function MockReport() {
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <span className="text-[13px] font-semibold">
-                      Part {part.part} — {part.title}
+                      Part {part.part}: {part.title}
                     </span>
                     <span className="flex items-center gap-2">
                       {part.accent_set && (
@@ -232,7 +232,7 @@ export function MockReport() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Target className="h-4 w-4 text-primary" aria-hidden="true" />
-                By question type — weakest first
+                By question type, weakest first
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -273,7 +273,7 @@ export function MockReport() {
             <p className="text-[13px] leading-6 text-muted-foreground">
               {typeof form.note === "string"
                 ? form.note
-                : "These are form losses, not listening losses. You heard them. They need an answer-form fix and they are the cheapest marks on the paper to get back — three weeks of work, not six months."}
+                : "These are form losses, not listening losses. You heard them. They need an answer-form fix and they are the cheapest marks on the paper to get back: three weeks of work, not six months."}
             </p>
             {Array.isArray(form.items) && form.items.length > 0 && (
               <ul className="space-y-1 pt-1">
@@ -309,7 +309,7 @@ export function MockReport() {
                   {cascades.runs.map((run, index) => (
                     <li key={index}>
                       <Badge tone="warning">
-                        Q{run.from}–{run.to}
+                        Q{run.from}-{run.to}
                       </Badge>
                     </li>
                   ))}
@@ -318,7 +318,7 @@ export function MockReport() {
               <p className="text-[12px] leading-5 text-muted-foreground">
                 {typeof cascades.note === "string"
                   ? cascades.note
-                  : "A run is not three comprehension failures — it is one miss plus a failure to rejoin. The fix is recovery, not more listening: when a question goes past, let it go and re-anchor on the next printed heading."}
+                  : "A run is one miss plus a failure to rejoin, not three comprehension failures. The fix is recovery rather than more listening: when a question goes past, let it go and re-anchor on the next printed heading."}
               </p>
             </CardContent>
           </Card>
@@ -368,7 +368,7 @@ export function MockReport() {
             <div className="space-y-2 border-t border-border pt-3">
               <p className="text-[13px] leading-6 text-muted-foreground">
                 Submitting unlocked the transcript and the timeline on all four of these parts. The
-                highest-value thing you can do now is replay the exact moments you lost — the coach
+                highest-value thing you can do now is replay the exact moments you lost. The coach
                 plays the value the speaker withdrew and the value that counted, back to back.
               </p>
               <div className="flex flex-wrap gap-2">
@@ -381,13 +381,13 @@ export function MockReport() {
                       navigate(`/listening/coach/${encodeURIComponent(part.script_id)}`)
                     }
                   >
-                    Part {part.part} — {part.correct}/{part.total}
+                    Part {part.part}: {part.correct}/{part.total}
                   </Button>
                 ))}
               </div>
               {weakest && (
                 <p className="text-[12px] leading-5 text-muted-foreground">
-                  Start with {weakest.label.toLowerCase()} — it is where this paper cost you most.
+                  Start with {weakest.label.toLowerCase()}. It is where this paper cost you most.
                 </p>
               )}
             </div>

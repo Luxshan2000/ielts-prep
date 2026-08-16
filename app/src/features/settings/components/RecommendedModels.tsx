@@ -28,7 +28,19 @@ export function RecommendedModels() {
   const applyPreset = useSettingsFeatureStore((s) => s.applyPreset);
   const setField = useSettingsFeatureStore((s) => s.setField);
 
-  if (!recommended || recommended.length === 0) return null;
+  /**
+   * The sidecar's tier table still names presets this build no longer serves — on Apple
+   * Silicon it recommends `mlx_lm` (`server/routes/models.py` TIER_TABLE / line 427), and
+   * the cloud row lists `groq` and `deepseek`. `presetById` returns undefined for those,
+   * so "Use this" fell straight through to `setField(model)` and wrote an MLX model id
+   * into the *Ollama* connection: Verify then answers "Selected model
+   * 'mlx-community/Qwen3-14B-4bit' not in server list" and every scored answer fails.
+   * A row this build cannot actually configure is not a recommendation.
+   */
+  const usable = (recommended ?? []).filter(
+    (entry) => !entry.preset || presetById(entry.preset) !== undefined,
+  );
+  if (usable.length === 0) return null;
 
   const tier = platform?.tier ?? "unknown";
 
@@ -53,12 +65,12 @@ export function RecommendedModels() {
         <p className="mt-0.5 text-[13px] text-muted-foreground">
           Tuned for {TIER_COPY[tier] ?? tier}
           {platform?.apple_silicon ? " on Apple Silicon" : ""}. Band scoring is the harder
-          job — it degrades noticeably below ~14B parameters.
+          job: it degrades noticeably below ~14B parameters.
           {source === "builtin" && " Shipped with the app; no network was used."}
         </p>
       </CardHeader>
       <CardContent className="space-y-2">
-        {recommended.map((entry) => (
+        {usable.map((entry) => (
           <div
             key={`${entry.modality}-${entry.model}`}
             className="flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-lg border border-border px-3 py-2.5"

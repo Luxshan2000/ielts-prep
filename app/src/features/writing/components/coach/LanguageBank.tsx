@@ -141,7 +141,7 @@ export function LanguageBankPanel({
         <section className="space-y-3">
           <SectionHead
             title="Chunks, with their partners attached"
-            hint="Each of these carries its preposition. Prepositions are a collocation problem wearing a grammar costume — banking the bare word teaches nothing."
+            hint="Each of these carries its preposition. Prepositions are a collocation problem wearing a grammar costume. Banking the bare word teaches nothing."
           />
           <ul className="grid gap-2 lg:grid-cols-2">
             {collocations.map((item, i) => (
@@ -159,7 +159,7 @@ export function LanguageBankPanel({
                       cefr: item.cefr,
                       topicTags,
                       isPhrase: true,
-                      sourceDetail: `Writing coach — ${promptTitle}`,
+                      sourceDetail: `Writing coach: ${promptTitle}`,
                       sourceItemId: promptId,
                     }}
                   />
@@ -176,7 +176,7 @@ export function LanguageBankPanel({
         <section className="space-y-3">
           <SectionHead
             title="Same idea, said precisely"
-            hint="None of these is a rarer word. A misused rare word costs you twice — precision is the upgrade, not vocabulary size."
+            hint="None of these is a rarer word. A misused rare word costs you twice. Precision is the upgrade, not vocabulary size."
           />
           <ul className="space-y-2">
             {upgrades.map((pair, i) => (

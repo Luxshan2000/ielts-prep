@@ -183,7 +183,7 @@ export function PartPlayer({
           </span>
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold">
-              Part {part.part} of {partCount} — {part.title}
+              Part {part.part} of {partCount}: {part.title}
             </p>
             <p className="truncate text-[12px] text-muted-foreground">
               {part.audio.accent_label}
@@ -342,7 +342,7 @@ export function PartPlayer({
         */}
         {exam && interrupted && !playing && (
           <Button variant="secondary" onClick={() => void start()}>
-            Playback stopped — continue
+            Continue where it stopped
           </Button>
         )}
       </div>
@@ -393,7 +393,7 @@ export function PartPlayer({
           }}
           onError={() =>
             setMediaError(
-              "This part's audio stopped loading. It is cached on this machine — reopen the test to continue.",
+              "This part's audio stopped loading. It is cached on this machine, so reopen the test to continue.",
             )
           }
         />

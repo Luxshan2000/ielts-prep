@@ -100,7 +100,7 @@ export function AnnotatedModel({
                   )}
                   title={
                     ann
-                      ? `${kindLabel(ann.mark.kind)} — ${ann.mark.label}`
+                      ? `${kindLabel(ann.mark.kind)}: ${ann.mark.label}`
                       : swap
                         ? "Make this one yours"
                         : undefined
@@ -131,7 +131,7 @@ export function AnnotatedModel({
           <ul className="space-y-1">
             {unresolved.map((mark, i) => (
               <li key={i} className="text-[12px] leading-5 text-muted-foreground">
-                <span className="font-semibold text-foreground">{mark.label}</span> — {mark.why}
+                <span className="font-semibold text-foreground">{mark.label}</span>: {mark.why}
               </li>
             ))}
           </ul>
@@ -163,7 +163,7 @@ function SelectedNote({
   if (!selected) {
     return (
       <p className="text-[12px] leading-5 text-muted-foreground">
-        Underlined phrases carry a note — click or tab to one to see what it earns and why.
+        Underlined phrases carry a note. Click or tab to one to see what it earns and why.
         {swapSlots.length > 0 &&
           " Shaded phrases are this writer's invented specifics: swap them for your own."}
       </p>

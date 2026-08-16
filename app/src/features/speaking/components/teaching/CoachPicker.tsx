@@ -123,7 +123,7 @@ export function CoachPicker() {
                 description={
                   query.trim() === ""
                     ? "The coach reads its material from the installed content pack. Install one from Settings and every card gains a study screen."
-                    : "Try a broader word — the search covers the cue card and its tags."
+                    : "Try a broader word. The search covers the cue card and its tags."
                 }
                 action={
                   query.trim() !== "" && (

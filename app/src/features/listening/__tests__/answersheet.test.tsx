@@ -176,7 +176,85 @@ describe("AnswerSheet", () => {
       />,
     );
     expect(screen.getAllByText("Complete the notes.")).toHaveLength(1);
-    expect(screen.getByText("Questions 1–2")).toBeInTheDocument();
+    expect(screen.getByText("Questions 1-2")).toBeInTheDocument();
+  });
+
+  it("prints a matching group's lettered box once, not once per question", async () => {
+    // ls_t1_p2 q16-20: the pack copies the same A-H bank onto all five questions, so
+    // drawing it per question put the same eight options on screen five times.
+    const options = { A: "the learner pool", B: "the main pool", C: "the climbing wall" };
+    const instruction = "Choose THREE answers from the box and write the correct letter.";
+    const onAnswer = vi.fn();
+    render(
+      <AnswerSheet
+        part={part([
+          question({ number: 16, type: "matching", instruction, options, prompt: "a beginner" }),
+          question({ number: 17, type: "matching", instruction, options, prompt: "a racer" }),
+          question({ number: 18, type: "matching", instruction, options, prompt: "a parent" }),
+        ])}
+        answers={{}}
+        onAnswer={onAnswer}
+        activeNumber={16}
+        onActive={vi.fn()}
+      />,
+    );
+
+    expect(screen.getAllByText("the learner pool")).toHaveLength(1);
+    expect(screen.getAllByText("the climbing wall")).toHaveLength(1);
+    // Each question keeps its own letter buttons, named so the option is still readable.
+    expect(screen.getAllByRole("radio", { name: "C: the climbing wall" })).toHaveLength(3);
+    await userEvent.click(screen.getAllByRole("radio", { name: "B: the main pool" })[1]);
+    expect(onAnswer).toHaveBeenCalledWith(17, "B");
+  });
+
+  it("keeps an authored heading on its own line instead of running it into the question", () => {
+    // ls_03_p2 q16 is "…VISITOR NOTES\nHow it works\n- The channel … is called the ______."
+    render(
+      <AnswerSheet
+        part={part([
+          question({
+            number: 16,
+            instruction: "Complete the notes below.",
+            prompt: "BRACKENFIELD WATERMILL\nHow it works\n- The channel is called the ______.",
+          }),
+        ])}
+        answers={{}}
+        onAnswer={vi.fn()}
+        activeNumber={16}
+        onActive={vi.fn()}
+      />,
+    );
+    expect(screen.getByText("BRACKENFIELD WATERMILL")).toBeInTheDocument();
+    expect(screen.getByText("How it works")).toBeInTheDocument();
+    expect(screen.getAllByLabelText("Answer for question 16")).toHaveLength(1);
+  });
+
+  it("does not repeat the word limit under every question when the instruction states it", () => {
+    render(
+      <AnswerSheet
+        part={part([
+          question({
+            number: 1,
+            instruction: "Complete the notes below. Write NO MORE THAN TWO WORDS for each answer.",
+            prompt: "Name: ______",
+            word_limit: 2,
+          }),
+          question({
+            number: 2,
+            instruction: "Complete the notes below. Write NO MORE THAN TWO WORDS for each answer.",
+            prompt: "Town: ______",
+            word_limit: 2,
+          }),
+        ])}
+        answers={{ "2": "far too many words here" }}
+        onAnswer={vi.fn()}
+        activeNumber={1}
+        onActive={vi.fn()}
+      />,
+    );
+    expect(screen.queryByText("NO MORE THAN TWO WORDS AND/OR A NUMBER")).not.toBeInTheDocument();
+    // The one thing only the per-question line can say survives.
+    expect(screen.getByText(/over the limit of 2/)).toBeInTheDocument();
   });
 });
 

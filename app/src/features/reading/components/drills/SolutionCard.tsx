@@ -213,7 +213,7 @@ export function VerdictBoundary({
   return (
     <div className="rounded-lg border border-warning/50 bg-warning/5 p-3">
       <p className="text-[11px] font-semibold uppercase tracking-wide text-warning">
-        {contrast.key} — not {contrast.boundary.rival}
+        {contrast.key}, not {contrast.boundary.rival}
       </p>
       <p className="mt-1 text-[13px] leading-relaxed">{contrast.boundary.line}</p>
       {contrast.boundary.authored && (
@@ -230,7 +230,7 @@ export function VerdictBoundary({
               <span className="min-w-0 text-muted-foreground">
                 {row.role === "key"
                   ? (contrast.decision_rule ?? "The reading the text forces.")
-                  : (row.why_wrong ?? "—")}
+                  : (row.why_wrong ?? "-")}
               </span>
             </li>
           ))}
@@ -271,7 +271,7 @@ function DiagnosisAgreement({ diagnosis }: { diagnosis: SelfDiagnosis }) {
           You said <strong className="text-foreground">{diagnosis.picked_label}</strong>; this one
           was built as{" "}
           <strong className="text-foreground">{diagnosis.authored_labels.join(", ")}</strong>. Worth
-          a second look at the reveal — the two feel similar and are fixed differently.
+          a second look at the reveal: the two feel similar and are fixed differently.
         </>
       )}
     </p>

@@ -50,7 +50,7 @@ const VERDICT: Record<ReadinessDoc["verdict"], { label: string; tone: "success" 
   keep_building: {
     label: "Keep building",
     tone: "default",
-    copy: "There is still ground to cover. Work the unticked checks in order — they are ordered by how much they move your band.",
+    copy: "There is still ground to cover. Work the unticked checks from the top down. They are ordered by how much they move your band.",
   },
 };
 
@@ -218,7 +218,7 @@ export function ReadinessChecklist({
             size="sm"
             icon={Lock}
             title="Add your test date to unlock the checklist"
-            description="The checks are paced against a real date. BandReady works some out from your own practice — mocks sat, how close each skill is to target, whether you finished inside the time limits — and leaves the practical ones for you to tick, like the booking and the trip to the venue."
+            description="The checks are paced against a real date. BandReady works some out from your own practice: mocks sat, how close each skill is to target, whether you finished inside the time limits. The practical ones are left for you to tick, like the booking and the trip to the venue."
             action={
               <Button onClick={onAddExamDate}>
                 <CalendarPlus className="h-4 w-4" aria-hidden="true" />
@@ -273,7 +273,7 @@ export function ReadinessChecklist({
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" aria-hidden="true" />
             <p className="text-[13px] text-foreground">
               Your exam is close and several automatic checks are still open. It is worth
-              asking whether the target band or the date is the thing to move — BandReady will
+              asking whether the target band or the date is the thing to move. BandReady will
               never change either for you. The trajectory chart above shows what the data says.
             </p>
           </div>

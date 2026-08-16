@@ -89,7 +89,7 @@ export function DecksPanel() {
   return (
     <div className="space-y-4">
       <p className="max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
-        Each deck is a curated topic list. Adding one schedules its words immediately — everything
+        Each deck is a curated topic list. Adding one schedules its words immediately. Everything
         else in BandReady only ever <em>suggests</em>.
       </p>
 

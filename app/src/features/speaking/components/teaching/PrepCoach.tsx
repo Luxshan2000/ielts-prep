@@ -79,7 +79,7 @@ function TimePlanStrip({
         </p>
         {running && active && (
           <p className="text-[12px] font-medium text-foreground">
-            {segmentLabel(active.segment)} — {active.goal}
+            {segmentLabel(active.segment)}: {active.goal}
           </p>
         )}
       </div>
@@ -119,7 +119,7 @@ function TimePlanStrip({
           {segments.map((segment, i) => (
             <li key={segment.segment + i} className="flex items-start gap-2 text-[12px]">
               <span className="w-[4.5rem] shrink-0 font-mono text-muted-foreground">
-                {clock(segment.from_s)}–{clock(segment.to_s)}
+                {clock(segment.from_s)} to {clock(segment.to_s)}
               </span>
               <span className="min-w-0 text-foreground">{segment.goal}</span>
             </li>
@@ -250,7 +250,7 @@ export function PrepCoach({
           <div className="min-w-0">
             <p className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
               {phase === "idle"
-                ? "Part 2 — not started"
+                ? "Part 2, not started"
                 : preparing
                   ? "One minute to prepare"
                   : speaking
@@ -407,7 +407,7 @@ export function PrepCoach({
               </p>
             </div>
           )}
-          <Badge tone="success">Attempt recorded — the model answers are unlocked</Badge>
+          <Badge tone="success">Attempt recorded: the model answers are unlocked</Badge>
         </div>
       )}
     </div>

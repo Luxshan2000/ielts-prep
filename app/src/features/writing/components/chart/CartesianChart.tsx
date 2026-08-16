@@ -461,7 +461,7 @@ export function CartesianChart({ spec, width, ariaLabel, describedBy }: Cartesia
                 </span>
                 <span className="tabular text-foreground">
                   {valueAt(sIndex, hover.index) === null
-                    ? "—"
+                    ? "-"
                     : formatValue(valueAt(sIndex, hover.index) as number)}
                 </span>
               </li>

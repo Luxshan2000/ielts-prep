@@ -84,7 +84,7 @@ export function DataTab() {
       setExportErr(
         describe(
           err,
-          "Export is not available in this sidecar build yet — your data already lives in the folder above.",
+          "Export is not available in this sidecar build yet. Your data already lives in the folder above.",
           "the export failed",
         ),
       );
@@ -97,7 +97,7 @@ export function DataTab() {
     const ok = await confirm({
       title: "Delete every practice recording?",
       message:
-        "Your transcripts, band scores and feedback are kept — only the audio files of your own voice are deleted. This cannot be undone.",
+        "Your transcripts, band scores and feedback are kept. Only the audio files of your own voice are deleted, and this cannot be undone.",
       confirmLabel: "Delete recordings",
       destructive: true,
     });
@@ -142,8 +142,8 @@ export function DataTab() {
         <CardHeader>
           <CardTitle>Data folder</CardTitle>
           <p className="mt-0.5 text-[13px] text-muted-foreground">
-            Everything BandReady knows about you — the SQLite database, your recordings and
-            downloaded model weights — lives here. Nothing is sent anywhere else.
+            Everything BandReady knows about you lives here: the SQLite database, your
+            recordings and any downloaded model weights. Nothing is sent anywhere else.
           </p>
         </CardHeader>
         <CardContent>
@@ -173,8 +173,8 @@ export function DataTab() {
         <CardHeader>
           <CardTitle>Export everything</CardTitle>
           <p className="mt-0.5 text-[13px] text-muted-foreground">
-            Writes a self-contained zip — every table as JSONL plus all your recordings — into
-            the exports folder. Yours to keep, move or delete.
+            Writes a self-contained zip into the exports folder, with every table as JSONL
+            plus all your recordings. Yours to keep, move or delete.
           </p>
         </CardHeader>
         <CardContent className="space-y-2">

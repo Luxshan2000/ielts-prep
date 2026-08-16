@@ -84,7 +84,7 @@ export function SignpostItem({
 
       <p className="text-[13px] text-muted-foreground">
         {isCue
-          ? "Listen, and press the moment you think an answer is starting to arrive. Early is fine — that means you heard the marker."
+          ? "Listen, and press the moment you think an answer is starting to arrive. Early is fine. That means you heard the marker."
           : "Listen to the marker. What kind of thing is the speaker about to do?"}
       </p>
 
@@ -110,7 +110,7 @@ export function SignpostItem({
             className="w-full sm:w-auto"
           >
             <Hand className="h-4 w-4" />
-            {pressed == null ? "Now — the answer is coming" : "Move my mark"}
+            {pressed == null ? "Now, the answer is coming" : "Move my mark"}
           </Button>
           <p className="text-[12px] text-muted-foreground">
             {pressed == null ? (

@@ -160,7 +160,7 @@ describe("the whole path", () => {
   it("draws one block per part, and marks the part holding the next lesson", () => {
     open();
     expect(
-      screen.getByRole("button", { name: /Part 1 of 2, Building a sentence — 0 of 4 finished/ }),
+      screen.getByRole("button", { name: /Part 1 of 2, Building a sentence, 0 of 4 finished/ }),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /Part 2 of 2, Talking about now/ })).toBeInTheDocument();
   });

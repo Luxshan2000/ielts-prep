@@ -83,14 +83,14 @@ function NumbersReveal({ result }: { result: ItemResult }) {
     <div className="space-y-3 text-[13px]">
       <p>
         <span className="text-muted-foreground">You wrote</span>{" "}
-        <span className="font-mono">{String(marking.given || "—")}</span>
+        <span className="font-mono">{String(marking.given || "nothing")}</span>
         {"  ·  "}
         <span className="text-muted-foreground">The answer is</span>{" "}
-        <span className="font-mono font-semibold">{String(marking.key ?? "—")}</span>
+        <span className="font-mono font-semibold">{String(marking.key ?? "-")}</span>
       </p>
       {marking.near_miss_spelling && (
         <p className="text-warning">
-          You heard it. One or two letters out is still zero marks on the sheet — this is a
+          You heard it. One or two letters out is still zero marks on the sheet. This is a
           spelling fix, and no amount of listening practice will close it.
         </p>
       )}
@@ -102,7 +102,7 @@ function NumbersReveal({ result }: { result: ItemResult }) {
       {reveal.quote && (
         <p>
           <span className="text-muted-foreground">The speaker said</span>{" "}
-          <span className="italic">“{reveal.quote}”</span>
+          <span className="italic">"{reveal.quote}"</span>
         </p>
       )}
       {reveal.form?.note && (
@@ -118,8 +118,8 @@ function NumbersReveal({ result }: { result: ItemResult }) {
           <Badge tone="destructive" className="mr-2">
             Decoy
           </Badge>
-          The audio also offered <span className="font-mono">{reveal.distraction.decoy}</span>{" "}
-          — signalled by “{reveal.distraction.signal}”. {reveal.distraction.note}
+          The audio also offered <span className="font-mono">{reveal.distraction.decoy}</span>,
+          signalled by "{reveal.distraction.signal}". {reveal.distraction.note}
         </p>
       )}
       {reveal.explanation && <p className="text-muted-foreground">{reveal.explanation}</p>}
@@ -135,7 +135,7 @@ function SignpostReveal({ result }: { result: ItemResult }) {
       {reveal.phrase && (
         <p>
           <span className="text-muted-foreground">The marker was</span>{" "}
-          <span className="font-semibold">“{reveal.phrase}”</span>
+          <span className="font-semibold">"{reveal.phrase}"</span>
         </p>
       )}
       {reveal.kind_info && (
@@ -151,7 +151,7 @@ function SignpostReveal({ result }: { result: ItemResult }) {
       )}
       {marking.note && <p className="text-muted-foreground">{marking.note}</p>}
       {reveal.line_text && (
-        <p className="rounded-md bg-background/60 p-2 italic">“{reveal.line_text}”</p>
+        <p className="rounded-md bg-background/60 p-2 italic">"{reveal.line_text}"</p>
       )}
     </div>
   );
@@ -163,10 +163,10 @@ function PredictionReveal({ result }: { result: ItemResult }) {
     <div className="space-y-3 text-[13px]">
       <p>
         <span className="text-muted-foreground">You said</span>{" "}
-        <span className="font-medium">{marking.chosen_info?.name ?? "—"}</span>
+        <span className="font-medium">{marking.chosen_info?.name ?? "nothing"}</span>
         {"  ·  "}
         <span className="text-muted-foreground">It is</span>{" "}
-        <span className="font-semibold">{marking.key_info?.name ?? "—"}</span>
+        <span className="font-semibold">{marking.key_info?.name ?? "-"}</span>
       </p>
       {reveal.cue && (
         <p>
@@ -194,9 +194,9 @@ function PredictionReveal({ result }: { result: ItemResult }) {
           <Badge tone="primary" className="mr-2">
             Paraphrase
           </Badge>
-          The page says “{reveal.paraphrase_link.printed}”. The speaker said “
-          {reveal.paraphrase_link.audio}”. In listening the printed question is the
-          paraphrase and the audio is the original — waiting for the printed word is how an
+          The page says "{reveal.paraphrase_link.printed}". The speaker said "
+          {reveal.paraphrase_link.audio}". In listening the printed question is the
+          paraphrase and the audio is the original. Waiting for the printed word is how an
           answer goes past with no feeling of difficulty at all.
         </p>
       )}

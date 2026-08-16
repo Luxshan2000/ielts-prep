@@ -22,7 +22,6 @@ import { formatBand } from "@/lib/format";
 import { useChartTheme } from "../chartTheme";
 import {
   CRITERION_LABELS,
-  PRODUCTIVE_SKILLS,
   QTYPE_LABELS,
   SKILL_KEYS,
   SKILL_LABELS,
@@ -32,7 +31,6 @@ import {
 
 interface Props {
   criteria: Partial<Record<SkillKey, CriteriaDoc>>;
-  loading: boolean;
   /** The thrown value, so the panel can name an offline service or a bad provider. */
   error?: unknown;
   onSelect: (skill: SkillKey) => void;
@@ -47,7 +45,7 @@ function qtypeLabel(key: string): string {
 }
 
 /** Radar for Writing and Speaking; question-type accuracy bars for Reading and Listening (10 §7). */
-export function CriteriaPanel({ criteria, loading, error, onSelect }: Props) {
+export function CriteriaPanel({ criteria, error, onSelect }: Props) {
   const theme = useChartTheme();
   const [skill, setSkill] = useState<SkillKey>("writing");
   const doc = criteria[skill];
@@ -81,19 +79,14 @@ export function CriteriaPanel({ criteria, loading, error, onSelect }: Props) {
             title="The breakdown could not be loaded"
             fallback="Your criterion scores could not be read."
           />
-        ) : loading && !doc ? (
-          <SkeletonChart aspect="aspect-square" />
         ) : !doc ? (
-          <EmptyState
-            size="sm"
-            icon={RadarIcon}
-            title={`Nothing scored in ${SKILL_LABELS[skill].toLowerCase()} yet`}
-            description={
-              PRODUCTIVE_SKILLS.includes(skill)
-                ? "One marked attempt shows you which of the four criteria is costing you the most marks."
-                : "Answer one set of questions and this shows which question types you are losing marks on."
-            }
-          />
+          /* No document is never "nothing scored" — the sidecar answers a skill with
+             no attempts with an empty `criteria` / `items` document, and the two
+             panels below say so in their own words. `!doc` only ever means the
+             request is still in flight, which is what a learner clicking Reading for
+             the first time sees; it used to flash "Nothing scored in reading yet" at
+             them and then contradict itself a moment later. */
+          <SkeletonChart aspect="aspect-square" />
         ) : doc.kind === "criteria_radar" ? (
           <RadarPanel doc={doc} color={theme.series[skill]} theme={theme} skill={skill} />
         ) : (
@@ -186,7 +179,7 @@ function RadarPanel({
       </ul>
       <p className="text-[11px] text-muted-foreground">
         Rings run from band 4 at the centre to band 9 at the edge.{" "}
-        {doc.disclaimer || "Estimated band — not a guarantee"}
+        {doc.disclaimer || "Estimated band, not a guarantee"}
         {doc.band?.display ? ` · overall ${doc.band.display}` : ""}
       </p>
     </div>

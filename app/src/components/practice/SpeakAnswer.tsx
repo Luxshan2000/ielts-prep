@@ -67,7 +67,7 @@ export function SpeakAnswer({
     } catch (err) {
       setFailure(
         err instanceof Error && /503|speech_unavailable/.test(err.message)
-          ? "Speech is not set up on this machine yet. Type your answer instead — you can turn speech on in Settings."
+          ? "Speech is not set up on this machine yet. Type your answer instead. You can turn speech on in Settings."
           : "That recording could not be checked. Type your answer instead, or try again.",
       );
     } finally {

@@ -89,7 +89,7 @@ export function TranscriptBubble({
                   "opacity-0 transition-opacity duration-100 group-hover/err:opacity-100 group-focus-within/err:opacity-100",
                 )}
               >
-                <span className="font-medium">{kindLabel[err.kind]}</span> — {err.note}
+                <span className="font-medium">{kindLabel[err.kind]}</span>: {err.note}
               </span>
             </span>
           );

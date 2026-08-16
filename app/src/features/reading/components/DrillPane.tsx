@@ -5,7 +5,7 @@ import { CHOICE_TYPES, LETTER_TYPES, choiceValues, qtypeLabel } from "../qtypes"
 import { questionDomId } from "../model";
 import type { DrillItem } from "../types";
 import { AnswerInput } from "./AnswerInput";
-import { LetterSelect, RadioChoices, SegmentedChoices } from "./Options";
+import { ChoiceGlossary, LetterSelect, RadioChoices, SegmentedChoices } from "./Options";
 
 export interface DrillPaneProps {
   qtype: string;
@@ -50,6 +50,10 @@ export function DrillPane({
           Each question shows only the paragraphs it is about. Answer them all, then submit for
           marking and explanations.
         </p>
+        {/* A drill carries no group instructions at all (the sidecar sends only the
+            word-limit line, which a judgement type does not have), so without this the
+            three buttons arrive unexplained. */}
+        <ChoiceGlossary qtype={qtype} className="mt-3" />
       </div>
 
       {items.map((item) => {
@@ -76,6 +80,7 @@ export function DrillPane({
               ariaLabel={label}
               values={choiceValues(item.qtype)}
               value={value}
+              disabled={disabled}
               onFocus={() => onFocusQuestion(item.index)}
               onChange={(next) => onAnswer(key, next === value ? "" : next)}
             />
@@ -87,6 +92,7 @@ export function DrillPane({
               ariaLabel={label}
               options={options}
               value={value}
+              disabled={disabled}
               onFocus={() => onFocusQuestion(item.index)}
               onChange={(next) => onAnswer(key, next)}
             />
@@ -97,6 +103,7 @@ export function DrillPane({
               ariaLabel={label}
               options={options}
               value={value}
+              disabled={disabled}
               onChange={(next) => {
                 onFocusQuestion(item.index);
                 onAnswer(key, next);
@@ -117,7 +124,7 @@ export function DrillPane({
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-[11px] text-muted-foreground">
-                  Question {item.index} · from “{item.passage_title ?? item.passage_id}”
+                  Question {item.index} · from "{item.passage_title ?? item.passage_id}"
                 </p>
                 {item.instructions && (
                   <p className="mt-1 text-[13px] font-medium text-foreground">
@@ -128,11 +135,13 @@ export function DrillPane({
               <button
                 type="button"
                 onClick={() => onToggleFlag(item.index)}
+                disabled={disabled}
                 aria-pressed={isFlagged}
                 aria-label={`${isFlagged ? "Unflag" : "Flag"} question ${item.index}`}
                 className={cn(
                   "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md transition-colors",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  "disabled:pointer-events-none disabled:opacity-50",
                   isFlagged
                     ? "bg-warning/15 text-warning"
                     : "text-muted-foreground hover:bg-accent hover:text-foreground",

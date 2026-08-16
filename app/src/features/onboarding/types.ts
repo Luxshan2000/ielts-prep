@@ -16,14 +16,14 @@ export type ExamFormat = "academic" | "general_training";
 export type SelfLevel = "beginner" | "intermediate" | "upper" | "advanced";
 
 export const SELF_LEVELS: { value: SelfLevel; label: string; hint: string }[] = [
-  { value: "beginner", label: "Beginner", hint: "Around band 4.5 — short sentences, lots of pauses" },
+  { value: "beginner", label: "Beginner", hint: "Around band 4.5, short sentences and lots of pauses" },
   {
     value: "intermediate",
     label: "Intermediate",
-    hint: "Around band 5.5 — you get by, accuracy slips under pressure",
+    hint: "Around band 5.5. You get by, but accuracy slips under pressure",
   },
-  { value: "upper", label: "Upper intermediate", hint: "Around band 6.5 — fluent, some range gaps" },
-  { value: "advanced", label: "Advanced", hint: "Around band 7.5 — comfortable, aiming for precision" },
+  { value: "upper", label: "Upper intermediate", hint: "Around band 6.5, fluent with some gaps in range" },
+  { value: "advanced", label: "Advanced", hint: "Around band 7.5, comfortable and aiming for precision" },
 ];
 
 export const WEEKDAYS = [
@@ -79,6 +79,8 @@ export interface DocQuestion {
   text?: string;
   options?: { key?: string; text?: string }[] | string[] | null;
   type?: string;
+  /** Listening packs carry the rubric per question; reading packs carry it per group. */
+  instruction?: string | null;
 }
 
 export interface ReadingContent {
@@ -93,6 +95,8 @@ export interface ReadingContent {
           id?: string;
           type?: string;
           instructions?: string | null;
+          /** What the shipped pack actually uses for the group's rubric line. */
+          instructions_extra?: string | null;
           options?: { key?: string; text?: string }[] | null;
           questions?: DocQuestion[] | null;
         }[]
@@ -223,8 +227,8 @@ export interface ArtifactState {
 
 /** `kind` is a wire slug; a learner reads the job the weights do. */
 export const ARTIFACT_KIND_LABELS: Record<string, string> = {
-  stt: "Speech to text — turns your recording into words",
-  tts: "Examiner voice — reads the questions aloud",
+  stt: "Speech to text: turns your recording into words",
+  tts: "Examiner voice: reads the questions aloud",
 };
 
 export interface RecommendedDoc {

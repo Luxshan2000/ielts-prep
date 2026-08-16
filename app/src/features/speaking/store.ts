@@ -163,6 +163,15 @@ export interface VocabSuggestionEntry {
 
 export interface EngineInfo {
   voice_available: boolean;
+  /**
+   * Whether a language model is configured well enough to be the examiner *and* the
+   * marker. `voice_available` only says Pipecat imports; without a model the SDP
+   * exchange still succeeds, so the room connects and then sits in silence. Absent on
+   * an older sidecar, which is why every caller tests `=== false` rather than falsiness.
+   */
+  examiner_available?: boolean;
+  /** Why not, in words the learner can act on. Null when it is available. */
+  examiner_reason?: string | null;
   vad?: Record<string, unknown>;
   live_session_id: string | null;
 }
@@ -192,7 +201,7 @@ function message(err: unknown, fallback: string): string {
   return friendlyMessage(
     err,
     fallback,
-    "Couldn't reach the practice engine. It may still be starting — wait a few seconds and retry.",
+    "Couldn't reach the practice engine. It may still be starting. Wait a few seconds and retry.",
   );
 }
 
@@ -406,7 +415,7 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
     } catch (err) {
       set({
         scoring: false,
-        scoreError: message(err, "Scoring failed. Your transcript is saved — you can retry."),
+        scoreError: message(err, "Scoring failed. Your transcript is saved. You can retry."),
       });
       return null;
     }

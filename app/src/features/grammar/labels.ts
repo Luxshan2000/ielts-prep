@@ -30,32 +30,32 @@ export interface StageMeta {
 export const STAGES: Record<Stage, StageMeta> = {
   0: {
     name: "Meet",
-    does: "Meets it in real sentences, answers what they mean, then reads the rule",
+    does: "meet it in real sentences, answer what each one means, then read the rule",
     asks: "What do these sentences actually say?",
   },
   1: {
     name: "Notice",
-    does: "Reads the form and tells you what it means — nothing to produce yet",
+    does: "read the form and say what it means, with nothing to produce yet",
     asks: "What does this form tell you?",
   },
   2: {
     name: "Build",
-    does: "Produces the form with the meaning already fixed",
+    does: "build the form, with the meaning already fixed",
     asks: "Can you make the shape?",
   },
   3: {
     name: "Choose",
-    does: "Both forms are correct English. The situation decides which one is right",
+    does: "pick between two forms that are both correct, because the situation decides which one is right",
     asks: "Which one does this situation need?",
   },
   4: {
     name: "Use",
-    does: "Writes an original sentence to a specification",
+    does: "write an original sentence to a specification",
     asks: "Can you use it in a sentence of your own?",
   },
   5: {
     name: "Under pressure",
-    does: "Uses it inside a real task, timed",
+    does: "use it inside a real task, timed",
     asks: "Can you still do it when the task is about something else?",
   },
 };
@@ -159,7 +159,7 @@ export const KIND_INSTRUCTION: Record<ItemKind, string> = {
   choose_form: "Both are correct English. Which one does this situation need?",
   contrast_pair: "Match each sentence to what it means.",
   judge: "Is this acceptable? If not, say what is wrong with it.",
-  both_ok: "Both of these are correct. Say so — then say what changes.",
+  both_ok: "Both of these are correct. Say so, then say what changes.",
   error_fix: "One part of this is wrong. Replace it.",
   dictation: "Listen once, then write what you heard.",
   combine: "Make these into one sentence using the device named.",

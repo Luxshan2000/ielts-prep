@@ -127,7 +127,7 @@ export function AttemptHistory({ promptId }: { promptId?: string }) {
       <EmptyState
         icon={FileText}
         title="No writing attempts yet"
-        description="Pick a prompt from the bank and write your first answer — every attempt is kept so you can see your bands converge."
+        description="Pick a prompt from the bank and write your first answer. Every attempt is kept so you can see your bands converge."
       />
     );
   }

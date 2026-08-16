@@ -19,6 +19,7 @@ import { PredictionItem } from "./PredictionItem";
 import { RevealCard } from "./RevealCard";
 import { SignpostItem } from "./SignpostItem";
 import type { DrillReport, DrillResponse, DrillSet, ItemResult } from "./types";
+import { StepCount } from "@/components/practice/StepCount";
 
 type Phase = "loading" | "answer" | "reveal" | "report" | "error" | "needs-audio";
 
@@ -275,11 +276,9 @@ export function DrillRunner({
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">
+          <StepCount index={cursor} total={set.items.length} />
           <Badge tone="primary">{KIND_LABEL[set.kind]}</Badge>
           {mode && <Badge tone="outline">{mode}</Badge>}
-          <span className="text-[13px] text-muted-foreground">
-            {cursor + 1} of {set.items.length}
-          </span>
         </div>
         {onExit && (
           <Button variant="ghost" onClick={onExit}>
@@ -348,7 +347,7 @@ export function DrillRunner({
             <span className="text-[12px] text-muted-foreground">
               {set.kind === "dictation"
                 ? "Write what you can. A blank teaches nothing; a wrong guess is diagnostic."
-                : "Commit to something — guessing is free and blanks are not."}
+                : "Commit to something. Guessing is free and blanks are not."}
             </span>
           )}
         </div>

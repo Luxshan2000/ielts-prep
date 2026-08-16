@@ -206,7 +206,7 @@ export function MockSitting() {
       message: (
         <span>
           Your answers stay saved, but the sitting is recorded as abandoned and it is not marked.
-          The clock does not stop — if you come back to it, the time you were away has gone.
+          The clock does not stop. If you come back to it, the time you were away has gone.
         </span>
       ),
       confirmLabel: "Abandon it",
@@ -288,7 +288,7 @@ export function MockSitting() {
       bleed
       maxWidth="max-w-none"
       title={record?.testTitle ?? attempt.title}
-      description="Exam conditions. No dictionary, no coaching, no pause — 60 minutes including writing your answers down."
+      description="Exam conditions. No dictionary, no coaching, no pause, and 60 minutes including writing your answers down."
       status={
         <CircularTimer
           totalSec={MOCK_SECONDS}
@@ -361,7 +361,10 @@ export function MockSitting() {
               />
             </div>
           )}
-          <div className="flex min-h-0 flex-1 flex-col">
+          {/* `min-w-0`: without it this column's min-content width (the widest answer
+              box in a note/summary skeleton) squeezes the passage below the 50% the
+              layout promises. See the same note in ReadingPlayer. */}
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col">
             <div className="scrollbar-thin min-h-0 flex-1 overflow-y-auto">
               <div className="space-y-4 px-5 py-5">
                 {groups.length === 0 ? (
@@ -435,7 +438,7 @@ export function MockSitting() {
             <h3 className="mb-2 text-[13px] font-semibold">Flagged questions</h3>
             {flags.length === 0 ? (
               <p className="text-[13px] text-muted-foreground">
-                Nothing flagged. Flag anything you guessed — at 58 minutes these are the ones to
+                Nothing flagged. Flag anything you guessed. At 58 minutes these are the ones to
                 come back to.
               </p>
             ) : (
@@ -478,10 +481,10 @@ export function MockSitting() {
           <section>
             <h3 className="mb-2 text-[13px] font-semibold">Keyboard</h3>
             <ul className="space-y-1 text-[12px] text-muted-foreground">
-              <li>Alt + ← / → — previous or next question</li>
-              <li>Alt + 1…3 — switch passage</li>
-              <li>Ctrl/Cmd + Shift + F — flag the current question</li>
-              <li>Ctrl/Cmd + Enter — hand the paper in</li>
+              <li>Alt + ← / →: previous or next question</li>
+              <li>Alt + 1…3: switch passage</li>
+              <li>Ctrl/Cmd + Shift + F: flag the current question</li>
+              <li>Ctrl/Cmd + Enter: hand the paper in</li>
             </ul>
           </section>
         </div>

@@ -45,6 +45,30 @@ interface ArticleSummary {
   also_called?: string | null;
   one_line?: string | null;
   estimated_read_minutes?: number | null;
+  /** The words a learner would search with — "present simple", "despite or although". */
+  aliases?: string[] | null;
+  question_in_learner_words?: string | null;
+}
+
+/**
+ * Everything a search should look at.
+ *
+ * Article titles are written as answers — "Saying what is generally true" — so searching for
+ * the name of the thing ("present simple") matched nothing at all. The pack ships the
+ * learner's own phrasings alongside every article for this, and they are searched but not
+ * shown: they are a way in, not a second subtitle.
+ */
+function haystack(article: ArticleSummary): string {
+  return [
+    article.title,
+    article.also_called,
+    article.one_line,
+    article.question_in_learner_words,
+    ...(article.aliases ?? []),
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
 }
 
 interface Chapter {
@@ -98,11 +122,7 @@ export function TheoryScreen() {
     ? chapters
         .map((c) => ({
           ...c,
-          articles: c.articles.filter((a) =>
-            [a.title, a.also_called, a.one_line]
-              .filter(Boolean)
-              .some((t) => String(t).toLowerCase().includes(needle)),
-          ),
+          articles: c.articles.filter((a) => haystack(a).includes(needle)),
         }))
         .filter((c) => c.articles.length > 0)
     : chapters;
@@ -130,7 +150,7 @@ export function TheoryScreen() {
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search the reference — a tense, a word, a question"
+            placeholder="Search the reference: a tense, a word, a question"
             aria-label="Search the reference"
             className="pl-8"
           />
@@ -147,7 +167,7 @@ export function TheoryScreen() {
         <EmptyState
           icon={Search}
           title={`Nothing matches “${query}”`}
-          description="Try the name you know it by — “past tense”, “the”, “if”."
+          description="Try the name you know it by: “past tense”, “the”, “if”."
         />
       ) : (
         shown.map((chapter) => (

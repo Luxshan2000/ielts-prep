@@ -27,19 +27,19 @@ export const PART_OUTLINE: PartOutline[] = [
   {
     part: 1,
     title: "Introduction and interview",
-    duration: "4–5 minutes",
-    what: "The examiner confirms who you are, then asks short questions about two or three familiar subjects — where you live, your work or studies, everyday habits. Two or three sentences per answer is the right length.",
+    duration: "4 to 5 minutes",
+    what: "The examiner confirms who you are, then asks short questions about two or three familiar subjects: where you live, your work or studies, everyday habits. Two or three sentences per answer is the right length.",
   },
   {
     part: 2,
     title: "The long turn",
-    duration: "3–4 minutes",
+    duration: "3 to 4 minutes",
     what: "You are given a task card. You have exactly one minute to prepare and may write notes, then you speak on your own for one to two minutes. The examiner stops you at two minutes and asks one or two brief follow-up questions.",
   },
   {
     part: 3,
     title: "Discussion",
-    duration: "4–5 minutes",
+    duration: "4 to 5 minutes",
     what: "A two-way discussion of the wider subject behind your task card. The examiner asks you to compare, explain, speculate and defend an opinion, and may push back on what you say.",
   },
 ];
@@ -66,7 +66,7 @@ export const EXPECTATIONS: Expectation[] = [
   },
   {
     id: "timing",
-    title: "11–14 minutes, three parts, back to back",
+    title: "11 to 14 minutes, three parts, back to back",
     detail:
       "Put your phone away and find somewhere you can speak out loud without interruption. Silence and hesitation are part of what is being measured.",
   },
@@ -92,17 +92,17 @@ export interface Transition {
 export const TRANSITIONS: Record<1 | 2 | 3, Transition> = {
   1: {
     part: 1,
-    heading: "Part 1 — Introduction and interview",
+    heading: "Part 1: Introduction and interview",
     line: "The examiner will confirm who you are and then ask about familiar subjects. Answer in two or three sentences.",
   },
   2: {
     part: 2,
-    heading: "Part 2 — The long turn",
+    heading: "Part 2: The long turn",
     line: "The examiner is about to give you a task card. One minute to prepare, then you speak alone for one to two minutes.",
   },
   3: {
     part: 3,
-    heading: "Part 3 — Discussion",
+    heading: "Part 3: Discussion",
     line: "The examiner will now ask more general questions connected to your task card. Explain and justify your opinions.",
   },
 };
@@ -142,4 +142,4 @@ export function sittingPhase(phase: SpeakingPhase | null | undefined): SittingPh
 
 /** Fixed honesty copy, repeated from the report so nobody meets it for the first time after the fact. */
 export const BAND_HONESTY =
-  "The band you get is an AI estimate — typically within about one band of an official examiner, and higher than it should be for answers that were memorised. Watch the trend across several mocks, not any single number.";
+  "The band you get is an AI estimate, typically within about one band of an official examiner, and higher than it should be for answers that were memorised. Watch the trend across several mocks, not any single number.";

@@ -39,7 +39,7 @@ export function UseInSentenceExercise({ item, revealed, onCommit, autoFocus }: E
     commit({
       correct: null,
       suggestedRating: null,
-      detail: "Not checked — rate how confident that sentence felt.",
+      detail: "Not checked. Rate how confident that sentence felt.",
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [revealed]);
@@ -64,7 +64,7 @@ export function UseInSentenceExercise({ item, revealed, onCommit, autoFocus }: E
       const detail =
         err instanceof ApiError
           ? err.detail
-          : "the sentence check could not run — rate yourself instead";
+          : "the sentence check could not run, so rate yourself instead";
       setError(detail);
       commit({ correct: null, suggestedRating: null, detail });
     } finally {

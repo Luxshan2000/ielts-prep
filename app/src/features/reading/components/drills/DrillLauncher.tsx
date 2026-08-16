@@ -224,7 +224,7 @@ export function DrillLauncher({
           </Button>
         ) : (
           <p className="text-[12px] text-muted-foreground">
-            Needs authored paraphrase links — four in one passage before an item can be built.
+            Needs authored paraphrase links: four in one passage before an item can be built.
           </p>
         )}
       </Section>

@@ -189,7 +189,7 @@ export function AccentDrill() {
         <EmptyState
           icon={Globe2}
           title="Accent training needs listening scripts"
-          description="Install a content pack with listening parts. Each script can then be re-voiced in another accent — the questions stay the same."
+          description="Install a content pack with listening parts. Each script can then be re-voiced in another accent. The questions stay the same."
         />
       </PageShell>
     );
@@ -200,7 +200,7 @@ export function AccentDrill() {
         <EmptyState
           icon={Headphones}
           title="Nothing is rendered yet"
-          description="Prepare the audio for a listening part first — accent training compares that recording against the same script in another accent."
+          description="Prepare the audio for a listening part first. Accent training compares that recording against the same script in another accent."
         />
       </PageShell>
     );
@@ -230,7 +230,7 @@ export function AccentDrill() {
                   aria-label="Listening script"
                   options={rendered.map((s) => ({
                     value: s.id,
-                    label: `Part ${s.part} — ${s.title}`,
+                    label: `Part ${s.part}: ${s.title}`,
                   }))}
                 />
               </div>
@@ -248,8 +248,8 @@ export function AccentDrill() {
               <p className="text-[13px] text-muted-foreground">
                 Recorded in{" "}
                 <span className="font-medium text-foreground">{script.audio.accent_label}</span>.
-                Re-rendering as {accentLabel} generates a second recording locally and caches it —
-                the questions and answers do not change.
+                Re-rendering as {accentLabel} generates a second recording locally and caches it. The
+                questions and answers do not change.
               </p>
             )}
             <div className="flex flex-wrap items-center gap-2">
@@ -323,7 +323,7 @@ export function AccentDrill() {
                 variant="ghost"
                 onClick={() => navigate(`/listening/part/${script.id}?mode=practice`)}
               >
-                Answer this part&rsquo;s questions
+                Answer this part's questions
               </Button>
             )}
           </CardContent>

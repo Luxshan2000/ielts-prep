@@ -29,8 +29,8 @@ function WordCount({ value, min, max }: { value: string; min?: number | null; ma
   return (
     <span className="text-[12px] text-muted-foreground">
       {words} {words === 1 ? "word" : "words"}
-      {short && min ? ` — aim for at least ${min}` : ""}
-      {long && max ? ` — trim to about ${max}` : ""}
+      {short && min ? `, aim for at least ${min}` : ""}
+      {long && max ? `, trim to about ${max}` : ""}
     </span>
   );
 }
@@ -65,7 +65,7 @@ export function ProduceItem({ item, attempt, disabled, onAnswer }: ItemViewProps
 
       {payload.seed_word?.definition && (
         <p className="text-[12px] text-muted-foreground">
-          <span className="font-medium text-foreground">{payload.seed_word.headword}</span> —{" "}
+          <span className="font-medium text-foreground">{payload.seed_word.headword}</span>:{" "}
           {payload.seed_word.definition}
         </p>
       )}
@@ -87,7 +87,7 @@ export function ProduceItem({ item, attempt, disabled, onAnswer }: ItemViewProps
               permission, or no speech provider must still leave a working exercise. The
               transcript lands in the same field, so from here everything is identical. */}
           <SpeakAnswer
-            prompt="Or say your sentence out loud — it will be checked the same way."
+            prompt="Or say your sentence out loud. It will be checked the same way."
             disabled={disabled}
             onSubmit={async (audio) => {
               const spoken = await speakGrammarAnswer(audio, item.id);
@@ -104,7 +104,7 @@ export function ProduceItem({ item, attempt, disabled, onAnswer }: ItemViewProps
           {item.needs_model && (
             <p className="text-[12px] text-muted-foreground">
               This one is read by the language model. If it is not running, you will be asked to rate
-              yourself instead — nothing is lost.
+              yourself instead. Nothing is lost.
             </p>
           )}
         </>

@@ -9,7 +9,7 @@
  */
 
 import { describe, expect, it } from "vitest";
-import { promptLineFor, stripEmphasis } from "../qtypes";
+import { promptLineFor, stripEmphasis, tableRowFor } from "../qtypes";
 
 const FORM = [
   "PENVALE COTTAGES — TELEPHONE BOOKING",
@@ -73,6 +73,30 @@ describe("promptLineFor", () => {
   it("tolerates a missing question number", () => {
     expect(promptLineFor(FORM, null)).toContain("PENVALE COTTAGES");
     expect(promptLineFor(FORM, null)).not.toContain("**");
+  });
+});
+
+describe("tableRowFor", () => {
+  // ls_06_p1 q7-10: review printed the whole markdown table, pipes and `|---|` included.
+  const TABLE = [
+    "| Item | Cost | Note |",
+    "|---|---|---|",
+    "| Drum sander | **7** ______ pounds a day | book two days ahead |",
+    "| Edging sander | 18 pounds a day | collect from the **8** ______ |",
+  ].join("\n");
+
+  it("returns the owning row labelled by its headers, with no pipes", () => {
+    const out = tableRowFor(TABLE, 8)!;
+    expect(out).toContain("Item: Edging sander");
+    expect(out).toContain("Note: collect from the 8 ______");
+    expect(out).not.toContain("|");
+    expect(out).not.toContain("**");
+  });
+
+  it("is null for a prompt that is not a table, so the plain line is used", () => {
+    expect(tableRowFor("Surname: **1** ______", 1)).toBeNull();
+    expect(tableRowFor(TABLE, 99)).toBeNull();
+    expect(tableRowFor(null, 7)).toBeNull();
   });
 });
 

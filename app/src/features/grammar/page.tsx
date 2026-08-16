@@ -39,7 +39,7 @@ function ModuleMissing() {
     <EmptyState
       icon={GraduationCap}
       title="The grammar syllabus is not in this build yet"
-      description="Nothing is broken and nothing you have done is lost. When a content pack with the grammar lessons is installed, the whole path appears here — sequenced so that a complete beginner can start at the first lesson and work forward."
+      description="Nothing is broken and nothing you have done is lost. When a content pack with the grammar lessons is installed, the whole path appears here, in an order that lets a complete beginner start at the first lesson and work forward."
       action={<Button onClick={() => navigate("/settings")}>Check your content packs</Button>}
     />
   );
@@ -86,7 +86,7 @@ export function GrammarPage() {
   return (
     <PageShell
       title="Grammar"
-      description="The language underneath the four skills — taught in an order where nothing depends on something you have not met yet."
+      description="The language underneath the four skills, taught in an order where nothing depends on something you have not met yet."
       actions={
         !missing && due > 0 ? (
           <Button onClick={() => navigate("/grammar/practice")}>

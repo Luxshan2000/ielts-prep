@@ -79,16 +79,35 @@ export interface CardDrills {
   accent_notice?: string | null;
 }
 
+/** One row of the shadowing alignment, under `detail.alignment`. */
+export interface AlignmentRow {
+  index?: number;
+  expected: string;
+  heard?: string | null;
+  /** `hit` | `missed` | `substituted`. */
+  status: string;
+}
+
 export interface DrillResult {
   item_id: string;
   kind: DrillKind;
   /** 0-100 where the kind produces one; absent for pass/fail kinds. */
   score?: number | null;
   passed?: boolean | null;
+  /**
+   * What the recogniser (or the learner's own typing) actually produced. The route
+   * calls this `you_said`; `heard` is kept because older builds sent that name and
+   * showing the learner what was heard is the whole point of a spoken drill.
+   */
+  you_said?: string | null;
   heard?: string | null;
-  /** Per-word alignment for shadowing, so the UI can colour what was missed. */
-  words?: { word: string; ok: boolean }[];
-  feedback?: string | null;
-  detail?: Record<string, unknown>;
+  /**
+   * Every grader in `speaking/drills.py` returns a **list** of sentences, never one
+   * string. Typing this as `string` made React glue them together with no space
+   * between them ("…three words.You reached for…"), so both shapes are declared and
+   * the renderer joins.
+   */
+  feedback?: string | string[] | null;
+  detail?: { alignment?: AlignmentRow[]; [key: string]: unknown } | null;
   [key: string]: unknown;
 }

@@ -27,7 +27,7 @@ export function OfflineBanner({ offline, message, onRetry, retrying }: OfflineBa
         </p>
         <p className="text-xs text-muted-foreground">
           {offline
-            ? "Your saved settings are safe on disk. Nothing here can be changed until it comes back — try again in a moment."
+            ? "Your saved settings are safe on disk. Nothing here can be changed until it comes back, so try again in a moment."
             : (message ?? "The sidecar rejected the request.")}
         </p>
       </div>

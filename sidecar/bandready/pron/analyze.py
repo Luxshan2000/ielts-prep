@@ -168,6 +168,14 @@ class TurnPronResult:
     turn_id: str | None = None
     audio_path: str | None = None
     transcript: str = ""
+    #: Where ``transcript`` came from. ``"recogniser"`` means speech-to-text actually ran on
+    #: this recording; ``"fallback"`` means it did not and the caller's text was used in its
+    #: place. The distinction is not cosmetic: on the read-aloud path the caller's text is the
+    #: sentence the learner was *asked* to say, so publishing it as what was heard tells a
+    #: learner who recorded silence that every word came through. Callers that show the
+    #: transcript to a learner must check this. Deliberately absent from ``as_wire`` — the
+    #: read-aloud route reads it directly, so no existing payload changes shape.
+    transcript_source: str = "recogniser"
 
     def as_wire(self) -> dict[str, Any]:
         return {
@@ -467,6 +475,7 @@ async def analyze_wav(
     wav_path = Path(wav_path)
     # Transcription is CPU-bound; keep the sidecar's single event loop responsive.
     words, transcript = await asyncio.to_thread(transcribe_words, wav_path)
+    recognised = bool(words)
     if not words:
         transcript = reference_text or transcript
         words = words_from_transcript(transcript)
@@ -477,6 +486,7 @@ async def analyze_wav(
         turn_index=turn_index,
         audio_path=str(wav_path),
     )
+    result.transcript_source = "recogniser" if recognised else "fallback"
     flagged = await flag_words(
         [{"turn_index": turn_index or 0, "text": result.transcript}],
         low_confidence_words(words),

@@ -305,6 +305,60 @@ describe("progress screen", () => {
     expect(screen.getByText("No study minutes yet")).toBeInTheDocument();
   });
 
+  it("says a self-rated overall band is self-rated, not measured", async () => {
+    // Skipping the placement test seeds every skill at the learner's own guess:
+    // band 5.5, confidence "low", zero attempts. `GET /progress/summary` on a
+    // freshly skipped profile returns exactly this.
+    get.mockImplementation((path: string) => {
+      if (path.startsWith("/api/v1/progress/summary")) {
+        return Promise.resolve({
+          ...summary,
+          estimates: {
+            overall: {
+              ...summary.estimates.overall,
+              band: 5.5,
+              range_low: 4.5,
+              range_high: 6.5,
+              confidence: "low",
+              n_eff: 0,
+              attempts_used: 0,
+              method: "placement",
+              display: "5.5 (likely 4.5–6.5)",
+            },
+          },
+        });
+      }
+      return mockGet(path);
+    });
+    renderProgress();
+
+    expect(await screen.findByText("5.5 (likely 4.5–6.5)")).toBeInTheDocument();
+    expect(screen.getByText(/This is your own starting rating\. Nothing has been scored yet/)).toBeInTheDocument();
+    // The disclaimer never drops off a band (10 §6.4).
+    expect(screen.getAllByText(/Estimated band — not a guarantee/).length).toBeGreaterThan(0);
+  });
+
+  it("refetches the criterion breakdown on reload rather than serving the first visit's", async () => {
+    // The per-skill cache made `load()` a no-op for this one panel: every other
+    // number on the screen refreshed and the criterion bands did not.
+    renderProgress();
+    await screen.findByText("Band trajectory");
+    await waitFor(() =>
+      expect(
+        get.mock.calls.filter((c) => String(c[0]).startsWith("/api/v1/progress/criteria")).length,
+      ).toBe(2),
+    );
+
+    get.mockClear();
+    get.mockImplementation(mockGet);
+    await userEvent.click(screen.getByRole("button", { name: "Reload your progress" }));
+    await waitFor(() =>
+      expect(
+        get.mock.calls.filter((c) => String(c[0]).startsWith("/api/v1/progress/criteria")).length,
+      ).toBe(2),
+    );
+  });
+
   it("keeps one dead panel from blanking the page", async () => {
     const { ApiError } = await import("@/lib/api");
     get.mockImplementation((path: string) => {

@@ -65,11 +65,11 @@ export function SignpostPanel({ doc }: { doc: TeachingPayload }) {
     <div className="space-y-5">
       <Callout tone="teach" title="The one sentence to take from this tab">
         {doc.last_value_rule ??
-          "The answer is the last value stated for that slot before the speaker moves on — never the first. A speaker who corrects themselves always says so out loud."}
+          "The answer is the last value stated for that slot before the speaker moves on, never the first. A speaker who corrects themselves always says so out loud."}
       </Callout>
 
       {unlocked && doc.audio.media_path && (
-        <ClipPlayerBar player={player} title={`Part ${doc.part} — ${doc.title}`} />
+        <ClipPlayerBar player={player} title={`Part ${doc.part}: ${doc.title}`} />
       )}
 
       {/* ------------------------------------------------------- the signposts --- */}
@@ -131,8 +131,8 @@ export function SignpostPanel({ doc }: { doc: TeachingPayload }) {
               </ul>
             ) : (
               <p className="text-[13px] leading-6 text-muted-foreground">
-                This script carries no authored signpost map. The inventory below still applies —
-                it is a property of spoken English, not of this recording.
+                This script carries no authored signpost map. The inventory below still applies. It
+                is a property of spoken English, not of this recording.
               </p>
             )
           ) : (
@@ -210,7 +210,7 @@ export function SignpostPanel({ doc }: { doc: TeachingPayload }) {
             ) : (
               <p className="text-[13px] leading-6 text-muted-foreground">
                 No item on this part carries an authored decoy. That is a legitimate shape for a
-                recording — about half the questions in a well-built part are clean.
+                recording: about half the questions in a well-built part are clean.
               </p>
             )
           ) : (

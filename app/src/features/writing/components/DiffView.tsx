@@ -97,7 +97,7 @@ export function BandDeltaStrip({
                   {criterionLabel(key, taskType)}
                 </span>
                 <span className="flex shrink-0 items-center gap-2 text-[13px] tabular">
-                  <span className="text-muted-foreground">{from === null ? "—" : formatBand(from)}</span>
+                  <span className="text-muted-foreground">{from === null ? "-" : formatBand(from)}</span>
                   <ArrowRight className="h-3 w-3 text-muted-foreground" aria-hidden="true" />
                   <span className="font-semibold text-foreground">{formatBand(to)}</span>
                   {from !== null && <Delta value={to - from} />}
@@ -231,7 +231,7 @@ export function ResolvedErrors({
       <CardHeader className="pb-2">
         <CardTitle>Errors from last time</CardTitle>
         <p className="mt-1 text-[12px] text-muted-foreground">
-          Matched literally against your new text — a rephrased sentence counts as fixed.
+          Matched literally against your new text, so a rephrased sentence counts as fixed.
         </p>
       </CardHeader>
       <CardContent className="space-y-3">
@@ -253,7 +253,7 @@ export function ResolvedErrors({
                     “{annotation.quote}”
                   </span>
                   <span className="block text-[12px] text-muted-foreground">
-                    {ANNOTATION_LABEL[annotation.type] ?? annotation.type} — {annotation.explanation}
+                    {ANNOTATION_LABEL[annotation.type] ?? annotation.type}: {annotation.explanation}
                   </span>
                 </span>
               </li>

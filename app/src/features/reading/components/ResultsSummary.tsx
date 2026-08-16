@@ -121,7 +121,7 @@ export function ResultsSummary({
             <p className="text-[13px]">
               <Target className="mr-1.5 inline h-3.5 w-3.5 text-warning" aria-hidden="true" />
               Your weakest type this attempt:{" "}
-              <span className="font-semibold">{qtypeLabel(record.weakest_type.qtype)}</span> —{" "}
+              <span className="font-semibold">{qtypeLabel(record.weakest_type.qtype)}</span>,{" "}
               <span className="tabular">
                 {record.weakest_type.correct}/{record.weakest_type.total}
               </span>
@@ -194,7 +194,7 @@ export function ResultsSummary({
         <CardContent>
           {times.rows.length === 0 ? (
             <p className="text-[13px] text-muted-foreground">
-              Time per question was not recorded for this attempt — it is captured from the moment
+              Time per question was not recorded for this attempt. It is captured from the moment
               you focus each question, so attempts answered without focusing a field have none.
             </p>
           ) : (

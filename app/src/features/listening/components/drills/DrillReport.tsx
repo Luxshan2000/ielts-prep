@@ -44,7 +44,7 @@ export function DrillReportView({
             <Stat
               label="Words heard"
               value={`${summary.words_heard ?? 0} / ${summary.words_total ?? 0}`}
-              note="Counting the ones you spelled wrongly — because you heard those."
+              note="Counting the ones you spelled wrongly, because you heard those."
             />
             <Stat
               label="Words exactly right"

@@ -97,7 +97,7 @@ export function TaskBrief({ prompt, teaching, onOpenLanguage }: TaskBriefProps) 
         <section className="space-y-3">
           <SectionHead
             title="What a full response has to do"
-            hint="Missing one of these is the single most expensive thing you can do on this task — it is what criterion 1 measures."
+            hint="Missing one of these is the single most expensive thing you can do on this task. It is what criterion 1 measures."
           />
           <ul className="space-y-2">
             {parts.map((part, i) => (

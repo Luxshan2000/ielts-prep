@@ -38,7 +38,7 @@ export default defineFeatureRoute({
       element: (
         <FeatureErrorBoundary
           feature="grammar practice"
-          hint="Every answer you gave was saved as you gave it, so nothing is lost — starting the set again picks up from where the schedule now stands."
+          hint="Every answer you gave was saved as you gave it, so nothing is lost. Starting the set again picks up from where the schedule now stands."
         >
           <SessionScreen />
         </FeatureErrorBoundary>

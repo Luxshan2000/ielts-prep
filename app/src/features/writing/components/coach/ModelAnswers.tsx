@@ -163,7 +163,7 @@ export function NoticeGate({ answers, answer, onAnswerChange, onPass }: NoticeGa
           <p className="text-[12px] text-muted-foreground">
             {ready
               ? "Your answer stays on screen beside the notes, so you can check yourself."
-              : "A few words is enough — this is noticing, not an exam."}
+              : "A few words is enough. This is noticing, not an exam."}
           </p>
         </div>
       </div>
@@ -273,7 +273,7 @@ function StealRail({
             </button>
             {type === null ? (
               <p className="text-[11px] text-muted-foreground">
-                A technique, not a phrase — practise it, don't bank it.
+                A technique, not a phrase. Practise it, don't bank it.
               </p>
             ) : (
               <AddToBank
@@ -283,7 +283,7 @@ function StealRail({
                   example: a.span,
                   topicTags,
                   isPhrase: type === "phrase" || a.span.trim().includes(" "),
-                  sourceDetail: `Writing model answer — ${promptTitle}`,
+                  sourceDetail: `Writing model answer: ${promptTitle}`,
                   sourceItemId: promptId,
                 }}
               />

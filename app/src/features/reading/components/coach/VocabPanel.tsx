@@ -75,7 +75,7 @@ export function VocabPanel({ passage, teaching, record, onLocate }: VocabPanelPr
         <section className="space-y-3">
           <SectionHead
             title="Worth a card"
-            hint="Chunks with their partners and prepositions — item writers paraphrase chunks, not headwords."
+            hint="Chunks with their partners and prepositions. Item writers paraphrase chunks, not headwords."
           />
           <div className="grid gap-3 lg:grid-cols-2">
             {ordered.map((item, index) => {
@@ -120,7 +120,7 @@ export function VocabPanel({ passage, teaching, record, onLocate }: VocabPanelPr
                         definition: item.meaning ?? null,
                         sentence,
                         passageId,
-                        detail: `Reading coach — ${passage.title ?? passageId}`,
+                        detail: `Reading coach: ${passage.title ?? passageId}`,
                       }}
                     />
                   </CardContent>
@@ -135,7 +135,7 @@ export function VocabPanel({ passage, teaching, record, onLocate }: VocabPanelPr
         <section className="space-y-3">
           <SectionHead
             title="The words that decide the judgement questions"
-            hint="Short, unstressed, easy to read past — and each one settles a question on this passage."
+            hint="Short, unstressed, easy to read past, and each one settles a question on this passage."
           />
           <ul className="space-y-2">
             {hinges.map((hinge, index) => (

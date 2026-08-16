@@ -122,7 +122,7 @@ export function gradeAnswer(
     detail = `The answer is “${expected[0]}”.`;
   } else if (close && !correct) {
     suggestedRating = 2;
-    detail = "Almost — check the word form.";
+    detail = "Almost. Check the word form.";
   } else if (attempts > 1) {
     suggestedRating = 2;
     detail = "Correct on the second try.";

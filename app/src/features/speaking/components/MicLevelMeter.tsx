@@ -46,7 +46,7 @@ export function MicLevelMeter({ level, active, bars = 16, className }: MicLevelM
           ? "Allow microphone access to see your input level."
           : enough
             ? "Microphone is picking you up."
-            : "Say something — the meter should reach about a third."}
+            : "Say something. The meter should reach about a third."}
       </p>
     </div>
   );

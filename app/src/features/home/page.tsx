@@ -16,7 +16,7 @@ import { useSidecarRecovery } from "@/lib/useSidecarRecovery";
 import { greeting } from "@/lib/format";
 import { milestoneLabel } from "./blocks";
 import { needsOnboarding } from "./firstRun";
-import { todaysSession, useHomeStore } from "./store";
+import { nextSession, todaysSession, useHomeStore } from "./store";
 import { EstimateTiles } from "./components/EstimateTiles";
 import { FocusCard } from "./components/FocusCard";
 import { ExamCountdownCard, StreakCard, VocabCard } from "./components/SideTiles";
@@ -77,6 +77,7 @@ export function HomePage() {
   }
 
   const session = todaysSession(summary, plan);
+  const upcoming = nextSession(plan);
   const busy = busySession !== null;
   const hasPlan = summary !== null && summary.plan_id !== null;
 
@@ -124,8 +125,8 @@ export function HomePage() {
           <CardContent className="p-0">
             <EmptyState
               icon={Sparkles}
-              title="Let's set up your preparation"
-              description="Tell BandReady your target band, exam date and weekly time budget and it will build a day-by-day plan."
+              title="Set up your preparation"
+              description="Tell BandReady your target band, your exam date and how much time you have each week. It will build you a day-by-day plan."
               action={<Button onClick={() => navigate("/onboarding")}>Start setup</Button>}
             />
           </CardContent>
@@ -143,8 +144,8 @@ export function HomePage() {
                     Your band estimates are self-rated so far.
                   </p>
                   <p className="text-[13px] text-muted-foreground">
-                    A ~30-minute placement test — or three scored attempts per skill — firms
-                    them up and sharpens the plan.
+                    A placement test takes about 30 minutes and firms them up, which sharpens
+                    the plan. Three scored attempts per skill do the same.
                   </p>
                 </div>
                 <Button size="sm" onClick={() => navigate("/onboarding")}>
@@ -171,6 +172,7 @@ export function HomePage() {
             <div className="space-y-4 xl:col-span-2">
               <TodaySessionCard
                 session={session}
+                next={upcoming}
                 planId={summary.plan_id}
                 busy={busy}
                 generating={generating}

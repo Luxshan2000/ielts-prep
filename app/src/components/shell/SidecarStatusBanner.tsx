@@ -41,7 +41,7 @@ export function SidecarStatusBanner() {
       tone="warning"
       icon={PlugZap}
       title="BandReady's local service isn't responding"
-      detail="Your work is saved on disk — nothing is lost. Reconnecting automatically…"
+      detail="Your work is saved on disk, so nothing is lost. Reconnecting automatically…"
       actions={
         <Button variant="outline" size="sm" loading={checking} onClick={() => void connect()}>
           <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />

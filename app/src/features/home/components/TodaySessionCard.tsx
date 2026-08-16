@@ -51,6 +51,12 @@ const STATUS_LABEL = {
 
 interface Props {
   session: PlanSession | null;
+  /**
+   * The next session the plan still has scheduled, from `GET /plan`. On a rest
+   * day it is the only thing on the card worth saying, and after today's session
+   * is finished it is the difference between "tomorrow" and the truth.
+   */
+  next: PlanSession | null;
   planId: string | null;
   busy: boolean;
   generating: boolean;
@@ -58,6 +64,21 @@ interface Props {
   onStart: (sessionId: string) => void;
   onComplete: (sessionId: string) => void;
   onSkip: (sessionId: string) => void;
+}
+
+/**
+ * "Mon 17 Aug — Speaking, Part 1 interview (60 min)".
+ *
+ * `null` when `GET /plan` did not come back, which is the one case where the card
+ * still has to fall back to saying nothing about what comes next.
+ */
+function nextSessionLine(next: PlanSession | null): string | null {
+  if (!next) return null;
+  const main = next.blocks.find((b) => b.kind === "main") ?? next.blocks[0];
+  // blockTitle reads "Speaking — Part 1 interview"; inside a sentence that already
+  // has a dash in it, a second one is two dashes doing different jobs.
+  const what = main ? blockTitle(main).replace(": ", ", ") : null;
+  return `${formatDate(next.date)}${what ? `: ${what}` : ""} (${next.duration_min} min)`;
 }
 
 function BlockRow({
@@ -138,6 +159,7 @@ function BlockRow({
  */
 export function TodaySessionCard({
   session,
+  next,
   planId,
   busy,
   generating,
@@ -177,6 +199,12 @@ export function TodaySessionCard({
   }
 
   if (session === null) {
+    // A rest day used to end on "See my plan and progress", which promised a plan
+    // the Progress screen does not carry — it holds bands, trajectory, the activity
+    // calendar and the readiness checklist, and nothing about the schedule. The
+    // plan document already knows what comes next, so the card says it here rather
+    // than sending the learner somewhere to look for it.
+    const upcoming = nextSessionLine(next);
     return (
       <Card>
         <CardHeader>
@@ -186,10 +214,14 @@ export function TodaySessionCard({
           <EmptyState
             icon={CalendarPlus}
             title="Today is a rest day"
-            description="Nothing is scheduled. Rest days are part of the plan and never break your streak — free practice is still available from any room."
+            description={
+              upcoming
+                ? `Nothing is scheduled. Your next session is ${upcoming}. Rest days are part of the plan and never break your streak. You can still practise on your own from any room.`
+                : "Nothing is scheduled. Rest days are part of the plan and never break your streak. You can still practise on your own from any room."
+            }
             action={
               <Button variant="outline" onClick={() => navigate("/progress")}>
-                See my plan and progress
+                See my progress
               </Button>
             }
           />
@@ -200,6 +232,9 @@ export function TodaySessionCard({
 
   const activeIndex = activeBlockIndex(session);
   const finished = session.status === "completed";
+  // Only meaningful once today is done: the sidecar's `next` still points at today
+  // while today's session is unfinished.
+  const upcoming = nextSessionLine(next);
   const longSession = session.blocks.some((b) => Boolean(b.params?.confirm_long_session));
   const loggedPct = session.duration_min
     ? Math.min(100, Math.round((session.minutes_logged / session.duration_min) * 100))
@@ -210,7 +245,7 @@ export function TodaySessionCard({
       const ok = await confirm({
         title: "This session runs about 2 h 35",
         message:
-          "Full mocks are timed end to end — Listening, Reading and Writing back to back. Start only if you can sit the whole block.",
+          "Full mocks are timed end to end: Listening, Reading and Writing back to back. Start only if you can sit the whole block.",
         confirmLabel: "Start the mock",
       });
       if (!ok) return;
@@ -276,7 +311,7 @@ export function TodaySessionCard({
                 const ok = await confirm({
                   title: "Skip today's session?",
                   message:
-                    "Skipped sessions are never rescheduled — next week's weighting picks up the slack instead.",
+                    "Skipped sessions are never rescheduled. Next week's weighting picks up the slack instead.",
                   confirmLabel: "Skip today",
                 });
                 if (ok) onSkip(session.session_id);
@@ -297,9 +332,14 @@ export function TodaySessionCard({
           </div>
         ) : (
           <div className="flex flex-wrap items-center gap-2 pt-1">
+            {/* "Tomorrow's session is already scheduled" is false whenever tomorrow
+                is a rest day — with the default six study days that is every
+                Saturday evening. The plan says which day it actually is. */}
             <p className="flex-1 text-[13px] text-muted-foreground">
-              {session.minutes_logged} minutes logged. Tomorrow&apos;s session is already
-              scheduled.
+              {session.minutes_logged} minutes logged.{" "}
+              {upcoming
+                ? `Your next session is ${upcoming}.`
+                : "Your plan picks up again on your next study day."}
             </p>
             <Button variant="ghost" size="sm" loading={generating} onClick={onGenerate}>
               Rebuild my plan

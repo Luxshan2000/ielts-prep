@@ -112,7 +112,7 @@ describe("grouping", () => {
       question({ number: 13, instruction: "Choose A, B or C.", type: "multiple_choice" }),
     ]);
     expect(groups).toHaveLength(2);
-    expect(rangeLabel(groups[0].questions)).toBe("Questions 11–12");
+    expect(rangeLabel(groups[0].questions)).toBe("Questions 11-12");
     expect(rangeLabel(groups[1].questions)).toBe("Question 13");
   });
 });

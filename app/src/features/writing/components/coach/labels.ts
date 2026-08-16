@@ -204,7 +204,7 @@ export const OVERVIEW_FAILURE: Record<string, string> = {
   W6: "Explaining why, instead of reporting what",
   W7: "Hedged until it says nothing",
   W8: "Only half the data",
-  W9: "Buried — nothing signals it is the overview",
+  W9: "Buried: nothing signals it is the overview",
   W10: "Contradicted by the body paragraphs",
 };
 

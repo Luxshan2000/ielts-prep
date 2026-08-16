@@ -259,7 +259,7 @@ export function CompareWithModel({
                     {criterionName(key, taskType)}
                   </p>
                   <p className="mt-1 text-[20px] font-semibold tabular text-foreground">
-                    {value === undefined ? "—" : value.toFixed(1)}
+                    {value === undefined ? "-" : value.toFixed(1)}
                   </p>
                 </li>
               );

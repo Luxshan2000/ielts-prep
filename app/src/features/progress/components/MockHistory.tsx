@@ -57,7 +57,7 @@ export function MockHistory({ mocks, loading, supported, error }: Props) {
           <ErrorState
             error={error}
             title="Your mock history could not be loaded"
-            fallback="BandReady could not read your past sittings. Your results are still saved — this list is built from them, so nothing is lost."
+            fallback="BandReady could not read your past sittings. Your results are still saved, and this list is built from them, so nothing is lost."
           />
         ) : loading && mocks.length === 0 ? (
           <div className="space-y-2">
@@ -134,7 +134,7 @@ export function MockHistory({ mocks, loading, supported, error }: Props) {
           <p className="flex items-start gap-1.5 text-[11px] text-muted-foreground">
             <Info className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
             Built from your Listening, Writing and Speaking results. Reading mocks are not
-            listed here yet, so the overall column averages only the skills shown — it is not
+            listed here yet, so the overall column averages only the skills shown. It is not
             a full four-skill band.
           </p>
         )}

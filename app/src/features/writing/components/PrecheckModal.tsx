@@ -81,7 +81,7 @@ export function PrecheckModal({ report, submitting, onClose, onSubmitAnyway }: P
         <p className="border-t border-border pt-3 text-[12px] text-muted-foreground">
           {blocked
             ? "These checks run on your machine before any model is called, so nothing is spent on an answer that can't be marked fairly."
-            : "Warnings are passed to the examiner model as context — a real examiner would notice them too."}
+            : "Warnings are passed to the examiner model as context. A real examiner would notice them too."}
         </p>
       </div>
     </Modal>

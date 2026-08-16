@@ -68,7 +68,7 @@ export const TWO_STAGE_VERDICT: Record<
   },
   located_wrong_direction: {
     title: "Found it, read it backwards",
-    note: "You knew the passage settles this — you took the wrong side. That is a close-reading fix, not a searching one: slow down on the two sentences you already located.",
+    note: "You knew the passage settles this and you took the wrong side. That is a close-reading fix, not a searching one: slow down on the two sentences you already located.",
     tone: "warning",
   },
   did_not_locate: {
@@ -78,14 +78,14 @@ export const TWO_STAGE_VERDICT: Record<
   },
   read_something_that_was_not_there: {
     title: "Found something that is not there",
-    note: "You decided the passage settles this and it does not. Ask what sentence you would quote — if you cannot name one, the answer is NOT GIVEN.",
+    note: "You decided the passage settles this and it does not. Ask what sentence you would quote. If you cannot name one, the answer is NOT GIVEN.",
     tone: "destructive",
   },
 };
 
 /** Human name for a form/pacing failure, which is never a comprehension failure. */
 export const FORM_TRAP_LABEL: Record<string, string> = {
-  over_limit: "Over the word limit — right content, wrong length. Articles count.",
+  over_limit: "Over the word limit: right content, wrong length. Articles count.",
   spelling: "A spelling slip, not a reading error. The answer was on the screen.",
   ran_out_of_time: "Left blank. That is a pacing problem and it needs a pacing fix.",
 };
@@ -109,7 +109,7 @@ export function headlineFor(report: {
   }
   const blanks = report.results.filter((r) => r.marking.form_trap === "ran_out_of_time").length;
   if (blanks >= Math.ceil(wrong / 2)) {
-    return `${blanks} of your ${wrong} losses were blanks. That is pacing, not reading — guess, flag, and move on.`;
+    return `${blanks} of your ${wrong} losses were blanks. That is pacing, not reading. Guess, flag, and move on.`;
   }
   const worst = [...report.per_trap].sort((a, b) => b.lost - a.lost)[0];
   if (worst && worst.lost > 0) {

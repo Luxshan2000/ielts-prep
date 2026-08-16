@@ -69,7 +69,7 @@ export const BANK_TYPES: ReadonlySet<string> = new Set([
 
 const LABELS: Record<string, string> = {
   multiple_choice: "Multiple choice",
-  multiple_choice_multi: "Multiple choice — choose several",
+  multiple_choice_multi: "Multiple choice: choose several",
   list_selection: "List selection",
   true_false_not_given: "True / False / Not Given",
   yes_no_not_given: "Yes / No / Not Given",
@@ -124,6 +124,39 @@ export const DRILLABLE_TYPES: readonly string[] = [
 export function choiceValues(qtype: string): string[] {
   if (qtype === "yes_no_not_given") return ["YES", "NO", "NOT GIVEN"];
   return ["TRUE", "FALSE", "NOT GIVEN"];
+}
+
+/**
+ * What each of the three buttons means — the rubric the real paper prints under
+ * the instruction line, verbatim.
+ *
+ * It is not decoration. The single most common way a learner loses these marks is
+ * answering FALSE where the passage simply says nothing, and the shipped pack
+ * carries only the question ("Do the following statements agree with…"), never the
+ * definitions: see any `true_false_not_given` group in
+ * `content/core-en/data/reading_passages.jsonl`, whose `instructions_extra` stops
+ * at the question mark. Without this the three buttons are unexplained, and
+ * "NOT GIVEN" is exactly the label a non-native reader cannot infer.
+ */
+export function choiceGlossary(qtype: string): { value: string; meaning: string }[] {
+  if (qtype === "yes_no_not_given") {
+    return [
+      { value: "YES", meaning: "the statement agrees with the views of the writer" },
+      { value: "NO", meaning: "the statement contradicts the views of the writer" },
+      {
+        value: "NOT GIVEN",
+        meaning: "it is impossible to say what the writer thinks about this",
+      },
+    ];
+  }
+  if (qtype === "true_false_not_given") {
+    return [
+      { value: "TRUE", meaning: "the statement agrees with the information" },
+      { value: "FALSE", meaning: "the statement contradicts the information" },
+      { value: "NOT GIVEN", meaning: "there is no information on this" },
+    ];
+  }
+  return [];
 }
 
 // --------------------------------------------------------------- word limits ---

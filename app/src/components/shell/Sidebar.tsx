@@ -287,7 +287,11 @@ export function Sidebar({
           collapse arrow — two rows to say what fits on one. */}
       <div className="shrink-0 border-t border-border p-2">
         <div className={cn("flex items-center gap-1", collapsed && "flex-col")}>
-          <nav aria-label="App" className={cn(!collapsed && "min-w-0 flex-1")}>
+          {/* Collapsed the row becomes a column, and a bare <nav> in a centred column
+              shrinks to its content — which left Settings as a 16px-wide target under
+              two 36px icon buttons, narrower than the thing it sits above. `w-full`
+              gives it the same hit area and the same centre line as the rest. */}
+          <nav aria-label="App" className={cn(collapsed ? "w-full" : "min-w-0 flex-1")}>
             {pinned.map((item) => renderItem(item))}
           </nav>
           <FooterIcon

@@ -57,7 +57,7 @@ export function SkimWindow({
                 <Badge tone="outline">Section {set.passage.gt_section}</Badge>
               )}
               <span className="text-[11px] text-muted-foreground tabular">
-                {set.passage?.word_count ?? "—"} words
+                {set.passage?.word_count ?? "-"} words
               </span>
             </div>
             <p className="mt-1.5 text-[13px] leading-relaxed">{plan.rule}</p>
@@ -74,7 +74,7 @@ export function SkimWindow({
               {Math.max(0, remaining)}s
             </p>
             <Button size="sm" variant="ghost" onClick={onDone}>
-              I&rsquo;m done — close it
+              I'm done, close it
             </Button>
           </div>
         </div>

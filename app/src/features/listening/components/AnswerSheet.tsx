@@ -1,5 +1,11 @@
 import { Badge } from "@/components/ui";
-import { groupQuestions, rangeLabel, typeLabel } from "../qtypes";
+import {
+  groupQuestions,
+  instructionStatesLimit,
+  rangeLabel,
+  sharedOptionBank,
+  typeLabel,
+} from "../qtypes";
 import type { ListeningPart } from "../types";
 import { MapAsset } from "./MapAsset";
 import { QuestionBlock } from "./QuestionBlock";
@@ -38,6 +44,8 @@ export function AnswerSheet({
           group.questions.every((q) => JSON.stringify(q.asset ?? null) === assetKey)
             ? group.questions[0].asset
             : null;
+        const bank = sharedOptionBank(group.questions);
+        const limitStated = instructionStatesLimit(group.instruction);
 
         return (
           <section key={index} className="space-y-2" aria-label={rangeLabel(group.questions)}>
@@ -53,6 +61,7 @@ export function AnswerSheet({
             {sharedAsset && (
               <MapAsset asset={sharedAsset} label={`Map for ${rangeLabel(group.questions)}`} />
             )}
+            {bank && <OptionBankBox entries={bank} label={rangeLabel(group.questions)} />}
             {isSharedBlock(group.questions) ? (
               // Form, note and table prompts are one block shared by the whole group. Drawn
               // per question they repeat in full once per gap; drawn once they read as the
@@ -64,6 +73,7 @@ export function AnswerSheet({
                 readOnly={readOnly}
                 activeNumber={activeNumber}
                 onActive={onActive}
+                showLimitHint={!limitStated}
                 registerRef={registerRef}
               />
             ) : (
@@ -78,6 +88,8 @@ export function AnswerSheet({
                     active={activeNumber === question.number}
                     onFocus={() => onActive(question.number)}
                     showAsset={!sharedAsset}
+                    bankShown={Boolean(bank)}
+                    showLimitHint={!limitStated}
                     registerRef={(el) => registerRef?.(question.number, el)}
                   />
                 ))}
@@ -86,6 +98,33 @@ export function AnswerSheet({
           </section>
         );
       })}
+    </div>
+  );
+}
+
+/**
+ * The lettered box a matching group shares, printed once above its questions.
+ *
+ * On paper this is a boxed list and the answer sheet takes a letter beside each number;
+ * the questions below therefore show letter buttons only.
+ */
+function OptionBankBox({ entries, label }: { entries: [string, string][]; label: string }) {
+  return (
+    <div
+      className="rounded-xl border border-border bg-card/40 p-3"
+      role="group"
+      aria-label={`Answer choices for ${label}`}
+    >
+      <ul className="grid gap-x-6 gap-y-1 sm:grid-cols-2">
+        {entries.map(([letter, text]) => (
+          <li key={letter} className="flex items-start gap-2 text-sm leading-relaxed">
+            <span className="mt-px flex h-5 w-5 shrink-0 items-center justify-center rounded border border-border text-[11px] font-semibold">
+              {letter}
+            </span>
+            <span className="min-w-0 flex-1">{text}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

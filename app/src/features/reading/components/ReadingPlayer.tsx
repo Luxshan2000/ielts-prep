@@ -61,7 +61,7 @@ function SaveIndicator({
         className="inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[11px] font-medium text-destructive hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <CloudOff className="h-3.5 w-3.5" aria-hidden="true" />
-        Not saved — retry
+        Not saved: retry
       </button>
     );
   }
@@ -372,10 +372,10 @@ export function ReadingPlayer() {
       title={attempt.title}
       description={
         isDrill
-          ? "Question-type drill — no band score, immediate explanations after you submit."
+          ? "Question-type drill. No band score, and the explanations come as soon as you submit."
           : attempt.examConditions
             ? "Exam conditions: no pausing, dictionary off."
-            : "Practice attempt — pause any time; everything autosaves."
+            : "Practice attempt. Pause any time; everything autosaves."
       }
       status={
         <div className="flex items-center gap-2">
@@ -447,7 +447,7 @@ export function ReadingPlayer() {
       <div className="flex h-full min-h-0 flex-col">
         {paused && (
           <div className="border-b border-border bg-warning/10 px-5 py-2 text-[13px] text-foreground">
-            Timer paused. The passage stays visible so you can read without the clock — resume when
+            Timer paused. The passage stays visible so you can read without the clock. Resume when
             you are ready.
           </div>
         )}
@@ -500,7 +500,13 @@ export function ReadingPlayer() {
               />
             </>
           )}
-          <div className="flex min-h-0 flex-1 flex-col">{questionsColumn}</div>
+          {/* `min-w-0` is load-bearing, not tidiness. The passage pane above is
+              `flex-shrink: 0` at its dragged basis, so without it this column keeps its
+              min-content width — set by the widest answer box in a note/summary
+              skeleton — and the overflow escapes as a horizontal scrollbar on the whole
+              page. At the app's own 1024px minimum window it does that at the default
+              50/50 split, before the learner drags anything. */}
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col">{questionsColumn}</div>
         </div>
 
         <PaletteFooter

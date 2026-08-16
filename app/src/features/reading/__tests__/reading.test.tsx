@@ -174,7 +174,11 @@ describe("attempt shape", () => {
 });
 
 describe("QuestionGroupCard input affordances", () => {
-  function renderGroup(group: QuestionGroup, answers: Record<string, string> = {}) {
+  function renderGroup(
+    group: QuestionGroup,
+    answers: Record<string, string> = {},
+    options: { disabled?: boolean } = {},
+  ) {
     const onAnswer = vi.fn();
     const onAnswers = vi.fn();
     render(
@@ -183,6 +187,7 @@ describe("QuestionGroupCard input affordances", () => {
         answers={answers}
         flags={[]}
         current={null}
+        disabled={options.disabled}
         onAnswer={onAnswer}
         onAnswers={onAnswers}
         onToggleFlag={vi.fn()}
@@ -201,6 +206,87 @@ describe("QuestionGroupCard input affordances", () => {
     });
     await userEvent.click(screen.getByRole("radio", { name: "NOT GIVEN" }));
     expect(onAnswer).toHaveBeenCalledWith("1", "NOT GIVEN");
+  });
+
+  it("says what TRUE, FALSE and NOT GIVEN mean — the pack never does", () => {
+    // The shipped pack stops at the question: every `true_false_not_given` group in
+    // content/core-en/data/reading_passages.jsonl has instructions_extra ending at
+    // "…agree with the information given in the passage?" and no definitions, so a
+    // reader who does not already know the rubric has to guess NOT GIVEN.
+    renderGroup({
+      id: "g1",
+      type: "true_false_not_given",
+      instructions_extra:
+        "Do the following statements agree with the information given in the passage?",
+      questions: [{ number: 1, prompt: "Trade predated Europe." }],
+    });
+    expect(screen.getByText("if the statement agrees with the information")).toBeInTheDocument();
+    expect(
+      screen.getByText("if the statement contradicts the information"),
+    ).toBeInTheDocument();
+    expect(screen.getByText("if there is no information on this")).toBeInTheDocument();
+  });
+
+  it("uses the writer-opinion wording of the rubric for YES/NO/NOT GIVEN", () => {
+    renderGroup({
+      id: "g1",
+      type: "yes_no_not_given",
+      questions: [{ number: 1, prompt: "The writer approves." }],
+    });
+    expect(
+      screen.getByText("if it is impossible to say what the writer thinks about this"),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("if there is no information on this")).not.toBeInTheDocument();
+  });
+
+  it("prints no rubric for a type that has none", () => {
+    renderGroup({
+      id: "g1",
+      type: "multiple_choice",
+      options: [{ key: "A", text: "one" }],
+      questions: [{ number: 1, prompt: "Pick one." }],
+    });
+    expect(screen.queryByText(/^if /)).not.toBeInTheDocument();
+  });
+
+  it("locks every control once the attempt is submitted, not just the text boxes", async () => {
+    // A submitted attempt is re-openable at /reading/attempt/:id (store.resumeAttempt
+    // keeps status "submitted"). Leaving the radios live let a learner "change" an
+    // answer that the sidecar then refuses to autosave with a 409.
+    const { onAnswer } = renderGroup(
+      {
+        id: "g1",
+        type: "true_false_not_given",
+        questions: [{ number: 1, prompt: "Trade predated Europe." }],
+      },
+      { "1": "TRUE" },
+      { disabled: true },
+    );
+    const radio = screen.getByRole("radio", { name: "NOT GIVEN" });
+    expect(radio).toBeDisabled();
+    await userEvent.click(radio);
+    expect(onAnswer).not.toHaveBeenCalled();
+  });
+
+  it("locks the letter bank of a matching group once the attempt is submitted", async () => {
+    const { onAnswer } = renderGroup(
+      {
+        id: "g3",
+        type: "matching_headings",
+        options: [
+          { key: "i", text: "A decline" },
+          { key: "ii", text: "Evidence underwater" },
+        ],
+        questions: [{ number: 2, prompt: "Paragraph A" }],
+      },
+      {},
+      { disabled: true },
+    );
+    const trigger = screen.getByRole("button", { name: /Question 2/ });
+    expect(trigger).toBeDisabled();
+    await userEvent.click(trigger);
+    expect(screen.queryAllByRole("option")).toHaveLength(0);
+    expect(onAnswer).not.toHaveBeenCalled();
   });
 
   it("uses YES/NO/NOT GIVEN for the opinion variant", () => {

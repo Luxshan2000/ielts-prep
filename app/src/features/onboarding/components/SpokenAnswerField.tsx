@@ -4,6 +4,7 @@ import { Button, Textarea } from "@/components/ui";
 import { useRecorder } from "@/components/practice/useRecorder";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/cn";
+import { friendlyMessage } from "@/lib/errors";
 
 /**
  * One placement answer, spoken or typed.
@@ -62,8 +63,14 @@ export function SpokenAnswerField({
       }
       // Appended rather than replacing: somebody who spoke twice should keep both takes.
       onChange(value.trim() ? `${value.trim()} ${heard.transcript}` : heard.transcript);
-    } catch {
-      setFailure("That recording could not be read. Type your answer instead.");
+    } catch (err) {
+      // `/speech/capabilities` only answers whether the module imports, so it can say yes
+      // on a machine whose Whisper weights are absent and `/transcribe` then 503s with a
+      // sentence naming exactly that. Replacing it with "could not be read" blames the
+      // learner's recording for a missing download.
+      setFailure(
+        friendlyMessage(err, "That recording could not be read. Type your answer instead."),
+      );
     } finally {
       setBusy(false);
     }

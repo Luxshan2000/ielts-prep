@@ -16,7 +16,7 @@ const DENSITIES: { id: Density; label: string; description: string }[] = [
   {
     id: "compact",
     label: "Compact",
-    description: "More rows on screen — handy on a 13-inch laptop.",
+    description: "More rows on screen, handy on a 13-inch laptop.",
   },
 ];
 

@@ -120,7 +120,7 @@ export function ModelDownloads() {
               )}
               {job?.state === "cancelled" && (
                 <p className="mt-2 text-xs text-muted-foreground">
-                  Cancelled — the partial file was kept, Resume picks it back up.
+                  Cancelled. The partial file was kept, so Resume picks it back up.
                 </p>
               )}
               {job?.state === "error" && job.error && (

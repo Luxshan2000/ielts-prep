@@ -160,9 +160,9 @@ describe("dashboard", () => {
     renderHome();
 
     expect(await screen.findByText("Today's session")).toBeInTheDocument();
-    expect(screen.getByText("Warm-up — vocabulary review")).toBeInTheDocument();
-    expect(screen.getByText("Writing — Task 2 essay")).toBeInTheDocument();
-    expect(screen.getByText("Micro-drill — Complex sentences")).toBeInTheDocument();
+    expect(screen.getByText("Warm-up: vocabulary review")).toBeInTheDocument();
+    expect(screen.getByText("Writing: Task 2 essay")).toBeInTheDocument();
+    expect(screen.getByText("Micro-drill: Complex sentences")).toBeInTheDocument();
     // The planner's criterion code is a database key, never a learner-facing word.
     expect(screen.getByText("Works on grammar range and accuracy")).toBeInTheDocument();
     expect(screen.queryByText(/Focus: GRA/)).toBeNull();
@@ -170,7 +170,7 @@ describe("dashboard", () => {
     // 10 §6.4: never a band without its range, and never without the disclaimer.
     expect(screen.getByText("Estimated band — not a guarantee")).toBeInTheDocument();
     expect(screen.getByText("6.5 (likely 6.0–7.0)")).toBeInTheDocument();
-    expect(screen.getByText("likely 5.0–6.0")).toBeInTheDocument();
+    expect(screen.getByText("likely 5.0 to 6.0")).toBeInTheDocument();
 
     // A skill with no evidence shows an em dash, never a made-up number.
     expect(screen.getAllByText("No estimate yet").length).toBeGreaterThan(0);
@@ -246,6 +246,62 @@ describe("dashboard", () => {
     expect(await screen.findByRole("button", { name: "Review 20 cards" })).toBeInTheDocument();
     expect(screen.queryByText("151")).not.toBeNull(); // the deck size is still 151
     expect(screen.queryByRole("button", { name: /Review 151/ })).toBeNull();
+  });
+
+  it("names the next session on a rest day instead of pointing at a plan screen", async () => {
+    // "See my plan and progress" promised a plan that /progress does not carry, and
+    // "Nothing is scheduled" left a learner with no idea when the plan resumes.
+    const next = {
+      session_id: "ses_2",
+      date: "2026-08-17",
+      phase: "build" as const,
+      duration_min: 60,
+      blocks: [
+        { kind: "warmup_srs" as const, minutes: 10, params: { max_cards: 20 } },
+        { kind: "main" as const, minutes: 40, module: "speaking", activity: "p1_interview" },
+      ],
+      status: "scheduled" as const,
+      minutes_logged: 0,
+      current_block: null,
+    };
+    get.mockImplementation((path: string) => {
+      if (path.startsWith("/api/v1/progress/summary")) {
+        return Promise.resolve(summaryFixture({ today: null }));
+      }
+      if (path.startsWith("/api/v1/plan")) {
+        return Promise.resolve({ plan: null, today: null, next });
+      }
+      return Promise.resolve({});
+    });
+    renderHome();
+
+    expect(await screen.findByText("Today is a rest day")).toBeInTheDocument();
+    expect(screen.getByText(/Speaking, Part 1 interview \(60 min\)/)).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /See my plan/ })).toBeNull();
+    expect(screen.getByRole("button", { name: "See my progress" })).toBeInTheDocument();
+  });
+
+  it("offers a way out when the test date has already passed", async () => {
+    get.mockImplementation((path: string) =>
+      path.startsWith("/api/v1/progress/summary")
+        ? Promise.resolve(
+            summaryFixture({
+              profile: {
+                target_band: 7,
+                exam_date: "2026-07-01",
+                exam_in_days: -6,
+                exam_format: "academic",
+                daily_minutes: 60,
+                study_days: ["mon", "tue", "wed"],
+              },
+            }),
+          )
+        : Promise.resolve(planFixture),
+    );
+    renderHome();
+
+    expect(await screen.findByText("Your test date passed 6 days ago")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Set a new test date/ })).toBeInTheDocument();
   });
 
   it("explains an unstarted streak instead of drawing three zeroes", async () => {

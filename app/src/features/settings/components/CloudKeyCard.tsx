@@ -72,7 +72,10 @@ export function CloudKeyCard() {
           label="OpenRouter key"
           hint={
             showInput
-              ? "Starts with sk-or-. Paste it here, then press Check below."
+              ? // Verify accepts an unsaved key, so "press Check" read as the whole job and
+                // a learner who pressed it, saw Working and left had nothing stored. The
+                // durable step is the save bar at the foot of the page; name it.
+                'Starts with sk-or-. Paste it here, then press "Save settings" at the foot of this page. Pressing Check on its own does not keep it.'
               : undefined
           }
         >

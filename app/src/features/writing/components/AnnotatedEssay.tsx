@@ -74,7 +74,7 @@ export function AnnotatedEssay({ text, annotations, unanchored, className }: Ann
         start: annotation.start,
         end: annotation.end,
         severity: SEVERITY[annotation.type] ?? "improve",
-        note: `${ANNOTATION_LABEL[annotation.type] ?? annotation.type} — ${annotation.explanation}`,
+        note: `${ANNOTATION_LABEL[annotation.type] ?? annotation.type}: ${annotation.explanation}`,
         suggestion: annotation.fix || undefined,
       })),
     [annotations],
@@ -126,7 +126,7 @@ export function AnnotatedEssay({ text, annotations, unanchored, className }: Ann
                     {ANNOTATION_LABEL[annotation.type] ?? annotation.type}
                   </Badge>
                   <span className="text-[11px] text-muted-foreground tabular">
-                    characters {annotation.start}–{annotation.end}
+                    characters {annotation.start} to {annotation.end}
                   </span>
                 </div>
                 <FixLine quote={annotation.quote} fix={annotation.fix} />

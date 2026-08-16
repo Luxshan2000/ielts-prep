@@ -215,7 +215,7 @@ export function CompareWithModel({
           {learnerAudio}
           {learnerText.trim() === "" ? (
             <p className="rounded-xl border border-border bg-muted/40 p-4 text-[13px] leading-6 text-muted-foreground">
-              No Part 2 transcript was saved for this attempt. The comparison still works — read
+              No Part 2 transcript was saved for this attempt. The comparison still works. Read
               the model, then say your own version out loud.
             </p>
           ) : (
@@ -303,7 +303,7 @@ export function CompareWithModel({
       {gaps.length > 0 && (
         <section className="space-y-3" aria-label="Your gaps and next actions">
           <h3 className="text-[13px] font-semibold text-foreground">
-            Where your version differs — and what to do next
+            Where your version differs, and what to do next
           </h3>
           <div className="grid gap-3 sm:grid-cols-2">
             {gaps.map((gap) => {
@@ -319,7 +319,7 @@ export function CompareWithModel({
                       {criterionLabel(gap.criterion)}
                     </span>
                     <span className="font-mono text-[13px] tabular-nums text-muted-foreground">
-                      {gap.band === null ? "—" : gap.band.toFixed(1)}
+                      {gap.band === null ? "-" : gap.band.toFixed(1)}
                     </span>
                   </div>
                   {blind && (
@@ -357,7 +357,7 @@ export function CompareWithModel({
       {teaching.transfer_drill && <TransferDrill instruction={teaching.transfer_drill} />}
 
       <p className="text-[12px] leading-5 text-muted-foreground">
-        The model is one way to say it about {cardTitle.toLowerCase()} — not the answer. The
+        The model is one way to say it about {cardTitle.toLowerCase()}, not the answer. The
         shaded phrases belong to whoever wrote it; the moves are yours to take.
       </p>
     </div>

@@ -25,6 +25,15 @@ export interface UnsureWord {
 
 export interface ReadAloudResult {
   transcript: string;
+  /**
+   * False when speech-to-text could not run on this recording at all.
+   *
+   * The sidecar used to fall back to the sentence the learner was asked to read and publish
+   * it as the transcript, so a learner with no STT model — the state of every fresh install —
+   * was told every word came through. There is nothing to show in that case except how to
+   * fix it.
+   */
+  recognised?: boolean;
   /** Null under proxy-v1. Present only when a method that genuinely scores lands. */
   overall: number | null;
   mean_confidence: number | null;

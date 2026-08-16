@@ -139,7 +139,7 @@ export function PredictionPanel({
     <div className="space-y-4">
       <SectionHead
         title="Slot-type every gap before you hear anything"
-        hint="Four seconds a question. The printed words around the gap decide what can go in it — a determiner, a printed unit, a parallel -ing form."
+        hint="Four seconds a question. The printed words around the gap decide what can go in it: a determiner, a printed unit, a parallel -ing form."
       >
         <div className="flex flex-wrap items-center gap-2">
           {remaining !== null && (
@@ -169,7 +169,7 @@ export function PredictionPanel({
       <p className="text-[13px] leading-6 text-muted-foreground">{doc.note}</p>
 
       {!marking && (
-        <Callout tone="teach" title="Predict now — the marking comes after you have sat it">
+        <Callout tone="teach" title="Predict now: the marking comes after you have sat it">
           {doc.message ??
             "The authored slot for each gap arrives once you have submitted an attempt on this part. That is deliberate: predicting is the exercise, and reading our answer before you have tried it turns the strongest skill in the module into a page you skimmed."}
         </Callout>
@@ -283,7 +283,7 @@ export function PredictionPanel({
                   )}
                   {guess.slot === null ? (
                     <span className="text-[12px] text-muted-foreground">
-                      Choose one — a guess you commit to is worth more than a guess you keep open.
+                      Choose one. A guess you commit to is worth more than a guess you keep open.
                     </span>
                   ) : (
                     !marking && (
@@ -303,10 +303,10 @@ export function PredictionPanel({
                       <X className="h-4 w-4 shrink-0 text-warning" aria-hidden="true" />
                     )}
                     <span className="text-muted-foreground">The gap needs</span>
-                    <Chip tone="good">{authored?.label ?? "—"}</Chip>
+                    <Chip tone="good">{authored?.label ?? "-"}</Chip>
                     {missed && (
                       <>
-                        <span className="text-muted-foreground">— you predicted</span>
+                        <span className="text-muted-foreground">but you predicted</span>
                         <Chip tone="warn">
                           {slotOrder.find((s) => s.slug === guess.slot)?.label ?? guess.slot}
                         </Chip>
@@ -374,7 +374,7 @@ export function PredictionPanel({
       {doc.cue_table.length > 0 && (
         <Disclosure
           defaultOpen={!marking}
-          title="The cue table — how a printed frame fixes a slot"
+          title="The cue table: how a printed frame fixes a slot"
           subtitle="Twenty rows. Internalise them and you can slot-type a whole question set in fifteen seconds."
         >
           <div className="overflow-x-auto">
@@ -417,7 +417,7 @@ export function PredictionPanel({
             {doc.preview_protocol.map((step, index) => (
               <li key={index} className="flex gap-3 text-[13px] leading-6">
                 <span className="w-16 shrink-0 tabular-nums text-muted-foreground">
-                  {step.from_s}–{step.to_s}s
+                  {step.from_s}-{step.to_s}s
                 </span>
                 <span className="min-w-0 flex-1 text-foreground">{step.step}</span>
               </li>

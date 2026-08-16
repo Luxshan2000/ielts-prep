@@ -65,7 +65,7 @@ export function ReviewOverview({ onOpenTab }: ReviewOverviewProps) {
       <div className="space-y-4">
         <Card>
           <CardContent className="space-y-3 p-6">
-            <h2 className="text-base font-semibold">Your word bank is empty — that is the normal start</h2>
+            <h2 className="text-base font-semibold">Your word bank is empty, and that is the normal start</h2>
             <p className="max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
               Nothing is added for you. Words arrive in one of three ways: you opt into a study deck
               and take its words in a batch, you accept a word the other modules noticed you
@@ -105,7 +105,7 @@ export function ReviewOverview({ onOpenTab }: ReviewOverviewProps) {
             <p className="text-[13px] text-muted-foreground">
               {due === 0
                 ? hasEntries
-                  ? "Nothing is scheduled for now — come back later or add new words."
+                  ? "Nothing is scheduled for now. Come back later or add new words."
                   : "Your bank is empty. Accept a suggestion or opt into a study deck to begin."
                 : `${pluralize(stats.new_available, "new card")} mixed in, ${stats.due_now} overdue.`}
             </p>
@@ -116,7 +116,7 @@ export function ReviewOverview({ onOpenTab }: ReviewOverviewProps) {
               {due === 0 ? "Nothing to review" : `Review ${Math.min(due, 20)} cards`}
             </Button>
             <p className="text-[11px] text-muted-foreground">
-              Space shows the answer · 1–4 rate · Esc leaves
+              Space shows the answer · keys 1-4 rate · Esc leaves
             </p>
           </div>
         </CardContent>
@@ -171,7 +171,7 @@ function IngestExplainer({
           </p>
           <p className="text-[13px] leading-relaxed text-muted-foreground">
             Speaking, Writing, Reading and Listening only <em>suggest</em> words. You decide what
-            gets scheduled — from your inbox, from a study deck, or by adding a word yourself.
+            gets scheduled: from your inbox, from a study deck, or by adding a word yourself.
           </p>
         </div>
         <div className="flex shrink-0 flex-wrap gap-2">

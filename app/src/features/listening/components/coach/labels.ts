@@ -25,12 +25,12 @@ export interface SlotLabel {
 export const SLOT_LABELS: Record<string, SlotLabel> = {
   quantity: {
     label: "A number",
-    listen: "a bare figure — price, count, capacity, distance, age",
+    listen: "a bare figure: price, count, capacity, distance, age",
     hazard: "13 for 30, 15 for 50, or repeating a unit the page already prints",
   },
   code: {
     label: "A code",
-    listen: "phone, postcode, membership, room or reference — digits and letters, said slowly",
+    listen: "phone, postcode, membership, room or reference: digits and letters, said slowly",
     hazard: "hearing 'oh' as a letter, or losing a 'double'",
   },
   date: {
@@ -46,7 +46,7 @@ export const SLOT_LABELS: Record<string, SlotLabel> = {
   proper_name: {
     label: "A name",
     listen: "a name, usually spelled out letter by letter",
-    hazard: "pure transcription — the whole mark is spelling",
+    hazard: "pure transcription, so the whole mark is spelling",
   },
   address: {
     label: "An address",
@@ -91,7 +91,7 @@ export const SLOT_LABELS: Record<string, SlotLabel> = {
   category: {
     label: "A category",
     listen: "the general word the speaker never says, or the example where the class was given",
-    hazard: "the paraphrase gap — the printed word is never spoken",
+    hazard: "the paraphrase gap: the printed word is never spoken",
   },
 };
 
@@ -131,23 +131,23 @@ export const SIGNPOST_LABELS: Record<string, SignpostLabel> = {
     label: "Start transcribing",
     means: "stop trying to understand and write down exactly what you hear",
   },
-  structure: { label: "New section", means: "the talk has moved on — so has the question set" },
+  structure: { label: "New section", means: "the talk has moved on, and so has the question set" },
   list: {
     label: "Counted list",
     means: "a number of things is announced, which tells you how many gaps to expect",
   },
   emphasis: { label: "This one counts", means: "the speaker is marking this as the important one" },
-  definition: { label: "Term named", means: "a term is about to be given — often the key itself" },
+  definition: { label: "Term named", means: "a term is about to be given, often the key itself" },
   reformulation: {
     label: "Said again, simpler",
-    means: "the same idea in easier words — a second chance at a fact you missed",
+    means: "the same idea in easier words, a second chance at a fact you missed",
   },
   contrast: { label: "Turn coming", means: "the answer is on the far side of the contrast" },
   correction: { label: "Value changing", means: "what was just said is about to be replaced" },
   decision: { label: "Settled", means: "this is the outcome the speakers agreed on" },
   negation: {
     label: "Polarity",
-    means: "an exclusion or a negative — miss it and the answer inverts",
+    means: "an exclusion or a negative. Miss it and the answer inverts",
   },
 };
 
@@ -186,7 +186,7 @@ export const TRAP_LABELS: Record<string, TrapLabel> = {
   third_party_correction: {
     label: "Corrected by someone else",
     family: "correction",
-    what: "One speaker corrects another — common in Parts 1 and 3.",
+    what: "One speaker corrects another. Common in Parts 1 and 3.",
   },
   readback_correction: {
     label: "Correction inside a read-back",
@@ -226,7 +226,7 @@ export const TRAP_LABELS: Record<string, TrapLabel> = {
   attribution_shift: {
     label: "Someone else's opinion",
     family: "attribution",
-    what: "The view belongs to the tutor, the other student or a source — not the speaker asked about.",
+    what: "The view belongs to the tutor, the other student or a source, not to the speaker you were asked about.",
   },
   agreement_shift: {
     label: "Agreed at the end",
@@ -236,7 +236,7 @@ export const TRAP_LABELS: Record<string, TrapLabel> = {
   number_superseded: {
     label: "Figure revised",
     family: "numbers",
-    what: "A figure is given and then changed — a quote and then a discount.",
+    what: "A figure is given and then changed: a quote, then a discount.",
   },
   number_arithmetic: {
     label: "Several figures, one total",
@@ -271,7 +271,7 @@ export const TRAP_LABELS: Record<string, TrapLabel> = {
   option_never_named: {
     label: "Option described, not named",
     family: "lexical",
-    what: "The keyed option is chosen by description — 'I'll go for the highest'.",
+    what: "The keyed option is chosen by description: 'I'll go for the highest'.",
   },
   all_options_named: {
     label: "Every option spoken",
@@ -313,7 +313,7 @@ export const FORM_RISK_LABELS: Record<string, { label: string; what: string }> =
   },
   word_class: {
     label: "Word form",
-    what: "Right root, wrong form — 'manage' for 'management'.",
+    what: "Right root, wrong form: 'manage' for 'management'.",
   },
   over_limit: {
     label: "Over the word limit",
@@ -365,36 +365,36 @@ export interface PartBrief {
 
 export const PART_BRIEFS: Record<number, PartBrief> = {
   1: {
-    title: "Part 1 — an everyday conversation",
+    title: "Part 1: an everyday conversation",
     what: "Two speakers arranging something practical: a booking, an enquiry, a form being filled in. The audio narrates its own answer sheet.",
     punishes:
-      "Spelling and transcription. The heaviest spell-from-dictation load in the whole paper is here, not at the end — names, postcodes, phone numbers and dates, most of them corrected at least once.",
+      "Spelling and transcription. The heaviest spell-from-dictation load in the whole paper is here, not at the end: names, postcodes, phone numbers and dates, most of them corrected at least once.",
     reanchor:
-      "the form-field label being spoken — 'and your postcode?' tells you which box is next.",
+      "the form-field label being spoken. 'And your postcode?' tells you which box is next.",
   },
   2: {
-    title: "Part 2 — one speaker, a place or an arrangement",
+    title: "Part 2: one speaker, a place or an arrangement",
     what: "A monologue: a tour, a set of instructions, an announcement about a facility or an event.",
     punishes:
-      "Following a route or a sequence with nobody to slow the speaker down. Map labelling nearly always lives here, and its answers run in the order they are spoken — you are walking the plan, not searching it.",
+      "Following a route or a sequence with nobody to slow the speaker down. Map labelling nearly always lives here, and its answers run in the order they are spoken. You are walking the plan, not searching it.",
     reanchor:
-      "sequence and place words — 'as you come out of…', 'the next one along'. The route is continuous, so the next place is next to this one.",
+      "sequence and place words like 'as you come out of...', 'the next one along'. The route is continuous, so the next place is next to this one.",
   },
   3: {
-    title: "Part 3 — an academic discussion",
-    what: "Two to four speakers — usually students and a tutor — working through an assignment, a study or a plan.",
+    title: "Part 3: an academic discussion",
+    what: "Two to four speakers, usually students and a tutor, working through an assignment, a study or a plan.",
     punishes:
       "Losing track of who thinks what. The keyed answer is often the position everyone finally agrees on, and agreement is spoken quietly because by then it is uncontroversial.",
     reanchor:
-      "a speaker change — a new voice very often means a new sub-topic and a new question zone.",
+      "a speaker change: a new voice very often means a new sub-topic and a new question zone.",
   },
   4: {
-    title: "Part 4 — an academic lecture",
+    title: "Part 4: an academic lecture",
     what: "One speaker, six or seven minutes, no interruption and no mid-part pause. All ten questions are previewed at once.",
     punishes:
       "Losing your place. You are not supposed to understand the lecture; you are supposed to catch ten short bursts inside it.",
     reanchor:
-      "a structure marker — 'moving on to', 'which brings me to'. The outline is the only map you have, because the topic words are unfamiliar by design.",
+      "a structure marker like 'moving on to' or 'which brings me to'. The outline is the only map you have, because the topic words are unfamiliar by design.",
   },
 };
 
@@ -414,17 +414,17 @@ export const BRIEFING_CARDS: BriefingCard[] = [
   {
     id: "order",
     title: "The answers arrive in order. Always.",
-    body: "Nothing in this paper scatters — the questions run in the same order as the information in the recording, in every part and every question type, including map labelling. You are on a conveyor belt, not on a search. This is the single biggest difference from Reading, where matching tasks scatter deliberately.",
+    body: "Nothing in this paper scatters. The questions run in the same order as the information in the recording, in every part and every question type, including map labelling. You are on a conveyor belt, not on a search. This is the single biggest difference from Reading, where matching tasks scatter deliberately.",
   },
   {
     id: "last-value",
     title: "The answer is the last value stated before the speaker moves on.",
-    body: "Never the first. A speaker who says a number, hesitates and says a different one has given you the second. Write the first one anyway — leaving a gap while you wait costs you the next question — and then overwrite it when the correction comes.",
+    body: "Never the first. A speaker who says a number, hesitates and says a different one has given you the second. Write the first one anyway (leaving a gap while you wait costs you the next question) and overwrite it when the correction comes.",
   },
   {
     id: "form",
     title: "A word you heard correctly and spelled wrongly scores zero.",
-    body: "Half of what a competent listener loses is form, not comprehension: spelling, a missing -s, one word over the limit. Two to four marks a paper is typical, and that is the whole distance from 6.5 to 7.0 — available without hearing one extra word of English. It is counted separately here for exactly that reason.",
+    body: "Half of what a competent listener loses is form, not comprehension: spelling, a missing -s, one word over the limit. Two to four marks a paper is typical, and that is the whole distance from 6.5 to 7.0, available without hearing one extra word of English. It is counted separately here for exactly that reason.",
   },
   {
     id: "cascade",
@@ -439,7 +439,7 @@ export const BRIEFING_CARDS: BriefingCard[] = [
   {
     id: "escalation",
     title: "What does not get harder: the accents, and the audio.",
-    body: "Accents are spread across the paper rather than saved for the end, and the recording is studio-clean throughout. What escalates from Part 1 to Part 4 is vocabulary and sentence length — not speed, and not clarity. The spelling load actually runs the other way: it is heaviest in Part 1.",
+    body: "Accents are spread across the paper rather than saved for the end, and the recording is studio-clean throughout. What escalates from Part 1 to Part 4 is vocabulary and sentence length, not speed and not clarity. The spelling load actually runs the other way: it is heaviest in Part 1.",
   },
   {
     id: "honesty",
@@ -450,19 +450,19 @@ export const BRIEFING_CARDS: BriefingCard[] = [
 
 /** The accent disclosure, stated plainly and without a claim we cannot support. */
 export const ACCENT_DISCLOSURE =
-  "BandReady's synthesised voices cover British and North American English. Our Australian sets use Australian vocabulary and conventions with approximated voices. The real test also uses Australian and New Zealand speakers — plan extra exposure to those.";
+  "BandReady's synthesised voices cover British and North American English. Our Australian sets use Australian vocabulary and conventions with approximated voices. The real test also uses Australian and New Zealand speakers, so plan extra exposure to those.";
 
 /** The five-step preview protocol (§2.2) — what the 30-second pause is for. */
 export const PREVIEW_PROTOCOL: { window: string; step: string }[] = [
-  { window: "0–3s", step: "Read the instruction line. How many words? Is a number allowed?" },
+  { window: "0-3s", step: "Read the instruction line. How many words? Is a number allowed?" },
   {
-    window: "3–10s",
-    step: "Slot-type every gap — one prediction per box. Never drop this step.",
+    window: "3-10s",
+    step: "Slot-type every gap: one prediction per box. Never drop this step.",
   },
-  { window: "10–20s", step: "Underline one anchor per stem: the word most likely to be reworded." },
-  { window: "20–26s", step: "Read the last question of the set, so you know where the set ends." },
+  { window: "10-20s", step: "Underline one anchor per stem: the word most likely to be reworded." },
+  { window: "20-26s", step: "Read the last question of the set, so you know where the set ends." },
   {
-    window: "26–30s",
-    step: "Look at the first two again — the first answer often arrives seconds after the cue.",
+    window: "26-30s",
+    step: "Look at the first two again. The first answer often arrives seconds after the cue.",
   },
 ];

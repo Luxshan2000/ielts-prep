@@ -61,7 +61,7 @@ export function NumbersItem({
           <p className="text-[12px] uppercase tracking-wide text-muted-foreground">
             What the speaker said
           </p>
-          <p className="mt-1 text-[15px] italic">“{item.quote}”</p>
+          <p className="mt-1 text-[15px] italic">"{item.quote}"</p>
         </div>
       ) : (
         <ClipPlayer
@@ -92,9 +92,8 @@ export function NumbersItem({
           placeholder={item.instruction ?? ""}
         />
         <p className="text-[12px] text-muted-foreground">
-          {item.instruction}
-          {" — "}
-          spelling is marked exactly here, exactly as it is in the test. Capitals are not.
+          {item.instruction}{" "}
+          Spelling is marked exactly here, exactly as it is in the test. Capitals are not.
         </p>
       </div>
     </div>

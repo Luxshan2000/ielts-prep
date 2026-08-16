@@ -30,6 +30,34 @@ function rethrow(err: unknown): never {
   throw err;
 }
 
+/**
+ * Whether this machine can turn a recording into text — asked before the microphone
+ * button is drawn, never after.
+ *
+ * The shared answer lives at `GET /api/v1/speech/capabilities` so the same absence gets
+ * the same explanation everywhere. Offering to record and then failing is the worse
+ * outcome: the learner has already spoken, and a drill graded on an empty transcript
+ * tells them their pronunciation was wrong when the truth is that nothing was listening.
+ */
+export interface SpeechCapabilities {
+  transcription: boolean;
+  /** Plain-language reason, when there is one. */
+  reason: string | null;
+}
+
+export async function fetchSpeechCapabilities(): Promise<SpeechCapabilities> {
+  try {
+    const doc = await api.get<{ transcription?: boolean; reason?: string | null }>(
+      "/api/v1/speech/capabilities",
+    );
+    return { transcription: Boolean(doc.transcription), reason: doc.reason ?? null };
+  } catch {
+    // An older sidecar has no capabilities route. Assume recording works — the drill
+    // still refuses honestly when nothing is heard, and typing stays available anyway.
+    return { transcription: true, reason: null };
+  }
+}
+
 /** The four kinds and how each is graded — static, safe to fetch once. */
 export async function fetchKinds(): Promise<DrillKindInfo[]> {
   const doc = await api.get<{ kinds?: DrillKindInfo[] }>(`${BASE}/kinds`);

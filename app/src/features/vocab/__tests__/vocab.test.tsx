@@ -148,7 +148,7 @@ describe("formatDue", () => {
     const future = new Date(Date.now() + 2 * 86_400_000).toISOString();
     expect(formatDue(past)).toBe("3 days ago");
     expect(formatDue(future)).toBe("in 2 days");
-    expect(formatDue(null)).toBe("—");
+    expect(formatDue(null)).toBe("-");
   });
 });
 
@@ -172,10 +172,10 @@ describe("ExerciseCard (cloze)", () => {
     await user.click(screen.getByRole("button", { name: "Check" }));
 
     expect(screen.getByText("Correct.")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Good — next in 3d/ })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Again — next in 10m/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Good, next in 3d/ })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Again, next in 10m/ })).toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: /Good — next in 3d/ }));
+    await user.click(screen.getByRole("button", { name: /Good, next in 3d/ }));
     expect(onRate).toHaveBeenCalledTimes(1);
     expect(onRate.mock.calls[0][0]).toBe(3);
     expect(onRate.mock.calls[0][1].correct).toBe(true);

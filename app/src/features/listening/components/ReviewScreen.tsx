@@ -27,9 +27,9 @@ import { formatDuration, formatTimestamp } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import { playAudio } from "../media";
 import { useListeningStore } from "../store";
-import { promptLineFor, typeLabel } from "../qtypes";
+import { optionEntries, promptLineFor, tableRowFor, typeLabel } from "../qtypes";
 import { modeLabel } from "../labels";
-import type { ReviewPart, ReviewQuestion } from "../types";
+import type { OptionBank, ReviewPart, ReviewQuestion } from "../types";
 import { TranscriptPanel } from "./TranscriptPanel";
 
 type SaveState = "idle" | "saving" | "added" | "error";
@@ -207,7 +207,7 @@ export function ReviewScreen() {
                   <span className="text-base text-muted-foreground">/{total}</span>
                 </p>
                 <p className="text-[12px] text-muted-foreground">
-                  Raw score only — a band needs a full four-part test.
+                  Raw score only. A band needs a full four-part test.
                 </p>
               </div>
             )}
@@ -232,7 +232,7 @@ export function ReviewScreen() {
               </span>{" "}
               <span className="text-muted-foreground">
                 (questions {nearMisses.map((q) => q.number).join(", ")}). In IELTS those score
-                nothing — worth drilling.
+                nothing, so they are worth drilling.
               </span>
             </p>
           </div>
@@ -261,7 +261,7 @@ export function ReviewScreen() {
           <div className="space-y-3">
             <ReviewPlayer part={part} onReady={onPlayerReady} />
             <h2 className="text-sm font-semibold">
-              Part {part.part} — {part.title}
+              Part {part.part}: {part.title}
             </h2>
             <div className="space-y-2">
               {part.questions.map((question) => (
@@ -380,7 +380,7 @@ function ReviewPlayer({
   return (
     <div className="rounded-xl border border-border bg-card p-3">
       <p className="mb-2 text-[12px] text-muted-foreground">
-        Playback is unlocked in review — seek anywhere, or use a timestamp to jump to a line.
+        Playback is unlocked in review. Seek anywhere, or use a timestamp to jump to a line.
       </p>
       {src ? (
         // eslint-disable-next-line jsx-a11y/media-has-caption -- the transcript beside it is the caption
@@ -411,6 +411,14 @@ function QuestionRow({
 }) {
   const correct = question.correct === true;
   const accepted = question.accepted.map((slot) => slot.join(" / ")).join(" + ");
+  /*
+    A multiple-choice or matching answer is stored as a bare letter. Reviewing
+    "You wrote B — Accepted C" a day later tells the learner nothing: they cannot
+    remember which option each letter was. The bank is on the wire, so say it.
+  */
+  const optionText = optionLookup(question.options);
+  const givenLabel = expandLetters(question.given, optionText);
+  const acceptedLabel = expandLetters(accepted, optionText);
   const canAdd = !correct && question.accepted.some((slot) => slot.length > 0);
 
   return (
@@ -434,9 +442,13 @@ function QuestionRow({
           <button
             type="button"
             onClick={onFocusQuestion}
-            className="w-full rounded text-left text-[13px] leading-relaxed hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            /* `whitespace-pre-line` keeps the authored line breaks: a note prompt carries
+               its own heading, and collapsed it read "VISITOR NOTES How it works - The…". */
+            className="w-full whitespace-pre-line rounded text-left text-[13px] leading-relaxed hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
-            {promptLineFor(question.prompt, question.number) || typeLabel(question.type)}
+            {tableRowFor(question.prompt, question.number) ||
+              promptLineFor(question.prompt, question.number) ||
+              typeLabel(question.type)}
           </button>
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px]">
@@ -448,13 +460,13 @@ function QuestionRow({
               )}
               <span className="text-muted-foreground">You wrote</span>
               <span className={cn("font-medium", !question.given && "text-muted-foreground")}>
-                {question.given || "— nothing —"}
+                {givenLabel || "nothing"}
               </span>
             </span>
             {!correct && accepted && (
               <span>
                 <span className="text-muted-foreground">Accepted</span>{" "}
-                <span className="font-medium text-success">{accepted}</span>
+                <span className="font-medium text-success">{acceptedLabel}</span>
               </span>
             )}
             {question.near_miss_spelling && <Badge tone="warning">spelling</Badge>}
@@ -500,4 +512,23 @@ function QuestionRow({
       </div>
     </div>
   );
+}
+
+/**
+ * `{A: "the learner pool", …}` → a lookup from letter to what that letter meant.
+ * Empty for every completion type, which is what leaves those answers untouched.
+ */
+function optionLookup(options: OptionBank): Map<string, string> {
+  return new Map(optionEntries(options).map(([letter, text]) => [letter.toUpperCase(), text]));
+}
+
+/** "B, D" → "B — the studio, D — the roof terrace". Anything not a bare letter is kept. */
+function expandLetters(value: string, options: Map<string, string>): string {
+  const text = value.trim();
+  if (!text || options.size === 0) return text;
+  const pieces = text.split(/\s*[,;/]\s*/).filter(Boolean);
+  if (pieces.some((piece) => !options.has(piece.toUpperCase()))) return text;
+  return pieces
+    .map((piece) => `${piece.toUpperCase()}: ${options.get(piece.toUpperCase())}`)
+    .join(", ");
 }

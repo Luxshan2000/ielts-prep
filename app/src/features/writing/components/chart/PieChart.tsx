@@ -140,7 +140,7 @@ export function PieChart({ spec, width, ariaLabel, describedBy }: PieChartProps)
   if (ringSlices.length === 0 || ringSlices.every((slices) => slices.length === 0)) {
     return (
       <p className="py-10 text-center text-[13px] text-muted-foreground">
-        This pie chart has no segment values — use the table view.
+        This pie chart has no segment values. Use the table view.
       </p>
     );
   }

@@ -93,7 +93,7 @@ function TestCard({ test, onStart }: { test: TestSummary; onStart: () => void })
           {test.passages.map((passage, index) => (
             <li key={passage.id} className="truncate">
               {index + 1}. {passage.title}
-              {passage.questions ? ` — ${passage.questions} questions` : ""}
+              {passage.questions ? `, ${passage.questions} questions` : ""}
             </li>
           ))}
         </ul>
@@ -300,8 +300,8 @@ export function ReadingBrowser() {
             */}
             <p className="mb-3 text-[13px] text-muted-foreground">
               A test here is yours to set up: choose the clock or turn it off, and the coach
-              opens the moment you submit. The mock paper is the same length with none of that
-              — one fixed hour, no help, and a report on how you spent the time.
+              opens the moment you submit. The mock paper is the same length with none of
+              that: one fixed hour, no help, and a report on how you spent the time.
             </p>
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <FormatFilter value={format} onChange={setFormat} />
@@ -438,12 +438,12 @@ export function ReadingBrowser() {
               <EmptyState
                 icon={Target}
                 title="No drillable questions yet"
-                description="Drills pull questions of one type from across the installed bank. Install a content pack to unlock them."
+                description="Drills pull questions of one type from across the installed bank. Install a content pack to use them."
               />
             ) : (
               <div className="space-y-5">
                 <p className="text-[13px] text-muted-foreground">
-                  Pick one question type and answer several in a row — ten True/False/Not Given, for
+                  Pick one question type and answer several in a row: ten True/False/Not Given, for
                   example. Drills are marked the same way as a test but produce no band score.
                 </p>
 
@@ -546,7 +546,7 @@ export function ReadingBrowser() {
         description={
           pending?.kind === "full"
             ? "Three passages, 40 questions. The timer runs down and submits for you at zero."
-            : "One passage and its questions — the recommended way to build accuracy before timing yourself."
+            : "One passage and its questions, the recommended way to build accuracy before timing yourself."
         }
         defaultTimer={pending?.kind === "full" ? 3600 : 1200}
         starting={starting}

@@ -276,8 +276,8 @@ export function ReadingReview() {
     <PageShell
       bleed
       maxWidth="max-w-none"
-      title={`Review — ${passage.title}`}
-      description="Select any word in the passage to look it up; use “Locate in passage” to jump to the evidence."
+      title={`Review: ${passage.title}`}
+      description='Select any word in the passage to look it up; use "Locate in passage" to jump to the evidence.'
       back={{ to: "/reading", label: "Reading" }}
       toolbar={
         passages.length > 1 ? (

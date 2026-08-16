@@ -80,7 +80,7 @@ export function TranscriptGate({
 }
 
 export const GATE_REASON =
-  "In listening the transcript is the answer key — every gap, every decoy and every signpost is in it, in order. Reading it before you have answered does not make this part easier; it retires it. Ten minutes of guessing badly is worth more than an hour of reading the script.";
+  "In listening the transcript is the answer key: every gap, every decoy and every signpost is in it, in order. Reading it before you have answered does not make this part easier; it retires it. Ten minutes of guessing badly is worth more than an hour of reading the script.";
 
 // ------------------------------------------------------------------ the panel ---
 
@@ -128,7 +128,7 @@ export function TranscriptStudy({ doc }: { doc: TeachingPayload }) {
 
   return (
     <div className="space-y-4">
-      <ClipPlayerBar player={player} title={`Part ${doc.part} — ${doc.title}`} />
+      <ClipPlayerBar player={player} title={`Part ${doc.part}: ${doc.title}`} />
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,460px)]">
         {/* --------------------------------------------- the question timeline --- */}
@@ -188,7 +188,7 @@ export function TranscriptStudy({ doc }: { doc: TeachingPayload }) {
                       aria-label={
                         timing
                           ? `Play line ${line.index + 1} from ${formatTimestamp(timing.start_ms)}`
-                          : `Line ${line.index + 1} — this part is not rendered, so it cannot be played`
+                          : `Line ${line.index + 1}. This part is not rendered, so it cannot be played.`
                       }
                       onClick={() => {
                         const clip = lineClip(line.index, `line ${line.index + 1}`);
@@ -214,7 +214,7 @@ export function TranscriptStudy({ doc }: { doc: TeachingPayload }) {
                         ) : (
                           <Rewind className="h-3 w-3 opacity-60" aria-hidden="true" />
                         )}
-                        {timing ? formatTimestamp(timing.start_ms) : "—"}
+                        {timing ? formatTimestamp(timing.start_ms) : "-"}
                       </span>
                       <span className="min-w-0 flex-1">
                         {speaker && (
@@ -354,7 +354,7 @@ function QuestionTimeline({
         <PlayMoment
           label={
             timeline?.distraction
-              ? "Replay the moment — decoy, then the answer"
+              ? "Replay the moment: decoy, then the answer"
               : "Replay the moment this was answered"
           }
           at={cueTiming?.start_ms}
@@ -395,7 +395,7 @@ function QuestionTimeline({
         <Moment step="Approach" title="What announced it">
           <div className="flex flex-wrap items-center gap-2">
             <PlayMoment
-              label={`“${timeline.signpost.phrase}”`}
+              label={`"${timeline.signpost.phrase}"`}
               at={
                 typeof timeline.signpost.line_index === "number"
                   ? timings[timeline.signpost.line_index]?.start_ms
@@ -437,7 +437,7 @@ function QuestionTimeline({
                 <Chip tone="audio">{timeline.paraphrase_link.audio}</Chip>
               </p>
               <p className="text-[12px] leading-5 text-muted-foreground">
-                The printed stem is the paraphrase and the recording is the original — the opposite
+                The printed stem is the paraphrase and the recording is the original, the opposite
                 way round from a reading summary. Waiting for the printed word to be spoken is the
                 commonest silent loss in this paper, because it generates no feeling of difficulty.
               </p>

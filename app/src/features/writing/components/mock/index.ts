@@ -18,4 +18,12 @@ export {
   type MockRecord,
   type MockTaskKey,
 } from "./store";
-export { buildNextActions, timeVerdict, weakestCriterion, type NextAction } from "./analysis";
+export {
+  HARD_FLOOR_WORDS,
+  buildNextActions,
+  timeVerdict,
+  unmarkedReason,
+  weakestCriterion,
+  type NextAction,
+  type UnmarkedReason,
+} from "./analysis";

@@ -462,16 +462,16 @@ describe("the text alternative", () => {
 
   it("reads a process as numbered stages with the arrows out of each", () => {
     const { text } = describeChart(process);
-    expect(text).toContain("Stage 1, Raw clay dug from an open quarry — arrow to Clay blended");
-    expect(text).toContain("no arrow leaves this stage — it is the end of the process");
+    expect(text).toContain("Stage 1, Raw clay dug from an open quarry: arrow to Clay blended");
+    expect(text).toContain("no arrow leaves this stage, so it is the end of the process");
   });
 
   it("places every map feature on the compass, which is the whole task", () => {
     const { text } = describeChart(map);
     expect(text).toContain("the top of each plan is north");
-    expect(text).toContain("Row of small shops — a medium block, in the north-west.");
-    expect(text).toContain("High Street — a road running east to west, in the centre.");
-    expect(text).toContain("Bus interchange — a medium block, in the south.");
+    expect(text).toContain("Row of small shops: a medium block, in the north-west.");
+    expect(text).toContain("High Street: a road running east to west, in the centre.");
+    expect(text).toContain("Bus interchange: a medium block, in the south.");
   });
 
   it("describes the figures and never the reading of them", () => {

@@ -47,7 +47,7 @@ import { hasTeaching, solutionRows } from "./types";
 type CoachTab = "map" | "strategy" | "solutions" | "paraphrase" | "vocabulary";
 
 const EXAM_CONDITIONS_REASON =
-  "You have a mock paper open. Every coaching surface is shut until the hour is over — a mock you can read a solution during is not a mock.";
+  "You have a mock paper open. Every coaching surface is shut until the hour is over. A mock you can read a solution during is not a mock.";
 
 export function ReadingCoach() {
   const { passageId = "" } = useParams<{ passageId: string }>();
@@ -170,7 +170,7 @@ export function ReadingCoach() {
       bleed
       maxWidth="max-w-none"
       title={passage.title ?? slot?.title ?? "Reading coach"}
-      description="Study one passage: how to read it, how to attack each question type, and — once you have answered — exactly where every answer was."
+      description="Study one passage: how to read it, how to attack each question type, and (once you have answered) exactly where every answer was."
       back={{ to: "/reading", label: "Reading" }}
       status={
         <div className="flex flex-wrap items-center gap-2">
@@ -240,7 +240,7 @@ export function ReadingCoach() {
                 <EmptyState
                   icon={GraduationCap}
                   title="No teaching payload on this passage"
-                  description="This passage was authored before the reading teaching payload existed, or this build's content pack predates it. The passage, the questions and the marking all work exactly the same — there is simply nothing here to explain them with."
+                  description="This passage was authored before the reading teaching payload existed, or this build's content pack predates it. The passage, the questions and the marking all work exactly the same. There is simply nothing here to explain them with."
                   action={
                     <Button loading={starting} onClick={() => void practise()}>
                       Answer it anyway

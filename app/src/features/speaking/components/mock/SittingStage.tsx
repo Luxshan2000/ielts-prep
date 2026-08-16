@@ -224,7 +224,7 @@ export function SittingStage({ onEnded }: SittingStageProps) {
     const ok = await confirm({
       title: "Stop the test now?",
       message:
-        "The attempt still counts and is marked on what you have said so far. You cannot resume it or retake a part — the next mock starts again from Part 1.",
+        "The attempt still counts and is marked on what you have said so far. You cannot resume it or retake a part. The next mock starts again from Part 1.",
       confirmLabel: "Stop and mark",
       destructive: true,
     });
@@ -391,7 +391,7 @@ export function SittingStage({ onEnded }: SittingStageProps) {
               {examinerSpeaking
                 ? "The examiner is speaking"
                 : preparing
-                  ? "Prepare in silence — the examiner will tell you when to start"
+                  ? "Prepare in silence. The examiner will tell you when to start"
                   : "Speak until you are stopped"}
             </p>
           </div>

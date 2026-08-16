@@ -351,7 +351,7 @@ export function normalizeRecommended(
       modality: "llm",
       model: rec.llm_model,
       preset: rec.llm_preset,
-      note: [quality, rec.advice].filter(Boolean).join(" — "),
+      note: [quality, rec.advice].filter(Boolean).join(" · "),
       recommended: true,
     });
   }
@@ -366,7 +366,7 @@ export function normalizeRecommended(
       modality: "stt",
       model: rec.stt.model,
       preset: rec.stt.preset,
-      note: rec.stt.optional ? "Optional — the local engine is fine too." : undefined,
+      note: rec.stt.optional ? "Optional. The local engine is fine too." : undefined,
       recommended: true,
     });
   }
@@ -375,7 +375,7 @@ export function normalizeRecommended(
       modality: "tts",
       model: rec.tts.voice,
       preset: rec.tts.preset ?? "kokoro",
-      note: "Local voice — bf_emma is the most exam-authentic.",
+      note: "Local voice. bf_emma is the most exam-authentic.",
       recommended: true,
     });
   }
@@ -425,7 +425,7 @@ export function fallbackRecommendations(platform: PlatformInfo | undefined): Rec
               modality: "llm",
               model: "llama3.1:8b",
               preset: "ollama",
-              note: "Good chat — band scoring is marginal below ~14B.",
+              note: "Good chat. Band scoring is marginal below ~14B.",
               recommended: true,
             },
           ];
@@ -456,7 +456,7 @@ export function fallbackRecommendations(platform: PlatformInfo | undefined): Rec
           modality: "stt",
           model: tier === "8gb" ? "base" : tier === "16gb" ? "small" : "large-v3-turbo",
           preset: "faster_whisper",
-          note: "int8 on CPU — no GPU needed.",
+          note: "int8 on CPU, so no GPU needed.",
           recommended: true,
         },
       ];
@@ -468,7 +468,7 @@ export function fallbackRecommendations(platform: PlatformInfo | undefined): Rec
       modality: "tts",
       model: "af_heart",
       preset: "kokoro",
-      note: "82M ONNX voice — bf_emma is the most exam-authentic.",
+      note: "82M ONNX voice. bf_emma is the most exam-authentic.",
       recommended: true,
     },
   ];
@@ -740,7 +740,7 @@ export const useSettingsFeatureStore = create<SettingsFeatureState>((set, get) =
       if (!useStored && !result.ok && result.state === "unauthorized" && isMasked(slot.api_key)) {
         result.warnings = [
           ...(result.warnings ?? []),
-          "Verified with your unsaved changes, which cannot include the stored key — save first, or paste the key again.",
+          "Verified with your unsaved changes, which cannot include the stored key. Save first, or paste the key again.",
         ];
       }
       set({ verify: { ...get().verify, [modality]: result }, verifying: null });

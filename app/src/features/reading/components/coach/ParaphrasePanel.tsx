@@ -85,7 +85,7 @@ function FamilyCard({
           ) : (
             <p className="text-[13px] leading-6 text-muted-foreground">
               {rewordings.length} rewordings hidden. Say the phrase another way out loud before you
-              look — recognition without production is what fails under the clock.
+              look. Recognition without production is what fails under the clock.
             </p>
           )}
         </div>
@@ -112,7 +112,7 @@ export function ParaphrasePanel({ teaching, rows, unlocked, onLocate }: Paraphra
     <div className="space-y-5">
       <Callout tone="teach" title="Sort every rewording into two buckets">
         Twelve of the fourteen devices an item writer uses keep the meaning: a synonym, a passive, a
-        noun made from a verb. Two of them change it — a shift of scope (<em>some</em> to{" "}
+        noun made from a verb. Two of them change it: a shift of scope (<em>some</em> to{" "}
         <em>most</em>) and a shift of certainty (<em>may reduce</em> to <em>reduces</em>). Preserving
         means the statement is TRUE. Changing means it is FALSE. That sorting is the skill.
       </Callout>
@@ -121,7 +121,7 @@ export function ParaphrasePanel({ teaching, rows, unlocked, onLocate }: Paraphra
         <section className="space-y-3">
           <SectionHead
             title="Paraphrase families on this passage"
-            hint="The words the item writer would use instead — none of them appear in the text."
+            hint="The words the item writer would use instead. None of them appear in the text."
           />
           <div className="grid gap-3 lg:grid-cols-2">
             {families.map((family, index) => (
@@ -142,7 +142,7 @@ export function ParaphrasePanel({ teaching, rows, unlocked, onLocate }: Paraphra
               <Lock className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
               <p className="text-[13px] leading-6 text-muted-foreground">
                 These pairs open with the worked solutions. A stem phrase set beside the text phrase
-                it came from is a map to the answer, so it waits until you have answered — the
+                it came from is a map to the answer, so it waits until you have answered. The
                 families above train the same skill and give nothing away.
               </p>
             </CardContent>

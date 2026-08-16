@@ -110,7 +110,7 @@ export function Heatmap({ weeks = 12, data, className }: HeatmapProps) {
       <div className="flex items-center justify-between gap-4 text-[11px] text-muted-foreground">
         <span className="min-h-[1rem]">
           {hover
-            ? `${formatDate(hover.date)} — ${hover.minutes} min${
+            ? `${formatDate(hover.date)}: ${hover.minutes} min${
                 hover.activities?.length ? ` · ${hover.activities.join(", ")}` : ""
               }`
             : `Last ${weeks} weeks`}

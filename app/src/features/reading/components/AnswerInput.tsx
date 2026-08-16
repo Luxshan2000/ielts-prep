@@ -70,7 +70,7 @@ export function AnswerInput({
             state.over ? "font-medium text-warning" : "text-muted-foreground",
           )}
         >
-          {state.over ? `${state.caption} — over the limit` : state.caption}
+          {state.over ? `${state.caption}, over the limit` : state.caption}
         </span>
       )}
     </span>

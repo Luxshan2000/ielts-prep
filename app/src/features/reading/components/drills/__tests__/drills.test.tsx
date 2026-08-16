@@ -232,7 +232,7 @@ describe("the two-stage TFNG scaffold", () => {
 describe("the solution card", () => {
   it("leads a judgement item with the boundary against the rival verdict", () => {
     render(<SolutionCard reveal={FULL_REVEAL} given="FALSE" />);
-    expect(screen.getByText("NOT GIVEN — not FALSE")).toBeInTheDocument();
+    expect(screen.getByText("NOT GIVEN, not FALSE")).toBeInTheDocument();
     expect(
       screen.getByText(/FALSE would need a sentence that says the opposite/),
     ).toBeInTheDocument();

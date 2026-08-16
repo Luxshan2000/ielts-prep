@@ -436,7 +436,7 @@ export function PassagePane({
         anchor={noteTarget?.rect ?? null}
         onClose={() => setNoteTarget(null)}
         label={`Note on paragraph ${noteTarget?.paragraphId ?? ""}`}
-        title={`Note — paragraph ${noteTarget?.paragraphId ?? ""}`}
+        title={`Note on paragraph ${noteTarget?.paragraphId ?? ""}`}
       >
         <div className="space-y-2 p-3">
           <Textarea

@@ -736,14 +736,61 @@ async def session_events(websocket: WebSocket, session_id: str) -> None:
         live.detach(queue)
 
 
+def examiner_status() -> tuple[bool, str | None]:
+    """Can a language model both ask the questions and write the band?
+
+    ``voice_available`` only answers "is Pipecat importable" — it says nothing about
+    the model, and the model is what the examiner *is*. Without one, the SDP exchange
+    still succeeds, so the room connects, sits in silence, and the learner discovers
+    after eleven minutes of a mock that there was never going to be a band. This is the
+    pre-flight answer that stops that, so it must be cheap and side-effect free: it
+    reads the resolved config and reproduces the two conditions that would definitely
+    fail later, and claims nothing about the ones that only *might*.
+
+    ``build_llm_service`` (voice/pipeline.py) raises when no model name is set, and
+    ``get_slot`` itself raises when the stored config interpolates an environment
+    variable that is not present — a missing API key is exactly that. Anything else is
+    reported as ready, because a wrong port or a stopped Ollama cannot be known without
+    a network call and is already handled honestly once the call fails.
+    """
+    try:
+        from bandready.settings_store import get_slot
+
+        cfg = get_slot("llm") or {}
+    except Exception:  # noqa: BLE001 — an unresolvable config is a missing one
+        return False, (
+            "The examiner needs a language model, and this one is not set up yet — its "
+            "key is missing. Open Settings → Providers to finish it. Reading, listening, "
+            "grammar and vocabulary practice all still work."
+        )
+
+    from bandready.providers.presets import is_mock_preset
+
+    if is_mock_preset(cfg.get("preset")) or str(cfg.get("base_url") or "").startswith("mock://"):
+        return True, None
+
+    if not str(cfg.get("model") or "").strip():
+        return False, (
+            "No language model has been chosen yet, so nothing can ask you questions or "
+            "mark your answers. Open Settings → Providers and pick one. Reading, "
+            "listening, grammar and vocabulary practice all still work."
+        )
+    return True, None
+
+
 @router.get("/engine", summary="Voice-engine availability (pre-flight screen)")
 async def engine_info(request: Request, _: Auth = None) -> dict[str, Any]:
     """Whether this build can run a live session at all, plus the effective VAD params."""
     from bandready.voice.pipeline import pipecat_available, vad_params
 
     live = runtime.active()
+    examiner_available, examiner_reason = examiner_status()
     return {
         "voice_available": pipecat_available(),
+        # The examiner and the marker are the same model, so one flag covers both the
+        # "can this session happen" and the "will there be a band" questions.
+        "examiner_available": examiner_available,
+        "examiner_reason": examiner_reason,
         "vad": vad_params(),
         "live_session_id": live.session_id if live else None,
         "client": request.client.host if request.client else None,

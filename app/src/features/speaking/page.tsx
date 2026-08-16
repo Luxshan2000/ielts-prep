@@ -61,6 +61,10 @@ export function SpeakingHome() {
   const mode = modeMeta(activity);
   const liveElsewhere = engine?.live_session_id ?? null;
   const voiceMissing = engine?.voice_available === false;
+  // The examiner and the marker are the same model. Until one is configured this page
+  // must not offer a band: the session would connect, sit in silence, and the learner
+  // would find out afterwards. `=== false` because an older sidecar omits the field.
+  const examinerMissing = engine?.examiner_available === false;
   const isMock = activity === "full_mock";
 
   const onStart = async () => {
@@ -80,10 +84,18 @@ export function SpeakingHome() {
   return (
     <PageShell
       title="Speaking"
-      description="Live examiner practice with band feedback afterwards."
+      description={
+        examinerMissing
+          ? "Live examiner practice. Set up a language model first. Without one there is no examiner and no band."
+          : "Live examiner practice with band feedback afterwards."
+      }
       actions={
-        <Badge tone={mode.scored ? "primary" : "default"}>
-          {mode.scored ? "Counts toward your band" : "Practice only"}
+        <Badge tone={examinerMissing ? "default" : mode.scored ? "primary" : "default"}>
+          {examinerMissing
+            ? "Not set up yet"
+            : mode.scored
+              ? "Counts toward your band"
+              : "Practice only"}
         </Badge>
       }
     >
@@ -96,7 +108,7 @@ export function SpeakingHome() {
             <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
             <p className="text-[13px] text-muted-foreground">
               The practice engine isn't responding, so speaking sessions can't start. It may
-              still be launching — retry in a few seconds.
+              still be launching. Retry in a few seconds.
             </p>
           </div>
         )}
@@ -111,6 +123,22 @@ export function SpeakingHome() {
               The voice engine isn't installed in this build, so live sessions are unavailable.
               Reading, listening and writing practice still work.
             </p>
+          </div>
+        )}
+
+        {examinerMissing && (
+          <div
+            role="alert"
+            className="flex flex-wrap items-start justify-between gap-3 rounded-xl border border-warning/40 bg-warning/8 p-3"
+          >
+            <p className="flex min-w-0 items-start gap-2.5 text-[13px] text-muted-foreground">
+              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
+              {engine?.examiner_reason ??
+                "No language model is set up yet, so nothing can ask you questions or mark your answers."}
+            </p>
+            <Button size="sm" variant="outline" onClick={() => navigate("/settings")}>
+              Set up the examiner
+            </Button>
           </div>
         )}
 
@@ -138,7 +166,7 @@ export function SpeakingHome() {
               <div className="min-w-0">
                 <p className="text-sm font-semibold">Sit a full mock test</p>
                 <p className="mt-0.5 text-[13px] leading-6 text-muted-foreground">
-                  All three parts back to back, 11–14 minutes, authentic timing, no coaching and
+                  All three parts back to back, 11 to 14 minutes, authentic timing, no coaching and
                   no pausing. One band for the whole test at the end, with a part-by-part account
                   of where it came from.
                 </p>
@@ -175,7 +203,13 @@ export function SpeakingHome() {
                 <Button
                   size="lg"
                   loading={starting}
-                  disabled={starting || offline || voiceMissing || Boolean(liveElsewhere)}
+                  disabled={
+                    starting ||
+                    offline ||
+                    voiceMissing ||
+                    examinerMissing ||
+                    Boolean(liveElsewhere)
+                  }
                   onClick={() => void onStart()}
                 >
                   {isMock ? (
@@ -190,7 +224,12 @@ export function SpeakingHome() {
                     </>
                   )}
                 </Button>
-                {isMock ? (
+                {examinerMissing ? (
+                  <p className="text-[12px] text-muted-foreground">
+                    Nothing to start yet: the examiner needs a language model. The topic
+                    coach below works without one.
+                  </p>
+                ) : isMock ? (
                   <p className="text-[12px] text-muted-foreground">
                     A mock runs under exam conditions, so it opens in its own room first.
                   </p>

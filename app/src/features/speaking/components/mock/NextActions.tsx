@@ -80,7 +80,7 @@ export function NextActions({ actions, cards, setId, setTitle, className }: Next
                   Model answers are now unlocked for the cards you sat
                 </p>
                 <p className="mt-0.5 text-[13px] leading-6 text-muted-foreground">
-                  {setTitle ? `“${setTitle}” — ` : ""}the same story told at every band from 5 to
+                  {setTitle ? `“${setTitle}”: ` : ""}the same story told at every band from 5 to
                   9, annotated against the four criteria, plus the prep plan and the language the
                   subject needs. They stayed locked until you had attempted them, because a model
                   read beforehand is a script to memorise.

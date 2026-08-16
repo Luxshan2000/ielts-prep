@@ -74,12 +74,12 @@ export function StartDialog({
             value={timer}
             onChange={setTimer}
             options={[
-              { value: "standard", label: `Exam timing — ${formatDuration(defaultTimer)}` },
+              { value: "standard", label: `Exam timing: ${formatDuration(defaultTimer)}` },
               {
                 value: "extra",
-                label: `25% extra time — ${formatDuration(Math.round(defaultTimer * 1.25))}`,
+                label: `25% extra time: ${formatDuration(Math.round(defaultTimer * 1.25))}`,
               },
-              { value: "untimed", label: "Untimed practice — count up instead" },
+              { value: "untimed", label: "Untimed practice: count up instead" },
             ]}
           />
         </Field>
@@ -94,7 +94,7 @@ export function StartDialog({
           <span className="min-w-0">
             <span className="block text-[13px] font-medium text-foreground">Exam conditions</span>
             <span className="block text-[11px] text-muted-foreground">
-              No pausing, and the dictionary popover is switched off — words you double-click are
+              No pausing, and the dictionary popover is switched off. Words you double-click are
               queued for after you submit. Highlights and notes stay available, exactly as in
               computer-delivered IELTS.
             </span>

@@ -37,6 +37,8 @@ export interface SharedBlockProps {
   readOnly?: boolean;
   activeNumber: number;
   onActive: (number: number) => void;
+  /** False when the group's instruction already states the limit — see `qtypes`. */
+  showLimitHint?: boolean;
   registerRef?: (number: number, el: HTMLDivElement | null) => void;
 }
 
@@ -55,6 +57,7 @@ export function SharedBlock({
   readOnly = false,
   activeNumber,
   onActive,
+  showLimitHint = true,
   registerRef,
 }: SharedBlockProps) {
   const prompt = (questions[0]?.prompt ?? "").trim();
@@ -126,18 +129,20 @@ export function SharedBlock({
           ))}
         </div>
       )}
-      <p
-        className={cn(
-          "text-[11px]",
-          overs.length ? "font-medium text-warning" : "text-muted-foreground",
-        )}
-      >
-        {overs.length
-          ? `${overs.map((q) => q.number).join(", ")} — over the word limit, so ${
-              overs.length === 1 ? "it" : "they"
-            } would be marked wrong.`
-          : (wordLimitLabel(limit) ?? "Type exactly what you hear.")}
-      </p>
+      {(overs.length > 0 || showLimitHint) && (
+        <p
+          className={cn(
+            "text-[11px]",
+            overs.length ? "font-medium text-warning" : "text-muted-foreground",
+          )}
+        >
+          {overs.length
+            ? `${overs.map((q) => q.number).join(", ")}: over the word limit, so ${
+                overs.length === 1 ? "it" : "they"
+              } would be marked wrong.`
+            : (wordLimitLabel(limit) ?? "Type exactly what you hear.")}
+        </p>
+      )}
     </div>
   );
 }

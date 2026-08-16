@@ -220,7 +220,7 @@ export function inspectSpec(spec: unknown): SpecReport {
     const seriesCount = typed.series?.length ?? 0;
     if (status !== "unusable" && seriesCount > SERIES_MAX) {
       issues.push(
-        `This visual carries ${seriesCount} data series — more than the ${SERIES_MAX} the chart palette can tell apart. It is shown as a table so no figure is lost.`,
+        `This visual carries ${seriesCount} data series, more than the ${SERIES_MAX} the chart palette can tell apart. It is shown as a table so no figure is lost.`,
       );
       return { status: "degraded", kind, issues, tableOnly: true, panels: [] };
     }

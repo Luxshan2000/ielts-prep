@@ -25,7 +25,7 @@ const RESPONSIVENESS: Responsiveness[] = [
   {
     id: "balanced",
     label: "Balanced",
-    description: "The default — natural conversational turn-taking.",
+    description: "The default. Natural conversational turn-taking.",
     vad: { confidence: 0.5, start_secs: 0.2, stop_secs: 0.6 },
   },
   {
@@ -144,7 +144,7 @@ export function VoiceTab() {
             <span>
               The volume gate is capped at {MIN_VOLUME_CAP.toFixed(1)} on purpose. The voice
               library's own default sits at that value and it silently blocks normal
-              conversational speech — the microphone looks dead. BandReady clamps it both
+              conversational speech, so the microphone looks dead. BandReady clamps it both
               here and in the sidecar.
             </span>
           </p>

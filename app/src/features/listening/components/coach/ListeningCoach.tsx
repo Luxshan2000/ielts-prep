@@ -148,8 +148,8 @@ export function ListeningCoach() {
   return (
     <PageShell
       maxWidth="max-w-7xl"
-      title={`Part ${doc.part} — ${doc.title}`}
-      description="What to predict before it plays, what this part is, and — once you have answered it — exactly where every mark was won and lost."
+      title={`Part ${doc.part}: ${doc.title}`}
+      description="What to predict before it plays, what this part is, and (once you have answered it) exactly where every mark was won and lost."
       back={{ to: "/listening", label: "Listening" }}
       status={
         <div className="flex flex-wrap items-center gap-2">
@@ -194,7 +194,7 @@ export function ListeningCoach() {
         {!doc.audio.ready && (
           <div className="space-y-2 rounded-xl border border-border bg-card p-3">
             <p className="text-[13px] text-muted-foreground">
-              This part&rsquo;s audio has not been generated yet, so the replay buttons are switched
+              This part's audio has not been generated yet, so the replay buttons are switched
               off. It is synthesized on this machine once and then cached.
             </p>
             <PrepareAudioPanel
@@ -212,7 +212,7 @@ export function ListeningCoach() {
               <EmptyState
                 icon={GraduationCap}
                 title="No teaching payload on this part"
-                description="This script was authored before the listening teaching payload existed, or this build's content pack predates it. The questions, the audio and the marking all work exactly the same — there is simply nothing here to explain them with yet. The prediction drill still runs off the printed frames, and the brief, the signpost inventory and the paper facts are true of every recording, so they still apply."
+                description="This script was authored before the listening teaching payload existed, or this build's content pack predates it. The questions, the audio and the marking all work exactly the same. There is simply nothing here to explain them with yet. The prediction drill still runs off the printed frames, and the brief, the signpost inventory and the paper facts are true of every recording, so they still apply."
                 action={
                   <Button disabled={!doc.audio.ready} onClick={practise}>
                     Sit it anyway

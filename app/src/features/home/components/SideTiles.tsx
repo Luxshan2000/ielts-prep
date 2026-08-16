@@ -41,7 +41,7 @@ export function StreakCard({ streak }: { streak: StreakDoc }) {
             size="sm"
             icon={Flame}
             title="Your streak starts with your first session"
-            description={`Any practice you log counts — a session, a vocabulary review, one drill. Your daily goal is ${goal} minutes, and rest days in your plan never break a streak.`}
+            description={`A session, a vocabulary review or a single drill all count. Your daily goal is ${goal} minutes, and rest days in your plan never break a streak.`}
           />
         ) : (
           <>
@@ -74,8 +74,8 @@ export function StreakCard({ streak }: { streak: StreakDoc }) {
             {repaired && (
               <p className="flex items-start gap-1.5 text-[11px] text-muted-foreground">
                 <Info className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
-                We covered {streak.repaired_dates.join(", ")} for you — one free repair every
-                30 days.
+                We covered {streak.repaired_dates.join(", ")} for you. You get one free repair
+                every 30 days.
               </p>
             )}
           </>
@@ -127,24 +127,42 @@ export function ExamCountdownCard({
             </Button>
           </div>
         ) : (
-          <div className="flex items-start gap-3">
-            <CalendarClock
-              className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground"
-              aria-hidden="true"
-            />
-            <div className="min-w-0">
-              <p className="text-sm font-semibold tabular text-foreground">
-                {days > 0
-                  ? `${pluralize(days, "day")} to your test`
-                  : days === 0
-                    ? "Your test is today"
-                    : `Your test date passed ${pluralize(Math.abs(days), "day")} ago`}
-              </p>
-              <p className="mt-0.5 text-[13px] text-muted-foreground">
-                {profile.exam_date} · {format} · target band{" "}
-                {formatBand(profile.target_band)}
-              </p>
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <CalendarClock
+                className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground"
+                aria-hidden="true"
+              />
+              <div className="min-w-0">
+                <p className="text-sm font-semibold tabular text-foreground">
+                  {days > 0
+                    ? `${pluralize(days, "day")} to your test`
+                    : days === 0
+                      ? "Your test is today"
+                      : `Your test date passed ${pluralize(Math.abs(days), "day")} ago`}
+                </p>
+                <p className="mt-0.5 text-[13px] text-muted-foreground">
+                  {profile.exam_date} · {format} · target band{" "}
+                  {formatBand(profile.target_band)}
+                </p>
+              </div>
             </div>
+            {/* A date in the past leaves the plan tapering towards a day that has
+                been and gone, and this card was the only place saying so while
+                offering nothing to press. The wizard is the one screen that can
+                set the date, same as the "no date yet" branch above. */}
+            {days < 0 && (
+              <div className="space-y-2">
+                <p className="text-[13px] text-muted-foreground">
+                  If you have sat it, well done. If you have rebooked, put the new date in
+                  and BandReady rebuilds the plan backwards from it.
+                </p>
+                <Button variant="outline" size="sm" onClick={() => navigate("/onboarding")}>
+                  <CalendarPlus className="h-3.5 w-3.5" aria-hidden="true" />
+                  Set a new test date
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </CardContent>
@@ -170,7 +188,7 @@ export function VocabCard({ vocab, due }: { vocab: VocabTile; due: number | null
         {vocab.cards === 0 ? (
           <p className="text-[13px] text-muted-foreground">
             No cards yet. Words you look up while reading, listening or writing become cards
-            automatically — or import a starter deck.
+            automatically. You can also import a starter deck.
           </p>
         ) : (
           <dl className="grid grid-cols-3 gap-2 text-[13px]">

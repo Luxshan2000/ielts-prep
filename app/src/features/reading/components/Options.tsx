@@ -1,6 +1,31 @@
 import { Select } from "@/components/ui";
 import { cn } from "@/lib/cn";
+import { choiceGlossary } from "../qtypes";
 import type { QuestionOption } from "../types";
+
+/**
+ * The TRUE / FALSE / NOT GIVEN (or YES / NO / NOT GIVEN) rubric, printed above the
+ * buttons the way the real paper prints it. Renders nothing for any other type.
+ */
+export function ChoiceGlossary({ qtype, className }: { qtype: string; className?: string }) {
+  const rows = choiceGlossary(qtype);
+  if (rows.length === 0) return null;
+  return (
+    <dl
+      className={cn(
+        "space-y-1 rounded-lg border border-border bg-muted/40 p-3 text-[13px] leading-snug",
+        className,
+      )}
+    >
+      {rows.map((row) => (
+        <div key={row.value} className="flex gap-2">
+          <dt className="w-24 shrink-0 font-semibold">{row.value}</dt>
+          <dd className="min-w-0 text-muted-foreground">if {row.meaning}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
 
 /**
  * The letter/heading bank shown once above a matching or bank-completion group.
@@ -59,6 +84,7 @@ export function RadioChoices({
   onChange,
   ariaLabel,
   onFocus,
+  disabled,
 }: {
   name: string;
   options: QuestionOption[];
@@ -66,6 +92,7 @@ export function RadioChoices({
   onChange: (value: string) => void;
   ariaLabel: string;
   onFocus?: () => void;
+  disabled?: boolean;
 }) {
   return (
     <div role="radiogroup" aria-label={ariaLabel} className="space-y-1">
@@ -75,11 +102,12 @@ export function RadioChoices({
           <label
             key={option.key}
             className={cn(
-              "flex cursor-pointer items-start gap-2.5 rounded-lg border px-3 py-2 text-[13px] transition-colors",
+              "flex items-start gap-2.5 rounded-lg border px-3 py-2 text-[13px] transition-colors",
               "focus-within:ring-2 focus-within:ring-ring",
+              disabled ? "cursor-default opacity-70" : "cursor-pointer",
               checked
                 ? "border-primary bg-primary/10 text-foreground"
-                : "border-border hover:bg-accent",
+                : cn("border-border", !disabled && "hover:bg-accent"),
             )}
           >
             <input
@@ -87,6 +115,7 @@ export function RadioChoices({
               name={name}
               value={option.key}
               checked={checked}
+              disabled={disabled}
               onFocus={onFocus}
               onChange={() => onChange(option.key)}
               className="mt-0.5 h-4 w-4 shrink-0 accent-[hsl(var(--primary))]"
@@ -108,6 +137,7 @@ export function SegmentedChoices({
   onChange,
   ariaLabel,
   onFocus,
+  disabled,
 }: {
   name: string;
   values: string[];
@@ -115,6 +145,7 @@ export function SegmentedChoices({
   onChange: (value: string) => void;
   ariaLabel: string;
   onFocus?: () => void;
+  disabled?: boolean;
 }) {
   const normalized = value.trim().toUpperCase();
   return (
@@ -125,11 +156,15 @@ export function SegmentedChoices({
           <label
             key={option}
             className={cn(
-              "cursor-pointer rounded-lg border px-3 py-1.5 text-[13px] font-medium transition-colors",
+              "rounded-lg border px-3 py-1.5 text-[13px] font-medium transition-colors",
               "focus-within:outline-none focus-within:ring-2 focus-within:ring-ring",
+              disabled ? "cursor-default opacity-70" : "cursor-pointer",
               checked
                 ? "border-primary bg-primary text-primary-foreground"
-                : "border-border text-muted-foreground hover:bg-accent hover:text-foreground",
+                : cn(
+                    "border-border text-muted-foreground",
+                    !disabled && "hover:bg-accent hover:text-foreground",
+                  ),
             )}
           >
             <input
@@ -137,6 +172,7 @@ export function SegmentedChoices({
               name={name}
               value={option}
               checked={checked}
+              disabled={disabled}
               onFocus={onFocus}
               onChange={() => onChange(option)}
               className="sr-only"
@@ -157,6 +193,7 @@ export function CheckboxChoices({
   max,
   ariaLabel,
   onFocus,
+  disabled,
 }: {
   options: QuestionOption[];
   selected: string[];
@@ -164,6 +201,7 @@ export function CheckboxChoices({
   max: number;
   ariaLabel: string;
   onFocus?: () => void;
+  disabled?: boolean;
 }) {
   const chosen = new Set(selected.map((s) => s.toUpperCase()));
   const full = chosen.size >= max;
@@ -176,17 +214,19 @@ export function CheckboxChoices({
           <label
             key={option.key}
             className={cn(
-              "flex cursor-pointer items-start gap-2.5 rounded-lg border px-3 py-2 text-[13px] transition-colors",
+              "flex items-start gap-2.5 rounded-lg border px-3 py-2 text-[13px] transition-colors",
               "focus-within:ring-2 focus-within:ring-ring",
+              disabled ? "cursor-default opacity-70" : "cursor-pointer",
               checked
                 ? "border-primary bg-primary/10 text-foreground"
-                : "border-border hover:bg-accent",
+                : cn("border-border", !disabled && "hover:bg-accent"),
               !checked && full && "opacity-60",
             )}
           >
             <input
               type="checkbox"
               checked={checked}
+              disabled={disabled}
               onFocus={onFocus}
               onChange={() => onToggle(option.key)}
               className="mt-0.5 h-4 w-4 shrink-0 accent-[hsl(var(--primary))]"
@@ -198,7 +238,7 @@ export function CheckboxChoices({
       })}
       <p className="pt-0.5 text-[11px] text-muted-foreground tabular">
         {chosen.size} of {max} selected
-        {full ? " — clear one to change your mind." : ""}
+        {full ? ". Clear one to change your mind." : ""}
       </p>
     </div>
   );
@@ -212,6 +252,7 @@ export function LetterSelect({
   disabledKeys,
   ariaLabel,
   className,
+  disabled,
 }: {
   options: QuestionOption[];
   value: string;
@@ -219,6 +260,7 @@ export function LetterSelect({
   disabledKeys?: Set<string>;
   ariaLabel: string;
   className?: string;
+  disabled?: boolean;
 }) {
   const current = value.trim().toUpperCase();
   return (
@@ -226,10 +268,11 @@ export function LetterSelect({
       aria-label={ariaLabel}
       className={cn("w-28", className)}
       value={current || ""}
+      disabled={disabled}
       onChange={onChange}
-      placeholder="—"
+      placeholder="-"
       options={[
-        { value: "", label: "— clear" },
+        { value: "", label: "Clear" },
         ...options.map((option) => ({
           value: option.key.toUpperCase(),
           label: option.key,

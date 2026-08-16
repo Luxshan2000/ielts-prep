@@ -76,7 +76,7 @@ describe("FeedbackReport", () => {
     fetchReport.mockResolvedValue(REPORT);
     renderAt();
 
-    await waitFor(() => expect(screen.getByLabelText("Band 6.5 — Overall")).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByLabelText("Band 6.5, Overall")).toBeInTheDocument());
     expect(screen.getByText(/AI-estimated band/)).toBeInTheDocument();
     // Pronunciation came back null, so it must read as "not assessed", never as 0.
     expect(screen.getByText(/Pronunciation couldn't be assessed/)).toBeInTheDocument();
@@ -86,7 +86,7 @@ describe("FeedbackReport", () => {
   it("expands a criterion to its evidence and improvements", async () => {
     fetchReport.mockResolvedValue(REPORT);
     renderAt();
-    await waitFor(() => expect(screen.getByLabelText("Band 6.5 — Overall")).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByLabelText("Band 6.5, Overall")).toBeInTheDocument());
 
     await userEvent.click(screen.getByRole("button", { name: /Fluency & Coherence/ }));
     expect(await screen.findByText(/I live in a small city/)).toBeInTheDocument();
@@ -96,7 +96,7 @@ describe("FeedbackReport", () => {
   it("explains a missing transcript instead of rendering an empty pane", async () => {
     fetchReport.mockResolvedValue(REPORT);
     renderAt();
-    await waitFor(() => expect(screen.getByLabelText("Band 6.5 — Overall")).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByLabelText("Band 6.5, Overall")).toBeInTheDocument());
 
     expect(screen.getByText("Transcript not available")).toBeInTheDocument();
     // The flagged error is still shown, with its correction.
@@ -113,6 +113,6 @@ describe("FeedbackReport", () => {
 
     fetchReport.mockResolvedValue(REPORT);
     await userEvent.click(screen.getByRole("button", { name: "Try again" }));
-    await waitFor(() => expect(screen.getByLabelText("Band 6.5 — Overall")).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByLabelText("Band 6.5, Overall")).toBeInTheDocument());
   });
 });

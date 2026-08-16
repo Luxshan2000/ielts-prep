@@ -218,7 +218,7 @@ export function EntryBrowser() {
           description={
             filtered
               ? "Try a shorter search, or clear the status and topic filters."
-              : "Accept a suggestion, opt into a study deck, or add a word yourself — nothing is added automatically."
+              : "Accept a suggestion, opt into a study deck, or add a word yourself. Nothing is added automatically."
           }
           action={
             filtered ? (
@@ -353,14 +353,14 @@ function EntryRow({
           )}
         </span>
       </td>
-      <td className="px-3 py-2 text-muted-foreground">{entry.cefr_level ?? "—"}</td>
+      <td className="px-3 py-2 text-muted-foreground">{entry.cefr_level ?? "-"}</td>
       <td className="px-3 py-2">
         <Badge tone={status.tone}>{status.label}</Badge>
       </td>
       <td className="px-3 py-2 text-muted-foreground">
-        {entry.status === "active" ? formatDue(entry.srs?.due) : "—"}
+        {entry.status === "active" ? formatDue(entry.srs?.due) : "-"}
       </td>
-      <td className="px-3 py-2 text-muted-foreground">{entry.source?.module ?? "—"}</td>
+      <td className="px-3 py-2 text-muted-foreground">{entry.source?.module ?? "-"}</td>
     </tr>
   );
 }

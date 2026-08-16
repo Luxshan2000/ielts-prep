@@ -490,7 +490,7 @@ export function blockLabel(numbers: number[] | undefined | null): string {
   if (!numbers || numbers.length === 0) return "";
   const first = numbers[0];
   const last = numbers[numbers.length - 1];
-  return first === last ? String(first) : `${first}–${last}`;
+  return first === last ? String(first) : `${first}-${last}`;
 }
 
 /**

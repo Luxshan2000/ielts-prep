@@ -35,7 +35,7 @@ export function SelfDiagnose({
   return (
     <fieldset className={cn("rounded-xl border border-border bg-muted/20 p-3", className)}>
       <legend className="px-1 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-        Before the answer — what do you think went wrong?
+        Before the answer: what do you think went wrong?
       </legend>
       <div className="mt-1.5 flex flex-wrap gap-1.5">
         {options.map((option) => {
@@ -75,7 +75,7 @@ export function SelfDiagnose({
               : "border-border text-muted-foreground hover:bg-accent hover:text-foreground",
           )}
         >
-          I&rsquo;m not sure
+          I'm not sure
         </button>
       </div>
       <p className="mt-2 text-[11px] text-muted-foreground">

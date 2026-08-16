@@ -220,7 +220,7 @@ export function TrajectoryChart({
         <div className="min-w-0">
           <CardTitle>Band trajectory</CardTitle>
           <p className="mt-1 text-[13px] text-muted-foreground">
-            Estimated band — not a guarantee. Weeks without enough scored practice are left
+            Estimated band, not a guarantee. Weeks without enough scored practice are left
             blank rather than joined up.
           </p>
         </div>

@@ -96,7 +96,7 @@ export function SettingsPage() {
   return (
     <PageShell
       title="Settings"
-      description="One language model, one voice in, one voice out — plus how BandReady behaves."
+      description="One language model, one voice in, one voice out, plus how BandReady behaves."
       toolbar={<Tabs value={tab} onChange={setTab} items={TABS} aria-label="Settings sections" />}
     >
       {banner && (

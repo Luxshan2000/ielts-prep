@@ -191,7 +191,7 @@ export function TopicCoach() {
             <EmptyState
               icon={GraduationCap}
               title="No teaching material for this set"
-              description="This build serves the cue cards but not the teaching payload behind them. Practising the card still works — the coach fills in once the content pack is installed."
+              description="This build serves the cue cards but not the teaching payload behind them. Practising the card still works, and the coach fills in once the content pack is installed."
               action={
                 <Button variant="outline" onClick={() => navigate("/speaking")}>
                   Back to Speaking
@@ -332,7 +332,7 @@ export function TopicCoach() {
             <div className="space-y-4">
               {!scoredSession && (
                 <Callout tone="info" title="No scored attempt on this set yet">
-                  You have rehearsed this card, so the model is open — but the left column
+                  You have rehearsed this card, so the model is open, but the left column
                   stays empty until you run a Full Mock or a Single Part on it and it gets
                   marked. The band ladder still works without one.
                 </Callout>

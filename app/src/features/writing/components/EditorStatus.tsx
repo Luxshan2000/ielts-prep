@@ -72,7 +72,7 @@ export function SaveIndicator({ saving, dirty, savedAt, error }: SaveIndicatorPr
         className="inline-flex items-center gap-1.5 rounded-md bg-destructive/15 px-2 py-1 text-[12px] text-destructive"
       >
         <CloudOff className="h-3.5 w-3.5" aria-hidden="true" />
-        Not saved — retrying
+        Not saved, retrying
       </span>
     );
   }

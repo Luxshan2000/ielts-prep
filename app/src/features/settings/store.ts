@@ -18,6 +18,16 @@ import { useSettingsStore, type SettingsDoc } from "@/stores";
 export type Modality = "llm" | "stt" | "tts";
 export const MODALITIES: Modality[] = ["llm", "stt", "tts"];
 
+/** The one remote provider. One key, and it serves all three jobs. */
+export const OPENROUTER_PRESET = "openrouter";
+
+/** The engine that runs each job on this computer. There is exactly one per job. */
+export const LOCAL_PRESET: Record<Modality, string> = {
+  llm: "ollama",
+  stt: "faster_whisper",
+  tts: "kokoro",
+};
+
 /** The masked value `GET /api/v1/settings` returns for a stored secret (03 §8). */
 export const SECRET_MASK = "•••• (stored)";
 
@@ -137,41 +147,36 @@ export interface ArtifactState {
   }[];
 }
 
-export interface RecommendedEntry {
-  modality: Modality;
-  model: string;
-  preset?: string;
-  note?: string;
-  /** Flagged as the default choice for this tier (03 §7). */
-  recommended?: boolean;
-  /** `model` names a provider, not a model — apply the preset and let Verify fill the rest. */
-  preset_only?: boolean;
+/**
+ * One row of `GET /api/v1/providers/openrouter/models` (03 §9).
+ *
+ * The catalogue is fetched rather than shipped because it changes weekly, and because a
+ * speech model's voice list exists nowhere else: Aura-2 alone carries ninety of them, and
+ * a hardcoded copy would be wrong within a month.
+ */
+export interface CatalogueModel {
+  id: string;
+  name?: string;
+  description?: string;
+  pricing?: Record<string, unknown> | null;
+  context_length?: number | null;
+  /** Populated for text-to-speech models, `[]` everywhere else. */
+  voices?: string[];
+  input_modalities?: string[];
+  output_modalities?: string[];
 }
 
-/** `GET /api/v1/models/recommended` (13 §7 / 03 §7). */
-export interface RecommendedResponse {
-  platform?: PlatformInfo;
-  tier?: string;
-  recommended?: {
-    tier?: string;
-    label?: string;
-    advice?: string;
-    chat_quality?: string;
-    scoring_quality?: string;
-    llm_preset?: string;
-    llm_model?: string;
-    /** The tier's pick per engine, e.g. `{ollama: "qwen3:14b", mlx: "…"}`. */
-    llm?: Record<string, string>;
-    stt?: { preset?: string; model?: string; artifact_id?: string; optional?: boolean };
-    tts?: { preset?: string; voice?: string; artifact_id?: string };
-  };
-  cloud_alternative?: {
-    label?: string;
-    advice?: string;
-    llm?: { presets?: string[] };
-  };
-  /** Pre-normalized entries, if a future sidecar serves them. */
-  items?: RecommendedEntry[];
+export interface CatalogueState {
+  models: CatalogueModel[];
+  /**
+   * The sidecar's pick for this job. It comes back on every response *including* a failed
+   * one, which is what lets a section stay usable with no listing at all.
+   */
+  recommended: string | null;
+  loading: boolean;
+  /** Set when the listing could not be fetched. Never fatal: `recommended` still stands. */
+  error: string | null;
+  loadedAt: number | null;
 }
 
 export interface JobView {
@@ -330,150 +335,6 @@ export async function patchSettingsOptimistic(patch: SettingsDoc): Promise<boole
   return ok;
 }
 
-/** Flatten the sidecar's tier document into the rows the panel renders. */
-export function normalizeRecommended(
-  res: RecommendedResponse | RecommendedEntry[],
-): RecommendedEntry[] {
-  if (Array.isArray(res)) return res;
-  if (res?.items?.length) return res.items;
-
-  const rec = res?.recommended;
-  if (!rec) return [];
-  const quality = [
-    rec.chat_quality ? `chat ${rec.chat_quality}` : null,
-    rec.scoring_quality ? `scoring ${rec.scoring_quality}` : null,
-  ]
-    .filter(Boolean)
-    .join(" · ");
-  const out: RecommendedEntry[] = [];
-  if (rec.llm_model) {
-    out.push({
-      modality: "llm",
-      model: rec.llm_model,
-      preset: rec.llm_preset,
-      note: [quality, rec.advice].filter(Boolean).join(" · "),
-      recommended: true,
-    });
-  }
-  // The tier document also names the model for each *engine* it knows. Keeping the
-  // Ollama one means the local route can offer Ollama with a model sized for this
-  // machine, instead of falling back to the preset's first suggestion on every tier.
-  if (rec.llm?.ollama && rec.llm.ollama !== rec.llm_model) {
-    out.push({ modality: "llm", model: rec.llm.ollama, preset: "ollama" });
-  }
-  if (rec.stt?.model) {
-    out.push({
-      modality: "stt",
-      model: rec.stt.model,
-      preset: rec.stt.preset,
-      note: rec.stt.optional ? "Optional. The local engine is fine too." : undefined,
-      recommended: true,
-    });
-  }
-  if (rec.tts?.voice) {
-    out.push({
-      modality: "tts",
-      model: rec.tts.voice,
-      preset: rec.tts.preset ?? "kokoro",
-      note: "Local voice. bf_emma is the most exam-authentic.",
-      recommended: true,
-    });
-  }
-  const cloud = res.cloud_alternative;
-  const cloudPreset = cloud?.llm?.presets?.[0];
-  if (cloudPreset) {
-    out.push({
-      modality: "llm",
-      model: cloudPreset,
-      preset: cloudPreset,
-      note: cloud?.advice ?? "Cloud alternative for the most reliable scoring.",
-      preset_only: true,
-    });
-  }
-  return out;
-}
-
-// ------------------------------------------------------------- fallback data
-
-/** 03 §7's hardware-tier table — used when the sidecar has no recommendations route. */
-export function fallbackRecommendations(platform: PlatformInfo | undefined): RecommendedEntry[] {
-  const tier = platform?.tier ?? "unknown";
-  const mac = Boolean(platform?.apple_silicon);
-  const llm: RecommendedEntry[] =
-    tier === "32gb+"
-      ? [
-          {
-            modality: "llm",
-            model: mac ? "mlx-community/Qwen3-32B-4bit" : "qwen3:32b",
-            preset: mac ? "mlx_lm" : "ollama",
-            note: "Excellent chat, good band scoring.",
-            recommended: true,
-          },
-        ]
-      : tier === "16gb"
-        ? [
-            {
-              modality: "llm",
-              model: mac ? "mlx-community/Qwen3-14B-4bit" : "qwen3:14b",
-              preset: mac ? "mlx_lm" : "ollama",
-              note: "Good chat, acceptable band scoring.",
-              recommended: true,
-            },
-          ]
-        : [
-            {
-              modality: "llm",
-              model: "llama3.1:8b",
-              preset: "ollama",
-              note: "Good chat. Band scoring is marginal below ~14B.",
-              recommended: true,
-            },
-          ];
-
-  // The cloud alternative is not tier-specific and must exist in every branch: the setup
-  // screen offers "use an online service" from this row, and a tier that omitted it
-  // rendered a card with three selling points and no button.
-  llm.push({
-    modality: "llm",
-    model: "anthropic/claude-sonnet-4.5",
-    preset: "openrouter",
-    note: "Add a cloud key for the most consistent band scores.",
-    preset_only: true,
-  });
-
-  const stt: RecommendedEntry[] = mac
-    ? [
-        {
-          modality: "stt",
-          model: "mlx-community/whisper-large-v3-turbo",
-          preset: "mlx_whisper",
-          note: "Runs realtime on M-series.",
-          recommended: true,
-        },
-      ]
-    : [
-        {
-          modality: "stt",
-          model: tier === "8gb" ? "base" : tier === "16gb" ? "small" : "large-v3-turbo",
-          preset: "faster_whisper",
-          note: "int8 on CPU, so no GPU needed.",
-          recommended: true,
-        },
-      ];
-
-  return [
-    ...llm,
-    ...stt,
-    {
-      modality: "tts",
-      model: "af_heart",
-      preset: "kokoro",
-      note: "82M ONNX voice. bf_emma is the most exam-authentic.",
-      recommended: true,
-    },
-  ];
-}
-
 // --------------------------------------------------------------------- store
 
 interface SettingsFeatureState {
@@ -500,8 +361,8 @@ interface SettingsFeatureState {
   artifacts: ArtifactState[];
   modelsError: string | null;
 
-  recommended: RecommendedEntry[] | null;
-  recommendedSource: "sidecar" | "builtin" | null;
+  /** The live OpenRouter catalogue, one entry per job that has asked for it. */
+  catalogue: Partial<Record<Modality, CatalogueState>>;
 
   saving: boolean;
   savedAt: number | null;
@@ -509,6 +370,8 @@ interface SettingsFeatureState {
 
   hydrate: (doc: SettingsDoc | null) => void;
   setField: (modality: Modality, key: string, value: unknown) => void;
+  /** Write one key into every slot pointed at OpenRouter. Asked for once, used by all. */
+  setOpenRouterKey: (value: string) => void;
   applyPreset: (modality: Modality, preset: Preset) => void;
   useDetectedEngine: (engine: DetectEngine) => void;
   setVad: (key: keyof VadDraft, value: number) => void;
@@ -520,7 +383,7 @@ interface SettingsFeatureState {
   runDetect: (fresh?: boolean) => Promise<void>;
   runVerify: (modality: Modality) => Promise<void>;
   runSetup: (engineId: string) => Promise<void>;
-  loadRecommended: () => Promise<void>;
+  loadCatalogue: (modality: Modality, refresh?: boolean) => Promise<void>;
   loadModels: () => Promise<void>;
   startDownload: (artifactId: string) => Promise<void>;
   cancelDownload: (artifactId: string) => Promise<void>;
@@ -554,8 +417,7 @@ export const useSettingsFeatureStore = create<SettingsFeatureState>((set, get) =
   artifacts: [],
   modelsError: null,
 
-  recommended: null,
-  recommendedSource: null,
+  catalogue: {},
 
   saving: false,
   savedAt: null,
@@ -580,6 +442,28 @@ export const useSettingsFeatureStore = create<SettingsFeatureState>((set, get) =
         ? { ...get().secretTouched, [modality]: true }
         : get().secretTouched;
     set({ drafts: { ...drafts, [modality]: nextSlot }, secretTouched, savedAt: null });
+  },
+
+  /**
+   * One key, three jobs.
+   *
+   * The sidecar stores a key per slot and never shares one across them, so a learner who
+   * pasted a key for the examiner and then sent the voice to OpenRouter used to get
+   * "the key was rejected" on a screen that told them a key was saved. The key field is
+   * asked for once; this is what makes that true in storage as well as on screen.
+   */
+  setOpenRouterKey: (value) => {
+    const drafts = { ...get().drafts };
+    const secretTouched = { ...get().secretTouched };
+    let changed = false;
+    for (const modality of MODALITIES) {
+      if (drafts[modality].preset !== OPENROUTER_PRESET) continue;
+      drafts[modality] = { ...drafts[modality], api_key: value };
+      secretTouched[modality] = true;
+      changed = true;
+    }
+    if (!changed) return;
+    set({ drafts, secretTouched, savedAt: null });
   },
 
   applyPreset: (modality, preset) => {
@@ -809,23 +693,58 @@ export const useSettingsFeatureStore = create<SettingsFeatureState>((set, get) =
     }
   },
 
-  loadRecommended: async () => {
-    try {
-      const res = await api.get<RecommendedResponse | RecommendedEntry[]>(
-        "/api/v1/models/recommended",
-      );
-      const items = normalizeRecommended(res);
-      if (items.length > 0) {
-        set({ recommended: items, recommendedSource: "sidecar" });
-        return;
-      }
-    } catch {
-      /* fall through to the shipped 03 §7 table */
-    }
-    set({
-      recommended: fallbackRecommendations(get().detectReport?.platform),
-      recommendedSource: "builtin",
+  /**
+   * The OpenRouter catalogue for one job (03 §9).
+   *
+   * Listing needs no key, so this answers before the learner has pasted anything — which is
+   * what lets the picker show what is on offer instead of an empty box and a promise. The
+   * sidecar caches for six hours; this caches again per session so that flipping between the
+   * three sections does not re-ask.
+   *
+   * A failure is an ordinary state, not a dead end. The route answers with `models: []`, an
+   * `error` sentence and *still* the recommended id, so the section keeps a model it can use.
+   */
+  loadCatalogue: async (modality, refresh = false) => {
+    const current = get().catalogue[modality];
+    if (current?.loading) return;
+    if (current?.loadedAt && !refresh) return;
+    const put = (next: CatalogueState) =>
+      set({ catalogue: { ...get().catalogue, [modality]: next } });
+    put({
+      models: current?.models ?? [],
+      recommended: current?.recommended ?? null,
+      loading: true,
+      error: null,
+      loadedAt: current?.loadedAt ?? null,
     });
+    try {
+      const res = await api.get<{
+        models?: CatalogueModel[];
+        recommended?: string | null;
+        error?: string;
+      }>(
+        `/api/v1/providers/openrouter/models?modality=${modality}${refresh ? "&refresh=true" : ""}`,
+      );
+      put({
+        models: res.models ?? [],
+        recommended: res.recommended ?? null,
+        loading: false,
+        error: res.error ?? null,
+        loadedAt: Date.now(),
+      });
+    } catch (err) {
+      put({
+        models: [],
+        // Whatever a previous fetch knew is better than nothing: the recommendation is the
+        // one thing this section cannot work without.
+        recommended: current?.recommended ?? null,
+        loading: false,
+        error: isMissingRoute(err)
+          ? "This sidecar build cannot list OpenRouter models yet. Update BandReady to choose from the full list."
+          : errText(err, "The model list could not be fetched. Try again in a moment."),
+        loadedAt: Date.now(),
+      });
+    }
   },
 
   loadModels: async () => {

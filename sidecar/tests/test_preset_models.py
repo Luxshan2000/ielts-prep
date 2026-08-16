@@ -102,16 +102,52 @@ def test_every_curated_id_is_a_plausible_non_empty_string() -> None:
                 assert model.strip() == model and model
 
 
-def test_there_is_exactly_one_branded_cloud_provider() -> None:
+def test_openrouter_is_the_only_remote_provider() -> None:
     """The simplification, pinned.
 
     OpenRouter serves chat, transcription and speech from one key, so OpenAI, Groq and
     DeepSeek bought nothing but a longer list and one more decision for somebody who is here
-    to practise English. custom_openai stays: it points at anything OpenAI-shaped, including
-    a self-hosted server, and it is the only reason removing the others costs nobody anything.
+    to practise English. custom_openai went too: a point-at-anything escape hatch is a
+    free-text model field wearing a coat, and this app now offers three jobs each choosing
+    between one remote provider and one local engine.
     """
     cloud = {p["id"] for p in PRESETS if p.get("kind") == "cloud"}
-    assert cloud == {"openrouter", "custom_openai"}
+    assert cloud == {"openrouter"}
+
+
+def test_no_provider_is_offered_that_is_not_installed() -> None:
+    """mlx_whisper was selectable and absent, and it broke speech-to-text silently.
+
+    `pron/analyze.py` reads the configured model id and hands it to faster-whisper. An MLX
+    repository id can never load there, both attempts fail, and the failure is cached in a
+    module-level flag for the life of the process, so every later recording comes back
+    unrecognised with nothing on screen naming the cause.
+    """
+    assert not any(p["id"] == "mlx_whisper" for p in PRESETS)
+    local = {p["id"] for p in PRESETS if str(p.get("kind", "")).startswith("local")}
+    assert local == {"ollama", "faster_whisper", "kokoro"}
+
+
+def test_every_job_can_be_answered_locally_and_remotely() -> None:
+    """Each of the three is chosen on its own, so each needs both routes available.
+
+    A learner may send marking to OpenRouter and keep their voice on the machine, or any
+    other combination. That only works if no modality has a single possible answer.
+    """
+    for modality in ("llm", "stt", "tts"):
+        serving = [p for p in PRESETS if modality in p.get("modalities", [])
+                   and not str(p["id"]).startswith("mock")]
+        kinds = {"remote" if p.get("kind") == "cloud" else "local" for p in serving}
+        assert kinds == {"local", "remote"}, f"{modality} cannot be answered both ways"
+
+
+def test_one_recommendation_per_job_and_all_are_namespaced() -> None:
+    """The picker needs a good default, which is a different thing from an inventory."""
+    from bandready.providers.presets import RECOMMENDED_OPENROUTER
+
+    assert set(RECOMMENDED_OPENROUTER) == {"llm", "stt", "tts"}
+    for model in RECOMMENDED_OPENROUTER.values():
+        assert "/" in model, f"{model} is missing its vendor prefix"
 
 
 def test_the_local_engines_all_survived() -> None:

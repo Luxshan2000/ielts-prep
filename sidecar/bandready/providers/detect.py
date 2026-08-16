@@ -155,15 +155,10 @@ def _inproc_engines() -> list[dict[str, Any]]:
         if fw_present
         else {"id": "faster_whisper", "state": "needs_download", "download_mb": 484}
     )
-    engines = [kokoro, faster]
-    if platform.system() == "Darwin" and platform.machine() == "arm64":
-        mlx_dir = models / "mlx-whisper"
-        mlx_present = mlx_dir.exists() and any(mlx_dir.iterdir()) if mlx_dir.exists() else False
-        engines.append(
-            {"id": "mlx_whisper", "state": "ready" if mlx_present else "needs_download",
-             "download_mb": 0 if mlx_present else 1550}
-        )
-    return engines
+    # Kokoro speaks and faster-whisper listens. There is no third local engine to report:
+    # mlx_whisper was reported here and offered in Settings while never being installed, and
+    # naming an engine the app cannot actually run is how a learner ends up selecting one.
+    return [kokoro, faster]
 
 
 # --------------------------------------------------------------------------- entry point

@@ -1,58 +1,49 @@
-import { useState } from "react";
-import { Button } from "@/components/ui";
-import { DetectPanel } from "./DetectPanel";
+import { Fragment } from "react";
+import { JobSection } from "./JobSection";
 import { ModelDownloads } from "./ModelDownloads";
-import { ProviderSlotCard } from "./ProviderSlotCard";
-import { RecommendedModels } from "./RecommendedModels";
-import { SimpleSetup } from "./SimpleSetup";
-import { MODALITIES } from "../store";
-
-const ADVANCED_KEY = "br-settings-advanced";
-
-function readAdvanced(): boolean {
-  try {
-    return window.localStorage.getItem(ADVANCED_KEY) === "1";
-  } catch {
-    return false;
-  }
-}
+import { OpenRouterKeyCard } from "./OpenRouterKeyCard";
+import { LOCAL_PRESET, OPENROUTER_PRESET, useSettingsFeatureStore, type Modality } from "../store";
 
 /**
- * Two audiences, one tab.
+ * Three jobs, three choices.
  *
- * Everything below `SimpleSetup` is unchanged and still exactly what somebody wiring up a
- * local inference stack needs. But it was also the *default* — so a learner whose microphone
- * had stopped working landed on seven engine rows, three base-URL fields and five model
- * weights, and had no way to tell which of them was their problem. The simple view answers
- * the one question they actually have; this is one click away for the people who want it.
+ * The order is the order they matter in: the examiner marks, the voice reads aloud, and the
+ * microphone listens. Each one picks its own place to run, so marking through OpenRouter
+ * with the voice and the microphone staying on this computer is one click, not a trip
+ * through a screen of base URLs.
  */
+const ORDER: Modality[] = ["llm", "tts", "stt"];
+
 export function ProvidersTab() {
-  const [advanced, setAdvanced] = useState(readAdvanced);
+  const drafts = useSettingsFeatureStore((s) => s.drafts);
+  const presetsError = useSettingsFeatureStore((s) => s.presetsError);
 
-  const show = (next: boolean) => {
-    setAdvanced(next);
-    try {
-      window.localStorage.setItem(ADVANCED_KEY, next ? "1" : "0");
-    } catch {
-      /* storage disabled — the choice stays session-local */
-    }
-  };
+  const usesOpenRouter = ORDER.filter((m) => drafts[m].preset === OPENROUTER_PRESET);
+  // The key card sits directly under the first job that needs it, rather than at the top or
+  // the foot of the pane, so it is on screen where the learner just clicked. The pane is
+  // short and it scrolls; a card two sections away is a card nobody finds.
+  const keyAfter = usesOpenRouter[0];
 
-  if (!advanced) return <SimpleSetup onAdvanced={() => show(true)} />;
+  const needsWeights = ORDER.some(
+    (m) => m !== "llm" && drafts[m].preset === LOCAL_PRESET[m],
+  );
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
-        <Button variant="ghost" size="sm" onClick={() => show(false)}>
-          Back to simple settings
-        </Button>
-      </div>
-      <DetectPanel />
-      <RecommendedModels />
-      {MODALITIES.map((modality) => (
-        <ProviderSlotCard key={modality} modality={modality} />
+      {presetsError && (
+        <p className="rounded-lg border border-border bg-muted/40 px-3 py-2 text-[13px] text-muted-foreground">
+          {presetsError}
+        </p>
+      )}
+
+      {ORDER.map((modality) => (
+        <Fragment key={modality}>
+          <JobSection modality={modality} />
+          {modality === keyAfter && <OpenRouterKeyCard />}
+        </Fragment>
       ))}
-      <ModelDownloads />
+
+      {needsWeights && <ModelDownloads />}
     </div>
   );
 }

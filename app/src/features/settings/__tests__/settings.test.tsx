@@ -1,10 +1,11 @@
 /**
  * Settings, from the point of view of somebody preparing for IELTS.
  *
- * Three things are checked here because all three had already gone wrong: the check card
- * has to say something usable for every state the sidecar's Verify actually returns, the
- * You tab has to round-trip to the sidecar without firing a request per drag frame or
- * dropping the last one, and the cloud key card has to keep a stored key it is not shown.
+ * What is pinned here is what had already gone wrong: each job's check has to say something
+ * usable for every state the sidecar's Verify actually returns, the three jobs have to be
+ * settable independently of each other, a catalogue that cannot be listed must not leave a
+ * job unusable, the You tab has to round-trip without firing a request per drag frame or
+ * dropping the last one, and the key card has to keep a stored key it is never shown.
  */
 
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
@@ -30,22 +31,103 @@ vi.mock("@/lib/api", async () => {
   };
 });
 
-const { SimpleSetup } = await import("../components/SimpleSetup");
+const { ProvidersTab } = await import("../components/ProvidersTab");
 const { YouTab } = await import("../components/YouTab");
-const { CloudKeyCard } = await import("../components/CloudKeyCard");
+const { OpenRouterKeyCard } = await import("../components/OpenRouterKeyCard");
 const { useSettingsFeatureStore, SECRET_MASK } = await import("../store");
 const { useSettingsStore } = await import("@/stores");
+type Preset = import("../store").Preset;
 
-const OPENROUTER = {
+const OPENROUTER: Preset = {
   id: "openrouter",
   label: "OpenRouter",
-  modalities: ["llm" as const],
+  modalities: ["llm", "stt", "tts"],
   kind: "cloud",
   base_url: "https://openrouter.ai/api/v1",
+  base_url_locked: true,
   needs_key: true,
   suggested_models: ["anthropic/claude-sonnet-4.5"],
   config_spec: [],
 };
+
+const OLLAMA: Preset = {
+  id: "ollama",
+  label: "Ollama",
+  modalities: ["llm"],
+  kind: "local-server",
+  base_url: "http://127.0.0.1:11434/v1",
+  suggested_models: ["qwen3:14b"],
+  config_spec: [],
+};
+
+const KOKORO: Preset = {
+  id: "kokoro",
+  label: "Kokoro (local TTS)",
+  modalities: ["tts"],
+  kind: "local-inproc",
+  base_url: "",
+  engine: "kokoro_onnx",
+  config_spec: [
+    {
+      key: "voice",
+      label: "Voice",
+      type: "select",
+      group: "connection",
+      default: "af_heart",
+      options: ["af_heart", "bf_emma"],
+    },
+  ],
+};
+
+const WHISPER: Preset = {
+  id: "faster_whisper",
+  label: "Local Whisper",
+  modalities: ["stt"],
+  kind: "local-inproc",
+  base_url: "",
+  engine: "faster_whisper",
+  config_spec: [
+    {
+      key: "model",
+      label: "Model size",
+      type: "select",
+      group: "connection",
+      default: "base",
+      options: ["base", "small"],
+    },
+  ],
+};
+
+/** What `GET /api/v1/providers/openrouter/models` answers, per job. */
+const CATALOGUE: Record<string, unknown> = {
+  llm: {
+    modality: "llm",
+    recommended: "anthropic/claude-sonnet-4.5",
+    models: [
+      { id: "anthropic/claude-sonnet-4.5", name: "Anthropic: Claude Sonnet 4.5", voices: [] },
+      { id: "google/gemini-2.5-flash", name: "Google: Gemini 2.5 Flash", voices: [] },
+      { id: "meta-llama/llama-3.3-70b-instruct", name: "Meta: Llama 3.3 70B", voices: [] },
+    ],
+  },
+  tts: {
+    modality: "tts",
+    recommended: "deepgram/aura-2",
+    models: [
+      { id: "deepgram/aura-2", name: "Deepgram: Aura-2", voices: ["asteria", "luna", "orion"] },
+      { id: "openai/gpt-audio", name: "OpenAI: GPT Audio", voices: ["alloy"] },
+    ],
+  },
+  stt: {
+    modality: "stt",
+    recommended: "deepgram/nova-3",
+    models: [{ id: "deepgram/nova-3", name: "Deepgram: Nova-3", voices: [] }],
+  },
+};
+
+function catalogueFor(path: string): unknown {
+  const modality = new URL(path, "http://x").searchParams.get("modality") ?? "llm";
+  return CATALOGUE[modality];
+}
 
 function resetStores() {
   useSettingsStore.setState({ doc: null, loading: false, offline: false, error: null });
@@ -53,17 +135,32 @@ function resetStores() {
     drafts: { llm: {}, stt: {}, tts: {}, vad: { confidence: 0.5, start_secs: 0.2, stop_secs: 0.6, min_volume: 0 } },
     baseline: { llm: {}, stt: {}, tts: {}, vad: { confidence: 0.5, start_secs: 0.2, stop_secs: 0.6, min_volume: 0 } },
     secretTouched: { llm: false, stt: false, tts: false },
-    presets: [OPENROUTER],
+    presets: [OPENROUTER, OLLAMA, KOKORO, WHISPER],
+    presetsError: null,
     verify: {},
     verifyError: {},
     verifying: null,
-    recommended: [],
+    catalogue: {},
+    artifacts: [],
+    detectReport: null,
+  });
+  get.mockReset();
+  get.mockImplementation((path: string) => {
+    if (path.startsWith("/api/v1/providers/openrouter/models")) {
+      return Promise.resolve(catalogueFor(path));
+    }
+    return Promise.resolve({});
   });
 }
 
 beforeEach(resetStores);
 
-// --------------------------------------------------------------- the three-job check card
+/** The section for one job, which is also the thing a screen reader announces. */
+function section(title: string): HTMLElement {
+  return screen.getByRole("group", { name: title });
+}
+
+// -------------------------------------------------------------- each job's own check row
 
 describe("the check card", () => {
   /**
@@ -85,28 +182,161 @@ describe("the check card", () => {
     useSettingsFeatureStore.setState({
       verify: { tts: { ok: false, state, detail: "raw provider words" } },
     });
-    render(<SimpleSetup onAdvanced={() => {}} />);
+    render(<ProvidersTab />);
 
-    const row = screen.getByText("The voice").closest("div") as HTMLElement;
+    const row = section("The voice");
     expect(within(row).getByText(copy)).toBeInTheDocument();
     // and never only the provider's own words
     expect(within(row).getByText(/Reported: raw provider words/)).toBeInTheDocument();
+  });
+
+  it("keeps each job's answer inside that job's section", () => {
+    useSettingsFeatureStore.setState({
+      verify: { tts: { ok: false, state: "no_key" }, llm: { ok: true } },
+    });
+    render(<ProvidersTab />);
+    expect(within(section("The voice")).getByText(/no usable key/i)).toBeInTheDocument();
+    expect(within(section("The examiner")).queryByText(/no usable key/i)).not.toBeInTheDocument();
+    expect(within(section("The examiner")).getByText("Working")).toBeInTheDocument();
   });
 
   it("falls back to a sentence when the check request itself threw", () => {
     useSettingsFeatureStore.setState({
       verifyError: { llm: "Verification is not available in this sidecar build." },
     });
-    render(<SimpleSetup onAdvanced={() => {}} />);
+    render(<ProvidersTab />);
     expect(
-      screen.getByText("Verification is not available in this sidecar build."),
+      within(section("The examiner")).getByText(
+        "Verification is not available in this sidecar build.",
+      ),
     ).toBeInTheDocument();
   });
 
   it("says nothing at all before a check has been run", () => {
-    render(<SimpleSetup onAdvanced={() => {}} />);
+    render(<ProvidersTab />);
     expect(screen.queryByText(/could not be reached/i)).not.toBeInTheDocument();
     expect(screen.getAllByRole("button", { name: "Check" })).toHaveLength(3);
+  });
+});
+
+// ------------------------------------------------------------------ three jobs, three choices
+
+describe("the three provider sections", () => {
+  const openRouterButton = (title: string) =>
+    within(section(title)).getByRole("button", { name: /Through OpenRouter/ });
+  const localButton = (title: string) =>
+    within(section(title)).getByRole("button", { name: /On this computer/ });
+
+  it("sets each job independently, so marking can be remote while the voice stays local", async () => {
+    const user = userEvent.setup();
+    render(<ProvidersTab />);
+
+    await user.click(openRouterButton("The examiner"));
+    await user.click(localButton("The voice"));
+    await user.click(localButton("Hearing you"));
+
+    const drafts = useSettingsFeatureStore.getState().drafts;
+    expect(drafts.llm.preset).toBe("openrouter");
+    expect(drafts.tts.preset).toBe("kokoro");
+    expect(drafts.stt.preset).toBe("faster_whisper");
+    // and the choice is readable without opening anything
+    expect(within(section("The voice")).getByText(/Kokoro/)).toBeInTheDocument();
+  });
+
+  it("preselects the model the sidecar recommends", async () => {
+    const user = userEvent.setup();
+    render(<ProvidersTab />);
+
+    await user.click(openRouterButton("Hearing you"));
+    await waitFor(() =>
+      expect(useSettingsFeatureStore.getState().drafts.stt.model).toBe("deepgram/nova-3"),
+    );
+    // Named in plain words where it can be read without opening anything, and marked as
+    // the recommendation rather than left as one id among nineteen.
+    expect(within(section("Hearing you")).getAllByText(/Deepgram: Nova-3/).length).toBeGreaterThan(
+      0,
+    );
+    expect(within(section("Hearing you")).getByText("Recommended")).toBeInTheDocument();
+  });
+
+  it("fills the voice list from the model the learner picked", async () => {
+    const user = userEvent.setup();
+    render(<ProvidersTab />);
+
+    await user.click(openRouterButton("The voice"));
+    await waitFor(() =>
+      expect(useSettingsFeatureStore.getState().drafts.tts.model).toBe("deepgram/aura-2"),
+    );
+    // The voices belong to the model, so they arrive with it rather than from a shipped list.
+    await waitFor(() =>
+      expect(useSettingsFeatureStore.getState().drafts.tts.voice).toBe("asteria"),
+    );
+    expect(within(section("The voice")).getByLabelText("OpenRouter voice")).toHaveTextContent(
+      "asteria",
+    );
+    expect(within(section("The voice")).getByText(/3 voices come with this model/)).toBeInTheDocument();
+  });
+
+  it("stays usable when the catalogue cannot be listed", async () => {
+    const user = userEvent.setup();
+    get.mockImplementation((path: string) => {
+      if (path.startsWith("/api/v1/providers/openrouter/models")) {
+        // What the route really answers when OpenRouter is unreachable: no list, an
+        // explanation, and still the recommendation.
+        return Promise.resolve({
+          modality: "stt",
+          models: [],
+          recommended: "deepgram/nova-3",
+          error: "The model list could not be fetched from OpenRouter.",
+        });
+      }
+      return Promise.resolve({});
+    });
+    render(<ProvidersTab />);
+
+    await user.click(openRouterButton("Hearing you"));
+    const row = section("Hearing you");
+    expect(
+      await within(row).findByText(/The model list could not be fetched from OpenRouter\./),
+    ).toBeInTheDocument();
+    // The job is still set up and still checkable: the recommendation does not need the list.
+    await waitFor(() =>
+      expect(useSettingsFeatureStore.getState().drafts.stt.model).toBe("deepgram/nova-3"),
+    );
+    expect(within(row).getByRole("button", { name: "Try the list again" })).toBeInTheDocument();
+    expect(within(row).getByRole("button", { name: "Check" })).toBeInTheDocument();
+  });
+
+  it("keeps the owner's two marking choices in front of the four-hundred-model list", async () => {
+    const user = userEvent.setup();
+    render(<ProvidersTab />);
+
+    await user.click(openRouterButton("The examiner"));
+    const row = section("The examiner");
+    expect(await within(row).findByText("How carefully should it mark?")).toBeInTheDocument();
+    await user.click(within(row).getByRole("button", { name: /Quick and cheap/ }));
+    expect(useSettingsFeatureStore.getState().drafts.llm.model).toBe("google/gemini-2.5-flash");
+
+    // The full list is there for anybody who wants it, one disclosure away.
+    await user.click(within(row).getByRole("button", { name: /Choose a specific model/ }));
+    await user.click(within(row).getByRole("button", { name: /Meta: Llama 3\.3 70B/ }));
+    expect(useSettingsFeatureStore.getState().drafts.llm.model).toBe(
+      "meta-llama/llama-3.3-70b-instruct",
+    );
+  });
+
+  it("names a provider it can no longer run rather than showing nothing", () => {
+    useSettingsFeatureStore.setState({
+      drafts: {
+        ...useSettingsFeatureStore.getState().drafts,
+        stt: { preset: "mlx_whisper", model: "mlx-community/whisper-large-v3-turbo" },
+      },
+    });
+    render(<ProvidersTab />);
+    expect(within(section("Hearing you")).getByText(/mlx_whisper/)).toBeInTheDocument();
+    expect(
+      within(section("Hearing you")).getByText(/no longer runs\. Pick one of the two above\./),
+    ).toBeInTheDocument();
   });
 });
 
@@ -220,14 +450,19 @@ describe("the You tab's slider", () => {
 
 // ------------------------------------------------------------------------ the cloud key
 
-describe("the cloud key card", () => {
+describe("the OpenRouter key card", () => {
+  const slots = (llm: Record<string, unknown>, tts: Record<string, unknown> = {}) => {
+    const state = useSettingsFeatureStore.getState();
+    useSettingsFeatureStore.setState({
+      drafts: { ...state.drafts, llm, tts },
+      baseline: { ...state.baseline, llm, tts },
+    });
+  };
+
   it("shows a stored key as stored, and never echoes the mask into a save", async () => {
     const user = userEvent.setup();
-    useSettingsFeatureStore.setState({
-      drafts: { ...useSettingsFeatureStore.getState().drafts, llm: { preset: "openrouter", api_key: SECRET_MASK } },
-      baseline: { ...useSettingsFeatureStore.getState().baseline, llm: { preset: "openrouter", api_key: SECRET_MASK } },
-    });
-    render(<CloudKeyCard />);
+    slots({ preset: "openrouter", api_key: SECRET_MASK });
+    render(<OpenRouterKeyCard />);
 
     expect(screen.getByText("A key is saved")).toBeInTheDocument();
     expect(screen.queryByLabelText("OpenRouter key")).not.toBeInTheDocument();
@@ -242,17 +477,49 @@ describe("the cloud key card", () => {
   });
 
   it("names a ${VAR} key rather than showing a row of dots for it", () => {
-    useSettingsFeatureStore.setState({
-      drafts: { ...useSettingsFeatureStore.getState().drafts, llm: { preset: "openrouter", api_key: "${OPENROUTER_API_KEY}" } },
-    });
-    render(<CloudKeyCard />);
+    slots({ preset: "openrouter", api_key: "${OPENROUTER_API_KEY}" });
+    render(<OpenRouterKeyCard />);
     expect(screen.getByText("${OPENROUTER_API_KEY}")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Paste a key instead" })).toBeInTheDocument();
   });
 
   it("tells the learner the step that actually keeps the key", () => {
-    render(<CloudKeyCard />);
+    slots({ preset: "openrouter" });
+    render(<OpenRouterKeyCard />);
     expect(screen.getByText(/Save settings/)).toBeInTheDocument();
+  });
+
+  it("asks once and gives the key to every job that uses OpenRouter", async () => {
+    const user = userEvent.setup();
+    slots({ preset: "openrouter" }, { preset: "openrouter" });
+    render(<OpenRouterKeyCard />);
+
+    expect(screen.getByText(/the examiner and the voice/)).toBeInTheDocument();
+    await user.type(screen.getByLabelText("OpenRouter key"), "sk-or-shared");
+
+    const drafts = useSettingsFeatureStore.getState().drafts;
+    expect(drafts.llm.api_key).toBe("sk-or-shared");
+    expect(drafts.tts.api_key).toBe("sk-or-shared");
+    expect(drafts.stt.api_key).toBeUndefined();
+  });
+
+  it("says so when a saved key cannot be copied to a job added later", () => {
+    // The renderer only ever sees the mask, and a mask is stripped from every save. Saying
+    // "a key is saved" over a job that has none is how somebody gets a rejected key on a
+    // screen that told them they were set up.
+    slots({ preset: "openrouter", api_key: SECRET_MASK }, { preset: "openrouter", api_key: "" });
+    render(<OpenRouterKeyCard />);
+
+    expect(screen.getByLabelText("OpenRouter key")).toBeInTheDocument();
+    expect(
+      screen.getByText(/A key is saved for the examiner.*so the voice can use it too/s),
+    ).toBeInTheDocument();
+  });
+
+  it("is not there at all when nothing uses OpenRouter", () => {
+    slots({ preset: "ollama", model: "qwen3:14b" }, { preset: "kokoro", voice: "af_heart" });
+    const { container } = render(<OpenRouterKeyCard />);
+    expect(container).toBeEmptyDOMElement();
   });
 });
 

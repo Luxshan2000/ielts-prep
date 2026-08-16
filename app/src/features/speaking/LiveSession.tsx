@@ -140,7 +140,8 @@ function CallStage({ activity, onEnded }: CallStageProps) {
   const mode = modeMeta(activity.split(":")[0]);
   const [showTranscript, setShowTranscript] = useState(!mode.scored);
 
-  const connectedOnce = useRef(false);
+  /** Which client we have already dialled, not merely whether we have dialled one. */
+  const connectedFor = useRef<PipecatClient | null>(null);
   const endedRef = useRef(false);
   const originRef = useRef(0);
 
@@ -217,11 +218,19 @@ function CallStage({ activity, onEnded }: CallStageProps) {
     }
   }, [client, micId]);
 
-  // Auto-connect once: the learner already pressed "Start" on the hub screen, so a
+  // Auto-connect once per client: the learner already pressed "Start" on the hub screen, so a
   // second click here would be pure friction.
+  //
+  // Keyed on the client instance rather than a boolean, because the effect above is allowed to
+  // replace the client and in development it always does. StrictMode double-invokes effects, so
+  // the real order is: create A, connect A, tear A down, create B. A boolean latch says "already
+  // connected" and B is never dialled, which shows up as an examiner stuck on Not connected, no
+  // offer posted, and the dead recorder from A throwing "Session ended: please call .begin()
+  // first" when the level meter reads it. It was intermittent because the setup for A sometimes
+  // loses the race and never sets the client at all, in which case the latch stays down.
   useEffect(() => {
-    if (!client || connectedOnce.current) return;
-    connectedOnce.current = true;
+    if (!client || connectedFor.current === client) return;
+    connectedFor.current = client;
     void connect();
   }, [client, connect]);
 

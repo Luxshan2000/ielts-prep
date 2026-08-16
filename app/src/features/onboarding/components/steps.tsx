@@ -473,7 +473,7 @@ function cloudLlmPresets(presets: ProviderPreset[]): ProviderPreset[] {
   );
 }
 
-/** 03 §4: never a free-text model field — only `custom_openai` gets one, in Settings. */
+/** 03 §4: never a free-text model field. Settings picks from the live OpenRouter catalogue. */
 function cloudModels(preset: ProviderPreset): string[] {
   return preset.models_by_modality?.llm ?? preset.suggested_models ?? [];
 }

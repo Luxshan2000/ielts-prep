@@ -82,7 +82,6 @@ export function SettingsDialog() {
   const isDirty = useSettingsFeatureStore((s) => s.isDirty);
   const loadPresets = useSettingsFeatureStore((s) => s.loadPresets);
   const runDetect = useSettingsFeatureStore((s) => s.runDetect);
-  const loadRecommended = useSettingsFeatureStore((s) => s.loadRecommended);
   const loadModels = useSettingsFeatureStore((s) => s.loadModels);
 
   // The document: load once, then mirror it into the editing drafts. A reload
@@ -101,8 +100,9 @@ export function SettingsDialog() {
     hydrate(doc);
   }, [doc, hydratedFrom, hydrate, isDirty]);
 
-  // Provider metadata: presets first, then detection (which the preset filter and
-  // the recommendation tier both read), then the model manager.
+  // Provider metadata: presets first, then detection (which the preset filter and the local
+  // model list both read), then the model manager. The OpenRouter catalogue is not fetched
+  // here: each section asks for its own, and only once it is actually pointed at OpenRouter.
   useEffect(() => {
     let active = true;
     void (async () => {
@@ -110,12 +110,12 @@ export function SettingsDialog() {
       if (!active) return;
       await runDetect(false);
       if (!active) return;
-      await Promise.all([loadRecommended(), loadModels()]);
+      await loadModels();
     })();
     return () => {
       active = false;
     };
-  }, [loadPresets, runDetect, loadRecommended, loadModels]);
+  }, [loadPresets, runDetect, loadModels]);
 
   // Below `sm` the rail is a strip that scrolls sideways, so a link to a section near its
   // end would otherwise mark an item sitting off the right edge of the dialog. jsdom has no

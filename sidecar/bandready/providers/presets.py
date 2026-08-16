@@ -38,12 +38,25 @@ _MAX_TOKENS = {
 #:
 #: A preset whose model field falls back to free text is a trap: the learner types something
 #: plausible, the call 404s deep in a provider, and the failure surfaces as "the practice
-#: engine reported an error" three screens away. These lists keep the field a closed dropdown,
-#: so the set of things that can be chosen is the set of things that work.
+#: engine reported an error" three screens away.
 #:
-#: Verified against the live OpenRouter catalogue (`GET /api/v1/models?output_modalities=…`).
-#: It is a curated list, not a mirror — a provider adding a model does not silently add it
-#: here, which is the point.
+#: These are no longer the whole list. The full catalogue is fetched live from OpenRouter,
+#: because it changes weekly and because a text-to-speech model's voices can only be read off
+#: the API. What stays here is the ONE model we recommend per job, which is a different thing
+#: from an inventory: a learner opening this screen wants a good default, not 413 options.
+#:
+#: See docs/plan/_context/openrouter-catalogue.md for how the live listing works. The short
+#: version: audio models declare their modality as `speech` and `transcription`, not `audio`,
+#: and they are absent from the default `/models` response entirely.
+RECOMMENDED_OPENROUTER: dict[str, str] = {
+    # Closest to a real examiner, and the best written feedback.
+    "llm": "anthropic/claude-sonnet-4.5",
+    # 90 voices, and priced per character rather than per second.
+    "tts": "deepgram/aura-2",
+    # Accurate on accented speech, which is the entire population of this app.
+    "stt": "deepgram/nova-3",
+}
+
 OPENROUTER_MODELS: dict[str, list[str]] = {
     "llm": [
         "anthropic/claude-sonnet-4.5",
@@ -167,25 +180,6 @@ PRESETS: list[dict[str, Any]] = [
         ],
     },
     {
-        "id": "mlx_whisper",
-        "label": "MLX Whisper",
-        "modalities": ["stt"],
-        "kind": "local-inproc",
-        "base_url": "",
-        "needs_key": False,
-        "platforms": MAC_ARM,
-        "engine": "mlx_whisper",
-        "docs_url": "https://github.com/ml-explore/mlx-examples/tree/main/whisper",
-        "suggested_models": ["mlx-community/whisper-large-v3-turbo"],
-        "notes": "large-v3-turbo runs realtime on M-series.",
-        "config_spec": [
-            {"key": "model", "label": "Model", "type": "select", "required": True,
-             "group": "connection", "default": "mlx-community/whisper-large-v3-turbo",
-             "options": ["mlx-community/whisper-large-v3-turbo",
-                         "mlx-community/whisper-small-mlx"]},
-        ],
-    },
-    {
         "id": "kokoro",
         "label": "Kokoro (local TTS)",
         "modalities": ["tts"],
@@ -204,30 +198,6 @@ PRESETS: list[dict[str, Any]] = [
              "help": "British voices (bf_/bm_) are the most exam-authentic."},
             {"key": "speed", "label": "Speed", "type": "slider", "group": "params",
              "default": 1.0, "min": 0.5, "max": 1.5, "step": 0.05},
-        ],
-    },
-    {
-        "id": "custom_openai",
-        "label": "Custom OpenAI-compatible…",
-        "modalities": ["llm", "stt", "tts"],
-        "kind": "cloud",
-        "base_url": "",
-        "base_url_locked": False,
-        "needs_key": False,
-        "platforms": ALL_PLATFORMS,
-        "divider_before": True,
-        "docs_url": "",
-        "suggested_models": [],
-        "notes": "Any endpoint that speaks the OpenAI HTTP API. Every field is editable.",
-        "config_spec": [
-            _base_url("", locked=False),
-            {"key": "api_key", "label": "API key", "type": "password", "secret": True,
-             "group": "connection", "required": False,
-             "placeholder": "leave blank for keyless local servers"},
-            {"key": "model", "label": "Model", "type": "text", "required": True,
-             "group": "connection", "options_from": "verify"},
-            _TEMPERATURE,
-            _MAX_TOKENS,
         ],
     },
     # --- hidden test seam (§3.1, R2-19) -----------------------------------------------

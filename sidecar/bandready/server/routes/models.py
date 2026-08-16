@@ -419,20 +419,20 @@ async def recommended(_: None = Depends(require_auth)) -> dict[str, Any]:
     for row in TIER_TABLE:
         if ram is not None and ram >= row["min_ram_gb"]:
             chosen = row
-    apple_silicon = bool(info.get("apple_silicon"))
-    llm_engine = "mlx" if apple_silicon else "ollama"
+    # Ollama on every platform, and faster-whisper for speech.
+    #
+    # This used to recommend the MLX presets on Apple Silicon, which became a way to hand a
+    # learner a preset that no longer exists. Worse, it had already caused a silent failure:
+    # `pron/analyze.py` reads whatever model id is configured and gives it to faster-whisper,
+    # and an MLX repository id can never load there. Both attempts fail, the failure is cached
+    # for the life of the process, and every later recording comes back unrecognised with
+    # nothing on screen naming the cause.
     recommendation = {
         **chosen,
-        "llm_engine": llm_engine,
-        "llm_preset": "mlx_lm" if apple_silicon else "ollama",
-        "llm_model": chosen["llm"].get(llm_engine) or chosen["llm"]["ollama"],
+        "llm_engine": "ollama",
+        "llm_preset": "ollama",
+        "llm_model": chosen["llm"]["ollama"],
     }
-    if apple_silicon:
-        recommendation["stt"] = {
-            "artifact_id": "mlx-whisper-large-v3-turbo",
-            "model": "mlx-community/whisper-large-v3-turbo",
-            "preset": "mlx_whisper",
-        }
     states = {a["id"]: artifact_state(a) for a in load_manifest()["artifacts"]}
     needed = [
         states[aid]

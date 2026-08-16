@@ -19,12 +19,18 @@ import asyncio
 import logging
 import re
 import shutil
+import time
 from typing import Any
 
+import httpx
 from fastapi import APIRouter, Body, Depends, Query, Response
 
 from bandready.providers.detect import detect, invalidate_cache
-from bandready.providers.presets import list_presets, mock_enabled
+from bandready.providers.presets import (
+    RECOMMENDED_OPENROUTER,
+    list_presets,
+    mock_enabled,
+)
 from bandready.providers.verify import verify_connection
 from bandready.server.deps import require_auth
 from bandready.server.errors import ApiError
@@ -338,3 +344,101 @@ async def tts_preview(
     buffer = io.BytesIO()
     sf.write(buffer, pcm, int(rate), subtype="PCM_16", format="WAV")
     return Response(content=buffer.getvalue(), media_type="audio/wav")
+
+
+# --------------------------------------------------------------------------- catalogue
+
+#: OpenRouter's modality vocabulary for audio, which is the whole trick and is not
+#: documented anywhere obvious. A text-to-speech model declares `output_modalities:
+#: ["speech"]` and a transcription model `["transcription"]`. Neither says "audio", and
+#: neither appears in the default `/models` response at all: filtering that response for
+#: audio returns the handful of chat models that happen to accept it inline, which is not
+#: what an audio endpoint wants. See docs/plan/_context/openrouter-catalogue.md.
+_MODALITY_QUERY = {
+    "llm": None,
+    "tts": "speech",
+    "stt": "transcription",
+}
+
+_CATALOGUE_URL = "https://openrouter.ai/api/v1/models"
+_CATALOGUE_TTL_S = 60 * 60 * 6
+_catalogue_cache: dict[str, tuple[float, list[dict[str, Any]]]] = {}
+
+
+def _thin(model: dict[str, Any]) -> dict[str, Any]:
+    """Only what the picker draws. The full record is ~2KB of prose per model."""
+    arch = model.get("architecture") or {}
+    return {
+        "id": model.get("id"),
+        "name": model.get("name") or model.get("id"),
+        "description": (model.get("description") or "")[:280],
+        "pricing": model.get("pricing") or {},
+        "context_length": model.get("context_length"),
+        # Populated for text-to-speech and empty elsewhere. This is where a voice picker
+        # gets its options, rather than from a list we would have to maintain by hand.
+        "voices": model.get("supported_voices") or [],
+        "input_modalities": arch.get("input_modalities") or [],
+        "output_modalities": arch.get("output_modalities") or [],
+    }
+
+
+@router.get("/openrouter/models", summary="What OpenRouter can do for one job, live")
+async def openrouter_models(
+    modality: str = "llm",
+    refresh: bool = False,
+    _: None = Depends(require_auth),
+) -> dict[str, Any]:
+    """The catalogue for one modality, fetched from OpenRouter and cached for six hours.
+
+    Listing needs no API key; only calling a model does. So this answers even before the
+    learner has pasted anything, which is what lets the screen show what they would be
+    choosing from rather than an empty box and a promise.
+
+    A failure here is not fatal and must not read as one. The recommended model is known
+    locally, so the picker can still offer that one and say the rest could not be listed.
+    """
+    if modality not in _MODALITY_QUERY:
+        raise ApiError(422, "validation_error", "modality must be one of llm, stt, tts")
+
+    now = time.monotonic()
+    cached = _catalogue_cache.get(modality)
+    if cached and not refresh and now - cached[0] < _CATALOGUE_TTL_S:
+        return {"modality": modality, "models": cached[1], "cached": True,
+                "recommended": RECOMMENDED_OPENROUTER.get(modality)}
+
+    out_mod = _MODALITY_QUERY[modality]
+    url = _CATALOGUE_URL + (f"?output_modalities={out_mod}" if out_mod else "")
+    try:
+        async with httpx.AsyncClient(timeout=8.0) as client:
+            res = await client.get(url, headers={"Accept": "application/json"})
+            res.raise_for_status()
+            items = (res.json() or {}).get("data") or []
+    except Exception as exc:  # noqa: BLE001 — offline is an ordinary state here
+        return {
+            "modality": modality,
+            "models": [],
+            "cached": False,
+            "recommended": RECOMMENDED_OPENROUTER.get(modality),
+            "error": (
+                "The model list could not be fetched from OpenRouter. You can still use the "
+                "recommended model, or try again when you are back online."
+            ),
+            "detail": str(exc)[:200],
+        }
+
+    if modality == "llm":
+        # The default listing is every model, including the audio ones' chat siblings. A
+        # language model is one that takes text and answers with text and nothing else;
+        # anything emitting speech or a transcript belongs in one of the other two lists.
+        items = [
+            m for m in items
+            if "text" in ((m.get("architecture") or {}).get("output_modalities") or [])
+            and not ({"speech", "transcription", "audio"}
+                     & set((m.get("architecture") or {}).get("output_modalities") or []))
+        ]
+
+    models = [_thin(m) for m in items if m.get("id")]
+    models.sort(key=lambda m: str(m.get("name") or ""))
+    _catalogue_cache[modality] = (now, models)
+    return {"modality": modality, "models": models, "cached": False,
+            "recommended": RECOMMENDED_OPENROUTER.get(modality)}

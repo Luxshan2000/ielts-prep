@@ -22,6 +22,7 @@ import {
   CardTitle,
   Badge,
   Tabs,
+  ErrorState,
 } from "@/components/ui";
 import { cn } from "@/lib/cn";
 import { PageShell } from "@/components/shell/PageShell";
@@ -33,7 +34,9 @@ import { attemptedSetIds } from "./components/teaching/store";
 import { PreCallCheck } from "./components/PreCallCheck";
 import { modeMeta } from "./components/phases";
 import { useMockStore } from "./components/mock";
-import { useSpeakingStore } from "./store";
+import { api } from "@/lib/api";
+import { friendlyMessage } from "@/lib/errors";
+import { useSpeakingStore, type SpeakingCard } from "./store";
 
 /** Which half of the hub is showing: set a session up, or find a topic for one. */
 type HubTab = "start" | "topics";
@@ -63,23 +66,45 @@ export function SpeakingHome() {
   const [micReady, setMicReady] = useState(false);
   const [tab, setTab] = useState<HubTab>("start");
 
-  // The Part 2 card stands for its set, so the browser lists one tile per topic rather than
-  // one per card. Built-ins carry no payload and would be dead tiles.
-  const cards = useSpeakingStore((s) => s.cards);
-  const cardsLoading = useSpeakingStore((s) => s.cardsLoading);
-  const loadCards = useSpeakingStore((s) => s.loadCards);
   const setCardSetId = useSpeakingStore((s) => s.setCardSetId);
   const setTopic = useSpeakingStore((s) => s.setTopic);
   const setPart = useSpeakingStore((s) => s.setPart);
-  const topicSets = useMemo(
-    () => cards.filter((c) => c.part === 2 && c.card_set_id && !c.builtin),
-    [cards],
-  );
   const attemptedSets = useMemo(() => new Set(attemptedSetIds(history)), [history]);
 
+  /**
+   * The topic list is fetched here rather than read from the shared `cards` slice, and fetched
+   * once rather than on every visit to the tab.
+   *
+   * Sharing the slice was wrong twice over. `ModePicker` fills it with every part and this tab
+   * wanted Part 2 only, so each switch refetched and overwrote the other's data: the skeletons
+   * flashed on the way in, and the Part 1 and Part 3 topic options behind the tab quietly
+   * emptied. Reading the shared list instead of refetching would not work either, because that
+   * call caps at 200 of the 496 cards, so an unknown number of the 108 sets would simply be
+   * missing with nothing to say so.
+   */
+  const [topicSets, setTopicSets] = useState<SpeakingCard[] | null>(null);
+  const [topicsError, setTopicsError] = useState<string | null>(null);
+
   useEffect(() => {
-    if (tab === "topics") void loadCards(2);
-  }, [tab, loadCards]);
+    if (tab !== "topics" || topicSets !== null) return;
+    let live = true;
+    api
+      .get<{ items: SpeakingCard[] }>("/api/v1/speaking/cards?part=2&limit=200")
+      .then((res) => {
+        if (!live) return;
+        // Built-ins are the engine's fallbacks when no pack is installed. They carry no
+        // teaching payload, so a tile for one is a dead end.
+        setTopicSets((res.items ?? []).filter((c) => c.card_set_id && !c.builtin));
+      })
+      .catch((err) => {
+        if (live) setTopicsError(
+            friendlyMessage(err, "The topic bank could not be loaded."),
+          );
+      });
+    return () => {
+      live = false;
+    };
+  }, [tab, topicSets]);
 
   useEffect(() => {
     void loadEngine();
@@ -321,10 +346,20 @@ export function SpeakingHome() {
         up, so browsing is part of starting rather than a detour.
       */}
       <div className={cn("space-y-4", tab !== "topics" && "hidden")}>
+        {topicsError !== null ? (
+          <ErrorState
+            error={topicsError}
+            title="The topic bank could not be loaded"
+            onRetry={() => {
+              setTopicsError(null);
+              setTopicSets(null);
+            }}
+          />
+        ) : (
         <TopicBrowser
-          cards={topicSets}
+          cards={topicSets ?? []}
           attempted={attemptedSets}
-          loading={cardsLoading}
+          loading={topicSets === null && topicsError === null}
           actionLabel="Practise"
           onPick={(setId, card) => {
             // A tile is a Part 2 cue card standing for its whole set, so the part travels with
@@ -345,6 +380,7 @@ export function SpeakingHome() {
             </Button>
           }
         />
+        )}
       </div>
     </PageShell>
   );

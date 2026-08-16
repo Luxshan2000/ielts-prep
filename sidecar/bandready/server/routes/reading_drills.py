@@ -35,7 +35,6 @@ the same rule the speaking and writing mocks enforce.
 from __future__ import annotations
 
 import logging
-from datetime import UTC, datetime
 from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, Depends, Query, status
@@ -48,6 +47,7 @@ from bandready.db.engine import get_session
 from bandready.reading import drills
 from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
+from bandready.timeutil import iso
 
 _log = logging.getLogger("bandready.reading.practice")
 
@@ -178,10 +178,6 @@ class ExplainBack(BaseModel):
 # --------------------------------------------------------------------------------------
 # Guards
 # --------------------------------------------------------------------------------------
-
-def _now() -> str:
-    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
-
 
 def _assert_no_open_mock(session: Session) -> None:
     """409 while an exam-conditions reading attempt is open for this profile.
@@ -548,7 +544,7 @@ def grade_set(body: GradeSet, _: Auth, session: Db) -> dict[str, Any]:
                 "passage_id": body.passage_id,
             },
             duration_s=body.duration_s,
-            now=_now(),
+            now=iso(),
         )
 
     return {

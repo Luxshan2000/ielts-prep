@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, BookOpen, Clock, Search } from "lucide-react";
-import { Badge, Button, EmptyState, ErrorState, Input, SkeletonCard } from "@/components/ui";
+import { Badge, Button, EmptyState, ErrorState, SkeletonCard } from "@/components/ui";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/cn";
 import { levelLabel } from "../../labels";
@@ -142,19 +143,13 @@ export function TheoryScreen() {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2">
-        <div className="relative min-w-[14rem] flex-1">
-          <Search
-            className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-            aria-hidden="true"
-          />
-          <Input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search the reference: a tense, a word, a question"
-            aria-label="Search the reference"
-            className="pl-8"
-          />
-        </div>
+        <SearchInput
+          className="min-w-[14rem] flex-1"
+          value={query}
+          onChange={setQuery}
+          placeholder="Search the reference: a tense, a word, a question"
+          aria-label="Search the reference"
+        />
         {startHere && !needle && (
           <Button onClick={() => setOpenId(startHere)}>
             <BookOpen className="h-4 w-4" />

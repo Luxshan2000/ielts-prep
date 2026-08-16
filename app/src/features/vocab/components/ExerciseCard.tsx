@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { AlertCircle } from "lucide-react";
 import { Badge, Button, Card, CardContent } from "@/components/ui";
 import { cn } from "@/lib/cn";
+import { pluralize } from "@/lib/format";
 import { EXERCISE_META, MATURITY_META, formatDue, renderEmphasis } from "../labels";
 import type { ExerciseKind, QueueItem } from "../types";
 import { AudioRecallExercise } from "./exercises/AudioRecallExercise";
@@ -144,7 +145,7 @@ export function ExerciseCard({ item, onRate, submitting, error }: ExerciseCardPr
           )}
           {item.entry.srs && item.entry.srs.lapses > 0 && (
             <span className="text-[11px] text-muted-foreground">
-              {item.entry.srs.lapses} lapse{item.entry.srs.lapses === 1 ? "" : "s"}
+              {pluralize(item.entry.srs.lapses, "lapse")}
             </span>
           )}
         </div>

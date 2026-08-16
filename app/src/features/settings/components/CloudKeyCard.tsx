@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Check, ExternalLink, KeyRound } from "lucide-react";
 import { Button, Card, CardContent, CardHeader, CardTitle, Field, Input } from "@/components/ui";
 import { cn } from "@/lib/cn";
+import { openExternal } from "@/lib/openExternal";
 import { useSettingsFeatureStore } from "../store";
 
 /**
@@ -34,12 +35,6 @@ const QUALITY: { model: string; label: string; what: string }[] = [
 ];
 
 const KEYS_URL = "https://openrouter.ai/keys";
-
-function openKeysPage(): void {
-  const bridge = typeof window !== "undefined" ? window.bandready : undefined;
-  if (bridge?.openExternal) bridge.openExternal(KEYS_URL);
-  else window.open(KEYS_URL, "_blank", "noopener,noreferrer");
-}
 
 export function CloudKeyCard() {
   const draft = useSettingsFeatureStore((s) => s.drafts.llm);
@@ -114,7 +109,7 @@ export function CloudKeyCard() {
           )}
         </Field>
 
-        <Button variant="ghost" size="sm" onClick={openKeysPage}>
+        <Button variant="ghost" size="sm" onClick={() => openExternal(KEYS_URL)}>
           <ExternalLink className="h-4 w-4" aria-hidden="true" />
           Get a key from OpenRouter
         </Button>

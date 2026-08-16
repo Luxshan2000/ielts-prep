@@ -39,7 +39,6 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import UTC, datetime
 from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, Depends, Query, status
@@ -53,6 +52,7 @@ from bandready.listening import drills
 from bandready.providers.llm import chat_json
 from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
+from bandready.timeutil import iso
 
 _log = logging.getLogger("bandready.listening.practice")
 
@@ -207,10 +207,6 @@ class SynonymCheck(BaseModel):
 # --------------------------------------------------------------------------------------
 # Guards
 # --------------------------------------------------------------------------------------
-
-def _now() -> str:
-    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
-
 
 def _assert_no_open_mock(session: Session) -> None:
     """409 while an exam-conditions listening attempt is open for this profile.
@@ -622,7 +618,7 @@ def grade_set(body: GradeSet, _: Auth, session: Db) -> dict[str, Any]:
                 "part": built["script"]["part"],
             },
             duration_s=body.duration_s,
-            now=_now(),
+            now=iso(),
         )
 
     return {

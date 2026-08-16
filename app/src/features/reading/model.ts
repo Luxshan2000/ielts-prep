@@ -1,3 +1,4 @@
+import { scorePct } from "@/lib/format";
 /**
  * Pure derivations over a reading document — no store, no network, no React.
  *
@@ -309,4 +310,19 @@ export function sentenceAround(text: string, offset: number): string {
   const endMatch = /[.!?](\s|$)/.exec(after);
   const end = endMatch ? offset + endMatch.index + 1 : text.length;
   return text.slice(start, end).trim();
+}
+
+/**
+ * Reading's colour for a raw score.
+ *
+ * This lived in `lib/format.ts` for one commit, which put a reading rule where the whole app
+ * could reach it. Nothing else wants it: listening's mock report colours at a 70% threshold on
+ * a precomputed percentage, and its own comment says so. A shared helper that one feature uses
+ * and its nearest neighbour deliberately avoids is not shared, it is misfiled.
+ */
+export function scoreTone(correct: number, total: number): "success" | "primary" | "warning" {
+  const p = scorePct(correct, total);
+  if (p >= 75) return "success";
+  if (p >= 50) return "primary";
+  return "warning";
 }

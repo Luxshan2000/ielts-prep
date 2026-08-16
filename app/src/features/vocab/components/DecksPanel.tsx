@@ -147,7 +147,7 @@ export function DecksPanel() {
                     ) : (
                       <>
                         <Plus className="h-4 w-4" />
-                        Add {adds} {adds === 1 ? "word" : "words"}
+                        Add {pluralize(adds, "word")}
                       </>
                     )}
                   </Button>

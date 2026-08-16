@@ -66,3 +66,6 @@ content/core-en/staging-listening/tests/
 # None of it belongs in the repo, and one 461MB weight file is over GitHub's hard limit, so a
 # push carrying it is rejected outright.
 .dev-data/
+
+# Agent worktrees. Created by isolated subagents, removed when they finish; never content.
+.claude/worktrees/

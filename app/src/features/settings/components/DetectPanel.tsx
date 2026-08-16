@@ -10,6 +10,7 @@ import {
   Progress,
   Spinner,
 } from "@/components/ui";
+import { openExternal } from "@/lib/openExternal";
 import { useSettingsFeatureStore, type DetectEngine, type SetupFlow } from "../store";
 
 const ENGINE_LABELS: Record<string, string> = {
@@ -33,12 +34,6 @@ const STATE_COPY: Record<string, { label: string; tone: "success" | "warning" | 
 
 function engineLabel(engine: DetectEngine): string {
   return ENGINE_LABELS[engine.id] ?? engine.id;
-}
-
-function openExternal(url: string): void {
-  const bridge = typeof window !== "undefined" ? window.bandready : undefined;
-  if (bridge?.openExternal) bridge.openExternal(url);
-  else window.open(url, "_blank", "noopener,noreferrer");
 }
 
 /**

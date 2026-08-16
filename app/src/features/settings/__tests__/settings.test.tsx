@@ -10,7 +10,8 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { ConfirmProvider } from "@/components/ui";
 
 const get = vi.fn();
 const post = vi.fn();
@@ -255,22 +256,127 @@ describe("the cloud key card", () => {
   });
 });
 
-// ------------------------------------------------------------------------- the deep link
+// ------------------------------------------------------------------- the settings dialog
 
-describe("the settings page", () => {
-  it("opens on the tab the URL asks for", async () => {
+/**
+ * Settings is a dialog mounted by the /settings route, so the things worth pinning are the
+ * ones that relationship pays for: a `?tab=` link still lands on the section it names,
+ * closing goes back to the screen the learner came from, and the theme is inside here now
+ * that the sidebar no longer carries a toggle.
+ */
+describe("the settings dialog", () => {
+  async function renderDialog(entry = "/settings") {
     get.mockImplementation((path: string) => {
       if (path === "/api/v1/settings") return Promise.resolve({ study: { target_band: 7 } });
       if (path.startsWith("/api/v1/providers/presets")) return Promise.resolve({ presets: [] });
-      if (path.startsWith("/api/v1/providers/detect")) return Promise.resolve({ platform: {}, engines: [] });
+      if (path.startsWith("/api/v1/providers/detect"))
+        return Promise.resolve({ platform: {}, engines: [] });
       return Promise.resolve({});
     });
-    const { SettingsPage } = await import("../page");
-    render(
-      <MemoryRouter initialEntries={["/settings?tab=you"]}>
-        <SettingsPage />
-      </MemoryRouter>,
+    const { SettingsDialog } = await import("../dialog");
+    return render(
+      <ConfirmProvider>
+        {/* Two entries, sitting on the second: the same history a learner has when they
+            open Settings from a screen they were already using. */}
+        <MemoryRouter initialEntries={["/", entry]} initialIndex={1}>
+          <Routes>
+            <Route path="/" element={<p>Behind the dialog</p>} />
+            <Route path="/settings" element={<SettingsDialog />} />
+          </Routes>
+        </MemoryRouter>
+      </ConfirmProvider>,
     );
+  }
+
+  it("opens on the section the URL asks for", async () => {
+    await renderDialog("/settings?tab=you");
     expect(await screen.findByText("Which exam are you taking?")).toBeInTheDocument();
+    const rail = screen.getByRole("navigation", { name: "Settings sections" });
+    expect(within(rail).getByRole("link", { name: "You" })).toHaveAttribute(
+      "aria-current",
+      "page",
+    );
+  });
+
+  it("switches section without leaving the dialog or growing the history", async () => {
+    const user = userEvent.setup();
+    await renderDialog("/settings?tab=you");
+    await screen.findByText("Which exam are you taking?");
+
+    const rail = screen.getByRole("navigation", { name: "Settings sections" });
+    await user.click(within(rail).getByRole("link", { name: "About" }));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.queryByText("Which exam are you taking?")).not.toBeInTheDocument();
+
+    // Back has to close the dialog, not walk back through the sections, so section links
+    // replace the entry rather than pushing a new one.
+    await user.keyboard("{Escape}");
+    expect(await screen.findByText("Behind the dialog")).toBeInTheDocument();
+  });
+
+  it("closes on Escape, back onto the screen it was opened from", async () => {
+    const user = userEvent.setup();
+    await renderDialog();
+    await screen.findByRole("dialog");
+
+    await user.keyboard("{Escape}");
+    expect(await screen.findByText("Behind the dialog")).toBeInTheDocument();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("closes from the header control too", async () => {
+    const user = userEvent.setup();
+    await renderDialog();
+    await user.click(await screen.findByRole("button", { name: "Close" }));
+    expect(await screen.findByText("Behind the dialog")).toBeInTheDocument();
+  });
+
+  it("keeps the keyboard inside the dialog", async () => {
+    const user = userEvent.setup();
+    await renderDialog("/settings?tab=about");
+    const dialog = await screen.findByRole("dialog");
+
+    expect(dialog.contains(document.activeElement)).toBe(true);
+    // Far enough round to have fallen out of the panel if nothing were holding the focus.
+    for (let i = 0; i < 12; i += 1) await user.tab();
+    expect(dialog.contains(document.activeElement)).toBe(true);
+  });
+
+  it("holds the theme control, which the sidebar no longer does", async () => {
+    await renderDialog("/settings?tab=appearance");
+    const dialog = await screen.findByRole("dialog");
+    expect(within(dialog).getByRole("button", { name: "Dark" })).toBeInTheDocument();
+    expect(within(dialog).getByRole("button", { name: "Light" })).toBeInTheDocument();
+
+    // Appearance is first in the rail because the theme used to be one click away in the
+    // sidebar and is now three: Settings, Appearance, then the theme itself.
+    const rail = screen.getByRole("navigation", { name: "Settings sections" });
+    expect(within(rail).getAllByRole("link")[0]).toHaveTextContent("Appearance");
+  });
+
+  it("asks before closing on unsaved provider edits", async () => {
+    const user = userEvent.setup();
+    useSettingsFeatureStore.setState({
+      drafts: {
+        ...useSettingsFeatureStore.getState().drafts,
+        llm: { preset: "openrouter", model: "anthropic/claude-sonnet-4.5" },
+      },
+    });
+    await renderDialog();
+    await screen.findByRole("dialog");
+
+    await user.keyboard("{Escape}");
+    expect(await screen.findByText("Close settings without saving?")).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Keep editing" }));
+    await waitFor(() =>
+      expect(screen.queryByText("Close settings without saving?")).not.toBeInTheDocument(),
+    );
+    expect(screen.queryByText("Behind the dialog")).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Close" }));
+    await user.click(await screen.findByRole("button", { name: "Close settings" }));
+    expect(await screen.findByText("Behind the dialog")).toBeInTheDocument();
+    // Leaving is not discarding: the edits are still there to come back to.
+    expect(useSettingsFeatureStore.getState().isDirty()).toBe(true);
   });
 });

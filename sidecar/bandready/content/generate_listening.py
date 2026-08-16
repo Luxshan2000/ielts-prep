@@ -539,15 +539,13 @@ def _missing_spelling_pairs(questions: Sequence[Mapping[str, Any]]) -> set[str]:
 
 def _llm_is_mock() -> bool:
     try:
-        from bandready.providers.presets import is_mock_preset
+        from bandready.providers.presets import is_mock_config
         from bandready.settings_store import get_slot
 
         cfg = get_slot("llm")
     except Exception:  # noqa: BLE001 — settings unavailable: assume a real provider
         return False
-    return is_mock_preset(cfg.get("preset")) or str(cfg.get("base_url", "")).startswith(
-        "mock://"
-    )
+    return is_mock_config(cfg)
 
 
 async def blind_answer_check(

@@ -33,7 +33,7 @@ from __future__ import annotations
 import json
 import logging
 import random
-from datetime import UTC, datetime
+from datetime import datetime
 from typing import Any
 
 from fastapi import APIRouter, Depends, File, Form, UploadFile, Query
@@ -48,6 +48,7 @@ from bandready.grammar.tables import GrammarCard, ensure_grammar_tables
 from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
 from bandready.srs import scheduler as sched
+from bandready.timeutil import utcnow
 
 _log = logging.getLogger("bandready.grammar.routes")
 
@@ -66,10 +67,6 @@ def grammar_session(session: Session = Depends(get_session)) -> Session:
     """
     ensure_grammar_tables(session.get_bind())
     return session
-
-
-def _now() -> datetime:
-    return datetime.now(UTC)
 
 
 # --------------------------------------------------------------------------------------
@@ -705,7 +702,7 @@ def get_practice_session(
 ) -> dict[str, Any]:
     profile_id = current_profile_id(session)
     points = _points(session)
-    now = _now()
+    now = utcnow()
     rng = random.Random(seed) if seed is not None else random.Random()
 
     # A wild failure outranks everything: check for one before composing (§1.6, F8).
@@ -754,7 +751,7 @@ def post_practice_session(
     """
     profile_id = current_profile_id(session)
     points = _points(session)
-    now = _now()
+    now = utcnow()
     rng = random.Random(body.seed) if body.seed is not None else random.Random()
     mode = body.mode or ("point" if body.point_id else "daily")
     session_id = f"gs_{int(now.timestamp() * 1000)}_{rng.randrange(1 << 24):06x}"
@@ -941,7 +938,7 @@ async def post_answer(
         }
 
     kind = str(item.get("kind"))
-    now = _now()
+    now = utcnow()
 
     if kind in grading.FREE_PRODUCTION_KINDS:
         payload = item.get("payload") or {}
@@ -1501,7 +1498,7 @@ def post_rule(
             "VALUES (:id, :p, 'grammar_rule', 'grammar_point', :ref, :meta)"
         ),
         {
-            "id": f"al_{int(_now().timestamp() * 1000)}_{random.randrange(1 << 20):05x}",
+            "id": f"al_{int(utcnow().timestamp() * 1000)}_{random.randrange(1 << 20):05x}",
             "p": profile_id,
             "ref": body.point_id,
             "meta": json.dumps(

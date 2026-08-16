@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { ExternalLink, FolderOpen, Lock, ScrollText } from "lucide-react";
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle } from "@/components/ui";
 import { api, ApiError } from "@/lib/api";
+import { openExternal } from "@/lib/openExternal";
 
 interface SystemInfo {
   version?: string;
@@ -27,12 +28,6 @@ function formatUptime(seconds: number): string {
 }
 
 const REPO_URL = "https://github.com/Luxshan2000/bandready";
-
-function open(url: string): void {
-  const bridge = typeof window !== "undefined" ? window.bandready : undefined;
-  if (bridge?.openExternal) bridge.openExternal(url);
-  else window.open(url, "_blank", "noopener,noreferrer");
-}
 
 function Row({
   label,
@@ -160,7 +155,7 @@ export function AboutTab() {
             </>
           )}
           <div className="pt-3">
-            <Button variant="outline" size="sm" onClick={() => open(REPO_URL)}>
+            <Button variant="outline" size="sm" onClick={() => openExternal(REPO_URL)}>
               <ExternalLink className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
               Source code
             </Button>
@@ -201,7 +196,7 @@ export function AboutTab() {
                 <ScrollText className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
                 Reveal logs
               </Button>
-              <Button variant="outline" size="sm" onClick={() => open(`${REPO_URL}/issues/new`)}>
+              <Button variant="outline" size="sm" onClick={() => openExternal(`${REPO_URL}/issues/new`)}>
                 <ExternalLink className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
                 Report a bug
               </Button>

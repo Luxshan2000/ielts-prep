@@ -17,10 +17,11 @@ import inspect
 import logging
 from collections.abc import Awaitable, Callable
 from concurrent.futures import Future
-from datetime import UTC, datetime
 from typing import Any
 
 from ulid import ULID
+
+from bandready.timeutil import iso
 
 _log = logging.getLogger("bandready.jobs")
 
@@ -50,10 +51,6 @@ MAX_JOBS = 200
 
 #: How long a worker thread waits for the loop thread to create its task.
 SPAWN_TIMEOUT_S = 5.0
-
-
-def _now() -> str:
-    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
 
 
 class JobManager:
@@ -93,7 +90,7 @@ class JobManager:
         if kind not in KNOWN_KINDS:
             _log.warning("submitting job of undeclared kind %r (18 §3 owns the list)", kind)
         job_id = f"job_{ULID()}"
-        now = _now()
+        now = iso()
         self._jobs[job_id] = {
             "id": job_id,
             "kind": kind,
@@ -143,7 +140,7 @@ class JobManager:
     async def _run(self, job_id: str, factory: JobFactory) -> None:
         job = self._jobs[job_id]
         job["state"] = "running"
-        job["updated_at"] = _now()
+        job["updated_at"] = iso()
         try:
             coro = self._invoke(factory, job_id)
             result = await coro
@@ -154,7 +151,7 @@ class JobManager:
         except asyncio.CancelledError:
             job["state"] = "cancelled"
             job["error"] = {"detail": "cancelled", "code": "job_failed"}
-            job["updated_at"] = _now()
+            job["updated_at"] = iso()
             raise
         except Exception as exc:  # noqa: BLE001 — any failure becomes a job error
             from bandready.server.errors import ApiError
@@ -173,7 +170,7 @@ class JobManager:
                 "code": code,
             }
         finally:
-            job["updated_at"] = _now()
+            job["updated_at"] = iso()
             self._tasks.pop(job_id, None)
 
     @staticmethod
@@ -199,13 +196,13 @@ class JobManager:
             job["progress_pct"] = max(0, min(100, int(pct)))
         if detail is not None:
             job["detail"] = detail
-        job["updated_at"] = _now()
+        job["updated_at"] = iso()
 
     def set_result(self, job_id: str, result: Any) -> None:
         job = self._jobs.get(job_id)
         if job is not None:
             job["result"] = result
-            job["updated_at"] = _now()
+            job["updated_at"] = iso()
 
     def get(self, job_id: str) -> dict[str, Any] | None:
         job = self._jobs.get(job_id)
@@ -242,7 +239,7 @@ class JobManager:
             task.cancel()
         else:
             job["state"] = "cancelled"
-            job["updated_at"] = _now()
+            job["updated_at"] = iso()
         return True
 
     # --- housekeeping -------------------------------------------------------

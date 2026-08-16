@@ -10,13 +10,16 @@ import { ArrowLeft, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { Button } from "./Button";
 
-export type ModalSize = "sm" | "md" | "lg" | "xl";
+export type ModalSize = "sm" | "md" | "lg" | "xl" | "2xl";
 
 const SIZES: Record<ModalSize, string> = {
   sm: "max-w-sm",
   md: "max-w-lg",
   lg: "max-w-2xl",
   xl: "max-w-3xl",
+  // Wide enough for a dialog that holds a rail beside its content. Settings is the one
+  // of those, and at max-w-3xl its provider cards lost a third of their width.
+  "2xl": "max-w-4xl",
 };
 
 export interface ModalProps {
@@ -28,6 +31,12 @@ export interface ModalProps {
   footer?: ReactNode;
   children: ReactNode;
   initialFocus?: MutableRefObject<HTMLElement | null>;
+  /**
+   * Classes for the body wrapper, merged over its defaults. The body scrolls as one
+   * column by default; a dialog that puts a fixed rail next to a scrolling pane has to
+   * turn that off, or the rail scrolls away with the content beside it.
+   */
+  bodyClassName?: string;
 }
 
 /**
@@ -43,6 +52,7 @@ export function Modal({
   footer,
   children,
   initialFocus,
+  bodyClassName,
 }: ModalProps) {
   return (
     <Transition show={open} as={Fragment}>
@@ -91,7 +101,11 @@ export function Modal({
                 </header>
               )}
 
-              <div className="scrollbar-thin min-h-0 flex-1 overflow-y-auto">{children}</div>
+              <div
+                className={cn("scrollbar-thin min-h-0 flex-1 overflow-y-auto", bodyClassName)}
+              >
+                {children}
+              </div>
 
               {footer && (
                 <footer className="flex items-center justify-end gap-2 border-t border-border p-5">

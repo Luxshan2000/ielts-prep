@@ -22,6 +22,7 @@ from typing import Any
 
 from ulid import ULID
 
+from bandready.scoring.bands import round_ielts
 from bandready.server.errors import ApiError
 
 _log = logging.getLogger("bandready.scoring.speaking")
@@ -53,21 +54,11 @@ __all__ = [
 # --------------------------------------------------------------------------- rounding
 
 
-def round_ielts(value: float) -> float:
-    """Official IELTS rounding: nearest half band, ties round **up**.
-
-    Delegates to the shared ``bandready.scoring.bands`` helper when that module exists
-    (it is the canonical implementation used identically by writing (05) and the overall
-    estimator (10)); the inline fallback keeps speaking scoring working before it lands
-    and is numerically identical.
-    """
-    try:
-        from bandready.scoring.bands import round_ielts as shared  # type: ignore[attr-defined]
-    except Exception:  # noqa: BLE001 — module not written yet
-        import math
-
-        return max(0.0, min(9.0, math.floor(float(value) * 2 + 0.5) / 2))
-    return float(shared(value))
+#: ``round_ielts`` is imported, not reimplemented: :mod:`bandready.scoring.bands` owns the
+#: official rule (nearest half band, ties UP) and routes through ``Decimal(repr(x))`` so an
+#: exact quarter-band tie — which the mean of four whole criteria always is — is rounded as
+#: a tie rather than eaten by binary float noise. Re-exported under this module's name
+#: because ``__all__`` publishes it and ``speaking/mock.py`` imports it from here.
 
 
 def recompute_overall(criteria: dict[str, Any]) -> float | None:

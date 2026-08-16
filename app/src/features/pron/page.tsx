@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import { Shuffle } from "lucide-react";
 import { Button, TabPanel, Tabs } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { api } from "@/lib/api";
+import { useUrlTab } from "@/lib/useUrlTab";
 import { getDrills } from "./api";
 import { MinimalPairDrill } from "./components/MinimalPairDrill";
 import { ReadAloud } from "./components/ReadAloud";
@@ -95,17 +95,8 @@ function useSentence() {
 const FALLBACK = "The research team published their findings three weeks before the deadline.";
 
 export function PronPage() {
-  const [params, setParams] = useSearchParams();
-  const raw = params.get("tab");
-  const tab: Tab = TABS.includes(raw as Tab) ? (raw as Tab) : "listen";
+  const [tab, setTab] = useUrlTab<Tab>(TABS, "listen");
   const { sentence, source, pick } = useSentence();
-
-  const setTab = (next: Tab) => {
-    const search = new URLSearchParams(params);
-    if (next === "listen") search.delete("tab");
-    else search.set("tab", next);
-    setParams(search, { replace: true });
-  };
 
   return (
     <PageShell
@@ -114,7 +105,7 @@ export function PronPage() {
       toolbar={
         <Tabs
           value={tab}
-          onChange={(v) => setTab(v as Tab)}
+          onChange={setTab}
           aria-label="Pronunciation sections"
           items={[
             { value: "listen", label: "Hear the difference" },

@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import { Badge, Button, EmptyState, ErrorState, Skeleton } from "@/components/ui";
 import { cn } from "@/lib/cn";
+import { pluralize } from "@/lib/format";
 import { codeLabel, familyLabel, stageName } from "../labels";
 import { useGrammarStore } from "../store";
 import type { ErrorCodeStat, HarvestedError, RangeStructure } from "../types";
@@ -71,7 +72,7 @@ function CostingRow({ stat }: { stat: ErrorCodeStat }) {
         <div className="min-w-0">
           <p className="text-[13px] font-medium text-foreground">{codeLabel(stat.code)}</p>
           <p className="mt-0.5 text-[11px] text-muted-foreground">
-            {familyLabel(stat.code)} · {stat.count} {stat.count === 1 ? "time" : "times"}
+            {familyLabel(stat.code)} · {pluralize(stat.count, "time")}
             {stat.from_skills ? ` · ${stat.from_skills} in a real answer` : ""}
           </p>
         </div>
@@ -219,7 +220,7 @@ export function ProgressScreen() {
     <div className="space-y-5 pb-10">
       {costing.length > 0 && (
         <Section
-          title={`${costing.length} ${costing.length === 1 ? "mistake is" : "mistakes are"} costing you`}
+          title={`${pluralize(costing.length, "mistake is", "mistakes are")} costing you`}
           hint="Each one builds a set from every lesson that carries it, not only the lesson it came from."
           emphasis
         >

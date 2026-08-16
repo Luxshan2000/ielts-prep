@@ -31,6 +31,7 @@ import {
 } from "@/components/ui";
 import { cn } from "@/lib/cn";
 import { formatBand } from "@/lib/format";
+import { openExternal } from "@/lib/openExternal";
 import { useSettingsStore } from "@/stores";
 import { ChoiceCard } from "./WizardChrome";
 import { scoringStateSentence, useOnboardingStore } from "../store";
@@ -58,12 +59,6 @@ import {
 export const WHAT_WORKS_NOW =
   "Reading, Listening, Vocabulary and Grammar work right now, with nothing to set up. " +
   "Writing and Speaking need a marking model before anything you do there is scored.";
-
-function openExternal(url: string): void {
-  const bridge = typeof window !== "undefined" ? window.bandready : undefined;
-  if (bridge?.openExternal) bridge.openExternal(url);
-  else window.open(url, "_blank", "noopener,noreferrer");
-}
 
 // ------------------------------------------------------------------ 1 welcome ---
 

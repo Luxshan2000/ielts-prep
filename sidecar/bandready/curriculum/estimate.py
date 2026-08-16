@@ -22,13 +22,15 @@ from __future__ import annotations
 
 import json
 import logging
-import math
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
 from typing import Any
 
 from sqlalchemy import text
 from ulid import ULID
+
+from bandready.scoring.bands import round_ielts
+from bandready.timeutil import iso, parse_iso, utcnow
 
 _log = logging.getLogger("bandready.curriculum.estimate")
 
@@ -83,20 +85,11 @@ TS_FORMATS = (
 # Rounding — ONE shared implementation app-wide (R2-4)
 # --------------------------------------------------------------------------------------
 
-try:  # pragma: no cover — the scoring package is owned by another module
-    from bandready.scoring.bands import round_ielts  # type: ignore
-except Exception:  # noqa: BLE001 — not landed yet; keep the identical local rule
-
-    def round_ielts(x: float) -> float:
-        """Nearest half band, with the official upward tie rule (.25→up, .75→up)."""
-        if x is None:  # type: ignore[unreachable]
-            raise TypeError("round_ielts() needs a number")
-        return max(0.0, min(9.0, math.floor(float(x) * 2 + 0.5) / 2))
-
-
-def round_half(x: float) -> float:
-    """Alias kept local so skill displays and the overall mean use the same rule."""
-    return round_ielts(x)
+#: ``round_ielts`` is imported, not reimplemented: :mod:`bandready.scoring.bands` owns the
+#: rule and routes through ``Decimal(repr(x))`` so an exact quarter-band tie is rounded as
+#: a tie rather than eaten by binary float noise. Re-exported here because
+#: ``bandready.curriculum`` publishes it and ``plan``/``adaptive`` import it from this
+#: module.
 
 
 # --------------------------------------------------------------------------------------
@@ -104,12 +97,14 @@ def round_half(x: float) -> float:
 # --------------------------------------------------------------------------------------
 
 
-def utcnow() -> datetime:
-    return datetime.now(UTC)
-
-
 def parse_ts(value: str | None) -> datetime | None:
-    """Parse the app's ISO-8601 timestamps (and plain dates) into aware UTC datetimes."""
+    """Parse the app's ISO-8601 timestamps (and plain dates) into aware UTC datetimes.
+
+    A strict superset of :func:`bandready.timeutil.parse_iso`: the ``TS_FORMATS`` pre-pass
+    also accepts the space-separated and bare-date spellings that reach this module from
+    SQLite's own date functions, and anything it does not recognise falls through to the
+    shared reader.
+    """
     if not value:
         return None
     raw = str(value).strip()
@@ -118,15 +113,7 @@ def parse_ts(value: str | None) -> datetime | None:
             return datetime.strptime(raw, fmt).replace(tzinfo=UTC)
         except ValueError:
             continue
-    try:
-        parsed = datetime.fromisoformat(raw)
-    except ValueError:
-        return None
-    return parsed if parsed.tzinfo else parsed.replace(tzinfo=UTC)
-
-
-def iso(dt: datetime) -> str:
-    return dt.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+    return parse_iso(raw)
 
 
 def _loads(raw: Any) -> Any:
@@ -393,7 +380,7 @@ def estimate_skill(
     # decay between the attempt row and this call push n_eff to 3.99998 and drop the
     # learner a whole confidence level at the 4.0 gate boundary.
     n_eff = round(total, 3)
-    band = round_half(raw)
+    band = round_ielts(raw)
     newest = max(a.at for a in rows)
     confidence, stale = confidence_for(n_eff, newest, now)
     half = CONFIDENCE_RANGE[confidence]
@@ -406,7 +393,7 @@ def estimate_skill(
         total = sum(w for w, _ in pairs)
         if total <= 0:
             continue
-        criteria[key] = round_half(sum(w * v for w, v in pairs) / total)
+        criteria[key] = round_ielts(sum(w * v for w, v in pairs) / total)
 
     return SkillEstimate(
         skill=skill,

@@ -30,7 +30,10 @@ export function SaveBar({ disabled }: { disabled?: boolean }) {
     <div
       className={cn(
         "sticky bottom-0 z-10 -mx-6 mt-4 flex flex-wrap items-center gap-3 border-t border-border",
-        "bg-background/90 px-6 py-3 backdrop-blur",
+        // Card, not background: this bar now sticks to the bottom of the settings dialog's
+        // scrolling pane, and in dark the two tokens are far enough apart that a background
+        // bar read as a hole in the panel.
+        "bg-card/90 px-6 py-3 backdrop-blur",
       )}
     >
       {saveError ? (

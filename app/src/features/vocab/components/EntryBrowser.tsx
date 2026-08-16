@@ -6,7 +6,6 @@ import {
   PauseCircle,
   Plus,
   RotateCcw,
-  Search,
   Trash2,
   X,
 } from "lucide-react";
@@ -16,11 +15,11 @@ import {
   Card,
   CardContent,
   EmptyState,
-  Input,
   Select,
   Skeleton,
   useConfirm,
 } from "@/components/ui";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { cn } from "@/lib/cn";
 import { pluralize } from "@/lib/format";
 import {
@@ -128,19 +127,13 @@ export function EntryBrowser() {
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
-        <div className="relative flex-1">
-          <Search
-            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-            aria-hidden="true"
-          />
-          <Input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search headword or definition"
-            aria-label="Search your vocabulary bank"
-            className="pl-9"
-          />
-        </div>
+        <SearchInput
+          className="flex-1"
+          value={search}
+          onChange={setSearch}
+          placeholder="Search headword or definition"
+          aria-label="Search your vocabulary bank"
+        />
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
           <Select
             size="sm"

@@ -5,17 +5,17 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AlertTriangle, BarChart3, Eye, RefreshCw, Search, Sparkles, Wand2 } from "lucide-react";
+import { AlertTriangle, BarChart3, Eye, RefreshCw, Sparkles, Wand2 } from "lucide-react";
 import {
   Badge,
   Button,
   Card,
   CardContent,
   EmptyState,
-  Input,
   Select,
   Skeleton,
 } from "@/components/ui";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { cn } from "@/lib/cn";
 import { useSessionStore } from "@/stores";
 import {
@@ -159,19 +159,13 @@ export function PromptBrowser() {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2">
-        <div className="relative min-w-[13rem] flex-1">
-          <Search
-            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-            aria-hidden="true"
-          />
-          <Input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search the prompt text…"
-            aria-label="Search writing prompts"
-            className="pl-9"
-          />
-        </div>
+        <SearchInput
+          className="min-w-[13rem] flex-1"
+          value={query}
+          onChange={setQuery}
+          placeholder="Search the prompt text…"
+          aria-label="Search writing prompts"
+        />
         <Select
           size="sm"
           aria-label="Task type"

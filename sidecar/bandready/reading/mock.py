@@ -58,7 +58,6 @@ import json
 import logging
 import random
 from dataclasses import dataclass
-from datetime import UTC, datetime
 from typing import Any
 
 from sqlalchemy import text as sa_text
@@ -69,6 +68,7 @@ from bandready.db import models as m
 from bandready.reading import coach
 from bandready.scoring.answers import expand_variants, word_limit_of
 from bandready.server.errors import ApiError
+from bandready.timeutil import iso, parse_iso, seconds_since
 
 _log = logging.getLogger("bandready.reading.mock")
 
@@ -167,33 +167,6 @@ SOFT_CHECKS: tuple[str, ...] = ("forty_questions", "distinct_topics", "format_ma
 # ======================================================================================
 
 
-def _now() -> datetime:
-    return datetime.now(UTC)
-
-
-def _iso(moment: datetime | None = None) -> str:
-    return (moment or _now()).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
-
-
-def _parse_iso(value: Any) -> datetime | None:
-    if not isinstance(value, str) or not value.strip():
-        return None
-    raw = value.strip()
-    raw = raw[:-1] + "+00:00" if raw.endswith("Z") else raw
-    try:
-        parsed = datetime.fromisoformat(raw)
-    except ValueError:
-        return None
-    return parsed if parsed.tzinfo else parsed.replace(tzinfo=UTC)
-
-
-def _since(value: Any) -> float:
-    started = _parse_iso(value)
-    if started is None:
-        return 0.0
-    return max(0.0, (_now() - started).total_seconds())
-
-
 def _minutes(seconds: float) -> float:
     return round(float(seconds) / 60.0, 1)
 
@@ -240,7 +213,7 @@ def _save(session: Session, doc: dict[str, Any]) -> dict[str, Any]:
     ensure_schema(session)
     if doc.get("status") not in MOCK_STATUSES:  # pragma: no cover — a typo'd status
         raise ApiError(500, "internal", f"unknown mock status {doc.get('status')!r}")
-    doc["updated_at"] = _iso()
+    doc["updated_at"] = iso()
     session.execute(
         sa_text(
             "INSERT INTO reading_mocks "
@@ -300,7 +273,7 @@ def _live_row(session: Session, profile_id: str) -> dict[str, Any] | None:
         {"pid": profile_id},
     ).all()
     for mock_id, created_at, doc_json in rows:
-        if _since(created_at) > STALE_AFTER_S:
+        if seconds_since(created_at) > STALE_AFTER_S:
             continue
         try:
             doc = json.loads(doc_json or "{}")
@@ -602,7 +575,7 @@ def create(
     plan = assemble(session, profile_id, module=module, seed=seed, test_id=test_id)
 
     mock_id = f"rm_{ULID()}"
-    started = _iso()
+    started = iso()
     total = int(plan["question_count"])
 
     session.add(
@@ -827,7 +800,7 @@ def patch(session: Session, mock_id: str, change: MockPatch) -> dict[str, Any]:
                 f"active_position must be one of {sorted(positions)}",
             )
         clock["active_position"] = int(change.active_position)
-    clock["last_patch_at"] = _iso()
+    clock["last_patch_at"] = iso()
 
     attempt_id = doc.get("attempt_id") or doc["mock_id"]
     saved = autosave(
@@ -869,7 +842,7 @@ def abandon(session: Session, mock_id: str) -> dict[str, Any]:
     doc = load(session, mock_id)
     if doc.get("status") == "in_progress":
         doc["status"] = "abandoned"
-        doc["finished_at"] = _iso()
+        doc["finished_at"] = iso()
         attempt = _attempt(session, doc)
         if attempt.status == "in_progress":
             attempt.status = "abandoned"
@@ -880,13 +853,13 @@ def abandon(session: Session, mock_id: str) -> dict[str, Any]:
 
 
 def _close_envelope(session: Session, doc: dict[str, Any]) -> None:
-    finished = doc.get("finished_at") or _iso()
+    finished = doc.get("finished_at") or iso()
     envelope = session.get(m.PracticeSession, doc["mock_id"])
     if envelope is None or envelope.ended_at is not None:
         return
     envelope.ended_at = finished
-    started = _parse_iso(envelope.started_at)
-    ended = _parse_iso(finished)
+    started = parse_iso(envelope.started_at)
+    ended = parse_iso(finished)
     envelope.duration_s = (
         int(max(0.0, (ended - started).total_seconds())) if started and ended else 0
     )
@@ -1291,7 +1264,7 @@ def submit(
     )
 
     doc["status"] = "complete"
-    doc["finished_at"] = doc.get("finished_at") or _iso()
+    doc["finished_at"] = doc.get("finished_at") or iso()
     _close_envelope(session, doc)
 
     report = _build_report(session, doc, record)

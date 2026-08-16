@@ -1,5 +1,5 @@
 /**
- * The four GLOBAL Zustand stores (01 §7.1, R2-23). Everything else — writing
+ * The three GLOBAL Zustand stores (01 §7.1, R2-23). Everything else — writing
  * drafts, reading answers, listening player state, vocab browse filters — is a
  * per-feature ephemeral store at `app/src/features/<module>/store.ts`.
  * Attempt-in-progress state is NEVER global; durability is the sidecar's job.
@@ -16,23 +16,6 @@ export {
   type SettingsDoc,
   type ProviderConfig,
 } from "./settings";
-export {
-  useProgressStore,
-  bandsOf,
-  streakOf,
-  targetBandOf,
-  todaySessionsOf,
-  type ProgressSummary,
-  type ProgressProfile,
-  type ProgressCallout,
-  type BandEstimate,
-  type StreakSummary,
-  type PlanResponse,
-  type PlanSession,
-  type BandEstimates,
-  type HeatmapPoint,
-  type Skill,
-} from "./progress";
 export {
   useSrsStore,
   type SrsQueueItem,

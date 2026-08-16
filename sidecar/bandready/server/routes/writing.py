@@ -24,7 +24,6 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import UTC, datetime
 from typing import Any, Literal
 
 from fastapi import APIRouter, Depends, Query, Response
@@ -40,6 +39,7 @@ from bandready.scoring.rubrics import rubric_payload
 from bandready.server.deps import current_profile_id, require_auth
 from bandready.server.errors import ApiError
 from bandready.server.jobs import job_manager
+from bandready.timeutil import iso
 from bandready.writing import coach
 
 _log = logging.getLogger("bandready.routes.writing")
@@ -52,10 +52,6 @@ router = APIRouter(
 
 MAX_LIMIT = 200
 DEFAULT_LIMIT = 50
-
-
-def _now() -> str:
-    return datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
 
 
 def _loads(raw: str | None, default: Any = None) -> Any:
@@ -378,7 +374,7 @@ def create_attempt(
             profile_id=profile_id,
             module="writing",
             activity=prompt.task_type,
-            started_at=_now(),
+            started_at=iso(),
         )
     )
     session.add(
@@ -485,7 +481,7 @@ async def submit_attempt(
 
     submission.word_count = result["word_count"]
     submission.status = "submitted"
-    submission.submitted_at = _now()
+    submission.submitted_at = iso()
     session.flush()
     # The evaluation job opens its own session, so the row must be visible before the
     # background task can possibly run.
@@ -583,7 +579,7 @@ def rewrite_attempt(
             profile_id=profile_id,
             module="writing",
             activity=prompt.task_type,
-            started_at=_now(),
+            started_at=iso(),
         )
     )
     session.add(

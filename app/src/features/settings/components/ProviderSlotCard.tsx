@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Field, Select } from "@/components/ui";
 import { api, ApiError } from "@/lib/api";
+import { openExternal } from "@/lib/openExternal";
 import { SpecField } from "./SpecField";
 import { useSettingsFeatureStore, type FieldSpec, type Modality, type Preset } from "../store";
 
@@ -27,13 +28,6 @@ const TITLES: Record<Modality, { title: string; description: string }> = {
     description: "The examiner's voice and generated listening audio.",
   },
 };
-
-function openDocs(url: string): void {
-  if (!url) return;
-  const bridge = typeof window !== "undefined" ? window.bandready : undefined;
-  if (bridge?.openExternal) bridge.openExternal(url);
-  else window.open(url, "_blank", "noopener,noreferrer");
-}
 
 function stateTone(state: string | undefined): "success" | "warning" | "destructive" | "default" {
   switch (state) {
@@ -266,7 +260,7 @@ export function ProviderSlotCard({ modality }: { modality: Modality }) {
           )}
 
           {selected?.docs_url && (
-            <Button variant="ghost" size="sm" onClick={() => openDocs(selected.docs_url as string)}>
+            <Button variant="ghost" size="sm" onClick={() => openExternal(selected.docs_url as string)}>
               <ExternalLink className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
               Provider docs
             </Button>

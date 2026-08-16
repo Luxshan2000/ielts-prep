@@ -13,6 +13,7 @@ import {
 } from "@/components/ui";
 import { useSettingsStore } from "@/stores";
 import { cn } from "@/lib/cn";
+import { pluralize } from "@/lib/format";
 import { MATURITY_META, MODULE_LABELS, percent, shortDate } from "../labels";
 import { useVocabStore } from "../store";
 import type { SrsStats } from "../types";
@@ -313,7 +314,7 @@ function LimitsCard({ stats }: { stats: SrsStats }) {
             Save limits
           </Button>
           <span className="text-[11px] text-muted-foreground">
-            {stats.new_available} new card{stats.new_available === 1 ? "" : "s"} are available today.
+            {pluralize(stats.new_available, "new card")} are available today.
           </span>
         </div>
 

@@ -22,8 +22,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Layers, Library, Link2, Quote, Search } from "lucide-react";
-import { Badge, Button, EmptyState, ErrorState, Input, Skeleton } from "@/components/ui";
+import { ArrowRight, Layers, Library, Link2, Quote } from "lucide-react";
+import { Badge, Button, EmptyState, ErrorState, Skeleton } from "@/components/ui";
+import { SearchInput } from "@/components/ui/SearchInput";
 import { cn } from "@/lib/cn";
 import { REGISTER_LABEL, levelLabel, surfaceLabel } from "../labels";
 import { useGrammarStore } from "../store";
@@ -305,19 +306,13 @@ export function PhrasesScreen() {
         </div>
         <p className="mt-2 text-[12px] leading-relaxed text-muted-foreground">{LENS_HINT[lens]}</p>
 
-        <div className="relative mt-3">
-          <Search
-            className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-            aria-hidden="true"
-          />
-          <Input
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            placeholder="Find a phrase"
-            aria-label="Find a phrase"
-            className="pl-8"
-          />
-        </div>
+        <SearchInput
+          className="mt-3"
+          value={filter}
+          onChange={setFilter}
+          placeholder="Find a phrase"
+          aria-label="Find a phrase"
+        />
       </Section>
 
       {entries.length === 0 ? (

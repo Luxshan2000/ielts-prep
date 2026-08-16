@@ -11,7 +11,8 @@ import {
   Progress,
 } from "@/components/ui";
 import { cn } from "@/lib/cn";
-import { formatDuration } from "@/lib/format";
+import { formatDuration, scorePct } from "@/lib/format";
+import { scoreTone } from "../model";
 import { qtypeLabel } from "../qtypes";
 import type { ReviewRecord } from "../types";
 
@@ -21,10 +22,6 @@ export interface ResultsSummaryProps {
   timeMs: Record<string, number>;
   onDrillType?: (qtype: string) => void;
   onJumpToQuestion?: (number: number) => void;
-}
-
-function pct(correct: number, total: number): number {
-  return total > 0 ? (correct / total) * 100 : 0;
 }
 
 function median(values: number[]): number {
@@ -47,7 +44,7 @@ export function ResultsSummary({
   const types = useMemo(
     () =>
       Object.entries(record.per_type ?? {}).sort(
-        (a, b) => pct(a[1].correct, a[1].total) - pct(b[1].correct, b[1].total),
+        (a, b) => scorePct(a[1].correct, a[1].total) - scorePct(b[1].correct, b[1].total),
       ),
     [record.per_type],
   );
@@ -93,16 +90,10 @@ export function ResultsSummary({
               </Badge>
             </div>
             <Progress
-              value={pct(record.raw_score, record.total_questions)}
+              value={scorePct(record.raw_score, record.total_questions)}
               label="Accuracy"
-              detail={`${Math.round(pct(record.raw_score, record.total_questions))}%`}
-              tone={
-                pct(record.raw_score, record.total_questions) >= 75
-                  ? "success"
-                  : pct(record.raw_score, record.total_questions) >= 50
-                    ? "primary"
-                    : "warning"
-              }
+              detail={`${Math.round(scorePct(record.raw_score, record.total_questions))}%`}
+              tone={scoreTone(record.raw_score, record.total_questions)}
             />
             <p className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground">
               <span className="inline-flex items-center gap-1 tabular">
@@ -147,16 +138,10 @@ export function ResultsSummary({
               types.map(([type, stats]) => (
                 <Progress
                   key={type}
-                  value={pct(stats.correct, stats.total)}
+                  value={scorePct(stats.correct, stats.total)}
                   label={qtypeLabel(type)}
                   detail={`${stats.correct}/${stats.total}`}
-                  tone={
-                    pct(stats.correct, stats.total) >= 75
-                      ? "success"
-                      : pct(stats.correct, stats.total) >= 50
-                        ? "primary"
-                        : "warning"
-                  }
+                  tone={scoreTone(stats.correct, stats.total)}
                 />
               ))
             )}
@@ -174,7 +159,7 @@ export function ResultsSummary({
               record.per_passage.map((passage) => (
                 <Progress
                   key={passage.passage_id}
-                  value={pct(passage.correct, passage.total)}
+                  value={scorePct(passage.correct, passage.total)}
                   label={passage.title ?? passage.passage_id}
                   detail={`${passage.correct}/${passage.total}`}
                 />

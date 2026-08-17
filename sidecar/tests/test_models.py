@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 from collections.abc import Iterator
 from pathlib import Path
+from typing import Self
 
 import pytest
 from sqlalchemy import delete, select, text
@@ -438,3 +439,100 @@ def test_deleting_a_profile_cascades_learner_data(clean_db: Path) -> None:
         assert s.scalar(select(m.SpeakingTurn)) is None
         assert s.scalar(select(m.VocabEntry)) is None
         assert s.execute(text("SELECT count(*) FROM scored_attempts")).scalar() == 0
+
+
+# ======================================================================================
+# The manifest's byte counts are a hint, never a gate
+# ======================================================================================
+
+
+class _FakeResponse:
+    """One streamed response, with a Content-Length that is the truth about this transfer."""
+
+    def __init__(self, payload: bytes) -> None:
+        self._payload = payload
+        self.status_code = 200
+        self.headers = {"Content-Length": str(len(payload))}
+
+    async def __aenter__(self) -> Self:
+        return self
+
+    async def __aexit__(self, *_: object) -> None:
+        return None
+
+    def raise_for_status(self) -> None:
+        return None
+
+    async def aiter_bytes(self, _chunk: int = 0):
+        yield self._payload
+
+
+class _FakeClient:
+    def __init__(self, payload: bytes) -> None:
+        self._payload = payload
+        self.calls = 0
+
+    def stream(self, _method: str, _url: str, headers: dict | None = None) -> _FakeResponse:
+        self.calls += 1
+        return _FakeResponse(self._payload)
+
+
+async def test_a_wrong_size_in_the_manifest_no_longer_blocks_the_download(tmp_path) -> None:
+    """The bug that made Kokoro uninstallable for everyone.
+
+    Both Kokoro entries carried a hand-typed byte count and both were wrong: the model by 227
+    bytes and the voices by 88,706. The old check compared the finished file to that constant,
+    deleted it on mismatch, and retried twice more before failing with "0 bytes, expected
+    325532160" — nonsense, because the size was read after the unlink. Integrity is sha256's
+    job; the manifest number is for the progress bar.
+    """
+    from bandready.server.routes.models import _fetch_file
+
+    payload = b"x" * 5000
+    spec = {"name": "thing.bin", "size": 999999, "sha256": None, "url": "https://example/thing"}
+    client = _FakeClient(payload)
+    await _fetch_file(client, spec, tmp_path, lambda *_: None)
+
+    got = tmp_path / "thing.bin"
+    assert got.exists(), "a complete download was rejected for disagreeing with the manifest"
+    assert got.read_bytes() == payload
+    assert client.calls == 1, "it retried a download that had already succeeded"
+
+
+async def test_a_truncated_transfer_is_still_caught(tmp_path) -> None:
+    """Loosening the size gate must not mean accepting half a file.
+
+    Completeness is now measured against the Content-Length of the response that actually
+    arrived, which is the only number that describes this transfer.
+    """
+    from bandready.server.errors import ApiError
+    from bandready.server.routes.models import _fetch_file
+
+    class _Truncating(_FakeClient):
+        def stream(self, _m: str, _u: str, headers: dict | None = None) -> _FakeResponse:
+            self.calls += 1
+            res = _FakeResponse(b"y" * 5000)
+            res.headers["Content-Length"] = "5000"
+            res._payload = b"y" * 40  # the connection dropped
+            return res
+
+    spec = {"name": "cut.bin", "size": None, "sha256": None, "url": "https://example/cut"}
+    with pytest.raises(ApiError) as caught:
+        await _fetch_file(_Truncating(b""), spec, tmp_path, lambda *_: None)
+    assert "incomplete" in str(caught.value.detail)
+    assert not (tmp_path / "cut.bin").exists()
+
+
+async def test_an_installed_file_is_not_fetched_again(tmp_path) -> None:
+    """`final` only exists because it already passed verification, so it is trusted.
+
+    Comparing it to the manifest constant meant a correctly installed model was re-downloaded
+    on every visit to the screen, for as long as that constant was wrong.
+    """
+    from bandready.server.routes.models import _fetch_file
+
+    (tmp_path / "there.bin").write_bytes(b"z" * 128)
+    spec = {"name": "there.bin", "size": 999999, "sha256": None, "url": "https://example/there"}
+    client = _FakeClient(b"")
+    await _fetch_file(client, spec, tmp_path, lambda *_: None)
+    assert client.calls == 0, "an installed file was downloaded again"

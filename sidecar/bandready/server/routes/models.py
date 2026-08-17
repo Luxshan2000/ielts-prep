@@ -98,9 +98,13 @@ BUILTIN_MANIFEST: dict[str, Any] = {
             "dest": "kokoro",
             "approx_mb": 340,
             "files": [
-                {"name": "kokoro-v1.0.onnx", "size": 325532160, "sha256": None,
+                # `size` is a progress hint, never a gate: completeness is checked against
+                # the Content-Length of the actual response and integrity against sha256.
+                # These two were wrong by 227 and 88,706 bytes and made the download
+                # impossible; measured against the live release rather than estimated.
+                {"name": "kokoro-v1.0.onnx", "size": 325532387, "sha256": None,
                  "url": f"{KOKORO_RELEASE}/kokoro-v1.0.onnx"},
-                {"name": "voices-v1.0.bin", "size": 28303104, "sha256": None,
+                {"name": "voices-v1.0.bin", "size": 28214398, "sha256": None,
                  "url": f"{KOKORO_RELEASE}/voices-v1.0.bin"},
             ],
         },
@@ -231,12 +235,17 @@ async def _fetch_file(
     part = directory / f"{spec['name']}.part"
     expected_hash = spec.get("sha256")
 
-    if final.exists() and (not spec.get("size") or final.stat().st_size == spec["size"]):
+    # `final` is only ever created by the os.replace below, which runs after the checksum and
+    # completeness checks pass. Its existence is therefore the proof that it was verified, and
+    # re-checking it against a hand-pinned byte count is worse than useless: when that constant
+    # is wrong, a perfectly good file is re-downloaded on every single visit.
+    if final.exists() and final.stat().st_size > 0:
         on_bytes(final.stat().st_size, final.stat().st_size, spec["name"], "already present")
         return
 
     for attempt in range(1, NET_RETRIES + 1):
         digest = hashlib.sha256()
+        total = 0
         resume_from = part.stat().st_size if part.exists() else 0
         if resume_from:
             with part.open("rb") as fh:  # seed the hash with what we already have
@@ -282,15 +291,28 @@ async def _fetch_file(
                 )
             on_bytes(None, None, spec["name"], "checksum mismatch — retrying")
             continue
-        if spec.get("size") and part.stat().st_size != spec["size"]:
+        # Completeness, measured against the Content-Length this very response advertised.
+        #
+        # It used to compare against `spec["size"]`, a byte count typed into the manifest by
+        # hand, and both Kokoro entries were wrong: the model by 227 bytes and the voices by
+        # 88,706. So the file downloaded correctly, failed an equality check against a number
+        # that was never right, was deleted, and was fetched again twice more before failing.
+        # Roughly a gigabyte of traffic to arrive at "0 bytes, expected 325532160" — nonsense,
+        # because the size was read after the unlink. Nobody could ever install Kokoro.
+        #
+        # sha256 is the integrity check and is enforced above when pinned. Size is for the
+        # progress bar and for catching a truncated transfer, which is what this now does.
+        on_disk = part.stat().st_size if part.exists() else 0
+        if total and on_disk != total:
             part.unlink(missing_ok=True)
             if attempt == NET_RETRIES:
                 raise ApiError(
                     422,
                     "validation_error",
-                    f"{spec['name']} is {part.stat().st_size if part.exists() else 0} bytes, "
-                    f"expected {spec['size']}",
+                    f"{spec['name']} arrived incomplete: {_human_mb(on_disk)} of "
+                    f"{_human_mb(total)}. Check the connection and try again.",
                 )
+            on_bytes(None, None, spec["name"], "incomplete — retrying")
             continue
         os.replace(part, final)
         spec["_observed_sha256"] = actual

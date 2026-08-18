@@ -132,11 +132,23 @@ class AuthMiddleware(BaseHTTPMiddleware):
             request.state.auth_kind = "bearer"
             return await call_next(request)
 
-        # Ticket-bearing requests (media GETs, WS upgrades). The signature and expiry are
-        # checked here; the route checks audience + resource via require_ticket().
+        # Ticket-bearing requests (media GETs, WS upgrades). Only the signature and expiry
+        # are checked here. The request is let THROUGH the middleware but is deliberately not
+        # marked authenticated, because a ticket is a capability for one resource rather than
+        # a credential for the API.
+        #
+        # It used to set `authenticated = True`, and `require_auth` returns early on that
+        # flag, so a ticket minted for a single audio file answered 200 on /settings,
+        # /speaking/sessions and /progress/summary for its full twelve hours. Tickets travel
+        # in URLs, inside <audio src> and websocket query strings, which makes them the most
+        # exposed thing the app issues; they must therefore be the least powerful.
+        #
+        # The three routes that genuinely accept one check it themselves against audience and
+        # resource: media.py:179 binds it to the exact request path, speaking.py:808 to the
+        # session id, listening.py:1230 likewise. Every other route keeps require_auth and now
+        # correctly refuses a ticket.
         ticket = request.query_params.get("ticket")
         if ticket and ticket_signature_ok(ticket):
-            request.state.authenticated = True
             request.state.auth_kind = "ticket"
             return await call_next(request)
 

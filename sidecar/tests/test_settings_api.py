@@ -456,20 +456,39 @@ async def test_ticket_issue_and_verify(client: httpx.AsyncClient) -> None:
     assert verify_ticket(ticket + "tamper", "media-read", resource) is False
 
 
-async def test_ticket_lets_a_urlonly_request_through_the_middleware(app: Any) -> None:
-    """A ticket is the only way `<audio>` and WebSocket can authenticate (18 §2)."""
-    from bandready.server.tickets import issue_ticket
+async def test_a_ticket_reaches_its_own_route_and_no_other(app: Any) -> None:
+    """A ticket is the only way `<audio>` and WebSocket can authenticate (18 §2) — and it is
+    a capability for one resource, not a credential for the API.
 
-    ticket = issue_ticket("session-events", "sp_01J8")
+    This test previously asserted the opposite. It took a `session-events` ticket, called
+    `/api/v1/settings`, and asserted 200, explaining that "the settings route is not
+    ticket-scoped, so what matters here is that the request was authenticated at all". That
+    was the bug written down as an expectation: the middleware set
+    `request.state.authenticated = True` for any signed ticket, `require_auth` returns early
+    on that flag, and a ticket minted for one audio file therefore answered 200 on every
+    route for its full twelve hours. Tickets travel in URLs, so they are the most exposed
+    thing this app issues and must be the least powerful.
+    """
+    from bandready.server.tickets import issue_ticket, ttl_for
+
+    media_path = "/api/v1/media/listening/never-created.wav"
+    media = issue_ticket("media-read", media_path, ttl=ttl_for("media-read"))
+    events = issue_ticket("session-events", "sp_01J8")
+
     async with httpx.AsyncClient(
         transport=httpx.ASGITransport(app=app), base_url=BASE
     ) as anon:
         without = await anon.get("/api/v1/settings")
-        withticket = await anon.get(f"/api/v1/settings?ticket={ticket}")
+        with_media = await anon.get(f"/api/v1/settings?ticket={media}")
+        with_events = await anon.get(f"/api/v1/settings?ticket={events}")
+        own_route = await anon.get(f"{media_path}?ticket={media}")
+
     assert without.status_code == 401
-    # The middleware accepts the signature; the settings route is not ticket-scoped, so
-    # what matters here is that the request was authenticated at all.
-    assert withticket.status_code == 200
+    assert with_media.status_code == 401, "a media ticket unlocked the settings route"
+    assert with_events.status_code == 401, "an events ticket unlocked the settings route"
+    # Anything but 401 means it got past auth; 404 is the honest answer for a file that was
+    # never created, and proves locking tickets down did not break `<audio>` playback.
+    assert own_route.status_code != 401
 
 
 async def test_ticket_validation(client: httpx.AsyncClient) -> None:

@@ -692,3 +692,61 @@ def test_the_shipped_pack_imported_content(client: TestClient) -> None:
     ):
         payload = client.get(path).json()
         assert _dig_ids(payload) or _dig_ids(payload, "deck_id"), f"the core pack shipped no {key}"
+
+
+# ======================================================================================
+# A ticket is a capability, not a credential
+# ======================================================================================
+
+
+def test_a_media_ticket_does_not_unlock_the_rest_of_the_api(client: TestClient) -> None:
+    """The escalation this used to allow, pinned shut.
+
+    The auth middleware set ``request.state.authenticated = True`` for any correctly signed
+    ticket, and ``require_auth`` returns early on that flag. So a ticket minted for one audio
+    file answered 200 on /settings, /speaking/sessions and /progress/summary for its full
+    twelve hours. Tickets travel inside ``<audio src>`` and websocket query strings, which
+    makes them the most exposed thing this app issues, so they must be the least powerful.
+
+    The middleware now lets a ticketed request through without marking it authenticated; the
+    three routes that genuinely accept one check audience and resource themselves.
+    """
+    from bandready.server.tickets import issue_ticket, ttl_for
+
+    ticket = issue_ticket("media-read", "/api/v1/media/listening/nope.wav", ttl=ttl_for("media-read"))
+    # The shared client sends a bearer header on every request, which would make this pass
+    # for the wrong reason. A ticket has to be tested as the ONLY credential present.
+    no_bearer = {"Authorization": ""}
+    for path in ("/api/v1/settings", "/api/v1/speaking/sessions", "/api/v1/progress/summary"):
+        got = client.get(f"{path}?ticket={ticket}", headers=no_bearer).status_code
+        assert got == 401, f"{path} accepted a media ticket as if it were the API token ({got})"
+
+
+def test_a_media_ticket_still_authorises_the_file_it_names(client: TestClient) -> None:
+    """The other half: locking tickets down must not break audio playback.
+
+    An `<audio>` element cannot send an Authorization header, which is the entire reason
+    tickets exist. Anything but 401 here means the request reached the route and was
+    authorised; 404 is the honest answer for a file this test never created.
+    """
+    from bandready.server.tickets import issue_ticket, ttl_for
+
+    path = "/api/v1/media/listening/nope.wav"
+    ticket = issue_ticket("media-read", path, ttl=ttl_for("media-read"))
+    assert client.get(f"{path}?ticket={ticket}", headers={"Authorization": ""}).status_code != 401
+
+
+def test_the_ready_line_carries_no_credential() -> None:
+    """The bearer token used to be printed on stdout, which Electron writes to the log file
+    that Settings -> About -> "Reveal logs" invites the user to open and attach to a report.
+
+    Nothing ever parsed it back: Electron mints the token with randomUUID() and passes it in
+    as BANDREADY_AUTH_TOKEN.
+    """
+    import inspect
+
+    from bandready import cli
+
+    source = inspect.getsource(cli)
+    ready_line = next(ln for ln in source.splitlines() if ln.strip().startswith("ready = {"))
+    assert "token" not in ready_line, "the ready line puts a live credential in the log file"

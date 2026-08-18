@@ -10,7 +10,7 @@ Two rules, both of which are easy to get wrong:
 2. **The token never appears in argv** (``ps`` shows argv to every local user). It comes
    in through the environment; if it is absent we generate one and announce it on stdout:
 
-       SIDECAR_READY {"base_url": "http://127.0.0.1:52344", "token": "…"}
+       SIDECAR_READY {"base_url": "http://127.0.0.1:52344", "pid": 4321}
 
    exactly one line, which Electron main parses.
 
@@ -185,7 +185,12 @@ def serve(args: argparse.Namespace) -> int:
 
     # The one line Electron parses. Printed before the bind so main can start polling
     # /health immediately; the health poll is what actually gates the window.
-    ready = {"base_url": settings.base_url, "token": settings.auth_token, "pid": os.getpid()}
+    # The token is deliberately NOT in this line. Electron mints it with randomUUID() and
+    # passes it in as BANDREADY_AUTH_TOKEN, so nothing has ever parsed it back out — but every
+    # line of this stdout is written to the log file that Settings -> About -> "Reveal logs"
+    # invites the user to open and attach to a bug report. A live API credential does not
+    # belong in a file we ask people to share.
+    ready = {"base_url": settings.base_url, "pid": os.getpid()}
     sys.stdout.write("SIDECAR_READY " + json.dumps(ready) + "\n")
     sys.stdout.flush()
     if generated_token:

@@ -135,6 +135,7 @@ export function JobSection({ modality }: { modality: Modality }) {
   const copy = COPY[modality];
   const draft = useSettingsFeatureStore((s) => s.drafts[modality]);
   const presetById = useSettingsFeatureStore((s) => s.presetById);
+  const presetsFor = useSettingsFeatureStore((s) => s.presetsFor);
   const applyPreset = useSettingsFeatureStore((s) => s.applyPreset);
   const setField = useSettingsFeatureStore((s) => s.setField);
   const drafts = useSettingsFeatureStore((s) => s.drafts);
@@ -157,7 +158,10 @@ export function JobSection({ modality }: { modality: Modality }) {
           : "other";
 
   const localPreset = presetById(localId);
-  const remotePreset = presetById(OPENROUTER_PRESET);
+  // Looked up among the presets that serve THIS job, not merely by id. OpenRouter exists as a
+  // preset but no longer serves the voice, and a by-id lookup would still light its button and
+  // then apply a provider that cannot do the work.
+  const remotePreset = presetsFor(modality).find((p) => p.id === OPENROUTER_PRESET);
 
   const model = String(draft.model ?? "");
   const voice = String(draft.voice ?? "");
@@ -217,7 +221,11 @@ export function JobSection({ modality }: { modality: Modality }) {
       </CardHeader>
 
       <CardContent className="space-y-3">
-        <div className="grid grid-cols-2 gap-2">
+        {/* A job with only one route shows one button across the row, rather than a second
+            one greyed out. A disabled control still reads as a choice that exists and is
+            unavailable to you, which is the wrong story: the voice is local because listening
+            audio is exam content, not because something is missing here. */}
+        <div className={cn("grid gap-2", remotePreset ? "grid-cols-2" : "grid-cols-1")}>
           <RouteButton
             icon={Cpu}
             label="On this computer"
@@ -226,14 +234,15 @@ export function JobSection({ modality }: { modality: Modality }) {
             disabled={!localPreset}
             onClick={() => choose("local")}
           />
-          <RouteButton
-            icon={Cloud}
-            label="Through OpenRouter"
-            note={copy.remoteNote}
-            selected={route === "openrouter"}
-            disabled={!remotePreset}
-            onClick={() => choose("openrouter")}
-          />
+          {remotePreset && (
+            <RouteButton
+              icon={Cloud}
+              label="Through OpenRouter"
+              note={copy.remoteNote}
+              selected={route === "openrouter"}
+              onClick={() => choose("openrouter")}
+            />
+          )}
         </div>
 
         {route === "other" && (
@@ -245,7 +254,7 @@ export function JobSection({ modality }: { modality: Modality }) {
         {route === "none" && (
           <p className="text-[13px] text-muted-foreground">
             {localPreset || remotePreset
-              ? "Not set up yet. Pick one of the two above."
+              ? "Not set up yet. Pick one above."
               : "The provider list has not loaded yet."}
           </p>
         )}

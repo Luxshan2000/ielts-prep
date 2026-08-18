@@ -128,17 +128,35 @@ def test_no_provider_is_offered_that_is_not_installed() -> None:
     assert local == {"ollama", "faster_whisper", "kokoro"}
 
 
-def test_every_job_can_be_answered_locally_and_remotely() -> None:
-    """Each of the three is chosen on its own, so each needs both routes available.
+def test_thinking_and_listening_can_be_answered_locally_or_remotely() -> None:
+    """The examiner and speech-to-text are each chosen on their own.
 
-    A learner may send marking to OpenRouter and keep their voice on the machine, or any
-    other combination. That only works if no modality has a single possible answer.
+    A learner may send marking to OpenRouter and keep transcription on the machine, or the
+    reverse. That only works while neither has a single possible answer.
     """
-    for modality in ("llm", "stt", "tts"):
+    for modality in ("llm", "stt"):
         serving = [p for p in PRESETS if modality in p.get("modalities", [])
                    and not str(p["id"]).startswith("mock")]
         kinds = {"remote" if p.get("kind") == "cloud" else "local" for p in serving}
         assert kinds == {"local", "remote"}, f"{modality} cannot be answered both ways"
+
+
+def test_the_voice_is_local_only_in_this_release() -> None:
+    """Deliberate, and the deliberateness is the point.
+
+    Listening audio is exam content, not a per-user preference: it should sound the same for
+    every learner, with the accents the papers were written for, and a voice inventory that
+    varies by provider cannot promise that. Kokoro being Apache-2.0 is what will make a shared
+    pre-rendered pack redistributable later.
+
+    If a remote voice is ever offered again, it needs an `engine` on the preset. Without one
+    the dispatch falls through to whatever engine the slot already held, which is how choosing
+    a cloud voice used to synthesize locally while the screen claimed otherwise.
+    """
+    serving = [p for p in PRESETS if "tts" in p.get("modalities", [])
+               and not str(p["id"]).startswith("mock")]
+    assert [p["id"] for p in serving] == ["kokoro"]
+    assert all(p.get("kind") != "cloud" for p in serving)
 
 
 def test_one_recommendation_per_job_and_all_are_namespaced() -> None:
@@ -174,5 +192,6 @@ def test_openrouter_says_pronunciation_still_needs_local_whisper() -> None:
     assert "local" in notes
 
 
-def test_openrouter_serves_all_three_modalities() -> None:
-    assert set(_by_id("openrouter")["modalities"]) == {"llm", "stt", "tts"}
+def test_openrouter_serves_the_two_jobs_that_are_a_preference() -> None:
+    """Marking and transcription, not the voice. See the local-only test above for why."""
+    assert set(_by_id("openrouter")["modalities"]) == {"llm", "stt"}

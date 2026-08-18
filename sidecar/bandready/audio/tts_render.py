@@ -47,7 +47,6 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
-import io
 import json
 import logging
 import re
@@ -559,50 +558,6 @@ async def _synthesize_kokoro(
         ) from exc
 
 
-async def _synthesize_openai(
-    text: str, voice: str, cfg: Mapping[str, Any]
-) -> tuple[np.ndarray, int]:
-    import httpx
-    import soundfile as sf
-
-    base_url = str(cfg.get("base_url") or "").rstrip("/")
-    if not base_url:
-        raise ApiError(
-            400, "provider_error", "the configured TTS provider has no base URL"
-        )
-    headers = {"Content-Type": "application/json"}
-    api_key = str(cfg.get("api_key") or "")
-    if api_key:
-        headers["Authorization"] = f"Bearer {api_key}"
-    body = {
-        "model": str(cfg.get("model") or "tts-1"),
-        "voice": voice,
-        "input": text,
-        "response_format": "wav",
-        "speed": float(cfg.get("speed") or 1.0),
-    }
-    try:
-        async with httpx.AsyncClient(timeout=120.0) as client:
-            response = await client.post(
-                f"{base_url}/audio/speech", json=body, headers=headers
-            )
-    except httpx.HTTPError as exc:
-        raise ApiError(502, "provider_error", f"the TTS endpoint is unreachable: {exc}") from exc
-    if response.status_code >= 400:
-        raise ApiError(
-            502,
-            "provider_error",
-            f"the TTS endpoint returned {response.status_code}: {response.text[:200]}",
-        )
-    try:
-        data, rate = sf.read(io.BytesIO(response.content), dtype="float32", always_2d=False)
-    except Exception as exc:
-        raise ApiError(
-            502, "provider_error", f"the TTS endpoint returned audio we cannot decode: {exc}"
-        ) from exc
-    return stitch_mod.to_mono(data), int(rate)
-
-
 async def synthesize_line(
     text: str,
     voice: str,
@@ -626,7 +581,22 @@ async def synthesize_line(
     engine = str(config.get("engine") or "").lower()
     if engine in ("kokoro_onnx", "kokoro"):
         return await _synthesize_kokoro(clean, voice, config, is_phonemes=is_phonemes)
-    return await _synthesize_openai(clean, voice, config)
+
+    # The voice is local in this release, and this is where that is enforced rather than
+    # merely encouraged. Falling through to a cloud call for any other engine is how a slot
+    # left over from an earlier version quietly produced audio nobody chose, or a run of
+    # baffling failures against a model that was never a voice.
+    #
+    # Listening audio is exam content: it should sound the same for every learner, in the
+    # accents the papers were written for, which a voice inventory that differs per provider
+    # cannot promise. Kokoro is also Apache-2.0, so what it renders can be redistributed,
+    # which is what will let a pre-rendered pack replace this synthesis entirely.
+    raise ApiError(
+        422,
+        "validation_error",
+        "The listening voice is local in this version of BandReady. Open Settings, choose "
+        "'On this computer' for the voice, and download the voice files if you have not yet.",
+    )
 
 
 async def _synthesize_cached(

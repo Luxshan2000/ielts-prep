@@ -131,10 +131,20 @@ PRESETS: list[dict[str, Any]] = [
                 {
         "id": "openrouter",
         "label": "OpenRouter",
-        # OpenRouter shipped /audio/transcriptions and /audio/speech, so one key now covers
-        # all three modalities. Its base URL is already an OpenAI-shaped /v1, so the existing
-        # OpenAI-compatible client reaches both without a new transport.
-        "modalities": ["llm", "stt", "tts"],
+        # The examiner and speech-to-text, and deliberately NOT the voice.
+        #
+        # OpenRouter does serve /audio/speech, and this preset offered it for a while. Two
+        # reasons it does not in this release. Practically, choosing it did not work: this
+        # preset declares no `engine`, the settings PATCH is a deep merge, and an absent key
+        # preserves the stored one, so picking OpenRouter for the voice left kokoro_onnx in
+        # place and synthesized locally while the screen said otherwise.
+        #
+        # And by intent: listening audio is exam content rather than a per-user preference.
+        # It should sound the same for every learner, with the accents the papers were written
+        # for, which a voice inventory that varies by provider cannot promise. Kokoro is also
+        # Apache-2.0, so audio rendered with it can be redistributed — which is what makes a
+        # shared pre-rendered pack possible later. Until that pack exists, the voice is local.
+        "modalities": ["llm", "stt"],
         "kind": "cloud",
         "base_url": "https://openrouter.ai/api/v1",
         "base_url_locked": True,
@@ -145,8 +155,9 @@ PRESETS: list[dict[str, Any]] = [
         "suggested_models": OPENROUTER_MODELS["llm"],
         "models_by_modality": OPENROUTER_MODELS,
         "notes": (
-            "One key for the examiner, speech-to-text and the voice. Pronunciation practice "
-            "still needs local Whisper — a remote transcript carries no per-word confidence."
+            "One key for the examiner and speech-to-text. The listening voice is always "
+            "local in this release. Pronunciation practice also needs local Whisper, because "
+            "a remote transcript carries no per-word confidence."
         ),
         "config_spec": [
             _base_url("https://openrouter.ai/api/v1", locked=True),

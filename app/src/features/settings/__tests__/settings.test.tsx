@@ -41,7 +41,10 @@ type Preset = import("../store").Preset;
 const OPENROUTER: Preset = {
   id: "openrouter",
   label: "OpenRouter",
-  modalities: ["llm", "stt", "tts"],
+  // Mirrors sidecar/bandready/providers/presets.py: the examiner and speech-to-text, never
+  // the voice. A fixture that claims more than the real preset hides exactly the bug these
+  // tests exist to catch.
+  modalities: ["llm", "stt"],
   kind: "cloud",
   base_url: "https://openrouter.ai/api/v1",
   base_url_locked: true,
@@ -259,23 +262,16 @@ describe("the three provider sections", () => {
     expect(within(section("Hearing you")).getByText("Recommended")).toBeInTheDocument();
   });
 
-  it("fills the voice list from the model the learner picked", async () => {
-    const user = userEvent.setup();
-    render(<ProvidersTab />);
-
-    await user.click(openRouterButton("The voice"));
-    await waitFor(() =>
-      expect(useSettingsFeatureStore.getState().drafts.tts.model).toBe("deepgram/aura-2"),
-    );
-    // The voices belong to the model, so they arrive with it rather than from a shipped list.
-    await waitFor(() =>
-      expect(useSettingsFeatureStore.getState().drafts.tts.voice).toBe("asteria"),
-    );
-    expect(within(section("The voice")).getByLabelText("OpenRouter voice")).toHaveTextContent(
-      "asteria",
-    );
-    expect(within(section("The voice")).getByText(/3 voices come with this model/)).toBeInTheDocument();
-  });
+  /*
+   * Removed: "fills the voice list from the model the learner picked".
+   *
+   * It covered choosing a cloud voice and picking from that model's `supported_voices`, which
+   * this release no longer offers — the voice is Kokoro, locally, because listening audio is
+   * exam content rather than a per-user preference. The behaviour is gone by decision, so the
+   * test goes with it rather than being weakened into passing. If a remote voice returns, this
+   * test should return with it, along with an `engine` on the preset.
+   * See "the voice" below for what replaced it.
+   */
 
   it("stays usable when the catalogue cannot be listed", async () => {
     const user = userEvent.setup();
@@ -445,6 +441,37 @@ describe("the You tab's slider", () => {
       await vi.advanceTimersByTimeAsync(500);
     });
     expect(patch).toHaveBeenCalledWith("/api/v1/settings", { study: { srs_new_per_day: 22 } });
+  });
+});
+
+// ----------------------------------------------------------------- the voice is local
+
+describe("the voice", () => {
+  /**
+   * Kokoro only, deliberately, and the deliberateness needs pinning.
+   *
+   * OpenRouter does serve /audio/speech and this preset offered it for a while. Choosing it
+   * did nothing: the preset declares no `engine`, the settings PATCH is a deep merge, and an
+   * absent key preserves the stored one, so the voice stayed local while the screen said
+   * otherwise. Beyond that it is a product decision — listening audio is exam content that
+   * should sound the same for every learner, with the accents the papers were written for.
+   *
+   * The button was looked up by preset id, which finds OpenRouter whatever job is asking. It
+   * is looked up among the presets that serve THIS job now, and this test is what stops the
+   * by-id version coming back.
+   */
+  it("offers no cloud provider for the voice, while still offering one for the examiner", () => {
+    render(<ProvidersTab />);
+    const voice = section("The voice");
+    expect(within(voice).getByRole("button", { name: /on this computer/i })).toBeInTheDocument();
+    expect(
+      within(voice).queryByRole("button", { name: /through openrouter/i }),
+    ).not.toBeInTheDocument();
+
+    const examiner = section("The examiner");
+    expect(
+      within(examiner).getByRole("button", { name: /through openrouter/i }),
+    ).toBeInTheDocument();
   });
 });
 

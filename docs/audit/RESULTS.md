@@ -297,6 +297,50 @@ been scored. Forcing POST /progress/estimates/recompute fixed it instantly and c
   "length known once the audio is prepared" — the documented refusal to sum partial renders
   rather than announce a wrong duration
 
+## Round 6 — the last untouched features
+
+### Suggest-never-schedule, verified ACROSS modules — PASS
+The headline rule, proven end to end rather than read:
+- Pressed "Add all (6)" on the marked essay's Improve tab
+- The vocabulary Inbox badge went 0 -> 6, "6 words waiting for your decision"
+- The rule is restated at the destination: "This inbox is the only way a word enters your
+  review queue. Nothing here is scheduled, and nothing is ever added automatically by a
+  practice session."
+- Each item carries its PROVENANCE ("from your Writing"), quotes the sentence it came from,
+  and says "Definition is still being filled in. Accepting will finish it in the background."
+- Accepting one moved the badge 6 -> 5 and scheduled that word only
+
+### Speaking drills — PASS
+- Coach card opens with six tabs; Model answers and Compare show PADLOCKS on a card never spoken
+- Drills tab: "The two-minute set — 3 drills, about 2 minutes, in the order that builds on
+  itself", per-kind budgets (Minimal pair 8s) and per-kind rationale
+- The accent notice appears here too, as the rule requires on every pronunciation-adjacent screen
+- The drill is built from THIS card's own pronunciation focus: text vs tex,
+  "dropping the final /t/ loses the whole word"
+- "Record 8s" with a "Type it instead" fallback offered even though STT is available
+- Typed the forbidden neighbour ("text") and it graded correctly and mechanically:
+  "Not quite - Heard: 'text'. We heard 'text', not 'tex'. The two differ only in dropping the
+  final /t/ - exaggerate that one feature and say it again."
+
+OBSERVATION (not a rule violation): the verdict renders as "0/100". This is NOT a breach of the
+pronunciation honesty rule — that rule forbids publishing ASR CONFIDENCE as a pronunciation
+score, whereas this is a mechanical check of whether the distinguishing feature was produced,
+which is intelligibility and is explicitly permitted; the accent notice on the same screen even
+says "These scores measure how clearly each sound comes across". The narrower objection is that
+a BINARY outcome rendered as 0/100 implies 101 gradations when there are two.
+
+### Grammar contrast boards — PASS
+26 boards ship, matching the documented count. gb_active_vs_passive renders every documented
+section in the documented order: the question as the page title ("Which of the two things in
+this event should the sentence be about? Ask yourself this one question and the choice makes
+itself"), the rivals as buttons into their own lessons carrying their state badges, One
+difference two meanings, Three pairs worked, A test that always works, The exception once
+("Know it exists, then ignore it"), and Practise this contrast. The personal hit rate is
+correctly absent, having never answered this contrast.
+
+Also confirmed: a locked lesson opens READ-ONLY with its prerequisite explanation rather than
+refusing to open (gr_past_simple_vs_cont, "A choice to make", Locked).
+
 ## Still unverified (needs long-running setup or hardware)
 - Completing a full 60-minute mock SITTING end to end in any of the three skills. All three
   pre-flights are verified, and the listening exam-conditions sitting was driven start to

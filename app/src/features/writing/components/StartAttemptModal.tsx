@@ -92,7 +92,11 @@ export function StartAttemptModal({
                   <label
                     key={option.value}
                     className={cn(
-                      "cursor-pointer rounded-xl border p-3.5 transition-colors",
+                      // `relative` for the same reason as the reading segmented control:
+                      // the radio inside is `sr-only`, hence absolutely positioned, and it
+                      // must resolve against this label rather than escaping to whatever
+                      // positioned ancestor happens to be above the dialog.
+                      "relative cursor-pointer rounded-xl border p-3.5 transition-colors",
                       "focus-within:ring-2 focus-within:ring-ring",
                       active ? "border-primary bg-primary/10" : "border-border hover:bg-accent",
                     )}

@@ -385,3 +385,46 @@ describe("QuestionGroupCard input affordances", () => {
     expect(screen.getByRole("textbox", { name: /Question 20/ })).toBeInTheDocument();
   });
 });
+
+describe("a visually hidden input must be positioned by its own label", () => {
+  /**
+   * The True/False control hides its radio with `sr-only`, which is
+   * `position: absolute`. An absolutely positioned element resolves against the
+   * nearest *positioned* ancestor, so if the label is static the input's
+   * containing block escapes the scrolling question pane and lands on the app
+   * shell. The label then scrolls with the pane while the input stays pinned
+   * where the label used to be. Clicking focuses an input that genuinely is
+   * hundreds of pixels off-screen, the browser scrolls the shell to reveal it,
+   * and because the shell is `overflow-hidden` there is no scrollbar to come
+   * back with — the app slides away and the screen looks empty.
+   *
+   * jsdom does no layout, so this asserts the invariant that prevents the bug
+   * rather than the geometry produced by breaking it: every label wrapping an
+   * `sr-only` control establishes its own containing block.
+   */
+  it("gives every label wrapping an sr-only control a containing block", () => {
+    render(
+      <QuestionGroupCard
+        group={{
+          id: "g1",
+          type: "true_false_not_given",
+          instructions: "Do the following statements agree with the passage?",
+          questions: [{ number: 1, prompt: "Trade predated Europe." }],
+        } as unknown as QuestionGroup}
+        answers={{}}
+        flags={[]}
+        current={null}
+        onAnswer={vi.fn()}
+        onAnswers={vi.fn()}
+        onToggleFlag={vi.fn()}
+        onFocusQuestion={vi.fn()}
+      />,
+    );
+
+    const hidden = document.querySelectorAll("input.sr-only");
+    expect(hidden.length).toBe(3);
+    for (const input of hidden) {
+      expect(input.closest("label")?.className).toMatch(/\brelative\b/);
+    }
+  });
+});

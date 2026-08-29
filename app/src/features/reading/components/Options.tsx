@@ -156,7 +156,17 @@ export function SegmentedChoices({
           <label
             key={option}
             className={cn(
-              "rounded-lg border px-3 py-1.5 text-[13px] font-medium transition-colors",
+              // `relative` is load-bearing. The input below is `sr-only`, which is
+              // `position: absolute`, so its containing block is the nearest positioned
+              // ancestor. Without this that ancestor is the app shell, far outside the
+              // scrolling question pane — the label scrolls with the pane and the input
+              // stays pinned where the label used to be. Clicking then focuses an input
+              // that really is hundreds of pixels below the viewport, the browser scrolls
+              // the shell to reveal it, and because the shell is `overflow-hidden` there
+              // is no scrollbar to come back with: the whole app slides away and the
+              // learner is looking at nothing. Making the label the containing block
+              // keeps the input inside its own button, where it looks like it already is.
+              "relative rounded-lg border px-3 py-1.5 text-[13px] font-medium transition-colors",
               "focus-within:outline-none focus-within:ring-2 focus-within:ring-ring",
               disabled ? "cursor-default opacity-70" : "cursor-pointer",
               checked

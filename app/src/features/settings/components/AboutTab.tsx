@@ -27,7 +27,7 @@ function formatUptime(seconds: number): string {
   return `${h}h ${m % 60}m`;
 }
 
-const REPO_URL = "https://github.com/Luxshan2000/bandready";
+const REPO_URL = "https://github.com/Luxshan2000/ielts-prep";
 
 function Row({
   label,

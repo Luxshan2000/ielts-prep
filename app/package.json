@@ -5,10 +5,10 @@
   "description": "BandReady desktop client: Electron main process and React renderer.",
   "license": "MIT",
   "author": "Luxshan Thavarasa",
-  "homepage": "https://github.com/Luxshan2000/bandready",
+  "homepage": "https://github.com/Luxshan2000/ielts-prep",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Luxshan2000/bandready.git",
+    "url": "git+https://github.com/Luxshan2000/ielts-prep.git",
     "directory": "app"
   },
   "type": "module",

@@ -89,7 +89,7 @@ The importer auto-creates a missing topic rather than failing (FK safety), so a 
   "name": "BandReady Core (English)",
   "description": "…",
   "publisher": "BandReady",
-  "homepage": "https://github.com/Luxshan2000/bandready",
+  "homepage": "https://github.com/Luxshan2000/ielts-prep",
   "license": "CC0-1.0",
   "disclaimer": "…full non-affiliation text, verbatim…",
   "ai_disclosure": "ai_assisted",

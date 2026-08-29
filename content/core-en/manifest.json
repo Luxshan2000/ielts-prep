@@ -5,7 +5,7 @@
   "name": "BandReady Core (English)",
   "description": "The first-party practice bank that ships with BandReady: linked speaking topic sets, writing prompts, academic and general-training reading tests, listening tests with scripts, and a graded vocabulary deck. All material is original, written in the IELTS exam format, and dedicated to the public domain.",
   "publisher": "BandReady",
-  "homepage": "https://github.com/Luxshan2000/bandready",
+  "homepage": "https://github.com/Luxshan2000/ielts-prep",
   "license": "CC0-1.0",
   "disclaimer": "BandReady is an independent open-source project and is not affiliated with, endorsed by, or connected to the IELTS Partners (British Council, IDP: IELTS Australia, and Cambridge University Press & Assessment). IELTS is a registered trademark of its owners, used here only to describe the exam format this software helps you prepare for. All practice materials in BandReady are original and are not official IELTS test content. Band scores produced by this software are AI-generated estimates for practice purposes only and do not predict official IELTS results.",
   "ai_disclosure": "ai_assisted",

@@ -266,10 +266,34 @@ async def read_aloud(
     # praise for something that never happened. The transcript is withheld instead, and the
     # note says what to do about it.
     recognised = result.transcript_source == "recogniser"
+    checked = result.read_aloud
+
+    # What the learner is actually shown. When a reference text came in and speech-to-text
+    # ran, the read-aloud method has real findings — words that did not survive the
+    # recogniser, each with the sounds that changed — and those replace the "words the
+    # recogniser was unsure of" list, which was only ever a stand-in for this.
+    sounds_note = (
+        "Each word below was heard as something else. The sounds listed are the ones that "
+        "changed. Your accent is not being marked — only whether the word came through."
+        if checked and checked.flagged
+        else "Every word came through clearly."
+        if checked
+        else None
+    )
+
     return {
         **result.as_wire(),
         "recognised": recognised,
         "transcript": result.transcript if recognised else "",
+        # Present only on the reference-text path; null elsewhere, so the free-speech
+        # payload keeps exactly the shape it had.
+        "checked_against_reference": bool(checked),
+        "intelligibility": checked.intelligibility if checked else None,
+        "word_error_rate": checked.word_error_rate if checked else None,
+        "phone_error_rate": checked.phone_error_rate if checked else None,
+        "coverage": checked.coverage if checked else None,
+        "words_to_work_on": [w.as_wire() for w in checked.flagged][:8] if checked else None,
+        "sounds_note": sounds_note,
         "audio_path": rel,
         "media_url": f"/api/v1/media/pron/attempts/{target.name}",
         "passage_id": passage_id,
@@ -283,8 +307,13 @@ async def read_aloud(
         # together, not words the learner has been judged to have said badly.
         "words_the_recogniser_was_unsure_of": [w.as_wire() for w in unsure][:5],
         "method_note": (
-            "This check listens for words the recogniser found hard to catch. It does not "
-            "score your pronunciation, and a strong accent is not a mistake."
+            "This compares what you said against the words on the page. A word is listed "
+            "only when it came out as a different word — the check ignores accent "
+            "differences, so sounding British, Indian or Australian costs you nothing. It "
+            "can miss things: anything listed here is real, but subtle slips may not show."
+            if checked
+            else "This check listens for words the recogniser found hard to catch. It does "
+            "not score your pronunciation, and a strong accent is not a mistake."
             if recognised
             else "Your recording was saved, but this computer could not turn it into text, "
             "so there is nothing to check yet. Turn on speech-to-text in Settings and "

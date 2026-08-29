@@ -1,27 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="BandReady">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="IELTS Prep">
   <!--
-    The BandReady mark: a B wearing a mortarboard, white on the product's own teal.
+    The full lockup: a capital I wearing a mortarboard, followed by ELTS at a third of its
+    weight. The exam name is the mark, and the I carries the cap because it is the only
+    letter with a flat top to put one on.
 
-    Geometry worth not breaking. The tassel ball clears the B's right edge by 3.4 units, so the
-    two never merge when the mark is scaled down. The board's tips stop 13 units inside the
-    tile, clear of the rx=14 corner rounding. The B has 11.8 units of clearance below against
-    11 above, which is optical centring rather than mathematical: a shape with a flat foot and
-    a pointed hat reads as sinking if you centre it by numbers.
+    Use this above about 64px only. Below that the ELTS strokes fall under a pixel and turn
+    to grey mush — favicon.svg is the same family drawn as the capped I alone, and
+    favicon-small.svg drops the tassel too. Three drawings, one idea, each legible at the
+    size it is for.
 
-    The teal is the `primary` design token at its light value (172 72% 30%). The light value,
-    not the dark one, because this sits on browser chrome and OS docks that are usually pale.
+    Geometry worth not breaking. ELTS sits on the I's baseline (y=51) so the word reads as
+    one word rather than a monogram beside a label. The gap between the I's bottom serif
+    (x=26) and the E (x=30) is four units, which is what stops them fusing at 64px. The
+    tassel ball clears the E by enough that the two never touch.
 
-    Below about 20px this loses its counters. Use favicon-16.png there, which is a separate,
-    flatter drawing rather than this one squeezed.
+    The teal is the `primary` token at its light value. It is hard-coded here and in
+    Logo.tsx for the same reason: a logo is one fixed thing, not a themed one.
   -->
   <rect width="64" height="64" rx="10" fill="#158475"/>
   <g fill="#ffffff">
-    <path d="M32 11 L51 17 L32 23 L13 17 Z"/>
-    <path d="M49.8 17.6 V24.4" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none"/>
-    <circle cx="49.8" cy="26.6" r="2.3"/>
-    <path fill-rule="evenodd" d="M18.5 24.8 H34 C39.6 24.8 42.8 27.8 42.8 31.9 C42.8 35 41.2 36.8 38.8 37.7
-      C41.8 38.5 44.1 40.7 44.1 44.3 C44.1 49 40.4 52.2 34.7 52.2 H18.5 Z
-      M25.8 30.4 H33.3 C35.1 30.4 36.2 31.4 36.2 32.8 C36.2 34.2 35.1 35.2 33.3 35.2 H25.8 Z
-      M25.8 41.9 H34.2 C36.2 41.9 37.4 43 37.4 44.6 C37.4 46.3 36.2 47.4 34.2 47.4 H25.8 Z"/>
+    <path d="M17.5 11 L32.5 16 L17.5 21 L2.5 16 Z"/>
+    <path d="M31.3 16.4 V22.4" stroke="#ffffff" stroke-width="1.7" stroke-linecap="round" fill="none"/>
+    <circle cx="31.3" cy="24.3" r="2"/>
+    <path d="M9 24 H26 V28.2 H19.6 V46.8 H26 V51 H9 V46.8 H15.4 V28.2 H9 Z"/>
+    <g stroke="#ffffff" stroke-width="2.2" stroke-linecap="square" fill="none">
+      <path d="M31.1 39.1 H35.9 M31.1 44.5 H34.9 M31.1 49.9 H35.9 M31.1 38 V51"/>
+      <path d="M38.6 38 V51 M38.6 49.9 H43.4"/>
+      <path d="M45.6 39.1 H51.4 M48.5 39.1 V51"/>
+      <path d="M57.4 40.1 C57.4 38.7 56.1 38 54.6 38 C53 38 51.8 38.9 51.8 40.4
+               C51.8 43.6 57.6 43.2 57.6 47.4 C57.6 49.7 56 51 54.2 51
+               C52.5 51 51.3 50.2 51 48.9"/>
+    </g>
   </g>
 </svg>

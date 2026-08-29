@@ -6,10 +6,10 @@ body:
     attributes:
       value: |
         Before you write this up, check
-        [docs/IMPLEMENTATION-STATUS.md](https://github.com/Luxshan2000/bandready/blob/main/docs/IMPLEMENTATION-STATUS.md).
+        [docs/IMPLEMENTATION-STATUS.md](https://github.com/Luxshan2000/ielts-prep/blob/main/docs/IMPLEMENTATION-STATUS.md).
         It lists what is built and what is knowingly missing, and it may already cover this.
 
-        [docs/plan/README.md](https://github.com/Luxshan2000/bandready/blob/main/docs/plan/README.md)
+        [docs/plan/README.md](https://github.com/Luxshan2000/ielts-prep/blob/main/docs/plan/README.md)
         indexes the design documents, which record why several obvious-looking ideas were
         rejected.
 

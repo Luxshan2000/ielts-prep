@@ -1,12 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="IELTS Prep">
+  <!-- 16px mark: the board widened, the I thickened, the tassel removed. At 16px the tassel
+       ball lands on the board's own edge and reads as a nick in it rather than a tassel.
+       Detail that cannot survive the grid is removed rather than blurred. -->
   <rect width="64" height="64" rx="10" fill="#158475"/>
   <g fill="#ffffff">
-    <!-- 16px mark: the board flattened and widened, the B bigger with open counters.
-         Detail that cannot survive a 16px grid is removed rather than blurred. -->
-    <path d="M32 12 L54 18 L32 24 L10 18 Z"/>
-    <path fill-rule="evenodd" d="M16 27 H34.5 C41 27 44.6 30.3 44.6 34.9 C44.6 38 43 40 40.6 41
-      C43.9 41.9 46.4 44.3 46.4 48.2 C46.4 53.2 42.3 56 36 56 H16 Z
-      M24.5 33.5 H33.4 C35.6 33.5 36.9 34.7 36.9 36.4 C36.9 38.1 35.6 39.3 33.4 39.3 H24.5 Z
-      M24.5 45.4 H34.8 C37.2 45.4 38.6 46.7 38.6 48.6 C38.6 50.5 37.2 51.8 34.8 51.8 H24.5 Z"/>
+    <path d="M32 12 L57 20 L32 28 L7 20 Z"/>
+    <path d="M15 32 H49 V39 H37.5 V49 H49 V56 H15 V49 H26.5 V39 H15 Z"/>
   </g>
 </svg>

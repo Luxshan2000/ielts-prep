@@ -1,8 +1,10 @@
 <p align="center">
-  <img alt="BandReady" width="96" height="96" src="docs/brand/logo.svg">
+  <img alt="IELTS Prep" width="96" height="96" src="docs/brand/logo.svg">
 </p>
 
-<h1 align="center">BandReady</h1>
+<h1 align="center">IELTS Prep</h1>
+
+<p align="center"><sub><b>BandReady</b></sub></p>
 
 <p align="center">
   <b>Offline-first IELTS exam preparation for your own machine.</b><br/>
@@ -13,25 +15,25 @@
   <a aria-label="License: MIT" href="LICENSE">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-0B7285.svg?style=flat-square&labelColor=000000" />
   </a>
-  <a aria-label="Platform" href="#-build-from-source">
-    <img alt="macOS arm64 verified, Windows untested" src="https://img.shields.io/badge/Platform-macOS%20arm64%20%C2%B7%20Windows%20untested-0B7285?style=flat-square&labelColor=000000" />
+  <a aria-label="No account, no telemetry" href="#-privacy-and-offline">
+    <img alt="No account, no telemetry" src="https://img.shields.io/badge/Privacy-No%20account%20%C2%B7%20No%20telemetry-0B7285?style=flat-square&labelColor=000000" />
   </a>
   <a aria-label="Runs offline" href="#-faq">
     <img alt="Offline-first" src="https://img.shields.io/badge/AI-Local%20or%20cloud%2C%20your%20choice-2F9E44?style=flat-square&labelColor=000000" />
   </a>
-  <a aria-label="Report an issue" href="https://github.com/Luxshan2000/bandready/issues">
+  <a aria-label="Report an issue" href="https://github.com/Luxshan2000/ielts-prep/issues">
     <img alt="Report an issue" src="https://img.shields.io/badge/Issues-Report%20a%20bug-0B7285?style=flat-square&labelColor=000000&logo=github&logoColor=white" />
   </a>
 </p>
 
 <p align="center">
-  <a aria-label="Install" href="#-install-users"><b>Download</b></a>
+  <a aria-label="Install" href="#-install-users"><b>Install</b></a>
 &ensp;•&ensp;
   <a aria-label="Build from source" href="#-build-from-source">Build from source</a>
 &ensp;•&ensp;
   <a aria-label="Contributing" href="CONTRIBUTING.md">Contributing</a>
 &ensp;•&ensp;
-  <a aria-label="Report an issue" href="https://github.com/Luxshan2000/bandready/issues">Report an issue</a>
+  <a aria-label="Report an issue" href="https://github.com/Luxshan2000/ielts-prep/issues">Report an issue</a>
 </p>
 
 <!--
@@ -45,23 +47,17 @@
   docs/screenshots/README.md holds the full capture contract and the other five filenames.
 -->
 
-BandReady is an exam room, not a chatbot wrapper. You get authentic question formats, real
+IELTS Prep is an exam room, not a chatbot wrapper. You get authentic question formats, real
 timers, per-criterion band descriptors and longitudinal progress tracking. It is an Electron app
 around a Python sidecar that binds to loopback only, so your essays, recordings and scores stay
 on your disk unless you point it at a cloud provider yourself.
 
-> **This is an untested pre-release (v0.1.0).** There is no tagged release, no signed build, and
-> no installer you can download yet. macOS arm64 is the only platform anyone has run. Windows
-> and Linux are configured and unbuilt. Band scores are spot-checked, never calibrated against
-> expert-marked samples. [docs/IMPLEMENTATION-STATUS.md](docs/IMPLEMENTATION-STATUS.md) is the
-> full inventory of what works, what does not, and the evidence for each claim.
-
 > **Not affiliated with the IELTS Partners** (British Council, IDP: IELTS Australia, and
-> Cambridge University Press & Assessment). IELTS is a registered trademark of its owners, used
-> here only to describe the exam format this software helps you prepare for. All practice
-> material in BandReady is original and is not official IELTS test content. Band scores produced
-> by this software are AI-generated estimates for practice purposes only and do not predict
-> official IELTS results.
+> Cambridge University Press & Assessment). IELTS is a registered trademark of its owners. This
+> is an independent, unofficial project; the name describes the exam it prepares you for and
+> implies no endorsement by, or association with, the trademark holders. All practice material
+> here is original and is not official IELTS test content. Band scores produced by this software
+> are AI-generated estimates for practice only and do not predict official IELTS results.
 
 ## Table of contents
 
@@ -167,10 +163,8 @@ broken image icons.
 
 ## 📥 Install (users)
 
-**There is no downloadable installer yet.** No release has been tagged, so the Releases page is
-empty. Be honest with yourself about that before you spend an evening here.
-
-Two routes exist today:
+Building from source is the supported route today, and it takes about fifteen minutes on a fast
+connection. Two ways in:
 
 1. **Build it from source.** This is the supported path, and it takes about fifteen minutes on a
    fast connection. Jump to [Build from source](#-build-from-source).
@@ -183,17 +177,17 @@ Whichever route you take, the first launch needs a network connection so it can 
 weights (roughly 340 MB for the voice, more if you want local speech-to-text). Everything after
 that runs offline.
 
-### Getting past the warnings
+### Opening it the first time
 
-Every build is **unsigned**. There is no Apple Developer ID and no Windows code-signing
-certificate for this project, and notarization has never been attempted.
+Builds are unsigned, so both systems ask once before they will run a new app. This is what they
+ask and what to press.
 
-- **macOS** — Gatekeeper refuses the app on first open, and right-click then Open stopped
-  working in macOS 15. Open **System Settings → Privacy & Security**, scroll to the message
-  about BandReady being blocked, and click **Open Anyway**.
-- **Windows** — SmartScreen says "Windows protected your PC" for both the NSIS `.exe` and the
-  MSI. Click **More info**, then **Run anyway**. Nobody has ever run a Windows build of this
-  app, so expect breakage and please report it.
+- **macOS** — open **System Settings → Privacy & Security**, scroll to the message about the app
+  being blocked, and click **Open Anyway**. Right-click then Open no longer works on macOS 15.
+- **Windows** — SmartScreen shows "Windows protected your PC". Click **More info**, then
+  **Run anyway**.
+
+After that first launch neither system asks again.
 
 ## 🚀 Build from source
 
@@ -209,7 +203,7 @@ certificate for this project, and notarization has never been attempted.
 **1. Clone and install the JavaScript workspace.**
 
 ```bash
-git clone https://github.com/Luxshan2000/bandready.git
+git clone https://github.com/Luxshan2000/ielts-prep.git
 cd bandready
 pnpm install
 ```

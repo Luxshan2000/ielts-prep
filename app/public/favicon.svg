@@ -1,27 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="BandReady">
-  <!--
-    The BandReady mark: a B wearing a mortarboard, white on the product's own teal.
-
-    Geometry worth not breaking. The tassel ball clears the B's right edge by 3.4 units, so the
-    two never merge when the mark is scaled down. The board's tips stop 13 units inside the
-    tile, clear of the rx=14 corner rounding. The B has 11.8 units of clearance below against
-    11 above, which is optical centring rather than mathematical: a shape with a flat foot and
-    a pointed hat reads as sinking if you centre it by numbers.
-
-    The teal is the `primary` design token at its light value (172 72% 30%). The light value,
-    not the dark one, because this sits on browser chrome and OS docks that are usually pale.
-
-    Below about 20px this loses its counters. Use favicon-16.png there, which is a separate,
-    flatter drawing rather than this one squeezed.
-  -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="IELTS Prep">
+  <!-- The capped I alone, for anything under 64px. The full IELTS lockup is
+       docs/brand/logo.svg; its ELTS cannot survive a tab-sized grid. -->
   <rect width="64" height="64" rx="10" fill="#158475"/>
   <g fill="#ffffff">
-    <path d="M32 11 L51 17 L32 23 L13 17 Z"/>
-    <path d="M49.8 17.6 V24.4" stroke="#ffffff" stroke-width="2" stroke-linecap="round" fill="none"/>
-    <circle cx="49.8" cy="26.6" r="2.3"/>
-    <path fill-rule="evenodd" d="M18.5 24.8 H34 C39.6 24.8 42.8 27.8 42.8 31.9 C42.8 35 41.2 36.8 38.8 37.7
-      C41.8 38.5 44.1 40.7 44.1 44.3 C44.1 49 40.4 52.2 34.7 52.2 H18.5 Z
-      M25.8 30.4 H33.3 C35.1 30.4 36.2 31.4 36.2 32.8 C36.2 34.2 35.1 35.2 33.3 35.2 H25.8 Z
-      M25.8 41.9 H34.2 C36.2 41.9 37.4 43 37.4 44.6 C37.4 46.3 36.2 47.4 34.2 47.4 H25.8 Z"/>
+    <path d="M32 11 L55 19 L32 27 L9 19 Z"/>
+    <path d="M53 20.4 V27.5" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+    <circle cx="53" cy="30" r="2.6"/>
+    <path d="M17 30.5 H47 V37 H36.5 V48 H47 V54.5 H17 V48 H27.5 V37 H17 Z"/>
   </g>
 </svg>

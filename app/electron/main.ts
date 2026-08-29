@@ -26,6 +26,11 @@ const isDev = !app.isPackaged;
 // `app.getPath('userData')` derives from the package name, which would put a user's
 // essays and recordings in a folder called "bandready-app". Name the app before any
 // path is read so the data directory matches the product — and the documented path.
+// Do NOT rename this to match the product name shown on screen. app.getName() is what
+// Electron builds userData from, so this string *is* the path to every learner's database,
+// settings and recordings: ~/Library/Application Support/BandReady. The app presents itself
+// as "IELTS Prep — BandReady"; the identifier underneath stays what it has always been.
+// Same reason electron-builder.yml keeps productName: BandReady.
 app.setName('BandReady');
 
 let mainWindow: BrowserWindow | null = null;
@@ -72,7 +77,7 @@ function createWindow(): BrowserWindow {
     show: false,
     backgroundColor: '#0b0f14',
     autoHideMenuBar: !isMac,
-    title: 'BandReady',
+    title: 'IELTS Prep — BandReady',
     titleBarStyle: isMac ? 'hiddenInset' : 'default',
     trafficLightPosition: isMac ? { x: 16, y: 18 } : undefined,
     // Windows/Linux get custom in-app controls via window:control.

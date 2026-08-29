@@ -10,7 +10,7 @@ is defended, where the boundaries are, and how to tell us when we got it wrong.
 
 Use GitHub's private vulnerability reporting:
 
-> **<https://github.com/Luxshan2000/bandready/security/advisories/new>**
+> **<https://github.com/Luxshan2000/ielts-prep/security/advisories/new>**
 
 That form is private between you and the maintainer. If it is unavailable, open a normal issue
 that says only "security report, please make contact" and gives no detail, and you will be

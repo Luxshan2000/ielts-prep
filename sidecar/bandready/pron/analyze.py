@@ -176,6 +176,10 @@ class TurnPronResult:
     #: transcript to a learner must check this. Deliberately absent from ``as_wire`` — the
     #: read-aloud route reads it directly, so no existing payload changes shape.
     transcript_source: str = "recogniser"
+    #: The reference-based check, when there was a reference text and recognition ran.
+    #: ``None`` on every free-speech turn, which is most of them — a speaking answer has no
+    #: script to compare against, so proxy-v1 remains all there is for those.
+    read_aloud: Any = None
 
     def as_wire(self) -> dict[str, Any]:
         return {
@@ -188,6 +192,7 @@ class TurnPronResult:
             "stress_accuracy": self.stress_accuracy,
             "gop_mean": self.gop_mean,
             "fluency": self.fluency or None,
+            "read_aloud": self.read_aloud.as_wire() if self.read_aloud is not None else None,
         }
 
 
@@ -487,6 +492,19 @@ async def analyze_wav(
         audio_path=str(wav_path),
     )
     result.transcript_source = "recogniser" if recognised else "fallback"
+
+    # When we know what was *supposed* to be said and speech-to-text actually ran, the
+    # read-aloud method can do what proxy-v1 cannot: compare sounds against a reference.
+    #
+    # Both conditions are load-bearing. Without a reference there is nothing to compare
+    # to; without recognition ``transcript`` is the reference text itself, so a comparison
+    # would align it against itself and hand a learner who recorded silence a flawless
+    # result. See ``readaloud`` module docstring.
+    if reference_text and recognised:
+        from bandready.pron import readaloud
+
+        result.read_aloud = readaloud.score_read_aloud(reference_text, words, transcript)
+
     flagged = await flag_words(
         [{"turn_index": turn_index or 0, "text": result.transcript}],
         low_confidence_words(words),

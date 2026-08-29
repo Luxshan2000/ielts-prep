@@ -1,47 +1,49 @@
 /**
- * The BandReady mark, as a component.
+ * The IELTS Prep mark, as a component.
  *
- * Inlined rather than an <img> so it inherits currentColor nowhere and needs no network or
- * asset resolution: the sidebar drew this shape by hand before, as a lucide GraduationCap in
- * a tinted square, which meant the app's own mark and its icon were two different drawings
- * that could drift apart. There is one drawing now, and `app/public/favicon.svg` is the same
- * geometry.
+ * Inlined rather than an <img> so it needs no network or asset resolution: the sidebar drew
+ * its own shape by hand before, which meant the app's mark and its icon were two drawings
+ * that could drift apart. There is one geometry per size band now, and each file says which
+ * band it is for.
  *
- * Below about 20px the counters close up, so anything smaller should use the flat 16px
- * drawing instead of shrinking this one.
+ * **This is the compact drawing — the capped I alone.** The full lockup, a capital I in a
+ * mortarboard followed by ELTS, lives in `docs/brand/logo.svg` and is used where there is
+ * room for it: the README, the app icon at 128px and above. Its ELTS strokes are 2.2 units
+ * on a 64-unit grid, so at the 32px this component renders at they land under a pixel and
+ * turn to grey mush. `app/public/favicon.svg` is this same drawing, and
+ * `app/public/favicon-small.svg` drops the tassel for 16px, where the ball lands on the
+ * board's own edge and reads as a nick in it.
  *
  * **The colours are fixed, not tokens.** They were `primary` and `primary-foreground` for one
  * commit, which inverted the mark in dark mode: `--primary-foreground` is `240 10% 6%` there,
- * so the B turned near-black on teal. That pairing is right for a button, whose label must
+ * so the mark turned near-black on teal. That pairing is right for a button, whose label must
  * contrast with whatever the theme makes of the primary, and wrong for a logo, which is one
- * fixed thing. These two values are the same ones in `favicon.svg` and in the packaged app
- * icon, so the sidebar, the browser tab and the dock all show the identical mark.
+ * fixed thing. These two values are the same ones in every icon file, so the sidebar, the
+ * browser tab and the dock all show the identical mark.
  */
 
 /** The mark's own teal and white. Do not swap these for theme tokens. */
 const TEAL = "#158475";
 const INK = "#ffffff";
-export function Logo({ className, title = "BandReady" }: { className?: string; title?: string }) {
+
+export function Logo({ className, title = "IELTS Prep" }: { className?: string; title?: string }) {
   return (
     <svg viewBox="0 0 64 64" className={className} role="img" aria-label={title}>
       <rect width="64" height="64" rx="10" fill={TEAL} />
       <g fill={INK}>
-        <path d="M32 11 L51 17 L32 23 L13 17 Z" />
+        {/* the board */}
+        <path d="M32 11 L55 19 L32 27 L9 19 Z" />
+        {/* the tassel, hung from the board's right tip */}
         <path
-          d="M49.8 17.6 V24.4"
+          d="M53 20.4 V27.5"
           stroke={INK}
-          strokeWidth="2"
+          strokeWidth="2.2"
           strokeLinecap="round"
           fill="none"
         />
-        <circle cx="49.8" cy="26.6" r="2.3" />
-        <path
-          fillRule="evenodd"
-          d="M18.5 24.8 H34 C39.6 24.8 42.8 27.8 42.8 31.9 C42.8 35 41.2 36.8 38.8 37.7
-             C41.8 38.5 44.1 40.7 44.1 44.3 C44.1 49 40.4 52.2 34.7 52.2 H18.5 Z
-             M25.8 30.4 H33.3 C35.1 30.4 36.2 31.4 36.2 32.8 C36.2 34.2 35.1 35.2 33.3 35.2 H25.8 Z
-             M25.8 41.9 H34.2 C36.2 41.9 37.4 43 37.4 44.6 C37.4 46.3 36.2 47.4 34.2 47.4 H25.8 Z"
-        />
+        <circle cx="53" cy="30" r="2.6" />
+        {/* the I: serifed, so it reads as a letter rather than a bar */}
+        <path d="M17 30.5 H47 V37 H36.5 V48 H47 V54.5 H17 V48 H27.5 V37 H17 Z" />
       </g>
     </svg>
   );

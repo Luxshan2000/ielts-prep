@@ -153,9 +153,50 @@ must stop claiming it.
 4. Listening drills: the needs-audio state tells you to prepare the audio but gives you no
    control to do it (FEATURES.md claims a PrepareAudioPanel mounts inline; it does not)
 
+## Round 2 — verified after rendering audio
+
+### Listening full exam sitting — PASS (complete loop)
+- Brief prints every documented rule verbatim: "Each part plays once and moves straight to the
+  next. There is no pause, no rewind and no replay... After part 4 you get two minutes to check
+  them, then the test submits itself. The transcript stays locked until you submit... You cannot
+  restart a part." Plus per-part accent and duration (Part 1 British 6:16, Part 2 Australian 5:38)
+- EXAM TRANSPORT VERIFIED BY STRUCTURAL ABSENCE, not by disabled controls:
+  seek bar absent, speed control absent, pause absent, replay absent,
+  audio.playbackRate pinned to 1, native audio.controls false. Only Leave and
+  "Go to the check step" exist. "pause, rewind and replay are switched off" printed on the transport.
+- SharedBlock confirmed: the booking form renders ONCE with numbered inputs dropped into its
+  gaps (Surname [1] ... Deposit [6] pounds), not six copies
+- Question palette 1-40, "0 of 40 answered", per-group type badges and caps instructions
+- Check step: "two minutes to check every answer... The test submits itself at 0:00",
+  timer counting 2:00 -> 1:52, all 40 questions editable in one grid, "40 unanswered",
+  "Blank answers score nothing, and a guess costs you nothing either"
+- Submit -> review: "0 of 40 correct", per-part tabs 0/10 each, BAND 2.0 (a full four-part exam
+  does produce a band; 0/40 is the table floor), MODE Exam Conditions, TIME TAKEN 1:25,
+  PLAYS USED 1 (the play ledger), transcript+playback unlocked
+  ("Seek anywhere, or use a timestamp to jump to a line"), and bulk vocab capture stating
+  "Nothing is scheduled until you accept it there"
+
+### Reading coach — PASS
+- Picker: 44 of 44 passages, format filter, question types per card, "Solutions locked" badges
+- Five tabs exactly as documented: The map, Strategy, Worked solutions, Paraphrase, Vocabulary
+- The gate HOLDS on worked solutions, with a "Sit a full mock instead" escape
+- RULE VERIFIED: no passage shows "Sat" despite my submitted TFNG drill — drills are
+  deliberately excluded from the coach ledger, exactly as documented
+
+### Grammar remaining tabs — PASS
+- Theory: ungated end to end, search box, "Start at the beginning"
+- Your points (slug is ?tab=progress): honest empty state naming what will fill it,
+  Shaky/Solid columns, Your range, and no percentage anywhere
+- Phrases: all four lenses (Everything, Fixed phrases, Sentence frames, Welded prepositions)
+
+### Speaking rooms — PASS (live call still needs a microphone)
+- Topics: 108 topics, search, difficulty tier, status and sort filters
+- Coach: the same browser with a different verb ("Pick a card to study")
+- History: 16 sessions, none scored, rows titled by topic and openable to their transcript
+
 ## Still unverified (needs long-running setup or hardware)
-- Listening full exam sitting and mock paper (each part needs 30-90s of TTS rendering first)
-- Reading full 60-minute test, mock paper, coach tabs, dictionary popover, highlights/notes
+- Listening MOCK paper (the exam-conditions test is now fully verified; the mock is separate)
+- Reading full 60-minute test, mock paper, dictionary popover, highlights/notes
 - Writing marking round trip, report tabs, coach gates, 60-minute mock
 - Speaking live examiner call (needs a real microphone; not drivable from this browser context)
 - Grammar Theory / Your points / Phrases / contrast boards in detail

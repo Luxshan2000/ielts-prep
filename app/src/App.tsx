@@ -136,8 +136,16 @@ function Shell() {
     [],
   );
 
+  // `overflow-clip` on the shell, not `overflow-hidden`. Both hide the overflow, but a
+  // hidden box is still a scroll container: script can scroll it, and the browser will,
+  // whenever it wants to reveal a focused element that has escaped the pane it looks like
+  // it lives in. There is no scrollbar on this box, so a person has no way to scroll back
+  // — the app just slides off screen and stays there. That was the True/False bug, and the
+  // grammar screen was one focusable element away from the same thing. `clip` creates no
+  // scroll container at all, so the shell cannot be displaced. Every screen does its own
+  // scrolling inside PageShell.
   return (
-    <div className="flex h-full flex-col overflow-hidden bg-background">
+    <div className="flex h-full flex-col overflow-clip bg-background">
       <TitleBar />
       <div className="relative flex min-h-0 flex-1">
         <div

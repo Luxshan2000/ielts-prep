@@ -268,10 +268,39 @@ been scored. Forcing POST /progress/estimates/recompute fixed it instantly and c
 - Per-criterion annotations follow ("WHAT LIFTS IT ABOVE BAND 6 - TA: A figure-free overview
   naming the two groups...")
 
+## Round 5
+
+### Progress panels with real data — PASS
+18 charts render. Every documented rule visible at once:
+- "No overall band yet — An overall band needs an estimate in all four skills"
+- Listening 6.0, Reading 4.0, Writing "not enough scored practice yet —" (em dash, never an
+  invented number), Speaking "Self-rated starting point —"
+- Band trajectory: "Weeks without enough scored practice are left blank rather than joined up",
+  and the lines genuinely start at Wk 33 with nothing drawn before
+- Y-axis pinned 4.0-9.0; axis labels spelled out ("IELTS band", "Study week (ISO week number)")
+- Target band 6.5 as a dashed reference line KEYED OUTSIDE the plot
+- Range selector defaulting to "Last 12 weeks"; six series tabs; "Show the numbers" toggle
+- Criterion panel states the split: four criteria for Writing/Speaking, accuracy by question
+  type for Reading/Listening
+- Activity calendar: "Rest days in your plan are never counted against you."
+- Mock history states the weighting: "mocks run in strict exam mode and carry double weight in
+  your band estimates"
+- Readiness correctly locked, explaining which checks are automatic and which are yours to tick
+
+### The three mock pre-flights — PASS
+- READING: "unlike Listening there is no extra time at the end to write your answers up" (the
+  documented loudest line), checkpoints 16:00/36:00/58:00, band facts, and the exception that
+  highlighting and notes stay on because computer-delivered IELTS has both
+- WRITING: "The only place a combined Writing band is shown", past sittings, per-task minutes
+  and word minimums, Task 2 weighting, nothing submits itself
+- LISTENING: computer-delivered vs paper-based choice, the transfer-time mnemonic, and
+  "length known once the audio is prepared" — the documented refusal to sum partial renders
+  rather than announce a wrong duration
+
 ## Still unverified (needs long-running setup or hardware)
-- Listening MOCK paper (the exam-conditions test is now fully verified; the mock is separate)
-- Reading full 60-minute test and mock paper (dictionary, highlights and notes now VERIFIED)
-- Writing 60-minute mock (marking, report and coach gates now VERIFIED)
+- Completing a full 60-minute mock SITTING end to end in any of the three skills. All three
+  pre-flights are verified, and the listening exam-conditions sitting was driven start to
+  finish, so the machinery underneath is proven; only the hour itself is unsat.
 - Speaking live examiner call (needs a real microphone; not drivable from this browser context)
 - Grammar Theory / Your points / Phrases / contrast boards in detail
 - Progress panel contents in detail (charts need scored attempts to populate)

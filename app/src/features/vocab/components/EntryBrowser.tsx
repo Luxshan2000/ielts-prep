@@ -141,8 +141,12 @@ export function EntryBrowser() {
             onChange={(value) => setFilters({ status: value as VocabStatus | "all" })}
             options={STATUS_OPTIONS}
           />
-          <Select value={filters.pos} onChange={(pos) => setFilters({ pos })} options={POS_OPTIONS} />
+          <Select
             size="sm"
+            value={filters.pos}
+            onChange={(pos) => setFilters({ pos })}
+            options={POS_OPTIONS}
+          />
           <Select
             size="sm"
             value={filters.topic}

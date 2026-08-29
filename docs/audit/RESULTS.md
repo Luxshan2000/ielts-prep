@@ -194,10 +194,51 @@ must stop claiming it.
 - Coach: the same browser with a different verb ("Pick a card to study")
 - History: 16 sessions, none scored, rows titled by topic and openable to their transcript
 
+## Round 3
+
+### Writing marking round trip — PASS (complete loop, real model call)
+- Wrote 164 words; counter crossed the minimum and the "to go" warning cleared, replaced by
+  "14 words above the 150-word minimum. There is no upper limit, but padding costs you Coherence."
+- Practice mode counts UP with the allowance as a soft reference ("Untimed practice. The real
+  exam allows 20 minutes for this task."), Phrase help and Outline scratchpad present
+- A PASSING pre-check goes straight to the model with no modal flash, exactly as documented.
+  Marking modal: "One call to your configured examiner model. This stays on your machine unless
+  you configured a remote provider", with live job detail
+- Marked by Gemini 2.5 Flash through OpenRouter: Task Achievement 6.0, Coherence 7.0, Lexis 7.0,
+  Grammar 7.0 -> Overall Band 7.0. THE ARITHMETIC CONFIRMS THE RULE: mean is 6.75 and official
+  half-band rounding takes ties up, so 7.0. Labelled "Task Achievement", not "Task Response" —
+  the documented conditional label for Task 1
+- EVIDENCE ANCHORING IS VISIBLE ON SCREEN: every quote carries its character offset
+  (at 389, at 497, at 781, at 125, at 736, at 867), and annotations carry spans
+  ("characters 873 to 957")
+- The marking genuinely read the chart data with no vision model: it caught that I invented
+  material names — "The candidate misidentifies 'food packaging' for the material at 14%, which
+  should be 'Textiles'." That is chart_to_text working
+- Improve tab: vocabulary upgrades with "Nothing is scheduled for review until you accept it
+  there", "Add all (6)", model answer section
+- Rewrite with feedback / Start again from blank both present
+
+### Progress with real scored attempts — PASS, with one real trap
+Once refreshed, every documented rule renders correctly:
+- "Update my estimates" appears only once a scored attempt exists
+- "No overall band yet — An overall band needs an estimate in all four skills"
+- Writing shows "not enough scored practice yet —" as an EM DASH rather than an invented number,
+  because n_eff 1.97 is under the 2.0 "insufficient" threshold. The no-band-until-earned rule
+  is visibly enforced
+- Estimator maths verified end to end: listening n_eff 6.99 from 6 attempts -> band 6.0,
+  reading n_eff 13.97 from 12 -> 4.0
+
+BUG (real, and circular): estimates are NOT recomputed when you submit an attempt. They refresh
+only when a PLANNED SESSION is completed, or when you press "Update my estimates" — and that
+button is hidden while the estimates still say zero scored attempts. So a learner who practises
+outside the plan sees "Nothing has been scored yet" indefinitely with no visible control to fix
+it. I had 20 scored attempts in the scored_attempts view while the screen insisted nothing had
+been scored. Forcing POST /progress/estimates/recompute fixed it instantly and correctly.
+
 ## Still unverified (needs long-running setup or hardware)
 - Listening MOCK paper (the exam-conditions test is now fully verified; the mock is separate)
 - Reading full 60-minute test, mock paper, dictionary popover, highlights/notes
-- Writing marking round trip, report tabs, coach gates, 60-minute mock
+- Writing coach gates and the 60-minute mock (marking round trip and report now VERIFIED)
 - Speaking live examiner call (needs a real microphone; not drivable from this browser context)
 - Grammar Theory / Your points / Phrases / contrast boards in detail
 - Progress panel contents in detail (charts need scored attempts to populate)

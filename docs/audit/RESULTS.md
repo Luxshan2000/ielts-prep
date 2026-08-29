@@ -235,10 +235,43 @@ outside the plan sees "Nothing has been scored yet" indefinitely with no visible
 it. I had 20 scored attempts in the scored_attempts view while the screen insisted nothing had
 been scored. Forcing POST /progress/estimates/recompute fixed it instantly and correctly.
 
+## Round 4
+
+### Reading dictionary, highlights and notes — PASS
+- Double-clicking a word opens the Dictionary popover: headword LEMMATISED ("engineers" ->
+  "engineer"), part of speech, FOUR senses with definitions, "Also:" synonyms per sense,
+  italic examples, and Add to vocabulary. Matches the documented "up to 4 senses with
+  definition, synonyms and one example"
+- Offline WordNet confirmed live: oewn:2024, no network at lookup time
+- Selection toolbar offers exactly Highlight / Note / Look up
+- Highlights persist and are listed in the drawer with their paragraph marker, the quoted
+  snippet and a per-item Remove
+- The drawer's empty states name the gesture that fills them, including the keyboard shortcut:
+  "Nothing flagged. Use the flag button on a question, or Ctrl/Cmd+Shift+F."
+  and "Use the note button beside any paragraph marker."
+- Player: draggable role="separator" divider, paragraph markers with per-paragraph note buttons,
+  20-minute passage timer (the documented TIMER_DEFAULTS passage value), palette 1-13
+
+### Writing coach — PASS, and the two-stage gate is real
+- Picker: 100 of 100 prompts, search + task-type filter, cards leading with what each TEACHES
+  ("Describe the shape of the ranking, not the order"), "models locked" badges
+- Six tabs: The task, The overview, The plan, Model answers, Compare, Language bank
+- STAGE 1 (attempt gate) opened because I genuinely wrote and submitted this prompt in round 3 —
+  the card now reads "Attempted" rather than "models locked". The gate tracked a real attempt.
+- STAGE 2 (noticing gate) is live and is NOT skippable by unlocking stage 1:
+  "Before the notes: what actually changed? These two paragraphs report the same content. One is
+  a band-6 rendering, the other a band-7 one. Name two differences you can see, then the
+  annotations open." It shows the BODY paragraph, as documented, never the introduction.
+- Satisfying it opens the model ladder, and the payoff is personalised to my own result:
+  "Opened one band above your own Task Achievement score" — band 7, because my TA was 6.0.
+  My typed noticing stays on screen under "WHAT YOU NOTICED", beside the model.
+- Per-criterion annotations follow ("WHAT LIFTS IT ABOVE BAND 6 - TA: A figure-free overview
+  naming the two groups...")
+
 ## Still unverified (needs long-running setup or hardware)
 - Listening MOCK paper (the exam-conditions test is now fully verified; the mock is separate)
-- Reading full 60-minute test, mock paper, dictionary popover, highlights/notes
-- Writing coach gates and the 60-minute mock (marking round trip and report now VERIFIED)
+- Reading full 60-minute test and mock paper (dictionary, highlights and notes now VERIFIED)
+- Writing 60-minute mock (marking, report and coach gates now VERIFIED)
 - Speaking live examiner call (needs a real microphone; not drivable from this browser context)
 - Grammar Theory / Your points / Phrases / contrast boards in detail
 - Progress panel contents in detail (charts need scored attempts to populate)

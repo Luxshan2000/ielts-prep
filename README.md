@@ -204,7 +204,7 @@ After that first launch neither system asks again.
 
 ```bash
 git clone https://github.com/Luxshan2000/ielts-prep.git
-cd bandready
+cd ielts-prep
 pnpm install
 ```
 
@@ -347,7 +347,7 @@ resets the app completely.
 ## 🗺 Project layout
 
 ```
-bandready/
+ielts-prep/
 ├── app/                      Electron shell + React renderer (pnpm workspace "bandready-app")
 │   ├── electron/             main, preload, sidecar spawn/health/teardown — the Node side
 │   ├── src/features/<name>/  one directory per screen: route.tsx, page.tsx, store.ts

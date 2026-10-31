@@ -265,7 +265,7 @@ function buildMenu(): void {
     submenu: [
       {
         label: 'BandReady on GitHub',
-        click: () => void shell.openExternal('https://github.com/bandready/bandready'),
+        click: () => void shell.openExternal('https://github.com/Luxshan2000/ielts-prep'),
       },
     ],
   });

@@ -49,7 +49,7 @@ the safe reset procedure.
 ## 2. Repository map
 
 ```
-bandready/
+ielts-prep/
 ├── app/                        Electron shell + React renderer (pnpm workspace "bandready-app")
 │   ├── electron/               main.ts, preload.ts, sidecar.ts (spawn/health/teardown),
 │   │                           ipc.ts, update.ts. The Node side, never imported by the SPA.

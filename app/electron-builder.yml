@@ -92,5 +92,5 @@ linux:
 publish:
   provider: github
   owner: Luxshan2000
-  repo: bandready
+  repo: ielts-prep
   releaseType: release

@@ -58,7 +58,8 @@ const withheld: AnswerResult = { correct: false, reveal: null, committed: false 
 const revealed: AnswerResult = {
   correct: true,
   committed: true,
-  next_label: "4 days",
+  // The shape `_next_label` (routes/grammar.py) actually sends: a whole phrase.
+  next_label: "in 4 days",
   reveal: {
     key: 1,
     decision_cue: "she still works",

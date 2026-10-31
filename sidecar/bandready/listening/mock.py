@@ -791,7 +791,15 @@ def _submit_render_job(session: Session, doc: dict[str, Any]) -> str | None:
 
 
 def refresh(session: Session, doc: dict[str, Any]) -> dict[str, Any]:
-    """Promote ``preparing`` to ``ready`` once the last part lands. Idempotent."""
+    """Promote ``preparing`` to ``ready`` once the last part lands. Idempotent.
+
+    Also re-queues a render job that no longer exists. Jobs live in memory only, and the
+    one rendering this paper is submitted once, by :func:`create`; quit the app while it
+    runs and the paper came back ``preparing`` with no job behind it, forever, with a
+    second sitting refused until the learner found the abandon button. Only a *missing*
+    job is resubmitted: one that ended in ``error`` keeps its error for the pre-flight to
+    show, rather than being retried every two seconds against the same cause.
+    """
     if doc.get("status") != "preparing":
         return doc
     progress = audio_progress(session, doc)
@@ -801,6 +809,11 @@ def refresh(session: Session, doc: dict[str, Any]) -> dict[str, Any]:
             _parts_with_audio(session, doc), _delivery(doc.get("delivery"))
         )
         _save(session, doc)
+    elif progress["job_state"] is None:
+        job_id = _submit_render_job(session, doc)
+        if job_id:
+            doc["render_job_id"] = job_id
+            _save(session, doc)
     return doc
 
 

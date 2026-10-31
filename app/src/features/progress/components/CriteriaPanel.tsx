@@ -214,7 +214,7 @@ function QtypePanel({
               <div className="flex items-baseline justify-between gap-3 text-[13px]">
                 <span className="min-w-0 truncate text-foreground">{qtypeLabel(item.qtype)}</span>
                 <span className="shrink-0 tabular text-muted-foreground">
-                  {item.correct} / {item.attempted} · {pct} %
+                  {item.correct} / {item.attempted} · {pct}%
                 </span>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-muted">

@@ -78,22 +78,36 @@ export function MockPreflight() {
   }, [delivery, loadHistory, loadPlan]);
 
   /**
-   * A sitting already open elsewhere in the ledger. Resuming it is the only honest
-   * option: the clock has been running, and starting a second paper would silently
-   * abandon the first.
+   * A sitting already open in the ledger: one at a time, by design. Only an
+   * `in_progress` one has a running clock. A `preparing` or `ready` paper has not been
+   * started, so it is not "elsewhere" at all — it is the paper this screen exists to
+   * prepare, whether it was opened a moment ago or before a reload.
    */
   const openRow = history?.items.find(
     (row) => row.status === "in_progress" || row.status === "ready" || row.status === "preparing",
   );
 
+  /**
+   * The paper being prepared. `preparingId` alone is set only by opening one here, so a
+   * reload, a visit to another screen, or an app restart mid-render lost it: the render
+   * card and its polling vanished, and the paper was offered back through the
+   * "clock has been running" banner below, which was false for an unstarted paper.
+   */
+  const activeId =
+    preparingId ?? (openRow && openRow.status !== "in_progress" ? openRow.mock_id : null);
+
   // ------------------------------------------------------------ the render poll ---
-  // Poll only while the sitting we opened is still short of its four recordings.
+  // Load the paper at once, then poll only while it is still short of its recordings.
   useEffect(() => {
-    if (!preparingId) return undefined;
-    if (session && session.mock_id === preparingId && session.audio.ready) return undefined;
-    const id = setInterval(() => void load(preparingId, { quiet: true }), RENDER_POLL_MS);
+    if (activeId && session?.mock_id !== activeId) void load(activeId, { quiet: true });
+  }, [activeId, load, session?.mock_id]);
+
+  useEffect(() => {
+    if (!activeId) return undefined;
+    if (session && session.mock_id === activeId && session.audio.ready) return undefined;
+    const id = setInterval(() => void load(activeId, { quiet: true }), RENDER_POLL_MS);
     return () => clearInterval(id);
-  }, [load, preparingId, session]);
+  }, [load, activeId, session]);
 
   const onOpen = useCallback(async () => {
     const mockId = await create();
@@ -101,12 +115,12 @@ export function MockPreflight() {
   }, [create]);
 
   const onStart = useCallback(async () => {
-    if (!preparingId) return;
-    const ok = await start(preparingId);
-    if (ok) navigate(`/listening/mock/sitting/${preparingId}`);
-  }, [navigate, preparingId, start]);
+    if (!activeId) return;
+    const ok = await start(activeId);
+    if (ok) navigate(`/listening/mock/sitting/${activeId}`);
+  }, [navigate, activeId, start]);
 
-  const preparing = session && preparingId === session.mock_id ? session : null;
+  const preparing = session && activeId === session.mock_id ? session : null;
 
   // -------------------------------------------------------------------- views ---
 
@@ -135,7 +149,7 @@ export function MockPreflight() {
     >
       <div className="space-y-5">
         {/* ------------------------------------------------ a sitting already open --- */}
-        {openRow && openRow.mock_id !== preparingId && (
+        {openRow && openRow.status === "in_progress" && openRow.mock_id !== activeId && (
           <Card>
             <CardContent className="space-y-3 pt-5">
               <p className="text-[13px] leading-6 text-foreground">
@@ -283,7 +297,8 @@ export function MockPreflight() {
                 {preparing.audio.ready_parts} of {preparing.audio.total_parts} parts rendered
                 {preparing.audio.job_progress_pct !== null &&
                   !preparing.audio.ready &&
-                  `, and this one is ${Math.round(preparing.audio.job_progress_pct)}% done`}
+                  // Whole-job progress, set at part boundaries, not progress within a part.
+                  `; the render is ${Math.round(preparing.audio.job_progress_pct)}% through`}
                 .
               </p>
 

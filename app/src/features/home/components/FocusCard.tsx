@@ -58,7 +58,7 @@ function evidenceSentence(evidence: Record<string, unknown> | null): string | nu
     parts.push(`${evidence.consecutive} attempts in a row`);
   }
   if (typeof evidence.retention === "number") {
-    parts.push(`${Math.round(evidence.retention * 100)} % retention`);
+    parts.push(`${Math.round(evidence.retention * 100)}% retention`);
   }
   if (Array.isArray(evidence.attempt_ids)) {
     parts.push(`${evidence.attempt_ids.length} attempts reviewed`);

@@ -315,6 +315,26 @@ def test_the_render_job_prepares_the_audio_and_the_sitting_then_starts(
     assert start(client, mock_id)["status"] == "in_progress"
 
 
+def test_a_render_lost_to_a_restart_is_queued_again(client: TestClient) -> None:
+    """Jobs are in memory; a sidecar restart mid-render must not strand the paper.
+
+    Forgetting the job is exactly what a relaunch does to it. The next poll has to notice
+    there is nothing rendering any more and start again, or the paper sits at
+    ``preparing`` forever and blocks every other sitting.
+    """
+    from bandready.server.jobs import job_manager
+
+    opened = open_sitting(client, test_id=TEST_1)
+    lost = opened["audio"]["job_id"]
+    assert lost and opened["status"] == "preparing"
+    job_manager.cancel(lost)
+    job_manager._jobs.pop(lost, None)  # simulating a process restart
+
+    body = client.get(f"/api/v1/listening/mock/sessions/{opened['mock_id']}").json()
+    assert body["audio"]["job_id"] not in (None, lost)
+    assert body["audio"]["job_state"] is not None
+
+
 def test_a_fully_rendered_paper_opens_ready_with_no_job(client: TestClient) -> None:
     render_test(TEST_1)
     opened = open_sitting(client, test_id=TEST_1)

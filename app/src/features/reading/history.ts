@@ -45,7 +45,7 @@ const DRILL_KIND_LABEL: Record<string, string> = {
   scan: "Scan",
 };
 
-function drillKindLabel(kind: string): string {
+export function drillKindLabel(kind: string): string {
   return DRILL_KIND_LABEL[kind] ?? kind.replace(/_/g, " ").replace(/^\w/, (c) => c.toUpperCase());
 }
 

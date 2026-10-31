@@ -496,6 +496,28 @@ def test_current_estimates_recomputes_when_the_view_is_empty(db: Path) -> None:
     assert estimates["writing"].confidence == "insufficient"
 
 
+def test_current_estimates_catches_up_with_an_attempt_scored_after_it(db: Path) -> None:
+    """No submit route calls ``recompute``, so reading must notice new evidence itself.
+
+    Before this, Home and Progress kept showing the band from before the attempt until
+    the learner found the recompute button.
+    """
+    with session_scope() as s:
+        before = current_estimates(s, PROFILE_ID)
+        assert before["reading"].attempts_used == 0
+        add_reading_attempt(s, 7.0, "practice")
+        after = current_estimates(s, PROFILE_ID)
+    assert after["reading"].attempts_used == 1
+    assert after["reading"].method == "estimator"
+
+    # Nothing new since: a further read appends no rows to the estimate log.
+    count_sql = text("SELECT COUNT(*) FROM band_estimates WHERE profile_id = :pid")
+    with session_scope() as s:
+        logged = s.execute(count_sql, {"pid": PROFILE_ID}).scalar()
+        current_estimates(s, PROFILE_ID)
+        assert s.execute(count_sql, {"pid": PROFILE_ID}).scalar() == logged
+
+
 # --------------------------------------------------------------------------------------
 # 4. Streak + activity (10 §9)
 # --------------------------------------------------------------------------------------

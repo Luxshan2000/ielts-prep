@@ -68,7 +68,9 @@ export function FeedbackPanel({ item, attempt, onContinue, continueLabel }: Feed
           {correct ? <Check className="h-4 w-4" /> : <MessageSquareWarning className="h-4 w-4" />}
           {correct ? (attempt.attempt > 1 ? "Right, second time" : "Right") : "Not this one"}
         </span>
-        {result?.next_label && <Badge tone="outline">Back in {result.next_label}</Badge>}
+        {/* The sidecar's label is a whole phrase, "in 4 days" or "again in this session",
+            so "Back in" here printed "Back in in 4 days". */}
+        {result?.next_label && <Badge tone="outline">Back {result.next_label}</Badge>}
         {result?.stage_after != null && result.stage_before != null && result.stage_after > result.stage_before && (
           <Badge tone="success">Moved up a rung</Badge>
         )}

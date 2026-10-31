@@ -313,10 +313,11 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
   loadCards: async (part) => {
     set({ cardsLoading: true, cardsError: null });
     try {
-      // 108 Part 2 cards ship today and the route caps at 200. A limit below the bank
-      // size silently hides sets from the Topic Coach picker, which reads as content
-      // that was never authored rather than as a paging bug.
-      const query = part ? `?part=${part}&limit=200` : "?limit=200";
+      // The route has no cursor and caps at 1000, a whole bank: 496 cards ship today,
+      // 280 of them Part 1. A limit below the bank size silently hides sets from the
+      // Topic Coach picker, which reads as content that was never authored rather than
+      // as a paging bug.
+      const query = part ? `?part=${part}&limit=1000` : "?limit=1000";
       const res = await api.get<{ items: SpeakingCard[] }>(`/api/v1/speaking/cards${query}`);
       set({ cards: res.items ?? [], cardsLoading: false, cardsError: null });
     } catch (err) {

@@ -158,21 +158,23 @@ function mockGet(path: string): Promise<unknown> {
     return Promise.resolve(trajectory(skill));
   }
   if (path.startsWith("/api/v1/progress/criteria")) return Promise.resolve(writingCriteria);
-  if (path.startsWith("/api/v1/listening/attempts")) {
+  // The listening mock history, in the shape `listening/mock.py` `history` returns. This
+  // used to fake a `mode: "mock"` row on the attempts list, a value that route never
+  // sends — which is how every real listening sitting went missing unnoticed.
+  if (path.startsWith("/api/v1/listening/mock/sessions")) {
     return Promise.resolve({
       items: [
         {
-          attempt_id: "la_1",
-          test_id: "lt_1",
-          script_id: null,
-          mode: "mock",
+          mock_id: "lm_1",
           status: "submitted",
+          finished_at: "2026-07-18T10:00:00Z",
           raw_score: 32,
           total_questions: 40,
           band: 7,
-          duration_s: 1800,
-          submitted_at: "2026-07-18T10:00:00Z",
         },
+        // Still being sat: no band yet, so it must not appear in the table.
+        { mock_id: "lm_2", status: "in_progress", finished_at: null, raw_score: null,
+          total_questions: null, band: null },
       ],
     });
   }

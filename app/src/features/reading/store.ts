@@ -13,6 +13,7 @@ import { api, ApiError } from "@/lib/api";
 import { friendlyMessage } from "@/lib/errors";
 import { recordSubmission } from "./components/coach/attempted";
 import { flattenDrill, flattenQuestions, type FlatQuestion } from "./model";
+import { qtypeLabel } from "./qtypes";
 import type {
   AttemptMode,
   AttemptRecord,
@@ -361,7 +362,7 @@ export const useReadingStore = create<ReadingState>((set, get) => {
           examConditions: Boolean(res.exam_conditions),
           format: (res.format as ReadingFormat) ?? "academic",
           title: drill
-            ? `${drill.qtype} drill`
+            ? `${qtypeLabel(drill.qtype)} drill`
             : documentTitle(res, req.test_id ?? req.passage_id ?? "Reading practice"),
           testId: req.test_id ?? null,
           passageId: req.passage_id ?? null,

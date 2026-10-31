@@ -568,8 +568,38 @@ def recompute(
     return estimates
 
 
+def _has_newer_evidence(session: Any, profile_id: str, rows: Any) -> bool:
+    """True when some skill has a scored attempt newer than the one its estimate used.
+
+    :func:`recompute` says to call it after every scored attempt, and none of the submit
+    routes do — so a learner who sat a reading test saw the same band on Home and Progress
+    until they found the recompute button, which Progress hides while there are no
+    attempts. Checking here, on read, covers every skill and every future submit route at
+    once. A recompute with nothing new writes nothing (``_unchanged``), so a false
+    positive costs a computation, never a spurious log row.
+    """
+    stored: dict[str, datetime | None] = {
+        str(row["skill"]): parse_ts(row["newest_attempt_at"]) for row in rows
+    }
+    latest = session.execute(
+        text(
+            "SELECT skill, MAX(at) AS newest FROM scored_attempts "
+            "WHERE profile_id = :pid AND band IS NOT NULL GROUP BY skill"
+        ),
+        {"pid": profile_id},
+    ).mappings()
+    for row in latest:
+        newest = parse_ts(row["newest"])
+        if newest is None or str(row["skill"]) not in SKILLS:
+            continue
+        used = stored.get(str(row["skill"]))
+        if used is None or newest > used:
+            return True
+    return False
+
+
 def current_estimates(session: Any, profile_id: str) -> dict[str, SkillEstimate]:
-    """Read the ``current_band_estimates`` view; recompute lazily when it is empty."""
+    """Read the ``current_band_estimates`` view; recompute when it is empty or behind."""
     rows = session.execute(
         text(
             "SELECT skill, estimate_raw, band, range_low, range_high, confidence, n_eff, "
@@ -578,7 +608,7 @@ def current_estimates(session: Any, profile_id: str) -> dict[str, SkillEstimate]
         ),
         {"pid": profile_id},
     ).mappings().all()
-    if not rows:
+    if not rows or _has_newer_evidence(session, profile_id, rows):
         return recompute(session, profile_id)
 
     now = utcnow()

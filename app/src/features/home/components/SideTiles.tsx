@@ -177,7 +177,7 @@ export function VocabCard({ vocab, due }: { vocab: VocabTile; due: number | null
   // `due` is the review room's own number; the summary's is uncapped (see `VocabStats`).
   const dueToday = due ?? vocab.due_today;
   const retention =
-    vocab.retention_7d === null ? null : `${Math.round(vocab.retention_7d * 100)} %`;
+    vocab.retention_7d === null ? null : `${Math.round(vocab.retention_7d * 100)}%`;
 
   return (
     <Card>

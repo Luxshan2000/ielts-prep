@@ -680,10 +680,14 @@ def _set_tiers(s: Any, set_ids: set[str]) -> dict[str, str]:
 async def list_cards(
     part: Annotated[int | None, Query(ge=1, le=3)] = None,
     tag: str | None = None,
-    limit: Annotated[int, Query(ge=1, le=200)] = 50,
+    limit: Annotated[int, Query(ge=1, le=1000)] = 50,
     _: Auth = None,
     s: Db = None,
 ) -> dict[str, Any]:
+    # The cap is the whole bank, not a page. There is no cursor (``next_cursor`` is
+    # always null), and the shipped pack alone holds 496 cards, 280 of them Part 1, so a
+    # 200 cap left most of Part 1 unreachable from every caller that asked for all of
+    # them. The rows are a few short fields each.
     stmt = select(m.SpeakingCard).where(m.SpeakingCard.retired == 0)
     if part is not None:
         stmt = stmt.where(m.SpeakingCard.part == part)

@@ -694,6 +694,25 @@ def test_the_shipped_pack_imported_content(client: TestClient) -> None:
         assert _dig_ids(payload) or _dig_ids(payload, "deck_id"), f"the core pack shipped no {key}"
 
 
+def test_every_shipped_speaking_card_is_reachable(client: TestClient) -> None:
+    """The cards route has no cursor, so its cap has to cover the whole bank.
+
+    It used to stop at 200 while the pack ships 496 cards (280 in Part 1 alone), and
+    every caller that asked for all of them — the topic picker, the history titles —
+    silently lost the rest.
+    """
+    import json
+    from pathlib import Path
+
+    manifest = Path(__file__).resolve().parents[2] / "content" / "core-en" / "manifest.json"
+    shipped = json.loads(manifest.read_text(encoding="utf-8"))["counts"]["speaking_cards"]
+    assert shipped > 200, "this test only means something while the bank outgrows a page"
+
+    listed = client.get("/api/v1/speaking/cards?limit=1000")
+    assert listed.status_code == 200
+    assert len(listed.json()["items"]) == shipped
+
+
 # ======================================================================================
 # A ticket is a capability, not a credential
 # ======================================================================================

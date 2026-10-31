@@ -171,14 +171,28 @@ export interface SummaryDoc {
 
 /**
  * One mock sitting, assembled client-side. The sidecar has no single
- * "mock history" route, so the table is stitched from the per-module attempt
- * lists that do exist (`GET /listening/attempts`, `GET /writing/attempts`,
+ * cross-skill "mock history" route, so the table is stitched from per-module lists
+ * (`GET /listening/mock/sessions`, `GET /writing/attempts?mode=mock`,
  * `GET /speaking/sessions`), grouped by calendar day.
  */
 export interface MockSitting {
   date: string;
   bands: Partial<Record<SkillKey, number>>;
   detail: Partial<Record<SkillKey, string>>;
+}
+
+/**
+ * One row of `GET /api/v1/listening/mock/sessions` (`listening/mock.py` `history`). The
+ * plain attempts list cannot tell a mock sitting from any other exam-conditions attempt:
+ * both are `mode: "exam"` there, and nothing in it ever says "mock".
+ */
+export interface ListeningMockRow {
+  mock_id: string;
+  status: string;
+  finished_at: string | null;
+  raw_score: number | null;
+  total_questions: number | null;
+  band: number | null;
 }
 
 export interface ListeningAttemptRow {

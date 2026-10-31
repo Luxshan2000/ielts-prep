@@ -1,5 +1,6 @@
 import { Badge, Button } from "@/components/ui";
 import { cn } from "@/lib/cn";
+import { drillKindLabel } from "../../history";
 import { qtypeLabel } from "../../qtypes";
 import type { RunnerParams } from "./api";
 import { DiagnosisChip } from "./SelfDiagnose";
@@ -44,7 +45,7 @@ export function DrillReportView({
             {report.n_correct}
             <span className="text-base font-normal text-muted-foreground"> / {report.n_items}</span>
           </p>
-          <Badge tone="outline">{report.kind} drill</Badge>
+          <Badge tone="outline">{drillKindLabel(report.kind)} drill</Badge>
           {params.bounded && <Badge tone="outline">Bounded search</Badge>}
           {params.two_stage && <Badge tone="outline">Two-stage</Badge>}
         </div>

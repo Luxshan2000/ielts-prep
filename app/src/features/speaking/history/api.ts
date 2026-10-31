@@ -93,7 +93,8 @@ async function cardTitleIndex(): Promise<Record<string, string>> {
   const out: Record<string, string> = {};
   try {
     const doc = await api.get<{ items?: { id: string; title: string }[] }>(
-      "/api/v1/speaking/cards?limit=200",
+      // The whole bank (the route caps at 1000); at 200 most Part 1 titles went missing.
+      "/api/v1/speaking/cards?limit=1000",
     );
     for (const card of doc?.items ?? []) {
       if (card?.id && card.title) out[card.id] = card.title;

@@ -11,7 +11,7 @@ import { api } from "@/lib/api";
 import type {
   CriteriaDoc,
   HeatmapDoc,
-  ListeningAttemptRow,
+  ListeningMockRow,
   MockSitting,
   ReadinessDoc,
   SkillKey,
@@ -67,7 +67,7 @@ interface ProgressFeatureState {
 
 async function fetchMocks(): Promise<{ items: MockSitting[]; supported: boolean }> {
   const [listening, writing, speaking] = await Promise.allSettled([
-    api.get<{ items: ListeningAttemptRow[] }>("/api/v1/listening/attempts?limit=100"),
+    api.get<{ items: ListeningMockRow[] }>("/api/v1/listening/mock/sessions?limit=100"),
     api.get<{ items: WritingAttemptRow[] }>("/api/v1/writing/attempts?mode=mock&limit=100"),
     api.get<{ items: SpeakingSessionRow[] }>("/api/v1/speaking/sessions?limit=100"),
   ]);
@@ -92,9 +92,11 @@ async function fetchMocks(): Promise<{ items: MockSitting[]; supported: boolean 
   };
 
   if (listening.status === "fulfilled") {
+    // The mock history, not the attempts list: listening attempts are never `mode:
+    // "mock"`, so filtering those on it dropped every listening sitting from this panel.
     for (const item of listening.value.items ?? []) {
-      if (item.mode !== "mock" || item.band === null) continue;
-      const sitting = row(item.submitted_at);
+      if (item.band === null || item.band === undefined) continue;
+      const sitting = row(item.finished_at);
       if (!sitting) continue;
       sitting.bands.listening = item.band;
       if (item.raw_score !== null && item.total_questions) {

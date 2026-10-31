@@ -31,9 +31,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Luxshan2000/bandready"
-Repository = "https://github.com/Luxshan2000/bandready"
-Issues = "https://github.com/Luxshan2000/bandready/issues"
+Homepage = "https://github.com/Luxshan2000/ielts-prep"
+Repository = "https://github.com/Luxshan2000/ielts-prep"
+Issues = "https://github.com/Luxshan2000/ielts-prep/issues"
 
 [project.optional-dependencies]
 voice = [
@@ -60,6 +60,11 @@ packages = ["bandready"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+# Any single test still running after this many seconds dumps every thread's stack. It
+# does not fail the test; it makes a hang name itself in the CI log instead of surfacing
+# only as the job's 15-minute timeout (which is how a SQLite writer-lock wait in the
+# listening mock went unexplained for weeks).
+faulthandler_timeout = 120
 
 [tool.ruff]
 line-length = 100

@@ -438,15 +438,23 @@ def cached_render(audio_hash: str) -> dict[str, Any] | None:
     caller that merely *observes* a cache hit and then links the script (both the
     per-script and whole-test render routes do) fails the FK at flush and returns a 500
     that no amount of retrying clears, because the retry hits the same cache.
-    ``register_media`` is an upsert and never raises, so this is free when the row exists.
+    ``register_media`` is an upsert and never raises.
+
+    The row is looked up with a read first and written only when it is missing. Callers
+    reach this from inside a request whose own session may already hold SQLite's single
+    write lock (the listening mock's ``refresh`` saves the sitting, then serialises its
+    parts through here), and ``register_media`` writes on a second connection. An
+    unconditional upsert therefore waited out the full ``busy_timeout`` once per part on
+    every such poll. Under WAL a read never waits on a writer, so the common case is free.
     """
     wav_path, timing_path = listening_audio_paths(audio_hash)
     if not wav_path.exists() or wav_path.stat().st_size == 0:
         return None
-    register_media(
-        audio_hash, "listening_render", f"listening/{audio_hash}.wav",
-        wav_path.stat().st_size,
-    )
+    if not _media_row_exists(audio_hash):
+        register_media(
+            audio_hash, "listening_render", f"listening/{audio_hash}.wav",
+            wav_path.stat().st_size,
+        )
     timing: dict[str, Any] = {}
     if timing_path.exists():
         try:
@@ -523,12 +531,20 @@ def _kokoro(cfg: Mapping[str, Any]) -> Any:
             f"point Settings at an OpenAI-compatible TTS endpoint ({exc})",
         ) from exc
     if not model_path.exists() or not voices_path.exists():
+        # This sentence reaches the learner verbatim (the renderer passes any error that
+        # names Settings straight through), so it carries no filenames or paths and names
+        # the screen as it is actually labelled. The paths go to the log for whoever needs
+        # them. "Models settings page" used to name a page that no longer exists.
+        _log.warning(
+            "Kokoro files missing: expected %s and %s under %s",
+            model_path.name, voices_path.name, model_path.parent,
+        )
         raise ApiError(
             503,
             "provider_error",
-            f"Kokoro model files are missing (expected {model_path.name} and "
-            f"{voices_path.name} under {model_path.parent}); download them from the "
-            "Models settings page before rendering listening audio",
+            "The examiner's voice files are not on this computer yet, so this audio "
+            "cannot be made. Download them once in Settings → Providers, under Model "
+            "weights.",
         )
     engine = Kokoro(str(model_path), str(voices_path))
     _kokoro_cache[key] = engine
@@ -660,6 +676,24 @@ def register_media(
             )
     except Exception as exc:  # noqa: BLE001 — the cache file is the source of truth
         _log.warning("could not register media file %s (%s): %s", file_hash, kind, exc)
+
+
+def _media_row_exists(file_hash: str) -> bool:
+    """A read-only probe for a ``media_files`` row. ``False`` on any error, so the caller
+    falls back to the upsert rather than skipping it."""
+    try:
+        from sqlalchemy import text as sql
+
+        from bandready.db.engine import session_scope
+
+        with session_scope() as session:
+            found = session.execute(
+                sql("SELECT 1 FROM media_files WHERE hash = :hash"), {"hash": file_hash}
+            ).first()
+        return found is not None
+    except Exception as exc:  # noqa: BLE001
+        _log.debug("could not look up media file %s: %s", file_hash, exc)
+        return False
 
 
 def touch_media(file_hash: str) -> None:

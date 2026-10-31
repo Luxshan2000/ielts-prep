@@ -83,6 +83,19 @@ and the HTTP API can all change without a migration path.
 - Smaller: "Back in in 4 days" in grammar, "14 %" spacing, raw slugs as reading drill titles.
 - The E2E suite had not run past onboarding since the wizard's steps were renamed; eight specs
   had drifted from the UI and are updated.
+- Found by walking a fresh clone as a new learner, with no model and no cached weights:
+  - The placement Writing task printed its chart as raw JSON instead of drawing it.
+  - Placement skipped Listening in silence when the voice files were missing; step 7 now says
+    so before the sitting.
+  - The wizard marked a 484 MB Whisper small "Needed for Speaking" on 16 GB machines while
+    the configured model, base, was never offered. `/models/recommended` now leads with what
+    the settings load (`in_use`) and lists the tier's pick as an optional upgrade.
+  - Home's first warm-up promised "Up to 20 due cards" to an empty word bank.
+  - Choosing Ollama said where to download it but never that a model must then be pulled.
+  - A dev renderer on any port but 5273 got a blank app: `dev.mjs --port` is documented, and
+    CORS only listed fixed ports.
+  - Smaller: "Listening Test 1" sorted last, the Speaking hub flashed "Counts toward your
+    band" before its check answered, and the mic step said only Speaking records you.
 
 ### Removed
 

@@ -190,9 +190,20 @@ export function blockTitle(block: PlanBlock): string {
   return `${moduleLabel(block.module)}: ${activityLabel(block.activity)}`;
 }
 
-export function blockSubtitle(block: PlanBlock): string | null {
+/** What the vocabulary room actually holds, when Home knows it. */
+export interface VocabState {
+  due: number | null;
+  bankSize: number | null;
+}
+
+export function blockSubtitle(block: PlanBlock, vocab?: VocabState): string | null {
   const params = block.params ?? {};
   if (block.kind === "warmup_srs") {
+    // The plan puts this block first in every session, including the first one, when the
+    // bank is empty by design. "Up to 20 due cards" then opened a screen saying there
+    // were no words at all; say what the learner will actually find instead.
+    if (vocab?.bankSize === 0) return "Your word bank is empty. Start by choosing a study deck.";
+    if (vocab?.due === 0) return "Nothing due today.";
     const max = params.max_cards;
     if (params.new_cards === 0) return "Review only. No new cards during the taper.";
     return typeof max === "number" ? `Up to ${max} due cards` : null;

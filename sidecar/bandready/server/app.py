@@ -248,10 +248,14 @@ def create_app() -> FastAPI:
 
     # CORS matters only in dev, where the SPA is served by Vite on another origin. In a
     # packaged app the renderer sends the bearer header itself and needs no allowance.
+    #
+    # Any loopback port is allowed, matching `origin_is_allowed`: the README documents
+    # `dev.mjs --port`, and with only the listed ports a Vite on any other one got a
+    # blank app — every request refused at the preflight. The bearer token is the gate.
     app.add_middleware(
         CORSMiddleware,
         allow_origins=list(DEV_ORIGINS),
-        allow_origin_regex=r"^(app|file)://.*$",
+        allow_origin_regex=r"^((app|file)://.*|http://(localhost|127\.0\.0\.1):\d+)$",
         allow_credentials=False,
         allow_methods=["*"],
         allow_headers=["*"],

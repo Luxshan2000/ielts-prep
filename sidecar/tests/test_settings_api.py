@@ -311,6 +311,26 @@ async def test_recommended_models_follow_the_hardware_tier(client: httpx.AsyncCl
     assert {row["tier"] for row in body["tiers"]} == {"8gb", "16gb", "32gb+"}
 
 
+async def test_recommended_artifacts_lead_with_what_the_settings_load(
+    client: httpx.AsyncClient,
+) -> None:
+    """The default speech model is Whisper base, whatever the hardware tier prefers.
+
+    The wizard used to offer only the tier's pick, so a 16 GB machine was told a 484 MB
+    Whisper small was "Needed for Speaking" while base, the model actually loaded, was not
+    offered at all.
+    """
+    settings = (await client.get("/api/v1/settings")).json()
+    assert settings["stt"]["model"] == "base"
+
+    body = (await client.get("/api/v1/models/recommended")).json()
+    artifacts = body["required_artifacts"]
+    in_use = [a["artifact_id"] for a in artifacts if a["in_use"]]
+    assert in_use == ["faster-whisper-base", "kokoro-v1.0"]
+    assert artifacts[: len(in_use)] == [a for a in artifacts if a["in_use"]], "in-use first"
+    assert all(not a["in_use"] for a in artifacts[len(in_use):])
+
+
 async def test_downloads_listing_is_empty_on_a_fresh_install(
     client: httpx.AsyncClient,
 ) -> None:

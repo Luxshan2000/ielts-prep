@@ -246,6 +246,20 @@ describe("the three provider sections", () => {
     expect(within(section("The voice")).getByText(/Kokoro/)).toBeInTheDocument();
   });
 
+  it("tells someone who chose Ollama the second step, not just where to download it", async () => {
+    useSettingsFeatureStore.setState((state) => ({
+      drafts: { ...state.drafts, llm: { preset: "ollama", model: "qwen3:14b" } },
+      verify: {
+        ...state.verify,
+        llm: { ok: false, state: "unreachable", detail: "could not connect" },
+      },
+    }));
+    render(<ProvidersTab />);
+    const examiner = section("The examiner");
+    expect(within(examiner).getByRole("button", { name: /Get Ollama/ })).toBeInTheDocument();
+    expect(within(examiner).getByText("ollama pull qwen3:14b")).toBeInTheDocument();
+  });
+
   it("preselects the model the sidecar recommends", async () => {
     const user = userEvent.setup();
     render(<ProvidersTab />);

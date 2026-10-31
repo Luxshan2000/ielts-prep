@@ -8,7 +8,7 @@
  * `/listening/history` shows all of it — attempts, mock sittings and drills together.
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import {
   AlertTriangle,
@@ -49,7 +49,18 @@ type Mode = "exam" | "practice";
 
 export function ListeningHome() {
   const navigate = useNavigate();
-  const tests = useListeningStore((s) => s.tests);
+  const loadedTests = useListeningStore((s) => s.tests);
+  // The sidecar pages by id, and the pack's first paper is `lt_test_1` while the rest are
+  // `lt_02`…, so id order put "Listening Test 1" last. Learners read the titles.
+  const tests = useMemo(
+    () =>
+      loadedTests
+        ? [...loadedTests].sort((a, b) =>
+            a.title.localeCompare(b.title, undefined, { numeric: true }),
+          )
+        : loadedTests,
+    [loadedTests],
+  );
   const scripts = useListeningStore((s) => s.scripts);
   const testsLoading = useListeningStore((s) => s.testsLoading);
   const testsError = useListeningStore((s) => s.testsError);

@@ -223,6 +223,12 @@ export interface ArtifactState {
   approx_mb: number | null;
   state: "installed" | "partial" | "absent";
   files: ArtifactFile[];
+  /**
+   * `GET /models/recommended` only: true when the current settings load these weights.
+   * The hardware tier's own pick can differ (Whisper small on 16 GB, while base is what is
+   * configured), and only the sidecar knows which file a model name maps to.
+   */
+  in_use?: boolean;
 }
 
 /** `kind` is a wire slug; a learner reads the job the weights do. */

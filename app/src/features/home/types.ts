@@ -139,6 +139,8 @@ export interface VocabTile {
  */
 export interface VocabStats {
   due_today: number;
+  /** `counts.scheduled` is how many cards the bank holds at all; 0 on a new install. */
+  counts?: { scheduled?: number };
 }
 
 export interface ProfileDoc {

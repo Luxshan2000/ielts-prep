@@ -137,6 +137,9 @@ export function SpeakingHome() {
   const examinerUnset = engine?.examiner_available === false;
   const examinerMissing = examinerUnset || markingState === "unavailable";
   const examinerReason = examinerUnset ? engine?.examiner_reason : markingReason;
+  // The probe takes a moment, and until it answers the room used to promise "Counts toward
+  // your band" — briefly, but long enough to be read on a machine where nothing can mark.
+  const examinerChecking = !examinerUnset && markingState === "checking";
   const isMock = activity === "full_mock";
 
   const onStart = async () => {
@@ -162,10 +165,14 @@ export function SpeakingHome() {
           : "Live examiner practice with band feedback afterwards."
       }
       status={
-        <Badge tone={examinerMissing ? "default" : mode.scored ? "primary" : "default"}>
+        <Badge
+          tone={examinerMissing || examinerChecking ? "default" : mode.scored ? "primary" : "default"}
+        >
           {examinerMissing
             ? "Not set up yet"
-            : mode.scored
+            : examinerChecking
+              ? "Checking the examiner…"
+              : mode.scored
               ? "Counts toward your band"
               : "Practice only"}
         </Badge>
@@ -307,6 +314,7 @@ export function SpeakingHome() {
                     offline ||
                     voiceMissing ||
                     examinerMissing ||
+                    examinerChecking ||
                     Boolean(liveElsewhere)
                   }
                   onClick={() => void onStart()}

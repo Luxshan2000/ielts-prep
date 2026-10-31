@@ -27,6 +27,8 @@ interface HomeState {
   plan: PlanResponse | null;
   /** Cards the review room will actually serve today — see `VocabStats`. */
   vocabDue: number | null;
+  /** Cards in the bank at all. `null` when the stats call failed. */
+  vocabBankSize: number | null;
   loading: boolean;
   /** True only for the very first load, so refreshes never flash a skeleton. */
   initialized: boolean;
@@ -61,6 +63,7 @@ export const useHomeStore = create<HomeState>((set, get) => ({
   summary: null,
   plan: null,
   vocabDue: null,
+  vocabBankSize: null,
   loading: false,
   initialized: false,
   error: null,
@@ -83,6 +86,8 @@ export const useHomeStore = create<HomeState>((set, get) => ({
       vocab.status === "fulfilled" && typeof vocab.value?.due_today === "number"
         ? vocab.value.due_today
         : null;
+    const scheduled = vocab.status === "fulfilled" ? vocab.value?.counts?.scheduled : undefined;
+    const vocabBankSize = typeof scheduled === "number" ? scheduled : null;
 
     // The summary is the screen; a plan failure alone is an empty state, not an error.
     if (summary.status === "rejected") {
@@ -93,6 +98,7 @@ export const useHomeStore = create<HomeState>((set, get) => ({
         summary: null,
         plan: plan.status === "fulfilled" ? plan.value : null,
         vocabDue,
+        vocabBankSize,
       });
       return;
     }
@@ -100,6 +106,7 @@ export const useHomeStore = create<HomeState>((set, get) => ({
       summary: summary.value,
       plan: plan.status === "fulfilled" ? plan.value : null,
       vocabDue,
+      vocabBankSize,
       loading: false,
       initialized: true,
       error: null,

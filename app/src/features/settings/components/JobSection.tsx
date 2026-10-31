@@ -287,10 +287,24 @@ export function JobSection({ modality }: { modality: Modality }) {
           onCheck={() => void runVerify(modality)}
           extra={
             route === "local" && modality === "llm" && !ok ? (
-              <Button variant="ghost" size="sm" onClick={() => openExternal(OLLAMA_URL)}>
-                <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                Get Ollama
-              </Button>
+              <div className="space-y-1.5">
+                <Button variant="ghost" size="sm" onClick={() => openExternal(OLLAMA_URL)}>
+                  <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                  Get Ollama
+                </Button>
+                {/* Installing Ollama is half the job. Without the model it runs, the check
+                    keeps failing and nothing on screen said what was left to do. */}
+                {model && (
+                  <p className="text-[12px] leading-5 text-muted-foreground">
+                    Installing Ollama is step one. Step two downloads the model it runs, once:
+                    open a terminal, type{" "}
+                    <code className="rounded bg-muted px-1 py-0.5 font-mono text-[11px] text-foreground">
+                      ollama pull {model}
+                    </code>
+                    , and press Check again when it finishes. It is several gigabytes.
+                  </p>
+                )}
+              </div>
             ) : route === "openrouter" && verifyState?.state === "no_key" ? (
               <Button variant="ghost" size="sm" onClick={() => openExternal(KEYS_URL)}>
                 <ExternalLink className="h-4 w-4" aria-hidden="true" />

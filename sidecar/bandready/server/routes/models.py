@@ -424,10 +424,39 @@ CLOUD_TIER: dict[str, Any] = {
     "llm": {"presets": ["openrouter", "groq", "deepseek"]},
     "chat_quality": "excellent",
     "scoring_quality": "excellent",
-    "advice": "Best scoring quality; audio still runs locally so recordings never leave the machine.",
+    "advice": (
+        "Best scoring quality. The examiner's voice always runs on this computer; your "
+        "recordings leave it only if you also choose an online speech-to-text."
+    ),
     "stt": {"preset": "groq_whisper", "model": "whisper-large-v3-turbo", "optional": True},
     "tts": {"artifact_id": "kokoro-v1.0", "voice": "af_heart"},
 }
+
+
+def _artifacts_in_use() -> list[str]:
+    """The artifact ids the CURRENT settings would load, speech-to-text first.
+
+    The hardware tier says what would be *best*; this says what the app will actually
+    open. They differ on the shipped defaults: a 16 GB machine's tier is Whisper small, while
+    the configured model is base. Recommending only the tier's file made the wizard badge a
+    484 MB download "Needed for Speaking" that nothing loads, and leave out the one that is.
+    """
+    from bandready.settings_store import get_slot
+
+    ids: list[str] = []
+    try:
+        stt = get_slot("stt") or {}
+    except Exception:  # noqa: BLE001 — an unresolvable slot loads nothing
+        stt = {}
+    if "faster_whisper" in (stt.get("engine"), stt.get("preset")) and stt.get("model"):
+        ids.append(f"faster-whisper-{stt['model']}")
+    try:
+        tts = get_slot("tts") or {}
+    except Exception:  # noqa: BLE001
+        tts = {}
+    if tts.get("preset") == "kokoro" or str(tts.get("engine") or "").startswith("kokoro"):
+        ids.append("kokoro-v1.0")
+    return ids
 
 
 @router.get("/recommended", summary="Recommended models for the detected hardware tier")
@@ -456,11 +485,15 @@ async def recommended(_: None = Depends(require_auth)) -> dict[str, Any]:
         "llm_model": chosen["llm"]["ollama"],
     }
     states = {a["id"]: artifact_state(a) for a in load_manifest()["artifacts"]}
-    needed = [
-        states[aid]
+    # What the settings load comes first, flagged `in_use`; the tier's own picks follow as
+    # optional upgrades when they differ. The wizard badges and orders on `in_use`.
+    in_use = [aid for aid in _artifacts_in_use() if aid in states]
+    upgrades = [
+        aid
         for aid in (recommendation["stt"].get("artifact_id"), recommendation["tts"]["artifact_id"])
-        if aid in states
+        if aid in states and aid not in in_use
     ]
+    needed = [{**states[aid], "in_use": aid in in_use} for aid in (*in_use, *upgrades)]
     return {
         "platform": info,
         "tier": tier_id,

@@ -123,7 +123,19 @@ const resumeStep = {
     half: null,
     skippable: true,
     unavailable: false,
-    content: { prompt_id: "wp_1", task_type: "ac_task1", prompt_text: "Describe the chart." },
+    content: {
+      prompt_id: "wp_1",
+      task_type: "ac_task1",
+      prompt_text: "Describe the chart.",
+      chart_spec: {
+        kind: "bar",
+        title: "Average daily journeys per person by mode of transport, Verdon, 2023",
+        unit: "journeys per person per day",
+        x_axis: { label: "Mode of transport", categories: ["Car", "Bus", "Metro"] },
+        y_axis: { label: "Journeys per person per day", min: 0, max: 1.6 },
+        series: [{ name: "All Verdon residents", values: [1.42, 0.61, 0.38] }],
+      },
+    },
   },
 };
 
@@ -388,6 +400,99 @@ describe("onboarding wizard", () => {
     await waitFor(() => expect(screen.getByText("Marking is ready.")).toBeInTheDocument());
   });
 
+  it("badges the speech model the settings load as needed, and the tier's bigger one as optional", async () => {
+    const artifact = (id: string, kind: string, engine: string, mb: number, inUse: boolean) => ({
+      artifact_id: id,
+      kind,
+      engine,
+      label: id,
+      path: `/models/${id}`,
+      approx_mb: mb,
+      state: "absent",
+      files: [],
+      in_use: inUse,
+    });
+    get.mockImplementation((path: string) => {
+      if (path.startsWith("/api/v1/models/recommended")) {
+        return Promise.resolve({
+          platform: {},
+          tier: "16gb",
+          recommended: {},
+          cloud_alternative: { label: "Any machine + a cloud key", advice: "x" },
+          tiers: [],
+          // The shape the sidecar sends: what the settings load first, the upgrade after.
+          required_artifacts: [
+            artifact("faster-whisper-base", "stt", "faster_whisper", 145, true),
+            artifact("kokoro-v1.0", "tts", "kokoro_onnx", 340, true),
+            artifact("faster-whisper-small", "stt", "faster_whisper", 484, false),
+          ],
+        });
+      }
+      if (path.startsWith("/api/v1/settings")) {
+        return Promise.resolve({
+          stt: { engine: "faster_whisper", preset: "faster_whisper", model: "base" },
+          tts: { engine: "kokoro_onnx", preset: "kokoro" },
+        });
+      }
+      return Promise.resolve({ platform: {}, engines: [] });
+    });
+    useOnboardingStore.setState({ stepIndex: 4 });
+    renderWizard();
+
+    const row = async (mb: string) =>
+      (await screen.findByText(mb)).closest("li") as HTMLElement;
+    expect(await row("145 MB")).toHaveTextContent("Needed for Speaking");
+    expect(await row("340 MB")).toHaveTextContent("Needed for Listening and Speaking");
+    expect(await row("484 MB")).toHaveTextContent("Optional");
+    // The cloud tier card had no action on this screen and made a privacy claim.
+    expect(screen.queryByText("Any machine + a cloud key")).not.toBeInTheDocument();
+  });
+
+  it.each([
+    ["absent", true],
+    ["installed", false],
+  ] as const)(
+    "says before the sitting that Listening will be skipped when the voice files are %s",
+    async (state, warned) => {
+      get.mockImplementation((path: string) => {
+        if (path.startsWith("/api/v1/models/recommended")) {
+          return Promise.resolve({
+            platform: {},
+            tier: "16gb",
+            recommended: {},
+            cloud_alternative: {},
+            tiers: [],
+            required_artifacts: [
+              {
+                artifact_id: "kokoro-v1.0",
+                kind: "tts",
+                engine: "kokoro_onnx",
+                label: "Kokoro",
+                path: "/models/kokoro",
+                approx_mb: 340,
+                state,
+                files: [],
+                in_use: true,
+              },
+            ],
+          });
+        }
+        return Promise.resolve({ platform: {}, engines: [] });
+      });
+      post.mockResolvedValue({ ok: true, state: "ready" });
+      useOnboardingStore.setState({ stepIndex: 6 });
+      renderWizard();
+
+      await waitFor(() => expect(get).toHaveBeenCalledWith("/api/v1/models/recommended"));
+      if (warned) {
+        expect(await screen.findByText("The Listening section will be skipped")).toBeInTheDocument();
+      } else {
+        await waitFor(() => expect(useOnboardingStore.getState().artifacts).toHaveLength(1));
+        expect(screen.queryByText("The Listening section will be skipped")).not.toBeInTheDocument();
+      }
+    },
+  );
+
   it("keeps the profile answers across a reload of the wizard", async () => {
     renderWizard();
     await userEvent.click(screen.getByRole("button", { name: /Continue/ }));
@@ -507,6 +612,12 @@ describe("onboarding wizard", () => {
 
     expect(await screen.findByText(/Placement · Writing/)).toBeInTheDocument();
     expect(screen.getByText("Describe the chart.")).toBeInTheDocument();
+    // An Academic Task 1 chart is the question itself: drawn, never printed as its spec.
+    expect(screen.queryByText(/Chart data:/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/"kind":"bar"/)).not.toBeInTheDocument();
+    expect(
+      screen.getAllByRole("img").some((el) => /Average daily journeys/.test(el.getAttribute("aria-label") ?? "")),
+    ).toBe(true);
     expect(get).toHaveBeenCalledWith("/api/v1/placement/next?placement_id=pl_1");
     // The sections already answered survive too, or the result screen would credit a
     // finished essay to the learner's self-rating.

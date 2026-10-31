@@ -591,6 +591,32 @@ def test_health_needs_no_token(client: TestClient) -> None:
     assert response.json()["status"] in ("ok", "starting", "degraded")
 
 
+@pytest.mark.parametrize(
+    ("origin", "allowed"),
+    [
+        ("http://localhost:5273", True),
+        # `dev.mjs --port` is documented; a Vite on another port must not get a blank app.
+        ("http://localhost:5274", True),
+        ("http://127.0.0.1:9000", True),
+        ("http://evil.example:5273", False),
+        ("http://localhost.evil.example:5273", False),
+    ],
+)
+def test_a_dev_renderer_on_any_loopback_port_passes_the_preflight(
+    client: TestClient, origin: str, allowed: bool
+) -> None:
+    response = client.options(
+        "/api/v1/settings",
+        headers={
+            "Origin": origin,
+            "Access-Control-Request-Method": "GET",
+            "Access-Control-Request-Headers": "authorization",
+        },
+    )
+    granted = response.headers.get("access-control-allow-origin") == origin
+    assert granted is allowed, (origin, response.status_code, dict(response.headers))
+
+
 def test_an_unknown_token_is_rejected_everywhere(client: TestClient) -> None:
     response = client.get("/api/v1/settings", headers={"Authorization": "Bearer wrong"})
     assert response.status_code == 401

@@ -20,6 +20,8 @@ import { countWords } from "@/lib/format";
 // Not Given item has to look and behave the same in both places or the sampler is teaching
 // the wrong thing on the first screen.
 import { SegmentedChoices } from "@/features/reading/components/Options";
+import { ChartRenderer } from "@/features/writing/components/chart/ChartRenderer";
+import type { ChartSpecLike } from "@/features/writing/components/chart/spec";
 import { CHOICE_TYPES, choiceValues, instructionFor, splitGaps } from "@/features/reading/qtypes";
 import { useOnboardingStore } from "../store";
 import { SpokenAnswerField, useCanRecord } from "./SpokenAnswerField";
@@ -412,10 +414,14 @@ function WritingStep({ step }: { step: PlacementStep }) {
               ))}
             </ul>
           )}
+          {/* The chart is the question in Academic Task 1, so it is drawn with the writing
+              room's own renderer. This used to print the spec as JSON — the first writing
+              task a new learner met was a line of braces and quotes. */}
           {content.chart_spec && (
-            <p className="text-[13px] text-muted-foreground">
-              Chart data: {JSON.stringify(content.chart_spec)}
-            </p>
+            <ChartRenderer
+              spec={content.chart_spec as ChartSpecLike}
+              compact
+            />
           )}
           <p className="text-[11px] text-muted-foreground">
             Aim for {min} to {max} words. This is a sampler, not a full Task 1, so length is

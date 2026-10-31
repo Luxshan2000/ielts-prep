@@ -673,7 +673,7 @@ export function StepEngines() {
             name="scoring_choice"
             selected={scoringChoice === "later"}
             title="Not now, I'll start with the modules that already work"
-            description="Reading, Listening, Vocabulary and Grammar are fully available. Settings has this screen again whenever you want it."
+            description="Reading, Vocabulary and Grammar are fully available, and Listening once its voice files are in. Settings has this screen again whenever you want it."
             onSelect={() => setScoringChoice("later")}
           />
           <ChoiceCard
@@ -735,9 +735,13 @@ function sizeLabel(mb: number | null | undefined): string | null {
  * app asks for, and it changes nothing.
  */
 function artifactInUse(
-  artifact: { kind: string | null; engine: string | null },
+  artifact: { kind: string | null; engine: string | null; in_use?: boolean },
   settings: EngineSettingsView | null,
 ): boolean {
+  // The sidecar says so directly when it can. Matching on the engine alone marked every
+  // Whisper size as needed, so a 16 GB machine was told to fetch 484 MB of Whisper small
+  // while the configured base model was never offered.
+  if (artifact.in_use !== undefined) return artifact.in_use;
   if (!artifact.kind || !artifact.engine || !settings) return false;
   const slot = artifact.kind === "stt" ? settings.stt : artifact.kind === "tts" ? settings.tts : undefined;
   if (!slot) return false;
@@ -745,7 +749,7 @@ function artifactInUse(
 }
 
 const OPTIONAL_BENEFIT: Record<string, string> = {
-  stt: "Optional: a more accurate speech model. The one you already have works.",
+  stt: "Optional: a more accurate speech model. BandReady uses it only if you switch to it in Settings.",
   tts: "Optional: an alternative examiner voice.",
 };
 
@@ -789,17 +793,6 @@ export function StepModels() {
         this machine, downloaded once and resumed if interrupted.
       </p>
 
-      {recommended?.cloud_alternative?.advice && (
-        <Card>
-          <CardContent className="space-y-1.5 p-4 text-[13px]">
-            <p className="flex items-center gap-1.5 font-medium text-foreground">
-              <Cloud className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-              {recommended.cloud_alternative.label ?? "Using an online service instead"}
-            </p>
-            <p className="text-muted-foreground">{recommended.cloud_alternative.advice}</p>
-          </CardContent>
-        </Card>
-      )}
 
       {modelsError && (
         <Card className="border-warning/40 bg-warning/[0.06]">
@@ -1008,9 +1001,9 @@ export function StepMic() {
   return (
     <div className="space-y-4">
       <p className="text-sm leading-relaxed text-muted-foreground">
-        The Speaking room needs a microphone. Check it now so the first live session is not the
-        moment you discover it is muted. Skipping this is fine. Every other module works
-        without a mic.
+        The Speaking room, pronunciation&apos;s read-aloud and the spoken drills in Vocabulary all
+        record you. Check the microphone now so the first live session is not the moment you
+        discover it is muted. Skipping this is fine.
       </p>
 
       {state.devices.length > 1 && (
@@ -1078,11 +1071,27 @@ export function StepPlacementOffer({ draft }: { draft: ProfileDraft }) {
     [draft.self_level],
   );
   const markingReady = scoring?.ok === true;
+  const recommended = useOnboardingStore((s) => s.recommended);
+  const artifacts = useOnboardingStore((s) => s.artifacts);
+  const downloads = useOnboardingStore((s) => s.downloads);
+  const loadModels = useOnboardingStore((s) => s.loadModels);
 
-  // A restored draft can land straight on this step without step 4 ever having
+  // The sidecar skips the Listening section when there is no recording to play, rather
+  // than score eight blank answers as band 3.5. That is the right call, but it used to
+  // happen in silence: the learner saw "Skipped so far: Listening" for a section they
+  // never skipped. Say it here, before the sitting, while step 5 is one Back away.
+  const voice = artifacts.find((a) => a.kind === "tts");
+  const voiceMissing =
+    voice !== undefined &&
+    voice.state !== "installed" &&
+    downloads[voice.artifact_id]?.state !== "done";
+  const voiceDownloading = voice !== undefined && downloads[voice.artifact_id]?.state === "running";
+
+  // A restored draft can land straight on this step without step 4 or 5 ever having
   // mounted, and warning about marking that actually works would be a lie.
   useEffect(() => {
     if (scoring === null) void checkScoring();
+    if (recommended === null) void loadModels();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -1107,6 +1116,24 @@ export function StepPlacementOffer({ draft }: { draft: ProfileDraft }) {
               Writing and Speaking would fall back to the self-rating you gave earlier. You can
               go back a few steps to set marking up, skip those two sections, or place now and
               retake them later. Nothing is lost either way.
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {voiceMissing && (
+        <Card className="border-warning/40 bg-warning/[0.06]">
+          <CardContent className="space-y-1 p-4 text-[13px]">
+            <p className="font-medium text-foreground">
+              {voiceDownloading
+                ? "The Listening section needs the voice files that are still downloading"
+                : "The Listening section will be skipped"}
+            </p>
+            <p className="text-muted-foreground">
+              Its recording is made on this computer by the examiner&apos;s voice, and those files
+              are not here yet, so Listening would fall back to your self-rating. Go back to
+              step 5 to download them (about {sizeLabel(voice?.approx_mb) ?? "340 MB"}, once) if
+              you want a measured listening band.
             </p>
           </CardContent>
         </Card>

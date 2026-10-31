@@ -41,7 +41,7 @@ const STEP_TITLES: Record<(typeof WIZARD_STEPS)[number], { title: string; descri
   },
   mic: {
     title: "Microphone check",
-    description: "Only the Speaking room needs this. Everything else works without a mic.",
+    description: "For speaking practice. Everything else works without a mic.",
   },
   "placement-offer": {
     title: "Take the placement test?",

@@ -25,6 +25,7 @@ import {
 import { cn } from "@/lib/cn";
 import { formatDate } from "@/lib/format";
 import { activeBlockIndex, blockSubtitle, blockTarget, blockTitle } from "../blocks";
+import { useHomeStore } from "../store";
 import type { PlanBlock, PlanSession } from "../types";
 
 const BLOCK_ICONS = {
@@ -96,7 +97,9 @@ function BlockRow({
 }) {
   const Icon = BLOCK_ICONS[block.kind] ?? Sparkles;
   const target = blockTarget(block);
-  const subtitle = blockSubtitle(block);
+  const due = useHomeStore((s) => s.vocabDue);
+  const bankSize = useHomeStore((s) => s.vocabBankSize);
+  const subtitle = blockSubtitle(block, { due, bankSize });
 
   return (
     <li

@@ -582,6 +582,19 @@ describe("the settings dialog", () => {
     );
   }
 
+  it("checks each job once on opening, so a learner sent here sees what is wrong", async () => {
+    useSettingsFeatureStore.setState({ verify: {} });
+    post.mockReset();
+    post.mockResolvedValue({ ok: false, state: "unreachable", detail: "not running" });
+    await renderDialog();
+    await waitFor(() => {
+      const checked = post.mock.calls
+        .filter(([path]) => path === "/api/v1/providers/verify")
+        .map(([, body]) => (body as { modality: string }).modality);
+      expect(checked).toEqual(["llm", "tts", "stt"]);
+    });
+  });
+
   it("opens on the section the URL asks for", async () => {
     await renderDialog("/settings?tab=you");
     expect(await screen.findByText("Which exam are you taking?")).toBeInTheDocument();

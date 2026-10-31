@@ -180,7 +180,10 @@ export function scoringStateSentence(result: VerifyResult | null): string {
   if (result.ok) return "Marking is ready.";
   switch (result.state) {
     case "unreachable":
-      return "The model you chose isn't answering. It may not be started yet.";
+      // A fresh install arrives here having chosen nothing: the stored slot is the
+      // shipped Ollama default. "The model you chose" blamed them for a choice they
+      // never made, so this says what is true for both them and someone who did choose.
+      return "No marking model is answering on this computer yet.";
     case "timeout":
       return "The model took too long to answer. It may still be loading.";
     case "unauthorized":

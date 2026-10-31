@@ -34,6 +34,7 @@ import {
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { useSessionStore } from "@/stores";
+import { useMarkingStatus } from "@/lib/markingStatus";
 import { PreCallCheck } from "../PreCallCheck";
 import { useSpeakingStore, type SpeakingCard } from "../../store";
 import { MockHistory } from "./MockHistory";
@@ -86,8 +87,18 @@ export function MockPreflight() {
   // The band this screen commits the learner to eleven minutes for is written by the
   // same model that asks the questions. Promising it before checking is how somebody
   // sits a whole mock in silence and finds out at the end. `=== false` because an
-  // older sidecar omits the field entirely.
-  const examinerMissing = engine?.examiner_available === false;
+  // older sidecar omits the field entirely. That flag only knows whether a model was
+  // named; the marking probe knows whether it answers — the shipped default names an
+  // Ollama model on a machine with no Ollama, and the flag alone calls that ready.
+  const markingState = useMarkingStatus((s) => s.state);
+  const markingReason = useMarkingStatus((s) => s.reason);
+  const checkMarking = useMarkingStatus((s) => s.check);
+  useEffect(() => {
+    void checkMarking();
+  }, [checkMarking]);
+  const examinerUnset = engine?.examiner_available === false;
+  const examinerMissing = examinerUnset || markingState === "unavailable";
+  const examinerReason = examinerUnset ? engine?.examiner_reason : markingReason;
   const blocked = offline || voiceMissing || examinerMissing || Boolean(liveElsewhere);
 
   const begin = async () => {
@@ -145,7 +156,7 @@ export function MockPreflight() {
           >
             <p className="flex min-w-0 items-start gap-2.5 text-[13px] text-muted-foreground">
               <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
-              {engine?.examiner_reason ??
+              {examinerReason ??
                 "No language model is set up yet, so nothing can ask you questions or mark your answers."}
             </p>
             <Button size="sm" variant="outline" onClick={() => navigate("/settings")}>

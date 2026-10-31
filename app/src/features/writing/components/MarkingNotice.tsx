@@ -1,7 +1,7 @@
 /**
  * "Nothing here can mark your answer" — said before the answer, not after it.
  *
- * Renders only when the probe in `../markingStatus` came back `unavailable`, so a
+ * Renders only when the probe in `@/lib/markingStatus` came back `unavailable`, so a
  * working install never sees it. It warns and offers the way out; it never disables
  * the button behind it, because practising without a band is still practice.
  */
@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ScanSearch } from "lucide-react";
 import { Button, Notice } from "@/components/ui";
-import { MARKING_FIX, useMarkingStatus } from "../markingStatus";
+import { MARKING_FIX, useMarkingStatus } from "@/lib/markingStatus";
 
 export interface MarkingNoticeProps {
   /**

@@ -143,7 +143,8 @@ export function DataTab() {
           <CardTitle>Data folder</CardTitle>
           <p className="mt-0.5 text-[13px] text-muted-foreground">
             Everything BandReady knows about you lives here: the SQLite database, your
-            recordings and any downloaded model weights. Nothing is sent anywhere else.
+            recordings and any downloaded model weights. Nothing leaves this computer unless
+            you choose an online provider in Providers, and then only what that job needs.
           </p>
         </CardHeader>
         <CardContent>

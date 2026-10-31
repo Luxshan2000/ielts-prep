@@ -32,8 +32,8 @@ export function ModelDownloads() {
         <div>
           <CardTitle>Model weights</CardTitle>
           <p className="mt-0.5 text-[13px] text-muted-foreground">
-            Downloaded once into your data folder and checksum-verified. An interrupted
-            download resumes from where it stopped.
+            Downloaded once into your data folder. An interrupted download resumes from
+            where it stopped.
           </p>
         </div>
         <Button variant="ghost" size="sm" onClick={() => void loadModels()}>

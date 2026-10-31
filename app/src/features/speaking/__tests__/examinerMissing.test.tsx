@@ -9,6 +9,11 @@
  *
  * `GET /api/v1/speaking/engine` now answers `examiner_available` / `examiner_reason`,
  * and these are the two screens that have to act on it.
+ *
+ * That flag only knows whether a model was *named*. The shipped default names an Ollama
+ * model on a machine with no Ollama, so both screens also ask the marking probe
+ * (`POST /providers/verify`, via `@/lib/markingStatus`) and treat "not answering" the
+ * same way.
  */
 
 import { describe, expect, it, vi, beforeEach } from "vitest";
@@ -16,14 +21,30 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 const get = vi.fn();
+const post = vi.fn();
 
 vi.mock("@/lib/api", async () => {
   const actual = await vi.importActual<typeof import("@/lib/api")>("@/lib/api");
   return {
     ...actual,
-    api: { ...actual.api, get: (...args: unknown[]) => get(...args) },
+    api: {
+      ...actual.api,
+      get: (...args: unknown[]) => get(...args),
+      post: (...args: unknown[]) => post(...args),
+    },
   };
 });
+
+const { useMarkingStatus } = await import("@/lib/markingStatus");
+
+const VERIFY_OK = { ok: true, state: "ready", models: ["qwen3:14b"], warnings: [] };
+/** What the sidecar answers for the shipped default on a machine with no Ollama. */
+const VERIFY_UNREACHABLE = {
+  ok: false,
+  state: "unreachable",
+  detail: "could not connect to http://127.0.0.1:11434/v1 — is the server running?",
+};
+const UNREACHABLE_REASON = /The marking model is not answering/;
 
 const { SpeakingHome } = await import("../page");
 const { MockPreflight } = await import("../components/mock");
@@ -73,6 +94,10 @@ function renderScreen(
 
 beforeEach(() => {
   get.mockReset();
+  post.mockReset();
+  post.mockResolvedValue(VERIFY_OK);
+  // The probe caches its answer for a minute; every test starts from "never checked".
+  useMarkingStatus.setState({ state: "unknown", reason: null, checkedAt: 0 });
 });
 
 describe("Speaking hub with no marking model", () => {
@@ -105,6 +130,24 @@ describe("Speaking hub with no marking model", () => {
     await waitFor(() =>
       expect(screen.getByText("Counts toward your band")).toBeInTheDocument(),
     );
+  });
+});
+
+describe("A model that is named but not answering", () => {
+  it("blocks the hub as firmly as no model at all, and never shows the host or port", async () => {
+    post.mockResolvedValue(VERIFY_UNREACHABLE);
+    renderScreen("hub", true);
+    expect(await screen.findByText(UNREACHABLE_REASON)).toBeInTheDocument();
+    expect(screen.queryByText("Counts toward your band")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Set up the mock test|Start /i })).toBeDisabled();
+    expect(screen.queryByText(/11434/)).not.toBeInTheDocument();
+  });
+
+  it("refuses the mock pre-flight too", async () => {
+    post.mockResolvedValue(VERIFY_UNREACHABLE);
+    renderScreen("mock", true);
+    expect(await screen.findByText(UNREACHABLE_REASON)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Start the mock test/i })).toBeDisabled();
   });
 });
 

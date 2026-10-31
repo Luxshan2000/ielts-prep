@@ -90,7 +90,7 @@ describe("ProviderStatusBanner", () => {
         <ProviderStatusBanner />
       </MemoryRouter>,
     );
-    expect(screen.queryByText(/couldn't reach a model provider/i)).toBeNull();
+    expect(screen.queryByText(/couldn't use a model it needs/i)).toBeNull();
 
     // The banner subscribed to the transport on mount, so drive it the way the app
     // does: a real request, from an unrelated feature, that comes back 502.
@@ -107,11 +107,22 @@ describe("ProviderStatusBanner", () => {
     });
     globalThis.fetch = original;
 
-    expect(await screen.findByText(/couldn't reach a model provider/i)).toBeInTheDocument();
+    expect(await screen.findByText(/couldn't use a model it needs/i)).toBeInTheDocument();
     expect(screen.getByText(/ollama is not running/)).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: /dismiss the provider notice/i }));
-    expect(screen.queryByText(/couldn't reach a model provider/i)).toBeNull();
+    expect(screen.queryByText(/couldn't use a model it needs/i)).toBeNull();
+  });
+
+  it("keeps hosts, ports, paths and exception text out of the learner's sight", async () => {
+    const { learnerSafeDetail } = await import("@/components/shell/ProviderStatusBanner");
+    expect(learnerSafeDetail("ollama is not running")).toBe("ollama is not running.");
+    expect(
+      learnerSafeDetail("could not connect to http://127.0.0.1:11434/v1 — is the server running?"),
+    ).toBeNull();
+    expect(learnerSafeDetail("ReadTimeout('')")).toBeNull();
+    expect(learnerSafeDetail("expected kokoro-v1.0.onnx under /Users/a/models")).toBeNull();
+    expect(learnerSafeDetail(undefined)).toBeNull();
   });
 });
 

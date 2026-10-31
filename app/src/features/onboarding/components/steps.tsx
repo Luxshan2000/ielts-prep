@@ -57,7 +57,8 @@ import {
  * a first-run learner can read.
  */
 export const WHAT_WORKS_NOW =
-  "Reading, Listening, Vocabulary and Grammar work right now, with nothing to set up. " +
+  "Reading, Vocabulary and Grammar work right now, with nothing to set up. " +
+  "Listening makes its audio on this computer, so it needs the examiner's voice files, a one-time download. " +
   "Writing and Speaking need a marking model before anything you do there is scored.";
 
 // ------------------------------------------------------------------ 1 welcome ---
@@ -783,9 +784,9 @@ export function StepModels() {
   return (
     <div className="space-y-4">
       <p className="text-sm leading-relaxed text-muted-foreground">
-        Speaking practice turns your recording into words and reads the examiner&apos;s
-        questions aloud. Both run from files on this machine, downloaded once and resumed if
-        interrupted. {WHAT_WORKS_NOW}
+        The examiner&apos;s voice reads the listening tests and the speaking questions aloud,
+        and speech to text turns your speaking recordings into words. Both run from files on
+        this machine, downloaded once and resumed if interrupted.
       </p>
 
       {recommended?.cloud_alternative?.advice && (
@@ -849,7 +850,12 @@ export function StepModels() {
                   ) : resumable ? (
                     <Badge tone="warning">Incomplete</Badge>
                   ) : inUse ? (
-                    <Badge tone="warning">Needed for Speaking</Badge>
+                    <Badge tone="warning">
+                      {/* The voice renders every listening test as well as the examiner;
+                          labelling it Speaking-only told a learner who skips Speaking
+                          that Listening needed nothing. */}
+                      {artifact.kind === "tts" ? "Needed for Listening and Speaking" : "Needed for Speaking"}
+                    </Badge>
                   ) : (
                     <Badge tone="outline">Optional</Badge>
                   )}
@@ -905,7 +911,7 @@ export function StepModels() {
       <p className="text-[13px] text-muted-foreground">
         {missingInUse.length > 0
           ? "You can continue now and let these finish in the background."
-          : "Nothing here is required to continue. Downloads can wait until you first open the Speaking room."}
+          : "Nothing here is required to continue."}
       </p>
     </div>
   );

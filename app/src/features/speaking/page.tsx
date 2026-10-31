@@ -36,6 +36,7 @@ import { modeMeta } from "./components/phases";
 import { useMockStore } from "./components/mock";
 import { api } from "@/lib/api";
 import { friendlyMessage } from "@/lib/errors";
+import { useMarkingStatus } from "@/lib/markingStatus";
 import { useSpeakingStore, type SpeakingCard } from "./store";
 
 /** Which half of the hub is showing: set a session up, or find a topic for one. */
@@ -89,7 +90,7 @@ export function SpeakingHome() {
     if (tab !== "topics" || topicSets !== null) return;
     let live = true;
     api
-      .get<{ items: SpeakingCard[] }>("/api/v1/speaking/cards?part=2&limit=200")
+      .get<{ items: SpeakingCard[] }>("/api/v1/speaking/cards?part=2&limit=1000")
       .then((res) => {
         if (!live) return;
         // Built-ins are the engine's fallbacks when no pack is installed. They carry no
@@ -110,6 +111,13 @@ export function SpeakingHome() {
     void loadEngine();
   }, [loadEngine]);
 
+  const markingState = useMarkingStatus((s) => s.state);
+  const markingReason = useMarkingStatus((s) => s.reason);
+  const checkMarking = useMarkingStatus((s) => s.check);
+  useEffect(() => {
+    void checkMarking();
+  }, [checkMarking]);
+
   // Only for the count on the History button. The list itself is loaded by the history
   // screen — this hub no longer renders any of it.
   useEffect(() => {
@@ -124,7 +132,11 @@ export function SpeakingHome() {
   // The examiner and the marker are the same model. Until one is configured this page
   // must not offer a band: the session would connect, sit in silence, and the learner
   // would find out afterwards. `=== false` because an older sidecar omits the field.
-  const examinerMissing = engine?.examiner_available === false;
+  // The sidecar's flag only catches a model that was never named; the marking probe is
+  // what catches the shipped default, an Ollama that is configured but not running.
+  const examinerUnset = engine?.examiner_available === false;
+  const examinerMissing = examinerUnset || markingState === "unavailable";
+  const examinerReason = examinerUnset ? engine?.examiner_reason : markingReason;
   const isMock = activity === "full_mock";
 
   const onStart = async () => {
@@ -220,7 +232,7 @@ export function SpeakingHome() {
           >
             <p className="flex min-w-0 items-start gap-2.5 text-[13px] text-muted-foreground">
               <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
-              {engine?.examiner_reason ??
+              {examinerReason ??
                 "No language model is set up yet, so nothing can ask you questions or mark your answers."}
             </p>
             <Button size="sm" variant="outline" onClick={() => navigate("/settings")}>

@@ -83,6 +83,7 @@ export function SettingsDialog() {
   const loadPresets = useSettingsFeatureStore((s) => s.loadPresets);
   const runDetect = useSettingsFeatureStore((s) => s.runDetect);
   const loadModels = useSettingsFeatureStore((s) => s.loadModels);
+  const runVerify = useSettingsFeatureStore((s) => s.runVerify);
 
   // The document: load once, then mirror it into the editing drafts. A reload
   // while the user has unsaved edits must not stomp on them.
@@ -103,6 +104,11 @@ export function SettingsDialog() {
   // Provider metadata: presets first, then detection (which the preset filter and the local
   // model list both read), then the model manager. The OpenRouter catalogue is not fetched
   // here: each section asks for its own, and only once it is actually pointed at OpenRouter.
+  //
+  // Then each job is checked once, in turn (the store tracks one check at a time). Every
+  // "Open Settings" in the app lands here because something failed; three cards that say
+  // only "Is this working?" made the learner find and press three buttons to learn which.
+  // A job already checked this session keeps its answer.
   useEffect(() => {
     let active = true;
     void (async () => {
@@ -111,11 +117,16 @@ export function SettingsDialog() {
       await runDetect(false);
       if (!active) return;
       await loadModels();
+      for (const modality of ["llm", "tts", "stt"] as const) {
+        if (!active) return;
+        if (useSettingsFeatureStore.getState().verify[modality]) continue;
+        await runVerify(modality);
+      }
     })();
     return () => {
       active = false;
     };
-  }, [loadPresets, runDetect, loadModels]);
+  }, [loadPresets, runDetect, loadModels, runVerify]);
 
   // Below `sm` the rail is a strip that scrolls sideways, so a link to a section near its
   // end would otherwise mark an item sitting off the right edge of the dialog. jsdom has no

@@ -36,7 +36,7 @@ const STEP_TITLES: Record<(typeof WIZARD_STEPS)[number], { title: string; descri
       "This is the one thing BandReady cannot do on its own. You can also leave it for later.",
   },
   models: {
-    title: "Speaking practice files",
+    title: "Voice and speech files",
     description: "Downloaded once and kept on this computer. You can carry on while they run.",
   },
   mic: {

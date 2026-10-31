@@ -196,7 +196,7 @@ describe("onboarding wizard", () => {
     expect(screen.getByText("Marking your writing and speaking")).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: /Continue/ }));
-    expect(screen.getByText("Speaking practice files")).toBeInTheDocument();
+    expect(screen.getByText("Voice and speech files")).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: /Continue/ }));
     expect(screen.getByText("Microphone check")).toBeInTheDocument();
@@ -339,7 +339,7 @@ describe("onboarding wizard", () => {
 
     // Never the sidecar's URL-and-port string; always something to do about it.
     expect(
-      await screen.findByText("The model you chose isn't answering. It may not be started yet."),
+      await screen.findByText("No marking model is answering on this computer yet."),
     ).toBeInTheDocument();
     expect(screen.queryByText(/could not connect to http/)).toBeNull();
 

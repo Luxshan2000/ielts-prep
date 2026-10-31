@@ -79,7 +79,7 @@ export function ListeningHome() {
   return (
     <PageShell
       title="Listening"
-      description="Four parts, forty questions. The audio is generated on this machine, so nothing needs the internet."
+      description="Four parts, forty questions. The audio is generated on this machine from a one-time voice download, and after that nothing needs the internet."
       onRefresh={() => void loadLibrary(true)}
       refreshing={testsLoading}
       refreshLabel="Reload the listening library"

@@ -36,7 +36,7 @@ vi.mock("@/lib/api", async () => {
 
 import { MarkingNotice } from "../MarkingNotice";
 import { StartAttemptModal } from "../StartAttemptModal";
-import { describeVerify, useMarkingStatus } from "../../markingStatus";
+import { describeVerify, useMarkingStatus } from "@/lib/markingStatus";
 import { unmarkedReason } from "../mock/analysis";
 import type { WritingAttempt, WritingPrompt } from "../../store";
 

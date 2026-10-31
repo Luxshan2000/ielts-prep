@@ -63,7 +63,7 @@ const COPY: Record<Modality, JobCopy> = {
     without:
       "Without it: your computer's own voice is used instead, which is fine for single words but not for listening papers.",
     localName: "Kokoro",
-    localNote: "Free, and works with no internet",
+    localNote: "Free, and works with no internet after a one-time download",
     remoteNote: "More natural voices, paid per character",
   },
   stt: {

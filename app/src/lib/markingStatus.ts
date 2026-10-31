@@ -8,11 +8,17 @@
  * met "could not reach the language model". The mock paper was worse — a full hour and
  * two essays before the same sentence.
  *
- * So the two screens that ask for that time — the start-an-attempt modal and the mock
- * pre-flight — ask here first. The answer is `POST /api/v1/providers/verify`, which is
- * the only thing in the app that actually knows (03 §9): it opens the provider's
+ * So the two writing screens that ask for that time — the start-an-attempt modal and the
+ * mock pre-flight — ask here first. The answer is `POST /api/v1/providers/verify`, which
+ * is the only thing in the app that actually knows (03 §9): it opens the provider's
  * `/models`, on a four-second budget, and never throws for an endpoint that is simply
  * not there.
+ *
+ * Speaking asks here too. The examiner and the marker are the same model, and the
+ * sidecar's own `examiner_available` deliberately makes no network call, so on the
+ * shipped default — Ollama configured, Ollama not installed — it reports ready and the
+ * live session connects to an examiner that never speaks. This probe is what catches it.
+ * That is why it lives in `lib/` and why its reasons name no single skill.
  *
  * Three rules this file exists to keep:
  *
@@ -20,7 +26,9 @@
  *    "sample" report. If marking cannot run, the screen says so in words.
  * 2. **Never hide the feature.** Writing practice without marking is still practice,
  *    and someone on a metered connection may be setting the model up later. The notice
- *    warns and points at Settings; it does not disable the button.
+ *    warns and points at Settings; it does not disable the button. (Speaking is the
+ *    exception, and only because there is nothing to practise against: without the
+ *    model there is no examiner to talk to, not merely no band.)
  * 3. **Never claim more than the probe knows.** A provider that answers but does not
  *    have the selected model installed is reported as exactly that, not as "ready".
  */
@@ -45,9 +53,12 @@ export type MarkingState =
   | "ready"
   | "unavailable";
 
-/** What to do about it, in one sentence, appended to every `unavailable` reason. */
-export const MARKING_FIX =
-  "Open Settings → Providers, choose a model and press Verify. Anything you write is saved either way, so you can have it marked once a model is working.";
+/**
+ * What to do about it, in one sentence, appended to every `unavailable` reason. "Check"
+ * is the button's real label on the Providers pane; this used to say "press Verify",
+ * which names a control the learner cannot find.
+ */
+export const MARKING_FIX = "Open Settings → Providers, choose a model and press Check.";
 
 /**
  * Why marking cannot run, keyed by the `state` the verify route reports.
@@ -56,18 +67,18 @@ export const MARKING_FIX =
  * slugs, no "HTTP", and the consequence stated before the cause.
  */
 const REASON: Record<string, string> = {
-  unconfigured: "No marking model has been set up yet, so nothing you write here can be scored.",
-  no_key: "BandReady could not read the key for your marking model, so nothing you write here can be scored.",
+  unconfigured: "No marking model has been set up, so nothing can be marked yet.",
+  no_key: "BandReady could not read the key for your marking model, so nothing can be marked yet.",
   unreachable:
-    "The marking model is not answering. It has to be running on this machine before an answer can be scored.",
+    "The marking model is not answering. It has to be running on this machine before anything can be marked.",
   timeout: "The marking model is answering too slowly to finish a marking run right now.",
-  unauthorized: "Your model provider rejected its key, so nothing you write here can be scored.",
-  needs_download: "The marking model has not been downloaded yet, so nothing you write here can be scored.",
-  error: "The marking model reported a problem, so nothing you write here can be scored.",
+  unauthorized: "Your model provider rejected its key, so nothing can be marked yet.",
+  needs_download: "The marking model has not been downloaded yet, so nothing can be marked yet.",
+  error: "The marking model reported a problem, so nothing can be marked yet.",
 };
 
 const FALLBACK_REASON =
-  "BandReady could not find a working marking model, so nothing you write here can be scored.";
+  "BandReady could not find a working marking model, so nothing can be marked yet.";
 
 /** The provider answered, but the model BandReady is set to use is not installed on it. */
 const MODEL_MISSING =

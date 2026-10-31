@@ -51,11 +51,12 @@ test("a first run redirects into the wizard and finishes with estimates and a pl
   await expect(page.getByText("Select at least three study days.")).toHaveCount(0);
   await page.getByRole("button", { name: "Continue" }).click();
 
-  // Steps 4–6 — engines, model weights, mic check. All informational: they must
-  // render without blocking, and the wizard must let the learner through.
+  // Steps 4–6 — marking model, speaking files, mic check. None of them may block:
+  // the wizard must let a learner through who sets nothing up. The headings are
+  // the step titles in `features/onboarding/page.tsx` STEP_TITLES.
   for (const heading of [
-    "What's already on this machine",
-    "Voice and speech weights",
+    "Marking your writing and speaking",
+    "Voice and speech files",
     "Microphone check",
   ]) {
     await expect(page.getByRole("heading", { name: heading })).toBeVisible();

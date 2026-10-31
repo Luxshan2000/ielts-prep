@@ -11,62 +11,45 @@ test.beforeEach(async ({ seed }) => {
   await seed.ensureOnboarded();
 });
 
-test("selecting the mock LLM verifies, lists models, and survives a reload", async ({
+test("each job is checked on opening, and a route change saves and survives a reload", async ({
   page,
   seed,
 }) => {
-  await gotoRoute(page, "/settings");
+  // The mock adapters are the shared test seam (14 §7.1). The Providers pane no longer
+  // offers them as a choice — it offers "On this computer" or "Through OpenRouter" per
+  // job — so they are selected through the API, as the other specs do.
+  await seed.selectMockProviders();
+
+  await gotoRoute(page, "/settings?tab=providers");
   await expect(page.getByRole("dialog").getByRole("heading", { name: "Settings" })).toBeVisible();
-  await page.getByRole("link", { name: "Providers" }).click();
 
-  // Pick the hidden mock preset (registered because the sidecar runs with
-  // BANDREADY_ENABLE_MOCK=1 — 14 §7.1's shared test seam).
-  const providerSelect = page.getByRole("button", { name: "Language model provider" });
-  await expect(providerSelect).toBeVisible();
-  await providerSelect.click();
-  await page.getByRole("option", { name: "Mock LLM (tests)" }).click();
-  await expect(providerSelect).toContainText("Mock LLM");
+  // Every "Open Settings" in the app lands here because something failed, so the pane
+  // checks each job itself instead of waiting for three button presses.
+  const examiner = page.getByRole("group", { name: "The examiner" });
+  await expect(examiner.getByText("Working", { exact: true })).toBeVisible({ timeout: 20_000 });
 
-  // Verify really calls POST /api/v1/providers/verify.
-  const verified = page.waitForResponse(
-    (res) => res.url().includes("/api/v1/providers/verify") && res.request().method() === "POST",
-  );
-  await page
-    .getByRole("button", { name: "Verify" })
-    .first()
-    .click();
-  const verifyResponse = await verified;
-  expect(verifyResponse.status()).toBe(200);
-  const verifyBody = (await verifyResponse.json()) as { ok: boolean; models: string[] };
-  expect(verifyBody.ok, "the mock provider must verify successfully").toBe(true);
-  expect(verifyBody.models.length, "verification returns the served model list").toBeGreaterThan(0);
-
-  // …and the success plus the served model reach the screen. The mock preset's
-  // `config_spec` declares `model` as free text, so the slot renders a textbox
-  // holding the model the sidecar just reported.
-  await expect(page.getByText("mock provider — deterministic fixtures")).toBeVisible();
-  await expect(page.getByText("Verified", { exact: true }).first()).toBeVisible();
-  // The Language-model card is the first slot on the tab; the STT slot renders a
-  // "Model" textbox of its own once a mock preset is configured.
-  await expect(
-    page.getByRole("textbox", { name: "Model", exact: true }).first(),
-  ).toHaveValue(verifyBody.models[0]);
-
+  // Switch the examiner to the local route, save, and read the result back from the
+  // sidecar — the source of truth, not the React store.
+  const local = examiner.getByRole("button", { name: /^On this computer/ });
+  await local.click();
+  await expect(local).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "Save settings" }).click();
   await expect(page.getByText("Settings saved")).toBeVisible();
-
-  // The sidecar is the source of truth, not the React store.
   const stored = (await (await seed.api.get("/api/v1/settings")).json()) as {
-    llm: { preset: string; model: string };
+    llm: { preset: string };
   };
-  expect(stored.llm.preset).toBe("mock_llm");
+  expect(stored.llm.preset).toBe("ollama");
 
   await page.reload();
-  await page.getByRole("link", { name: "Providers" }).click();
-  await expect(page.getByRole("button", { name: "Language model provider" })).toContainText(
-    "Mock LLM",
-  );
+  await expect(
+    page
+      .getByRole("group", { name: "The examiner" })
+      .getByRole("button", { name: /^On this computer/ }),
+  ).toHaveAttribute("aria-pressed", "true");
   await expectNoErrorBoundary(page);
+
+  // Put the shared seam back for the specs that follow.
+  await seed.selectMockProviders();
 });
 
 test("the VAD volume gate cannot be pushed past the documented 0.6 cap", async ({ page, seed }) => {

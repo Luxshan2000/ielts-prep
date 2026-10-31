@@ -39,6 +39,21 @@ test("the speaking hub runs its pre-call check and starts a topic drill", async 
   );
 
   const start = page.getByRole("button", { name: /^Start topic drill/ });
+
+  // CI installs the sidecar without its `voice` extra, and the hub now refuses up front
+  // rather than connecting a session that cannot work: Start is disabled and the page
+  // says why. That refusal is the behaviour to pin when there is no voice engine.
+  const engine = (await (await seed.api.get("/api/v1/speaking/engine")).json()) as {
+    voice_available: boolean;
+  };
+  if (!engine.voice_available) {
+    await expect(start).toBeDisabled();
+    await expect(
+      page.getByText(/voice engine isn't installed in this build/i),
+    ).toBeVisible();
+    await expectNoErrorBoundary(page);
+    return;
+  }
   await expect(start).toBeEnabled();
 
   // --- live screen ----------------------------------------------------------
@@ -83,7 +98,7 @@ test("a scored session's report shows bands, criteria, transcript and vocabulary
   await gotoRoute(page, `/speaking/report/${reportId}`);
 
   // Band scores — overall plus the four spoken criteria.
-  await expect(page.getByRole("img", { name: /Band \d(\.\d)? — Overall/ })).toBeVisible({
+  await expect(page.getByRole("img", { name: /Band \d(\.\d)?, Overall/ })).toBeVisible({
     timeout: 30_000,
   });
   for (const criterion of ["Fluency", "Lexical", "Grammar", "Pronunciation"]) {

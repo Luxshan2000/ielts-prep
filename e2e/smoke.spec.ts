@@ -25,9 +25,12 @@ async function expectRendered(
   destination: { label: string; dialog?: boolean },
 ): Promise<void> {
   if (destination.dialog) {
-    const dialog = page.getByRole("dialog");
-    await expect(dialog).toBeVisible({ timeout: 30_000 });
-    await expect(dialog.getByRole("heading", { name: destination.label })).toBeVisible();
+    // Headless UI puts role="dialog" on an outer wrapper that has no box of its own (the
+    // panel inside it is what paints), so Playwright reports the wrapper itself as hidden
+    // while the dialog is plainly on screen. Its heading is what a learner actually sees.
+    await expect(
+      page.getByRole("dialog").getByRole("heading", { name: destination.label }),
+    ).toBeVisible({ timeout: 30_000 });
     return;
   }
   await expect(page.locator("main h1").first()).toBeVisible({ timeout: 30_000 });

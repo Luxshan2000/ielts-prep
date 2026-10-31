@@ -70,7 +70,7 @@ test("a Task 2 essay is drafted, autosaved, scored and rewritten", async ({ page
 
   // --- submit and wait for the evaluation job -------------------------------
   await submitAttempt(page);
-  await expect(page.getByRole("img", { name: /Band \d(\.\d)? — Overall/ })).toBeVisible({
+  await expect(page.getByRole("img", { name: /Band \d(\.\d)?, Overall/ })).toBeVisible({
     timeout: 90_000,
   });
   await expectNoErrorBoundary(page);
@@ -78,7 +78,7 @@ test("a Task 2 essay is drafted, autosaved, scored and rewritten", async ({ page
   // Band card: an overall band plus the four criteria.
   for (const label of ["Task Response", "Coherence", "Lexis", "Grammar"]) {
     await expect(
-      page.getByRole("img", { name: new RegExp(`Band \\d(\\.\\d)? — ${label}`) }),
+      page.getByRole("img", { name: new RegExp(`Band \\d(\\.\\d)?, ${label}`) }),
     ).toBeVisible();
   }
 

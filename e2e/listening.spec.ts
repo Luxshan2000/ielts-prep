@@ -16,6 +16,8 @@ test("audio renders through a job, exam mode locks playback, and the attempt rev
 }) => {
   await gotoRoute(page, "/listening");
   await expect(page.getByRole("heading", { name: "Listening", exact: true })).toBeVisible();
+  // The room opens on Practice; the exam-conditions controls live on their own tab.
+  await page.getByRole("tab", { name: "Exam conditions" }).click();
 
   // --- prepare the audio ----------------------------------------------------
   // The pack ships no rendered audio (every script has `audio_hash: null`), so a

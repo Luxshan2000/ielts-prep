@@ -42,6 +42,9 @@ and the HTTP API can all change without a migration path.
 - OpenRouter now covers speech-to-text and text-to-speech as well as chat, from the same key.
 - The question number comes first everywhere in the question palettes and review screens.
 - Grammar teaching order is computed from the content rather than requested from authors.
+- `sidecar/.python-version` pins 3.11, so `uv sync` no longer builds the sidecar on whatever
+  newer Python the machine has. The sidecar's pytest config dumps every thread's stack for a
+  test still running after 120 seconds, so a hang names itself in CI.
 - `README.md` and `CONTRIBUTING.md` rewritten for a public launch, including the two
   auto-discovery seams and the content pipeline.
 
@@ -53,6 +56,33 @@ and the HTTP API can all change without a migration path.
 - A check that failed silently now reports its failure.
 - `.dev-data/` is gitignored, so the dev database, the auth secret and voice recordings can no
   longer be committed.
+- The listening mock froze for about five seconds per part each time its audio finished
+  rendering. A status read wrote a `media_files` row on a second SQLite connection while the
+  request held the write lock, and waited out `busy_timeout` per part. This was also what hung
+  the sidecar suite in CI past its 15-minute limit.
+- Speaking offered its scored modes and the full mock on a fresh install with no model running.
+  The sidecar's check only asked whether a model was named, and the shipped default names an
+  Ollama model. Speaking now asks the same reachability probe Writing uses (`lib/markingStatus`).
+- A listening mock that was still rendering came back after a reload as an open sitting whose
+  "clock has been running", with no render progress. A render lost to an app restart is now
+  queued again rather than leaving the paper stuck at `preparing`.
+- Band estimates did not move after a scored attempt until the recompute button was pressed.
+- Listening mocks never appeared in Progress → Mock history.
+- 296 of the 496 speaking cue cards could not be reached: the cards route capped at 200.
+- The Intel macOS DMG bundled an Apple Silicon Python and could not start its sidecar. The
+  release workflow now builds arm64 only on its Apple Silicon runner.
+- The onboarding wizard, the Listening page and Settings claimed Listening needs no setup, that
+  downloads are checksum-verified, and that nothing ever leaves the machine. None was true.
+- First-run copy: step 4 no longer tells someone who chose nothing that "the model you chose"
+  is down, instructions name the "Check" button that exists rather than "Verify", the
+  missing-voice-files error names the real Settings section instead of filenames and a path,
+  and the global provider banner hides hosts, ports and exception text.
+- Settings checks each provider job on opening instead of showing three unexplained warnings.
+- Rename leftovers from `bandready` to `ielts-prep`: the README clone step, the Help menu's
+  GitHub link (a 404), the updater's publish target and the sidecar's project URLs.
+- Smaller: "Back in in 4 days" in grammar, "14 %" spacing, raw slugs as reading drill titles.
+- The E2E suite had not run past onboarding since the wizard's steps were renamed; eight specs
+  had drifted from the UI and are updated.
 
 ### Removed
 

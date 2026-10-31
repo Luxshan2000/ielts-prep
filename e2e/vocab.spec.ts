@@ -83,7 +83,8 @@ test("accepting a suggestion schedules it, and a review session clears the queue
   // --- rate the first card with the mouse ----------------------------------
   const reveal = page.getByRole("button", { name: /Show answer|Check|Reveal/ }).first();
   if (await reveal.isVisible().catch(() => false)) await reveal.click();
-  const good = page.getByRole("button", { name: /^Good — next in/ });
+  // RatingBar names each button "Good, next in 10m (key 3)".
+  const good = page.getByRole("button", { name: /^Good, next in/ });
   await expect(good).toBeVisible();
   const firstReview = page.waitForResponse(
     (res) => res.url().endsWith("/api/v1/srs/review") && res.request().method() === "POST",

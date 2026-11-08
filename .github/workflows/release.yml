@@ -140,8 +140,20 @@ jobs:
         run: |
           $setup = Get-ChildItem dist-electron -Filter 'BandReady-Setup-*.exe' | Select-Object -First 1
           if (-not $setup) { throw 'no NSIS installer was built' }
-          Start-Process -FilePath $setup.FullName -ArgumentList '/S', '/D=C:\BR' -Wait
-          if (-not (Test-Path 'C:\BR\BandReady.exe')) { throw 'the installer did not produce C:\BR\BandReady.exe' }
+          $installer = Start-Process -FilePath $setup.FullName -ArgumentList '/S', '/D=C:\BR' -Wait -PassThru
+          Write-Host "Installer exited with code $($installer.ExitCode)"
+          # NSIS can hand the work to a child process and exit first. One release run found
+          # no BandReady.exe four seconds in, where the install normally takes about ninety.
+          # Wait for the files, and for the uninstaller NSIS writes last, before judging.
+          for ($i = 0; $i -lt 180; $i++) {
+            $done = (Test-Path 'C:\BR\BandReady.exe') -and (Get-ChildItem 'C:\BR' -Filter 'Uninstall*.exe' -ErrorAction SilentlyContinue)
+            if ($done -and -not (Get-Process -Name 'BandReady-Setup*' -ErrorAction SilentlyContinue)) { break }
+            Start-Sleep -Seconds 1
+          }
+          if (-not (Test-Path 'C:\BR\BandReady.exe')) {
+            Get-ChildItem 'C:\BR' -ErrorAction SilentlyContinue | Format-Table -AutoSize | Out-String | Write-Host
+            throw 'the installer did not produce C:\BR\BandReady.exe'
+          }
 
           # Windows still caps paths at 260 characters unless a registry switch is on, and a
           # per-user install lives under C:\Users\<name>\AppData\Local\Programs\BandReady\

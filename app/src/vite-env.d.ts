@@ -45,5 +45,7 @@ declare global {
 
   interface Window {
     bandready?: BandReadyBridge;
+    /** Written into index.html by the sidecar in the browser edition (server/web.py). */
+    __BANDREADY_SIDECAR__?: { token?: string };
   }
 }

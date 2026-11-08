@@ -29,6 +29,13 @@ and the HTTP API can all change without a migration path.
   practice content.
 - Windows support in the packaging path: an MSI target alongside NSIS, and a cross-platform
   release workflow that builds unsigned pre-release installers on Windows and macOS runners.
+- A browser edition for Linux, Intel Macs, and anyone a desktop installer does not suit. One
+  pasted line (`install.sh`, or `install.ps1` on Windows) installs uv, a Python for BandReady,
+  and a release wheel that carries the sidecar, the built pages and the content pack, then adds
+  a shortcut. The `bandready` launcher serves the pages from the sidecar on loopback, writes the
+  per-launch token into `index.html` (the Host guard keeps a rebound page from reading it), and
+  opens the browser. A second launch reopens the running copy. The release workflow runs both
+  scripts on Linux and on Windows PowerShell 5.1 before anything is published.
 
 ### Changed
 

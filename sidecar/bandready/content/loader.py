@@ -72,6 +72,10 @@ def candidate_pack_paths() -> list[Path]:
     repo_root = Path(__file__).resolve().parents[3]
     out.append(repo_root / "content" / DEFAULT_PACK_DIRNAME)
 
+    # The release wheel (the browser edition) carries the pack inside the package.
+    bundled = Path(__file__).resolve().parents[1] / "_bundle" / "content" / DEFAULT_PACK_DIRNAME
+    out.append(bundled)
+
     resources = os.environ.get("BANDREADY_RESOURCES_DIR")
     if resources:
         base = Path(resources).expanduser()

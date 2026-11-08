@@ -223,9 +223,109 @@ jobs:
           # months and is what exhausted the storage quota.
           retention-days: 3
 
+  browser:
+    # The browser edition: one wheel holding the sidecar, the built pages and the content
+    # pack, installed by install.sh / install.ps1 for Linux and anyone the desktop
+    # installers do not suit. Checked here exactly as a learner would run it.
+    name: browser edition (linux)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enable corepack and pin pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@9.12.0 --activate
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Build the renderer bundle
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm --filter bandready-app build
+
+      - name: Build the wheel with the pages and the content pack inside
+        run: |
+          mkdir -p sidecar/bandready/_bundle/content
+          cp -R app/dist sidecar/bandready/_bundle/web
+          cp -R content/core-en sidecar/bandready/_bundle/content/core-en
+          cd sidecar && uv build --wheel
+          ls -lh dist
+
+      - name: Install with install.sh and open the app
+        run: |
+          export BANDREADY_WHEEL="$(ls "$PWD"/sidecar/dist/*.whl)"
+          BANDREADY_NO_LAUNCH=1 sh install.sh
+          test -f "$HOME/.local/share/applications/bandready.desktop"
+          "$(uv tool dir --bin)/bandready" --no-browser --port 8765 > "$RUNNER_TEMP/web.log" 2>&1 &
+          for _ in $(seq 180); do
+            curl -fsS http://127.0.0.1:8765/health > /dev/null 2>&1 && break
+            sleep 1
+          done
+          cat "$RUNNER_TEMP/web.log"
+          curl -fsS http://127.0.0.1:8765/ -o "$RUNNER_TEMP/index.html"
+          token=$(sed -n 's/.*"token": "\([0-9a-f]*\)".*/\1/p' "$RUNNER_TEMP/index.html")
+          [ -n "$token" ] || { echo "::error::the page carries no token"; exit 1; }
+          curl -fsS -H "Authorization: Bearer $token" http://127.0.0.1:8765/api/v1/reading/tests | head -c 300
+          echo
+          "$(uv tool dir)/bandready-sidecar/bin/python" -c "import pipecat, faster_whisper, onnxruntime, ctranslate2, kokoro_onnx; print('voice stack imports')"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bandready-browser
+          path: sidecar/dist/*.whl
+          if-no-files-found: error
+          retention-days: 3
+
+  browser-windows:
+    # install.ps1 under Windows PowerShell 5.1, the version every Windows machine has.
+    name: browser edition (windows)
+    needs: browser
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: bandready-browser
+          path: wheel
+
+      - name: Install with install.ps1 and open the app
+        shell: powershell
+        run: |
+          $env:BANDREADY_WHEEL = (Get-ChildItem wheel -Filter *.whl | Select-Object -First 1).FullName
+          $env:BANDREADY_NO_LAUNCH = '1'
+          .\install.ps1
+          $programs = [Environment]::GetFolderPath('Programs')
+          if (-not (Test-Path (Join-Path $programs 'BandReady.lnk'))) { throw 'no Start menu shortcut' }
+          $bin = Join-Path ((& "$env:USERPROFILE\.local\bin\uv.exe" tool dir --bin).Trim()) 'bandready.exe'
+          if (-not (Test-Path $bin)) { $bin = Join-Path ((& uv tool dir --bin).Trim()) 'bandready.exe' }
+          Start-Process -FilePath $bin -ArgumentList '--no-browser', '--port', '8765' -RedirectStandardOutput "$env:RUNNER_TEMP\web.log" -RedirectStandardError "$env:RUNNER_TEMP\web.err"
+          $up = $false
+          for ($i = 0; $i -lt 180; $i++) {
+            try { Invoke-WebRequest http://127.0.0.1:8765/health -UseBasicParsing | Out-Null; $up = $true; break } catch { Start-Sleep -Seconds 1 }
+          }
+          Get-Content "$env:RUNNER_TEMP\web.log", "$env:RUNNER_TEMP\web.err" -ErrorAction SilentlyContinue | Select-Object -Last 40
+          if (-not $up) { throw 'the browser edition never answered /health' }
+          $page = (Invoke-WebRequest http://127.0.0.1:8765/ -UseBasicParsing).Content
+          if ($page -notmatch '"token": "([0-9a-f]+)"') { throw 'the page carries no token' }
+          $tests = Invoke-RestMethod http://127.0.0.1:8765/api/v1/reading/tests -Headers @{ Authorization = "Bearer $($Matches[1])" }
+          Write-Host "reading tests served: $($tests.items.Count)"
+          if ($tests.items.Count -lt 1) { throw 'no content was served' }
+
   publish:
     name: attach to a pre-release
-    needs: build
+    needs: [build, browser, browser-windows]
     # `always()` so one platform failing still publishes the other — see fail-fast above.
     # Skipped entirely for a trial run.
     if: always() && inputs.publish
@@ -278,6 +378,16 @@ jobs:
             DMG, drag BandReady to Applications and open it once. Then open **System Settings
             → Privacy & Security**, scroll to the message about BandReady, and click **Open
             Anyway**. Right-click → Open no longer works on macOS 15 and later.
+
+            ### Linux, Intel Macs, or if an installer is blocked
+
+            Use the browser edition: the same app, opened in your browser, still running on
+            your own computer. Paste one line:
+
+            - Linux or Mac (Terminal): `curl -LsSf https://raw.githubusercontent.com/Luxshan2000/ielts-prep/main/install.sh | sh`
+            - Windows (PowerShell): `irm https://raw.githubusercontent.com/Luxshan2000/ielts-prep/main/install.ps1 | iex`
+
+            It installs the `.whl` attached here. You do not need to download it yourself.
 
             ### What may not work
 

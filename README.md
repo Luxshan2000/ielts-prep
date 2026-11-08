@@ -163,24 +163,52 @@ broken image icons.
 
 ## 📥 Install (users)
 
-Building from source is the supported route today, and it takes about fifteen minutes on a fast
-connection. Two ways in:
+Pick the one that matches your computer. All three are free and none needs an account.
 
-1. **Build it from source.** This is the supported path, and it takes about fifteen minutes on a
-   fast connection. Jump to [Build from source](#-build-from-source).
-2. **Run the release workflow yourself.**
-   [`.github/workflows/release.yml`](.github/workflows/release.yml) builds on Windows and macOS
-   runners and attaches installers to a GitHub pre-release. It is `workflow_dispatch` only, so
-   you need push access to this repository or to your own fork.
+| Your computer | What to get |
+|---|---|
+| **Windows 10 or 11** | `BandReady-Setup-*.exe` from the [latest release](https://github.com/Luxshan2000/ielts-prep/releases). If that is blocked, use the `.msi` from the same page. |
+| **Mac with Apple Silicon** (M1 or later) | `BandReady-*-arm64.dmg` from the [latest release](https://github.com/Luxshan2000/ielts-prep/releases). Drag BandReady to Applications. |
+| **Linux, an Intel Mac, or anything else** | The browser edition, below. |
 
-Whichever route you take, the first launch needs a network connection so it can fetch model
-weights (roughly 340 MB for the voice, more if you want local speech-to-text). Everything after
-that runs offline.
+Releases are pre-releases for now: every installer is installed and started on a clean machine
+before it is published, but they are young, so please [report](https://github.com/Luxshan2000/ielts-prep/issues)
+anything that breaks.
+
+### The browser edition
+
+The same app, opened in your web browser instead of its own window. It still runs entirely on
+your computer. Copy one line, paste it, press Enter:
+
+- **Linux or Mac**: open Terminal and paste
+  ```sh
+  curl -LsSf https://raw.githubusercontent.com/Luxshan2000/ielts-prep/main/install.sh | sh
+  ```
+- **Windows**: open PowerShell and paste
+  ```powershell
+  irm https://raw.githubusercontent.com/Luxshan2000/ielts-prep/main/install.ps1 | iex
+  ```
+
+It needs no administrator password, and no Node, git or Python of your own. It installs into
+your home folder, adds a BandReady shortcut, and opens the app in your browser. Keep the small
+window it opens while you practise; closing it stops BandReady. Paste the same line again to
+update.
+
+On an Intel Mac the browser edition installs without Listening audio and the speaking examiner,
+because their speech engine no longer supports Intel Macs. Everything else works.
+
+### What the first launch needs
+
+A network connection, once. The examiner's voice (about 340 MB) and speech recognition (about
+145 MB) download from Settings, and marking needs a model: either
+[Ollama](https://ollama.com) on this computer, which is free, or an
+[OpenRouter](https://openrouter.ai) key. The setup wizard walks through both. After that,
+practice runs offline.
 
 ### Opening it the first time
 
-Builds are unsigned, so both systems ask once before they will run a new app. This is what they
-ask and what to press.
+The desktop installers are not signed with a paid certificate, so both systems ask once before
+they will run a new app. This is what they ask and what to press.
 
 - **macOS** — open **System Settings → Privacy & Security**, scroll to the message about the app
   being blocked, and click **Open Anyway**. Right-click then Open no longer works on macOS 15.
@@ -214,9 +242,10 @@ pnpm install
 cd sidecar && uv sync --extra dev --extra voice && cd ..
 ```
 
-The `voice` extra is large — pipecat, torch and faster-whisper come to roughly 2 to 3 GB of
-wheels — but it is what makes the live speaking module work. Drop `--extra voice` for a
-text-only install and everything except live speaking still runs.
+The `voice` extra is the large part, about 750 MB installed (pipecat, onnxruntime,
+faster-whisper and Kokoro; there is no torch). It is what makes Listening audio and the live
+speaking examiner work. Drop `--extra voice` for a text-only install and everything else still
+runs.
 
 **3. Start everything.**
 

@@ -111,6 +111,12 @@ let contractPromise: Promise<SidecarContract> | null = null;
 let resolvedContract: SidecarContract | null = null;
 
 function envContract(): SidecarContract {
+  // The browser edition: the sidecar served this page and wrote the token into it, so the
+  // API is on this page's own origin.
+  const injected = typeof window !== "undefined" ? window.__BANDREADY_SIDECAR__ : undefined;
+  if (injected?.token) {
+    return { baseUrl: stripTrailingSlash(window.location.origin), token: injected.token };
+  }
   const env = import.meta.env ?? {};
   return {
     baseUrl: stripTrailingSlash(env.VITE_SIDECAR_URL || DEFAULT_BASE_URL),

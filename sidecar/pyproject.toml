@@ -49,6 +49,8 @@ dev = [
 
 [project.scripts]
 bandready-sidecar = "bandready.cli:main"
+# The browser edition (install.sh / install.ps1): serves the app pages and opens a browser.
+bandready = "bandready.launch:main"
 
 [build-system]
 requires = ["hatchling"]
@@ -56,6 +58,10 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["bandready"]
+# The release workflow copies the built renderer and the content pack in here before
+# `uv build`. The directory is gitignored, and hatch leaves out ignored files unless they
+# are named as artifacts.
+artifacts = ["bandready/_bundle/**"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

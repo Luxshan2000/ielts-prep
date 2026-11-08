@@ -4,6 +4,8 @@ dist/
 dist-electron/
 release/
 .venv/
+# Release-only copy of the renderer and content pack for the browser-edition wheel
+sidecar/bandready/_bundle/
 __pycache__/
 *.py[cod]
 *.egg-info/

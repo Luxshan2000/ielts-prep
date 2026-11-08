@@ -260,12 +260,17 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
-    app.add_middleware(AuthMiddleware, token=settings.auth_token)
+    from bandready.server.web import install_web, web_enabled
+
+    serve_pages = web_enabled()
+    app.add_middleware(AuthMiddleware, token=settings.auth_token, serve_pages=serve_pages)
     app.add_middleware(AccessLogMiddleware)
 
     install_error_handlers(app)
     app.state.registered_routes = discover_routers(app)
     app.state.route_paths = route_paths(app)
+    # Last: the page mount at "/" must not shadow any API route.
+    app.state.serving_pages = serve_pages and install_web(app, settings.auth_token)
     return app
 
 

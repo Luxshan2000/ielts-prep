@@ -10,7 +10,9 @@ processes and by any web page attempting DNS rebinding. Three layers, cheapest f
 3. **Bearer token** — 256-bit per-launch token, constant-time compare. The only exempt
    route is ``GET /health``; requests carrying a live signed ticket (18 §2) are exempt
    because ``<audio>`` and ``WebSocket`` cannot set headers — the route itself still
-   validates the ticket's audience and resource.
+   validates the ticket's audience and resource. In the browser edition, plain GETs for
+   the app's own pages (anything outside ``/api/``) are exempt too: they are static
+   files, and the page has to load before it can learn the token.
 """
 
 from __future__ import annotations
@@ -101,9 +103,10 @@ def is_exempt(path: str) -> bool:
 class AuthMiddleware(BaseHTTPMiddleware):
     """Applies the three guards above to every request."""
 
-    def __init__(self, app: ASGIApp, token: str) -> None:
+    def __init__(self, app: ASGIApp, token: str, *, serve_pages: bool = False) -> None:
         super().__init__(app)
         self.token = token or ""
+        self.serve_pages = serve_pages
         if not self.token:
             _log.warning(
                 "BANDREADY_AUTH_TOKEN is not set — bearer auth is DISABLED and only the "
@@ -125,6 +128,15 @@ class AuthMiddleware(BaseHTTPMiddleware):
 
         if request.method == "OPTIONS" or is_exempt(path):
             request.state.authenticated = True
+            return await call_next(request)
+
+        # The browser edition's pages. Not marked authenticated: nothing outside /api/
+        # needs it, and an API route reached any other way still demands the token.
+        if (
+            self.serve_pages
+            and request.method in ("GET", "HEAD")
+            and not path.startswith("/api/")
+        ):
             return await call_next(request)
 
         if token_matches(bearer_from(request), self.token):

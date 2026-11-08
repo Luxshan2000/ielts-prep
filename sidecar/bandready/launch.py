@@ -43,16 +43,6 @@ def _url(port: int) -> str:
     return f"http://127.0.0.1:{port}/"
 
 
-def _is_bandready(port: int, timeout: float = 1.0) -> bool:
-    """True when a BandReady sidecar answers on this port."""
-    try:
-        with urllib.request.urlopen(f"http://127.0.0.1:{port}/health", timeout=timeout) as resp:
-            body = json.loads(resp.read().decode("utf-8") or "{}")
-    except (OSError, ValueError):
-        return False
-    return body.get("status") == "ok" and "migrations" in body
-
-
 def _proves_secret(port: int, secret: str, timeout: float = 2.0) -> bool:
     """True when the server on ``port`` is the one this user started (it knows the secret)."""
     import hmac
@@ -124,10 +114,14 @@ def _open_browser(data_dir: Path, port: int, secret: str) -> None:
 
 
 def _open_when_ready(data_dir: Path, port: int, secret: str, deadline_s: float = 180.0) -> None:
-    """Open the browser once /health answers. First start runs migrations and seeds content."""
+    """Open the browser once our server answers. First start runs migrations and seeds content.
+
+    It waits for the secret's proof, not just /health: if something else took the port
+    between choosing it and binding it, the browser, and the secret, must not go there.
+    """
     end = time.monotonic() + deadline_s
     while time.monotonic() < end:
-        if _is_bandready(port):
+        if _proves_secret(port, secret):
             _open_browser(data_dir, port, secret)
             return
         time.sleep(0.5)

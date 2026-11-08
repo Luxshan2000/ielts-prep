@@ -270,9 +270,7 @@ def create_app() -> FastAPI:
     app.state.registered_routes = discover_routers(app)
     app.state.route_paths = route_paths(app)
     # Last: the page mount at "/" must not shadow any API route.
-    app.state.serving_pages = serve_pages and install_web(
-        app, settings.auth_token, port=settings.port
-    )
+    app.state.serving_pages = serve_pages and install_web(app, settings.auth_token)
     return app
 
 

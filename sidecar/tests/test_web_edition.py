@@ -12,7 +12,7 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from bandready import launch
-from bandready.server.web import LAUNCH_SECRET_ENV, index_with_contract, session_cookie_name
+from bandready.server.web import LAUNCH_SECRET_ENV, index_with_contract
 from tests.test_api_smoke import _reset_process_state
 
 TOKEN = "web-edition-token"
@@ -56,18 +56,18 @@ def desktop_client(tmp_path: Path) -> Iterator[TestClient]:
 
 
 def test_the_launch_secret_opens_the_page_with_its_token(web_client: TestClient) -> None:
-    resp = web_client.get(f"/?launch={SECRET}", follow_redirects=False)
-    assert resp.status_code == 303
-    assert resp.headers["location"] == "/"  # the secret leaves the address bar
-    cookie = resp.cookies.get(session_cookie_name(8765))
-    assert cookie
-    assert "httponly" in resp.headers["set-cookie"].lower()
-
-    page = web_client.get("/", cookies={session_cookie_name(8765): cookie})
+    page = web_client.get(f"/?launch={SECRET}")
     assert page.status_code == 200
-    assert f'window.__BANDREADY_SIDECAR__={{"token": "{TOKEN}"}}' in page.text
-    # A new token every launch, so the page must never come from a cache.
+    assert f'var t="{TOKEN}";' in page.text
+    # A new token every launch, so the page must never come from a cache, and the address
+    # with the secret in it must not travel on as a referrer.
     assert page.headers["cache-control"] == "no-store"
+    assert page.headers["referrer-policy"] == "no-referrer"
+    # No cookie: browsers share cookies across ports, so another account's server on
+    # 127.0.0.1 would receive it. The page keeps the token in per-origin sessionStorage.
+    assert "set-cookie" not in page.headers
+    assert "sessionStorage.setItem" in page.text
+    assert "history.replaceState" in page.text  # the secret leaves the address bar
 
 
 def test_anyone_else_on_the_machine_gets_no_token(web_client: TestClient) -> None:
@@ -77,12 +77,12 @@ def test_anyone_else_on_the_machine_gets_no_token(web_client: TestClient) -> Non
     for resp in (
         web_client.get("/"),
         web_client.get("/index.html"),
-        web_client.get("/?launch=guess", follow_redirects=False),
-        web_client.get("/", cookies={session_cookie_name(8765): "forged"}),
+        web_client.get("/?launch=guess"),
+        web_client.get("/?launch="),
     ):
-        assert resp.status_code in (401, 403)
         assert TOKEN not in resp.text
-        assert "Open BandReady from its shortcut" in resp.text
+        assert "var t=null;" in resp.text  # the app then shows the open-from-shortcut note
+    assert web_client.get("/?launch=guess").status_code == 403
 
 
 def test_the_pages_assets_load_without_the_token(web_client: TestClient) -> None:
@@ -103,7 +103,7 @@ def test_a_rebound_host_is_refused(web_client: TestClient) -> None:
     # DNS rebinding: a hostile page reaches 127.0.0.1 under its own name.
     resp = web_client.get(f"/?launch={SECRET}", headers={"Host": "evil.example"})
     assert resp.status_code == 403
-    assert "set-cookie" not in resp.headers
+    assert TOKEN not in resp.text
 
 
 def test_the_desktop_app_serves_no_pages(desktop_client: TestClient) -> None:
@@ -116,7 +116,7 @@ def test_the_desktop_app_serves_no_pages(desktop_client: TestClient) -> None:
 def test_the_contract_script_cannot_be_closed_early() -> None:
     out = index_with_contract(PAGE, "</script><script>alert(1)</script>")
     assert out.count("</script>") == 1
-    assert out.startswith("<!doctype html><html><head><script>window.__BANDREADY_SIDECAR__=")
+    assert out.startswith("<!doctype html><html><head><script>(function(){var t=")
 
 
 # --------------------------------------------------------------------------- launcher
@@ -216,7 +216,6 @@ def test_a_squatter_on_the_remembered_port_is_not_trusted(
     monkeypatch.setenv("BANDREADY_DATA_DIR", str(tmp_path))
     for key in ("BANDREADY_WEB", "BANDREADY_HOST", "BANDREADY_PORT", LAUNCH_SECRET_ENV):
         monkeypatch.delenv(key, raising=False)
-    monkeypatch.setattr(launch, "_is_bandready", lambda port, timeout=1.0: True)
     monkeypatch.setattr(launch, "_port_free", lambda port: port != 9123)
     served: list[list[str]] = []
     monkeypatch.setattr("bandready.cli.main", lambda argv: served.append(argv) or 0)
@@ -245,3 +244,13 @@ def test_a_squatter_on_the_remembered_port_is_not_trusted(
     assert launch.main(["--no-browser"]) == 0
     assert served == [["serve"]]
     assert json.loads((tmp_path / launch.STATE_FILE).read_text())["launch"] != "old"
+
+
+def test_the_token_script_runs_ahead_of_the_pages_csp() -> None:
+    # The shipped index.html forbids inline script through a <meta> CSP. A <meta> policy
+    # only applies to what follows it, so the injected script must come first or the
+    # browser refuses it and the app never learns its token.
+    shipped = (Path(__file__).resolve().parents[2] / "app" / "index.html").read_text()
+    assert "Content-Security-Policy" in shipped
+    out = index_with_contract(shipped, "tok")
+    assert out.index("__BANDREADY_SIDECAR__") < out.index("Content-Security-Policy")

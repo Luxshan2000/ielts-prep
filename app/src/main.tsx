@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { App } from "./App";
+import { OpenFromShortcut, needsLauncher } from "./OpenFromShortcut";
 import { bootstrapTheme } from "./lib/theme";
 import "./styles/index.css";
 
@@ -31,7 +32,5 @@ const container = document.getElementById("root");
 if (!container) throw new Error("#root is missing from index.html");
 
 ReactDOM.createRoot(container).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <React.StrictMode>{needsLauncher() ? <OpenFromShortcut /> : <App />}</React.StrictMode>,
 );

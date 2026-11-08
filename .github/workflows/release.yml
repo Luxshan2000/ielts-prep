@@ -273,17 +273,15 @@ jobs:
           done
           cat "$RUNNER_TEMP/web.log"
           # Without the launch secret the page must not carry the token.
-          if curl -sS http://127.0.0.1:8765/ | grep -q '__BANDREADY_SIDECAR__'; then
+          if curl -sS http://127.0.0.1:8765/ | grep -q 'var t="'; then
             echo "::error::the page gave the token to a request without the launch secret"; exit 1
           fi
-          # The way the browser gets in: the secret from the owner-only state file, swapped
-          # for a session cookie.
+          # The way the browser gets in: the secret from the owner-only state file.
           state="$HOME/.local/share/BandReady/web.json"
           [ "$(stat -c %a "$state")" = 600 ] || { echo "::error::web.json is readable by others"; exit 1; }
           secret=$(jq -r .launch "$state")
-          curl -fsS -L -c "$RUNNER_TEMP/jar" -b "$RUNNER_TEMP/jar" \
-            "http://127.0.0.1:8765/?launch=$secret" -o "$RUNNER_TEMP/index.html"
-          token=$(sed -n 's/.*"token": "\([0-9a-f]*\)".*/\1/p' "$RUNNER_TEMP/index.html")
+          curl -fsS "http://127.0.0.1:8765/?launch=$secret" -o "$RUNNER_TEMP/index.html"
+          token=$(sed -n 's/.*var t="\([0-9a-f]*\)".*/\1/p' "$RUNNER_TEMP/index.html")
           [ -n "$token" ] || { echo "::error::the page carries no token after the launch exchange"; exit 1; }
           curl -fsS -H "Authorization: Bearer $token" http://127.0.0.1:8765/api/v1/reading/tests | head -c 300
           echo
@@ -328,8 +326,8 @@ jobs:
           Get-Content "$env:RUNNER_TEMP\web.log", "$env:RUNNER_TEMP\web.err" -ErrorAction SilentlyContinue | Select-Object -Last 40
           if (-not $up) { throw 'the browser edition never answered /health' }
           $state = Get-Content (Join-Path $env:APPDATA 'BandReady\web.json') -Raw | ConvertFrom-Json
-          $page = (Invoke-WebRequest "http://127.0.0.1:8765/?launch=$($state.launch)" -UseBasicParsing -SessionVariable session).Content
-          if ($page -notmatch '"token": "([0-9a-f]+)"') { throw 'the page carries no token after the launch exchange' }
+          $page = (Invoke-WebRequest "http://127.0.0.1:8765/?launch=$($state.launch)" -UseBasicParsing).Content
+          if ($page -notmatch 'var t="([0-9a-f]+)"') { throw 'the page carries no token after the launch exchange' }
           $tests = Invoke-RestMethod http://127.0.0.1:8765/api/v1/reading/tests -Headers @{ Authorization = "Bearer $($Matches[1])" }
           Write-Host "reading tests served: $($tests.items.Count)"
           if ($tests.items.Count -lt 1) { throw 'no content was served' }

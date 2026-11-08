@@ -14,8 +14,14 @@ gates its own:
    to this process through the environment (also owner-only).
 2. It opens the browser through a local redirect file to ``/?launch=<secret>``. The
    secret never appears on a command line, where ``ps`` would show it to other users.
-3. That request swaps the secret for an HttpOnly session cookie, and only a request
-   carrying the cookie gets the page with the token in it.
+3. Only that request gets the page with the token in it. The page keeps the token in
+   ``sessionStorage`` for reloads and takes the secret out of the address bar.
+
+There is no cookie. Browsers do not keep cookies apart by port, so a cookie set here
+would also be sent to any other server on 127.0.0.1 the learner happened to open, and
+another account's server could replay it. ``sessionStorage`` belongs to one origin,
+port included. Every other request for the page gets it without a token, and the app
+then shows only a note to open BandReady from its shortcut.
 
 Cross-origin pages cannot read any of this, and the Host guard in
 :class:`~bandready.server.auth.AuthMiddleware` stops a DNS-rebound page from posing as
@@ -29,11 +35,10 @@ import hmac
 import json
 import logging
 import os
-import secrets
 from pathlib import Path
 
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, RedirectResponse, Response
+from fastapi.responses import HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 
 _log = logging.getLogger("bandready.web")
@@ -44,15 +49,6 @@ BUNDLED_WEB_DIR = Path(__file__).resolve().parents[1] / "_bundle" / "web"
 _TRUTHY = {"1", "true", "yes", "on"}
 
 LAUNCH_SECRET_ENV = "BANDREADY_WEB_LAUNCH_SECRET"
-
-_SIGN_IN_AGAIN = """<!doctype html><html><head><meta charset="utf-8">
-<title>BandReady</title></head>
-<body style="font-family:system-ui,sans-serif;max-width:32rem;margin:4rem auto;line-height:1.5">
-<h1 style="font-size:1.25rem">Open BandReady from its shortcut</h1>
-<p>For your privacy this page only opens through the BandReady shortcut, or by typing
-<code>bandready</code> in a terminal. Close this tab and open BandReady again.</p>
-</body></html>"""
-
 
 def web_enabled() -> bool:
     return (os.environ.get("BANDREADY_WEB") or "").strip().lower() in _TRUTHY
@@ -71,11 +67,35 @@ def web_dir() -> Path | None:
     return None
 
 
-def index_with_contract(page: str, token: str) -> str:
-    """``index.html`` with the token the renderer's API client reads on start-up."""
+#: The ``sessionStorage`` key the page keeps the token under between reloads.
+STORAGE_KEY = "bandready-token"
+
+
+def index_with_contract(page: str, token: str | None) -> str:
+    """``index.html`` with the script that hands the renderer its token.
+
+    With a token (the launch visit) the script stores it and cleans the address bar.
+    Without one it reads a token stored by an earlier launch visit in this tab, if any.
+    Either way it leaves ``window.__BANDREADY_SIDECAR__``, which ``lib/api.ts`` reads,
+    and an empty token there tells ``main.tsx`` to show the open-from-shortcut note.
+    """
     # `<` is escaped so no value can close the script element early.
-    contract = json.dumps({"token": token}).replace("<", "\\u003c")
-    script = f"<script>window.__BANDREADY_SIDECAR__={contract};</script>"
+    value = json.dumps(token).replace("<", "\\u003c")
+    key = json.dumps(STORAGE_KEY)
+    script = (
+        "<script>(function(){"
+        f"var t={value};"
+        "try{"
+        f"if(t){{sessionStorage.setItem({key},t);"
+        "history.replaceState(null,'',location.pathname+location.hash);}"
+        f"else{{t=sessionStorage.getItem({key});}}"
+        "}catch(e){}"
+        "window.__BANDREADY_SIDECAR__={token:t||''};"
+        "})();</script>"
+    )
+    # First thing in <head>, ahead of the page's Content-Security-Policy meta tag. That
+    # policy allows no inline script, and a policy set by <meta> only governs what comes
+    # after it, so this one line runs and nothing injected later could.
     if "<head>" in page:
         return page.replace("<head>", "<head>" + script, 1)
     return script + page
@@ -95,12 +115,7 @@ def launch_proof(secret: str, challenge: str) -> str:
     return hmac.new(secret.encode(), challenge.encode(), hashlib.sha256).hexdigest()
 
 
-def session_cookie_name(port: int | str) -> str:
-    # Browsers do not keep cookies apart by port, so the port goes in the name.
-    return f"bandready-session-{port}"
-
-
-def install_web(app: FastAPI, token: str, *, port: int | str) -> bool:
+def install_web(app: FastAPI, token: str) -> bool:
     """Serve the renderer at ``/``. Must run after every API router is included."""
     root = web_dir()
     if root is None:
@@ -114,29 +129,19 @@ def install_web(app: FastAPI, token: str, *, port: int | str) -> bool:
     if not launch_secret:
         # Nothing can sign in, which is the safe failure. The launcher always sets it.
         _log.error("%s is not set: the app pages cannot be opened", LAUNCH_SECRET_ENV)
-    session = secrets.token_urlsafe(32)
-    cookie = session_cookie_name(port)
-    html = index_with_contract((root / "index.html").read_text(encoding="utf-8"), token)
+    page = (root / "index.html").read_text(encoding="utf-8")
+    unlocked = index_with_contract(page, token)
+    locked = index_with_contract(page, None)
+    # Never cached (the token changes every launch), and never sent on as a referrer.
+    headers = {"Cache-Control": "no-store", "Referrer-Policy": "no-referrer"}
 
     async def index(request: Request) -> Response:
         offered = request.query_params.get("launch")
-        if offered is not None:
-            if launch_secret and hmac.compare_digest(offered, launch_secret):
-                # 303 to a clean URL, so the secret leaves the address bar.
-                resp = RedirectResponse("/", status_code=303)
-                # Lax, not Strict: the first visit arrives from the launcher's local redirect
-                # file, a cross-site navigation, and Strict would drop the cookie on the very
-                # redirect that sets it. The page this unlocks is a GET that no other origin
-                # can read.
-                resp.set_cookie(cookie, session, httponly=True, samesite="lax", path="/")
-                return resp
-            return HTMLResponse(_SIGN_IN_AGAIN, status_code=403)
-
-        presented = request.cookies.get(cookie) or ""
-        if presented and hmac.compare_digest(presented, session):
-            # Never cached: the token changes on every launch.
-            return HTMLResponse(html, headers={"Cache-Control": "no-store"})
-        return HTMLResponse(_SIGN_IN_AGAIN, status_code=401, headers={"Cache-Control": "no-store"})
+        if offered is None:
+            return HTMLResponse(locked, headers=headers)
+        if launch_secret and hmac.compare_digest(offered, launch_secret):
+            return HTMLResponse(unlocked, headers=headers)
+        return HTMLResponse(locked, status_code=403, headers=headers)
 
     async def proof(challenge: str = "") -> dict[str, str]:
         if not launch_secret or not challenge:

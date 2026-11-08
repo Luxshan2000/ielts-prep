@@ -58,14 +58,19 @@ jobs:
             name: windows (x64)
             builder: --win
             artifact: windows
+          # Each Mac build runs on its own architecture. stage-sidecar copies the HOST's
+          # Python, so an x64 DMG made on Apple Silicon carries an arm64 interpreter: it
+          # installs on an Intel Mac and then cannot start its sidecar. The targets are named
+          # with their arch (`dmg:arm64`) because electron-builder.yml lists both arches and
+          # a bare `--arm64` flag did not stop the x64 DMG from being built as well.
           - os: macos-15
             name: macos (arm64)
-            # `--arm64` is load-bearing. electron-builder.yml lists arm64 AND x64 for the mac
-            # targets, but stage-sidecar copies the HOST's Python, and macos-15 is Apple
-            # Silicon — so a bare `--mac` also produced an x64 DMG carrying an arm64
-            # interpreter, which installs on an Intel Mac and then cannot start its sidecar.
-            builder: --mac --arm64
+            builder: --mac dmg:arm64 zip:arm64
             artifact: macos-arm64
+          - os: macos-15-intel
+            name: macos (x64)
+            builder: --mac dmg:x64 zip:x64
+            artifact: macos-x64
 
     steps:
       - uses: actions/checkout@v4
@@ -111,6 +116,10 @@ jobs:
 
       - name: Package the installer
         working-directory: app
+        # bash on every runner: PowerShell splits a native argument like
+        # `-c.mac.notarize=false` at the dot, and electron-builder then tried to open
+        # `.mac.notarize=false` as a config file.
+        shell: bash
         env:
           # A pre-release is not notarized: the credentials do not exist here, and a build
           # that tried would fail rather than degrade.
@@ -231,9 +240,10 @@ jobs:
           body: |
             ## Untested pre-release — for testing only
 
-            These installers are built straight from `main`. **Nobody has run them yet.**
-            They are not signed, not notarized, and not release-tested. Do not treat a green
-            build as a working app.
+            These installers are built straight from the repository. Each one was installed
+            and started on a clean GitHub machine before it was attached here, but nobody has
+            practised with them yet. They are not signed by a paid certificate, so your
+            computer will warn you once. The steps below get past it.
 
             ### Windows
 
@@ -248,20 +258,22 @@ jobs:
 
             To run it anyway: click **More info**, then **Run anyway**.
 
-            ### macOS (Apple Silicon)
+            ### macOS
 
-            The app is **unsigned and not notarized**, so Gatekeeper will refuse it on first
-            open. Right-click → Open no longer works on macOS 15 and later.
+            - **`BandReady-*-arm64.dmg`** for Apple Silicon (M1 and later).
+            - **`BandReady-*-x64.dmg`** for Intel Macs.
 
-            To run it: open **System Settings → Privacy & Security**, scroll to the message
-            about BandReady being blocked, and click **Open Anyway**.
+            The app is not notarized by Apple, so macOS refuses it the first time. Open the
+            DMG, drag BandReady to Applications and open it once. Then open **System Settings
+            → Privacy & Security**, scroll to the message about BandReady, and click **Open
+            Anyway**. Right-click → Open no longer works on macOS 15 and later.
 
             ### What may not work
 
-            - **Speaking and speech-to-text** are absent unless this build was made with the
-              voice extra, which is off by default because it adds 2-3 GB. Without it,
-              everything except the live examiner call and transcription still works.
-            - **Model weights are not bundled** — the app downloads them on first run, so the
-              first launch needs a connection and some patience.
+            - **Model files are not bundled.** The examiner's voice (about 340 MB) and speech
+              recognition (about 145 MB) download from Settings the first time, so the first
+              session needs a connection and some patience.
+            - **Marking needs a model**: either Ollama on this computer (free) or an
+              OpenRouter key. The setup wizard walks through both.
 
             Please report what breaks. That is the point of this build.

@@ -35,6 +35,10 @@ extraResources:
   - from: ../content/core-en
     to: content
 
+# Ad-hoc signs the macOS bundle when BANDREADY_ADHOC_SIGN=1, which only the unsigned
+# pre-release workflow sets. A no-op everywhere else. See the script for why.
+afterSign: ../scripts/adhoc-sign-mac.cjs
+
 mac:
   target:
     - target: dmg

@@ -58,10 +58,10 @@ jobs:
             name: windows (x64)
             builder: --win
             artifact: windows
-          - os: macos-14
+          - os: macos-15
             name: macos (arm64)
             # `--arm64` is load-bearing. electron-builder.yml lists arm64 AND x64 for the mac
-            # targets, but stage-sidecar copies the HOST's Python, and macos-14 is Apple
+            # targets, but stage-sidecar copies the HOST's Python, and macos-15 is Apple
             # Silicon — so a bare `--mac` also produced an x64 DMG carrying an arm64
             # interpreter, which installs on an Intel Mac and then cannot start its sidecar.
             builder: --mac --arm64
@@ -115,13 +115,14 @@ jobs:
           # A pre-release is not notarized: the credentials do not exist here, and a build
           # that tried would fail rather than degrade.
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
-        # macOS: ad-hoc signed by scripts/adhoc-sign-mac.cjs, not left unsigned. See that
-        # file for why an unsigned Apple Silicon download cannot be opened at all. The
-        # hardened runtime is for notarization and is left off without it.
+          # macOS: ad-hoc signed by scripts/adhoc-sign-mac.cjs (the config's afterSign hook)
+          # rather than left unsigned. See that file for why an unsigned Apple Silicon
+          # download cannot be opened at all. The hardened runtime is for notarization and is
+          # left off without it.
+          BANDREADY_ADHOC_SIGN: "1"
         run: >-
           pnpm exec electron-builder --config electron-builder.yml ${{ matrix.builder }}
           --publish never -c.mac.notarize=false -c.mac.identity=null -c.mac.hardenedRuntime=false
-          -c.afterSign=../scripts/adhoc-sign-mac.cjs
 
       - name: Install and launch the Windows build
         # A green package step only proves electron-builder wrote a file. This installs the

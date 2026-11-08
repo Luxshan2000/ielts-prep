@@ -10,15 +10,17 @@
  * System Settings → Privacy & Security → Open Anyway gets past.
  *
  * electron-builder 25 has no switch for this (`identity: "-"` is looked up as a keychain
- * name and skipped), so the release workflow passes this file with `-c.afterSign=`. It runs
- * before the DMG and zip are made, so both carry the signed bundle. A real release with
- * credentials does not use it.
+ * name and skipped), so electron-builder.yml names this file as its afterSign hook. It runs
+ * before the DMG and zip are made, so both carry the signed bundle. It does nothing unless
+ * BANDREADY_ADHOC_SIGN=1, which only the pre-release workflow sets, so a real release with
+ * a Developer ID and notarization is untouched.
  */
 const { execFileSync } = require('node:child_process')
 const path = require('node:path')
 
 exports.default = async function adhocSign(context) {
   if (context.electronPlatformName !== 'darwin') return
+  if (process.env.BANDREADY_ADHOC_SIGN !== '1') return
   const app = path.join(context.appOutDir, `${context.packager.appInfo.productFilename}.app`)
   execFileSync('codesign', ['--force', '--deep', '--sign', '-', app], { stdio: 'inherit' })
   execFileSync('codesign', ['--verify', '--deep', '--strict', '--verbose=2', app], {

@@ -115,7 +115,13 @@ jobs:
           # A pre-release is not notarized: the credentials do not exist here, and a build
           # that tried would fail rather than degrade.
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
-        run: pnpm exec electron-builder --config electron-builder.yml ${{ matrix.builder }} --publish never -c.mac.notarize=false -c.mac.identity=null
+        # macOS: ad-hoc signed by scripts/adhoc-sign-mac.cjs, not left unsigned. See that
+        # file for why an unsigned Apple Silicon download cannot be opened at all. The
+        # hardened runtime is for notarization and is left off without it.
+        run: >-
+          pnpm exec electron-builder --config electron-builder.yml ${{ matrix.builder }}
+          --publish never -c.mac.notarize=false -c.mac.identity=null -c.mac.hardenedRuntime=false
+          -c.afterSign=../scripts/adhoc-sign-mac.cjs
 
       - name: Install and launch the Windows build
         # A green package step only proves electron-builder wrote a file. This installs the

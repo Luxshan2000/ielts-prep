@@ -31,12 +31,15 @@ import {
   lstatSync,
   mkdirSync,
   readFileSync,
+  readdirSync,
+  readlinkSync,
+  realpathSync,
   rmSync,
   symlinkSync,
   writeFileSync,
 } from 'node:fs'
 import { platform } from 'node:os'
-import { dirname, join, resolve } from 'node:path'
+import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -73,6 +76,38 @@ function lstatSafe(p) {
 
 function copyTree(from, to) {
   cpSync(from, to, { recursive: true, dereference: true })
+}
+
+/**
+ * Re-point every absolute symlink under `dir` that targets one of `sourceRoots` at the same
+ * file inside `dir`, by a relative path. Any other absolute link is replaced by a copy.
+ *
+ * `cpSync`'s `dereference` does not reach links nested inside the tree, and
+ * python-build-standalone ships a few (`lib/pkgconfig/python3.pc`, `share/man/man1/python3.1`)
+ * that uv's install turns into absolute paths into the build machine's home directory. In a
+ * shipped app those dangle. On macOS they also break the bundle's signature seal: codesign
+ * records the link, the file it names differs between machines, and `codesign --verify`
+ * reports "file modified".
+ */
+function relinkAbsolute(dir, sourceRoots) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, entry.name)
+    if (entry.isDirectory()) {
+      relinkAbsolute(p, sourceRoots)
+      continue
+    }
+    if (!entry.isSymbolicLink()) continue
+    const target = readlinkSync(p)
+    if (!isAbsolute(target)) continue
+    const root = sourceRoots.find((r) => target === r || target.startsWith(r + sep))
+    rmSync(p, { force: true })
+    if (root) {
+      const inside = join(PYDIR, relative(root, target))
+      symlinkSync(relative(dirname(p), inside), p)
+    } else if (existsSync(target)) {
+      cpSync(target, p, { recursive: true, dereference: true })
+    }
+  }
 }
 const venvBin = join(VENV, isWindows ? 'Scripts' : 'bin')
 const venvPython = join(venvBin, isWindows ? 'python.exe' : 'python')
@@ -118,7 +153,12 @@ if (pythonDir) {
   // Deriving the root with dirname(dirname()) on Windows therefore climbs one level too far,
   // and looking for a lowercase lib/ finds nothing. Both were Unix-only assumptions that had
   // never run on Windows until CI tried.
-  const root = isWindows ? resolve(dirname(found)) : resolve(dirname(dirname(found)))
+  const named = isWindows ? resolve(dirname(found)) : resolve(dirname(dirname(found)))
+  // uv 0.8+ answers with its minor-version alias (`cpython-3.11-<platform>`), which is a
+  // symlink on Unix and a junction on Windows in front of the real `cpython-3.11.x-…` tree.
+  // cpSync will not copy a junction as a directory: it failed the Windows build with
+  // ERR_FS_CP_NON_DIR_TO_DIR. Copy the tree the alias points at instead.
+  const root = realpathSync(named)
   const marker = isWindows ? 'Lib' : 'lib'
   if (!existsSync(join(root, marker))) {
     console.error(
@@ -129,6 +169,7 @@ if (pythonDir) {
   }
   step(`Copying ${root}`)
   copyTree(root, PYDIR)
+  if (!isWindows) relinkAbsolute(PYDIR, [...new Set([root, named])])
 }
 
 // ----------------------------------------------------------------------- venv ---

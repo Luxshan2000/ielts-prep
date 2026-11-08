@@ -97,6 +97,28 @@ and the HTTP API can all change without a migration path.
   - Smaller: "Listening Test 1" sorted last, the Speaking hub flashed "Counts toward your
     band" before its check answered, and the mic step said only Speaking records you.
 
+- Installers, none of which had ever produced a working app:
+  - Windows staging failed with `ERR_FS_CP_NON_DIR_TO_DIR`. uv now names its interpreter
+    through a junction, which `cpSync` will not copy as a directory.
+  - The installed Windows app never started its sidecar. It ran the venv's `python.exe`
+    launcher, which cannot resolve the relative `home` the bundle needs, and every start
+    exited 103. Windows now runs the bundled base interpreter, as the build check already did.
+  - After FATAL, a restart already queued by the child's exit handler kept the loop going,
+    with one error dialog per retry.
+  - PowerShell split `-c.mac.notarize=false` at the dot, so electron-builder looked for a
+    config file named `.mac.notarize=false`.
+  - The Apple Silicon DMG carried Electron's linker signature, sealed against files that no
+    longer matched. Downloaded, that is "damaged and can't be opened" with no Open Anyway.
+    The pre-release is now ad-hoc signed, and absolute symlinks into the build machine's
+    home, which also broke the seal, are made relative.
+  - `--arm64` did not stop the broken x64 DMG from being built, and `macos-14` runners are
+    gone. The Intel build is dropped: pipecat 1.5 needs an onnxruntime with no Intel Mac
+    wheels.
+  - The release workflow now installs each build, starts it, waits for a healthy sidecar,
+    and imports the voice stack before attaching anything. It includes the voice extra by
+    default, has a trial-run switch that publishes nothing, and no longer publishes an
+    empty pre-release when every build fails.
+
 ### Removed
 
 - The root `lint` script. It delegated to an `app` script that does not exist, and there is no

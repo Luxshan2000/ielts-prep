@@ -162,9 +162,9 @@ interface SidecarCommand {
 
 /**
  * Dev      → <repo>/sidecar/.venv/bin/python -m bandready.cli serve
- * Packaged → <resources>/sidecar-venv/bin/python -m bandready.cli serve, falling back
- *            to the python-build-standalone base interpreter + PYTHONPATH when the
- *            venv launcher is not usable (13 §3.4 — pyvenv.cfg is not rewritten).
+ * Packaged → <resources>/sidecar-venv/bin/python -m bandready.cli serve on macOS and
+ *            Linux. On Windows, and wherever the venv interpreter is missing, the
+ *            python-build-standalone base interpreter + PYTHONPATH into the venv.
  */
 export function resolveSidecarCommand(): SidecarCommand {
   const override = process.env.BANDREADY_SIDECAR_PYTHON;
@@ -191,7 +191,13 @@ export function resolveSidecarCommand(): SidecarCommand {
     PYTHONDONTWRITEBYTECODE: '1',
   };
 
-  if (fs.existsSync(venvBin)) {
+  // Never on Windows. There the venv's python.exe is a launcher that finds its interpreter
+  // through `home` in pyvenv.cfg, which stage-sidecar rewrites to a relative path so the
+  // bundle can be installed anywhere. The launcher cannot resolve a relative home: every
+  // start exited 103 with "No Python at '"..\python\python.exe'", and the packaged app
+  // never got past its splash. stage-sidecar verifies the build through the base
+  // interpreter for the same reason, so that is the path the app takes too.
+  if (!isWindows && fs.existsSync(venvBin)) {
     return { bin: venvBin, args: ['-s', '-m', 'bandready.cli', 'serve'], cwd: resources, extraEnv };
   }
 
@@ -420,7 +426,11 @@ function killChild(): void {
 }
 
 function scheduleRestart(): void {
-  if (quitting || restartTimer) return;
+  // A child that dies during startup is reported twice, by its exit handler and by the
+  // failed attempt, so a restart can already be queued when the attempt gives up. Without
+  // the status check the loop carried on after FATAL, raising a fresh error dialog for
+  // every further failure.
+  if (quitting || restartTimer || status === 'fatal') return;
   const delay = BACKOFF_MS[Math.min(consecutiveFailures, BACKOFF_MS.length - 1)];
   log(`restarting in ${delay}ms (consecutive failures: ${consecutiveFailures})`);
   restartTimer = setTimeout(() => {
@@ -430,6 +440,10 @@ function scheduleRestart(): void {
 }
 
 function fatal(reason: string): void {
+  if (restartTimer) {
+    clearTimeout(restartTimer);
+    restartTimer = null;
+  }
   setStatus('fatal');
   emitChanged();
   log(`FATAL: ${reason}`);

@@ -58,19 +58,16 @@ jobs:
             name: windows (x64)
             builder: --win
             artifact: windows
-          # Each Mac build runs on its own architecture. stage-sidecar copies the HOST's
-          # Python, so an x64 DMG made on Apple Silicon carries an arm64 interpreter: it
-          # installs on an Intel Mac and then cannot start its sidecar. The targets are named
-          # with their arch (`dmg:arm64`) because electron-builder.yml lists both arches and
-          # a bare `--arm64` flag did not stop the x64 DMG from being built as well.
+          # Apple Silicon only. stage-sidecar copies the HOST's Python, so an x64 DMG made
+          # here would carry an arm64 interpreter: it installs on an Intel Mac and then cannot
+          # start its sidecar. The targets are named with their arch (`dmg:arm64`) because
+          # electron-builder.yml lists both arches and a bare `--arm64` flag still built the
+          # x64 DMG. There is no Intel build on an Intel runner either: pipecat-ai 1.5 needs
+          # onnxruntime >= 1.24.3, which publishes no macOS x86_64 wheels.
           - os: macos-15
             name: macos (arm64)
             builder: --mac dmg:arm64 zip:arm64
             artifact: macos-arm64
-          - os: macos-15-intel
-            name: macos (x64)
-            builder: --mac dmg:x64 zip:x64
-            artifact: macos-x64
 
     steps:
       - uses: actions/checkout@v4
@@ -153,6 +150,14 @@ jobs:
           Write-Host "Longest path inside the install directory: $longest characters (about $($longest + 60) under a typical per-user install)"
           if ($longest + 60 -ge 260) { Write-Host "::warning::An install path over 260 characters will break on Windows machines without long paths enabled" }
 
+          if ('${{ github.event.inputs.voice }}' -eq 'true') {
+            # /health does not touch the voice stack, so load it the way the app will.
+            $env:PYTHONPATH = 'C:\BR\resources\sidecar-venv\Lib\site-packages'
+            & 'C:\BR\resources\python\python.exe' -s -c "import pipecat, faster_whisper, onnxruntime, ctranslate2, kokoro_onnx; print('voice stack imports')"
+            if ($LASTEXITCODE -ne 0) { throw 'the installed voice stack does not import' }
+            Remove-Item Env:PYTHONPATH
+          }
+
           $log = Join-Path $env:APPDATA 'BandReady\logs\sidecar.log'
           $app = Start-Process -FilePath 'C:\BR\BandReady.exe' -PassThru
           $healthy = $false
@@ -179,6 +184,12 @@ jobs:
 
           codesign -dv "$RUNNER_TEMP/BandReady.app" 2>&1 | head -6
           codesign --verify --deep --strict --verbose=2 "$RUNNER_TEMP/BandReady.app"
+
+          if [ "${{ github.event.inputs.voice }}" = "true" ]; then
+            # /health does not touch the voice stack, so load it the way the app will.
+            "$RUNNER_TEMP/BandReady.app/Contents/Resources/sidecar-venv/bin/python" -s -c \
+              "import pipecat, faster_whisper, onnxruntime, ctranslate2, kokoro_onnx; print('voice stack imports')"
+          fi
 
           log="$HOME/Library/Application Support/BandReady/logs/sidecar.log"
           "$RUNNER_TEMP/BandReady.app/Contents/MacOS/BandReady" &
@@ -260,8 +271,8 @@ jobs:
 
             ### macOS
 
-            - **`BandReady-*-arm64.dmg`** for Apple Silicon (M1 and later).
-            - **`BandReady-*-x64.dmg`** for Intel Macs.
+            **`BandReady-*-arm64.dmg`**, for Apple Silicon Macs (M1 and later). There is no
+            Intel Mac build: the speech engine it depends on no longer supports Intel Macs.
 
             The app is not notarized by Apple, so macOS refuses it the first time. Open the
             DMG, drag BandReady to Applications and open it once. Then open **System Settings

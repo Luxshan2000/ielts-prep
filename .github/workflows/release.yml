@@ -26,9 +26,13 @@ on:
         required: true
         default: v0.1.0-rc1
       voice:
-        description: "Include the voice extra (pipecat + faster-whisper, adds 2-3GB). Without it there is no live speaking and no speech-to-text."
+        description: "Include the voice extra (pipecat, faster-whisper, Kokoro). Without it there is no Listening audio, no live speaking and no speech-to-text."
         type: boolean
-        default: false
+        default: true
+      publish:
+        description: "Attach the installers to a GitHub pre-release. Off for a trial run: the build and the launch check still happen, and nothing appears on the Releases page."
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -113,6 +117,67 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
         run: pnpm exec electron-builder --config electron-builder.yml ${{ matrix.builder }} --publish never -c.mac.notarize=false -c.mac.identity=null
 
+      - name: Install and launch the Windows build
+        # A green package step only proves electron-builder wrote a file. This installs the
+        # .exe the way a learner would, starts the app, and waits for the main process to log
+        # that the sidecar answered /health. That is the step that has never been seen to
+        # pass on Windows.
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $setup = Get-ChildItem dist-electron -Filter 'BandReady-Setup-*.exe' | Select-Object -First 1
+          if (-not $setup) { throw 'no NSIS installer was built' }
+          Start-Process -FilePath $setup.FullName -ArgumentList '/S', '/D=C:\BR' -Wait
+          if (-not (Test-Path 'C:\BR\BandReady.exe')) { throw 'the installer did not produce C:\BR\BandReady.exe' }
+
+          # Windows still caps paths at 260 characters unless a registry switch is on, and a
+          # per-user install lives under C:\Users\<name>\AppData\Local\Programs\BandReady\
+          # (about 60 characters for a typical name). Python's site-packages nests deeply.
+          $longest = (Get-ChildItem 'C:\BR' -Recurse -File | ForEach-Object { $_.FullName.Length - 'C:\BR\'.Length } | Measure-Object -Maximum).Maximum
+          Write-Host "Longest path inside the install directory: $longest characters (about $($longest + 60) under a typical per-user install)"
+          if ($longest + 60 -ge 260) { Write-Host "::warning::An install path over 260 characters will break on Windows machines without long paths enabled" }
+
+          $log = Join-Path $env:APPDATA 'BandReady\logs\sidecar.log'
+          $app = Start-Process -FilePath 'C:\BR\BandReady.exe' -PassThru
+          $healthy = $false
+          for ($i = 0; $i -lt 120; $i++) {
+            Start-Sleep -Seconds 2
+            if ((Test-Path $log) -and (Select-String -Path $log -Pattern 'healthy on' -Quiet)) { $healthy = $true; break }
+            if ($app.HasExited) { Write-Host "The app exited with code $($app.ExitCode)"; break }
+          }
+          if (Test-Path $log) { Get-Content $log -Tail 120 } else { Write-Host "No sidecar log at $log" }
+          Get-Process BandReady, python -ErrorAction SilentlyContinue | Stop-Process -Force
+          if (-not $healthy) { throw 'the installed app never reported a healthy sidecar' }
+
+      - name: Install and launch the macOS build
+        # The same check from the DMG. It also verifies the bundle's signature: an Apple
+        # Silicon app with a broken seal does not get Gatekeeper's "Open Anyway". Once it is
+        # downloaded through a browser, macOS calls it damaged and offers only the Trash.
+        if: runner.os == 'macOS'
+        run: |
+          dmg=$(ls dist-electron/*.dmg | head -1)
+          [ -n "$dmg" ] || { echo "::error::no DMG was built"; exit 1; }
+          hdiutil attach "$dmg" -nobrowse -readonly -mountpoint "$RUNNER_TEMP/dmg"
+          ditto "$RUNNER_TEMP/dmg/BandReady.app" "$RUNNER_TEMP/BandReady.app"
+          hdiutil detach "$RUNNER_TEMP/dmg"
+
+          codesign -dv "$RUNNER_TEMP/BandReady.app" 2>&1 | head -6
+          codesign --verify --deep --strict --verbose=2 "$RUNNER_TEMP/BandReady.app"
+
+          log="$HOME/Library/Application Support/BandReady/logs/sidecar.log"
+          "$RUNNER_TEMP/BandReady.app/Contents/MacOS/BandReady" &
+          pid=$!
+          healthy=0
+          for _ in $(seq 120); do
+            sleep 2
+            if grep -q 'healthy on' "$log" 2>/dev/null; then healthy=1; break; fi
+            kill -0 "$pid" 2>/dev/null || { echo "The app exited"; break; }
+          done
+          tail -120 "$log" 2>/dev/null || echo "No sidecar log at $log"
+          kill "$pid" 2>/dev/null || true
+          pkill -f 'BandReady.app' || true
+          [ "$healthy" = 1 ] || { echo "::error::the installed app never reported a healthy sidecar"; exit 1; }
+
       - name: List what was built
         shell: bash
         run: ls -lh dist-electron/*.dmg dist-electron/*.exe dist-electron/*.msi dist-electron/*.zip 2>/dev/null || ls -lh dist-electron
@@ -135,7 +200,8 @@ jobs:
     name: attach to a pre-release
     needs: build
     # `always()` so one platform failing still publishes the other — see fail-fast above.
-    if: always()
+    # Skipped entirely for a trial run.
+    if: always() && inputs.publish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -143,7 +209,10 @@ jobs:
           path: artifacts
 
       - name: Show what will be attached
-        run: find artifacts -type f -exec ls -lh {} \;
+        # Both platforms failing used to publish a pre-release with nothing attached.
+        run: |
+          find artifacts -type f -exec ls -lh {} \;
+          [ -n "$(find artifacts -type f 2>/dev/null)" ] || { echo "::error::no installer was built, so there is nothing to publish"; exit 1; }
 
       - uses: softprops/action-gh-release@v2
         with:

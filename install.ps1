@@ -64,7 +64,11 @@ Write-Host 'Installing BandReady. The first time downloads about 800 MB, so this
 if ($LASTEXITCODE -ne 0) {
     Stop-Install 'the download or install did not finish. Check your internet connection and run the line again.'
 }
-& $uv tool update-shell 2>&1 | Out-Null
+# uv reports on stderr even when it succeeds. Windows PowerShell 5.1 turns redirected
+# stderr into an error, which 'Stop' then makes fatal, after a finished install.
+$ErrorActionPreference = 'Continue'
+& $uv tool update-shell *> $null
+$ErrorActionPreference = 'Stop'
 
 $bin = Join-Path $binDir 'bandready.exe'
 if (-not (Test-Path $bin)) { Stop-Install "the install finished but $bin is missing." }

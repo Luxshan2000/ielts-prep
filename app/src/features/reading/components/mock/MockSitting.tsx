@@ -32,7 +32,7 @@ import {
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { cn } from "@/lib/cn";
-import { formatDuration } from "@/lib/format";
+import { formatDuration, pluralize } from "@/lib/format";
 import {
   answeredCount,
   numberWindow,
@@ -331,7 +331,7 @@ export function MockSitting() {
           </span>
           {lookedUp.length > 0 && (
             <span className="text-[11px] text-muted-foreground">
-              {lookedUp.length} word{lookedUp.length === 1 ? "" : "s"} queued for after the paper
+              {pluralize(lookedUp.length, "word")} queued for after the paper
             </span>
           )}
           {submitError && (

@@ -15,7 +15,7 @@
 import { Clock, ListOrdered, Target } from "lucide-react";
 import { Badge, Card, CardContent, CardHeader, CardTitle, EmptyState } from "@/components/ui";
 import { cn } from "@/lib/cn";
-import { formatDuration } from "@/lib/format";
+import { formatDuration, pluralize } from "@/lib/format";
 import { groupRangeLabel } from "../../model";
 import { qtypeLabel } from "../../qtypes";
 import { ANSWER_ORDER, GEARS, typePage } from "./labels";
@@ -200,8 +200,7 @@ export function StrategyPanel({ passage, teaching }: StrategyPanelProps) {
         <CardContent className="flex flex-wrap items-center gap-4 pt-5">
           <div className="min-w-0 flex-1">
             <p className="text-[13px] leading-6 text-foreground">
-              {total} question{total === 1 ? "" : "s"} in {groups.length} group
-              {groups.length === 1 ? "" : "s"}
+              {pluralize(total, "question")} in {pluralize(groups.length, "group")}
               {teaching?.time_budget_min
                 ? `, and ${teaching.time_budget_min} minutes to answer them in a full paper.`
                 : "."}{" "}

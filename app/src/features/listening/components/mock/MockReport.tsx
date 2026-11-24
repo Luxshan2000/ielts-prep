@@ -24,6 +24,7 @@
  * the paper was sat.
  */
 
+import { pluralize } from "@/lib/format";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -301,7 +302,7 @@ export function MockReport() {
             </CardHeader>
             <CardContent className="space-y-2">
               <p className="text-[13px] leading-6 text-foreground">
-                {cascades.count} place{cascades.count === 1 ? "" : "s"} where a miss took the next
+                {pluralize(cascades.count, "place")} where a miss took the next
                 question with it.
               </p>
               {Array.isArray(cascades.runs) && cascades.runs.length > 0 && (

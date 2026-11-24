@@ -10,7 +10,7 @@ import {
   CardTitle,
   Tooltip,
 } from "@/components/ui";
-import { formatBand } from "@/lib/format";
+import { formatBand, pluralize } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import { SKILL_KEYS, SKILL_LABELS, type ProgressSummary, type SkillEstimate } from "../types";
 
@@ -123,9 +123,7 @@ export function EstimateTiles({ summary }: { summary: ProgressSummary }) {
                       attempts yet". With nothing scored, only the honest half is true. */}
                   {overall.attempts_used === 0
                     ? "Starting point, nothing scored yet"
-                    : `${CONFIDENCE_COPY[overall.confidence]} · from ${overall.attempts_used} scored ${
-                        overall.attempts_used === 1 ? "attempt" : "attempts"
-                      }`}
+                    : `${CONFIDENCE_COPY[overall.confidence]} · from ${pluralize(overall.attempts_used, "scored attempt")}`}
                 </p>
               </div>
             </>

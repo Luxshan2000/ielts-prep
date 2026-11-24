@@ -28,7 +28,7 @@ import {
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { cn } from "@/lib/cn";
-import { formatDuration, scorePct } from "@/lib/format";
+import { formatDuration, scorePct, pluralize } from "@/lib/format";
 import { scoreTone } from "../../model";
 import { qtypeLabel } from "../../qtypes";
 import { useReadingStore } from "../../store";
@@ -273,7 +273,7 @@ export function MockReport() {
               )}
               {lookedUp.length > 0 && (
                 <p className="pt-1 text-[12px] leading-5 text-muted-foreground">
-                  {lookedUp.length} word{lookedUp.length === 1 ? "" : "s"} you tried to look up
+                  {pluralize(lookedUp.length, "word")} you tried to look up
                   during the paper {lookedUp.length === 1 ? "is" : "are"} waiting on the review
                   screen: {lookedUp.slice(0, 6).join(", ")}
                   {lookedUp.length > 6 ? "…" : ""}

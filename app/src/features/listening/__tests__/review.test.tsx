@@ -94,8 +94,21 @@ describe("ReviewScreen", () => {
     expect(await screen.findByText("Booking a cycling tour", { exact: false })).toBeInTheDocument();
     expect(screen.getByText("harbor bridge")).toBeInTheDocument();
     expect(screen.getByText("harbour bridge / harbor bridge")).toBeInTheDocument();
+    expect(screen.getByText("1 answer was one or two letters off")).toBeInTheDocument();
     expect(screen.getByText("spelling")).toBeInTheDocument();
     expect(screen.getByText(/Raw score only/)).toBeInTheDocument();
+  });
+
+  it("uses plural agreement for multiple near misses", async () => {
+    const twoMisses = structuredClone(review);
+    const first = twoMisses.parts[0].questions[0];
+    first.given = "bramly";
+    first.correct = false;
+    first.near_miss_spelling = true;
+    twoMisses.raw_score = 0;
+    vi.mocked(api.get).mockResolvedValueOnce(twoMisses);
+    renderReview();
+    expect(await screen.findByText("2 answers were one or two letters off")).toBeInTheDocument();
   });
 
   it("offers a jump-to-timestamp replay built from the timing data", async () => {

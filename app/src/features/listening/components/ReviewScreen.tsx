@@ -227,8 +227,8 @@ export function ReviewScreen() {
             <SpellCheck className="h-4 w-4 shrink-0 text-warning" aria-hidden="true" />
             <p className="min-w-0 flex-1 text-[13px]">
               <span className="font-semibold">
-                {pluralize(nearMisses.length, "answer")} {nearMisses.length === 1 ? "was" : "were"} one or two
-                letters off
+                {pluralize(nearMisses.length, "answer")}{" "}
+                {nearMisses.length === 1 ? "was" : "were"} one or two letters off
               </span>{" "}
               <span className="text-muted-foreground">
                 (questions {nearMisses.map((q) => q.number).join(", ")}). In IELTS those score

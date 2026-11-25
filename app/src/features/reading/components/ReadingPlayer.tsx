@@ -24,7 +24,7 @@ import {
 import { PaletteFooter } from "@/components/practice/PaletteFooter";
 import { PageShell } from "@/components/shell/PageShell";
 import { cn } from "@/lib/cn";
-import { formatDuration } from "@/lib/format";
+import { formatDuration, pluralize } from "@/lib/format";
 import {
   answeredCount,
   numberWindow,
@@ -435,7 +435,7 @@ export function ReadingPlayer() {
           {attempt.examConditions && <Badge tone="outline">Exam conditions</Badge>}
           {attempt.examConditions && lookedUp.length > 0 && (
             <span className="text-[11px] text-muted-foreground">
-              {lookedUp.length} word{lookedUp.length === 1 ? "" : "s"} queued for after the test
+              {pluralize(lookedUp.length, "word")} queued for after the test
             </span>
           )}
           {submitError && (

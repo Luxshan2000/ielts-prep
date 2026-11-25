@@ -57,6 +57,7 @@ and the HTTP API can all change without a migration path.
 
 ### Fixed
 
+- Listening review now says “1 answer was one or two letters off” for a single spelling near miss.
 - Pronunciation no longer publishes an ASR confidence as if it were a pronunciation score. Two
   separate leaks of that number were closed, and the model decision behind it is recorded.
 - The theory reference rendered `[object Object]` instead of article text.

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { cn } from "@/lib/cn";
-import { formatDate, formatDuration } from "@/lib/format";
+import { formatDate, formatDuration, pluralize } from "@/lib/format";
 import {
   KIND_LABEL,
   SORT_LABEL,
@@ -147,7 +147,7 @@ export function HistoryView({
 
       <p className="text-[13px] text-muted-foreground">
         {shown.length === rows.length
-          ? `${rows.length} ${rows.length === 1 ? "attempt" : "attempts"}`
+          ? pluralize(rows.length, "attempt")
           : `${shown.length} of ${rows.length} shown`}
       </p>
 

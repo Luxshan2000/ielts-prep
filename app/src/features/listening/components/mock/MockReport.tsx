@@ -47,6 +47,7 @@ import {
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { cn } from "@/lib/cn";
+import { pluralize } from "@/lib/format";
 import { accentLabel } from "../../labels";
 import { BAND_NOTE, PART_DIAGNOSIS } from "./script";
 import { useMockStore, type MockReportDoc } from "./store";
@@ -301,8 +302,7 @@ export function MockReport() {
             </CardHeader>
             <CardContent className="space-y-2">
               <p className="text-[13px] leading-6 text-foreground">
-                {cascades.count} place{cascades.count === 1 ? "" : "s"} where a miss took the next
-                question with it.
+                {pluralize(cascades.count, "place")} where a miss took the next question with it.
               </p>
               {Array.isArray(cascades.runs) && cascades.runs.length > 0 && (
                 <ul className="flex flex-wrap gap-1.5">

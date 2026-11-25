@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Check, Copy, Download, Mic, ShieldAlert } from "lucide-react";
 import { Button, Card, CardContent, CardHeader, CardTitle, useConfirm } from "@/components/ui";
 import { api, ApiError } from "@/lib/api";
+import { pluralize } from "@/lib/format";
 
 interface SystemInfo {
   version?: string;
@@ -118,7 +119,7 @@ export function DataTab() {
       const count = result?.removed;
       setWipeMsg(
         typeof count === "number"
-          ? `Deleted ${count} recording${count === 1 ? "" : "s"}${
+          ? `Deleted ${pluralize(count, "recording")}${
               result?.freed_mb ? ` (${result.freed_mb} MB freed)` : ""
             }.`
           : "Recordings deleted.",

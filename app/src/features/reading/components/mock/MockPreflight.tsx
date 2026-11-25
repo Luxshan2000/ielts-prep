@@ -23,7 +23,7 @@ import {
   Select,
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
-import { formatDuration } from "@/lib/format";
+import { formatDuration, pluralize } from "@/lib/format";
 import { useSessionStore } from "@/stores";
 import type { ReadingFormat } from "../../types";
 import {
@@ -235,7 +235,7 @@ export function MockPreflight() {
           <p className="min-w-0 flex-1 text-[13px] text-muted-foreground">
             {records.length === 0
               ? "You have not sat one yet. A full paper is an assessment instrument rather than a training one: one every two or three days at most, with review and drills in between."
-              : `You have sat ${records.length} ${records.length === 1 ? "paper" : "papers"}. Every one of them, with its report, is in your reading history.`}
+              : `You have sat ${pluralize(records.length, "paper")}. Every one of them, with its report, is in your reading history.`}
           </p>
           <Button variant="outline" onClick={() => navigate("/reading/history")}>
             Your reading history

@@ -23,7 +23,7 @@ import {
 } from "@/components/ui";
 import { PageShell } from "@/components/shell/PageShell";
 import { api, ApiError } from "@/lib/api";
-import { formatDuration, formatTimestamp } from "@/lib/format";
+import { formatDuration, formatTimestamp, pluralize } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import { playAudio } from "../media";
 import { useListeningStore } from "../store";
@@ -227,8 +227,8 @@ export function ReviewScreen() {
             <SpellCheck className="h-4 w-4 shrink-0 text-warning" aria-hidden="true" />
             <p className="min-w-0 flex-1 text-[13px]">
               <span className="font-semibold">
-                {nearMisses.length} answer{nearMisses.length === 1 ? "" : "s"} were one or two
-                letters off
+                {pluralize(nearMisses.length, "answer")}{" "}
+                {nearMisses.length === 1 ? "was" : "were"} one or two letters off
               </span>{" "}
               <span className="text-muted-foreground">
                 (questions {nearMisses.map((q) => q.number).join(", ")}). In IELTS those score
@@ -246,7 +246,7 @@ export function ReviewScreen() {
             </p>
             <Button variant="outline" size="sm" onClick={() => void addToVocab(missed)}>
               <BookmarkPlus className="h-4 w-4" />
-              Add {missed.length} missed word{missed.length === 1 ? "" : "s"}
+              Add {pluralize(missed.length, "missed word")}
             </Button>
           </div>
         )}

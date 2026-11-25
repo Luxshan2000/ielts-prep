@@ -7,6 +7,7 @@
  * never blocks submission on it (06 §2.1).
  */
 
+import { pluralize } from "@/lib/format";
 import type { QuestionGroup, QuestionLayout, WordLimit } from "./types";
 
 /** Answer is one or more letters / roman numerals from a fixed option list. */
@@ -230,7 +231,7 @@ export function wordLimitState(
       words,
       numbers: 0,
       over: words > max,
-      caption: `${words} / ${max} ${max === 1 ? "word" : "words"}`,
+      caption: `${words} / ${pluralize(max, "word")}`,
     };
   }
 
@@ -247,7 +248,7 @@ export function wordLimitState(
     }
   }
   const over = tokens.length > 0 && (words > max || numbers > 1);
-  const numberPart = numbers > 0 ? ` + ${numbers} number${numbers === 1 ? "" : "s"}` : "";
+  const numberPart = numbers > 0 ? ` + ${pluralize(numbers, "number")}` : "";
   return {
     limit,
     words,
@@ -256,7 +257,7 @@ export function wordLimitState(
     caption:
       max === 0
         ? `${numbers} / 1 number`
-        : `${words} / ${max} ${max === 1 ? "word" : "words"}${numberPart}`,
+        : `${words} / ${pluralize(max, "word")}${numberPart}`,
   };
 }
 
